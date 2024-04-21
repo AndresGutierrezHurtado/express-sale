@@ -4,39 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Inicio | Express Sale</title>
-    <link rel="shortcut icon" href="./public/img/logo.png" type="image/png">
+    <link rel="shortcut icon" href="/public/assets/images/logo.png" type="image/png">
     <script src="https://kit.fontawesome.com/eb36e646d1.js" crossorigin="anonymous"></script>
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body class="bg-gray-200 min-h-screen">
-    <!-- Header -->
-    <header class="w-full bg-white flex justify-center sticky top-0 z-50 shadow-lg">
-        <nav class="container px-5 flex flex-col gap-5 sm:gap-2">
-            <!-- Header top section --> 
-            <span class="flex flex-col sm:flex-row items-center pt-2 justify-between w-full">
-                <div class="flex items-center gap-3">
-                    <img src="./public/img/logo.png" alt="Logo navbar" class="max-h-[45px]">
-                    <h2 class="font-sans text-xl">Express Sale</h2>
-                </div>
-                <form class="hidden md:block w-5/12">
-                    <div class="flex justify-center">
-                        <input type="text" name="busqueda" placeholder="Buscar producto..." class="border rounded-l-xl border-gray-800 max-w-[500px] w-full p-1 px-3"> 
-                        <button class="border rounded-r-xl border-gray-800 bg-gray-800 text-white rounded-r-md p-1 px-3"><i class="fa-solid fa-magnifying-glass"></i></button>
-                    </div>
-                </form>
-                <a href="" class="text-lg">Express Sale Premium</a>
-            </span>
-            <!-- Header bottom section  -->
-            <ul class="flex justify-center items-center pb-4">
-                <li class="flex gap-4 text-[18px]">
-                    <a href="index.php" class="hover:scale-[1.05] hover:text-violet-800	duration-300">Inicio</a>|
-                    <a href="products.php" class="hover:scale-[1.05] hover:text-violet-800	duration-300">Productos</a>|
-                    <a href="#aboutUs" class="hover:scale-[1.05] hover:text-violet-800	duration-300 hidden md:block">Sobre Nosotros</a> <div class="hidden md:block">|</div>
-                    <a href="login.php" class="hover:scale-[1.05] hover:text-violet-800	duration-300">Registro</a> 
-                </li>
-            </ul>
-        </nav>
-    </header>
+<body class="bg-gray-200 min-h-screen">   
+    <?php require_once (__DIR__ . "/../layout/header.php"); ?> 
     <main>
         <!-- Introduction Section -->
         <section id="introduction" class="bg-violet-800 w-full min-h-[50vh] py-10 md:py-5 flex justify-center items-center">
@@ -59,7 +32,7 @@
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 xl:gap-12">
                     <article class="bg-white p-4 rounded-3xl shadow-lg min-w-[250px] max-w-[300px] flex flex-col gap-4 duration-300 hover:scale-[1.04] hover:shadow-xl">
                         <div class="w-full max-h-[230px] flex justify-center items-center">
-                            <img src="./public/img/calzado.jpg" alt="calzado" class="max-w-full max-h-full h-auto w-auto">                        
+                            <img src="/public/assets/images/calzado.jpg" alt="calzado" class="max-w-full max-h-full h-auto w-auto">                        
                         </div>
                         <h1 class="text-xl capitalize font-bold">Vestuario</h1>
                         <p>Busca las mejores tiendas locales de ropa y calzado.</p>
@@ -68,7 +41,7 @@
                     
                     <article class="bg-white p-4 rounded-3xl shadow-lg min-w-[250px] max-w-[300px] flex flex-col gap-4 duration-300 hover:scale-[1.04] hover:shadow-xl">
                         <div class="w-full max-h-[230px] flex justify-center items-center">
-                            <img src="./public/img/comida.jpg" alt="Comida" class="max-w-full max-h-full h-auto w-auto">                        
+                            <img src="/public/assets/images/comida.jpg" alt="Comida" class="max-w-full max-h-full h-auto w-auto">                        
                         </div>
                         <h1 class="text-xl capitalize font-bold">Comida</h1>
                         <p>Busca las mejores restaurantes y tiendas de comida locales.</p>
@@ -76,7 +49,7 @@
                     </article>
                     <article class="bg-white p-4 rounded-3xl shadow-lg min-w-[250px] max-w-[300px] flex flex-col gap-4 duration-300 hover:scale-[1.04] hover:shadow-xl">
                         <div class="w-full max-h-[230px] flex justify-center items-center">
-                            <img src="./public/img/otros.jpg" alt="otros" class="max-w-full max-h-full h-auto w-auto">                        
+                            <img src="/public/assets/images/otros.jpg" alt="otros" class="max-w-full max-h-full h-auto w-auto">                        
                         </div>
                         <h1 class="text-xl capitalize font-bold">Otros</h1>
                         <p>Busca las mejores tiendas locales de ropa y calzado.</p>
@@ -105,37 +78,7 @@
                 </div>
             </div>
         </section>
-
-        <!-- Footer Section -->
-        <footer class="w-full bg-indigo-950	text-white py-10">
-            <div class="container px-5 mx-auto grid grid-cols-1 md:grid-cols-3 gap-10 md:gap-8">
-                <!-- Contact & Social Media Column -->
-                <div class="flex flex-col gap-2 text-lg">
-                    <h2 class="font-bold text-2xl mb-3 uppercase tracking-tight"> Contacto </h2>
-                    <p class="flex gap-2 items-center"> <i class="fa-solid fa-phone text-xl"></i> (+57) 320 9202177</p>
-                    <p class="flex gap-2 items-center"> <i class="fa-regular fa-envelope text-xl"></i> support@expresssale.com</p>
-                    <p class="flex gap-2 items-center"> <i class="fa-brands fa-instagram text-xl"></i> express-sale</p>
-                    <p class="flex gap-2 items-center"> <i class="fa-brands fa-facebook text-xl"></i> Express Sale</p> 
-                </div>
-                <!-- Newsletter Form Column -->
-                <div class="flex flex-col gap-2">
-                    <h2 class="font-bold text-2xl mb-3 uppercase tracking-tight"> ¡Queremos escucharte! </h2>
-                    <form action="#" method="POST" class="flex flex-col gap-2">
-                        <input type="email" name="email" placeholder="correo electronico" class="p-2 text-gray-800 w-full rounded-sm border-gray-300">
-                        <div class="div-group flex flex-col lg:flex-row  gap-2">
-                            <input type="email" name="email" placeholder="Nombre" class="p-2 text-gray-800 w-full lg:w-1/2 rounded-sm border-gray-300">
-                            <input type="email" name="email" placeholder="Asunto" class="p-2 text-gray-800 w-full lg:w-1/2 rounded-sm border-gray-300">
-                        </div>
-                        <textarea name="mensaje" class="h-28 w-full p-2 resize-none border rounded-sm border-gray-300" placeholder="Escribe tu mensaje aquí..."></textarea>
-                        <button type="submit" class="p-2 w-full duration-300 bg-transparent border-2 border-white rounded-xl hover:bg-white/[0.1] text-lg tracking-tight uppercase font-bold">Enviar</button>
-                    </form>
-                </div>
-                <!-- Footer Image Column -->
-                <div class="flex justify-center">
-                    <img src="./public/img/logo.png" alt="Nature Image" class="rounded-lg class h-auto h-fit max-h-72">
-                </div>
-            </div>
-        </footer>
     </main>
+    <?php require_once (__DIR__ . "/../layout/footer.php"); ?> 
 </body>
 </html>

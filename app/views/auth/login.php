@@ -13,8 +13,8 @@
         <div class="mx-auto max-w-md">
             <div class="bg-white px-4 pb-4 pt-8 sm:rounded-xl sm:px-10 sm:pb-6 sm:shadow-xl  z-50">
                 <div class="flex justify-center items-center sm:mx-auto w-5/12 pb-5">     
-                    <a href="index.php">
-                        <img src="./public/img/logo.png" alt="logo.png" class="">
+                    <a href="/public/">
+                        <img src="/public/assets/images/logo.png" alt="logo.png" class="">
                     </a>           
                 </div>
                 <div class="text-center sm:mx-auto sm:w-full sm:max-w-md pb-5">                
