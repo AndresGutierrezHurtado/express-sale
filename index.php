@@ -22,7 +22,7 @@
 <body class="bg-gray-200 min-h-screen">
     <!-- Header -->
     <header class="w-full bg-white flex justify-center sticky top-0 z-50 shadow-lg">
-        <nav class="container px-5 flex flex-col gap-2">
+        <nav class="container px-5 flex flex-col gap-5 sm:gap-2">
             <!-- Header top section --> 
             <span class="flex flex-col sm:flex-row items-center pt-2 justify-between w-full">
                 <div class="flex items-center gap-3">
@@ -49,13 +49,13 @@
     </header>
     <main>
         <!-- Introduction Section -->
-        <section id="introduction" class="bg-violet-800 w-full h-[50vh] flex justify-center items-center">
-            <div class="container flex justify-center gap-10">
-                <div class="w-6/12 flex flex-col justify-center gap-3">
+        <section id="introduction" class="bg-violet-800 w-full min-h-[50vh] py-10 md:py-5 flex justify-center items-center">
+            <div class="container px-5 flex flex-col md:flex-row justify-center gap-10">
+                <div class="w-full md:w-6/12 flex flex-col justify-center gap-3">
                     <p class="text-white text-xl text-center">¡Bienvenidos a Express Sale, <br> acá podrás comprar diferentes productos de tiendas locales!</p>
                     <button class="p-1 px-3 border border-white rounded-md text-white font-bold w-fit mx-auto duration-300 hover:bg-white/[0.15]">Ver más</button>    
                 </div>
-                <div class="w-5/12">
+                <div class="w-full md:w-5/12">
                     <img src="https://cdni.iconscout.com/illustration/free/thumb/free-online-shopping-4277122-3561282.png?f=webp" alt="intro photo" class="max-w-full">
                 </div>
 
@@ -103,7 +103,7 @@
             </svg>
         </div>
         <section class="w-full min-h-[70hv] bg-white" id="aboutUs">
-            <div class="container mx-auto flex flex-col md:flex-row justify-between items-center py-5 px-5">
+            <div class="container mx-auto flex flex-col md:flex-row justify-between items-center py-10 md:py-5 px-5">
                 <div class="md:w-6/12">
                     <h1 class="text-3xl font-bold uppercase mb-4">Sobre Nosotros</h1>
                     <p class="text-gray-600 text-lg">
