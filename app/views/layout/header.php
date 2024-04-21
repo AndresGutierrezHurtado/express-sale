@@ -18,8 +18,8 @@
         <!-- Header bottom section  -->
         <ul class="flex justify-center items-center pb-4">
             <li class="flex gap-4 text-[18px]">
-                <a href="index.php" class="hover:scale-[1.05] hover:text-violet-800	duration-300">Inicio</a>|
-                <a href="products.php" class="hover:scale-[1.05] hover:text-violet-800	duration-300">Productos</a>|
+                <a href="/public/" class="hover:scale-[1.05] hover:text-violet-800	duration-300">Inicio</a>|
+                <a href="/public/page/products" class="hover:scale-[1.05] hover:text-violet-800	duration-300">Productos</a>|
                 <a href="#aboutUs" class="hover:scale-[1.05] hover:text-violet-800	duration-300 hidden md:block">Sobre Nosotros</a> <div class="hidden md:block">|</div>
                 <a href="/public/page/login" class="hover:scale-[1.05] hover:text-violet-800	duration-300">Registro</a> 
             </li>
