@@ -7,17 +7,6 @@
     <link rel="shortcut icon" href="./public/img/logo.png" type="image/png">
     <script src="https://kit.fontawesome.com/eb36e646d1.js" crossorigin="anonymous"></script>
     <script src="https://cdn.tailwindcss.com"></script>
-    <script>
-    tailwind.config = {
-      theme: {
-        extend: {
-          colors: {
-            example: '#da373d',
-          }
-        }
-      }
-    }
-  </script>
 </head>
 <body class="bg-gray-200 min-h-screen">
     <!-- Header -->
@@ -39,9 +28,10 @@
             </span>
             <!-- Header bottom section  -->
             <ul class="flex justify-center items-center pb-4">
-                <li class="flex gap-4 text-[18px]"> 
+                <li class="flex gap-4 text-[18px]">
                     <a href="index.php" class="hover:scale-[1.05] hover:text-violet-800	duration-300">Inicio</a>|
                     <a href="products.php" class="hover:scale-[1.05] hover:text-violet-800	duration-300">Productos</a>|
+                    <a href="#aboutUs" class="hover:scale-[1.05] hover:text-violet-800	duration-300 hidden md:block">Sobre Nosotros</a> <div class="hidden md:block">|</div>
                     <a href="login.php" class="hover:scale-[1.05] hover:text-violet-800	duration-300">Registro</a> 
                 </li>
             </ul>
@@ -69,7 +59,7 @@
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 xl:gap-12">
                     <article class="bg-white p-4 rounded-3xl shadow-lg min-w-[250px] max-w-[300px] flex flex-col gap-4 duration-300 hover:scale-[1.04] hover:shadow-xl">
                         <div class="w-full max-h-[230px] flex justify-center items-center">
-                            <img src="./public/img/calzado.jpg" alt="" class="max-w-full max-h-full h-auto w-auto">                        
+                            <img src="./public/img/calzado.jpg" alt="calzado" class="max-w-full max-h-full h-auto w-auto">                        
                         </div>
                         <h1 class="text-xl capitalize font-bold">Vestuario</h1>
                         <p>Busca las mejores tiendas locales de ropa y calzado.</p>
@@ -78,7 +68,7 @@
                     
                     <article class="bg-white p-4 rounded-3xl shadow-lg min-w-[250px] max-w-[300px] flex flex-col gap-4 duration-300 hover:scale-[1.04] hover:shadow-xl">
                         <div class="w-full max-h-[230px] flex justify-center items-center">
-                            <img src="./public/img/comida.jpg" alt="" class="max-w-full max-h-full h-auto w-auto">                        
+                            <img src="./public/img/comida.jpg" alt="Comida" class="max-w-full max-h-full h-auto w-auto">                        
                         </div>
                         <h1 class="text-xl capitalize font-bold">Comida</h1>
                         <p>Busca las mejores restaurantes y tiendas de comida locales.</p>
@@ -86,7 +76,7 @@
                     </article>
                     <article class="bg-white p-4 rounded-3xl shadow-lg min-w-[250px] max-w-[300px] flex flex-col gap-4 duration-300 hover:scale-[1.04] hover:shadow-xl">
                         <div class="w-full max-h-[230px] flex justify-center items-center">
-                            <img src="./public/img/otros.jpg" alt="" class="max-w-full max-h-full h-auto w-auto">                        
+                            <img src="./public/img/otros.jpg" alt="otros" class="max-w-full max-h-full h-auto w-auto">                        
                         </div>
                         <h1 class="text-xl capitalize font-bold">Otros</h1>
                         <p>Busca las mejores tiendas locales de ropa y calzado.</p>
