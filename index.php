@@ -21,24 +21,24 @@
 </head>
 <body class="bg-gray-200 min-h-screen">
     <!-- Header -->
-    <header class="w-full bg-white flex justify-center sticky top-0">
-        <!-- Header parte superior --> 
-        <nav class="container container-md">
-            <span class="flex items-center pt-2 justify-between w-full">
+    <header class="w-full bg-white flex justify-center sticky top-0 z-50 shadow-lg">
+        <nav class="container px-5 flex flex-col gap-2">
+            <!-- Header top section --> 
+            <span class="flex flex-col sm:flex-row items-center pt-2 justify-between w-full">
                 <div class="flex items-center gap-3">
                     <img src="./public/img/logo.png" alt="Logo navbar" class="max-h-[45px]">
                     <h2 class="font-sans text-xl">Express Sale</h2>
                 </div>
-                <form>
-                    <div class="flex">
-                        <input type="text" name="busqueda" placeholder="Buscar producto..." class="border rounded-l-xl border-gray-800 min-w-[400px] p-1 px-3"> 
+                <form class="hidden md:block w-5/12">
+                    <div class="flex justify-center">
+                        <input type="text" name="busqueda" placeholder="Buscar producto..." class="border rounded-l-xl border-gray-800 max-w-[500px] w-full p-1 px-3"> 
                         <button class="border rounded-r-xl border-gray-800 bg-gray-800 text-white rounded-r-md p-1 px-3"><i class="fa-solid fa-magnifying-glass"></i></button>
                     </div>
                 </form>
                 <a href="" class="text-lg">Express Sale Premium</a>
             </span>
-        <!-- Header parte inferior -->
-            <ul class="flex justify-center items-center pt-2 pb-4">
+            <!-- Header bottom section  -->
+            <ul class="flex justify-center items-center pb-4">
                 <li class="flex gap-4 text-[18px]"> 
                     <a href="index.php" class="hover:scale-[1.05] hover:text-violet-800	duration-300">Inicio</a>|
                     <a href="products.php" class="hover:scale-[1.05] hover:text-violet-800	duration-300">Productos</a>|
@@ -48,20 +48,25 @@
         </nav>
     </header>
     <main>
+        <!-- Introduction Section -->
         <section id="introduction" class="bg-violet-800 w-full h-[50vh] flex justify-center items-center">
-            <div class="container container-md flex justify-center gap-10">
-                <div class="flex flex-col justify-center gap-3">
+            <div class="container flex justify-center gap-10">
+                <div class="w-6/12 flex flex-col justify-center gap-3">
                     <p class="text-white text-xl text-center">¡Bienvenidos a Express Sale, <br> acá podrás comprar diferentes productos de tiendas locales!</p>
-                    <button class="p-1 px-3 border border-white rounded-md text-white font-bold w-fit mx-auto">Ver más</button>    
+                    <button class="p-1 px-3 border border-white rounded-md text-white font-bold w-fit mx-auto duration-300 hover:bg-white/[0.15]">Ver más</button>    
                 </div>
-                <img src="https://cdni.iconscout.com/illustration/free/thumb/free-online-shopping-4277122-3561282.png?f=webp" alt="intro photo" class="max-w-[550px]">
+                <div class="w-5/12">
+                    <img src="https://cdni.iconscout.com/illustration/free/thumb/free-online-shopping-4277122-3561282.png?f=webp" alt="intro photo" class="max-w-full">
+                </div>
+
             </div>
         </section>
 
+        <!-- Categories Section -->
         <section class="w-full min-h-[70hv]" id="categories">
-            <div class="flex flex-col gap-10 justify-center items-center py-5">                
+            <div class="flex flex-col gap-10 justify-center items-center py-[70px] px-5">                
                 <h1 class="text-3xl font-bold uppercase tracking-tight">Categorías</h1>
-                <div class="grid grid-cols-3 gap-16">
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 xl:gap-12">
                     <article class="bg-white p-4 rounded-3xl shadow-lg min-w-[250px] max-w-[300px] flex flex-col gap-4 duration-300 hover:scale-[1.04] hover:shadow-xl">
                         <div class="w-full max-h-[230px] flex justify-center items-center">
                             <img src="./public/img/calzado.jpg" alt="" class="max-w-full max-h-full h-auto w-auto">                        
@@ -98,7 +103,7 @@
             </svg>
         </div>
         <section class="w-full min-h-[70hv] bg-white" id="aboutUs">
-            <div class="container mx-auto flex flex-col md:flex-row justify-between items-center py-10 px-5">
+            <div class="container mx-auto flex flex-col md:flex-row justify-between items-center py-5 px-5">
                 <div class="md:w-6/12">
                     <h1 class="text-3xl font-bold uppercase mb-4">Sobre Nosotros</h1>
                     <p class="text-gray-600 text-lg">
@@ -113,7 +118,7 @@
 
         <!-- Footer Section -->
         <footer class="w-full bg-indigo-950	text-white py-10">
-            <div class="container mx-auto grid grid-cols-1 md:grid-cols-3 gap-8">
+            <div class="container px-5 mx-auto grid grid-cols-1 md:grid-cols-3 gap-10 md:gap-8">
                 <!-- Contact & Social Media Column -->
                 <div class="flex flex-col gap-2 text-lg">
                     <h2 class="font-bold text-2xl mb-3 uppercase tracking-tight"> Contacto </h2>
@@ -125,19 +130,19 @@
                 <!-- Newsletter Form Column -->
                 <div class="flex flex-col gap-2">
                     <h2 class="font-bold text-2xl mb-3 uppercase tracking-tight"> ¡Queremos escucharte! </h2>
-                    <form action="#" method="POST">
-                        <input type="email" name="email" placeholder="correo electronico" class="p-2 text-gray-800 w-full mb-2 rounded-md border-gray-300">
-                        <div class="div-group flex  gap-2">
-                            <input type="email" name="email" placeholder="Nombre" class="p-2 text-gray-800 w-1/2 mb-2 rounded-md border-gray-300">
-                            <input type="email" name="email" placeholder="Asunto" class="p-2 text-gray-800 w-1/2 mb-2 rounded-md border-gray-300">
+                    <form action="#" method="POST" class="flex flex-col gap-2">
+                        <input type="email" name="email" placeholder="correo electronico" class="p-2 text-gray-800 w-full rounded-sm border-gray-300">
+                        <div class="div-group flex flex-col lg:flex-row  gap-2">
+                            <input type="email" name="email" placeholder="Nombre" class="p-2 text-gray-800 w-full lg:w-1/2 rounded-sm border-gray-300">
+                            <input type="email" name="email" placeholder="Asunto" class="p-2 text-gray-800 w-full lg:w-1/2 rounded-sm border-gray-300">
                         </div>
-                        <textarea name="mensaje" class="h-28 w-full p-2 resize-none border rounded-md border-gray-300" placeholder="Escribe tu mensaje aquí..."></textarea>
-                        <button type="submit" class="p-2 bg-blue-500 w-full hover:bg-blue-600 transition duration-200">Enviar</button>
+                        <textarea name="mensaje" class="h-28 w-full p-2 resize-none border rounded-sm border-gray-300" placeholder="Escribe tu mensaje aquí..."></textarea>
+                        <button type="submit" class="p-2 w-full duration-300 bg-transparent border-2 border-white rounded-xl hover:bg-white/[0.1] text-lg tracking-tight uppercase font-bold">Enviar</button>
                     </form>
                 </div>
                 <!-- Footer Image Column -->
                 <div class="flex justify-center">
-                    <img src="./public/img/logo.png" alt="Nature Image" class="rounded-lg class max-h-72">
+                    <img src="./public/img/logo.png" alt="Nature Image" class="rounded-lg class h-auto h-fit max-h-72">
                 </div>
             </div>
         </footer>
