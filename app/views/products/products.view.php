@@ -10,6 +10,19 @@
 </head>
 <body class="w-full min-h-screen bg-gray-50">
     <?php require_once(__DIR__ . "/../layout/header.php") ?>
+    
+    <h1>Products</h1>
+    <ul>
+        <?php foreach ($products as $product): ?>
+            <li>
+                <strong><?php echo $product['name']; ?></strong> - 
+                <?php echo $product['description']; ?> - 
+                <?php echo $product['price']; ?> - 
+                <?php echo $product['stock']; ?> - 
+                <img src="<?php echo $product['image']; ?>" alt="<?php echo $product['name']; ?>">
+            </li>
+        <?php endforeach; ?>
+    </ul>
 
     <section class="w-full h-auto">
         <div class="container mx-auto flex flex-col gap-10 justify-between items-center py-10 px-5">

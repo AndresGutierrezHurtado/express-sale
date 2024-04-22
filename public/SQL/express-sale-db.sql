@@ -23,7 +23,8 @@ CREATE TABLE `products` (
     `price` DECIMAL(10, 2) NOT NULL,
     `stock` INT NOT NULL,
     `image` VARCHAR(100),
-    `category_id` INT
+    `category_id` INT,
+    `state` ENUM('public', 'hidden') DEFAULT 'public'
 );
 
 -- Create sales table
