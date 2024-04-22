@@ -5,3 +5,8 @@ $url = substr($urlpath, strlen($folderpath));
 
 define('URL_PATH', $urlpath);
 define('URL', $url);
+
+define('DB_SERVER', 'localhost');
+define('DB_USERNAME', 'root');
+define('DB_PASSWORD', '');
+define('DB_NAME', 'express-sale-db');
