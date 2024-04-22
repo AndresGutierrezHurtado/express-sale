@@ -1,5 +1,5 @@
 <?php
-// app/controllers/ProductController.php
+// /app/controllers/productController.php
 require_once (__DIR__ . "/../models/database.php");
 require_once (__DIR__ . "/../models/product.php");
 
