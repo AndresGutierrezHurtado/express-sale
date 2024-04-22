@@ -1,15 +1,18 @@
 <?php
 // /app/controllers/productController.php
-require_once (__DIR__ . "/../models/database.php");
 require_once (__DIR__ . "/../models/product.php");
 
 class ProductController {
 
-    public function showProducts() {
-        $database = new Database();
-        $productModel = new Product($database);
-        $products = $productModel->showProducts();
-        return $products;
+    private $productModel;
+
+    public function __construct(PDO $conn) {
+        $this->productModel = new Product($conn);
     }
+
+    public function index() {
+        $products = $this -> productModel -> getAll();
+    }
+
 }
 

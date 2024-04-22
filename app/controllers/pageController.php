@@ -1,15 +1,16 @@
 <?php
-
-require_once (__DIR__ . "/productController.php");
-
 class PageController {
+    private $conn;
+    public function __construct(mysqli $conn) { 
+        $this->conn = $conn;
+    }
+    
     public function home(){
         require_once(__DIR__ . "/../views/home/home.view.php");
     }  
     public function products(){
-        $productController = new ProductController();        
-        $products = $productController->showProducts();  
-
+        $productModel = new Product($this ->conn);
+        $products = $productModel ->getAll();
         require_once(__DIR__ . "/../views/products/products.view.php");
     }
     public function login(){

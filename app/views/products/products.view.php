@@ -98,7 +98,7 @@
                     <?php foreach (array_slice($products, 0, 5) as $product): ?>
                         <article class="flex justify-between gap-4 bg-white p-4 rounded-lg shadow-lg border h-[250px]">
                             <div class="w-3/12">
-                                <img src="https://www.racketcenter.com.co/wp-content/uploads/2022/10/playera-nikecourt-drifit-is-DH0857-010-1-1000x1000.jpg" alt="<?= $product['name']; ?>" class="max-w-full max-h-full">
+                                <img src="<?= $product['image'] ?>" alt="<?= $product['name']; ?>" class="max-w-full max-h-full">
                             </div>
                             <div class="w-7/12 flex flex-col justify-between">
                                 <div>                                
