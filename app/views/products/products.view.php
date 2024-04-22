@@ -10,26 +10,13 @@
 </head>
 <body class="w-full min-h-screen bg-gray-50">
     <?php require_once(__DIR__ . "/../layout/header.php") ?>
-    
-    <h1>Products</h1>
-    <ul>
-        <?php foreach ($products as $product): ?>
-            <li>
-                <strong><?php echo $product['name']; ?></strong> - 
-                <?php echo $product['description']; ?> - 
-                <?php echo $product['price']; ?> - 
-                <?php echo $product['stock']; ?> - 
-                <img src="<?php echo $product['image']; ?>" alt="<?php echo $product['name']; ?>">
-            </li>
-        <?php endforeach; ?>
-    </ul>
 
     <section class="w-full h-auto">
         <div class="container mx-auto flex flex-col gap-10 justify-between items-center py-10 px-5">
             <span class="w-full flex justify-between">
                 <div class="flex flex-col">
                     <h2 class="text-2xl font-bold tracking-tight">Productos</h2>
-                    <p>*** resultados</p>
+                    <p><?= count($products) ?> resultados</p>
                 </div>
                 <div class="flex">
                     <p class="">ordenar por</p>
@@ -116,60 +103,34 @@
                 <!-- Agrega más filtros según sea necesario -->
             </aside>
 
-                <div class="w-8/12 flex flex-col gap-2">                    
-                    <article class="flex justify-between gap-4 bg-white p-4 rounded-lg shadow-lg border">
-                        <div class="w-3/12">
-                            <img src="https://www.racketcenter.com.co/wp-content/uploads/2022/10/playera-nikecourt-drifit-is-DH0857-010-1-1000x1000.jpg" alt="producto_1" class="max-w-full">
-                        </div>
-                        <div class="w-7/12 flex flex-col justify-between">
-                            <div>                                
-                                <h2 class="text-2xl">Camiseta negra nike de compresión</h2>
-                                <span class="flex w-full gap-5">
-                                    <span>
-                                        <i class="fa-regular fa-star"></i>
-                                        <i class="fa-regular fa-star"></i>
-                                        <i class="fa-regular fa-star"></i>
-                                        <i class="fa-regular fa-star"></i>
-                                        <i class="fa-regular fa-star"></i>
-                                    </span>
-                                    <p>20,200</p>
-                                </span>
+                <div class="w-8/12 flex flex-col gap-2">
+                    <?php foreach ($products as $product): ?>
+                        <article class="flex justify-between gap-4 bg-white p-4 rounded-lg shadow-lg border h-[250px]">
+                            <div class="w-3/12">
+                                <img src="https://www.racketcenter.com.co/wp-content/uploads/2022/10/playera-nikecourt-drifit-is-DH0857-010-1-1000x1000.jpg" alt="<?= $product['name']; ?>" class="max-w-full max-h-full">
                             </div>
-                            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Dolorem ab recusandae 
-                                atque odio! Maiores natus ipsum neque recusandae praesentium nobis tenetur doloremque minima maxime.</p>
-                            <h3 class="font-medium text-xl">5,000 COP</h3>
-                        </div>
-                        <span class="w-2/12 flex items-center justify-center">
-                            <button class="rounded-full size-[60px] border-2 border-black"><i class="fa-solid fa-cart-plus text-2xl"></i></button>
-                        </span>
-                    </article>
-                    <article class="flex justify-between gap-4 bg-white p-4 rounded-lg shadow-lg border">
-                        <div class="w-3/12">
-                            <img src="https://www.racketcenter.com.co/wp-content/uploads/2022/10/playera-nikecourt-drifit-is-DH0857-010-1-1000x1000.jpg" alt="producto_1" class="max-w-full">
-                        </div>
-                        <div class="w-7/12 flex flex-col justify-between">
-                            <div>                                
-                                <h2 class="text-2xl">Camiseta negra nike de compresión</h2>
-                                <span class="flex w-full gap-5">
-                                    <span>
-                                        <i class="fa-regular fa-star"></i>
-                                        <i class="fa-regular fa-star"></i>
-                                        <i class="fa-regular fa-star"></i>
-                                        <i class="fa-regular fa-star"></i>
-                                        <i class="fa-regular fa-star"></i>
+                            <div class="w-7/12 flex flex-col justify-between">
+                                <div>                                
+                                    <h2 class="text-2xl"><?= $product['name']; ?></h2>
+                                    <span class="flex w-full gap-5">
+                                        <span>
+                                            <i class="fa-regular fa-star"></i>
+                                            <i class="fa-regular fa-star"></i>
+                                            <i class="fa-regular fa-star"></i>
+                                            <i class="fa-regular fa-star"></i>
+                                            <i class="fa-regular fa-star"></i>
+                                        </span>
+                                        <p>20,200</p>
                                     </span>
-                                    <p>20,200</p>
-                                </span>
+                                </div>
+                                <p><?= $product['description']; ?></p>
+                                <h3 class="font-medium text-xl"><?= $product['price']; ?></h3>
                             </div>
-                            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Dolorem ab recusandae 
-                                atque odio! Maiores natus ipsum neque recusandae praesentium nobis tenetur doloremque minima maxime.</p>
-                            <h3 class="font-bold text-xl">5,000 COP</h3>
-                        </div>
-                        <span class="w-2/12 flex items-center justify-center">
-                            <button class="rounded-full size-[60px] border-2 border-black"><i class="fa-solid fa-cart-plus text-2xl"></i></button>
-                        </span>
-                    </article>
-
+                            <span class="w-2/12 flex items-center justify-center">
+                                <button class="rounded-full size-[60px] border-2 border-black"><i class="fa-solid fa-cart-plus text-2xl"></i></button>
+                            </span>
+                        </article>
+                    <?php endforeach; ?>                    
                 </div>
             </div>
         </div>

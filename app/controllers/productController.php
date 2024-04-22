@@ -6,9 +6,10 @@ require_once (__DIR__ . "/../models/product.php");
 class ProductController {
 
     public function showProducts() {
-
-        include (__DIR__ . "/../views/products/products.view.php");
+        $database = new Database();
+        $productModel = new Product($database);
+        $products = $productModel->showProducts();
+        return $products;
     }
-    
-
 }
+
