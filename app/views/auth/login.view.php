@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login | Express Sale</title>
-    <link rel="shortcut icon" href="/public/assets/images/logo.png" type="image/png">
+    <link rel="shortcut icon" href="/public/images/logo.png" type="image/png">
     <script src="https://kit.fontawesome.com/eb36e646d1.js" crossorigin="anonymous"></script>
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
@@ -14,8 +14,8 @@
         <div class="mx-auto max-w-md z-50">
             <div class="bg-white px-4 pb-4 pt-8 sm:rounded-xl sm:px-10 sm:pb-6 sm:shadow-xl z-50">
                 <div class="flex justify-center items-center sm:mx-auto w-5/12 pb-5">     
-                    <a href="/public/">
-                        <img src="/public/assets/images/logo.png" alt="logo.png" class="inicio">
+                    <a href="/">
+                        <img src="/public/images/logo.png" alt="logo.png" class="inicio">
                     </a>           
                 </div>
                 <div class="text-center sm:mx-auto sm:w-full sm:max-w-md pb-5">                
@@ -57,13 +57,7 @@
                         <button data-testid="login" type="submit"
                             class="group relative flex w-full justify-center rounded-md border border-transparent bg-indigo-600 px-4 py-2 text-sm font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 disabled:cursor-wait disabled:opacity-50">
                             <span class="absolute inset-y-0 left-0 flex items-center pl-3">
-                                <svg class="h-5 w-5 text-indigo-500 group-hover:text-indigo-400"
-                                    xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
-                                    aria-hidden="true">
-                                    <path fill-rule="evenodd"
-                                        d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z"
-                                        clip-rule="evenodd"></path>
-                                </svg>
+                                <i class="fa-solid fa-lock text-[17px] text-indigo-500 duration-300 group-hover:text-indigo-400"></i>
                             </span>
                             Inicia sesión
                         </button>
@@ -91,7 +85,7 @@
                 </div>
                 <div class="m-auto mt-6 w-fit md:mt-8">
                     <span class="m-auto">No tienes cuenta aún?
-                        <a class="font-semibold text-indigo-600" href="/public/page/register">Regístrate</a>
+                        <a class="font-semibold text-indigo-600" href="/page/register">Regístrate</a>
                     </span>
                 </div>
             </div>

@@ -24,7 +24,7 @@
         </div>
         <!-- Footer Image Column -->
         <div class="flex justify-center">
-            <img src="/public/assets/images/logo.png" alt="Nature Image" class="rounded-lg class h-auto h-fit max-h-72">
+            <img src="/public/images/logo.png" alt="Nature Image" class="rounded-lg class h-auto h-fit max-h-72">
         </div>
     </div>
 </footer>

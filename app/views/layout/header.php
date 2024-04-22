@@ -3,8 +3,8 @@
     <nav class="container px-5 flex flex-col gap-5 sm:gap-2">
         <!-- Header top section --> 
         <span class="flex flex-col sm:flex-row items-center pt-2 justify-between w-full">
-            <a href="index.php" class="flex items-center gap-3">
-                <img src="/public/assets/images/logo.png" alt="Logo navbar" class="max-h-[45px]">
+            <a href="/" class="flex items-center gap-3">
+                <img src="/public/images/logo.png" alt="Logo navbar" class="max-h-[45px]">
                 <h2 class="font-sans text-xl">Express Sale</h2>
             </a>
             <form class="hidden md:block w-5/12">
@@ -18,10 +18,10 @@
         <!-- Header bottom section  -->
         <ul class="flex justify-center items-center pb-4">
             <li class="flex gap-4 text-[18px]">
-                <a href="/public/" class="hover:scale-[1.05] hover:text-violet-800	duration-300">Inicio</a>|
-                <a href="/public/page/products" class="hover:scale-[1.05] hover:text-violet-800	duration-300">Productos</a>|
-                <a href="#aboutUs" class="hover:scale-[1.05] hover:text-violet-800	duration-300 hidden md:block">Sobre Nosotros</a> <div class="hidden md:block">|</div>
-                <a href="/public/page/login" class="hover:scale-[1.05] hover:text-violet-800	duration-300">Registro</a> 
+                <a href="/" class="hover:scale-[1.05] hover:text-violet-800	duration-300">Inicio</a>|
+                <a href="/page/products" class="hover:scale-[1.05] hover:text-violet-800	duration-300">Productos</a>|
+                <a href="/" class="hover:scale-[1.05] hover:text-violet-800	duration-300 hidden md:block">Sobre Nosotros</a> <div class="hidden md:block">|</div>
+                <a href="/page/login" class="hover:scale-[1.05] hover:text-violet-800	duration-300">Registro</a> 
             </li>
         </ul>
     </nav>

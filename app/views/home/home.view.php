@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Inicio | Express Sale</title>
-    <link rel="shortcut icon" href="/public/assets/images/logo.png" type="image/png">
+    <link rel="shortcut icon" href="/public/images/logo.png" type="image/png">
     <script src="https://kit.fontawesome.com/eb36e646d1.js" crossorigin="anonymous"></script>
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
@@ -32,7 +32,7 @@
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 xl:gap-12">
                     <article class="bg-white p-4 rounded-3xl shadow-lg min-w-[250px] max-w-[300px] flex flex-col gap-4 duration-300 hover:scale-[1.04] hover:shadow-xl">
                         <div class="w-full max-h-[230px] flex justify-center items-center">
-                            <img src="/public/assets/images/calzado.jpg" alt="calzado" class="max-w-full max-h-full h-auto w-auto">                        
+                            <img src="/public/images/calzado.jpg" alt="calzado" class="max-w-full max-h-full h-auto w-auto">                        
                         </div>
                         <h1 class="text-xl capitalize font-bold">Vestuario</h1>
                         <p>Busca las mejores tiendas locales de ropa y calzado.</p>
@@ -41,7 +41,7 @@
                     
                     <article class="bg-white p-4 rounded-3xl shadow-lg min-w-[250px] max-w-[300px] flex flex-col gap-4 duration-300 hover:scale-[1.04] hover:shadow-xl">
                         <div class="w-full max-h-[230px] flex justify-center items-center">
-                            <img src="/public/assets/images/comida.jpg" alt="Comida" class="max-w-full max-h-full h-auto w-auto">                        
+                            <img src="/public/images/comida.jpg" alt="Comida" class="max-w-full max-h-full h-auto w-auto">                        
                         </div>
                         <h1 class="text-xl capitalize font-bold">Comida</h1>
                         <p>Busca las mejores restaurantes y tiendas de comida locales.</p>
@@ -49,7 +49,7 @@
                     </article>
                     <article class="bg-white p-4 rounded-3xl shadow-lg min-w-[250px] max-w-[300px] flex flex-col gap-4 duration-300 hover:scale-[1.04] hover:shadow-xl">
                         <div class="w-full max-h-[230px] flex justify-center items-center">
-                            <img src="/public/assets/images/otros.jpg" alt="otros" class="max-w-full max-h-full h-auto w-auto">                        
+                            <img src="/public/images/otros.jpg" alt="otros" class="max-w-full max-h-full h-auto w-auto">                        
                         </div>
                         <h1 class="text-xl capitalize font-bold">Otros</h1>
                         <p>Busca las mejores tiendas locales de ropa y calzado.</p>

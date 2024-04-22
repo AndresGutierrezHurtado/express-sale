@@ -4,18 +4,18 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login | Express Sale</title>
-    <link rel="shortcut icon" href="/public/assets/images/logo.png" type="image/png">
+    <link rel="shortcut icon" href="/public/images/logo.png" type="image/png">
     <script src="https://kit.fontawesome.com/eb36e646d1.js" crossorigin="anonymous"></script>
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body class="w-full min-h-screen bg-gray-50 flex items-center justify-center relative overflow-hidden">
     <div class="absolute bg-violet-800 h-[140vh] w-[100%] right-[-50%] rounded-full top-1/2 transform -translate-y-1/2"></div>
     <main class="flex items-center justify-center ">
-        <div class="mx-auto max-w-md z-50">
-            <div class="bg-white px-4 pb-4 pt-8 sm:rounded-xl sm:px-10 sm:pb-6 sm:shadow-xl  z-50">
+        <div class="mx-auto max-w-md md:max-w-lg z-50">
+            <div class="bg-white px-4 pb-4 pt-8 sm:rounded-xl sm:px-10 sm:pb-6 sm:shadow-xl z-50">
                 <div class="flex justify-center items-center sm:mx-auto w-5/12 pb-5">     
-                    <a href="/public/">
-                        <img src="/public/assets/images/logo.png" alt="logo.png" class="inicio">
+                    <a href="/">
+                        <img src="/public/images/logo.png" alt="logo.png" class="inicio">
                     </a>           
                 </div>
                 <div class="text-center sm:mx-auto sm:w-full sm:max-w-md pb-5">                
@@ -68,7 +68,7 @@
                     <div>
                         <button type="submit" class="group relative flex w-full justify-center rounded-md border border-transparent bg-indigo-600 px-4 py-2 text-sm font-medium text-white duration-300 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 disabled:cursor-wait disabled:opacity-50">
                             <span class="absolute inset-y-0 left-0 flex items-center pl-3">
-                                <i class="fa-solid fa-lock text-[17px] opacity-75"></i>
+                                <i class="fa-solid fa-lock text-[17px] text-indigo-500 duration-300 group-hover:text-indigo-400"></i>
                             </span>
                             Regístrate
                         </button>
@@ -96,7 +96,7 @@
                 </div>
                 <div class="m-auto mt-6 w-fit md:mt-8">
                     <span class="m-auto">¿Ya tienes una cuenta?
-                        <a class="font-semibold text-indigo-600" href="/public/page/login">Inicia sesión</a>
+                        <a class="font-semibold text-indigo-600" href="/page/login">Inicia sesión</a>
                     </span>
                 </div>
             </div>

@@ -2,7 +2,7 @@
 
 class PageController {
     public function home(){
-        require_once(__DIR__ . "/../views/pages/home.view.php");
+        require_once(__DIR__ . "/../views/home/home.view.php");
     }  
     public function products(){
         require_once(__DIR__ . "/../views/products/products.view.php");
