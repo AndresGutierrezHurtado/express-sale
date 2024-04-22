@@ -1,5 +1,5 @@
-CREATE DATABASE `express_sale_db`;
-USE `express_sale_db`;
+CREATE DATABASE `express-sale-db`;
+USE `express-sale-db`;
 
 -- Create users table
 CREATE TABLE `users` (
