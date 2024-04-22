@@ -23,6 +23,5 @@ class Router {
         $controller = new $this -> controller($conn);
         $method = $this -> method;
         $controller -> $method();
-
     }
 }

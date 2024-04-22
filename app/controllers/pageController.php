@@ -11,6 +11,7 @@ class PageController {
     public function products(){
         $productModel = new Product($this ->conn);
         $products = $productModel ->getAll();
+        
         require_once(__DIR__ . "/../views/products/products.view.php");
     }
     public function login(){

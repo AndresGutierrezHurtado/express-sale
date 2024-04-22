@@ -6,7 +6,7 @@ class ProductController {
 
     private $productModel;
 
-    public function __construct(PDO $conn) {
+    public function __construct(mysqli $conn) {
         $this->productModel = new Product($conn);
     }
 

@@ -23,7 +23,7 @@
                         Crea tu cuenta
                     </h1>
                 </div>
-                <form class="space-y-4">
+                <form id="registerForm" class="space-y-4">
                     <div>
                         <label for="fullname" class="block text-sm font-medium text-gray-700">Nombre completo</label>
                         <div class="mt-1">
@@ -93,5 +93,6 @@
             </div>
         </div>
     </main>    
+    <script src="/public/js/register.js"></script>
 </body>
 </html>
