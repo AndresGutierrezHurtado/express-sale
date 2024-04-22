@@ -4,9 +4,6 @@ class PageController {
     public function home(){
         require_once(__DIR__ . "/../views/pages/home.view.php");
     }  
-    public function about(){
-        require_once(__DIR__ . "/../views/pages/home.view.php");
-    }
     public function products(){
         require_once(__DIR__ . "/../views/products/products.view.php");
     }
