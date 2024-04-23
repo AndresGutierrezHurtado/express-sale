@@ -23,28 +23,22 @@
                         Inicia Sesión
                     </h1>
                 </div>
-                <form class="space-y-6">
+                <form class="space-y-6" id="login_form">
                     <div>
-                        <label for="email" class="block text-sm font-medium text-gray-700">Correo electrónico / Usuario</label>
+                        <label for="username" class="block text-sm font-medium text-gray-700">Correo electrónico / Usuario</label>
                         <div class="mt-1">
-                            <input id="email" type="text" data-testid="username" required=""
-                                class="block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 placeholder-gray-400 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
-                                value="">
+                            <input id="username" type="text" autocomplete="current-username" class="block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 placeholder-gray-400 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm">
                         </div>
                     </div>
                     <div>
                         <label for="password" class="block text-sm font-medium text-gray-700">Contraseña</label>
-                        <div class="mt-1">
-                            <input id="password" name="password" type="password" data-testid="password"
-                                autocomplete="current-password" required=""
-                                class="block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 placeholder-gray-400 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
-                                value="">
+                        <div class="mt-1"> 
+                            <input id="password" type="password" autocomplete="current-password" class="block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 placeholder-gray-400 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm">
                         </div>
                     </div>
                     <div class="flex items-center justify-between">
                         <div class="flex items-center">
-                            <input id="remember_me" name="remember_me" type="checkbox"
-                                class="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500 disabled:cursor-wait disabled:opacity-50">
+                            <input id="remember_me" type="checkbox" class="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500 disabled:cursor-wait disabled:opacity-50">
                             <label for="remember_me" class="ml-2 block text-sm text-gray-900">Recuerdame</label>
                         </div>
                         <div class="text-sm">
@@ -90,6 +84,7 @@
                 </div>
             </div>
         </div>
-    </main>    
+    </main> 
+    <script src="/public/js/login.js"></script>   
 </body>
 </html>

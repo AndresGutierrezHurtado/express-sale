@@ -15,21 +15,21 @@ async function registerFormSubmit() {
     cliente.account_type = 1;
 
     fetch('http://localhost:3000/user/create', {
-    method: 'POST',
-    body: JSON.stringify(cliente),
-    headers: {
-        'Content-Type': 'application/json'
-    }
-})
-.then(response => response.json())
-.then(data => {
-    if (data.success) {
-        alert('¡La inserción fue exitosa!');
-        window.location.href = '/page/login';
-    } else {
-        alert('Error al insertar el usuario: ' + data.message);
-    }
-})
-.catch(error => alert('Error en la solicitud:', error));
+        method: 'POST',
+        body: JSON.stringify(cliente),
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            alert('¡La inserción fue exitosa!');
+            window.location.href = '/page/login';
+        } else {
+            alert('Error al insertar el usuario: ' + data.message);
+        }
+    })
+    .catch(error => alert('Error en la solicitud:', error));
 
 }
