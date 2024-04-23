@@ -21,7 +21,6 @@ async function loginFormSubmit() {
     })
     .then(response => response.json())
     .then(data => {
-        console.log(data);
         if (data.success) {
             alert('¡El inicio de sesión fue existoso!');
             window.location.href = '/';
