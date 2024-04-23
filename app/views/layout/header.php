@@ -1,7 +1,3 @@
-<?php
-session_start();
-?>
-
 <!-- Header -->
 <header class="w-full bg-white flex justify-center sticky top-0 z-50 shadow-lg">
     <nav class="container px-5 flex flex-col gap-5 sm:gap-2">
@@ -25,7 +21,7 @@ session_start();
                 <a href="/" class="hover:scale-[1.05] hover:text-violet-800	duration-300">Inicio</a>|
                 <a href="/page/products" class="hover:scale-[1.05] hover:text-violet-800	duration-300">Productos</a>|
                 <a href="/" class="hover:scale-[1.05] hover:text-violet-800	duration-300 hidden md:block">Sobre Nosotros</a> <div class="hidden md:block">|</div>
-                <a href="<?= $_SESSION['username'] ? 'page/userProfile' : '/page/login' ?>" class="hover:scale-[1.05] hover:text-violet-800	duration-300"> <?= $_SESSION['username'] ? 'Mi cuenta' : 'Registro' ?> </a> 
+                <a href="<?= isset($_SESSION['username']) ? '/page/user_profile' : '/page/login' ?>" class="hover:scale-[1.05] hover:text-violet-800	duration-300"> <?= isset($_SESSION['username']) ? 'Mi cuenta' : 'Registro' ?> </a> 
             </li>
         </ul>
     </nav>

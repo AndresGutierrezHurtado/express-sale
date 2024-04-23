@@ -17,7 +17,7 @@ class Orm {
         return $result ->fetch_all(MYSQLI_ASSOC);
     }
     public function getById($id) {
-        $query = "SELECT * FROM $this->table WHERE id = $id";
+        $query = "SELECT * FROM $this->table WHERE $this->id = $id";
         $result = $this->db->query($query);
         return $result -> fetch_object();
     }
@@ -27,7 +27,7 @@ class Orm {
     }
 
     public function deleteById($id) {
-        $query = "DELETE FROM $this->table WHERE id = $id";
+        $query = "DELETE FROM $this->table WHERE $this->id = $id";
         $result = $this->db->query($query);
     }
     
@@ -68,6 +68,7 @@ class Orm {
             $user = $result->fetch_assoc();
             if ($data["password"] == $user["password"]) {
                 session_start();
+                    $_SESSION["user_id"] = $user["user_id"];
                     $_SESSION["full_name"] = $user["full_name"];
                     $_SESSION["username"] = $user["username"];
                     $_SESSION["email"] = $user["email"];
