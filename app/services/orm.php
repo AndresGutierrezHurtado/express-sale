@@ -37,22 +37,16 @@ class Orm {
         foreach ($data as $key => $value) {
             $query .= "`$key`,";
         }
-    
-        // Eliminar la última coma y cerrar el paréntesis para los nombres de los campos
         $query = rtrim($query, ',');
         $query .= ') VALUES (';
         
-        // Agregar los valores a la consulta
         foreach ($data as $key => $value) {
             if (is_int($value)) {
                 $query .= "$value, ";
             } else {
-                // Asegúrate de escapar las comillas para valores de tipo string
                 $query .= "'" . addslashes($value) . "', ";
             }
         }
-    
-        // Eliminar la última coma y cerrar el paréntesis para los valores
         $query = rtrim($query, ', ');
         $query .= ')';
     

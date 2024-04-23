@@ -17,13 +17,15 @@ class UserController {
         $post_data = file_get_contents('php://input');
         $post_data = json_decode($post_data, true);
         $result = $this -> userModel -> insert($post_data);
-
+    
+        header('Content-Type: application/json'); 
+    
         if ($result['success']) {
             echo json_encode(['success' => true, 'message' => 'El usuario se creó correctamente.']);
         } else {
             echo json_encode(['success' => false, 'message' => 'Error al crear el usuario: ' . $result['message']]);
         }
     }
-
+    
 }
 
