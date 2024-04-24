@@ -26,4 +26,9 @@ class PageController {
         $user = $this -> userModel -> getById($_SESSION['user_id']);
         require_once(__DIR__. "/../views/profile/user.php");
     }
+
+    public function dashboard() {
+        $users = $this -> userModel -> getAll();
+        require_once(__DIR__ . "/../views/admin/dashboard.php");
+    }
 }

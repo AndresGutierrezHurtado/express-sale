@@ -5,18 +5,18 @@ registerForm.addEventListener('submit', (e) => {
 })
 
 async function registerFormSubmit() {
-    let cliente = {};
-    cliente.full_name = document.getElementById('fullname').value;
-    cliente.username = document.getElementById('username').value;
-    cliente.email = document.getElementById('email').value;
-    cliente.password = document.getElementById('password').value;
-    cliente.image = '/public/images/users/nf.jpg';
-    cliente.role_id = 1;
-    cliente.account_type = 1;
+    let user = {};
+    user.full_name = document.getElementById('fullname').value;
+    user.username = document.getElementById('username').value;
+    user.email = document.getElementById('email').value;
+    user.password = document.getElementById('password').value;
+    user.image = '/public/images/users/nf.jpg';
+    user.role_id = 1;
+    user.account_type = 1;
 
     fetch('http://localhost:3000/user/create', {
         method: 'POST',
-        body: JSON.stringify(cliente),
+        body: JSON.stringify(user),
         headers: {
             'Content-Type': 'application/json'
         }

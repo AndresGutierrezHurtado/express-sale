@@ -7,17 +7,17 @@ loginForm.addEventListener('submit', (e) => {
 });
 
 async function loginFormSubmit() {
-    let cliente={};
-    cliente.username = document.getElementById('username').value;
-    cliente.password = document.getElementById('password').value;
-    cliente.rememberMe = document.getElementById('remember_me').checked;
+    let user={};
+    user.username = document.getElementById('username').value;
+    user.password = document.getElementById('password').value;
+    user.rememberMe = document.getElementById('remember_me').checked;
 
     fetch('http://localhost:3000/user/autenticate', {
-        method: 'POST',
-        body: JSON.stringify(cliente),
         headers: {
             'Content-Type': 'application/json'
-        }
+        },
+        method: 'POST',
+        body: JSON.stringify(user)
     })
     .then(response => response.json())
     .then(data => {

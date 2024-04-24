@@ -32,7 +32,19 @@ class UserController {
         echo json_encode($result);
     }
 
-    public function log_out () {
+    public function update() {
+        $post_data = file_get_contents('php://input');
+        $post_data = json_decode($post_data, true);
+        $id = $post_data['user_id'];    
+        if (count($post_data['image']) == 0) {
+            $post_data['image'] = '/public/images/users/nf.jpg';
+        }    
+        $result = $this -> userModel -> updateById($id, $post_data);
+
+        echo json_encode($result);
+    }
+
+    public function log_out() {
         session_start();
 
         session_destroy();

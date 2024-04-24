@@ -22,15 +22,27 @@ class Orm {
         return $result -> fetch_object();
     }
 
-    public function updateById() {
-
-    }
-
-    public function deleteById($id) {
-        $query = "DELETE FROM $this->table WHERE $this->id = $id";
+    public function updateById($id, $data) {
+        $query = "UPDATE $this->table SET ";
+        foreach ($data as $key => $value) {
+            if (is_int($value)) {
+                $query .= "$key = $value, ";
+            } else {
+                $query .= "$key = '$value' ,";
+            }           
+        }
+        $query = rtrim($query, ',');        
+        $query .= " WHERE $this->id = $id";   
+        
         $result = $this->db->query($query);
+
+        if ($result) {
+            return ['success' => true, 'message' => 'La actualización se realizó correctamente.'];
+        } else {
+            return ['success' => false, 'message' => 'Error al actualizar los datos: ' . $this->db->error];
+        }
     }
-    
+
     public function insert($data) {
         // Inicio de la construcción de la consulta SQL
         $query = "INSERT INTO $this->table (";
@@ -59,6 +71,11 @@ class Orm {
         }
     }
 
+    public function deleteById($id) {
+        $query = "DELETE FROM $this->table WHERE $this->id = $id";
+        $result = $this->db->query($query);
+    }
+    
     public function auth($data) {
         $username = $data['username'];
         $query = "SELECT * FROM $this->table WHERE username = '$username' OR email = '$username'";
