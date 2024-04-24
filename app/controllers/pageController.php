@@ -25,7 +25,12 @@ class PageController {
     public function user_profile() {
         $id = isset($_GET['id']) ? $_GET['id'] : $_SESSION['user_id'] ; 
         $user = $this -> userModel -> getById( $id );
-        require_once(__DIR__. "/../views/profile/user.php");
+        require_once(__DIR__. "/../views/profile/user.view.php");
+    }
+
+    public function product_profile() {
+        $product = $this -> productModel -> getById( $_GET['id'] );
+        require_once(__DIR__. "/../views/profile/product.view.php");
     }
 
     public function dashboard_users() {

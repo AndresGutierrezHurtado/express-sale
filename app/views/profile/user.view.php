@@ -66,6 +66,6 @@
             </div>
         </form>
     </main>
-    <script src="/public/js/profile.js"></script>
+    <script src="/public/js/user_profile.js"></script>
 </body>
 </html>
