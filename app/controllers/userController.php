@@ -33,13 +33,27 @@ class UserController {
     }
 
     public function update() {
-        $post_data = file_get_contents('php://input');
-        $post_data = json_decode($post_data, true);
-        $id = $post_data['user_id'];    
-        if (count($post_data['image']) == 0) {
-            $post_data['image'] = '/public/images/users/nf.jpg';
-        }    
-        $result = $this -> userModel -> updateById($id, $post_data);
+        // Verificar si se ha enviado una imagen
+        if (!empty($_FILES['image']['name'])) {
+            $user_id = $_POST['user_id'];
+    
+            // Obtener la extensión de la imagen
+            $image_extension = pathinfo($_FILES['image']['name'], PATHINFO_EXTENSION);
+            
+            // Crear el nombre de archivo usando user_id y username
+            $image_name = $user_id . '.jpg';
+    
+            // Ruta de destino para guardar la imagen
+            $image_path = '/public/images/users/' . $image_name;
+            
+            // Mover la imagen a la ubicación deseada en el servidor
+            move_uploaded_file($_FILES['image']['tmp_name'], $_SERVER['DOCUMENT_ROOT'] . $image_path);
+            
+            // Actualizar la ruta de la imagen en los datos del usuario
+            $_POST['image'] = $image_path;
+        }
+
+        $result = $this -> userModel -> updateById($_POST['user_id'], $_POST);
 
         echo json_encode($result);
     }

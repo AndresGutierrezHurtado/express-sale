@@ -11,15 +11,18 @@
 <body class="w-full bg-gray-50">
     <?php require_once(__DIR__ . "/../layout/header.php") ?>
     <main class="w-full min-h-screen flex justify-center items-center">
-        <form id="user_profile" class="w-full flex justify-center items-start gap-5">
-            <input type="hidden" id="user_id"value="<?= $_SESSION['user_id'] ?>">
+        <form id="user_profile" class="w-full flex justify-center items-start gap-5" enctype="multipart/form-data">
+
+            <input type="number" class="hidden" id="user_id" value="<?= $_SESSION['user_id'] ?>">
+
             <div class="bg-white flex flex-col gap-4 p-5 rounded-lg shadow-lg w-2/12">
                 <h1 class="text-lg uppercase tracking-tight font-bold">Imagen:</h1>
-                <div class="flex items-center justify-center">
-                    <img src="<?= $user->image ?>" alt="Imagen de perfil" class="max-w-full max-h-full ">
+                <div class="mx-auto size-full p-2">
+                    <img src="<?= $user->image ?>" alt="Imagen de perfil" class="object-cover rounded-lg shadow-lg">
                 </div>
-                <input type="file" id="image" class="block w-full text-sm text-slate-500 hover:file:bg-violet-100 file:duration-300 file:cursor-pointer file:bg-violet-50 file:text-violet-700 file:font-semibold file:rounded-xl file:border-0 file:p-1 file:px-3">
-
+                <input type="file" id="image" name="image" class="hidden w-full text-sm text-slate-500 hover:file:bg-violet-100 file:duration-300 file:cursor-pointer file:bg-violet-50 file:text-violet-700 file:font-semibold file:rounded-xl file:border-0 file:p-1 file:px-3">
+                
+                <button id="btn-edit" class="text-violet-800 border-2 border-violet-800 py-2 px-4 rounded-md mt-auto w-max font-bold cursor-pointer">Editar</button>
                 <a class="bg-violet-800 text-white py-2 px-4 rounded-md mt-auto w-max font-bold cursor-pointer" id="btn-logout">Cerrar sesión</a>
             </div>
             <div class="bg-white p-5 rounded-lg shadow-lg flex flex-col gap-4 w-5/12">   
@@ -46,15 +49,14 @@
 
                 <div class="flex flex-col gap-1">
                     <label for="phone_number" class="text-md font-medium text-gray-700">Número de Teléfono:</label>
-                    <input type="tel" id="phone_number" name="phone_number" value="<?= $user->phone_number; ?>" class="w-full border rounded-lg py-1 px-3" disabled>
+                    <input type="number" id="phone_number" name="phone_number" value="<?= $user->phone_number; ?>" class="w-full border rounded-lg py-1 px-3" disabled>
                 </div>
 
                 <label for="account_type" class="">Tipo de Cuenta: <strong><?= ($user->account_type == 1) ? 'Normal' : 'Premium' ?></strong></label>
                 
                 <span class="w-full flex justify-between items-center">
                     <div>
-                        <button type="submit" id="btn-edit" class="bg-violet-800 text-white py-2 px-4 rounded-md mt-auto w-max font-bold cursor-pointer">Editar</button>
-                        <button type="submit" id="btn-submit" class="bg-violet-800 text-white py-2 px-4 rounded-md mt-auto w-max font-bold hidden">Actualizar Perfil</button>
+                        <button type="submit" id="btn-submit" name="submit" class="bg-violet-800 text-white py-2 px-4 rounded-md mt-auto w-max font-bold hidden">Actualizar Perfil</button>
                     </div>
                     
                     <div class="flex gap-5">
