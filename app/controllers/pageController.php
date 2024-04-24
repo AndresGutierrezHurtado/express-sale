@@ -29,6 +29,7 @@ class PageController {
 
     public function dashboard() {
         $users = $this -> userModel -> getAll();
-        require_once(__DIR__ . "/../views/admin/dashboard.php");
+        $user_sesion = $this -> userModel -> getById($_SESSION['user_id']);
+        require_once(__DIR__ . "/../views/admin/dashboard.view.php");
     }
 }
