@@ -15,7 +15,7 @@
                 <span class="w-full flex flex justify-between items-center">
                     <div class="flex gap-4">
                         <button class="text-lg rounded-full bg-slate-900 size-[35px]"><i class="fa-solid fa-arrow-down-wide-short "></i></button>
-                        <input type="text" class="bg-slate-600 rounded-full max-w-[150px] sm:min-w-[200px] px-5 " placeholder="Buscar...">
+                        <input type="text" class="bg-slate-600 rounded-full max-w-[150px] sm:min-w-[200px] lg:min-w-[300px] px-5 " placeholder="Buscar...">
                     </div>
                     <a href="/page/user_profile" class="w-[80px] rounded-full overflow-hidden">
                         <img src="<?= $user_sesion -> image ?>" alt="profile" class="object-cover">
@@ -34,12 +34,10 @@
             <div class="container mx-auto px-0 sm:px-5 flex flex-col py-16">
                 <span class="flex justify-between items-center p-3 bg-slate-800 text-white rounded-t-lg">
                     <h2 class=" font-bold text-xl tracking-tight">Adminstrar usuarios</h2>
-                    <div>
-                        <select name="" id="" class="bg-transparent focus:border-0 p-1 px-3">
-                            <option value="" class="text-black">Usuarios</option>
-                            <option value="" class="text-black">Productos</option>
-                        </select>
-                    </div>
+                    <select class="bg-transparent focus:border-0 p-1 px-3" onchange="location = this.value;">
+                        <option value="/page/dashboard_users" selected class="text-black">Usuarios</option>
+                        <option value="/page/dashboard_products" class="text-black">Productos</option>
+                    </select>
                 </span>
                 <table class="table-auto border-collapse border border-gray-900 text-[13px] sm:text-[16px] text-center max-w-full" >
                     <thead>
@@ -54,7 +52,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <?php foreach ($users as $user): ?>
+                        <?php foreach ($users['data'] as $user): ?>
                         <tr>
                             <td class="p-2"><?= $user['user_id']; ?></td>
                             <td class="p-2 hidden lg:table-cell"><?= $user['full_name']; ?></td>
@@ -63,7 +61,7 @@
                             <td class="p-2"><?= $user['role_id'] == 2 ? 'Adminstrador' : 'Usuario'; ?></td>
                             <td class="p-2 hidden xl:table-cell"><?= $user['account_type'] == 2 ? 'Premium' : 'Normal'; ?></td>
                             <td class="p-2 flex flex-col gap-3 sm:flex-row justify-center"> 
-                                <button class="p-[2px] sm:px-3 border-2 border-violet-800 text-violet-800 rounded-md font-bold duration-300 hover:bg-gray-200">Editar</button> 
+                                <a href="/page/user_profile/?id=<?= $user['user_id'] ?>"> <button class="p-[2px] sm:px-3 border-2 border-violet-800 text-violet-800 rounded-md font-bold duration-300 hover:bg-gray-200">Editar</button> </a>
                                 <button class="p-[2px] sm:px-3 bg-violet-800 text-white rounded-md font-bold duration-300 hover:bg-violet-600" >Eliminar</button> 
                             </td>
                         </tr>
@@ -71,7 +69,7 @@
                     </tbody>
                 </table>
                 <span class="pb-1 pt-4 border-b flex flex-col md:flex-row justify-between items-center">
-                    <p>Viendo <strong><?= count($users) ?></strong> de <strong><?= count($users) ?></strong> </p>
+                    <p>Viendo <strong><?= $users['limit'] ?></strong> de <strong><?= $users['rows'] ?></strong> </p>
                     <div>
                     <ul class="inline-flex -space-x-px text-sm">
                         <li>

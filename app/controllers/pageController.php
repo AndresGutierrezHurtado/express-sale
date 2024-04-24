@@ -23,13 +23,19 @@ class PageController {
     }
 
     public function user_profile() {
-        $user = $this -> userModel -> getById($_SESSION['user_id']);
+        $user = $this -> userModel -> getById($_GET['id']);
         require_once(__DIR__. "/../views/profile/user.php");
     }
 
-    public function dashboard() {
-        $users = $this -> userModel -> getAll();
+    public function dashboard_users() {
+        $users = $this -> userModel -> paginate(1, 2);
         $user_sesion = $this -> userModel -> getById($_SESSION['user_id']);
-        require_once(__DIR__ . "/../views/admin/dashboard.view.php");
+        require_once(__DIR__ . "/../views/admin/dashboard_users.view.php");
+    }
+    
+    public function dashboard_products() {
+        $products = $this -> productModel -> paginate(1, 2);
+        $user_sesion = $this -> userModel -> getById($_SESSION['user_id']);
+        require_once(__DIR__ . "/../views/admin/dashboard_products.view.php");
     }
 }

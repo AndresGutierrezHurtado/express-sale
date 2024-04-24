@@ -14,7 +14,7 @@ class Orm {
     public function getAll() {
         $query = "SELECT * FROM $this->table";
         $result = $this->db->query($query);
-        return $result ->fetch_all(MYSQLI_ASSOC);
+        return $result -> fetch_all(MYSQLI_ASSOC);
     }
     public function getById($id) {
         $query = "SELECT * FROM $this->table WHERE $this->id = $id";
@@ -74,6 +74,24 @@ class Orm {
     public function deleteById($id) {
         $query = "DELETE FROM $this->table WHERE $this->id = $id";
         $result = $this->db->query($query);
+    }
+
+    public function paginate($page, $limit) {
+        $offset = ($page - 1) * $limit;
+        $rows = $this->db->query("SELECT COUNT(*) FROM $this->table") -> fetch_column();
+        $query = "SELECT * FROM $this->table LIMIT {$offset}, {$limit}";
+        $result = $this->db->query($query);
+
+        $pages  = ceil($rows / $limit);
+        $result = $result -> fetch_all(MYSQLI_ASSOC);
+        
+        return [
+            'data' => $result,
+            'page' => $page,
+            'limit' => $limit,
+            'pages' => $pages,
+            'rows' => $rows,
+        ];
     }
     
     public function auth($data) {

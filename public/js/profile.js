@@ -24,19 +24,19 @@ editButton.addEventListener('click', (e) => {
     e.preventDefault();
     if (!editable){
         editButton.innerHTML = 'Cancelar';
+        submitButton.classList.toggle('hidden');
+        document.getElementById('image').classList.toggle('hidden');
+        inputs.forEach(input => {
+            input.disabled = editable;
+        })
+        editable = !editable    
     } else {
         if (confirm('¿deseas cancelar?, perderás todos los cambios.')){
             editButton.innerHTML = 'Editar';
             window.location.reload();
-            return;
-        } 
+            
+        }
     }
-    submitButton.classList.toggle('hidden');
-    document.getElementById('image').classList.toggle('hidden');
-    inputs.forEach(input => {
-        input.disabled = editable;
-    })
-    editable = !editable    
 })
 
 userProfileForm.addEventListener('submit', (e) => {
