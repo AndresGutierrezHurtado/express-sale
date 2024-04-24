@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Perfil de Usuario | Express Sale</title>
+    <title>Panel de administrador | Express Sale</title>
     <link rel="shortcut icon" href="/public/images/logo.png" type="image/png">
     <script src="https://kit.fontawesome.com/eb36e646d1.js" crossorigin="anonymous"></script>
     <script src="https://cdn.tailwindcss.com"></script>
@@ -86,23 +86,33 @@
                 <span class="pb-1 pt-4 border-b flex flex-col md:flex-row justify-between items-center">
                     <p>Viendo <strong><?= $products['limit'] ?></strong> de <strong><?= $products['rows'] ?></strong> </p>
                     <div>
-                    <ul class="inline-flex -space-x-px text-sm">
-                        <li>
-                            <a href="#" class="flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-gray-50 border border-gray-500 rounded-s-lg hover:bg-gray-100 hover:text-gray-700 ">Previous</a>
-                        </li>
-                        <li>
-                            <a href="#" class="flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-gray-50 border border-gray-500 hover:bg-gray-100 hover:text-gray-700">1</a>
-                        </li>
-                        <li>
-                            <a href="#" class="flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-gray-50 border border-gray-500 hover:bg-gray-100 hover:text-gray-700 ">2</a>
-                        </li>
-                        <li>
-                            <a href="#" class="flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-gray-50 border border-gray-500 hover:bg-gray-100 hover:text-gray-700">3</a>
-                        </li>
-                        <li>
-                            <a href="#" class="flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-gray-50 border border-gray-500 rounded-e-lg hover:bg-gray-100 hover:text-gray-700">Next</a>
-                        </li>
-                    </ul>
+                        <ul class="inline-flex -space-x-px text-sm">
+                            <?php if ($products['page'] > 1): ?>
+                            <li>
+                                <a href="/page/dashboard_products/?page=<?= $products['page'] - 1 ?>" class="flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-gray-50 border border-gray-500 rounded-s-lg hover:bg-gray-100 hover:text-gray-700">Previous</a>
+                            </li>
+                            <?php else: ?>
+                            <li>
+                                <span class="flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-gray-50 border border-gray-500 rounded-s-lg cursor-not-allowed opacity-50">Previous</span>
+                            </li>
+                            <?php endif; ?>
+
+                            <?php for ($i = 1; $i <= $products['pages']; $i++): ?>
+                            <li>
+                                <a href="/page/dashboard_products/?page=<?= $i ?>" class=" flex items-center justify-center px-3 h-8 leading-tight border border-gray-500 duration-300 <?= $i == $products['page'] ? 'text-black bg-gray-300 font-semibold hover:bg-slate-700 hover:text-white' : 'text-gray-500 bg-gray-50 hover:bg-gray-300 hover:text-gray-700' ?>"><?= $i ?></a>
+                            </li>
+                            <?php endfor; ?>
+
+                            <?php if ($products['page'] < $products['pages']): ?>
+                            <li>
+                                <a href="/page/dashboard_products/?page=<?= $products['page'] + 1 ?>" class="flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-gray-50 border border-gray-500 rounded-e-lg hover:bg-gray-100 hover:text-gray-700">Next</a>
+                            </li>
+                            <?php else: ?>
+                            <li>
+                                <span class="flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-gray-50 border border-gray-500 rounded-e-lg cursor-not-allowed opacity-50">Next</span>
+                            </li>
+                            <?php endif; ?>
+                        </ul>
                     </div>
                 </span>
             </div>
