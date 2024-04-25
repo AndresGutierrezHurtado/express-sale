@@ -40,8 +40,6 @@ async function UpdateProfile() {
     // Verificar si se ha seleccionado una imagen
     if (document.getElementById('image').files.length > 0) {
         productData.append('image', document.getElementById('image').files[0]);
-    } else {
-        productData.append('image', '/public/images/products/nf.jpg');
     }
     
     await fetch('/product/update', {

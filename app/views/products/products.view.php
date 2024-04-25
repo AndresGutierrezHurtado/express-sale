@@ -94,7 +94,7 @@
                     <!-- Agrega más filtros según sea necesario -->
                 </aside>
                 <div class="w-full md:w-7/12 lg:w-8/12 flex flex-col gap-2">
-                    <?php foreach (array_slice($products, 0, 5) as $product): ?>
+                    <?php foreach ($products['data'] as $product): ?>
                         <article class="flex flex-col md:flex-row justify-between gap-4 bg-white p-4 rounded-lg shadow-lg border min-h-[250px]">
                             <div class="w-full md:w-3/12 flex items-center justify-center">
                                 <img src="<?= $product['image'] ?>" alt="<?= $product['name']; ?>" class="max-w-full max-h-full">
@@ -123,7 +123,36 @@
                                 <button class="rounded-full size-[60px] border-2 border-black"><i class="fa-solid fa-cart-plus text-2xl"></i></button>
                             </span>
                         </article>
-                    <?php endforeach; ?>                 
+                    <?php endforeach; ?>
+                    <div class="flex justify-center py-6">
+                        <ul class="inline-flex -space-x-px text-lg">
+                            <?php if ($products['page'] > 1): ?>
+                            <li>
+                                <a href="/page/products/?page=<?= $products['page'] - 1 ?>" class="flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-gray-50 border border-gray-500 rounded-s-lg hover:bg-gray-100 hover:text-gray-700">Previous</a>
+                            </li>
+                            <?php else: ?>
+                            <li>
+                                <span class="flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-gray-50 border border-gray-500 rounded-s-lg cursor-not-allowed opacity-50">Previous</span>
+                            </li>
+                            <?php endif; ?>
+
+                            <?php for ($i = 1; $i <= $products['pages']; $i++): ?>
+                            <li>
+                                <a href="/page/products/?page=<?= $i ?>" class=" flex items-center justify-center px-3 h-8 leading-tight border border-gray-500 duration-300 <?= $i == $products['page'] ? 'text-black bg-gray-300 font-semibold hover:bg-slate-700 hover:text-white' : 'text-gray-500 bg-gray-50 hover:bg-gray-300 hover:text-gray-700' ?>"><?= $i ?></a>
+                            </li>
+                            <?php endfor; ?>
+
+                            <?php if ($products['page'] < $products['pages']): ?>
+                            <li>
+                                <a href="/page/products/?page=<?= $products['page'] + 1 ?>" class="flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-gray-50 border border-gray-500 rounded-e-lg hover:bg-gray-100 hover:text-gray-700">Next</a>
+                            </li>
+                            <?php else: ?>
+                            <li>
+                                <span class="flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-gray-50 border border-gray-500 rounded-e-lg cursor-not-allowed opacity-50">Next</span>
+                            </li>
+                            <?php endif; ?>
+                        </ul>
+                    </div>
                 </div>
             </div>
         </div>

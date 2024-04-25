@@ -37,13 +37,9 @@ class UserController {
         if (!empty($_FILES['image']['name'])) {
             $user_id = $_POST['user_id'];
     
-            // Obtener la extensión de la imagen
             $image_extension = pathinfo($_FILES['image']['name'], PATHINFO_EXTENSION);
             
-            // Crear el nombre de archivo usando user_id y username
             $image_name = $user_id . '.jpg';
-    
-            // Ruta de destino para guardar la imagen
             $image_path = '/public/images/users/' . $image_name;
             
             // Mover la imagen a la ubicación deseada en el servidor

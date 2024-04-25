@@ -56,10 +56,8 @@ async function UpdateProfile() {
     // Verificar si se ha seleccionado una imagen
     if (document.getElementById('image').files.length > 0) {
         user.append('image', document.getElementById('image').files[0]);
-    } else {
-        user.append('image', '/public/images/users/nf.jpg');
     }
-    
+
     await fetch('/user/update', {
         method: 'POST',
         body: user
