@@ -10,8 +10,8 @@ async function registerFormSubmit() {
     user.username = document.getElementById('username').value;
     user.email = document.getElementById('email').value;
     user.password = document.getElementById('password').value;
+    user.role_id = document.getElementById('accountType').value;
     user.image = '/public/images/users/nf.jpg';
-    user.role_id = 1;
     user.account_type = 1;
 
     fetch('http://localhost:3000/user/create', {

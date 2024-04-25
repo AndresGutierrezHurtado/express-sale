@@ -72,7 +72,7 @@
                     </div>
                     
                     <div class="flex gap-5">
-                        <?= $_SESSION['role_id'] == 2 ? '<a href="/page/dashboard_users" class="bg-violet-800 text-white py-2 px-4 rounded-md mt-auto w-max font-bold"> Administrador </a>' : '<a href="" class="border-2 p-1 px-3 border-violet-800  rounded-lg text-violet-800 font-bold cursor-pointer duration-300 hover:bg-gray-200"> Mis productos</a>' ?>
+                        <?= $_SESSION['role_id'] == 2 ? '<a href="/page/dashboard_users" class="bg-violet-800 text-white py-2 px-4 rounded-md mt-auto w-max font-bold"> Administrador </a>' : '' ?>
                     </div>
                 </span>
             </div>

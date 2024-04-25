@@ -52,7 +52,7 @@
                     <input type="number" id="phone_number" name="phone_number" value="<?= $user->phone_number; ?>" class="w-full border rounded-lg py-1 px-3" disabled>
                 </div>
 
-                <label for="account_type" class="">Tipo de Cuenta: <strong><?= ($user->account_type == 1) ? 'Normal' : 'Premium' ?></strong></label>
+                <label for="account_type" class="">Tipo de Cuenta: <strong> <?= $user -> role_id == 3 ? 'Adminstrador' : ($user -> role_id  == 2 ? 'Vendedor' : 'Usuario'); ?> / <?= ($user->account_type == 1) ? 'Normal' : 'Premium' ?></strong></label>
                 
                 <span class="w-full flex justify-between items-center">
                     <div>
@@ -60,7 +60,7 @@
                     </div>
                     
                     <div class="flex gap-5">
-                        <?= $_SESSION['role_id'] == 2 ? '<a href="/page/dashboard_users" class="bg-violet-800 text-white py-2 px-4 rounded-md mt-auto w-max font-bold"> Administrador </a>' : '<a href="" class="border-2 p-1 px-3 border-violet-800  rounded-lg text-violet-800 font-bold cursor-pointer duration-300 hover:bg-gray-200"> Mis productos</a>' ?>
+                        <?= $_SESSION['role_id'] == 3 ? '<a href="/page/dashboard_users" class="bg-violet-800 text-white py-2 px-4 rounded-md mt-auto w-max font-bold"> Administrador </a>' : ($_SESSION['role_id'] == 2 ? '<a href="" class="border-2 p-1 px-3 border-violet-800  rounded-lg text-violet-800 font-bold cursor-pointer duration-300 hover:bg-gray-200"> Mis productos</a>'  : '') ?>
                     </div>
                 </span>
             </div>

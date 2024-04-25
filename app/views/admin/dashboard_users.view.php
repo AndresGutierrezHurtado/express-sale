@@ -58,7 +58,7 @@
                             <td class="p-2 hidden lg:table-cell"><?= $user['full_name']; ?></td>
                             <td class="p-2"><?= $user['username']; ?></td>
                             <td class="p-2 hidden sm:table-cell"><?= $user['email']; ?></td>
-                            <td class="p-2"><?= $user['role_id'] == 2 ? 'Adminstrador' : 'Usuario'; ?></td>
+                            <td class="p-2"><?= $user['role_id'] == 3 ? 'Adminstrador' : ($user['role_id'] == 2 ? 'Vendedor' : 'Usuario'); ?></td>
                             <td class="p-2 hidden xl:table-cell"><?= $user['account_type'] == 2 ? 'Premium' : 'Normal'; ?></td>
                             <td class="p-2 flex flex-col gap-3 sm:flex-row justify-center"> 
                                 <a href="/page/user_profile/?id=<?= $user['user_id'] ?>"> <button class="p-[2px] sm:px-3 border-2 border-violet-800 text-violet-800 rounded-md font-bold duration-300 hover:bg-gray-200">Editar</button> </a>

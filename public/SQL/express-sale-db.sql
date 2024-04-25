@@ -15,8 +15,10 @@ CREATE TABLE `users` (
     `role_id` INT NOT NULL
 );
 
-INSERT INTO `users` (`user_id`,`full_name`, `username`, `email`, `phone_number`, `address`, `image`, `password`, `account_type`, `role_id`) VALUES 
-(1, 'Andrés Gutiérrez Hurtado', 'andres52885241@gmail.com', 'Andrés_Gutiérrez', 3209202177, 'Dg 68 D sur 70C 31', '/public/images/users/nf.jpg', '52885241Ah', 2, 2);
+INSERT INTO `users` (`user_id`,`full_name`, `email`, `username`, `phone_number`, `address`, `image`, `password`, `account_type`, `role_id`) VALUES 
+(1, 'Andrés Gutiérrez Hurtado', 'andres52885241@gmail.com', 'Andrés_Gutiérrez', 3209202177, 'Dg 68 D sur 70C 31', '/public/images/users/nf.jpg', '1234', 2, 3),
+(2, 'David Fernando Diaz Niausa', 'davidfernandodiazniausa@gmail.com', 'David_Diaz', 3209998877, 'Usme', '/public/images/users/nf.jpg', '1234', 2, 2 ),
+(3, 'Jaider Harley Rondón Herrera', 'jaiderrondonherrera@gmail.com', 'Jaider_Rondon', 3209998877, 'Usme', '/public/images/users/nf.jpg', '1234', 2, 1 );
 
 -- Create products table with seller_id
 CREATE TABLE `products` (
@@ -33,11 +35,19 @@ CREATE TABLE `products` (
 );
 
 INSERT INTO `products` (`name`, `description`, `price`, `stock`, `image`, `category_id`, `calification`, `user_id`, `state`) VALUES 
-    ('iPhone 13', 'The iPhone 13 features a stunning Super Retina XDR display, A15 Bionic chip, advanced dual-camera system, and all-day battery life. Get your hands on the latest iPhone today!', 999.99, 50, '/public/images/products/nf.jpg', 3, 4.5, 1, 'public'),
-    ('Samsung Galaxy S22', 'Experience the power and performance of the Samsung Galaxy S22. With its cutting-edge camera technology, fast-charging battery, and sleek design, the Galaxy S22 is the perfect companion for your daily adventures.', 899.99, 100, '/public/images/products/nf.jpg', 3, 4.7, 1, 'public'), 
-    ('Sony WH-1000XM4 Headphones', 'Immerse yourself in music like never before with the Sony WH-1000XM4 headphones. Featuring industry-leading noise cancellation, high-resolution audio, and all-day comfort, these headphones redefine the listening experience.', 349.99, 30, '/public/images/products/nf.jpg', 3, 4.8, 1, 'public'),
-    ('Fitbit Charge 5', 'Track your health and fitness goals with the Fitbit Charge 5. With built-in GPS, heart rate monitoring, sleep tracking, and a sleek design, the Charge 5 helps you stay motivated and on track every day.', 179.99, 20, '/public/images/products/nf.jpg', 4, 4.3, 1, 'public'), 
-    ('Canon EOS R5', 'Unleash your creativity with the Canon EOS R5. This full-frame mirrorless camera features 8K video recording, advanced autofocus, and stunning image quality, making it the perfect tool for professional photographers and videographers.', 3799.99, 10, '/public/images/products/nf.jpg', 3, 4.9, 1, 'public'); 
+    ('Camiseta Polo Ralph Lauren', 'Camiseta clásica de Polo Ralph Lauren, fabricada con algodón suave y con el icónico logo del jugador de polo bordado en el pecho.', 189900, 50, '/public/images/products/polo.jpg', 1, 4.5, 1, 'public'),
+    ('Pantalones Vaqueros Levi\'s 501', 'Los legendarios pantalones vaqueros Levi\'s 501 ofrecen un ajuste clásico y duradero con un estilo atemporal que nunca pasa de moda.', 229900, 100, '/public/images/products/levis.jpg', 1, 4.7, 1, 'public'), 
+    ('Zapatos Deportivos Nike Air Force 1', 'Los icónicos zapatos deportivos Nike Air Force 1 combinan comodidad y estilo con su diseño clásico y su suela Air-Sole para una amortiguación excepcional.', 289900, 30, '/public/images/products/airforce.jpg', 1, 4.8, 1, 'public'),
+    ('Pizza Hawaiana Grande', 'Disfruta de una deliciosa pizza hawaiana grande con piña, jamón y salsa de tomate casera. Perfecta para compartir con amigos y familiares.', 34900, 20, '/public/images/products/pizza.jpg', 2, 4.3, 1, 'public'), 
+    ('Hamburguesa Angus con Papas Fritas', 'Una jugosa hamburguesa Angus servida con pan recién horneado, acompañada de crujientes papas fritas. Una opción clásica para satisfacer tu antojo.', 26900, 10, '/public/images/products/hamburguesa.jpg', 2, 4.9, 1, 'public'),
+    ('Sushi Variado para Dos Personas', 'Disfruta de una variedad de sushi fresco, incluyendo rollos de salmón, atún y aguacate, junto con nigiri de camarón y pulpo. Ideal para una cena romántica o una comida entre amigos.', 59900, 15, '/public/images/products/sushi.jpg', 2, 4.6, 1, 'public'),
+    ('Samsung Galaxy A52', 'El Samsung Galaxy A52 ofrece un rendimiento excepcional con su procesador rápido, una pantalla Super AMOLED vibrante y una potente cámara cuádruple para capturar cada momento.', 1599900, 50, '/public/images/products/galaxya52.jpg', 3, 4.5, 1, 'public'),
+    ('Apple Watch Series 7', 'El Apple Watch Series 7 te ayuda a mantener un estilo de vida activo y conectado con funciones avanzadas de salud, una pantalla más grande y una duración de la batería mejorada.', 1799900, 30, '/public/images/products/applewatch.jpg', 3, 4.7, 1, 'public'), 
+    ('Laptop HP Pavilion 15', 'La laptop HP Pavilion 15 combina rendimiento y portabilidad con un diseño elegante y especificaciones potentes, ideal para trabajar, estudiar o disfrutar del entretenimiento multimedia.', 2499900, 20, '/public/images/products/hplaptop.jpg', 3, 4.8, 1, 'public'),
+    ('Lámpara de Escritorio LED', 'Esta lámpara de escritorio LED ofrece iluminación ajustable con diferentes modos de luz para adaptarse a tus necesidades de lectura, trabajo o relajación.', 89900, 20, '/public/images/products/lampara.jpg', 4, 4.3, 1, 'public'), 
+    ('Termo Stanley de Acero Inoxidable', 'El termo Stanley de acero inoxidable mantiene tus bebidas calientes o frías durante horas, perfecto para llevar café, té o agua mientras estás en movimiento.', 189900, 10, '/public/images/products/termo.jpg', 4, 4.9, 1, 'public'),
+    ('Mochila Táctica Militar', 'Esta mochila táctica militar está diseñada para resistir condiciones extremas y ofrece amplio espacio de almacenamiento para tus aventuras al aire libre o tus desplazamientos diarios.', 169900, 15, '/public/images/products/mochila.jpg', 4, 4.6, 1, 'public');
+
 
 -- Create sales table
 CREATE TABLE `sales` (
@@ -67,8 +77,9 @@ CREATE TABLE `roles` (
 
 -- Insert predefined roles
 INSERT INTO `roles` (`id`, `name`) VALUES 
-(1, 'usuario'),  
-(2, 'administrador');
+(1, 'usuario'),
+(2, 'vendedor'),
+(3, 'administrador');
 
 -- Create categories table
 CREATE TABLE `categories` (
