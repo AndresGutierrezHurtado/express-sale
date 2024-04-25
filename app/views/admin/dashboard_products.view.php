@@ -55,13 +55,13 @@
                         <tr>
                             <td class="p-2"><?= $product['id']; ?></td>
                             <td class="p-2 hidden lg:table-cell"><?= $product['name']; ?></td>
-                            <td class="p-2"><?= $product['price']; ?></td>
+                            <td class="p-2"><?= number_format($product['price']); ?> COP</td>
                             <td class="p-2 hidden sm:table-cell"><?= $product['stock']; ?></td>
                             <td class="p-2"><?= ($product['category_id'] == 1) ? 'moda' : (($product['category_id'] == 2) ? 'comida' : (($product['category_id'] == 3) ? 'tecnología' : 'otros' )) ?>
                             </td>
                             <td class="p-2 flex flex-col gap-3 sm:flex-row justify-center"> 
                                 <a href="/page/product_profile/?id=<?= $product['id'] ?>"><button class="p-[2px] sm:px-3 border-2 border-violet-800 text-violet-800 rounded-md font-bold duration-300 hover:bg-gray-200">Editar</button></a>
-                                <button class="p-[2px] sm:px-3 bg-violet-800 text-white rounded-md font-bold duration-300 hover:bg-violet-600" >Eliminar</button> 
+                                <button class="p-[2px] sm:px-3 bg-violet-800 text-white rounded-md font-bold duration-300 hover:bg-violet-600 btn-delete" onclick="deleteElement(<?= $product['id'] ?>)">Eliminar</button> 
                             </td>
                         </tr>
                         <?php endforeach; ?>
@@ -105,6 +105,24 @@
             <p>&copy; diseño de Express Sale. Todos los derechos reservados.</p>
         </footer>
     </main>
-    
+    <script>
+        function deleteElement(idProducto) {
+            fetch('/product/delete', {
+            method: 'POST',
+            body: JSON.stringify({'id' : idProducto}),
+            })
+            .then(Response => Response.json())
+            .then(Data => {
+                console.log(Data);
+                if (Data.success) {
+                    alert(Data.message)
+                    window.location = '/page/dashboard_products';
+                } else {
+                    alert(Data.message)
+                }
+
+            });
+        }
+    </script>
 </body>
 </html>

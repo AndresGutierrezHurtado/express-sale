@@ -58,6 +58,15 @@ class UserController {
         echo json_encode($result);
     }
 
+    public function delete() {
+        $post_data = file_get_contents('php://input');
+        $post_data = json_decode( $post_data , true);
+
+        $result = $this -> userModel -> deleteById($post_data['id']);
+
+        echo json_encode($result);
+    }
+
     public function log_out() {
         session_start();
 

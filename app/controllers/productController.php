@@ -15,22 +15,30 @@ class ProductController {
     }
 
     public function update() {
-    if (!empty($_FILES['image']['name'])) {
-        $product_id = $_POST['id'];
+        if (!empty($_FILES['image']['name'])) {
+            $product_id = $_POST['id'];
 
-        $image_extension = pathinfo($_FILES['image']['name'], PATHINFO_EXTENSION);
-        
-        $image_name = $product_id . '.jpg';
-        $image_path = '/public/images/products/' . $image_name;
-        
-        move_uploaded_file($_FILES['image']['tmp_name'], $_SERVER['DOCUMENT_ROOT'] . $image_path);
-        $_POST['image'] = $image_path;
+            $image_extension = pathinfo($_FILES['image']['name'], PATHINFO_EXTENSION);
+            
+            $image_name = $product_id . '.jpg';
+            $image_path = '/public/images/products/' . $image_name;
+            
+            move_uploaded_file($_FILES['image']['tmp_name'], $_SERVER['DOCUMENT_ROOT'] . $image_path);
+            $_POST['image'] = $image_path;
+        }
+
+        $result = $this->productModel->updateById($_POST['id'], $_POST);
+        echo json_encode($result);
     }
 
-    $result = $this->productModel->updateById($_POST['id'], $_POST);
+    public function delete() {
+        $post_data = file_get_contents('php://input');
+        $post_data = json_decode( $post_data , true);
 
-    echo json_encode($result);
-}
+        $result = $this -> productModel -> deleteById($post_data['id']);
+
+        echo json_encode($result);
+    }
 
 }
 

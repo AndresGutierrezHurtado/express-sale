@@ -1,5 +1,4 @@
 FALTA :
- - DASHBOARD (Eliminar productos / usuarios)
  - MIS PRODUCTOS
  - CUENTAS PUBLICAS
  - AGREGAR CARRITO

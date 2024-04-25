@@ -74,6 +74,12 @@ class Orm {
     public function deleteById($id) {
         $query = "DELETE FROM $this->table WHERE $this->id = $id";
         $result = $this->db->query($query);
+
+        if ($result) {
+            return ["success"=> true, "message"=> "Elemento eliminado correctamente"];
+        } else {
+            return ["success"=> false, "message"=> "Error al eliminar el elemento: " . $this -> db -> error ];
+        }
     }
 
     public function paginate($page, $limit) {

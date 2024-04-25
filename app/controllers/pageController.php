@@ -35,14 +35,14 @@ class PageController {
 
     public function dashboard_users() {
         $page = isset($_GET['page']) ? $_GET['page'] : 1; 
-        $users = $this -> userModel -> paginate($page, 2);
+        $users = $this -> userModel -> paginate($page, 5);
         $user_sesion = $this -> userModel -> getById($_SESSION['user_id']);
         require_once(__DIR__ . "/../views/admin/dashboard_users.view.php");
     }
     
     public function dashboard_products() {
         $page = isset($_GET['page']) ? $_GET['page'] : 1; 
-        $products = $this -> productModel -> paginate($page, 2);
+        $products = $this -> productModel -> paginate($page, 5);
         $user_sesion = $this -> userModel -> getById($_SESSION['user_id']);
         require_once(__DIR__ . "/../views/admin/dashboard_products.view.php");
     }

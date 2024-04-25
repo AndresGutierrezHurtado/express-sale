@@ -62,7 +62,7 @@
                             <td class="p-2 hidden xl:table-cell"><?= $user['account_type'] == 2 ? 'Premium' : 'Normal'; ?></td>
                             <td class="p-2 flex flex-col gap-3 sm:flex-row justify-center"> 
                                 <a href="/page/user_profile/?id=<?= $user['user_id'] ?>"> <button class="p-[2px] sm:px-3 border-2 border-violet-800 text-violet-800 rounded-md font-bold duration-300 hover:bg-gray-200">Editar</button> </a>
-                                <button class="p-[2px] sm:px-3 bg-violet-800 text-white rounded-md font-bold duration-300 hover:bg-violet-600" >Eliminar</button> 
+                                <button class="p-[2px] sm:px-3 bg-violet-800 text-white rounded-md font-bold duration-300 hover:bg-violet-600" id="btn-delete" onclick="deleteElement(<?= $user['user_id'] ?>)">Eliminar</button> 
                             </td>
                         </tr>
                         <?php endforeach; ?>
@@ -106,6 +106,24 @@
             <p>&copy; diseño de Express Sale. Todos los derechos reservados.</p>
         </footer>
     </main>
-    
+    <script>
+        function deleteElement(idUsuario) {
+            fetch('/user/delete', {
+            method: 'POST',
+            body: JSON.stringify({'id' : idUsuario}),
+            })
+            .then(Response => Response.json())
+            .then(Data => {
+                console.log(Data);
+                if (Data.success) {
+                    alert(Data.message)
+                    window.location = '/page/dashboard_users';
+                } else {
+                    alert(Data.message)
+                }
+
+            });
+        }
+    </script>    
 </body>
 </html>
