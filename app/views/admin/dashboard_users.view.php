@@ -14,7 +14,18 @@
             <div class="container mx-auto px-2 sm:px-5 flex flex-col gap-4 py-2">                
                 <span class="w-full flex flex justify-between items-center">
                     <div class="flex gap-4">
-                        <button class="text-lg rounded-full bg-slate-900 size-[35px]"><i class="fa-solid fa-arrow-down-wide-short "></i></button>
+                        <div class="relative">
+                            <button class="text-lg rounded-full bg-slate-900 size-[35px]"><i class="fa-solid fa-arrow-down-wide-short" onclick="sortToggle()"></i></button>
+                            <div class="absolute top-[120%] left-1/2 transform -translate-x-1/2 bg-white flex flex-col rounded-md min-w-[150px] overflow-hidden hidden"  id="list-sort">
+                                <h1 class="text-black text-md uppercase font-bold tracking-tight upercase p-1 px-3">Ordernar por:</h1>
+                                <a href="/page/dashboard_users/?sort=user_id" class="text-black duraton-300 hover:bg-gray-200 p-1 px-3 cursor-pointer">Id</a>
+                                <a href="/page/dashboard_users/?sort=username" class="text-black duraton-300 hover:bg-gray-200 p-1 px-3 cursor-pointer">Usuarios</a>
+                                <a href="/page/dashboard_users/?sort=full_name" class="text-black duraton-300 hover:bg-gray-200 p-1 px-3 cursor-pointer">Nombres</a>
+                                <a href="/page/dashboard_users/?sort=email" class="text-black duraton-300 hover:bg-gray-200 p-1 px-3 cursor-pointer">Correo</a>
+                                <a href="/page/dashboard_users/?sort=account_type" class="text-black duraton-300 hover:bg-gray-200 p-1 px-3 cursor-pointer">Cuenta</a>
+                                <a href="/page/dashboard_users/?sort=role_id" class="text-black duraton-300 hover:bg-gray-200 p-1 px-3 cursor-pointer">Rol</a>
+                            </div>
+                        </div>
                         <input type="text" class="bg-slate-600 rounded-full max-w-[150px] sm:min-w-[200px] lg:min-w-[300px] px-5 " placeholder="Buscar...">
                     </div>
                     <a href="/page/user_profile" class="w-[80px] rounded-full overflow-hidden">
