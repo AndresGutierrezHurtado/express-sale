@@ -65,12 +65,18 @@
             </div>
         </form>
         
-        <div class="w-full flex flex-col">
-            <span class="w-full bg-slate-800 text-white p-3 rounded-t-lg">
+        <?php if($user -> role_id == 2): ?>
+        <div class="w-full flex flex-col shadow-lg rounded-lg">
+            <span class="w-full flex justify-between bg-slate-800 text-white p-3 rounded-t-lg">
                 <h1 class="text-xl tracking-tight font-bold ">Productos de <?= $user -> username ?></h1>
+                <?php if ($_SESSION['role_id'] == 2) : ?>
+                <div class="flex gap-5">
+                    <button class="bg-green-600 px-3 p-1 rounded-lg flex items-center gap-3" onclick="toggleModal()"> <i class="fa-solid fa-plus"></i> Añadir nuevo producto</button>
+                </div>
+                <?php endif; ?>
             </span>
-            <div class="w-full bg-white">
-                <table class="table-auto border-collapse border border-gray-900 text-[13px] sm:text-[16px] text-center max-w-full" >
+            <div class="w-full bg-white flex flex-col gap-5 justify-center items-center p-5 rounded-b-lg">
+                <table class="w-full table-auto border-collapse border border-gray-900 text-[13px] sm:text-[16px] text-center max-w-full" >
                     <thead>
                         <tr class="bg-gray-200">
                             <th class="p-2">ID</th>
@@ -91,16 +97,128 @@
                             <td class="p-2"><?= ($product['category_id'] == 1) ? 'moda' : (($product['category_id'] == 2) ? 'comida' : (($product['category_id'] == 3) ? 'tecnología' : 'otros' )) ?>
                             </td>
                             <td class="p-2 flex flex-col gap-3 sm:flex-row justify-center"> 
-                                <a href="/page/product_profile/?id=<?= $product['id'] ?>"><button class="p-[2px] sm:px-3 border-2 border-violet-800 text-violet-800 rounded-md font-bold duration-300 hover:bg-gray-200">Editar</button></a>
-                                <button class="p-[2px] sm:px-3 bg-violet-800 text-white rounded-md font-bold duration-300 hover:bg-violet-600 btn-delete" onclick="deleteElement(<?= $product['id'] ?>)">Eliminar</button> 
+                                <a href="/page/product_profile/?id=<?= $product['id'] ?>"><button class="p-[2px] sm:px-3 border-2 border-violet-800 text-violet-800 rounded-md font-bold duration-300 hover:bg-gray-200"><i class="fa-solid fa-pen-to-square"></i></button></a>
+                                <button class="p-[2px] sm:px-3 bg-violet-800 text-white rounded-md font-bold duration-300 hover:bg-violet-600 btn-delete" onclick="deleteElement(<?= $product['id'] ?>)"><i class="fa-solid fa-trash-can"></i></button> 
                             </td>
                         </tr>
                         <?php endforeach; ?>
                     </tbody>
                 </table>
+                <div>
+                    <ul class="inline-flex -space-x-px text-sm">
+                        <?php if ($products['page'] > 1): ?>
+                        <li>
+                            <a href="/page/user_profile/<?= '?id='.$user->user_id.'&page='.$products['page'] - 1 ?>" class="flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-gray-50 border border-gray-500 rounded-s-lg hover:bg-gray-100 hover:text-gray-700">Previous</a>
+                        </li>
+                        <?php else: ?>
+                        <li>
+                            <span class="flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-gray-50 border border-gray-500 rounded-s-lg cursor-not-allowed opacity-50">Previous</span>
+                        </li>
+                        <?php endif; ?>
+
+                        <?php for ($i = 1; $i <= $products['pages']; $i++): ?>
+                        <li>
+                            <a href="/page/user_profile/<?= '?id='.$user->user_id.'&page='.$i ?>" class=" flex items-center justify-center px-3 h-8 leading-tight border border-gray-500 duration-300 <?= $i == $products['page'] ? 'text-black bg-gray-300 font-semibold hover:bg-slate-700 hover:text-white' : 'text-gray-500 bg-gray-50 hover:bg-gray-300 hover:text-gray-700' ?>"><?= $i ?></a>
+                        </li>
+                        <?php endfor; ?>
+
+                        <?php if ($products['page'] < $products['pages']): ?>
+                        <li>
+                            <a href="/page/user_profile/<?= '?id='.$user->user_id.'&page='.$products['page'] + 1 ?>" class="flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-gray-50 border border-gray-500 rounded-e-lg hover:bg-gray-100 hover:text-gray-700">Next</a>
+                        </li>
+                        <?php else: ?>
+                        <li>
+                            <span class="flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-gray-50 border border-gray-500 rounded-e-lg cursor-not-allowed opacity-50">Next</span>
+                        </li>
+                        <?php endif; ?>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <?php endif; ?>
+
+        <div class="fixed inset-0 hidden z-50" id="modal">
+            <div id="modalBackground" class="fixed inset-0 bg-black bg-opacity-40" onclick="toggleModal()"></div>
+            <div id="myModal" class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 flex items-center justify-center ">
+                <div class="w-full md:w-auto md:max-w-full md:min-w-[500px] bg-white p-5 rounded-md">
+                    <span class="flex justify-between items-center">
+                        <span class="text-lg font-bold">Nuevo Objeto</span>
+                        <button id="closeModalButton" class="text-gray-500 hover:text-gray-700"  onclick="toggleModal()">
+                            <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                            </svg>
+                        </button>
+                    </span>
+                    <form id="new-product-form" class="flex flex-col gap-4">
+                        <input type="hidden" id="user_id" value="<?= $user->user_id ?>">
+
+                        <div class="flex flex-col gap-1">
+                            <label for="name" class="text-md font-medium text-gray-700">Nombre:</label>
+                            <input type="text" id="name" class="w-full border rounded-lg py-1 px-3" required>
+                        </div> 
+
+                        <div class="flex flex-col gap-1">
+                            <label for="description" class="text-md font-medium text-gray-700">Descripción:</label>
+                            <textarea id="description" class="w-full h-24 resize-none border rounded-lg py-1 px-3" required></textarea>
+                        </div>
+
+                        <div class="flex flex-col gap-1">
+                            <label for="price" class="text-md font-medium text-gray-700">Precio:</label>
+                            <input type="text" id="price" class="w-full border rounded-lg py-1 px-3" required>
+                        </div>
+
+                        <div class="flex flex-col gap-1">
+                            <label for="stock" class="text-md font-medium text-gray-700">Stock:</label>
+                            <input type="text" id="stock" class="w-full border rounded-lg py-1 px-3" required>
+                        </div>
+
+                        <div class="flex flex-col gap-1">
+                            <label for="category" class="text-md font-medium text-gray-700">Categoría:</label>
+                            <select name="category" id="category" class="w-full border rounded-lg py-1 px-3" required>
+                                <option value="1">Moda</option>
+                                <option value="2">Comida</option>
+                                <option value="3">Tecnología</option>
+                                <option value="4">Otros</option>
+                            </select>
+                        </div>
+
+                        <div class="flex flex-col gap-1">
+                            <label for="state" class="text-md font-medium text-gray-700">Estado:</label>
+                            <select name="state" id="state" class="w-full border rounded-lg py-1 px-3" required>
+                                <option value="public">Public</option>
+                                <option value="private">Private</option>
+                            </select>
+                        </div>
+
+                        <button type="submit" id="btn-submit" name="submit" class="bg-violet-800 text-white py-2 px-4 rounded-md mt-auto w-max font-bold">Subir</button>
+                    </form>
+                    
+                </div>
             </div>
         </div>
     </main>
+    <script>
+        function toggleModal() {
+            document.getElementById('modal').classList.toggle('hidden');
+        }
+        function deleteElement(idProducto) {
+            fetch('/product/delete', {
+            method: 'POST',
+            body: JSON.stringify({'id' : idProducto}),
+            })
+            .then(Response => Response.json())
+            .then(Data => {
+                console.log(Data);
+                if (Data.success) {
+                    alert(Data.message)
+                    window.location = '/page/user_profile/?id=<?= $user -> user_id; ?>';
+                } else {
+                    alert(Data.message)
+                }
+
+            });
+        }        
+    </script>
     <script src="/public/js/user_profile.js"></script>
 </body>
 </html>

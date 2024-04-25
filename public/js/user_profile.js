@@ -1,11 +1,7 @@
-const logoutButton = document.getElementById('btn-logout');
 const editButton = document.getElementById('btn-edit');
-const submitButton = document.getElementById('btn-submit');
-const userProfileForm = document.getElementById('user_profile');
-const inputs = document.querySelectorAll('input[disabled]');
 let editable = false;
 
-logoutButton.addEventListener('click', () => {
+document.getElementById('btn-logout').addEventListener('click', () => {
     if (confirm('¿Estás seguro que quieres cerrar sesión?')) {
         fetch('/user/log_out')
         .then(response => response.json())
@@ -24,9 +20,9 @@ editButton.addEventListener('click', (e) => {
     e.preventDefault();
     if (!editable){
         editButton.innerHTML = 'Cancelar';
-        submitButton.classList.toggle('hidden');
+        document.getElementById('btn-submit').classList.toggle('hidden');
         document.getElementById('image').classList.toggle('hidden');
-        inputs.forEach(input => {
+        document.querySelectorAll('input[disabled]').forEach(input => {
             input.disabled = editable;
         })
         editable = !editable    
@@ -39,9 +35,14 @@ editButton.addEventListener('click', (e) => {
     }
 })
 
-userProfileForm.addEventListener('submit', (e) => {
+document.getElementById('user_profile').addEventListener('submit', (e) => {
     e.preventDefault();
     UpdateProfile();
+})
+
+document.getElementById('new-product-form').addEventListener('submit', (e) => {
+    e.preventDefault();
+    newProduct();
 })
 
 async function UpdateProfile() {
@@ -71,4 +72,32 @@ async function UpdateProfile() {
     })
 
 }
+
+async function newProduct() {
+    let product = new FormData();
+
+    product.append('user_id', parseInt(document.getElementById('user_id').value));
+    product.append('name', document.getElementById('name').value);
+    product.append('description', document.getElementById('description').value);
+    product.append('price', parseFloat(document.getElementById('price').value));
+    product.append('stock', parseInt(document.getElementById('stock').value));
+    product.append('category_id', parseInt(document.getElementById('category').value));
+    product.append('state', document.getElementById('state').value);
+    product.append('image', '/public/images/products/nf.jpg');
+    product.append('calification', '0');
+
+    await fetch('/product/create', {
+        method: 'POST',
+        body: product
+    })
+    .then(response => response.json())
+    .then(data => {
+        alert(data.message);
+        if (data.success) {
+            window.location.reload();
+        }
+    })
+
+}
+
 

@@ -61,8 +61,8 @@
                             <td class="p-2"><?= $user['role_id'] == 3 ? 'Adminstrador' : ($user['role_id'] == 2 ? 'Vendedor' : 'Usuario'); ?></td>
                             <td class="p-2 hidden xl:table-cell"><?= $user['account_type'] == 2 ? 'Premium' : 'Normal'; ?></td>
                             <td class="p-2 flex flex-col gap-3 sm:flex-row justify-center"> 
-                                <a href="/page/user_profile/?id=<?= $user['user_id'] ?>"> <button class="p-[2px] sm:px-3 border-2 border-violet-800 text-violet-800 rounded-md font-bold duration-300 hover:bg-gray-200">Editar</button> </a>
-                                <button class="p-[2px] sm:px-3 bg-violet-800 text-white rounded-md font-bold duration-300 hover:bg-violet-600" id="btn-delete" onclick="deleteElement(<?= $user['user_id'] ?>)">Eliminar</button> 
+                                <a href="/page/user_profile/?id=<?= $user['user_id'] ?>"> <button class="p-[2px] sm:px-3 border-2 border-violet-800 text-violet-800 rounded-md font-bold duration-300 hover:bg-gray-200"><i class="fa-solid fa-pen-to-square"></i></button> </a>
+                                <button class="p-[2px] sm:px-3 bg-violet-800 text-white rounded-md font-bold duration-300 hover:bg-violet-600" id="btn-delete" onclick="deleteElement(<?= $user['user_id'] ?>)"><i class="fa-solid fa-trash-can"></i></button> 
                             </td>
                         </tr>
                         <?php endforeach; ?>

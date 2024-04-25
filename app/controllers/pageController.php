@@ -26,6 +26,8 @@ class PageController {
     public function user_profile() {
         $id = isset($_GET['id']) ? $_GET['id'] : $_SESSION['user_id'] ; 
         $user = $this -> userModel -> getById( $id );
+        $page = isset($_GET['page']) ? $_GET['page'] : 1; 
+        $products = $this -> productModel -> getBySeller($page, 5, $id);
         require_once(__DIR__. "/../views/profile/user.view.php");
     }
 
@@ -34,10 +36,6 @@ class PageController {
         require_once(__DIR__. "/../views/profile/product.view.php");
     }
 
-    public function user_products() {
-        $user = $this -> userModel -> getById( $_GET['id'] );
-        require_once(__DIR__ . "/../views/profile/user_products.view.php");
-    }
     public function dashboard_users() {
         $page = isset($_GET['page']) ? $_GET['page'] : 1; 
         $users = $this -> userModel -> paginate($page, 5);

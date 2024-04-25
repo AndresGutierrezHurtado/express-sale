@@ -14,6 +14,12 @@ class ProductController {
         $products = $this -> productModel -> getAll();
     }
 
+    public function create(){
+        $result = $this -> productModel -> insert($_POST);
+        
+        echo json_encode($result);
+    }
+
     public function update() {
         if (!empty($_FILES['image']['name'])) {
             $product_id = $_POST['id'];
