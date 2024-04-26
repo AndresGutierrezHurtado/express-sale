@@ -8,7 +8,7 @@ class Product extends Orm{
     public function getBySeller($page, $limit, $id) {
         $offset = ($page - 1) * $limit;
         $rows = $this->db->query("SELECT COUNT(*) FROM $this->table WHERE user_id = $id") -> fetch_column();
-        $query = "SELECT * FROM $this->table LIMIT {$offset}, {$limit}";
+        $query = "SELECT * FROM $this->table WHERE user_id=$id LIMIT {$offset}, {$limit}";
         $result = $this->db->query($query);
 
         $pages  = ceil($rows / $limit);

@@ -12,8 +12,9 @@ class PageController {
         require_once(__DIR__ . "/../views/home/home.view.php");
     }  
     public function products(){
-        $page = isset($_GET['page']) ? $_GET['page'] : 1; 
-        $products = $this -> productModel -> paginate($page, 5);      
+        $page = isset($_GET['page']) ? $_GET['page'] : 1;
+        $products = $this -> productModel -> paginate($page, 5);
+        $users = $this -> userModel -> getAll();
         require_once(__DIR__ . "/../views/products/products.view.php");
     }
     public function login(){
@@ -26,9 +27,13 @@ class PageController {
     public function user_profile() {
         $id = isset($_GET['id']) ? $_GET['id'] : $_SESSION['user_id'] ; 
         $user = $this -> userModel -> getById( $id );
-        $page = isset($_GET['page']) ? $_GET['page'] : 1; 
+        $page = isset($_GET['page']) ? $_GET['page'] : 1;
         $products = $this -> productModel -> getBySeller($page, 5, $id);
         require_once(__DIR__. "/../views/profile/user.view.php");
+    }
+
+    public function user_cart() {
+        require_once(__DIR__ . "/../views/profile/cart.view.php");
     }
 
     public function product_profile() {
@@ -47,6 +52,7 @@ class PageController {
         $page = isset($_GET['page']) ? $_GET['page'] : 1; 
         $products = $this -> productModel -> paginate($page, 5);
         $user_sesion = $this -> userModel -> getById($_SESSION['user_id']);
+        $users = $this -> userModel -> getAll();
         require_once(__DIR__ . "/../views/admin/dashboard_products.view.php");
     }
 }

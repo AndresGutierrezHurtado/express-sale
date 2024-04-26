@@ -1,3 +1,13 @@
+<?php
+function findUserById($users, $id) {
+    foreach ($users as $user) {
+        if ($user["user_id"] === $id) {
+            return $user['username'];
+        }
+    }
+    return null;
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -16,7 +26,7 @@
             <span class="w-full flex flex-col sm:flex-row gap-4 justify-between">
                 <div class="flex flex-col text-center sm:text-start">
                     <h2 class="text-2xl font-bold tracking-tight">Productos</h2>
-                    <p><?= count($products) ?> resultados</p>
+                    <p><?= $products['rows'] ?> resultados</p>
                 </div>
                 <div class="flex">
                     <p>ordenar por</p>
@@ -111,10 +121,11 @@
                                                 for ($i = (int)$product['calification']; $i < 5; $i++) {
                                                     echo "<i class=\"fa-regular fa-star\"></i>";
                                                 }
-                                            ?>
+                                                ?>
                                         </span>
                                         <p class="opacity-[0.4]">(101)</p>
                                     </span>
+                                    <p class="italic text-black/[0.6] text-md"><?= findUserById($users, $product['user_id']) ?></p>
                                 </div>
                                 <p><?= $product['description']; ?></p>
                                 <h3 class="font-medium text-xl"><?= number_format($product['price']); ?> COP</h3>

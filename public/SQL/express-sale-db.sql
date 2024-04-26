@@ -11,14 +11,16 @@ CREATE TABLE `users` (
     `address` VARCHAR(255),
     `image` VARCHAR(100),
     `password` TEXT NOT NULL,
-    `account_type` INT,
     `role_id` INT NOT NULL
 );
 
-INSERT INTO `users` (`user_id`,`full_name`, `email`, `username`, `phone_number`, `address`, `image`, `password`, `account_type`, `role_id`) VALUES 
-(1, 'Andrés Gutiérrez Hurtado', 'andres52885241@gmail.com', 'Andrés_Gutiérrez', 3209202177, 'Dg 68 D sur 70C 31', '/public/images/users/nf.jpg', '1234', 2, 3),
-(2, 'David Fernando Diaz Niausa', 'davidfernandodiazniausa@gmail.com', 'David_Diaz', 3209998877, 'Usme', '/public/images/users/nf.jpg', '1234', 2, 2 ),
-(3, 'Jaider Harley Rondón Herrera', 'jaiderrondonherrera@gmail.com', 'Jaider_Rondon', 3209998877, 'Usme', '/public/images/users/nf.jpg', '1234', 2, 1 );
+INSERT INTO `users` (`user_id`,`full_name`, `email`, `username`, `phone_number`, `address`, `image`, `password`, `role_id`) VALUES 
+(1, 'Express Sale', 'express_sale@gmail.com', 'Express_Sale', 1231231212, 'Bogotá', '/public/images/logo.png', '1234', 3),
+(2, 'Andrés Gutiérrez Hurtado', 'andres52885241@gmail.com', 'Andres_Gutierrez', 3209202177, 'Dg 68 D sur 70C 31', '/public/images/users/1.jpg', '1234', 2),
+(3, 'David Fernando Diaz Niausa', 'davidfernandodiazniausa@gmail.com', 'David_Diaz', 1231231212, 'Usme', '/public/images/users/nf.jpg', '1234', 2 ),
+(4, 'Jaider Harley Rondón Herrera', 'rondonjaider@gmail.com', 'Jaider_Rondon', 1231231212, 'Usme', '/public/images/users/nf.jpg', '1234', 2 ),
+(5, 'Juan Sebastian Bernal Gamboa', 'juansebastianbernalgamboa@gmail.com', 'Juan_Sebastian', 1231231212, 'Usme', '/public/images/users/nf.jpg', '1234', 2 ),
+(6, 'Wendy Alejandra Navarro Arias', 'nwendy798@gmail.com', 'Wendy_Navarro', 3044462452, 'El ensueño', '/public/images/users/nf.jpg', '1234', 1 );
 
 -- Create products table with seller_id
 CREATE TABLE `products` (
@@ -35,18 +37,18 @@ CREATE TABLE `products` (
 );
 
 INSERT INTO `products` (`name`, `description`, `price`, `stock`, `image`, `category_id`, `calification`, `user_id`, `state`) VALUES 
-    ('Camiseta Polo Ralph Lauren', 'Camiseta clásica de Polo Ralph Lauren, fabricada con algodón suave y con el icónico logo del jugador de polo bordado en el pecho.', 189900, 50, '/public/images/products/nf.jpg', 1, 4.5, 2, 'public'),
-    ('Pantalones Vaqueros Levi\'s 501', 'Los legendarios pantalones vaqueros Levi\'s 501 ofrecen un ajuste clásico y duradero con un estilo atemporal que nunca pasa de moda.', 229900, 100, '/public/images/products/nf.jpg', 1, 4.7, 2, 'public'), 
-    ('Zapatos Deportivos Nike Air Force 1', 'Los icónicos zapatos deportivos Nike Air Force 1 combinan comodidad y estilo con su diseño clásico y su suela Air-Sole para una amortiguación excepcional.', 289900, 30, '/public/images/products/nf.jpg', 1, 4.8, 2, 'public'),
-    ('Pizza Hawaiana Grande', 'Disfruta de una deliciosa pizza hawaiana grande con piña, jamón y salsa de tomate casera. Perfecta para compartir con amigos y familiares.', 34900, 20, '/public/images/products/nf.jpg', 2, 4.3, 2, 'public'), 
-    ('Hamburguesa Angus con Papas Fritas', 'Una jugosa hamburguesa Angus servida con pan recién horneado, acompañada de crujientes papas fritas. Una opción clásica para satisfacer tu antojo.', 26900, 10, '/public/images/products/nf.jpg', 2, 4.9, 2, 'public'),
-    ('Sushi Variado para Dos Personas', 'Disfruta de una variedad de sushi fresco, incluyendo rollos de salmón, atún y aguacate, junto con nigiri de camarón y pulpo. Ideal para una cena romántica o una comida entre amigos.', 59900, 15, '/public/images/products/nf.jpg', 2, 4.6, 2, 'public'),
-    ('Samsung Galaxy A52', 'El Samsung Galaxy A52 ofrece un rendimiento excepcional con su procesador rápido, una pantalla Super AMOLED vibrante y una potente cámara cuádruple para capturar cada momento.', 1599900, 50, '/public/images/products/nf.jpg', 3, 4.5, 2, 'public'),
-    ('Apple Watch Series 7', 'El Apple Watch Series 7 te ayuda a mantener un estilo de vida activo y conectado con funciones avanzadas de salud, una pantalla más grande y una duración de la batería mejorada.', 1799900, 30, '/public/images/products/nf.jpg', 3, 4.7, 2, 'public'), 
-    ('Laptop HP Pavilion 15', 'La laptop HP Pavilion 15 combina rendimiento y portabilidad con un diseño elegante y especificaciones potentes, ideal para trabajar, estudiar o disfrutar del entretenimiento multimedia.', 2499900, 20, '/public/images/products/nf.jpg', 3, 4.8, 2, 'public'),
-    ('Lámpara de Escritorio LED', 'Esta lámpara de escritorio LED ofrece iluminación ajustable con diferentes modos de luz para adaptarse a tus necesidades de lectura, trabajo o relajación.', 89900, 20, '/public/images/products/nf.jpg', 4, 4.3, 2, 'public'), 
-    ('Termo Stanley de Acero Inoxidable', 'El termo Stanley de acero inoxidable mantiene tus bebidas calientes o frías durante horas, perfecto para llevar café, té o agua mientras estás en movimiento.', 189900, 10, '/public/images/products/nf.jpg', 4, 4.9, 2, 'public'),
-    ('Mochila Táctica Militar', 'Esta mochila táctica militar está diseñada para resistir condiciones extremas y ofrece amplio espacio de almacenamiento para tus aventuras al aire libre o tus desplazamientos diarios.', 169900, 15, '/public/images/products/nf.jpg', 4, 4.6, 2, 'public');
+    ('Nike Air Jordan 1', 'Las icónicas zapatillas Nike Air Jordan 1 son un clásico atemporal en el mundo de la moda urbana, conocidas por su estilo y comodidad.', 289900, 7, '/public/images/products/nf.jpg', 1, 4.5, 3, 'public'), -- David
+    ('Cadena Cubana de Plata', 'Una cadena cubana de plata es un accesorio clásico y llamativo que puede complementar cualquier atuendo, ya sea casual o más elegante.', 24900, 10, '/public/images/products/nf.jpg', 1, 4.8, 3, 'public'), -- David
+    ('Casio G-Shock GA-2100', 'El reloj Casio G-Shock GA-2100 es conocido por su resistencia y estilo, con características como resistencia a golpes, al agua y un diseño moderno y elegante.', 224000, 9, '/public/images/products/nf.jpg', 1, 4.8, 3, 'public'), -- David
+    ('iPhone 13 Pro', 'El iPhone 13 Pro es el último modelo de Apple que combina un diseño elegante con un rendimiento potente y cámaras avanzadas para capturar imágenes impresionantes.', 2100000, 10, '/public/images/products/nf.jpg', 3, 4.5, 4, 'public'), -- Jaider
+    ('Xbox Series X', 'La Xbox Series X ofrece potencia de próxima generación, velocidades de carga ultrarrápidas y una amplia biblioteca de juegos para una experiencia de juego inigualable.', 3599900, 5, '/public/images/products/nf.jpg', 3, 4.5, 4, 'public'), -- Jaider
+    ('PlayStation 5', 'La PlayStation 5 es la consola de última generación de Sony, que ofrece gráficos impresionantes, carga ultrarrápida y una amplia variedad de juegos exclusivos.', 4599900, 7, '/public/images/products/nf.jpg', 3, 4.8, 4, 'public'), -- Jaider
+    ('Galletas Oreo', 'Las deliciosas galletas Oreo, con su crujiente galleta y su cremoso relleno de vainilla, son un clásico de la merienda que gusta a niños y adultos por igual.', 26900, 46, '/public/images/products/nf.jpg', 2, 4.9, 5, 'public'), -- Juan Sebastian
+    ('Nutella', 'La crema de avellanas Nutella, con su textura suave y su sabor dulce, es un imprescindible en el desayuno de millones de personas en todo el mundo.', 7000, 28, '/public/images/products/nf.jpg', 2, 4.6, 5, 'public'), -- Juan Sebastian
+    ('KitKat', 'El delicioso chocolate KitKat, con sus característicos barquillos y su irresistible sabor, es el snack perfecto para disfrutar en cualquier momento del día.', 4000, 34, '/public/images/products/nf.jpg', 2, 4.9, 5, 'public'), -- Juan Sebastian
+    ('Mancuernas Ajustables', 'Un par de mancuernas ajustables con diferentes pesos, perfectas para entrenamiento de fuerza en casa o en el gimnasio.', 89900, 10, '/public/images/products/nf.jpg', 4, 4.7, 2, 'public'), -- Andrés
+    ('Proteína en Polvo', 'Suplemento de proteína en polvo de alta calidad, ideal para la recuperación muscular y el crecimiento después del entrenamiento.', 59900, 15, '/public/images/products/nf.jpg', 4, 4.5, 2, 'public'), -- Andrés
+    ('Rubik`s Cube', 'El clásico cubo de Rubik, con su diseño de colores vivos y su desafiante mecánica, es uno de los rompecabezas más populares y reconocidos del mundo.', 15000, 20, '/public/images/products/nf.jpg', 4, 4.3, 2, 'public'); -- Andrés
 
 
 -- Create sales table

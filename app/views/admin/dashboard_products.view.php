@@ -1,3 +1,13 @@
+<?php
+function findUserById($users, $id) {
+    foreach ($users as $user) {
+        if ($user["user_id"] === $id) {
+            return $user['username'];
+        }
+    }
+    return null;
+}
+?>
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -15,21 +25,16 @@
                 <span class="w-full flex flex justify-between items-center">
                     <div class="flex gap-4">
                         <div class="relative">
-                            <button class="text-lg rounded-full bg-slate-900 size-[35px]"><i class="fa-solid fa-arrow-down-wide-short" onclick="sortToggle()"></i></button>
+                            <button class="text-lg rounded-full bg-slate-900 size-[35px]"><i class="fa-solid fa-arrow-down-wide-short"></i></button>
                             <div class="absolute top-[120%] left-1/2 transform -translate-x-1/2 bg-white flex flex-col rounded-md min-w-[150px] overflow-hidden hidden"  id="list-sort">
                                 <h1 class="text-black text-md uppercase font-bold tracking-tight upercase p-1 px-3">Ordernar por:</h1>
-                                <a href="/page/dashboard_users/?sort=user_id" class="text-black duraton-300 hover:bg-gray-200 p-1 px-3 cursor-pointer">Id</a>
-                                <a href="/page/dashboard_users/?sort=username" class="text-black duraton-300 hover:bg-gray-200 p-1 px-3 cursor-pointer">Usuarios</a>
-                                <a href="/page/dashboard_users/?sort=full_name" class="text-black duraton-300 hover:bg-gray-200 p-1 px-3 cursor-pointer">Nombres</a>
-                                <a href="/page/dashboard_users/?sort=email" class="text-black duraton-300 hover:bg-gray-200 p-1 px-3 cursor-pointer">Correo</a>
-                                <a href="/page/dashboard_users/?sort=account_type" class="text-black duraton-300 hover:bg-gray-200 p-1 px-3 cursor-pointer">Cuenta</a>
-                                <a href="/page/dashboard_users/?sort=role_id" class="text-black duraton-300 hover:bg-gray-200 p-1 px-3 cursor-pointer">Rol</a>
+                                <a href="/page/dashboard_users/" class="text-black duraton-300 hover:bg-gray-200 p-1 px-3 cursor-pointer">Id</a>
                             </div>
                         </div>
                         <input type="text" class="bg-slate-600 rounded-full max-w-[150px] sm:min-w-[200px] lg:min-w-[300px] px-5 " placeholder="Buscar...">
                     </div>
-                    <a href="/page/user_profile" class="w-[80px] rounded-full overflow-hidden">
-                        <img src="<?= $user_sesion -> image ?>" alt="profile" class="object-cover">
+                    <a href="/page/user_profile" class="w-[80px] rounded-full flex justify-center items-center overflow-hidden">
+                        <img src="<?= $user_sesion -> image ?>" alt="profile" class="">
                     </a>
                 </span>
                 <span class="flex flex-col text-center items-center">
@@ -57,7 +62,8 @@
                             <th class="p-2 hidden lg:table-cell">Nombre</th>
                             <th class="p-2">Precio</th>
                             <th class="p-2 hidden sm:table-cell">Stock</th>
-                            <th class="p-2">Categoría</th>                            
+                            <th class="p-2">Vendedor</th>
+                            <th class="p-2">Categoría</th>
                             <th class="p-2">Acciones</th>
                         </tr>
                     </thead>
@@ -68,6 +74,7 @@
                             <td class="p-2 hidden lg:table-cell"><?= $product['name']; ?></td>
                             <td class="p-2"><?= number_format($product['price']); ?> COP</td>
                             <td class="p-2 hidden sm:table-cell"><?= $product['stock']; ?></td>
+                            <td class="p-2 "> <?= findUserById($users, $product['user_id']) ?></td>
                             <td class="p-2"><?= ($product['category_id'] == 1) ? 'moda' : (($product['category_id'] == 2) ? 'comida' : (($product['category_id'] == 3) ? 'tecnología' : 'otros' )) ?>
                             </td>
                             <td class="p-2 flex flex-col gap-3 sm:flex-row justify-center"> 
@@ -79,7 +86,7 @@
                     </tbody>
                 </table>
                 <span class="pb-1 pt-4 border-b flex flex-col md:flex-row justify-between items-center">
-                    <p>Viendo <strong><?= $products['limit'] ?></strong> de <strong><?= $products['rows'] ?></strong> </p>
+                    <p>Viendo <strong><?= count($products['data']) ?></strong> de <strong><?= $products['rows'] ?></strong> </p>
                     <div>
                         <ul class="inline-flex -space-x-px text-sm">
                             <?php if ($products['page'] > 1): ?>

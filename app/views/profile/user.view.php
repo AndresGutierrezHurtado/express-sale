@@ -51,7 +51,7 @@
                     <input type="number" id="phone_number" name="phone_number" value="<?= $user->phone_number; ?>" class="w-full border rounded-lg py-1 px-3" disabled>
                 </div>
 
-                <label for="account_type" class="">Tipo de Cuenta: <strong> <?= $user -> role_id == 3 ? 'Adminstrador' : ($user -> role_id  == 2 ? 'Vendedor' : 'Usuario'); ?> / <?= ($user->account_type == 1) ? 'Normal' : 'Premium' ?></strong></label>
+                <label for="account_type" class="">Tipo de Cuenta: <strong> <?= $user -> role_id == 3 ? 'Adminstrador' : ($user -> role_id  == 2 ? 'Vendedor' : 'Usuario'); ?> </strong></label>
                 
                 <span class="w-full flex justify-between items-center">
                     <div>
@@ -105,33 +105,33 @@
                     </tbody>
                 </table>
                 <div>
-                    <ul class="inline-flex -space-x-px text-sm">
-                        <?php if ($products['page'] > 1): ?>
+                <ul class="inline-flex -space-x-px text-sm">
+                    <?php if ($products['page'] > 1): ?>
                         <li>
-                            <a href="/page/user_profile/<?= '?id='.$user->user_id.'&page='.$products['page'] - 1 ?>" class="flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-gray-50 border border-gray-500 rounded-s-lg hover:bg-gray-100 hover:text-gray-700">Previous</a>
+                            <a href="/page/user_profile/?id=<?= $user->user_id ?>&page=<?= $products['page'] - 1 ?>" class="flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-gray-50 border border-gray-500 rounded-s-lg hover:bg-gray-100 hover:text-gray-700">Previous</a>
                         </li>
-                        <?php else: ?>
+                    <?php else: ?>
                         <li>
                             <span class="flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-gray-50 border border-gray-500 rounded-s-lg cursor-not-allowed opacity-50">Previous</span>
                         </li>
-                        <?php endif; ?>
+                    <?php endif; ?>
 
-                        <?php for ($i = 1; $i <= $products['pages']; $i++): ?>
+                    <?php for ($i = 1; $i <= $products['pages']; $i++): ?>
                         <li>
-                            <a href="/page/user_profile/<?= '?id='.$user->user_id.'&page='.$i ?>" class=" flex items-center justify-center px-3 h-8 leading-tight border border-gray-500 duration-300 <?= $i == $products['page'] ? 'text-black bg-gray-300 font-semibold hover:bg-slate-700 hover:text-white' : 'text-gray-500 bg-gray-50 hover:bg-gray-300 hover:text-gray-700' ?>"><?= $i ?></a>
+                            <a href="/page/user_profile/?id=<?= $user->user_id ?>&page=<?= $i ?>" class="flex items-center justify-center px-3 h-8 leading-tight border border-gray-500 duration-300 <?= $i == $products['page'] ? 'text-black bg-gray-300 font-semibold hover:bg-slate-700 hover:text-white' : 'text-gray-500 bg-gray-50 hover:bg-gray-300 hover:text-gray-700' ?>"><?= $i ?></a>
                         </li>
-                        <?php endfor; ?>
+                    <?php endfor; ?>
 
-                        <?php if ($products['page'] < $products['pages']): ?>
+                    <?php if ($products['page'] < $products['pages']): ?>
                         <li>
-                            <a href="/page/user_profile/<?= '?id='.$user->user_id.'&page='.$products['page'] + 1 ?>" class="flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-gray-50 border border-gray-500 rounded-e-lg hover:bg-gray-100 hover:text-gray-700">Next</a>
+                            <a href="/page/user_profile/?id=<?= $user->user_id ?>&page=<?= $products['page'] + 1 ?>" class="flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-gray-50 border border-gray-500 rounded-e-lg hover:bg-gray-100 hover:text-gray-700">Next</a>
                         </li>
-                        <?php else: ?>
+                    <?php else: ?>
                         <li>
                             <span class="flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-gray-50 border border-gray-500 rounded-e-lg cursor-not-allowed opacity-50">Next</span>
                         </li>
-                        <?php endif; ?>
-                    </ul>
+                    <?php endif; ?>
+                </ul>
                 </div>
             </div>
         </div>

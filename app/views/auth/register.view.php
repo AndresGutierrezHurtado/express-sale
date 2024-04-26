@@ -57,8 +57,8 @@
                         </div>
                     </div>
                     <div>
-                        <label for="accountType" class="block text-sm font-medium text-gray-700">Tipo de cuenta</label>
-                        <select id="accountType" name="accountType" required="" class="block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 placeholder-gray-400 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm">
+                        <label for="role_id" class="block text-sm font-medium text-gray-700">Tipo de cuenta</label>
+                        <select id="role_id" name="role_id" required="" class="block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 placeholder-gray-400 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm">
                             <option value="" disabled selected>Selecciona el tipo de cuenta</option>
                             <option value="1">Cliente</option>
                             <option value="2">Vendedor</option>
