@@ -13,7 +13,8 @@ class PageController {
     }  
     public function products(){
         $page = isset($_GET['page']) ? $_GET['page'] : 1;
-        $products = $this -> productModel -> paginate($page, 5);
+        $sort = isset($_GET['sort']) ? $_GET['sort'] : 'id';
+        $products = $this -> productModel -> paginate($page, 5, $sort);
         $all_products = $this -> productModel -> getAll();
         $users = $this -> userModel -> getAll();
         require_once(__DIR__ . "/../views/products/products.view.php");
@@ -44,14 +45,16 @@ class PageController {
 
     public function dashboard_users() {
         $page = isset($_GET['page']) ? $_GET['page'] : 1; 
-        $users = $this -> userModel -> paginate($page, 5);
+        $sort = isset($_GET['sort']) ? $_GET['sort'] : 'user_id';
+        $users = $this -> userModel -> paginate($page, 5, $sort);
         $user_sesion = $this -> userModel -> getById($_SESSION['user_id']);
         require_once(__DIR__ . "/../views/admin/dashboard_users.view.php");
     }
     
     public function dashboard_products() {
         $page = isset($_GET['page']) ? $_GET['page'] : 1; 
-        $products = $this -> productModel -> paginate($page, 5);
+        $sort = isset($_GET['sort']) ? $_GET['sort'] : 'id';
+        $products = $this -> productModel -> paginate($page, 5, $sort);
         $user_sesion = $this -> userModel -> getById($_SESSION['user_id']);
         $users = $this -> userModel -> getAll();
         require_once(__DIR__ . "/../views/admin/dashboard_products.view.php");

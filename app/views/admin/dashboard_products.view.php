@@ -7,6 +7,15 @@ function findUserById($users, $id) {
     }
     return null;
 }
+
+$filteredProducts = $products['data'];
+if (isset($_GET['search']) && !empty($_GET['search'])) {
+    $search = $_GET['search'];
+    $filteredProducts = array_filter($filteredProducts, function ($product) use ($search) {
+        return stripos($product['name'], $search) !== false ||
+               stripos($product['description'], $search) !== false;
+    });
+}
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -25,13 +34,24 @@ function findUserById($users, $id) {
                 <span class="w-full flex flex justify-between items-center">
                     <div class="flex gap-4">
                         <div class="relative">
-                            <button class="text-lg rounded-full bg-slate-900 size-[35px]"><i class="fa-solid fa-arrow-down-wide-short"></i></button>
-                            <div class="absolute top-[120%] left-1/2 transform -translate-x-1/2 bg-white flex flex-col rounded-md min-w-[150px] overflow-hidden hidden"  id="list-sort">
+                            <button class="text-lg rounded-full bg-slate-900 size-[35px]" onclick="toggleSortList()"><i class="fa-solid fa-arrow-down-wide-short"></i></button>
+                            <div class="absolute top-[120%] left-1/2 transform -translate-x-1/2 bg-white flex flex-col rounded-md min-w-[150px] overflow-hidden duration-200 opacity-0" id="list-sort">
                                 <h1 class="text-black text-md uppercase font-bold tracking-tight upercase p-1 px-3">Ordernar por:</h1>
-                                <a href="/page/dashboard_users/" class="text-black duraton-300 hover:bg-gray-200 p-1 px-3 cursor-pointer">Id</a>
+                                <a href="/page/dashboard_products/?sort=id" class="text-black duraton-300 hover:bg-gray-200 p-1 px-3 cursor-pointer">Id</a>
+                                <a href="/page/dashboard_products/?sort=name" class="text-black duraton-300 hover:bg-gray-200 p-1 px-3 cursor-pointer">Nombre</a>
+                                <a href="/page/dashboard_products/?sort=price" class="text-black duraton-300 hover:bg-gray-200 p-1 px-3 cursor-pointer">Precio</a>
+                                <a href="/page/dashboard_products/?sort=stock" class="text-black duraton-300 hover:bg-gray-200 p-1 px-3 cursor-pointer">Stock</a>
+                                <a href="/page/dashboard_products/?sort=user_id" class="text-black duraton-300 hover:bg-gray-200 p-1 px-3 cursor-pointer">Vendedor</a>
+                                <a href="/page/dashboard_products/?sort=category_id" class="text-black duraton-300 hover:bg-gray-200 p-1 px-3 cursor-pointer">Categoría</a>
                             </div>
                         </div>
-                        <input type="text" class="bg-slate-600 rounded-full max-w-[150px] sm:min-w-[200px] lg:min-w-[300px] px-5 " placeholder="Buscar...">
+                        <form action="/page/dashboard_products/" method="GET" class="flex gap-2">
+                            <?php if (isset($_GET['search']) && !empty($_GET['search'])) : ?>
+                                <a href="/page/dashboard_products/" class="fa-solid fa-arrows-rotate bg-slate-600 rounded-full size-[35px] flex items-center justify-center"></a>
+                            <?php endif; ?>
+                            <input type="text" name="search" class="bg-slate-600 rounded-full max-w-[150px] sm:min-w-[200px] lg:min-w-[300px] px-5" placeholder="Buscar...">
+                            <button type="submit" class="bg-slate-600 rounded-full size-[35px]"><i class="fa-solid fa-magnifying-glass text-[15px]"></i></button>
+                        </form>
                     </div>
                     <a href="/page/user_profile" class="w-[80px] rounded-full flex justify-center items-center overflow-hidden">
                         <img src="<?= $user_sesion -> image ?>" alt="profile" class="">
@@ -68,7 +88,7 @@ function findUserById($users, $id) {
                         </tr>
                     </thead>
                     <tbody>
-                        <?php foreach ($products['data'] as $product): ?>
+                        <?php foreach ((isset($_GET['search']) && !empty($_GET['search']) ? $filteredProducts : $products['data']) as $product): ?>
                         <tr>
                             <td class="p-2"><?= $product['id']; ?></td>
                             <td class="p-2 hidden lg:table-cell"><?= $product['name']; ?></td>
@@ -91,7 +111,7 @@ function findUserById($users, $id) {
                         <ul class="inline-flex -space-x-px text-sm">
                             <?php if ($products['page'] > 1): ?>
                             <li>
-                                <a href="/page/dashboard_products/?page=<?= $products['page'] - 1 ?>" class="flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-gray-50 border border-gray-500 rounded-s-lg hover:bg-gray-100 hover:text-gray-700">Previous</a>
+                                <a href="/page/dashboard_products/?page=<?= $products['page'] - 1 ?><?= isset($_GET['sort']) ? "&sort=".$_GET['sort'] : '' ?>" class="flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-gray-50 border border-gray-500 rounded-s-lg hover:bg-gray-100 hover:text-gray-700">Previous</a>
                             </li>
                             <?php else: ?>
                             <li>
@@ -101,13 +121,13 @@ function findUserById($users, $id) {
 
                             <?php for ($i = 1; $i <= $products['pages']; $i++): ?>
                             <li>
-                                <a href="/page/dashboard_products/?page=<?= $i ?>" class=" flex items-center justify-center px-3 h-8 leading-tight border border-gray-500 duration-300 <?= $i == $products['page'] ? 'text-black bg-gray-300 font-semibold hover:bg-slate-700 hover:text-white' : 'text-gray-500 bg-gray-50 hover:bg-gray-300 hover:text-gray-700' ?>"><?= $i ?></a>
+                                <a href="/page/dashboard_products/?page=<?= $i ?><?= isset($_GET['sort']) ? "&sort=".$_GET['sort'] : '' ?>" class=" flex items-center justify-center px-3 h-8 leading-tight border border-gray-500 duration-300 <?= $i == $products['page'] ? 'text-black bg-gray-300 font-semibold hover:bg-slate-700 hover:text-white' : 'text-gray-500 bg-gray-50 hover:bg-gray-300 hover:text-gray-700' ?>"><?= $i ?></a>
                             </li>
                             <?php endfor; ?>
 
                             <?php if ($products['page'] < $products['pages']): ?>
                             <li>
-                                <a href="/page/dashboard_products/?page=<?= $products['page'] + 1 ?>" class="flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-gray-50 border border-gray-500 rounded-e-lg hover:bg-gray-100 hover:text-gray-700">Next</a>
+                                <a href="/page/dashboard_products/?page=<?= $products['page'] + 1 ?><?= isset($_GET['sort']) ? "&sort=".$_GET['sort'] : '' ?>" class="flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-gray-50 border border-gray-500 rounded-e-lg hover:bg-gray-100 hover:text-gray-700">Next</a>
                             </li>
                             <?php else: ?>
                             <li>
@@ -124,6 +144,11 @@ function findUserById($users, $id) {
         </footer>
     </main>
     <script>
+        function toggleSortList() {
+            document.getElementById('list-sort').classList.toggle('opacity-0');
+            document.getElementById('list-sort').classList.toggle('opacity-100');
+        }
+
         function deleteElement(idProducto) {
             fetch('/product/delete', {
             method: 'POST',

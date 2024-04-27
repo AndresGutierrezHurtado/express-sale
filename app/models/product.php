@@ -22,4 +22,6 @@ class Product extends Orm{
             'rows' => $rows,
         ];
     }
+
+    
 }

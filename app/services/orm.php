@@ -82,10 +82,10 @@ class Orm {
         }
     }
 
-    public function paginate($page, $limit) {
+    public function paginate($page, $limit, $sort) {
         $offset = ($page - 1) * $limit;
         $rows = $this->db->query("SELECT COUNT(*) FROM $this->table") -> fetch_column();
-        $query = "SELECT * FROM $this->table LIMIT {$offset}, {$limit}";
+        $query = "SELECT * FROM $this->table ORDER BY $sort ASC LIMIT {$offset}, {$limit}";
         $result = $this->db->query($query);
 
         $pages  = ceil($rows / $limit);
