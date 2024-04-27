@@ -1,11 +1,14 @@
 <?php
 session_start();
+require_once (__DIR__ . "/../models/cart.php");
 class PageController {
     private $productModel;
     private $userModel;
+    private $cartModel;
     public function __construct(mysqli $conn) { 
         $this -> productModel = new Product($conn);
         $this -> userModel = new User($conn);
+        $this -> cartModel = new Cart();
     }
     
     public function home(){
@@ -52,6 +55,7 @@ class PageController {
     }
 
     public function user_cart() {
+        $cart = $this -> cartModel -> getAll();
         require_once(__DIR__ . "/../views/profile/cart.view.php");
     }
 

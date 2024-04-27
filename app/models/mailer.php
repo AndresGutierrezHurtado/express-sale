@@ -1,6 +1,5 @@
 <?php
 
-
 require (__DIR__ . '/../services/PHPMailer/src/Exception.php');
 require (__DIR__ . '/../services/PHPMailer/src/PHPMailer.php');
 require (__DIR__ . '/../services/PHPMailer/src/SMTP.php');

@@ -124,7 +124,7 @@ function buildQueryString($params) {
                                 </div>
                             </div>
                             <span class="w-2/12 flex items-center justify-center">
-                                <button class="rounded-full size-[60px] border-2 border-black"><i class="fa-solid fa-cart-plus text-2xl"></i></button>
+                                <button class="rounded-full size-[60px] border-2 border-black btn-add-cart"  data-id="<?= $product['id'] ?>" data-name="<?= $product['name'] ?>" data-price="<?= $product['price'] ?>" data-image="<?= $product['image'] ?>"><i class="fa-solid fa-cart-plus text-2xl"></i></button>
                             </span>
                         </article>
                     <?php endforeach; ?>
@@ -162,6 +162,7 @@ function buildQueryString($params) {
         </div>
     </section>
     <?php require_once(__DIR__ . "/../layout/footer.php") ?>
+    <script src="/public/js/cart.js"></script>
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             const sortSelect = document.getElementById('sort-select');
