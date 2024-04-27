@@ -7,9 +7,12 @@
                 <img src="/public/images/logo.png" alt="Logo navbar" class="max-h-[45px]">
                 <h2 class="font-sans text-xl">Express Sale</h2>
             </a>
-            <form class="hidden md:block w-5/12">
+            <form class="hidden md:block w-5/12" action="/page/products/" method="GET" >
                 <div class="flex justify-center">
-                    <input type="text" name="busqueda" placeholder="Buscar producto..." class="border rounded-l-xl border-gray-800 max-w-[500px] w-full p-1 px-3"> 
+                    <?php if (isset($_GET['search']) && !empty($_GET['search'])) : ?>
+                        <a href="/page/products/" class="fa-solid fa-arrows-rotate border border-gray-800 mr-2 rounded-full size-[35px] flex items-center justify-center"></a>
+                    <?php endif; ?>
+                    <input type="text" name="search" placeholder="Buscar producto..." class="border rounded-l-xl border-gray-800 max-w-[500px] w-full p-1 px-3"> 
                     <button class="border rounded-r-xl border-gray-800 bg-gray-800 text-white rounded-r-md p-1 px-3"><i class="fa-solid fa-magnifying-glass"></i></button>
                 </div>
             </form>

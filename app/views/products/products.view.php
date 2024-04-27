@@ -30,9 +30,10 @@ function findUserById($users, $id) {
                 </div>
                 <div class="flex">
                     <p>ordenar por</p>
-                    <select class="h-fit bg-transparent">
-                        <option value="destacados">Destacado</option>
-                        <option value="destacados">reciente</option>
+                    <select class="h-fit bg-transparent" id="sort-select" onchange="window.location = this.value">
+                        <option value="/page/products/?sort=calification" <?= isset($_GET['sort']) && $_GET['sort'] == 'calification' ? 'selected' : ''?>>Destacado</option>
+                        <option value="/page/products/?sort=date" <?= isset($_GET['sort']) && $_GET['sort'] == 'date' ? 'selected' : ''?>>Reciente</option>
+                        <option value="/page/products/?sort=price" <?= isset($_GET['sort']) && $_GET['sort'] == 'price' ? 'selected' : ''?>>Precio ascendente</option>
                     </select>
                 </div>
             </span>
@@ -40,15 +41,16 @@ function findUserById($users, $id) {
                 <aside class="w-full md:w-4/12 lg:w-3/12 h-fit bg-white flex flex-col gap-5 p-5 rounded-lg shadow-lg">
                     <h2 class="text-lg font-semibold">Filtrar Productos</h2>
                     <div class="flex flex-col gap-1">
-                        <label for="categoria" class="block text-sm font-medium text-gray-700">Categoría</label>
-                        <select id="categoria" name="categoria" class="w-full p-1 px-2 border rounded-md">
-                            <option value="">Todas</option>
-                            <option value="ropa">Ropa y calzado</option>
-                            <option value="comida">comida</option>
-                            <option value="electronica">Tecnología</option>
+                        <label for="categoria" class="block text-sm font-medium text-gray-700">Categorías</label>
+                        <select id="categoria" name="categoria" class="w-full p-1 px-2 border rounded-md" onchange="window.location = this.value">
+                            <option value="/page/products/">Todas</option>
+                            <option value="/page/products/?filter=category_id&value=1"<?= isset($_GET['filter']) && isset($_GET['value']) && $_GET['filter'] == 'category_id' && $_GET['value'] == '1' ? 'selected' : ''?>>Ropa y calzado</option>
+                            <option value="/page/products/?filter=category_id&value=2"<?= isset($_GET['filter']) && isset($_GET['value']) && $_GET['filter'] == 'category_id' && $_GET['value'] == '2' ? 'selected' : ''?>>comida</option>
+                            <option value="/page/products/?filter=category_id&value=3"<?= isset($_GET['filter']) && isset($_GET['value']) && $_GET['filter'] == 'category_id' && $_GET['value'] == '3' ? 'selected' : ''?>>Tecnología</option>
+                            <option value="/page/products/?filter=category_id&value=4"<?= isset($_GET['filter']) && isset($_GET['value']) && $_GET['filter'] == 'category_id' && $_GET['value'] == '4' ? 'selected' : ''?>>Otras</option>
                         </select>
                     </div>
-                    <div class="flex flex-col gap-1">
+                    <div class="flex flex-col gap-1 hidden">
                         <label for="costo-envio" class="block text-sm font-medium text-gray-700">Costo de envío</label>
                         <span class="flex gap-3">
                             <input type="checkbox" id="costo-envio"> 
@@ -58,23 +60,34 @@ function findUserById($users, $id) {
                     <div class="flex flex-col gap-1">
                         <label class="block text-sm font-medium text-gray-700">Precio</label>
                         <span class="flex gap-3">
-                            <input type="checkbox" id="costo-envio"> 
-                            <p>Hasta $ 45.000</p>
+                            <input type="radio" id="filtro-precios-cualquiera" name="precio" value="/page/products/" <?= isset($_GET['filter']) && $_GET['filter'] != 'price' || !isset($_GET['filter']) ? 'checked' : '' ?>>
+                            <label for="filtro-precios-cualquiera">Cualquiera</label>
                         </span>
                         <span class="flex gap-3">
-                            <input type="checkbox" id="costo-envio"> 
-                            <p>$65.000 a $100.000</p>
+                            <input type="radio" id="filtro-precios-hasta-45k" name="precio" <?= isset($_GET['filter']) && $_GET['filter'] === 'price' && isset($_GET['min']) && $_GET['min'] == 0 && isset($_GET['max']) && $_GET['max'] == 45000 ? 'checked' : '' ?> value="/page/products/?filter=price&min=0&max=45000">
+                            <label for="filtro-precios-hasta-45k">Hasta $ 45.000</label>
                         </span>
                         <span class="flex gap-3">
-                            <input type="checkbox" id="costo-envio"> 
-                            <p>Más de $100.000</p>
+                            <input type="radio" id="filtro-precios-65k-100k" name="precio" <?= isset($_GET['filter']) && $_GET['filter'] === 'price' && isset($_GET['min']) && $_GET['min'] == 65000 && isset($_GET['max']) && $_GET['max'] == 100000 ? 'checked' : '' ?> value="/page/products/?filter=price&min=65000&max=100000">
+                            <label for="filtro-precios-65k-100k">$65.000 a $100.000</label>
                         </span>
-                        <span class="flex gap-3 w-full">
-                            <input type="number" class="border p-1 px-2 w-1/2" placeholder="Desde...">
-                            <input type="number" class="border p-1 px-2 w-1/2" placeholder="Hasta">
+                        <span class="flex gap-3">
+                            <input type="radio" id="filtro-precios-mas-100k" name="precio" <?= isset($_GET['filter']) && $_GET['filter'] === 'price' && isset($_GET['min']) && $_GET['min'] == 100000 && isset($_GET['max']) && $_GET['max'] == 9999999 ? 'checked' : '' ?> value="/page/products/?filter=price&min=100000&max=9999999">
+                            <label for="filtro-precios-mas-100k">Más de $100.000</label>
                         </span>
+                        <form action="/page/products/" method="GET" class="flex flex-col gap-3 w-full my-2">
+                            <div class="flex gap-3">
+                                <input type="hidden" name="filter" value="price">
+                                <input type="number" name="min" class="border p-1 px-2 w-1/2 input-price-filter" required placeholder="Desde...">
+                                <input type="number" name="max" class="border p-1 px-2 w-1/2 input-price-filter" required placeholder="Hasta">
+                            </div>
+                            <div class="flex w-full gap-3">                                
+                                <?= isset($_GET['max']) && isset($_GET['max']) ? ' <a href="/page/products" class="bg-violet-800 rounded-lg text-white font-bold p-1 px-3 duration-300 hover:bg-violet-600 text-center flex justify-center items-center"> <i class="fa-solid fa-arrows-rotate"></i> </a> ' : '' ?>
+                                <button class="bg-violet-800 rounded-lg text-white font-bold hidden p-1 px-3 duration-300 hover:bg-violet-600 w-full" id="btn-price-filter-submit"> Cambiar </button>
+                            </div>
+                        </form>
                     </div>
-                    <div class="flex flex-col gap-1">
+                    <div class="flex flex-col gap-1 hidden">
                         <label class="block text-sm font-medium text-gray-700">Descuento</label>
                         <span class="flex gap-3">
                             <input type="checkbox" id="costo-envio"> 
@@ -172,8 +185,39 @@ function findUserById($users, $id) {
             </div>
         </div>
     </section>
-
-
     <?php require_once(__DIR__ . "/../layout/footer.php") ?>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const sortSelect = document.getElementById('sort-select');
+            const inputs = document.querySelectorAll('.input-price-filter');
+            const radios = document.querySelectorAll('input[type="radio"]');
+
+            radios.forEach(radio => {
+                radio.addEventListener('change', () => {
+                    if (radio.checked) {
+                        window.location.href = radio.value;
+                    }
+                });
+            });
+
+            inputs.forEach(input => {
+                input.addEventListener('change', () => {
+                    if (input.value == '') {
+                        document.getElementById('btn-price-filter-submit').classList.add('hidden');
+                    } else {
+                        document.getElementById('btn-price-filter-submit').classList.remove('hidden');
+                    }
+                });
+            });
+
+            inputs.forEach(input => {
+                if (input.value == '') {
+                    document.getElementById('btn-price-filter-submit').classList.add('hidden');
+                } else {
+                    document.getElementById('btn-price-filter-submit').classList.remove('hidden');
+                }
+            });
+        });
+    </script>
 </body>
 </html>
