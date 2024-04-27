@@ -42,7 +42,7 @@
                             <label for="remember_me" class="ml-2 block text-sm text-gray-900">Recuerdame</label>
                         </div>
                         <div class="text-sm">
-                            <a class="font-medium text-indigo-400 hover:text-indigo-500" href="">
+                            <a class="font-medium text-indigo-400 hover:text-indigo-500" href="/page/recover_account/">
                                 Olvidaste tu contraseña?
                             </a>
                         </div>

@@ -94,4 +94,8 @@ class PageController {
         $users = $this -> userModel -> getAll();
         require_once(__DIR__ . "/../views/admin/dashboard_products.view.php");
     }
+
+    public function recover_account () {
+        require_once(__DIR__ . "/../views/auth/recover_account.view.php");
+    }
 }

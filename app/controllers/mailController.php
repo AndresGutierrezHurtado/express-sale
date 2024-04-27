@@ -1,11 +1,14 @@
 <?php
 
 require_once (__DIR__ . "/../models/mailer.php");
+require_once (__DIR__ . "/../models/user.php");
 
 class mailController {  
     private $mailModel;  
-    public function __construct() {
+    private $userModel;
+    public function __construct(mysqli $conn) {
         $this -> mailModel = new Mailer();
+        $this ->userModel = new User($conn);
     }
 
     public function footerForm (){
@@ -27,5 +30,25 @@ class mailController {
         $result = $this -> mailModel -> send($to, $subject, $message);
 
         echo json_encode($result);
+    }
+
+    public function recover_account() {
+        $email = $_POST['email'] ;
+        $user = $this -> userModel -> paginate(1, 1, "WHERE email = '$email'", "WHERE email = '$email'");
+        if ($user['rows'] > 0) {
+            $to = $email;
+            $subject = "Recupera tu cuenta | Express Sale";
+            
+            $message = "Recupera tu cuenta\n";
+            $message .= "Correo: ".$user['data'][0]['email']." \n";
+            $message .= "Contraseña: ".$user['data'][0]['password']." \n";
+
+            $result = $this -> mailModel -> send($to, $subject, $message);
+
+            echo json_encode($result);
+        } else {
+            echo json_encode(['success' => false, 'message' => 'Hubo un problema al encontrar ese usuario.']);
+        }
+        
     }
 }
