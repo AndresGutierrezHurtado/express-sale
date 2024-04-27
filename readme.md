@@ -1,6 +1,6 @@
 FALTA :
- - FILTRO PRODUCTOS / SORT PRODCTOS DESDE EL SQL
- - CUENTAS PUBLICAS
+ - OLVIDÉ MI CONTRASEÑA
  - AGREGAR CARRITO
+ - CUENTAS PUBLICAS
  - PASARELA
- - Corregir las malas respuestas de la bd, además arreglar el login
+ - MIS COMPRAS

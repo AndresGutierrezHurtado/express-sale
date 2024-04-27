@@ -1,16 +1,13 @@
 <?php 
-
-$filteredUsers = $users['data'];
-if (isset($_GET['search']) && !empty($_GET['search'])) {
-    $search = $_GET['search'];
-    $filteredUsers = array_filter($filteredUsers, function ($user) use ($search) {
-        return stripos($user['full_name'], $search) !== false ||
-               stripos($user['user_id'], $search) !== false ||
-               stripos($user['email'], $search) !== false ||
-               stripos($user['username'], $search) !== false;
-    });
+function buildQueryString($params) {
+    $queryString = '';
+    foreach ($params as $param) {
+        if (isset($_GET[$param]) && !empty($_GET[$param])) {
+            $queryString .= '&' . $param . '=' . $_GET[$param];
+        }
+    }
+    return $queryString;
 }
-
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -32,18 +29,18 @@ if (isset($_GET['search']) && !empty($_GET['search'])) {
                             <button class="text-lg rounded-full bg-slate-900 size-[35px]" onclick="toggleSortList()"><i class="fa-solid fa-arrow-down-wide-short"></i></button>
                             <div class="absolute top-[120%] left-1/2 transform -translate-x-1/2 bg-white flex flex-col rounded-md min-w-[150px] overflow-hidden duration-200 opacity-0" id="list-sort">
                                 <h1 class="text-black text-md uppercase font-bold tracking-tight upercase p-1 px-3">Ordernar por:</h1>
-                                <a href="/page/dashboard_users/?sort=user_id" class="text-black duraton-300 hover:bg-gray-200 p-1 px-3 cursor-pointer">Id</a>
-                                <a href="/page/dashboard_users/?sort=full_name" class="text-black duraton-300 hover:bg-gray-200 p-1 px-3 cursor-pointer">Nombre</a>
-                                <a href="/page/dashboard_users/?sort=username" class="text-black duraton-300 hover:bg-gray-200 p-1 px-3 cursor-pointer">Usuario</a>
-                                <a href="/page/dashboard_users/?sort=email" class="text-black duraton-300 hover:bg-gray-200 p-1 px-3 cursor-pointer">Correo</a>
-                                <a href="/page/dashboard_users/?sort=role_id" class="text-black duraton-300 hover:bg-gray-200 p-1 px-3 cursor-pointer">Rol</a>
+                                <a href="/page/dashboard_users/?sort=user_id<?= buildQueryString(['search'])?>" class="text-black duraton-300 hover:bg-gray-200 p-1 px-3 cursor-pointer">Id</a>
+                                <a href="/page/dashboard_users/?sort=full_name<?= buildQueryString(['search'])?>" class="text-black duraton-300 hover:bg-gray-200 p-1 px-3 cursor-pointer">Nombre</a>
+                                <a href="/page/dashboard_users/?sort=username<?= buildQueryString(['search'])?>" class="text-black duraton-300 hover:bg-gray-200 p-1 px-3 cursor-pointer">Usuario</a>
+                                <a href="/page/dashboard_users/?sort=email<?= buildQueryString(['search'])?>" class="text-black duraton-300 hover:bg-gray-200 p-1 px-3 cursor-pointer">Correo</a>
+                                <a href="/page/dashboard_users/?sort=role_id<?= buildQueryString(['search'])?>" class="text-black duraton-300 hover:bg-gray-200 p-1 px-3 cursor-pointer">Rol</a>
                             </div>
                         </div>
                         <form action="/page/dashboard_users/" method="GET" class="flex gap-2">
                             <?php if (isset($_GET['search']) && !empty($_GET['search'])) : ?>
                                 <a href="/page/dashboard_users/" class="fa-solid fa-arrows-rotate bg-slate-600 rounded-full size-[35px] flex items-center justify-center"></a>
                             <?php endif; ?>
-                            <input type="text" name="search" class="bg-slate-600 rounded-full max-w-[150px] sm:min-w-[200px] lg:min-w-[300px] px-5" placeholder="Buscar...">
+                            <input type="text" name="search" class="bg-slate-600 rounded-full max-w-[150px] sm:min-w-[200px] lg:min-w-[300px] px-5" placeholder="Buscar..." value="<?= isset($_GET['search']) ? $_GET['search'] : '' ?>">
                             <button type="submit" class="bg-slate-600 rounded-full size-[35px]"><i class="fa-solid fa-magnifying-glass text-[15px]"></i></button>
                         </form>
                     </div>
@@ -81,7 +78,7 @@ if (isset($_GET['search']) && !empty($_GET['search'])) {
                         </tr>
                     </thead>
                     <tbody>
-                        <?php foreach ((isset($_GET['search']) && !empty($_GET['search']) ? $filteredUsers : $users['data']) as $user): ?>
+                        <?php foreach ($users['data'] as $user): ?>
                         <tr>
                             <td class="p-2"><?= $user['user_id']; ?></td>
                             <td class="p-2 hidden lg:table-cell"><?= $user['full_name']; ?></td>

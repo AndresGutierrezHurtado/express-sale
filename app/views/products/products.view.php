@@ -93,8 +93,9 @@ function buildQueryString($params) {
                 </aside>
                 <div class="w-full md:w-7/12 lg:w-8/12 flex flex-col gap-2">
                     <?php foreach ($products['data'] as $product): ?>
+                        <?php if($product['state'] == 'private') { continue;} ?>
                         <article class="flex flex-col md:flex-row justify-between gap-4 bg-white p-4 rounded-lg shadow-lg border min-h-[250px]">
-                            <div class="w-full md:w-3/12 flex items-center justify-center">
+                            <div class="w-full md:w-3/12 max-h-[230px] flex items-center justify-center">
                                 <img src="<?= $product['image'] ?>" alt="<?= $product['name']; ?>" class="max-w-full max-h-full">
                             </div>
                             <div class="w-full md:w-7/12 flex flex-col justify-between gap-5">

@@ -86,6 +86,11 @@ async function newProduct() {
     product.append('image', '/public/images/products/nf.jpg');
     product.append('calification', '0');
 
+    var currentDate = new Date();
+    var formattedDate = currentDate.toISOString().split('T')[0];
+    
+    product.append('date', formattedDate);
+
     await fetch('/product/create', {
         method: 'POST',
         body: product

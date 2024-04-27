@@ -8,13 +8,14 @@ function findUserById($users, $id) {
     return null;
 }
 
-$filteredProducts = $products['data'];
-if (isset($_GET['search']) && !empty($_GET['search'])) {
-    $search = $_GET['search'];
-    $filteredProducts = array_filter($filteredProducts, function ($product) use ($search) {
-        return stripos($product['name'], $search) !== false ||
-               stripos($product['description'], $search) !== false;
-    });
+function buildQueryString($params) {
+    $queryString = '';
+    foreach ($params as $param) {
+        if (isset($_GET[$param]) && !empty($_GET[$param])) {
+            $queryString .= '&' . $param . '=' . $_GET[$param];
+        }
+    }
+    return $queryString;
 }
 ?>
 <!DOCTYPE html>
@@ -37,19 +38,19 @@ if (isset($_GET['search']) && !empty($_GET['search'])) {
                             <button class="text-lg rounded-full bg-slate-900 size-[35px]" onclick="toggleSortList()"><i class="fa-solid fa-arrow-down-wide-short"></i></button>
                             <div class="absolute top-[120%] left-1/2 transform -translate-x-1/2 bg-white flex flex-col rounded-md min-w-[150px] overflow-hidden duration-200 opacity-0" id="list-sort">
                                 <h1 class="text-black text-md uppercase font-bold tracking-tight upercase p-1 px-3">Ordernar por:</h1>
-                                <a href="/page/dashboard_products/?sort=id" class="text-black duraton-300 hover:bg-gray-200 p-1 px-3 cursor-pointer">Id</a>
-                                <a href="/page/dashboard_products/?sort=name" class="text-black duraton-300 hover:bg-gray-200 p-1 px-3 cursor-pointer">Nombre</a>
-                                <a href="/page/dashboard_products/?sort=price" class="text-black duraton-300 hover:bg-gray-200 p-1 px-3 cursor-pointer">Precio</a>
-                                <a href="/page/dashboard_products/?sort=stock" class="text-black duraton-300 hover:bg-gray-200 p-1 px-3 cursor-pointer">Stock</a>
-                                <a href="/page/dashboard_products/?sort=user_id" class="text-black duraton-300 hover:bg-gray-200 p-1 px-3 cursor-pointer">Vendedor</a>
-                                <a href="/page/dashboard_products/?sort=category_id" class="text-black duraton-300 hover:bg-gray-200 p-1 px-3 cursor-pointer">Categoría</a>
+                                <a href="/page/dashboard_products/?sort=id<?= buildQueryString(['search']) ?>" class="text-black duraton-300 hover:bg-gray-200 p-1 px-3 cursor-pointer">Id</a>
+                                <a href="/page/dashboard_products/?sort=name<?= buildQueryString(['search']) ?>" class="text-black duraton-300 hover:bg-gray-200 p-1 px-3 cursor-pointer">Nombre</a>
+                                <a href="/page/dashboard_products/?sort=price<?= buildQueryString(['search']) ?>" class="text-black duraton-300 hover:bg-gray-200 p-1 px-3 cursor-pointer">Precio</a>
+                                <a href="/page/dashboard_products/?sort=stock<?= buildQueryString(['search']) ?>" class="text-black duraton-300 hover:bg-gray-200 p-1 px-3 cursor-pointer">Stock</a>
+                                <a href="/page/dashboard_products/?sort=user_id<?= buildQueryString(['search']) ?>" class="text-black duraton-300 hover:bg-gray-200 p-1 px-3 cursor-pointer">Vendedor</a>
+                                <a href="/page/dashboard_products/?sort=category_id<?= buildQueryString(['search']) ?>" class="text-black duraton-300 hover:bg-gray-200 p-1 px-3 cursor-pointer">Categoría</a>
                             </div>
                         </div>
                         <form action="/page/dashboard_products/" method="GET" class="flex gap-2">
                             <?php if (isset($_GET['search']) && !empty($_GET['search'])) : ?>
                                 <a href="/page/dashboard_products/" class="fa-solid fa-arrows-rotate bg-slate-600 rounded-full size-[35px] flex items-center justify-center"></a>
                             <?php endif; ?>
-                            <input type="text" name="search" class="bg-slate-600 rounded-full max-w-[150px] sm:min-w-[200px] lg:min-w-[300px] px-5" placeholder="Buscar...">
+                            <input type="text" name="search" class="bg-slate-600 rounded-full max-w-[150px] sm:min-w-[200px] lg:min-w-[300px] px-5" placeholder="Buscar..." value="<?= isset($_GET['search']) ? $_GET['search'] : '' ?>">
                             <button type="submit" class="bg-slate-600 rounded-full size-[35px]"><i class="fa-solid fa-magnifying-glass text-[15px]"></i></button>
                         </form>
                     </div>
@@ -88,7 +89,7 @@ if (isset($_GET['search']) && !empty($_GET['search'])) {
                         </tr>
                     </thead>
                     <tbody>
-                        <?php foreach ((isset($_GET['search']) && !empty($_GET['search']) ? $filteredProducts : $products['data']) as $product): ?>
+                        <?php foreach ($products['data'] as $product): ?>
                         <tr>
                             <td class="p-2"><?= $product['id']; ?></td>
                             <td class="p-2 hidden lg:table-cell"><?= $product['name']; ?></td>

@@ -27,7 +27,7 @@
                     <div>
                         <label for="fullname" class="block text-sm font-medium text-gray-700">Nombre completo</label>
                         <div class="mt-1">
-                            <input id="fullname" type="text" name="fullname" required=""
+                            <input id="fullname" type="text" name="fullname" required
                                 class="block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 placeholder-gray-400 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
                                 value="">
                         </div>
@@ -35,7 +35,7 @@
                     <div>
                         <label for="username" class="block text-sm font-medium text-gray-700">Usuario</label>
                         <div class="mt-1">
-                            <input id="username" type="text" name="username" required=""
+                            <input id="username" type="text" name="username" required
                                 class="block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 placeholder-gray-400 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
                                 value="">
                         </div>
@@ -43,7 +43,7 @@
                     <div>
                         <label for="email" class="block text-sm font-medium text-gray-700">Correo electrónico</label>
                         <div class="mt-1">
-                            <input id="email" type="email" name="email" required=""
+                            <input id="email" type="email" name="email" required
                                 class="block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 placeholder-gray-400 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
                                 value="">
                         </div>
@@ -51,7 +51,7 @@
                     <div>
                         <label for="password" class="block text-sm font-medium text-gray-700">Contraseña</label>
                         <div class="mt-1">
-                            <input id="password" type="password" name="password" autocomplete="current-password" required=""
+                            <input id="password" type="password" name="password" autocomplete="current-password" required
                                 class="block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 placeholder-gray-400 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
                                 value="">
                         </div>

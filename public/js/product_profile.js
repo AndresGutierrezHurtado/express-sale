@@ -36,6 +36,7 @@ async function UpdateProfile() {
     productData.append('price', parseFloat(document.getElementById('price').value));
     productData.append('stock', parseInt(document.getElementById('stock').value));
     productData.append('category_id', document.getElementById('category').value);
+    productData.append('state', document.getElementById('state').value);
 
     // Verificar si se ha seleccionado una imagen
     if (document.getElementById('image').files.length > 0) {

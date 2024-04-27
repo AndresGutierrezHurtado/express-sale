@@ -99,5 +99,12 @@ class Orm {
             'rows' => $rows,
         ];
     }
+
+    public function autenticate($isAdmin) {
+        if (!$isAdmin) {
+            header("Location: /");
+            exit();
+        }        
+    }
         
 }
