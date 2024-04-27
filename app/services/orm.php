@@ -82,14 +82,14 @@ class Orm {
         }
     }
 
-    public function paginate($page, $limit, $sort) {
+    public function paginate($page, $limit, $customQueryRows = "", $customQuery = "") {
+
         $offset = ($page - 1) * $limit;
-        $rows = $this->db->query("SELECT COUNT(*) FROM $this->table") -> fetch_column();
-        $query = "SELECT * FROM $this->table ORDER BY $sort ASC LIMIT {$offset}, {$limit}";
-        $result = $this->db->query($query);
+
+        $rows = $this->db->query("SELECT COUNT(*) FROM $this->table $customQueryRows") -> fetch_column();
+        $result = $this->db->query("SELECT * FROM $this->table $customQuery LIMIT {$offset}, {$limit}") -> fetch_all(MYSQLI_ASSOC);
 
         $pages  = ceil($rows / $limit);
-        $result = $result -> fetch_all(MYSQLI_ASSOC);
         
         return [
             'data' => $result,
@@ -99,23 +99,5 @@ class Orm {
             'rows' => $rows,
         ];
     }
-    
-    public function getByFilter ($page, $limit, $filter, $value) {
-        $offset = ($page - 1) * $limit;
-        $rows = $this->db->query("SELECT COUNT(*) FROM $this->table WHERE $filter = $value") -> fetch_column();
-        $query = "SELECT * FROM $this->table WHERE $filter = $value LIMIT {$offset}, {$limit}";
-        $result = $this->db->query($query);
-
-        $pages  = ceil($rows / $limit);
-        $result = $result -> fetch_all(MYSQLI_ASSOC);
         
-        return [
-            'data' => $result,
-            'page' => $page,
-            'limit' => $limit,
-            'pages' => $pages,
-            'rows' => $rows,
-        ];
-    }
-    
 }

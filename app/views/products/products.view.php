@@ -7,6 +7,16 @@ function findUserById($users, $id) {
     }
     return null;
 }
+
+function buildQueryString($params) {
+    $queryString = '';
+    foreach ($params as $param) {
+        if (isset($_GET[$param]) && !empty($_GET[$param])) {
+            $queryString .= '&' . $param . '=' . $_GET[$param];
+        }
+    }
+    return $queryString;
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -31,9 +41,9 @@ function findUserById($users, $id) {
                 <div class="flex">
                     <p>ordenar por</p>
                     <select class="h-fit bg-transparent" id="sort-select" onchange="window.location = this.value">
-                        <option value="/page/products/?sort=calification" <?= isset($_GET['sort']) && $_GET['sort'] == 'calification' ? 'selected' : ''?>>Destacado</option>
-                        <option value="/page/products/?sort=date" <?= isset($_GET['sort']) && $_GET['sort'] == 'date' ? 'selected' : ''?>>Reciente</option>
-                        <option value="/page/products/?sort=price" <?= isset($_GET['sort']) && $_GET['sort'] == 'price' ? 'selected' : ''?>>Precio ascendente</option>
+                        <option value="/page/products/?sort=calification<?= buildQueryString(['search', 'max', 'min', 'filter', 'value']) ?>" <?= isset($_GET['sort']) && $_GET['sort'] == 'calification' ? 'selected' : ''?>>Destacado</option>
+                        <option value="/page/products/?sort=date<?= buildQueryString(['search', 'max', 'min', 'filter', 'value']) ?>" <?= isset($_GET['sort']) && $_GET['sort'] == 'date' ? 'selected' : ''?>>Reciente</option>
+                        <option value="/page/products/?sort=price<?= buildQueryString(['search', 'max', 'min', 'filter', 'value']) ?>" <?= isset($_GET['sort']) && $_GET['sort'] == 'price' ? 'selected' : ''?>>Precio ascendente</option>
                     </select>
                 </div>
             </span>
@@ -43,76 +53,41 @@ function findUserById($users, $id) {
                     <div class="flex flex-col gap-1">
                         <label for="categoria" class="block text-sm font-medium text-gray-700">Categorías</label>
                         <select id="categoria" name="categoria" class="w-full p-1 px-2 border rounded-md" onchange="window.location = this.value">
-                            <option value="/page/products/">Todas</option>
-                            <option value="/page/products/?filter=category_id&value=1"<?= isset($_GET['filter']) && isset($_GET['value']) && $_GET['filter'] == 'category_id' && $_GET['value'] == '1' ? 'selected' : ''?>>Ropa y calzado</option>
-                            <option value="/page/products/?filter=category_id&value=2"<?= isset($_GET['filter']) && isset($_GET['value']) && $_GET['filter'] == 'category_id' && $_GET['value'] == '2' ? 'selected' : ''?>>comida</option>
-                            <option value="/page/products/?filter=category_id&value=3"<?= isset($_GET['filter']) && isset($_GET['value']) && $_GET['filter'] == 'category_id' && $_GET['value'] == '3' ? 'selected' : ''?>>Tecnología</option>
-                            <option value="/page/products/?filter=category_id&value=4"<?= isset($_GET['filter']) && isset($_GET['value']) && $_GET['filter'] == 'category_id' && $_GET['value'] == '4' ? 'selected' : ''?>>Otras</option>
+                            <option value="/page/products/?none=none<?= buildQueryString(['search', 'max', 'min', 'sort']) ?>">Todas</option>
+                            <option value="/page/products/?filter=category_id&value=1<?= buildQueryString(['search', 'max', 'min', 'sort']) ?>" <?= isset($_GET['filter']) && isset($_GET['value']) && $_GET['filter'] == 'category_id' && $_GET['value'] == '1' ? 'selected' : ''?>>Ropa y calzado</option>
+                            <option value="/page/products/?filter=category_id&value=2<?= buildQueryString(['search', 'max', 'min', 'sort']) ?>" <?= isset($_GET['filter']) && isset($_GET['value']) && $_GET['filter'] == 'category_id' && $_GET['value'] == '2' ? 'selected' : ''?>>comida</option>
+                            <option value="/page/products/?filter=category_id&value=3<?= buildQueryString(['search', 'max', 'min', 'sort']) ?>" <?= isset($_GET['filter']) && isset($_GET['value']) && $_GET['filter'] == 'category_id' && $_GET['value'] == '3' ? 'selected' : ''?>>Tecnología</option>
+                            <option value="/page/products/?filter=category_id&value=4<?= buildQueryString(['search', 'max', 'min', 'sort']) ?>" <?= isset($_GET['filter']) && isset($_GET['value']) && $_GET['filter'] == 'category_id' && $_GET['value'] == '4' ? 'selected' : ''?>>Otras</option>
                         </select>
-                    </div>
-                    <div class="flex flex-col gap-1 hidden">
-                        <label for="costo-envio" class="block text-sm font-medium text-gray-700">Costo de envío</label>
-                        <span class="flex gap-3">
-                            <input type="checkbox" id="costo-envio"> 
-                            <p>Gratis</p>
-                        </span>
                     </div>
                     <div class="flex flex-col gap-1">
                         <label class="block text-sm font-medium text-gray-700">Precio</label>
                         <span class="flex gap-3">
-                            <input type="radio" id="filtro-precios-cualquiera" name="precio" value="/page/products/" <?= isset($_GET['filter']) && $_GET['filter'] != 'price' || !isset($_GET['filter']) ? 'checked' : '' ?>>
+                            <input type="radio" id="filtro-precios-cualquiera" name="precio" value="/page/products/?none=none<?= buildQueryString(['search', 'filter', 'value', 'sort']) ?>" <?= isset($_GET['min']) || isset($_GET['max']) ? '' : 'checked' ?>>
                             <label for="filtro-precios-cualquiera">Cualquiera</label>
                         </span>
                         <span class="flex gap-3">
-                            <input type="radio" id="filtro-precios-hasta-45k" name="precio" <?= isset($_GET['filter']) && $_GET['filter'] === 'price' && isset($_GET['min']) && $_GET['min'] == 0 && isset($_GET['max']) && $_GET['max'] == 45000 ? 'checked' : '' ?> value="/page/products/?filter=price&min=0&max=45000">
+                            <input type="radio" id="filtro-precios-hasta-45k" name="precio"  value="/page/products/?min=0&max=45000<?= buildQueryString(['search', 'filter', 'value', 'sort']) ?>" <?= isset($_GET['min']) && isset($_GET['max']) && $_GET['min'] == 0  && $_GET['max'] == 45000 ? 'checked' : '' ?>>
                             <label for="filtro-precios-hasta-45k">Hasta $ 45.000</label>
                         </span>
                         <span class="flex gap-3">
-                            <input type="radio" id="filtro-precios-65k-100k" name="precio" <?= isset($_GET['filter']) && $_GET['filter'] === 'price' && isset($_GET['min']) && $_GET['min'] == 65000 && isset($_GET['max']) && $_GET['max'] == 100000 ? 'checked' : '' ?> value="/page/products/?filter=price&min=65000&max=100000">
+                            <input type="radio" id="filtro-precios-65k-100k" name="precio" value="/page/products/?min=65000&max=100000<?= buildQueryString(['search', 'filter', 'value', 'sort']) ?>" <?= isset($_GET['min']) && isset($_GET['max']) && $_GET['min'] == 65000  && $_GET['max'] == 100000 ? 'checked' : '' ?>>
                             <label for="filtro-precios-65k-100k">$65.000 a $100.000</label>
                         </span>
                         <span class="flex gap-3">
-                            <input type="radio" id="filtro-precios-mas-100k" name="precio" <?= isset($_GET['filter']) && $_GET['filter'] === 'price' && isset($_GET['min']) && $_GET['min'] == 100000 && isset($_GET['max']) && $_GET['max'] == 9999999 ? 'checked' : '' ?> value="/page/products/?filter=price&min=100000&max=9999999">
+                            <input type="radio" id="filtro-precios-mas-100k" name="precio" value="/page/products/?min=100000&max=1000000000<?= buildQueryString(['search', 'filter', 'value', 'sort']) ?>" <?= isset($_GET['min']) && isset($_GET['max']) && $_GET['min'] == 100000  && $_GET['max'] == 1000000000 ? 'checked' : '' ?>>
                             <label for="filtro-precios-mas-100k">Más de $100.000</label>
                         </span>
-                        <form action="/page/products/" method="GET" class="flex flex-col gap-3 w-full my-2">
+                        <form action="/page/products/<?= buildQueryString(['search', 'filter', 'value', 'sort']) ?>" method="GET" class="flex flex-col gap-3 w-full my-2">
                             <div class="flex gap-3">
-                                <input type="hidden" name="filter" value="price">
                                 <input type="number" name="min" class="border p-1 px-2 w-1/2 input-price-filter" required placeholder="Desde...">
                                 <input type="number" name="max" class="border p-1 px-2 w-1/2 input-price-filter" required placeholder="Hasta">
                             </div>
-                            <div class="flex w-full gap-3">                                
-                                <?= isset($_GET['max']) && isset($_GET['max']) ? ' <a href="/page/products" class="bg-violet-800 rounded-lg text-white font-bold p-1 px-3 duration-300 hover:bg-violet-600 text-center flex justify-center items-center"> <i class="fa-solid fa-arrows-rotate"></i> </a> ' : '' ?>
+                            <div class="flex w-full gap-3">
+                                <?= isset($_GET['max']) && isset($_GET['max']) ? ' <a href="/page/products/search='. buildQueryString(['search', 'filter', 'value', 'sort']) .'" class="bg-violet-800 rounded-lg text-white font-bold p-1 px-3 duration-300 hover:bg-violet-600 text-center flex justify-center items-center"> <i class="fa-solid fa-arrows-rotate"></i> </a> ' : '' ?>
                                 <button class="bg-violet-800 rounded-lg text-white font-bold hidden p-1 px-3 duration-300 hover:bg-violet-600 w-full" id="btn-price-filter-submit"> Cambiar </button>
                             </div>
                         </form>
-                    </div>
-                    <div class="flex flex-col gap-1 hidden">
-                        <label class="block text-sm font-medium text-gray-700">Descuento</label>
-                        <span class="flex gap-3">
-                            <input type="checkbox" id="costo-envio"> 
-                            <p>Desde 5% OFF</p>
-                        </span>
-                        <span class="flex gap-3">
-                            <input type="checkbox" id="costo-envio"> 
-                            <p>Desde 10% OFF</p>
-                        </span>
-                        <span class="flex gap-3">
-                            <input type="checkbox" id="costo-envio"> 
-                            <p>Desde 15% OFF</p>
-                        </span>
-                        <span class="flex gap-3">
-                            <input type="checkbox" id="costo-envio"> 
-                            <p>Desde 24% OFF</p>
-                        </span>
-                        <span class="flex gap-3">
-                            <input type="checkbox" id="costo-envio"> 
-                            <p>Desde 30% OFF</p>
-                        </span>
-                        <span class="flex gap-3">
-                            <input type="checkbox" id="costo-envio"> 
-                            <p>Desde 40% OFF</p>
-                        </span>
                     </div>
                     <!-- Agrega más filtros según sea necesario -->
                 </aside>
@@ -156,7 +131,7 @@ function findUserById($users, $id) {
                         <ul class="inline-flex -space-x-px text-lg">
                             <?php if ($products['page'] > 1): ?>
                             <li>
-                                <a href="/page/products/?page=<?= $products['page'] - 1 ?>" class="flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-gray-50 border border-gray-500 rounded-s-lg hover:bg-gray-100 hover:text-gray-700">Anterior</a>
+                                <a href="/page/products/?page=<?= $products['page'] - 1 ?><?= buildQueryString(['search', 'filter', 'value', 'sort', 'min', 'max']) ?>" class="flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-gray-50 border border-gray-500 rounded-s-lg hover:bg-gray-100 hover:text-gray-700">Anterior</a>
                             </li>
                             <?php else: ?>
                             <li>
@@ -166,13 +141,13 @@ function findUserById($users, $id) {
 
                             <?php for ($i = 1; $i <= $products['pages']; $i++): ?>
                             <li>
-                                <a href="/page/products/?page=<?= $i ?>" class=" flex items-center justify-center px-3 h-8 leading-tight border border-gray-500 duration-300 <?= $i == $products['page'] ? 'text-black bg-gray-300 font-semibold hover:bg-slate-700 hover:text-white' : 'text-gray-500 bg-gray-50 hover:bg-gray-300 hover:text-gray-700' ?>"><?= $i ?></a>
+                                <a href="/page/products/?page=<?= $i ?><?= buildQueryString(['search', 'filter', 'value', 'sort', 'min', 'max']) ?>" class=" flex items-center justify-center px-3 h-8 leading-tight border border-gray-500 duration-300 <?= $i == $products['page'] ? 'text-black bg-gray-300 font-semibold hover:bg-slate-700 hover:text-white' : 'text-gray-500 bg-gray-50 hover:bg-gray-300 hover:text-gray-700' ?>"><?= $i ?></a>
                             </li>
                             <?php endfor; ?>
 
                             <?php if ($products['page'] < $products['pages']): ?>
                             <li>
-                                <a href="/page/products/?page=<?= $products['page'] + 1 ?>" class="flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-gray-50 border border-gray-500 rounded-e-lg hover:bg-gray-100 hover:text-gray-700">Siguiente</a>
+                                <a href="/page/products/?page=<?= $products['page'] + 1 ?><?= buildQueryString(['search', 'filter', 'value', 'sort', 'min', 'max']) ?>" class="flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-gray-50 border border-gray-500 rounded-e-lg hover:bg-gray-100 hover:text-gray-700">Siguiente</a>
                             </li>
                             <?php else: ?>
                             <li>
