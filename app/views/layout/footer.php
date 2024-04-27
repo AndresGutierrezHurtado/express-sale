@@ -5,20 +5,24 @@
         <div class="flex flex-col gap-2 text-lg">
             <h2 class="font-bold text-2xl mb-3 uppercase tracking-tight"> Contacto </h2>
             <p class="flex gap-2 items-center"> <i class="fa-solid fa-phone text-xl"></i> (+57) 320 9202177</p>
-            <p class="flex gap-2 items-center"> <i class="fa-regular fa-envelope text-xl"></i> support@expresssale.com</p>
-            <p class="flex gap-2 items-center"> <i class="fa-brands fa-instagram text-xl"></i> express-sale</p>
+            <p class="flex gap-2 items-center"> <i class="fa-regular fa-envelope text-xl"></i> express_sale@gmail.com</p>
+            <p class="flex gap-2 items-center"> <i class="fa-brands fa-instagram text-xl"></i> express_sale</p>
             <p class="flex gap-2 items-center"> <i class="fa-brands fa-facebook text-xl"></i> Express Sale</p> 
         </div>
         <!-- Newsletter Form Column -->
         <div class="flex flex-col gap-2">
             <h2 class="font-bold text-2xl mb-3 uppercase tracking-tight"> ¡Queremos escucharte! </h2>
-            <form action="#" method="POST" class="flex flex-col gap-2">
-                <input type="email" name="email" placeholder="correo electronico" class="p-2 text-gray-800 w-full rounded-sm border-gray-300">
+            <form id="mail-form-contact" class="flex flex-col gap-2">
+                <input type="hidden" id="session_id" value="<?= isset($_SESSION['user_id']) ? $_SESSION['user_id'] : 'uknown' ?>">
+                <input type="hidden" id="username_session" value="<?= isset($_SESSION['username']) ? $_SESSION['username'] : 'uknown' ?>">
+                <input type="hidden" id="email_session" value="<?= isset($_SESSION['email']) ? $_SESSION['email'] : 'uknown' ?>">
+
+                <input type="email" name="email" id="email-mail" placeholder="correo electronico" class="p-2 text-gray-800 w-full rounded-sm border-gray-300" required>
                 <div class="div-group flex flex-col lg:flex-row  gap-2">
-                    <input type="email" name="email" placeholder="Nombre" class="p-2 text-gray-800 w-full lg:w-1/2 rounded-sm border-gray-300">
-                    <input type="email" name="email" placeholder="Asunto" class="p-2 text-gray-800 w-full lg:w-1/2 rounded-sm border-gray-300">
+                    <input type="text" name="name" id="full-name-mail" placeholder="Nombre" class="p-2 text-gray-800 w-full lg:w-1/2 rounded-sm border-gray-300" required>
+                    <input type="text" name="subject" id="subject-mail" placeholder="Asunto" class="p-2 text-gray-800 w-full lg:w-1/2 rounded-sm border-gray-300" required>
                 </div>
-                <textarea name="mensaje" class="h-28 w-full p-2 resize-none border rounded-sm border-gray-300" placeholder="Escribe tu mensaje aquí..."></textarea>
+                <textarea name="mensaje" id="message-mail" class="h-28 w-full p-2 resize-none border rounded-sm border-gray-300 text-black" placeholder="Escribe tu mensaje aquí..." ></textarea>
                 <button type="submit" class="p-2 w-full duration-300 bg-transparent border-2 border-white rounded-xl hover:bg-white/[0.1] text-lg tracking-tight uppercase font-bold">Enviar</button>
             </form>
         </div>
@@ -28,3 +32,4 @@
         </div>
     </div>
 </footer>
+<script src="/public/js/form.js"></script>

@@ -22,7 +22,7 @@ INSERT INTO `users` (`user_id`,`full_name`, `email`, `username`, `phone_number`,
 (5, 'Juan Sebastian Bernal Gamboa', 'juansebastianbernalgamboa@gmail.com', 'Juan_Sebastian', 1231231212, 'Usme', '/public/images/users/nf.jpg', '1234', 2 ),
 (6, 'Wendy Alejandra Navarro Arias', 'nwendy798@gmail.com', 'Wendy_Navarro', 3044462452, 'El ensueño', '/public/images/users/nf.jpg', '1234', 1 );
 
--- Create products table with seller_id
+-- Create products table
 CREATE TABLE `products` (
     `id` INT PRIMARY KEY AUTO_INCREMENT,
     `name` VARCHAR(100) NOT NULL,
@@ -49,27 +49,6 @@ INSERT INTO `products` (`name`, `description`, `price`, `stock`, `image`, `categ
     ('Mancuernas Ajustables', 'Un par de mancuernas ajustables con diferentes pesos, perfectas para entrenamiento de fuerza en casa o en el gimnasio.', 89900, 10, '/public/images/products/nf.jpg', 4, 4.7, 2, 'public'), -- Andrés
     ('Proteína en Polvo', 'Suplemento de proteína en polvo de alta calidad, ideal para la recuperación muscular y el crecimiento después del entrenamiento.', 59900, 15, '/public/images/products/nf.jpg', 4, 4.5, 2, 'public'), -- Andrés
     ('Rubik`s Cube', 'El clásico cubo de Rubik, con su diseño de colores vivos y su desafiante mecánica, es uno de los rompecabezas más populares y reconocidos del mundo.', 15000, 20, '/public/images/products/nf.jpg', 4, 4.3, 2, 'public'); -- Andrés
-
-
--- Create sales table
-CREATE TABLE `sales` (
-    `id` INT PRIMARY KEY AUTO_INCREMENT,
-    `sales_products` TEXT,
-    `user_id` INT,
-    `stock` INT NOT NULL,
-    `sale_date` TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-);
-
--- Create account_types table
-CREATE TABLE `account_types` (
-    `id` INT PRIMARY KEY AUTO_INCREMENT,
-    `type_name` VARCHAR(50) NOT NULL
-);
-
--- Insert predefined account types
-INSERT INTO `account_types` (`id`,`type_name`) VALUES 
-(1, 'standard'), 
-(2, 'premium');
 
 -- Create roles table
 CREATE TABLE `roles` (
@@ -108,11 +87,3 @@ REFERENCES `users`(`user_id`);
 ALTER TABLE `products` 
 ADD FOREIGN KEY (`category_id`) 
 REFERENCES `categories`(`id`);
-
-ALTER TABLE `sales` 
-ADD FOREIGN KEY (`user_id`) 
-REFERENCES `users`(`user_id`);
-
-ALTER TABLE `users`
-ADD FOREIGN KEY (`account_type`) 
-REFERENCES `account_types`(`id`);

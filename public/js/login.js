@@ -12,7 +12,7 @@ async function loginFormSubmit() {
     user.password = document.getElementById('password').value;
     user.rememberMe = document.getElementById('remember_me').checked;
 
-    fetch('http://localhost:3000/user/autenticate', {
+    fetch('http://localhost:3000/user/login', {
         headers: {
             'Content-Type': 'application/json'
         },

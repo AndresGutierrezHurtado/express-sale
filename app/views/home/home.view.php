@@ -29,14 +29,16 @@
         <section class="w-full min-h-[70hv]" id="categories">
             <div class="flex flex-col gap-10 justify-center items-center py-[70px] px-5">                
                 <h1 class="text-3xl font-bold uppercase tracking-tight">Categorías</h1>
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 xl:gap-12">
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5 xl:gap-12">
                     <article class="bg-white p-4 rounded-3xl shadow-lg min-w-[250px] max-w-[300px] flex flex-col gap-4 duration-300 hover:scale-[1.04] hover:shadow-xl">
                         <div class="w-full max-h-[230px] flex justify-center items-center">
                             <img src="/public/images/calzado.jpg" alt="calzado" class="max-w-full max-h-full h-auto w-auto">                        
                         </div>
                         <h1 class="text-xl capitalize font-bold">Vestuario</h1>
                         <p>Busca las mejores tiendas locales de ropa y calzado.</p>
-                        <button class="p-1 px-3 rounded-lg bg-violet-800 text-white font-bold duration-300 hover:bg-violet-600">Ver más</button>
+                        <a href="/page/products" class="w-full">
+                            <button class="w-full p-1 px-3 rounded-lg bg-violet-800 text-white font-bold duration-300 hover:bg-violet-600">Ver más</button>
+                        </a>
                     </article>
                     
                     <article class="bg-white p-4 rounded-3xl shadow-lg min-w-[250px] max-w-[300px] flex flex-col gap-4 duration-300 hover:scale-[1.04] hover:shadow-xl">
@@ -45,15 +47,32 @@
                         </div>
                         <h1 class="text-xl capitalize font-bold">Comida</h1>
                         <p>Busca las mejores restaurantes y tiendas de comida locales.</p>
-                        <button class="p-1 px-3 rounded-lg bg-violet-800 text-white font-bold duration-300 hover:bg-violet-600">Ver más</button>
+                        <a href="/page/products" class="w-full">
+                            <button class="w-full p-1 px-3 rounded-lg bg-violet-800 text-white font-bold duration-300 hover:bg-violet-600">Ver más</button>
+                        </a>
                     </article>
+
+                    <article class="bg-white p-4 rounded-3xl shadow-lg min-w-[250px] max-w-[300px] flex flex-col gap-4 duration-300 hover:scale-[1.04] hover:shadow-xl">
+                        <div class="w-full max-h-[230px] flex justify-center items-center">
+                            <img src="/public/images/tencnologia.jpg" 
+                            alt="otros" class="max-w-full max-h-full h-auto w-auto">                        
+                        </div>
+                        <h1 class="text-xl capitalize font-bold">Tecnología</h1>
+                        <p>Busca los mejores productos de tecnología de las tiendas locales.</p>
+                        <a href="/page/products" class="w-full">
+                            <button class="w-full p-1 px-3 rounded-lg bg-violet-800 text-white font-bold duration-300 hover:bg-violet-600">Ver más</button>
+                        </a>
+                    </article>
+
                     <article class="bg-white p-4 rounded-3xl shadow-lg min-w-[250px] max-w-[300px] flex flex-col gap-4 duration-300 hover:scale-[1.04] hover:shadow-xl">
                         <div class="w-full max-h-[230px] flex justify-center items-center">
                             <img src="/public/images/otros.jpg" alt="otros" class="max-w-full max-h-full h-auto w-auto">                        
                         </div>
                         <h1 class="text-xl capitalize font-bold">Otros</h1>
                         <p>Busca las mejores tiendas locales de ropa y calzado.</p>
-                        <button class="p-1 px-3 rounded-lg bg-violet-800 text-white font-bold duration-300 hover:bg-violet-600">Ver más</button>
+                        <a href="/page/products" class="w-full">
+                            <button class="w-full p-1 px-3 rounded-lg bg-violet-800 text-white font-bold duration-300 hover:bg-violet-600">Ver más</button>
+                        </a>
                     </article>
                 </div>
             </div>
@@ -70,7 +89,9 @@
                 <div class="md:w-6/12">
                     <h1 class="text-3xl font-bold uppercase mb-4">Sobre Nosotros</h1>
                     <p class="text-gray-600 text-lg">
-                        Express Sale es una empresa líder en el mercado de ventas online, dedicada a ofrecer los mejores productos de tiendas locales a los precios más competitivos. Nuestra misión es apoyar el crecimiento de los negocios locales proporcionando una plataforma accesible y eficiente para su promoción y distribución de productos.
+                        Express Sale es una empresa en el mercado de ventas online, dedicada a ofrecer los mejores productos de tiendas 
+                        locales a los mejores precios. Nuestra misión es apoyar el crecimiento de los negocios locales proporcionando 
+                        una plataforma accesible y eficiente para su promoción y distribución de productos.
                     </p>
                 </div>
                 <div class="md:w-4/12 flex justify-center mt-5 md:mt-0">

@@ -14,6 +14,7 @@ class PageController {
     public function products(){
         $page = isset($_GET['page']) ? $_GET['page'] : 1;
         $products = $this -> productModel -> paginate($page, 5);
+        $all_products = $this -> productModel -> getAll();
         $users = $this -> userModel -> getAll();
         require_once(__DIR__ . "/../views/products/products.view.php");
     }

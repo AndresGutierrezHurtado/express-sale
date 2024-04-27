@@ -13,7 +13,7 @@ class UserController {
         $user = $this -> userModel -> getAll();
     }
 
-    public function autenticate() {
+    public function login() {
         $post_data = file_get_contents('php://input');
         $post_data = json_decode($post_data, true);
         $result = $this -> userModel -> auth($post_data);

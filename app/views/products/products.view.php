@@ -109,10 +109,17 @@ function findUserById($users, $id) {
                             <div class="w-full md:w-3/12 flex items-center justify-center">
                                 <img src="<?= $product['image'] ?>" alt="<?= $product['name']; ?>" class="max-w-full max-h-full">
                             </div>
-                            <div class="w-full md:w-7/12 flex flex-col justify-between">
-                                <div>                                
-                                    <h2 class="text-2xl"><?= $product['name']; ?></h2>
-                                    <span class="flex w-full gap-3">
+                            <div class="w-full md:w-7/12 flex flex-col justify-between gap-5">
+                                <div class="flex flex-col gap-4">   
+                                    <div>
+                                        <h2 class="text-[25px] tracking-tight"><?= $product['name']; ?></h2>
+                                        <p class="text-black/[0.5] text-md">Por <?= findUserById($users, $product['user_id']) ?></p>
+                                    </div>                             
+                                    <p><?= $product['description']; ?></p>
+                                </div>
+                                <div class="w-full flex justify-between">
+                                    <h3 class="font-medium text-xl"><?= number_format($product['price']); ?> COP</h3>
+                                    <span class="flex gap-3">
                                         <span>
                                             <?php
                                                 for ($i = 0; $i < (int)$product['calification']; $i++) {
@@ -125,10 +132,7 @@ function findUserById($users, $id) {
                                         </span>
                                         <p class="opacity-[0.4]">(101)</p>
                                     </span>
-                                    <p class="italic text-black/[0.6] text-md"><?= findUserById($users, $product['user_id']) ?></p>
                                 </div>
-                                <p><?= $product['description']; ?></p>
-                                <h3 class="font-medium text-xl"><?= number_format($product['price']); ?> COP</h3>
                             </div>
                             <span class="w-2/12 flex items-center justify-center">
                                 <button class="rounded-full size-[60px] border-2 border-black"><i class="fa-solid fa-cart-plus text-2xl"></i></button>
@@ -139,11 +143,11 @@ function findUserById($users, $id) {
                         <ul class="inline-flex -space-x-px text-lg">
                             <?php if ($products['page'] > 1): ?>
                             <li>
-                                <a href="/page/products/?page=<?= $products['page'] - 1 ?>" class="flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-gray-50 border border-gray-500 rounded-s-lg hover:bg-gray-100 hover:text-gray-700">Previous</a>
+                                <a href="/page/products/?page=<?= $products['page'] - 1 ?>" class="flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-gray-50 border border-gray-500 rounded-s-lg hover:bg-gray-100 hover:text-gray-700">Anterior</a>
                             </li>
                             <?php else: ?>
                             <li>
-                                <span class="flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-gray-50 border border-gray-500 rounded-s-lg cursor-not-allowed opacity-50">Previous</span>
+                                <span class="flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-gray-50 border border-gray-500 rounded-s-lg cursor-not-allowed opacity-50">Anterior</span>
                             </li>
                             <?php endif; ?>
 
@@ -155,11 +159,11 @@ function findUserById($users, $id) {
 
                             <?php if ($products['page'] < $products['pages']): ?>
                             <li>
-                                <a href="/page/products/?page=<?= $products['page'] + 1 ?>" class="flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-gray-50 border border-gray-500 rounded-e-lg hover:bg-gray-100 hover:text-gray-700">Next</a>
+                                <a href="/page/products/?page=<?= $products['page'] + 1 ?>" class="flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-gray-50 border border-gray-500 rounded-e-lg hover:bg-gray-100 hover:text-gray-700">Siguiente</a>
                             </li>
                             <?php else: ?>
                             <li>
-                                <span class="flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-gray-50 border border-gray-500 rounded-e-lg cursor-not-allowed opacity-50">Next</span>
+                                <span class="flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-gray-50 border border-gray-500 rounded-e-lg cursor-not-allowed opacity-50">Siguiente</span>
                             </li>
                             <?php endif; ?>
                         </ul>

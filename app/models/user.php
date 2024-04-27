@@ -18,7 +18,6 @@ class User extends Orm{
                     $_SESSION["full_name"] = $user["full_name"];
                     $_SESSION["username"] = $user["username"];
                     $_SESSION["email"] = $user["email"];
-                    $_SESSION["account_type"] = $user["account_type"];
                     $_SESSION["role_id"] = $user["role_id"];
 
                 return ['success' => true, 'message' => 'La inserción se realizó correctamente.'];
