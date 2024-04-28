@@ -13,11 +13,9 @@
     <main class="flex items-center justify-center ">
         <div class="mx-auto max-w-md md:max-w-lg z-50">
             <div class="bg-white px-4 pb-4 pt-8 sm:rounded-xl sm:px-10 sm:pb-6 sm:shadow-xl z-50">
-                <div class="flex justify-center items-center sm:mx-auto w-5/12 pb-5">     
-                    <a href="/">
-                        <img src="/public/images/logo.png" alt="logo.png" class="inicio">
-                    </a>           
-                </div>
+                <a href="/" class="flex justify-center items-center mx-auto w-5/12 pb-5">
+                    <img src="/public/images/logo.png" alt="logo.png" class="inicio">
+                </a>
                 <div class="text-center sm:mx-auto sm:w-full sm:max-w-md pb-5">                
                     <h1 class="text-3xl font-extrabold text-gray-900">
                         Crea tu cuenta

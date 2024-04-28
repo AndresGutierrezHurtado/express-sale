@@ -92,6 +92,9 @@ function buildQueryString($params) {
                     <!-- Agrega más filtros según sea necesario -->
                 </aside>
                 <div class="w-full md:w-7/12 lg:w-8/12 flex flex-col gap-2">
+                    <?php if( count($products['data']) < 1) : ?>
+                        <h2 class="text-2lx font-bold py-10 text-center">No se encontraron Productos.</h2>
+                    <?php endif; ?>
                     <?php foreach ($products['data'] as $product): ?>
                         <?php if($product['state'] == 'private') { continue;} ?>
                         <article class="flex flex-col md:flex-row justify-between gap-4 bg-white p-4 rounded-lg shadow-lg border min-h-[250px]">
@@ -102,7 +105,7 @@ function buildQueryString($params) {
                                 <div class="flex flex-col gap-4">   
                                     <div>
                                         <h2 class="text-[25px] tracking-tight"><?= $product['name']; ?></h2>
-                                        <p class="text-black/[0.5] text-md">Por <?= findUserById($users, $product['user_id']) ?></p>
+                                        <a href="/page/public_profile/?vendedor=<?= $product['user_id'] ?>" class="text-black/[0.5] text-md hover:text-purple-600 hover:underline">Por <?= findUserById($users, $product['user_id']) ?></a>
                                     </div>                             
                                     <p><?= $product['description']; ?></p>
                                 </div>
@@ -111,13 +114,23 @@ function buildQueryString($params) {
                                     <span class="flex gap-3">
                                         <span>
                                             <?php
-                                                for ($i = 0; $i < (int)$product['calification']; $i++) {
+                                                $calificacion = $product['calification'];
+                                                $calificacionEntera = floor($calificacion);
+                                                $fraccion = $calificacion - $calificacionEntera;
+
+                                                for ($i = 0; $i < $calificacionEntera; $i++) {
                                                     echo '<i class="fa-solid fa-star"></i>';
                                                 }
-                                                for ($i = (int)$product['calification']; $i < 5; $i++) {
-                                                    echo "<i class=\"fa-regular fa-star\"></i>";
+                                                
+                                                if ($fraccion >= 0.5) {
+                                                    echo '<i class="fa-solid fa-star-half-stroke"></i>';
+                                                    $calificacionEntera++;
                                                 }
-                                                ?>
+
+                                                for ($i = $calificacionEntera; $i < 5; $i++) {
+                                                    echo '<i class="fa-regular fa-star"></i>';
+                                                }
+                                            ?>
                                         </span>
                                         <p class="opacity-[0.4]">(101)</p>
                                     </span>

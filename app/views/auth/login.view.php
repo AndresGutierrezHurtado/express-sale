@@ -11,13 +11,11 @@
 <body class="w-full min-h-screen bg-gray-50 flex items-center justify-center relative overflow-hidden">
     <div class="absolute bg-violet-800 h-[140vh] w-[100%] left-[-50%] rounded-full top-1/2 transform -translate-y-1/2"></div>
     <main class="flex items-center justify-center">
-        <div class="mx-auto max-w-md z-50">
+        <div class="mx-auto max-w-md z-50 py-5">
             <div class="bg-white px-4 pb-4 pt-8 sm:rounded-xl sm:px-10 sm:pb-6 sm:shadow-xl z-50">
-                <div class="flex justify-center items-center sm:mx-auto w-5/12 pb-5">     
-                    <a href="/">
-                        <img src="/public/images/logo.png" alt="logo.png" class="inicio">
-                    </a>           
-                </div>
+                <a href="/" class="flex justify-center items-center mx-auto w-5/12 pb-5">
+                        <img src="/public/images/logo.png" alt="logo.png" class="mx-auto">
+                </a>
                 <div class="text-center sm:mx-auto sm:w-full sm:max-w-md pb-5">                
                     <h1 class="text-3xl font-extrabold text-gray-900">
                         Inicia Sesión

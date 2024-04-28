@@ -27,9 +27,10 @@ class PageController {
         $max_and_min = "price > $min AND price < $max";
 
         $sort = isset($_GET['sort']) ? $_GET['sort'] : 'calification';
+        $sortQuery = $sort == 'price' ? "ORDER BY $sort ASC " :  "ORDER BY $sort DESC" ;
         
         $queryRows = "WHERE $search $addition $max_and_min";
-        $query = "WHERE $search $addition $max_and_min  ORDER BY $sort ASC";
+        $query = "WHERE $search $addition $max_and_min $sortQuery";
 
         $products = $this -> productModel -> paginate($page, 5,  $queryRows, $query);
         require_once(__DIR__ . "/../views/products/products.view.php");
@@ -39,6 +40,11 @@ class PageController {
     }
     public function register(){
         require_once(__DIR__ . "/../views/auth/register.view.php");
+    }
+
+    public function user_cart() {
+        $cart = $this -> cartModel -> getAll();
+        require_once(__DIR__ . "/../views/profile/cart.view.php");
     }
 
     public function user_profile() {        
@@ -52,11 +58,6 @@ class PageController {
 
         $products = $this -> productModel -> paginate($page, 5, "WHERE user_id = $id", "WHERE user_id = $id");
         require_once(__DIR__. "/../views/profile/user.view.php");
-    }
-
-    public function user_cart() {
-        $cart = $this -> cartModel -> getAll();
-        require_once(__DIR__ . "/../views/profile/cart.view.php");
     }
 
     public function product_profile() {
@@ -101,5 +102,15 @@ class PageController {
 
     public function recover_account () {
         require_once(__DIR__ . "/../views/auth/recover_account.view.php");
+    }
+
+    public function public_profile () {
+        $vendedor_id = $_GET['vendedor'];
+        $page = isset($_GET['page']) ? $_GET['page'] : 1;
+
+        $user = $this -> userModel -> getById( $vendedor_id );
+        $products = $this -> productModel -> paginate($page, 2, "WHERE user_id = $vendedor_id", "WHERE user_id = $vendedor_id");   
+
+        require_once(__DIR__ . "/../views/profile/public.view.php");
     }
 }

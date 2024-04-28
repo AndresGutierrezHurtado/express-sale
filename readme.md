@@ -1,5 +1,4 @@
 FALTA :
- - AGREGAR CARRITO
- - CUENTAS PUBLICAS
+ - CUENTAS PUBLICAS (falta agregar descripción y calificación que funcione para los vendedores)
  - PASARELA
  - MIS COMPRAS
