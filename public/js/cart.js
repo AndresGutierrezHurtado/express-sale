@@ -1,6 +1,12 @@
 document.addEventListener('DOMContentLoaded', () => {
-    const buttons = document.querySelectorAll('.btn-add-cart');
-    buttons.forEach(button => {
+    const addButtons = document.querySelectorAll('.btn-add-cart');
+    const increaseButtons = document.querySelectorAll('.btn-increase');
+    const decreaseButtons = document.querySelectorAll('.btn-decrease');
+    const deleteButtons = document.querySelectorAll('.btn-delete');
+    const emptyButton = document.querySelector('#btn-empty');
+
+    // Agregar al carrito
+    addButtons.forEach(button => {
         button.addEventListener('click', () => {
             let product = new FormData();
             product.append('id', button.getAttribute('data-id'));
@@ -14,8 +20,88 @@ document.addEventListener('DOMContentLoaded', () => {
             })
             .then(Response => Response.json())
             .then(Data => {
-                console.log(Data.cart);
+                if (Data.success) {
+                    console.log(Data.cart);
+                }
             })            
         })
     })
+
+    increaseButtons.forEach(button => {
+        button.addEventListener('click', () => {
+            let product = new FormData();
+            product.append('id', button.getAttribute('data-id'));
+            product.append('action', 'increase');
+
+            fetch(`/cart/update/`, { 
+                method: 'POST',
+                body: product
+            })
+            .then(Response => Response.json())
+            .then(Data => {
+                if (Data.success) {
+                    console.log(Data.cart);
+                    window.location.reload();
+                }
+            });
+        });
+    });
+
+    // Disminuir cantidad de un producto en el carrito
+    decreaseButtons.forEach(button => {
+        button.addEventListener('click', () => {
+            let product = new FormData();
+            product.append('id', button.getAttribute('data-id'));
+            product.append('action', 'decrease');
+
+            fetch(`/cart/update/`, { 
+                method: 'POST',
+                body: product
+            })
+            .then(Response => Response.json())
+            .then(Data => {
+                if (Data.success) {
+                    console.log(Data.cart);
+                    window.location.reload();
+                }
+            });
+        });
+    });
+    
+    // Eliminar un producto del carrito
+    deleteButtons.forEach(button => {
+        button.addEventListener('click', () => {
+            if (confirm('¿seguro que quieres eliminar este producto de tu carrito?')) {
+                let product = new FormData();
+                product.append('id', button.getAttribute('data-id'));
+
+                fetch(`/cart/delete/`, { 
+                    method: 'POST',
+                    body: product
+                })
+                .then(response => response.json())
+                .then(Data => {
+                    if (Data.success) {
+                        console.log(Data.cart);
+                        window.location.reload();
+                    }
+                });
+            }
+        });
+    });
+
+    emptyButton.addEventListener('click', () => {
+        if (confirm('¿seguro que quieres eliminar TODOS los productos de tu carrito?')) {
+            fetch(`/cart/empty/`)
+            .then(response => response.json())
+            .then(Data => {
+                if (Data.success) {
+                    console.log(Data.cart);
+                    window.location.reload();
+                }
+            });
+        }
+
+    })
+    
 })
