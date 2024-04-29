@@ -26,7 +26,7 @@ class PageController {
         $max = isset($_GET['max']) ? $_GET['max'] : 1000000000;
         $max_and_min = "price > $min AND price < $max";
 
-        $sort = isset($_GET['sort']) ? $_GET['sort'] : 'calification';
+        $sort = isset($_GET['sort']) ? $_GET['sort'] : 'rating';
         $sortQuery = $sort == 'price' ? "ORDER BY $sort ASC " :  "ORDER BY $sort DESC" ;
         
         $queryRows = "WHERE $search $addition $max_and_min";

@@ -42,7 +42,7 @@ class UserController {
             $_POST['image'] = $image_path;
         }
         $result = $this -> userModel -> updateById($_POST['user_id'], $_POST);
-
+        
         echo json_encode($result);
     }
 

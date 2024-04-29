@@ -41,7 +41,7 @@ function buildQueryString($params) {
                 <div class="flex">
                     <p>ordenar por</p>
                     <select class="h-fit bg-transparent" id="sort-select" onchange="window.location = this.value">
-                        <option value="/page/products/?sort=calification<?= buildQueryString(['search', 'max', 'min', 'filter', 'value']) ?>" <?= isset($_GET['sort']) && $_GET['sort'] == 'calification' ? 'selected' : ''?>>Destacado</option>
+                        <option value="/page/products/?sort=rating<?= buildQueryString(['search', 'max', 'min', 'filter', 'value']) ?>" <?= isset($_GET['sort']) && $_GET['sort'] == 'calification' ? 'selected' : ''?>>Destacado</option>
                         <option value="/page/products/?sort=date<?= buildQueryString(['search', 'max', 'min', 'filter', 'value']) ?>" <?= isset($_GET['sort']) && $_GET['sort'] == 'date' ? 'selected' : ''?>>Reciente</option>
                         <option value="/page/products/?sort=price<?= buildQueryString(['search', 'max', 'min', 'filter', 'value']) ?>" <?= isset($_GET['sort']) && $_GET['sort'] == 'price' ? 'selected' : ''?>>Precio ascendente</option>
                     </select>
@@ -111,10 +111,10 @@ function buildQueryString($params) {
                                 </div>
                                 <div class="w-full flex justify-between">
                                     <h3 class="font-medium text-xl"><?= number_format($product['price']); ?> COP</h3>
-                                    <span class="flex gap-3">
+                                    <span class="flex gap-3 items-center">
                                         <span>
                                             <?php
-                                                $calificacion = $product['calification'];
+                                                $calificacion = $product['rating'];
                                                 $calificacionEntera = floor($calificacion);
                                                 $fraccion = $calificacion - $calificacionEntera;
 
@@ -132,7 +132,8 @@ function buildQueryString($params) {
                                                 }
                                             ?>
                                         </span>
-                                        <p class="opacity-[0.4]">(101)</p>
+                                        <p class="opacity-[0.4]"><?= $product['rating'] ?> (<?= $product['votes'] ?>)</p>
+                                        <button class="text-violet-600 font-bold border-2 border-violet-600 duration-300 hover:bg-gray-100 size-[30px] rounded-full" onclick="<?= isset($_SESSION['user_id']) ?  "toggleModal(".$product['id'].", ".$product['rating'].", ".$product['votes'].")" : "login()" ?>"><i class="fa-solid fa-plus"></i></button>
                                     </span>
                                 </div>
                             </div>
@@ -174,13 +175,99 @@ function buildQueryString($params) {
             </div>
         </div>
     </section>
+    
+    
+    <div class="fixed inset-0 z-50 hidden" id="modal">
+        <div class="fixed inset-0 bg-black bg-opacity-40" onclick="toggleModal()"></div>
+        <div id="myModal" class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 flex items-center justify-center ">
+            <div class="w-full md:w-auto md:max-w-full md:min-w-[500px] bg-white p-5 rounded-md">
+                <span class="flex justify-between items-center">
+                    <span class="text-lg font-bold">Califica el producto</span>
+                    <button id="closeModalButton" class="text-gray-500 hover:text-gray-700"  onclick="toggleModal()">
+                        <svg class="h-6 w-6" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                        </svg>
+                    </button>
+                </span>
+                <p class="w-full max-w-[350px] text-center mx-auto py-4">Ten en cuenta la calidad del producto y tiempo de envío.</p>
+                <form id="rating-form" class="flex flex-col gap-4">
+                    <div id="stars" class="flex items-center justify-center gap-2 text-[20px]">
+                        <span class="star" data-value="1"><i class="fa-regular fa-star cursor-pointer text-amber-600 duration-300 hover:scale-[1.15]"> </i></span>
+                        <span class="star" data-value="2"><i class="fa-regular fa-star cursor-pointer text-amber-600 duration-300 hover:scale-[1.15]"> </i></span>
+                        <span class="star" data-value="3"><i class="fa-regular fa-star cursor-pointer text-amber-600 duration-300 hover:scale-[1.15]"> </i></span>
+                        <span class="star" data-value="4"><i class="fa-regular fa-star cursor-pointer text-amber-600 duration-300 hover:scale-[1.15]"> </i></span>
+                        <span class="star" data-value="5"><i class="fa-regular fa-star cursor-pointer text-amber-600 duration-300 hover:scale-[1.15]"> </i></span>
+                    </div>
+                    <button id="calificar-btn" class="hidden bg-violet-600 font-bold duration-300 hover:bg-violet-800 text-white py-2 px-4 rounded-lg">Calificar</button>
+                </form>
+            </div>
+        </div>
+    </div>
     <?php require_once(__DIR__ . "/../layout/footer.php") ?>
     <script src="/public/js/cart.js"></script>
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             const sortSelect = document.getElementById('sort-select');
             const inputs = document.querySelectorAll('.input-price-filter');
-            const radios = document.querySelectorAll('input[type="radio"]');
+            const radios = document.querySelectorAll('input[type="radio"]');       
+            const stars = document.querySelectorAll('.star');
+            const submitButton = document.getElementById('calificar-btn');
+
+            stars.forEach(star => {
+                star.addEventListener('click', () => {
+                    const value = parseInt(star.dataset.value);
+
+                    if (star.classList.contains('selected')) {
+                        stars.forEach(s => {
+                            s.innerHTML = '<i class="far fa-star cursor-pointer text-amber-600 duration-300 hover:scale-[1.15]"></i>';
+                            s.classList.remove('selected');
+                            submitButton.classList.remove('hidden');
+                        });
+                    } else {
+                        stars.forEach((s, index) => {
+                            if (index < value) {
+                                s.innerHTML = '<i class="fas fa-star cursor-pointer text-amber-400 duration-300 hover:scale-[1.15]"></i>';
+                                s.classList.remove('selected');
+                            } else {
+                                s.innerHTML = '<i class="far fa-star cursor-pointer text-amber-600 duration-300 hover:scale-[1.15]"></i>';
+                                s.classList.remove('selected');
+                            }
+                        });
+                        star.classList.add('selected');
+                    }
+
+                    const anySelected = Array.from(stars).some(s => s.classList.contains('selected'));
+                    submitButton.classList.toggle('hidden', !anySelected);
+                });
+            });
+
+            
+            document.getElementById('rating-form').addEventListener('submit' , (e) => {
+                e.preventDefault();
+                let product = submitButton.dataset.id;
+                let votes = parseInt(submitButton.dataset.votes);
+                let currentRating = submitButton.dataset.rating;
+                
+                let newRating = ((currentRating * votes) + parseInt(document.querySelector('.star.selected').dataset.value)) / (votes + 1);
+                
+                let formData = new FormData();
+                
+                formData.append('id', `${product}`);
+                formData.append('votes',  `${votes + 1}`);
+                formData.append('rating', newRating);
+                
+                fetch('/product/update/', {
+                    method: 'POST',
+                    body: formData
+                })
+                .then(response => response.json())
+                .then(data => {
+                    alert(data.message);
+                    if (data.success) {
+                        window.location.reload();
+                    }
+                })
+            });
 
             radios.forEach(radio => {
                 radio.addEventListener('change', () => {
@@ -208,6 +295,18 @@ function buildQueryString($params) {
                 }
             });
         });
+
+        function toggleModal(id = '', rating = '', votes = '') {
+            document.getElementById('modal').classList.toggle('hidden');
+            document.getElementById('calificar-btn').setAttribute("data-id", id);
+            document.getElementById('calificar-btn').setAttribute("data-rating", rating);
+            document.getElementById('calificar-btn').setAttribute("data-votes", votes);
+        }
+
+        function login () {
+            alert('para votar tienes que iniciar sesión')
+            window.location.href = "/page/login";
+        }
     </script>
 </body>
 </html>
