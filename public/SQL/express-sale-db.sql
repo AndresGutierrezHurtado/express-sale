@@ -7,6 +7,9 @@ CREATE TABLE `users` (
     `full_name` VARCHAR(100) NOT NULL,
     `username` VARCHAR(100) UNIQUE NOT NULL,
     `email` VARCHAR(100) UNIQUE NOT NULL,
+    `description` TEXT, 
+    `rating` DECIMAL(3, 2),
+    `votes` INT DEFAULT 0,
     `phone_number` DECIMAL(10),
     `address` VARCHAR(255),
     `image` VARCHAR(100),
@@ -14,13 +17,14 @@ CREATE TABLE `users` (
     `role_id` INT NOT NULL
 );
 
-INSERT INTO `users` (`user_id`,`full_name`, `email`, `username`, `phone_number`, `address`, `image`, `password`, `role_id`) VALUES 
-(1, 'Express Sale', 'express_sale@gmail.com', 'Express_Sale', 1231231212, 'Bogotá', '/public/images/logo.png', '1234', 3),
-(2, 'Andrés Gutiérrez Hurtado', 'andres52885241@gmail.com', 'Andres_Gutierrez', 3209202177, 'Dg 68 D sur 70C 31', '/public/images/users/1.jpg', '1234', 2),
-(3, 'David Fernando Diaz Niausa', 'davidfernandodiazniausa@gmail.com', 'David_Diaz', 1231231212, 'Usme', '/public/images/users/nf.jpg', '1234', 2 ),
-(4, 'Jaider Harley Rondón Herrera', 'rondonjaider@gmail.com', 'Jaider_Rondon', 1231231212, 'Usme', '/public/images/users/nf.jpg', '1234', 2 ),
-(5, 'Juan Sebastian Bernal Gamboa', 'juansebastianbernalgamboa@gmail.com', 'Juan_Sebastian', 1231231212, 'Usme', '/public/images/users/nf.jpg', '1234', 2 ),
-(6, 'Wendy Alejandra Navarro Arias', 'nwendy798@gmail.com', 'Wendy_Navarro', 3044462452, 'El ensueño', '/public/images/users/nf.jpg', '1234', 1 );
+-- Insert data into users table
+INSERT INTO `users` (`user_id`, `full_name`, `email`, `username`, `phone_number`, `address`, `image`, `password`, `role_id`, `description`, `rating`) VALUES 
+(1, 'Express Sale', 'express_sale@gmail.com', 'Express_Sale', 1231231212, 'Bogotá', '/public/images/logo.png', '1234', 3, NULL, NULL),
+(2, 'Andrés Gutiérrez Hurtado', 'andres52885241@gmail.com', 'Andres_Gutierrez', 3209202177, 'Dg 68 D sur 70C 31', '/public/images/users/1.jpg', '1234', 2, 'Vendedor.', 0.00),
+(3, 'David Fernando Diaz Niausa', 'davidfernandodiazniausa@gmail.com', 'David_Diaz', 1231231212, 'Usme', '/public/images/users/nf.jpg', '1234', 2, 'Vendedor.', 0.00),
+(4, 'Jaider Harley Rondón Herrera', 'rondonjaider@gmail.com', 'Jaider_Rondon', 1231231212, 'Usme', '/public/images/users/nf.jpg', '1234', 2, 'Vendedor.', 0.00),
+(5, 'Juan Sebastian Bernal Gamboa', 'juansebastianbernalgamboa@gmail.com', 'Juan_Sebastian', 1231231212, 'Usme', '/public/images/users/nf.jpg', '1234', 2, 'Vendedor.', 0.00),
+(6, 'Wendy Alejandra Navarro Arias', 'nwendy798@gmail.com', 'Wendy_Navarro', 3044462452, 'El ensueño', '/public/images/users/nf.jpg', '1234', 1, NULL, NULL);
 
 -- Create products table
 CREATE TABLE `products` (
@@ -30,7 +34,8 @@ CREATE TABLE `products` (
     `price` DECIMAL(10, 2) NOT NULL,
     `stock` INT NOT NULL,
     `image` VARCHAR(100),
-    `calification` DECIMAL(2, 1),
+    `calification` DECIMAL(3, 1),
+    `votes` INT DEFAULT 0,
     `category_id` INT,
     `user_id` INT, 
     `date`DATE,

@@ -11,9 +11,9 @@
 <body class="w-full min-h-screen bg-gray-50">
     <?php require_once(__DIR__ . "/../layout/header.php") ?>
     <main class="w-full flex justify-center items-center px-5">
-        <form id="product_profile" class="w-full flex flex-col md:flex-row justify-center items-start gap-5 my-12" enctype="multipart/form-data">
+        <form id="product_profile_form" class="w-full flex flex-col md:flex-row justify-center items-start gap-5 my-12" enctype="multipart/form-data">
 
-                <input type="number" class="hidden" id="product" value="<?= $_GET['id'] ?>">
+            <input type="number" class="hidden" id="id" name="id" value="<?= $_GET['id'] ?>">
 
             <div class="bg-white flex flex-col gap-4 p-5 rounded-lg shadow-lg w-full md:w-4/12 lg:w-3/12 xl:w-2/12">
                 <h1 class="text-lg uppercase tracking-tight font-bold">Imagen:</h1>
@@ -29,22 +29,22 @@
                 <h1 class="text-lg uppercase tracking-tight font-bold">Datos de <?= $product->name ?>:</h1>   
                 <div class="flex flex-col gap-1">
                     <label for="name" class="text-md font-medium text-gray-700">Nombre:</label>
-                    <input type="text" id="name" value="<?= $product->name; ?>" class="w-full border rounded-lg py-1 px-3" disabled>
+                    <input type="text" id="name" name="name" value="<?= $product->name; ?>" class="w-full border rounded-lg py-1 px-3" disabled>
                 </div> 
 
                 <div class="flex flex-col gap-1">
                     <label for="description" class="text-md font-medium text-gray-700">Descripción:</label>
-                    <textarea id="description" class="w-full h-24 resize-none border rounded-lg py-1 px-3" disabled><?= $product->description; ?></textarea>
+                    <textarea id="description" name="description" class="w-full h-24 resize-none border rounded-lg py-1 px-3" disabled><?= $product->description; ?></textarea>
                 </div>
 
                 <div class="flex flex-col gap-1">
                     <label for="price" class="text-md font-medium text-gray-700">Precio:</label>
-                    <input type="text" id="price" value="<?= $product->price; ?>" class="w-full border rounded-lg py-1 px-3" disabled>
+                    <input type="text" id="price" name="price" value="<?= $product->price; ?>" class="w-full border rounded-lg py-1 px-3" disabled>
                 </div>
 
                 <div class="flex flex-col gap-1">
                     <label for="stock" class="text-md font-medium text-gray-700">Stock:</label>
-                    <input type="text" id="stock" value="<?= $product->stock; ?>" class="w-full border rounded-lg py-1 px-3" disabled>
+                    <input type="text" id="stock" name="stock" value="<?= $product->stock; ?>" class="w-full border rounded-lg py-1 px-3" disabled>
                 </div>
 
                 <div class="flex flex-col gap-1">

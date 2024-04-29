@@ -18,8 +18,8 @@
             <p class="text-center">Ingresa el correo vinculado a tu cuenta 
                 y te enviaremos un correo con las credenciales para iniciar sesión. </p>
         </div>
-        <form onsubmit="recover_account(event)" class="w-full flex flex-col gap-2">
-            <input type="email" id="email-recover" class="border border-gray-700 rounded-md px-3 p-1 focus:border-violet-800" placeholder="Correo electrónico.. " required>
+        <form onsubmit="recover_account(event)" id="form-recover-account"class="w-full flex flex-col gap-2">
+            <input type="email" id="email-recover" name="email" class="border border-gray-700 rounded-md px-3 p-1 focus:border-violet-800" placeholder="Correo electrónico.. " required>
             <div class="flex w-full gap-4">
                 <a href="/page/login" class="p-1 px-3 bg-white border-2 border-violet-800 text-violet-800 font-bold rounded-lg">Cancelar</a>
                 <button class="p-1 px-3 bg-violet-800 text-white font-bold rounded-lg ">Enviar Crendenciales</button>
@@ -30,10 +30,9 @@
     <script>
         function recover_account(e) {
             e.preventDefault();
-            
-            let data = new FormData();
-            data.append('email', document.getElementById('email-recover').value);
 
+            let data = new FormData(document.getElementById('form-recover-account'));
+            
             fetch('/mail/recover_account', {
                 method: 'POST',
                 body: data

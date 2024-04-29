@@ -22,7 +22,7 @@ editButton.addEventListener('click', (e) => {
         editButton.innerHTML = 'Cancelar';
         document.getElementById('btn-submit').classList.toggle('hidden');
         document.getElementById('image').classList.toggle('hidden');
-        document.querySelectorAll('input[disabled]').forEach(input => {
+        document.querySelectorAll('[disabled]').forEach(input => {
             input.disabled = editable;
         })
         editable = !editable    
@@ -35,30 +35,14 @@ editButton.addEventListener('click', (e) => {
     }
 })
 
-document.getElementById('user_profile').addEventListener('submit', (e) => {
+document.getElementById('user_profile_form').addEventListener('submit', (e) => {
     e.preventDefault();
     UpdateProfile();
 })
 
-document.getElementById('new-product-form').addEventListener('submit', (e) => {
-    e.preventDefault();
-    newProduct();
-})
-
 async function UpdateProfile() {
-    let user = new FormData();
-    user.append('user_id', parseInt(document.getElementById('user_id').value));
-    user.append('full_name', document.getElementById('full_name').value);
-    user.append('username', document.getElementById('username').value);
-    user.append('email', document.getElementById('email').value);
-    user.append('address', document.getElementById('address').value);
-    user.append('phone_number', parseInt(document.getElementById('phone_number').value));
+    let user = new FormData(document.getElementById('user_profile_form'));
     
-    // Verificar si se ha seleccionado una imagen
-    if (document.getElementById('image').files.length > 0) {
-        user.append('image', document.getElementById('image').files[0]);
-    }
-
     await fetch('/user/update', {
         method: 'POST',
         body: user
@@ -70,22 +54,16 @@ async function UpdateProfile() {
             window.location.reload();
         }
     })
-
 }
 
+document.getElementById('new-product-form').addEventListener('submit', (e) => {
+    e.preventDefault();
+    newProduct();
+})
+
 async function newProduct() {
-    let product = new FormData();
-
-    product.append('user_id', parseInt(document.getElementById('user_id').value));
-    product.append('name', document.getElementById('name').value);
-    product.append('description', document.getElementById('description').value);
-    product.append('price', parseFloat(document.getElementById('price').value));
-    product.append('stock', parseInt(document.getElementById('stock').value));
-    product.append('category_id', parseInt(document.getElementById('category').value));
-    product.append('state', document.getElementById('state').value);
-    product.append('image', '/public/images/products/nf.jpg');
-    product.append('calification', '0');
-
+    let product = new FormData(document.getElementById('new-product-form'));
+    
     var currentDate = new Date();
     var formattedDate = currentDate.toISOString().split('T')[0];
     

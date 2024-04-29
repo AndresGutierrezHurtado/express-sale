@@ -31,11 +31,12 @@ class Orm {
         $query .= ')';
     
         
-        $result = $this->db->query($query);        
+        $result = $this->db->query($query);
+        
         if ($result) {
             return ['success' => true, 'message' => 'La inserción se realizó correctamente.'];
         } else {
-            return ['success' => false, 'message' => 'Error al insertar los datos: ' . $this->db->error];
+            return ['success' => false, 'message' => 'Error al insertar los datos.'];
         }
     }
 

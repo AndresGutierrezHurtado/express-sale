@@ -21,13 +21,13 @@
                         Crea tu cuenta
                     </h1>
                 </div>
-                <form id="registerForm" class="space-y-4">
+                <form id="register_form" method="post" class="space-y-4">
+                    <input type="hidden" name="image" id="image" value='/public/images/users/nf.jpg'>
                     <div>
                         <label for="fullname" class="block text-sm font-medium text-gray-700">Nombre completo</label>
                         <div class="mt-1">
-                            <input id="fullname" type="text" name="fullname" required
-                                class="block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 placeholder-gray-400 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
-                                value="">
+                            <input id="full_name" type="text" name="full_name" required
+                                class="block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 placeholder-gray-400 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm">
                         </div>
                     </div>
                     <div>

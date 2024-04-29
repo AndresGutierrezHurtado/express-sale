@@ -105,10 +105,15 @@ class PageController {
     }
 
     public function public_profile () {
+
         $vendedor_id = $_GET['vendedor'];
         $page = isset($_GET['page']) ? $_GET['page'] : 1;
 
         $user = $this -> userModel -> getById( $vendedor_id );
+
+        $isAdmin = $user -> role_id == 2 ? true : false;
+        if (!$isAdmin) {header('location: /'); exit();}
+
         $products = $this -> productModel -> paginate($page, 2, "WHERE user_id = $vendedor_id", "WHERE user_id = $vendedor_id");   
 
         require_once(__DIR__ . "/../views/profile/public.view.php");

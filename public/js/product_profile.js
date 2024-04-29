@@ -1,6 +1,6 @@
 const editButton = document.getElementById('btn-edit');
 const submitButton = document.getElementById('btn-submit');
-const productProfileForm = document.getElementById('product_profile');
+const productProfileForm = document.getElementById('product_profile_form');
 const inputs = document.querySelectorAll('[disabled]');
 let editable = false;
 
@@ -29,19 +29,7 @@ productProfileForm.addEventListener('submit', (e) => {
 })
 
 async function UpdateProfile() {
-    let productData = new FormData();
-    productData.append('id', parseInt(document.getElementById('product').value));
-    productData.append('name', document.getElementById('name').value);
-    productData.append('description', document.getElementById('description').value);
-    productData.append('price', parseFloat(document.getElementById('price').value));
-    productData.append('stock', parseInt(document.getElementById('stock').value));
-    productData.append('category_id', document.getElementById('category').value);
-    productData.append('state', document.getElementById('state').value);
-
-    // Verificar si se ha seleccionado una imagen
-    if (document.getElementById('image').files.length > 0) {
-        productData.append('image', document.getElementById('image').files[0]);
-    }
+    let productData = new FormData(productProfileForm);
     
     await fetch('/product/update', {
         method: 'POST',

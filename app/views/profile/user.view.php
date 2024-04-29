@@ -11,9 +11,9 @@
 <body class="w-full min-h-screen bg-gray-50">
     <?php require_once(__DIR__ . "/../layout/header.php") ?>
     <main class="w-full flex flex-col gap-10 py-12 justify-center items-center container mx-auto px-5">
-        <form id="user_profile" class="w-full flex flex-col md:flex-row justify-between items-start gap-5" enctype="multipart/form-data">
+        <form id="user_profile_form" class="w-full flex flex-col md:flex-row justify-between items-start gap-5" enctype="multipart/form-data">
 
-            <input type="number" class="hidden" id="user_id" value="<?= isset($_GET['id']) ? $_GET['id'] : $_SESSION['user_id'] ?>">
+            <input type="number" class="hidden" name="user_id" id="user_id" value="<?= isset($_GET['id']) ? $_GET['id'] : $_SESSION['user_id'] ?>">
 
             <div class="bg-white flex flex-col gap-4 p-5 rounded-lg shadow-lg w-full md:w-4/12 lg:w-auto max-w-[320px] px-8">
                 <h1 class="text-lg uppercase tracking-tight font-bold">Imagen:</h1>
@@ -28,7 +28,7 @@
                 <h1 class="text-lg uppercase tracking-tight font-bold">Datos de <?= $user -> username ?>:</h1>   
                 <div class="flex flex-col gap-1">
                     <label for="full_name" class="text-md font-medium text-gray-700">Nombre Completo:</label>
-                    <input type="text" id="full_name" value="<?= $user->full_name; ?>" class="w-full border rounded-lg py-1 px-3" disabled>
+                    <input type="text" id="full_name" name="full_name" value="<?= $user->full_name; ?>" class="w-full border rounded-lg py-1 px-3" disabled>
                 </div> 
 
                 <div class="flex flex-col gap-1">
@@ -49,6 +49,11 @@
                 <div class="flex flex-col gap-1">
                     <label for="phone_number" class="text-md font-medium text-gray-700">Número de Teléfono:</label>
                     <input type="number" id="phone_number" name="phone_number" value="<?= $user->phone_number; ?>" class="w-full border rounded-lg py-1 px-3" disabled>
+                </div>
+
+                <div class="flex flex-col gap-1">
+                    <label for="description" class="text-md font-medium text-gray-700">Descripción:</label>
+                    <textarea type="text" id="description" name="description" class="h-24 w-full border rounded-lg py-1 px-1 resize-none" disabled> <?= $user -> description ?> </textarea>
                 </div>
 
                 <label for="account_type" class="">Tipo de Cuenta: <strong> <?= $user -> role_id == 3 ? 'Adminstrador' : ($user -> role_id  == 2 ? 'Vendedor' : 'Usuario'); ?> </strong></label>
@@ -150,26 +155,28 @@
                         </button>
                     </span>
                     <form id="new-product-form" class="flex flex-col gap-4">
-                        <input type="hidden" id="user_id" value="<?= $user->user_id ?>">
+                        <input type="hidden" id="user_id" name="user_id" value="<?= $user->user_id ?>">
+                        <input type="hidden" id="image" name="image" value='/public/images/products/nf.jpg'>
+                        <input type="hidden" id="calification" name="calification" value="0">
 
                         <div class="flex flex-col gap-1">
                             <label for="name" class="text-md font-medium text-gray-700">Nombre:</label>
-                            <input type="text" id="name" class="w-full border rounded-lg py-1 px-3" required>
+                            <input type="text" id="name" name="name" class="w-full border rounded-lg py-1 px-3" required>
                         </div> 
 
                         <div class="flex flex-col gap-1">
                             <label for="description" class="text-md font-medium text-gray-700">Descripción:</label>
-                            <textarea id="description" class="w-full h-24 resize-none border rounded-lg py-1 px-3" required></textarea>
+                            <textarea id="description" name="description" class="w-full h-24 resize-none border rounded-lg py-1 px-3" required></textarea>
                         </div>
 
                         <div class="flex flex-col gap-1">
                             <label for="price" class="text-md font-medium text-gray-700">Precio:</label>
-                            <input type="text" id="price" class="w-full border rounded-lg py-1 px-3" required>
+                            <input type="text" id="price" name="price" class="w-full border rounded-lg py-1 px-3" required>
                         </div>
 
                         <div class="flex flex-col gap-1">
                             <label for="stock" class="text-md font-medium text-gray-700">Stock:</label>
-                            <input type="text" id="stock" class="w-full border rounded-lg py-1 px-3" required>
+                            <input type="text" id="stock" name="stock" class="w-full border rounded-lg py-1 px-3" required>
                         </div>
 
                         <div class="flex flex-col gap-1">

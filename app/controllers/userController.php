@@ -14,21 +14,14 @@ class UserController {
     }
 
     public function login() {
-        $post_data = file_get_contents('php://input');
-        $post_data = json_decode($post_data, true);
-        $result = $this -> userModel -> auth($post_data);
+        $result = $this -> userModel -> auth($_POST);
 
-        header('Content-Type: application/json');  
         echo json_encode($result);
     }
 
     public function create() {
-        $post_data = file_get_contents('php://input');
-        $post_data = json_decode($post_data, true);
-        
-        $result = $this -> userModel -> insert($post_data);
+        $result = $this -> userModel -> insert($_POST);
     
-        header('Content-Type: application/json');     
         echo json_encode($result);
     }
 
@@ -48,7 +41,6 @@ class UserController {
             // Actualizar la ruta de la imagen en los datos del usuario
             $_POST['image'] = $image_path;
         }
-
         $result = $this -> userModel -> updateById($_POST['user_id'], $_POST);
 
         echo json_encode($result);

@@ -14,24 +14,24 @@
         <div class="mx-auto max-w-md z-50 py-5">
             <div class="bg-white px-4 pb-4 pt-8 sm:rounded-xl sm:px-10 sm:pb-6 sm:shadow-xl z-50">
                 <a href="/" class="flex justify-center items-center mx-auto w-5/12 pb-5">
-                        <img src="/public/images/logo.png" alt="logo.png" class="mx-auto">
+                    <img src="/public/images/logo.png" alt="logo.png" class="mx-auto">
                 </a>
                 <div class="text-center sm:mx-auto sm:w-full sm:max-w-md pb-5">                
                     <h1 class="text-3xl font-extrabold text-gray-900">
                         Inicia Sesión
                     </h1>
                 </div>
-                <form class="space-y-6" id="login_form">
+                <form class="space-y-6" id="login_form" method="post">
                     <div>
                         <label for="username" class="block text-sm font-medium text-gray-700">Correo electrónico / Usuario</label>
                         <div class="mt-1">
-                            <input id="username" type="text" autocomplete="current-username" class="block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 placeholder-gray-400 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm" required>
+                            <input id="username" name="username" type="text"  class="block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 placeholder-gray-400 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm" required>
                         </div>
                     </div>
                     <div>
                         <label for="password" class="block text-sm font-medium text-gray-700">Contraseña</label>
                         <div class="mt-1"> 
-                            <input id="password" type="password" autocomplete="current-password" class="block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 placeholder-gray-400 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm" required>
+                            <input id="password" name="password" type="password" autocomplete="current-password" class="block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 placeholder-gray-400 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm" required>
                         </div>
                     </div>
                     <div class="flex items-center justify-between">

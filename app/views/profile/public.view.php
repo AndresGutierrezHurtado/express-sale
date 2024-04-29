@@ -19,18 +19,37 @@
                     <h2 class="text-xl font-bold"><?= $user -> username; ?></h2>
                     <p class="text-sm text-gray-600">Ubicación: <?= $user -> address; ?></p>
                     <p class="text-sm text-gray-600">Número: <?= $user -> phone_number; ?></p>
-                    <p class="text-sm text-gray-600"> * Ventas</p>
+                    <p class="text-sm text-gray-600"> 0 Ventas</p>
                 </div>
             </div>
-            <div class="mt-4">
-                <h3 class="text-lg font-semibold">calificacion:</h3>
-                <span>
-                    <i class="fa-regular fa-star"></i><i class="fa-regular fa-star"></i><i class="fa-regular fa-star"></i><i class="fa-regular fa-star"></i><i class="fa-regular fa-star"></i>
+            <div class="flex flex-col gap-2">
+                <h3 class="text-lg font-semibold">Calificación:</h3>
+                <span class="flex items-center">
+                    <?php
+                        $calificacion = $user -> rating;
+                        $calificacionEntera = floor($calificacion);
+                        $fraccion = $calificacion - $calificacionEntera;
+
+                        for ($i = 0; $i < $calificacionEntera; $i++) {
+                            echo '<i class="fa-solid fa-star"></i>';
+                        }
+                        
+                        if ($fraccion >= 0.5) {
+                            echo '<i class="fa-solid fa-star-half-stroke"></i>';
+                            $calificacionEntera++;
+                        }
+
+                        for ($i = $calificacionEntera; $i < 5; $i++) {
+                            echo '<i class="fa-regular fa-star"></i>';
+                        }
+                    ?>
+                    <p class="mx-3 text-black/[0.5]"> (<?= $user -> votes ?>) </p> 
                 </span>
+                <button class="bg-violet-600 text-white font-bold rounded-lg duration-300 hover:bg-violet-400 px-5 py-1 w-fit">Votar</button>
             </div>
-            <div class="mt-4">
+            <div class="">
                 <h3 class="text-lg font-semibold">Descripción:</h3>
-                <p>Descripción</p>
+                <p><?= $user -> description ?></p>
             </div>
         </div>
         <div class="bg-white p-10 py-5 rounded-lg flex flex-col gap-5">

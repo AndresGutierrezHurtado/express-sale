@@ -7,17 +7,11 @@ loginForm.addEventListener('submit', (e) => {
 });
 
 async function loginFormSubmit() {
-    let user={};
-    user.username = document.getElementById('username').value;
-    user.password = document.getElementById('password').value;
-    user.rememberMe = document.getElementById('remember_me').checked;
+    let user = new FormData(loginForm);
 
-    fetch('http://localhost:3000/user/login', {
-        headers: {
-            'Content-Type': 'application/json'
-        },
+    fetch('/user/login', {
         method: 'POST',
-        body: JSON.stringify(user)
+        body: user
     })
     .then(response => response.json())
     .then(data => {
