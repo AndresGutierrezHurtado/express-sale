@@ -35,10 +35,10 @@ function buildQueryString($params) {
         <div class="container mx-auto flex flex-col gap-10 justify-between items-center py-10 px-5">
             <span class="w-full flex flex-col sm:flex-row gap-4 justify-between">
                 <div class="flex flex-col text-center sm:text-start">
-                    <h2 class="text-2xl font-bold tracking-tight">Productos</h2>
+                    <h2 class="text-2xl font-bold tracking-tight"><?= isset($_GET['search']) && !empty($_GET['search']) ? $_GET['search'] : (isset($_GET['value']) ? $_GET['value'] : 'Productos') ?></h2>
                     <p><?= $products['rows'] ?> resultados</p>
                 </div>
-                <div class="flex">
+                <div class="flex items-center gap-2">
                     <p>ordenar por</p>
                     <select class="h-fit bg-transparent" id="sort-select" onchange="window.location = this.value">
                         <option value="/page/products/?sort=rating<?= buildQueryString(['search', 'max', 'min', 'filter', 'value']) ?>" <?= isset($_GET['sort']) && $_GET['sort'] == 'calification' ? 'selected' : ''?>>Destacado</option>
@@ -99,7 +99,7 @@ function buildQueryString($params) {
                         <?php if($product['state'] == 'private') { continue;} ?>
                         <article class="flex flex-col md:flex-row justify-between gap-4 bg-white p-4 rounded-lg shadow-lg border min-h-[250px]">
                             <div class="w-full md:w-3/12 max-h-[230px] flex items-center justify-center">
-                                <img src="<?= $product['image'] ?>" alt="<?= $product['name']; ?>" class="max-w-full max-h-full">
+                                <img src="<?= $product['image'] ?>" alt="<?= $product['name']; ?>" class="max-w-full max-h-[230px]">
                             </div>
                             <div class="w-full md:w-7/12 flex flex-col justify-between gap-5">
                                 <div class="flex flex-col gap-4">   
@@ -109,7 +109,7 @@ function buildQueryString($params) {
                                     </div>                             
                                     <p><?= $product['description']; ?></p>
                                 </div>
-                                <div class="w-full flex justify-between">
+                                <div class="w-full flex flex-col sm:flex-row justify-between">
                                     <h3 class="font-medium text-xl"><?= number_format($product['price']); ?> COP</h3>
                                     <span class="flex gap-3 items-center">
                                         <span>
@@ -137,8 +137,8 @@ function buildQueryString($params) {
                                     </span>
                                 </div>
                             </div>
-                            <span class="w-2/12 flex items-center justify-center">
-                                <button class="rounded-full size-[60px] border-2 border-black btn-add-cart"  data-id="<?= $product['id'] ?>" data-name="<?= $product['name'] ?>" data-price="<?= $product['price'] ?>" data-image="<?= $product['image'] ?>"><i class="fa-solid fa-cart-plus text-2xl"></i></button>
+                            <span class="w-full sm:w-2/12 flex items-center justify-center">
+                                <button class="rounded-full size-[60px] border-2 border-black btn-add-cart"  data-id="<?= $product['id'] ?>" data-name="<?= $product['name'] ?>" data-price="<?= $product['price'] ?>" data-image="<?= $product['image'] ?>" <?= isset($_SESSION['user_id']) ? "data-session='true'" : "data-session='false'"?>><i class="fa-solid fa-cart-plus text-2xl"></i></button>
                             </span>
                         </article>
                     <?php endforeach; ?>
@@ -198,6 +198,7 @@ function buildQueryString($params) {
                         <span class="star" data-value="4"><i class="fa-regular fa-star cursor-pointer text-amber-600 duration-300 hover:scale-[1.15]"> </i></span>
                         <span class="star" data-value="5"><i class="fa-regular fa-star cursor-pointer text-amber-600 duration-300 hover:scale-[1.15]"> </i></span>
                     </div>
+                    <a class="hidden" id="btn-empty"></a>
                     <button id="calificar-btn" class="hidden bg-violet-600 font-bold duration-300 hover:bg-violet-800 text-white py-2 px-4 rounded-lg">Calificar</button>
                 </form>
             </div>
@@ -304,8 +305,9 @@ function buildQueryString($params) {
         }
 
         function login () {
-            alert('para votar tienes que iniciar sesión')
-            window.location.href = "/page/login";
+            if (confirm('para realizar esta acción tienes que iniciar sesión')){
+                window.location.href = '/page/login'
+            }
         }
     </script>
 </body>

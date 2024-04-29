@@ -15,12 +15,12 @@ class Mailer{
         $mail->isSMTP();
         $mail->Host = 'smtp.gmail.com';
         $mail->SMTPAuth = true;
-        $mail->Username = 'Laabejita22.uni@gmail.com';
-        $mail->Password = 'kvsm nlpn zsgi umfm';
+        $mail->Username = 'expresssale.exsl@gmail.com';
+        $mail->Password = 'lovr doed whuz zmhq';
         $mail->SMTPSecure = 'tls';
         $mail->Port = 587;
 
-        $mail->setFrom('Laabejita22.uni@gmail.com', 'Express Sale');
+        $mail->setFrom('expresssale.exsl@gmail.com', 'Express Sale');
         $mail->addAddress($to);
         $mail->Subject = $subject;
         $mail->Body = $message;

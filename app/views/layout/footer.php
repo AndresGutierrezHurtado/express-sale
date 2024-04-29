@@ -4,10 +4,10 @@
         <!-- Contact & Social Media Column -->
         <div class="flex flex-col gap-2 text-lg">
             <h2 class="font-bold text-2xl mb-3 uppercase tracking-tight"> Contacto </h2>
-            <p class="flex gap-2 items-center"> <i class="fa-solid fa-phone text-xl"></i> (+57) 320 9202177</p>
-            <p class="flex gap-2 items-center"> <i class="fa-regular fa-envelope text-xl"></i> express_sale@gmail.com</p>
-            <p class="flex gap-2 items-center"> <i class="fa-brands fa-instagram text-xl"></i> express_sale</p>
-            <p class="flex gap-2 items-center"> <i class="fa-brands fa-facebook text-xl"></i> Express Sale</p> 
+            <p class="flex gap-2 items-center"> <i class="fa-solid fa-phone text-xl"></i> (+57) 320 9202177 </p>
+            <p class="flex gap-2 items-center"> <i class="fa-regular fa-envelope text-xl"></i> expresssale.exsl@gmail.com </p>
+            <p class="flex gap-2 items-center"> <i class="fa-brands fa-instagram text-xl"></i> express_sale </p>
+            <p class="flex gap-2 items-center"> <i class="fa-brands fa-facebook text-xl"></i> Express Sale </p> 
         </div>
         <!-- Newsletter Form Column -->
         <div class="flex flex-col gap-2">

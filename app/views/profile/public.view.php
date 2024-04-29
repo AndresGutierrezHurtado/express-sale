@@ -10,12 +10,12 @@
 </head>
 <body class="bg-gray-100">
     <?php require_once(__DIR__ . "/../layout/header.php")?>
-    <main class="container mx-auto p-4 flex justify-center gap-10 py-12">
+    <main class="container mx-auto p-4 flex flex-col md:flex-row justify-center gap-10 py-12">
         <div class="w-full max-w-[400px] bg-white p-6 rounded-lg shadow-md h-fit flex flex-col gap-5">
             <h3 class="text-2xl font-bold tracking-tight">Información del vendedor:</h3>
-            <div class="flex items-center space-x-4">
+            <div class="flex flex-col sm:flex-row items-center space-x-4">
                 <img src="<?= $user -> image; ?>" alt="Perfil" class="h-24 w-24 rounded-full">
-                <div>
+                <div class="w-full ">
                     <h2 class="text-xl font-bold"><?= $user -> username; ?></h2>
                     <p class="text-sm text-gray-600">Ubicación: <?= $user -> address; ?></p>
                     <p class="text-sm text-gray-600">Número: <?= $user -> phone_number; ?></p>
@@ -52,14 +52,14 @@
                 <p><?= $user -> description ?></p>
             </div>
         </div>
-        <div class="bg-white p-10 py-5 rounded-lg flex flex-col gap-5">
+        <div class="bg-white p-3 md:p-10 py-5 rounded-lg flex flex-col gap-5">
             <h3 class="text-2xl font-bold tracking-tight">Productos:</h3>
             <div class="w-full max-w-[650px] flex flex-col gap-2">
                 <?php foreach ($products['data'] as $product): ?>
                     <?php if($product['state'] == 'private') { continue;} ?>
                     <article class="flex flex-col md:flex-row justify-between gap-4 bg-white p-4 rounded-lg shadow-lg border min-h-[250px]">
                         <div class="w-full md:w-3/12 max-h-[230px] flex items-center justify-center">
-                            <img src="<?= $product['image'] ?>" alt="<?= $product['name']; ?>" class="max-w-full max-h-full">
+                            <img src="<?= $product['image'] ?>" alt="<?= $product['name']; ?>" class="max-w-full max-h-[230px]">
                         </div>
                         <div class="w-full md:w-7/12 flex flex-col justify-between gap-5">
                             <div class="flex flex-col gap-4">   
@@ -68,9 +68,9 @@
                                 </div>                             
                                 <p><?= $product['description']; ?></p>
                             </div>
-                            <div class="w-full flex justify-between">
+                            <div class="w-full flex flex-col sm:flex-row justify-between">
                                 <h3 class="font-medium text-xl"><?= number_format($product['price']); ?> COP</h3>
-                                <span class="flex gap-3">
+                                <span class="flex  gap-3"><span class="flex gap-3 items-center">
                                     <span>
                                         <?php
                                             $calificacion = $product['rating'];
@@ -92,10 +92,11 @@
                                         ?>
                                     </span>
                                     <p class="opacity-[0.4]"><?= $product['rating'] ?> (<?= $product['votes'] ?>)</p>
+                                    <button class="text-violet-600 font-bold border-2 border-violet-600 duration-300 hover:bg-gray-100 size-[30px] rounded-full" onclick="<?= isset($_SESSION['user_id']) ?  "toggleModal(".$product['id'].", ".$product['rating'].", ".$product['votes'].")" : "login()" ?>"><i class="fa-solid fa-plus"></i></button>
                                 </span>
                             </div>
                         </div>
-                        <span class="w-2/12 flex items-center justify-center">
+                        <span class="w-full sm:w-2/12 flex items-center justify-center">
                             <button class="rounded-full size-[60px] border-2 border-black btn-add-cart"  data-id="<?= $product['id'] ?>" data-name="<?= $product['name'] ?>" data-price="<?= $product['price'] ?>" data-image="<?= $product['image'] ?>"><i class="fa-solid fa-cart-plus text-2xl"></i></button>
                         </span>
                     </article>

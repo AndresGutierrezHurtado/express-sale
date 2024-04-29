@@ -8,10 +8,12 @@
     <script src="https://kit.fontawesome.com/eb36e646d1.js" crossorigin="anonymous"></script>
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body class="w-full min-h-screen bg-gray-50 flex items-center justify-center relative overflow-hidden">
-    <div class="absolute bg-violet-800 h-[140vh] w-[100%] right-[-50%] rounded-full top-1/2 transform -translate-y-1/2"></div>
+<body class="w-full min-h-screen bg-gray-50 flex items-center justify-center relative">
+    <div class="aboslte inset-0 fixed overflow-hidden">
+        <div class="absolute bg-violet-800 h-[120%] md:h-[140vh] w-[100%] right-[-50%] rounded-full top-1/2 transform -translate-y-1/2"></div>
+    </div>
     <main class="flex items-center justify-center ">
-        <div class="mx-auto max-w-md md:max-w-lg z-50">
+        <div class="mx-auto max-w-md md:max-w-lg z-50 py-10">
             <div class="bg-white px-4 pb-4 pt-8 sm:rounded-xl sm:px-10 sm:pb-6 sm:shadow-xl z-50">
                 <a href="/" class="flex justify-center items-center mx-auto w-5/12 pb-5">
                     <img src="/public/images/logo.png" alt="logo.png" class="inicio">

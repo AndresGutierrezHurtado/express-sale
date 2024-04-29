@@ -12,19 +12,19 @@
 
     <?php require_once(__DIR__ . "/../layout/header.php")?>
 
-    <main class="w-full my-14 flex justify-center">
-        <div class="flex gap-5 w-7/12">   
+    <main class="w-full my-14 ">
+        <div class="flex flex-col md:flex-row gap-5 w-full md:w-11/12 lg:w-7/12 p-3 mx-auto">   
             <!-- Contenedor para el listado de productos -->
-            <div class="w-7/12 h-fit bg-white py-5 p-4 shadow rounded flex flex-col gap-4">
+            <div class="w-full md:w-7/12 h-fit bg-white py-5 p-4 shadow rounded flex flex-col gap-4">
                 <h2 class="text-2xl font-bold tracking-tight">Carrito de compras: </h2>
                 <hr>
                 <?php foreach ($cart as $product) : ?>
-                    <div class="flex items-start gap-4 py-2 p-4">
-                        <div class="w-3/12">
+                    <div class="flex flex-col md:flex-row items-start gap-4 py-2 p-4">
+                        <div class="w-full md:w-3/12">
                             <img src="<?= $product['image']; ?>" alt="<?= $product['name']; ?>" class="max-w-full max-h-full">
                         </div>
-                        <div class="w-9/12 px-4 flex flex-col justify-center gap-2 h-full">
-                            <div class="flex gap-2">
+                        <div class="w-full md:w-9/12 px-4 flex flex-col justify-center gap-2 h-full">
+                            <div class="flex flex-col md:flex-row gap-2">
                                 <div class="w-full">
                                     <h3 class="text-[22px] font-semibold"><?= $product['name']; ?></h3>
                                     <span class="flex gap-3">
@@ -39,7 +39,7 @@
                                 </div>
                             </div>
 
-                            <span class="flex justify-between">
+                            <span class="flex flex-col sm:flex-row justify-between">
                                 <p class="text-gray-800 text-md font-semibold">Precio: <?=  number_format($product['price'], 2); ?> COP</p>
                                 <p class="text-gray-600">Total: <?=  number_format($product['price'] * $product['quantity'], 2); ?> COP</p>
                             </span>
@@ -57,7 +57,7 @@
             </div>         
 
             <!-- Contenedor para la información total de la venta -->
-            <div class=" bg-white p-5 flex flex-col gap-2 shadow rounded mb-8 w-4/12 h-fit">
+            <div class=" bg-white p-5 flex flex-col gap-2 shadow rounded mb-8 w-full md:w-4/12 h-fit">
                 <h2 class="text-2xl font-bold tracking-tight"> Total compra: </h2>
                 <?php
                 $totalVenta = 0;

@@ -15,7 +15,7 @@
 
             <input type="number" class="hidden" name="user_id" id="user_id" value="<?= isset($_GET['id']) ? $_GET['id'] : $_SESSION['user_id'] ?>">
 
-            <div class="bg-white flex flex-col gap-4 p-5 rounded-lg shadow-lg w-full md:w-4/12 lg:w-auto max-w-[320px] px-8">
+            <div class="bg-white flex flex-col gap-4 p-5 rounded-lg shadow-lg w-full md:w-4/12 lg:w-auto max-w-[320px] px-8 mx-auto">
                 <h1 class="text-lg uppercase tracking-tight font-bold">Imagen:</h1>
                 <div class="mx-auto size-full p-2">
                     <img src="<?= $user->image ?>" alt="Imagen de perfil" class="object-cover rounded-lg shadow-lg">
@@ -72,7 +72,7 @@
         
         <?php if($user -> role_id == 2): ?>
         <div class="w-full flex flex-col shadow-lg rounded-lg">
-            <span class="w-full flex justify-between bg-slate-800 text-white p-3 rounded-t-lg">
+            <span class="w-full flex flex-col sm:flex-row gap-2 justify-between bg-slate-800 text-white p-3 rounded-t-lg">
                 <h1 class="text-xl tracking-tight font-bold ">Productos de <?= $user -> username ?></h1>
                 <?php if ($_SESSION['role_id'] == 2) : ?>
                 <div class="flex gap-5">
@@ -144,7 +144,7 @@
 
         <div class="fixed inset-0 hidden z-50" id="modal">
             <div id="modalBackground" class="fixed inset-0 bg-black bg-opacity-40" onclick="toggleModal()"></div>
-            <div id="myModal" class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 flex items-center justify-center ">
+            <div id="myModal" class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 flex items-center justify-center w-10/12 sm:w-8/12 md:w-6/12 lg:w-4/12 xl:w-2/12">
                 <div class="w-full md:w-auto md:max-w-full md:min-w-[500px] bg-white p-5 rounded-md">
                     <span class="flex justify-between items-center">
                         <span class="text-lg font-bold">Nuevo Objeto</span>
