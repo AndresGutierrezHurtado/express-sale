@@ -1,5 +1,4 @@
 <?php
-session_start();
 require_once (__DIR__ . "/../models/cart.php");
 class PageController {
     private $productModel;

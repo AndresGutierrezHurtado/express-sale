@@ -11,7 +11,7 @@ function findUserById($users, $id) {
 function buildQueryString($params) {
     $queryString = '';
     foreach ($params as $param) {
-        if (isset($_GET[$param]) && !empty($_GET[$param])) {
+        if (isset($_GET[$param])) {
             $queryString .= '&' . $param . '=' . $_GET[$param];
         }
     }
@@ -35,7 +35,7 @@ function buildQueryString($params) {
         <div class="container mx-auto flex flex-col gap-10 justify-between items-center py-10 px-5">
             <span class="w-full flex flex-col sm:flex-row gap-4 justify-between">
                 <div class="flex flex-col text-center sm:text-start">
-                    <h2 class="text-2xl font-bold tracking-tight"><?= isset($_GET['search']) && !empty($_GET['search']) ? $_GET['search'] : (isset($_GET['value']) ? $_GET['value'] : 'Productos') ?></h2>
+                    <h2 class="text-2xl font-bold tracking-tight"><?= isset($_GET['search']) && !empty($_GET['search']) ? $_GET['search'] : (isset($_GET['value']) ? ($_GET['value'] == 1 ? 'Ropa y calzado' : ($_GET['value'] == 2 ? 'Comida' : ($_GET['value'] == 3 ? 'Tecnología' : ($_GET['value'] == 4 ? 'Otros' : 'Productos')))) : 'Productos'); ?></h2>
                     <p><?= $products['rows'] ?> resultados</p>
                 </div>
                 <div class="flex items-center gap-2">

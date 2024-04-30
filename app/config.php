@@ -10,3 +10,10 @@ define('DB_HOSTNAME', 'localhost');
 define('DB_USERNAME', 'root');
 define('DB_PASSWORD', '');
 define('DB_NAME', 'express-sale-db');
+
+/*
+define('DB_HOSTNAME', 'localhost');
+define('DB_USERNAME', 'id22105035_expresssale');
+define('DB_PASSWORD', 'Exsl.2024');
+define('DB_NAME', 'id22105035_express_sale_db');
+*/

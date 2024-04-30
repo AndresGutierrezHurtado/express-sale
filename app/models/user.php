@@ -13,13 +13,12 @@ class User extends Orm{
         if ($result && $result->num_rows > 0) {
             $user = $result->fetch_assoc();
             if ($data["password"] == $user["password"]) {
-                session_start();
-                    $_SESSION["user_id"] = $user["user_id"];
-                    $_SESSION["full_name"] = $user["full_name"];
-                    $_SESSION["username"] = $user["username"];
-                    $_SESSION["email"] = $user["email"];
-                    $_SESSION["role_id"] = $user["role_id"];
-                    $_SESSION["cart"] = array();
+                $_SESSION["user_id"] = $user["user_id"];
+                $_SESSION["full_name"] = $user["full_name"];
+                $_SESSION["username"] = $user["username"];
+                $_SESSION["email"] = $user["email"];
+                $_SESSION["role_id"] = $user["role_id"];
+                $_SESSION["cart"] = array();
 
                 return ['success' => true, 'message' => 'La inserción se realizó correctamente.'];
             } else {

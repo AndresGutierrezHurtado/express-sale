@@ -51,10 +51,12 @@
                     <input type="number" id="phone_number" name="phone_number" value="<?= $user->phone_number; ?>" class="w-full border rounded-lg py-1 px-3" disabled>
                 </div>
 
-                <div class="flex flex-col gap-1">
-                    <label for="description" class="text-md font-medium text-gray-700">Descripción:</label>
-                    <textarea type="text" id="description" name="description" class="h-24 w-full border rounded-lg py-1 px-1 resize-none" disabled> <?= $user -> description ?> </textarea>
-                </div>
+                <?php if ($user -> role_id == 2):?>
+                    <div class="flex flex-col gap-1">
+                        <label for="description" class="text-md font-medium text-gray-700">Descripción:</label>
+                        <textarea type="text" id="description" name="description" class="h-24 w-full border rounded-lg py-1 px-1 resize-none" disabled> <?= $user -> description ?> </textarea>
+                    </div>
+                <?php endif; ?>
 
                 <label for="account_type" class="">Tipo de Cuenta: <strong> <?= $user -> role_id == 3 ? 'Adminstrador' : ($user -> role_id  == 2 ? 'Vendedor' : 'Usuario'); ?> </strong></label>
                 
@@ -62,10 +64,11 @@
                     <div>
                         <button type="submit" id="btn-submit" name="submit" class="bg-violet-800 text-white py-2 px-4 rounded-md mt-auto w-max font-bold hidden">Actualizar Perfil</button>
                     </div>
-                    
-                    <div class="flex justify-end gap-5">
-                        <?= $_SESSION['role_id'] == 3 ? '<a href="/page/dashboard_users" class="bg-violet-800 text-white py-2 px-4 rounded-md mt-auto w-max font-bold"> Administrador </a>' : '' ?>
-                    </div>
+                    <?php if ($_SESSION['role_id'] == 3):?>
+                        <div class="flex justify-end gap-5">
+                            <a href="/page/dashboard_users" class="bg-violet-800 text-white py-2 px-4 rounded-md mt-auto w-max font-bold"> Administrador </a>
+                        </div>
+                    <?php endif; ?>
                 </span>
             </div>
         </form>

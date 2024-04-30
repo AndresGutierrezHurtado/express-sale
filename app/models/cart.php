@@ -1,6 +1,5 @@
 <?php
 
-
 class Cart{
 
     public function getAll(){

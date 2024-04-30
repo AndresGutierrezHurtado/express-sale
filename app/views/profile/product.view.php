@@ -49,7 +49,7 @@
 
                 <div class="flex flex-col gap-1">
                     <label for="category" class="text-md font-medium text-gray-700">Categoría:</label>
-                    <select name="category" id="category" class="w-full border rounded-lg py-1 px-3" disabled>
+                    <select name="category_id" id="category_id" class="w-full border rounded-lg py-1 px-3" disabled>
                         <option value="1" <?= $product->category_id == '1' ? 'selected' : '' ?>>Moda</option>
                         <option value="2" <?= $product->category_id == '2' ? 'selected' : '' ?>>Comida</option>
                         <option value="3" <?= $product->category_id == '3' ? 'selected' : '' ?>>Tecnología</option>

@@ -2,7 +2,7 @@
 function buildQueryString($params) {
     $queryString = '';
     foreach ($params as $param) {
-        if (isset($_GET[$param]) && !empty($_GET[$param])) {
+        if (isset($_GET[$param])) {
             $queryString .= '&' . $param . '=' . $_GET[$param];
         }
     }

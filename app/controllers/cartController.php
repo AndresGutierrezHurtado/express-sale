@@ -1,8 +1,6 @@
 <?php
 require_once (__DIR__ . "/../models/cart.php");
 
-session_start();
-
 class cartController {
     
     private $cartModel;

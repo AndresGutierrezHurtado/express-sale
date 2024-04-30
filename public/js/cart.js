@@ -27,7 +27,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 .then(Response => Response.json())
                 .then(Data => {
                     if (Data.success) {
-                        console.log(Data.cart);
+                        console.log('Producto agregado correctamente.');
                     }
                 })   
             }         

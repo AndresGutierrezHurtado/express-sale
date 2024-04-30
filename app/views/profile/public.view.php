@@ -154,6 +154,7 @@
                             <span class="star" data-value="4"><i class="fa-regular fa-star cursor-pointer text-amber-600 duration-300 hover:scale-[1.15]"> </i></span>
                             <span class="star" data-value="5"><i class="fa-regular fa-star cursor-pointer text-amber-600 duration-300 hover:scale-[1.15]"> </i></span>
                         </div>
+                        <a class="hidden" id="btn-empty"></a>
                         <button id="calificar-btn" class="hidden bg-violet-600 font-bold duration-300 hover:bg-violet-800 text-white py-2 px-4 rounded-lg">Calificar</button>
                     </form>
                 </div>
@@ -161,6 +162,7 @@
         </div>
     </main>
     <?php require_once(__DIR__ . "/../layout/footer.php") ?>
+    <script src="/public/js/cart.js"></script>
     <script>        
         const stars = document.querySelectorAll('.star');
         const submitButton = document.getElementById('calificar-btn');
