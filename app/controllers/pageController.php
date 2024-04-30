@@ -4,6 +4,7 @@ class PageController {
     private $productModel;
     private $userModel;
     private $cartModel;
+
     public function __construct(mysqli $conn) { 
         $this -> productModel = new Product($conn);
         $this -> userModel = new User($conn);
@@ -93,7 +94,12 @@ class PageController {
         $page = isset($_GET['page']) ? $_GET['page'] : 1;        
         $sort = isset($_GET['sort']) ? $_GET['sort'] : 'id';
 
-        $products = $this -> productModel -> paginate($page, 5, "", "ORDER BY $sort ASC");
+        $search = isset($_GET['search']) ? "WHERE (name LIKE '%".$_GET['search']."%' OR description LIKE '%".$_GET['search']."%' OR id LIKE '% ".$_GET['search']."%')" : "" ;
+
+        $queryRows = "$search";
+        $query = "$search ORDER BY $sort ASC";
+
+        $products = $this -> productModel -> paginate($page, 5, $queryRows, $query);
         $user_sesion = $this -> userModel -> getById($_SESSION['user_id']);
         $users = $this -> userModel -> getAll();
         require_once(__DIR__ . "/../views/admin/dashboard_products.view.php");
