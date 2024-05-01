@@ -19,8 +19,8 @@ CREATE TABLE `users` (
 
 -- Insert data into users table
 INSERT INTO `users` (`user_id`, `full_name`, `email`, `username`, `phone_number`, `address`, `image`, `password`, `role_id`, `description`, `rating`) VALUES 
-(1, 'Express Sale', 'express_sale@gmail.com', 'Express_Sale', 1231231212, 'Bogotá', '/public/images/logo.png', '1234', 3, NULL, NULL),
-(2, 'Andrés Gutiérrez Hurtado', 'andres52885241@gmail.com', 'Andres_Gutierrez', 3209202177, 'Dg 68 D sur 70C 31', '/public/images/users/1.jpg', '1234', 2, 'Vendedor.', 0.00),
+(1, 'Express Sale', 'express_sale@gmail.com', 'Express_Sale', 3209202177, 'Bogotá(Ciudad Bolivar, Usme)', '/public/images/nf.png', '1234', 3, NULL, NULL),
+(2, 'Andrés Gutiérrez Hurtado', 'andres52885241@gmail.com', 'Andres_Gutierrez', 3209202177, 'Dg 68 D sur 70C 31', '/public/images/users/nf.jpg', '1234', 2, 'Vendedor.', 0.00),
 (3, 'David Fernando Diaz Niausa', 'davidfernandodiazniausa@gmail.com', 'David_Diaz', 1231231212, 'Usme', '/public/images/users/nf.jpg', '1234', 2, 'Vendedor.', 0.00),
 (4, 'Jaider Harley Rondón Herrera', 'rondonjaider@gmail.com', 'Jaider_Rondon', 1231231212, 'Usme', '/public/images/users/nf.jpg', '1234', 2, 'Vendedor.', 0.00),
 (5, 'Juan Sebastian Bernal Gamboa', 'juansebastianbernalgamboa@gmail.com', 'Juan_Sebastian', 1231231212, 'Usme', '/public/images/users/nf.jpg', '1234', 2, 'Vendedor.', 0.00),
