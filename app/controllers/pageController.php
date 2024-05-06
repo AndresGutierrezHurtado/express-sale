@@ -3,16 +3,19 @@ class PageController {
     private $productModel;
     private $userModel;
     private $cartModel;
+    private $saleModel;
 
     public function __construct(mysqli $conn) { 
         $this -> productModel = new Product($conn);
         $this -> userModel = new User($conn);
         $this -> cartModel = new Cart();
+        $this -> saleModel = new Sale($conn);
     }
     
     public function home(){
         require_once(__DIR__ . "/../views/home/home.view.php");
     }  
+
     public function products(){
         $users = $this -> userModel -> getAll();
         $page = isset($_GET['page']) ? $_GET['page'] : 1;
@@ -51,17 +54,20 @@ class PageController {
         $isAdmin = isset($_SESSION['role_id']) && $_SESSION['role_id'] == 3 || $_SESSION['user_id'] == $id ? true : false;
         if (!$isAdmin) {header('location: /'); exit();}
 
-        $page = isset($_GET['page']) ? $_GET['page'] : 1;
+        $pageProducts = isset($_GET['pageProducts']) ? $_GET['pageProducts'] : 1;
         
         $user = $this -> userModel -> getById( $id );
 
-        $products = $this -> productModel -> paginate($page, 5, "WHERE user_id = $id", "WHERE user_id = $id");
+        $products = $this -> productModel -> paginate($pageProducts, 5, "WHERE user_id = $id", "WHERE user_id = $id");
+
+        $pageSales = isset($_GET['pageSales']) ? $_GET['pageSales'] : 1;
+        $sales = $this -> saleModel -> paginate($pageSales, 5, "WHERE user_id = $id", "WHERE user_id = $id");
         require_once(__DIR__. "/../views/profile/user.view.php");
     }
 
     public function product_profile() {
         $product = $this -> productModel -> getById( $_GET['id'] );
-        $isAdmin = isset($_SESSION['role_id']) && $_SESSION['role_id'] == 3 || $_SESSION['user_id'] == $product -> user_id ? true : false;
+        $isAdmin = isset($_SESSION['role_id']) && $_SESSION['role_id'] == 3 || $_SESSION['user_id'] == $product['user_id'] ? true : false;
         if (!$isAdmin) {header('location: /'); exit();}
 
         require_once(__DIR__. "/../views/profile/product.view.php");
@@ -115,7 +121,7 @@ class PageController {
 
         $user = $this -> userModel -> getById( $vendedor_id );
 
-        $isAdmin = $user -> role_id == 2 ? true : false;
+        $isAdmin = $user['role_id'] == 2 ? true : false;
         if (!$isAdmin) {header('location: /'); exit();}
 
         $products = $this -> productModel -> paginate($page, 2, "WHERE user_id = $vendedor_id", "WHERE user_id = $vendedor_id");   
