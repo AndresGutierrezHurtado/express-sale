@@ -1,6 +1,4 @@
 <?php
-// /app/controllers/userController.php
-require_once (__DIR__ . "/../models/user.php");
 
 class UserController {
     private $userModel;

@@ -1,6 +1,7 @@
 FALTA :
  - PASARELA
  - MIS COMPRAS
+ - Agregar formulario con ubicación
 
 ACCIONES :
  - Login y register

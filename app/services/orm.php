@@ -55,7 +55,7 @@ class Orm {
     public function getById($id) {
         $query = "SELECT * FROM $this->table WHERE $this->id = $id";
         $result = $this->db->query($query);
-        return $result -> fetch_object();
+        return $result -> fetch_assoc();
     }
     
     public function updateById($id, $data) {

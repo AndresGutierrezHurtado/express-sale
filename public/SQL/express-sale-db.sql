@@ -19,7 +19,7 @@ CREATE TABLE `users` (
 
 -- Insert data into users table
 INSERT INTO `users` (`user_id`, `full_name`, `email`, `username`, `phone_number`, `address`, `image`, `password`, `role_id`, `description`, `rating`) VALUES 
-(1, 'Express Sale', 'express_sale@gmail.com', 'Express_Sale', 3209202177, 'Bogotá(Ciudad Bolivar, Usme)', '/public/images/nf.png', '1234', 3, NULL, NULL),
+(1, 'Express Sale', 'express_sale@gmail.com', 'Express_Sale', 3209202177, 'Bogotá(Ciudad Bolivar, Usme)', '/public/images/users/nf.jpg', '1234', 3, NULL, NULL),
 (2, 'Andrés Gutiérrez Hurtado', 'andres52885241@gmail.com', 'Andres_Gutierrez', 3209202177, 'Dg 68 D sur 70C 31', '/public/images/users/nf.jpg', '1234', 2, 'Vendedor.', 0.00),
 (3, 'David Fernando Diaz Niausa', 'davidfernandodiazniausa@gmail.com', 'David_Diaz', 1231231212, 'Usme', '/public/images/users/nf.jpg', '1234', 2, 'Vendedor.', 0.00),
 (4, 'Jaider Harley Rondón Herrera', 'rondonjaider@gmail.com', 'Jaider_Rondon', 1231231212, 'Usme', '/public/images/users/nf.jpg', '1234', 2, 'Vendedor.', 0.00),
@@ -66,7 +66,8 @@ CREATE TABLE `roles` (
 INSERT INTO `roles` (`id`, `name`) VALUES 
 (1, 'usuario'),
 (2, 'vendedor'),
-(3, 'administrador');
+(3, 'administrador'),
+(4, 'domiciliario');
 
 -- Create categories table
 CREATE TABLE `categories` (
@@ -81,6 +82,22 @@ INSERT INTO `categories` (`id`,`name`) VALUES
 (3, 'tecnologia'),
 (4, 'otros');
 
+-- Create sales table
+CREATE TABLE `sales` (
+    `id` INT PRIMARY KEY AUTO_INCREMENT,
+    `user_id` INT,
+    `description` TEXT,
+    `message` TEXT,
+    `full_name` VARCHAR(100),
+    `email` VARCHAR(100),
+    `phone_number` VARCHAR(20),
+    `address` VARCHAR(255),
+    `coords` VARCHAR(255),
+    `price` DECIMAL(9, 2),
+    `state` ENUM('Espera', 'Envío', 'Llegó') DEFAULT 'Espera',
+    `date` DATE
+);
+
 -- Add foreign keys
 ALTER TABLE `users` 
 ADD FOREIGN KEY (`role_id`) 
@@ -93,3 +110,8 @@ REFERENCES `users`(`user_id`);
 ALTER TABLE `products` 
 ADD FOREIGN KEY (`category_id`) 
 REFERENCES `categories`(`id`);
+
+
+ALTER TABLE `sales`
+ADD FOREIGN KEY (`user_id`) 
+REFERENCES `users`(`user_id`);
