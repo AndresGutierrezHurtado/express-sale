@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Perfil de <?= $user -> username ?> | Express Sale</title>
+    <title>Perfil de <?= $user['username'] ?> | Express Sale</title>
     <link rel="shortcut icon" href="/public/images/logo.png" type="image/png">
     <script src="https://kit.fontawesome.com/eb36e646d1.js" crossorigin="anonymous"></script>
     <script src="https://cdn.tailwindcss.com"></script>
@@ -14,19 +14,19 @@
         <div class="w-full max-w-[400px] bg-white p-6 rounded-lg shadow-md h-fit flex flex-col gap-5">
             <h3 class="text-2xl font-bold tracking-tight">Información del vendedor:</h3>
             <div class="flex flex-col sm:flex-row items-center space-x-4">
-                <img src="<?= $user -> image; ?>" alt="Perfil" class="h-24 w-24 rounded-full">
+                <img src="<?= $user['image']; ?>" alt="Perfil" class="h-24 w-24 rounded-full">
                 <div class="w-full ">
-                    <h2 class="text-xl font-bold"><?= $user -> username; ?></h2>
-                    <p class="text-sm text-gray-600">Ubicación: <?= $user -> address; ?></p>
-                    <p class="text-sm text-gray-600">Número: <?= $user -> phone_number; ?></p>
-                    <p class="text-sm text-gray-600"> 0 Ventas</p>
+                    <h2 class="text-xl font-bold"><?= $user['username']; ?></h2>
+                    <p class="text-sm text-gray-600">Ubicación: <?= $user['address']; ?></p>
+                    <p class="text-sm text-gray-600">Número: <?= $user['phone_number']; ?></p>
+                    <p class="text-sm text-gray-600"> <?= $user['sales_done'] ?> Ventas</p>
                 </div>
             </div>
             <div class="flex flex-col gap-2">
                 <h3 class="text-lg font-semibold">Calificación:</h3>
                 <span class="flex items-center">
                     <?php
-                        $calificacion = $user -> rating;
+                        $calificacion = $user['rating'];
                         $calificacionEntera = floor($calificacion);
                         $fraccion = $calificacion - $calificacionEntera;
 
@@ -43,13 +43,13 @@
                             echo '<i class="fa-regular fa-star"></i>';
                         }
                     ?>
-                    <p class="mx-3 text-black/[0.6]"> <?= $user -> rating ?> (<?= $user -> votes ?>) </p> 
+                    <p class="mx-3 text-black/[0.6]"> <?= $user['rating'] ?> (<?= $user['votes'] ?>) </p> 
                 </span>
                 <button class="bg-violet-600 text-white font-bold rounded-lg duration-300 hover:bg-violet-400 px-5 py-1 w-fit" onclick="<?= isset($_SESSION['user_id']) ?  "toggleModal()" : "login()" ?>">Votar</button>
             </div>
             <div class="">
                 <h3 class="text-lg font-semibold">Descripción:</h3>
-                <p><?= $user -> description ?></p>
+                <p><?= $user['description'] ?></p>
             </div>
         </div>
         <div class="bg-white p-3 md:p-10 py-5 rounded-lg flex flex-col gap-5">
@@ -106,7 +106,7 @@
                 <ul class="inline-flex -space-x-px text-lg">
                     <?php if ($products['page'] > 1): ?>
                     <li>
-                        <a href="/page/public_profile/?vendedor=<?=$user -> user_id?>&page=<?= $products['page'] - 1 ?>" class="flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-gray-50 border border-gray-500 rounded-s-lg hover:bg-gray-100 hover:text-gray-700">Anterior</a>
+                        <a href="/page/public_profile/?vendedor=<?=$user['user_id']?>&page=<?= $products['page'] - 1 ?>" class="flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-gray-50 border border-gray-500 rounded-s-lg hover:bg-gray-100 hover:text-gray-700">Anterior</a>
                     </li>
                     <?php else: ?>
                     <li>
@@ -116,13 +116,13 @@
 
                     <?php for ($i = 1; $i <= $products['pages']; $i++): ?>
                     <li>
-                        <a href="/page/public_profile/?vendedor=<?=$user -> user_id?>&page=<?= $i ?>" class=" flex items-center justify-center px-3 h-8 leading-tight border border-gray-500 duration-300 <?= $i == $products['page'] ? 'text-black bg-gray-300 font-semibold hover:bg-slate-700 hover:text-white' : 'text-gray-500 bg-gray-50 hover:bg-gray-300 hover:text-gray-700' ?>"><?= $i ?></a>
+                        <a href="/page/public_profile/?vendedor=<?=$user['user_id']?>&page=<?= $i ?>" class=" flex items-center justify-center px-3 h-8 leading-tight border border-gray-500 duration-300 <?= $i == $products['page'] ? 'text-black bg-gray-300 font-semibold hover:bg-slate-700 hover:text-white' : 'text-gray-500 bg-gray-50 hover:bg-gray-300 hover:text-gray-700' ?>"><?= $i ?></a>
                     </li>
                     <?php endfor; ?>
 
                     <?php if ($products['page'] < $products['pages']): ?>
                     <li>
-                        <a href="/page/public_profile/?vendedor=<?=$user -> user_id?>&page=<?= $products['page'] + 1 ?>" class="flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-gray-50 border border-gray-500 rounded-e-lg hover:bg-gray-100 hover:text-gray-700">Siguiente</a>
+                        <a href="/page/public_profile/?vendedor=<?=$user['user_id']?>&page=<?= $products['page'] + 1 ?>" class="flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-gray-50 border border-gray-500 rounded-e-lg hover:bg-gray-100 hover:text-gray-700">Siguiente</a>
                     </li>
                     <?php else: ?>
                     <li>
@@ -199,8 +199,8 @@
             e.preventDefault();
             
             let seller = <?= $_GET['vendedor']?>;
-            let votes = <?= $user -> votes?>;
-            let currentRating = <?= $user -> rating ?>;
+            let votes = <?= $user['votes']?>;
+            let currentRating = <?= $user['rating'] ?>;
 
             let newRating = ((currentRating * votes) + parseInt(document.querySelector('.star.selected').dataset.value)) / (votes + 1);
 

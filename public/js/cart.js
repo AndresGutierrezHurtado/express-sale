@@ -16,6 +16,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 
                 let product = new FormData();
                 product.append('id', button.getAttribute('data-id'));
+                product.append('user_id', button.getAttribute('data-user_id'));
                 product.append('name', button.getAttribute('data-name'));
                 product.append('price', button.getAttribute('data-price'));
                 product.append('image', button.getAttribute('data-image'));

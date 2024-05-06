@@ -138,7 +138,7 @@ function buildQueryString($params) {
                                 </div>
                             </div>
                             <span class="w-full sm:w-2/12 flex items-center justify-center">
-                                <button class="rounded-full size-[60px] border-2 border-black btn-add-cart"  data-id="<?= $product['id'] ?>" data-name="<?= $product['name'] ?>" data-price="<?= $product['price'] ?>" data-image="<?= $product['image'] ?>" <?= isset($_SESSION['user_id']) ? "data-session='true'" : "data-session='false'"?>><i class="fa-solid fa-cart-plus text-2xl"></i></button>
+                                <button class="rounded-full size-[60px] border-2 border-black btn-add-cart" data-user_id="<?= $product['user_id'] ?>"  data-id="<?= $product['id'] ?>" data-name="<?= $product['name'] ?>" data-price="<?= $product['price'] ?>" data-image="<?= $product['image'] ?>" <?= isset($_SESSION['user_id']) ? "data-session='true'" : "data-session='false'"?>><i class="fa-solid fa-cart-plus text-2xl"></i></button>
                             </span>
                         </article>
                     <?php endforeach; ?>

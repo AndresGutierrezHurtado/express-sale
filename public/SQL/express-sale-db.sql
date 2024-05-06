@@ -10,6 +10,7 @@ CREATE TABLE `users` (
     `description` TEXT, 
     `rating` DECIMAL(3, 2),
     `votes` INT DEFAULT 0,
+    `sales_done` INT DEFAULT 0,
     `phone_number` DECIMAL(10),
     `address` VARCHAR(255),
     `image` VARCHAR(100),
@@ -115,3 +116,40 @@ REFERENCES `categories`(`id`);
 ALTER TABLE `sales`
 ADD FOREIGN KEY (`user_id`) 
 REFERENCES `users`(`user_id`);
+
+DELIMITER $$
+
+CREATE TRIGGER after_insert_sale
+AFTER INSERT ON sales
+FOR EACH ROW
+BEGIN
+    DECLARE product_id INT;
+    DECLARE quantity_sold INT;
+    DECLARE seller_id INT;
+    DECLARE total_products INT; -- Declarar la variable total_products
+
+    -- Get the total number of products in the description JSON array
+    SET total_products = JSON_LENGTH(NEW.description); -- Cambiar @total_products a total_products
+
+    -- Iterate through each product in the sale
+    SET @i = 0;
+    WHILE @i < total_products DO -- Cambiar @total_products a total_products
+        -- Get product id, quantity sold, and seller id
+        SET product_id = JSON_UNQUOTE(JSON_EXTRACT(NEW.description, CONCAT('$[', @i, '].id')));
+        SET quantity_sold = JSON_UNQUOTE(JSON_EXTRACT(NEW.description, CONCAT('$[', @i, '].quantity')));
+        SET seller_id = JSON_UNQUOTE(JSON_EXTRACT(NEW.description, CONCAT('$[', @i, '].user_id')));
+
+        -- Check if product id is not null
+        IF product_id IS NOT NULL THEN
+            -- Update stock of the product
+            UPDATE products SET stock = stock - quantity_sold WHERE id = product_id;
+            -- Update sales_done of the seller
+            UPDATE users SET sales_done = sales_done + 1 WHERE user_id = seller_id;
+        END IF;
+
+        -- Increment the loop counter
+        SET @i = @i + 1;
+    END WHILE;
+END$$
+
+DELIMITER ;
