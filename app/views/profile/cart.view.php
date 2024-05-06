@@ -84,7 +84,9 @@
                     <p>Total: </p> 
                     <p> <?= number_format($totalVenta + 7000 + ($totalVenta * 0.19)); ?> COP</p>
                 </span>
-                <button class="w-full p-x3 p-1 text-white font-bold bg-violet-600 rounded-md ">PAGAR</button>
+                <a href="/page/payprocess">
+                    <button class="w-full p-x3 p-1 text-white font-bold bg-violet-600 rounded-md">Continuar</button>    
+                </a>
             </div>
         </div>
     </main>

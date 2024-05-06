@@ -1,8 +1,5 @@
 <?php
 
-require_once (__DIR__ . "/../models/mailer.php");
-require_once (__DIR__ . "/../models/user.php");
-
 class mailController {  
     private $mailModel;  
     private $userModel;
