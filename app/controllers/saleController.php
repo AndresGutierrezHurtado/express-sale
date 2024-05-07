@@ -20,5 +20,13 @@ class saleController {
         echo json_encode($result);
     }
 
+    public function update () {
+        $data = $_POST;
+
+        $result = $this -> saleModel -> updateById($data['sale_id'], $data);
+        
+        echo json_encode($result);
+    }
+
 }
 

@@ -104,10 +104,10 @@
                                 <?php endforeach; ?>
                             </td>
                             <td class="p-2"><?= $sale['sale_date']; ?></td>
-                            <td class="p-2"> <?= $sale['sale_state'] ?> </td>
+                            <td class="p-2"> <?= $sale['sale_state'] == 'completed' ? 'Terminado' :  ($sale['sale_state'] == 'waiting' ? 'En espera' : 'En envío' ) ;?> </td>
                             <td class="p-2"><?= number_format($sale['sale_price']); ?> COP</td>
                             <td class="p-2"> 
-                                <a href="/page/sale_profile/?id=<?= $sale['sale_id'] ?>">
+                                <a href="/page/sale_shift/?id=<?= $sale['sale_id'] ?>">
                                     <button class="p-[2px] sm:px-3 border-2 border-violet-800 text-violet-800 rounded-md font-bold duration-300 hover:bg-gray-200">
                                         <i class="fa-regular fa-eye"></i>
                                     </button>
@@ -227,8 +227,8 @@
             <div id="modalBackground" class="fixed inset-0 bg-black bg-opacity-40" onclick="toggleModal()"></div>
             <div id="myModal" class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 flex items-center justify-center w-10/12 sm:w-8/12 md:w-6/12 lg:w-4/12 xl:w-2/12">
                 <div class="w-full md:w-auto md:max-w-full md:min-w-[500px] bg-white p-5 rounded-md">
-                    <span class="flex justify-between items-center">
-                        <span class="text-lg font-bold">Nuevo Objeto</span>
+                    <span class="flex justify-between items-center mb-3">
+                        <span class="text-lg font-bold">Nuevo producto:</span>
                         <button id="closeModalButton" class="text-gray-500 hover:text-gray-700"  onclick="toggleModal()">
                             <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
@@ -236,33 +236,34 @@
                         </button>
                     </span>
                     <form id="new-product-form" class="flex flex-col gap-4">
-                        <input type="hidden" id="user_id" name="user_id" value="<?= $user['user_id'] ?>">
-                        <input type="hidden" id="image" name="image" value='/public/images/products/nf.jpg'>
-                        <input type="hidden" id="calification" name="calification" value="0">
+                        <input type="hidden" id="product_user_id" name="product_user_id" value="<?= $user['user_id'] ?>">
+                        <input type="hidden" id="product_image" name="product_image" value='/public/images/products/nf.jpg'>
+                        <input type="hidden" id="product_rating" name="product_rating" value="0">
+                        <input type="hidden" id="product_votes" name="product_votes" value="0">
 
                         <div class="flex flex-col gap-1">
-                            <label for="name" class="text-md font-medium text-gray-700">Nombre:</label>
-                            <input type="text" id="name" name="name" class="w-full border rounded-lg py-1 px-3" required>
+                            <label for="product_name" class="text-md font-medium text-gray-700">Nombre:</label>
+                            <input type="text" id="product_name" name="product_name" class="w-full border rounded-lg py-1 px-3" required>
                         </div> 
 
                         <div class="flex flex-col gap-1">
-                            <label for="description" class="text-md font-medium text-gray-700">Descripción:</label>
-                            <textarea id="description" name="description" class="w-full h-24 resize-none border rounded-lg py-1 px-3" required></textarea>
+                            <label for="product_description" class="text-md font-medium text-gray-700">Descripción:</label>
+                            <textarea id="product_description" name="product_description" class="w-full h-24 resize-none border rounded-lg py-1 px-3" required></textarea>
                         </div>
 
                         <div class="flex flex-col gap-1">
-                            <label for="price" class="text-md font-medium text-gray-700">Precio:</label>
-                            <input type="text" id="price" name="price" class="w-full border rounded-lg py-1 px-3" required>
+                            <label for="product_price" class="text-md font-medium text-gray-700">Precio:</label>
+                            <input type="text" id="product_price" name="product_price" class="w-full border rounded-lg py-1 px-3" required>
                         </div>
 
                         <div class="flex flex-col gap-1">
-                            <label for="stock" class="text-md font-medium text-gray-700">Stock:</label>
-                            <input type="text" id="stock" name="stock" class="w-full border rounded-lg py-1 px-3" required>
+                            <label for="product_stock" class="text-md font-medium text-gray-700">Stock:</label>
+                            <input type="text" id="product_stock" name="product_stock" class="w-full border rounded-lg py-1 px-3" required>
                         </div>
 
                         <div class="flex flex-col gap-1">
-                            <label for="category" class="text-md font-medium text-gray-700">Categoría:</label>
-                            <select name="category" id="category" class="w-full border rounded-lg py-1 px-3" required>
+                            <label for="product_category_id" class="text-md font-medium text-gray-700">Categoría:</label>
+                            <select name="product_category_id" id="product_category_id" class="w-full border rounded-lg py-1 px-3" required>
                                 <option value="1">Moda</option>
                                 <option value="2">Comida</option>
                                 <option value="3">Tecnología</option>
@@ -271,16 +272,16 @@
                         </div>
 
                         <div class="flex flex-col gap-1">
-                            <label for="state" class="text-md font-medium text-gray-700">Estado:</label>
-                            <select name="state" id="state" class="w-full border rounded-lg py-1 px-3" required>
+                            <label for="product_state" class="text-md font-medium text-gray-700">Estado:</label>
+                            <select name="product_state" id="product_state" class="w-full border rounded-lg py-1 px-3" required>
                                 <option value="public">Public</option>
-                                <option value="private">Private</option>
+                                <option value="private" selected>Private</option>
                             </select>
                         </div>
 
                         <button type="submit" id="btn-submit" name="submit" class="bg-violet-800 text-white py-2 px-4 rounded-md mt-auto w-max font-bold">Subir</button>
                     </form>
-                    
+
                 </div>
             </div>
         </div>
@@ -299,11 +300,10 @@
                 console.log(Data);
                 if (Data.success) {
                     alert(Data.message)
-                    window.location = '/page/user_profile/?id=<?= $user['user_id']; ?>';
+                    window.location.reload();
                 } else {
                     alert(Data.message)
                 }
-
             });
         }        
     </script>

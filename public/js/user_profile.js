@@ -67,7 +67,7 @@ async function newProduct() {
     var currentDate = new Date();
     var formattedDate = currentDate.toISOString().split('T')[0];
     
-    product.append('date', formattedDate);
+    product.append('product_date', formattedDate);
 
     await fetch('/product/create', {
         method: 'POST',

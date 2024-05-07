@@ -130,16 +130,30 @@ class PageController {
     }
 
     public function payprocess () {
-        
         require_once(__DIR__ . "/../views/pay/form.view.php");
     }
 
-    public function delivery () {
+    public function delivery_list () {
         $isAdmin = $_SESSION['user_role_id'] == 4 || $_SESSION['user_role_id'] == 3 ? true : false;
+        if ($_SESSION['user_delivery']['state'] == 'inprocess') {
+            header('location: /page/delivery/?id='. $_SESSION['user_delivery']['sale_id'] ); exit();
+        }
         if (!$isAdmin) {header('location: /'); exit();}
 
-        $deliveries = $this -> saleModel -> paginate(1, 1000 ,"WHERE sale_state = 'Espera'", "WHERE sale_state = 'Espera'", "INNER JOIN users ON sales.sale_user_id = users.user_id");
-        
+        $deliveries = $this -> saleModel -> paginate(1, 1000 ,"WHERE sale_state = 'waiting'", "WHERE sale_state = 'waiting'", "INNER JOIN users ON sales.sale_user_id = users.user_id");
         require_once(__DIR__ . "/../views/delivery/list.view.php");
+    }
+
+    public function delivery () {
+        $id = $_GET['id'];
+        $_SESSION['user_delivery'] = ['state' => 'inprocess','sale_id'=> $id];
+        $delivery = $this -> saleModel -> paginate(1, 1 ,"WHERE sale_id = '$id'", "WHERE sale_id = '$id'", "INNER JOIN users ON sales.sale_user_id = users.user_id")['data'][0];
+        require_once(__DIR__ . "/../views/delivery/delivery.view.php");
+    }
+
+    public function sale_shift () {  
+        $id = $_GET['id'];      
+        $delivery = $this -> saleModel -> paginate(1, 1 ,"WHERE sale_id = '$id'", "WHERE sale_id = '$id'", "INNER JOIN users ON sales.sale_user_id = users.user_id")['data'][0];
+        require_once(__DIR__ . "/../views/pay/shift.view.php");
     }
 }

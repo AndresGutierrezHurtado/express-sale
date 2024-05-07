@@ -107,7 +107,7 @@ CREATE TABLE `sales` (
     `sale_address` VARCHAR(255),
     `sale_coords` VARCHAR(255),
     `sale_price` DECIMAL(9, 2),
-    `sale_state` ENUM('Espera', 'Envío', 'Llegó') DEFAULT 'Espera',
+    `sale_state` ENUM('waiting', 'pending', 'completed') DEFAULT 'waiting',
     `sale_date` DATE
 );
 

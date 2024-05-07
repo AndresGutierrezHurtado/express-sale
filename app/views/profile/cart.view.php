@@ -41,7 +41,7 @@
 
                             <span class="flex flex-col sm:flex-row justify-between">
                                 <p class="text-gray-800 text-md font-semibold">Precio: <?=  number_format($product['product_price'], 2); ?> COP</p>
-                                <p class="text-gray-600">Total: <?=  number_format($product['product_price'] * $product['product_price'], 2); ?> COP</p>
+                                <p class="text-gray-600">Total: <?=  number_format($product['product_price'] * $product['product_quantity'], 2); ?> COP</p>
                             </span>
                         </div>
                     </div>

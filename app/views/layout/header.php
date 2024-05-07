@@ -28,7 +28,7 @@
                 <?php endif; ?>
                 
                 <?php if (isset($_SESSION['user_role_id']) && $_SESSION['user_role_id'] == 4): ?> 
-                    <a href="/page/delivery" class="flex gap-3 items-center"> <i class="fa-solid fa-truck text-[15px]"></i> Envíos </a>
+                    <a href="/page/delivery_list" class="flex gap-3 items-center"> <i class="fa-solid fa-truck text-[15px]"></i> Envíos </a>
                 <?php endif; ?>
             </div>
         </span>
