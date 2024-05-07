@@ -1,12 +1,4 @@
 <?php
-function findUserById($users, $id) {
-    foreach ($users as $user) {
-        if ($user["user_id"] === $id) {
-            return $user['username'];
-        }
-    }
-    return null;
-}
 
 function buildQueryString($params) {
     $queryString = '';
@@ -38,12 +30,12 @@ function buildQueryString($params) {
                             <button class="text-lg rounded-full bg-slate-900 size-[35px]" onclick="toggleSortList()"><i class="fa-solid fa-arrow-down-wide-short"></i></button>
                             <div class="absolute top-[120%] left-1/2 transform -translate-x-1/2 bg-white flex flex-col rounded-md min-w-[150px] overflow-hidden duration-200 opacity-0" id="list-sort">
                                 <h1 class="text-black text-md uppercase font-bold tracking-tight upercase p-1 px-3">Ordernar por:</h1>
-                                <a href="/page/dashboard_products/?sort=id<?= buildQueryString(['search']) ?>" class="text-black duraton-300 hover:bg-gray-200 p-1 px-3 cursor-pointer">Id</a>
-                                <a href="/page/dashboard_products/?sort=name<?= buildQueryString(['search']) ?>" class="text-black duraton-300 hover:bg-gray-200 p-1 px-3 cursor-pointer">Nombre</a>
-                                <a href="/page/dashboard_products/?sort=price<?= buildQueryString(['search']) ?>" class="text-black duraton-300 hover:bg-gray-200 p-1 px-3 cursor-pointer">Precio</a>
-                                <a href="/page/dashboard_products/?sort=stock<?= buildQueryString(['search']) ?>" class="text-black duraton-300 hover:bg-gray-200 p-1 px-3 cursor-pointer">Stock</a>
-                                <a href="/page/dashboard_products/?sort=user_id<?= buildQueryString(['search']) ?>" class="text-black duraton-300 hover:bg-gray-200 p-1 px-3 cursor-pointer">Vendedor</a>
-                                <a href="/page/dashboard_products/?sort=category_id<?= buildQueryString(['search']) ?>" class="text-black duraton-300 hover:bg-gray-200 p-1 px-3 cursor-pointer">Categoría</a>
+                                <a href="/page/dashboard_products/?sort=product_id<?= buildQueryString(['search']) ?>" class="text-black duraton-300 hover:bg-gray-200 p-1 px-3 cursor-pointer">Id</a>
+                                <a href="/page/dashboard_products/?sort=product_name<?= buildQueryString(['search']) ?>" class="text-black duraton-300 hover:bg-gray-200 p-1 px-3 cursor-pointer">Nombre</a>
+                                <a href="/page/dashboard_products/?sort=product_price<?= buildQueryString(['search']) ?>" class="text-black duraton-300 hover:bg-gray-200 p-1 px-3 cursor-pointer">Precio</a>
+                                <a href="/page/dashboard_products/?sort=product_stock<?= buildQueryString(['search']) ?>" class="text-black duraton-300 hover:bg-gray-200 p-1 px-3 cursor-pointer">Stock</a>
+                                <a href="/page/dashboard_products/?sort=product_user_id<?= buildQueryString(['search']) ?>" class="text-black duraton-300 hover:bg-gray-200 p-1 px-3 cursor-pointer">Vendedor</a>
+                                <a href="/page/dashboard_products/?sort=product_category_id<?= buildQueryString(['search']) ?>" class="text-black duraton-300 hover:bg-gray-200 p-1 px-3 cursor-pointer">Categoría</a>
                             </div>
                         </div>
                         <form action="/page/dashboard_products/" method="GET" class="flex gap-2">
@@ -55,7 +47,7 @@ function buildQueryString($params) {
                         </form>
                     </div>
                     <a href="/page/user_profile" class="w-[80px] rounded-full flex justify-center items-center overflow-hidden">
-                        <img src="<?= $user_sesion -> image ?>" alt="profile" class="">
+                        <img src="<?= $user_session['user_image'] ?>" alt="profile" class="">
                     </a>
                 </span>
                 <span class="flex flex-col text-center items-center">
@@ -91,16 +83,15 @@ function buildQueryString($params) {
                     <tbody>
                         <?php foreach ($products['data'] as $product): ?>
                         <tr>
-                            <td class="p-2"><?= $product['id']; ?></td>
-                            <td class="p-2 hidden lg:table-cell"><?= $product['name']; ?></td>
-                            <td class="p-2"><?= number_format($product['price']); ?> COP</td>
-                            <td class="p-2 hidden sm:table-cell"><?= $product['stock']; ?></td>
-                            <td class="p-2 "> <?= findUserById($users, $product['user_id']) ?></td>
-                            <td class="p-2"><?= ($product['category_id'] == 1) ? 'moda' : (($product['category_id'] == 2) ? 'comida' : (($product['category_id'] == 3) ? 'tecnología' : 'otros' )) ?>
-                            </td>
+                            <td class="p-2"><?= $product['product_id']; ?></td>
+                            <td class="p-2 hidden lg:table-cell"><?= $product['product_name']; ?></td>
+                            <td class="p-2"><?= number_format($product['product_price']); ?> COP</td>
+                            <td class="p-2 hidden sm:table-cell"><?= $product['product_stock']; ?></td>
+                            <td class="p-2 "> <?= $product['user_username'] ?></td>
+                            <td class="p-2"> <?= $product['category_name'] ?> </td>
                             <td class="p-2 flex flex-col gap-3 sm:flex-row justify-center"> 
-                                <a href="/page/product_profile/?id=<?= $product['id'] ?>"><button class="p-[2px] sm:px-3 border-2 border-violet-800 text-violet-800 rounded-md font-bold duration-300 hover:bg-gray-200"><i class="fa-solid fa-pen-to-square"></i></button></a>
-                                <button class="p-[2px] sm:px-3 bg-violet-800 text-white rounded-md font-bold duration-300 hover:bg-violet-600 btn-delete" onclick="deleteElement(<?= $product['id'] ?>)"><i class="fa-solid fa-trash-can"></i></button> 
+                                <a href="/page/product_profile/?id=<?= $product['product_id'] ?>"><button class="p-[2px] sm:px-3 border-2 border-violet-800 text-violet-800 rounded-md font-bold duration-300 hover:bg-gray-200"><i class="fa-solid fa-pen-to-square"></i></button></a>
+                                <button class="p-[2px] sm:px-3 bg-violet-800 text-white rounded-md font-bold duration-300 hover:bg-violet-600 btn-delete" onclick="deleteElement(<?= $product['product_id'] ?>)"><i class="fa-solid fa-trash-can"></i></button> 
                             </td>
                         </tr>
                         <?php endforeach; ?>

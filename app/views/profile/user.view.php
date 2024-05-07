@@ -18,53 +18,53 @@
             <div class="bg-white flex flex-col gap-4 p-5 rounded-lg shadow-lg w-full md:w-4/12 lg:w-auto max-w-[320px] px-8 mx-auto">
                 <h1 class="text-lg uppercase tracking-tight font-bold">Imagen:</h1>
                 <div class="mx-auto size-full p-2">
-                    <img src="<?= $user['image'] ?>" alt="Imagen de perfil" class="object-cover rounded-lg shadow-lg">
+                    <img src="<?= $user['user_image'] ?>" alt="Imagen de perfil" class="object-cover rounded-lg shadow-lg">
                 </div>
                 <input type="file" id="image" name="image" class="hidden w-full text-sm text-slate-500 hover:file:bg-violet-100 file:duration-300 file:cursor-pointer file:bg-violet-50 file:text-violet-700 file:font-semibold file:rounded-xl file:border-0 file:p-1 file:px-3">
                 <button id="btn-edit" class="text-violet-800 border-2 border-violet-800 py-2 px-4 rounded-md mt-auto w-max font-bold cursor-pointer">Editar</button>
                 <a class="bg-violet-800 text-white py-2 px-4 rounded-md mt-auto w-max font-bold cursor-pointer" id="btn-logout">Cerrar sesión</a>
             </div>
             <div class="bg-white p-5 rounded-lg shadow-lg flex flex-col gap-4 w-full md:w-6/12 lg:w-9/12">   
-                <h1 class="text-lg uppercase tracking-tight font-bold">Datos de <?= $user['username'] ?>:</h1>   
+                <h1 class="text-lg uppercase tracking-tight font-bold">Datos de <?= $user['user_username'] ?>:</h1>   
                 <div class="flex flex-col gap-1">
                     <label for="full_name" class="text-md font-medium text-gray-700">Nombre Completo:</label>
-                    <input type="text" id="full_name" name="full_name" value="<?= $user['full_name']; ?>" class="w-full border rounded-lg py-1 px-3" disabled>
+                    <input type="text" id="full_name" name="full_name" value="<?= $user['user_full_name']; ?>" class="w-full border rounded-lg py-1 px-3" disabled>
                 </div> 
 
                 <div class="flex flex-col gap-1">
                     <label for="username" class="text-md font-medium text-gray-700">Nombre de Usuario:</label>
-                    <input type="text" id="username" name="username" value="<?= $user['username']; ?>" class="w-full border rounded-lg py-1 px-3" disabled>
+                    <input type="text" id="username" name="username" value="<?= $user['user_username']; ?>" class="w-full border rounded-lg py-1 px-3" disabled>
                 </div>
 
                 <div class="flex flex-col gap-1">
                     <label for="email" class="text-md font-medium text-gray-700">Correo Electrónico:</label>
-                    <input type="email" id="email" name="email" value="<?= $user['email']; ?>" class="w-full border rounded-lg py-1 px-3" disabled>
+                    <input type="email" id="email" name="email" value="<?= $user['user_email']; ?>" class="w-full border rounded-lg py-1 px-3" disabled>
                 </div>
 
                 <div class="flex flex-col gap-1">
                     <label for="address" class="text-md font-medium text-gray-700">Dirección:</label>
-                    <input type="text" id="address" name="address" value="<?= $user['address']; ?>" class="w-full border rounded-lg py-1 px-3" disabled>
+                    <input type="text" id="address" name="address" value="<?= $user['user_address']; ?>" class="w-full border rounded-lg py-1 px-3" disabled>
                 </div>
 
                 <div class="flex flex-col gap-1">
                     <label for="phone_number" class="text-md font-medium text-gray-700">Número de Teléfono:</label>
-                    <input type="number" id="phone_number" name="phone_number" value="<?= $user['phone_number']; ?>" class="w-full border rounded-lg py-1 px-3" disabled>
+                    <input type="number" id="phone_number" name="phone_number" value="<?= $user['user_phone_number']; ?>" class="w-full border rounded-lg py-1 px-3" disabled>
                 </div>
 
-                <?php if ($user['role_id'] == 2):?>
+                <?php if ($user['user_role_id'] == 2):?>
                     <div class="flex flex-col gap-1">
                         <label for="description" class="text-md font-medium text-gray-700">Descripción:</label>
-                        <textarea type="text" id="description" name="description" class="h-24 w-full border rounded-lg py-1 px-1 resize-none" disabled> <?= $user['description'] ?> </textarea>
+                        <textarea type="text" id="description" name="description" class="h-24 w-full border rounded-lg py-1 px-1 resize-none" disabled> <?= $user['user_description'] ?> </textarea>
                     </div>
                 <?php endif; ?>
 
-                <label for="account_type" class="">Tipo de Cuenta: <strong> <?= $user['role_id'] == 3 ? 'Adminstrador' : ($user['role_id']  == 2 ? 'Vendedor' : 'Usuario'); ?> </strong></label>
+                <label for="account_type" class="">Tipo de Cuenta: <strong> <?= $user['user_role_id'] == 3 ? 'Adminstrador' : ($user['user_role_id']  == 2 ? 'Vendedor' : ($user['user_role_id']  == 4 ? 'Domiciliario' : 'Usuario')); ?> </strong></label>
                 
                 <span class="w-full flex justify-between items-center">
                     <div>
                         <button type="submit" id="btn-submit" name="submit" class="bg-violet-800 text-white py-2 px-4 rounded-md mt-auto w-max font-bold hidden">Actualizar Perfil</button>
                     </div>
-                    <?php if ($_SESSION['role_id'] == 3):?>
+                    <?php if ($_SESSION['user_role_id'] == 3):?>
                         <div class="flex justify-end gap-5">
                             <a href="/page/dashboard_users" class="bg-violet-800 text-white py-2 px-4 rounded-md mt-auto w-max font-bold"> Administrador </a>
                         </div>
@@ -75,7 +75,7 @@
         
         <div class="w-full flex flex-col shadow-lg rounded-lg">
             <span class="w-full flex flex-col sm:flex-row gap-2 justify-between bg-slate-800 text-white p-3 rounded-t-lg">
-                <h1 class="text-xl tracking-tight font-bold ">Compras de <?= $user['username'] ?></h1>
+                <h1 class="text-xl tracking-tight font-bold ">Compras de <?= $user['user_username'] ?></h1>
             </span>
             <div class="w-full bg-white flex flex-col gap-5 justify-center items-center p-5 rounded-b-lg">
                 <table class="w-full table-auto border-collapse border border-gray-900 text-[13px] sm:text-[16px] text-center max-w-full" >
@@ -83,8 +83,8 @@
                         <tr class="bg-gray-200">
                             <th class="p-2">Compra</th>
                             <th class=" hidden md:table-cell">Productos</th>
-                            <th class="p-2">Estado</th>
                             <th class="p-2">Fecha</th>
+                            <th class="p-2">Estado</th>
                             <th class="p-2">Precio</th>
                             <th class="p-2">Ver</th>
                         </tr>
@@ -95,16 +95,16 @@
                             <td class="p-2"><?= $sale['id']; ?></td>
                             <td class="p-2 hidden md:table-cell">
                                 <?php 
-                                $productsSales = json_decode($sale['description'], true);
+                                $productsSales = json_decode($sale['description_sale'], true);
                                 $numProducts = count($productsSales);
                                 foreach($productsSales as $index => $product) : ?>
                                         <p> <?= $product['name'] ?> - (<?= $product['quantity']?> producto/s.)</p>
                                     </span>
                                 <?php endforeach; ?>
                             </td>
-                            <td class="p-2"><?= number_format($sale['price']); ?> COP</td>
-                            <td class="p-2"> <?= $sale['state'] ?> </td>
-                            <td class="p-2"><?= $sale['date']; ?></td>
+                            <td class="p-2"><?= $sale['date_sale']; ?></td>
+                            <td class="p-2"> <?= $sale['state_sale'] ?> </td>
+                            <td class="p-2"><?= number_format($sale['price_sale']); ?> COP</td>
                             <td class="p-2"> 
                                 <a href="/page/sale_profile/?id=<?= $sale['id'] ?>">
                                     <button class="p-[2px] sm:px-3 border-2 border-violet-800 text-violet-800 rounded-md font-bold duration-300 hover:bg-gray-200">
@@ -124,7 +124,7 @@
                 <ul class="inline-flex -space-x-px text-sm">
                     <?php if ($sales['pages'] > 1): ?>
                         <li>
-                            <a href="/page/user_profile/?id=<?= $user['user_id'] ?>&pageSales=<?= $_GET['pageSales'] - 1 ?>" class="flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-gray-50 border border-gray-500 rounded-s-lg hover:bg-gray-100 hover:text-gray-700">Previous</a>
+                            <a href="/page/user_profile/?id=<?= $user['user_user_id'] ?>&pageSales=<?= $_GET['pageSales'] - 1 ?>" class="flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-gray-50 border border-gray-500 rounded-s-lg hover:bg-gray-100 hover:text-gray-700">Previous</a>
                         </li>
                     <?php else: ?>
                         <li>
@@ -134,13 +134,13 @@
 
                     <?php for ($i = 1; $i <= $sales['pages']; $i++): ?>
                         <li>
-                            <a href="/page/user_profile/?id=<?= $user['user_id'] ?>&pageSales=<?= $i ?>" class="flex items-center justify-center px-3 h-8 leading-tight border border-gray-500 duration-300 <?= $i == $sales['page'] ? 'text-black bg-gray-300 font-semibold hover:bg-slate-700 hover:text-white' : 'text-gray-500 bg-gray-50 hover:bg-gray-300 hover:text-gray-700' ?>"><?= $i ?></a>
+                            <a href="/page/user_profile/?id=<?= $user['user_user_id'] ?>&pageSales=<?= $i ?>" class="flex items-center justify-center px-3 h-8 leading-tight border border-gray-500 duration-300 <?= $i == $sales['page'] ? 'text-black bg-gray-300 font-semibold hover:bg-slate-700 hover:text-white' : 'text-gray-500 bg-gray-50 hover:bg-gray-300 hover:text-gray-700' ?>"><?= $i ?></a>
                         </li>
                     <?php endfor; ?>
 
                     <?php if ($sales['page'] < $sales['pages']): ?>
                         <li>
-                            <a href="/page/user_profile/?id=<?= $user['user_id'] ?>&pageSales=<?= $_GET['pageSales'] + 1 ?>" class="flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-gray-50 border border-gray-500 rounded-e-lg hover:bg-gray-100 hover:text-gray-700">Next</a>
+                            <a href="/page/user_profile/?id=<?= $user['user_user_id'] ?>&pageSales=<?= $_GET['pageSales'] + 1 ?>" class="flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-gray-50 border border-gray-500 rounded-e-lg hover:bg-gray-100 hover:text-gray-700">Next</a>
                         </li>
                     <?php else: ?>
                         <li>
@@ -151,11 +151,11 @@
                 </div>
             </div>
         </div>
-        <?php if ( $user['role_id'] == 2 ) : ?> 
+        <?php if ( $user['user_role_id'] == 2 ) : ?> 
             <div class="w-full flex flex-col shadow-lg rounded-lg">
                 <span class="w-full flex flex-col sm:flex-row gap-2 justify-between bg-slate-800 text-white p-3 rounded-t-lg">
-                    <h1 class="text-xl tracking-tight font-bold ">Productos de <?= $user['username'] ?></h1>
-                    <?php if ($_SESSION['role_id'] == 2) : ?>
+                    <h1 class="text-xl tracking-tight font-bold ">Productos de <?= $user['user_username'] ?></h1>
+                    <?php if ($_SESSION['user_role_id'] == 2) : ?>
                     <div class="flex gap-5">
                         <button class="bg-green-600 px-3 p-1 rounded-lg flex items-center gap-3" onclick="toggleModal()"> <i class="fa-solid fa-plus"></i> Añadir nuevo producto</button>
                     </div>

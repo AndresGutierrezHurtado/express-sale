@@ -21,27 +21,27 @@
                 <?php foreach ($cart as $product) : ?>
                     <div class="flex flex-col md:flex-row items-start gap-4 py-2 p-4">
                         <div class="w-full md:w-3/12">
-                            <img src="<?= $product['image']; ?>" alt="<?= $product['name']; ?>" class="max-w-full max-h-full">
+                            <img src="<?= $product['product_image']; ?>" alt="<?= $product['product_name']; ?>" class="max-w-full max-h-full">
                         </div>
                         <div class="w-full md:w-9/12 px-4 flex flex-col justify-center gap-2 h-full">
                             <div class="flex flex-col md:flex-row gap-2">
                                 <div class="w-full">
-                                    <h3 class="text-[22px] font-semibold"><?= $product['name']; ?></h3>
+                                    <h3 class="text-[22px] font-semibold"><?= $product['product_name']; ?></h3>
                                     <span class="flex gap-3">
                                         <p>Cantidad: </p>
-                                        <button class ="border border-gray-800 size-[30px] rounded-full flex items-center justify-center btn-increase" data-id="<?= $product['id'] ?>"><i class="fa-solid fa-arrow-up"></i></button>
-                                        <input type="number" value="<?= $product['quantity']; ?>" placeholder="Cantidad" min="1" max="50" class="w-[50px] border border-gray-800 px-2 p-[2px] rounded-lg mb-4" disabled>
-                                        <button class ="border border-gray-800 size-[30px] rounded-full flex items-center justify-center btn-decrease <?= $product['quantity'] == 1 ? 'cursor-no-drop' : '' ?>" <?= $product['quantity'] == 1 ? 'disabled' : '' ?>  data-id="<?= $product['id'] ?>"><i class="fa-solid fa-arrow-down"></i></button>
+                                        <button class ="border border-gray-800 size-[30px] rounded-full flex items-center justify-center btn-increase" data-product_id="<?= $product['product_id'] ?>"><i class="fa-solid fa-arrow-up"></i></button>
+                                        <input type="number" value="<?= $product['product_quantity']; ?>" placeholder="Cantidad" min="1" max="50" class="w-[50px] border border-gray-800 px-2 p-[2px] rounded-lg mb-4" disabled>
+                                        <button class ="border border-gray-800 size-[30px] rounded-full flex items-center justify-center btn-decrease <?= $product['product_quantity'] == 1 ? 'cursor-no-drop' : '' ?>" <?= $product['product_quantity'] == 1 ? 'disabled' : '' ?>  data-product_id="<?= $product['product_id'] ?>"><i class="fa-solid fa-arrow-down"></i></button>
                                     </span>
                                 </div>
                                 <div class="h-full flex items-center">
-                                    <button class="border border-pink-600 size-[40px] rounded-full duration-300 hover:bg-gray-200 btn-delete" data-id="<?= $product['id'] ?>"><i class="fa-solid fa-trash-can text-pink-600"></i></button>
+                                    <button class="border border-pink-600 size-[40px] rounded-full duration-300 hover:bg-gray-200 btn-delete" data-product_id="<?= $product['product_id'] ?>"><i class="fa-solid fa-trash-can text-pink-600"></i></button>
                                 </div>
                             </div>
 
                             <span class="flex flex-col sm:flex-row justify-between">
-                                <p class="text-gray-800 text-md font-semibold">Precio: <?=  number_format($product['price'], 2); ?> COP</p>
-                                <p class="text-gray-600">Total: <?=  number_format($product['price'] * $product['quantity'], 2); ?> COP</p>
+                                <p class="text-gray-800 text-md font-semibold">Precio: <?=  number_format($product['product_price'], 2); ?> COP</p>
+                                <p class="text-gray-600">Total: <?=  number_format($product['product_price'] * $product['product_price'], 2); ?> COP</p>
                             </span>
                         </div>
                     </div>
@@ -63,9 +63,9 @@
                 $totalVenta = 0;
                 $totalCantidad = 0;
                 foreach ($cart as $product) {
-                    $precioTotalProducto = $product['price'] * $product['quantity'];
+                    $precioTotalProducto = $product['product_price'] * $product['product_quantity'];
                     $totalVenta += $precioTotalProducto;
-                    $totalCantidad += $product['quantity'];
+                    $totalCantidad += $product['product_quantity'];
                 }
                 ?>
                 <span class="flex gap-2 justify-between">

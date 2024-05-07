@@ -6,20 +6,20 @@ class User extends Orm{
     }
     
     public function auth($data) {
-        $username = $data['username'];
-        $query = "SELECT * FROM $this->table WHERE username = '$username' OR email = '$username'";
+        $username = $data['user_username'];
+        $query = "SELECT * FROM $this->table WHERE user_username = '$username' OR user_email = '$username'";
         $result = $this->db->query($query);
 
         if ($result && $result->num_rows > 0) {
             $user = $result->fetch_assoc();
-            if ($data["password"] == $user["password"]) {
+            if ($data["user_password"] == $user["user_password"]) {
                 $_SESSION["user_id"] = $user["user_id"];
-                $_SESSION["full_name"] = $user["full_name"];
-                $_SESSION["username"] = $user["username"];
-                $_SESSION["email"] = $user["email"];
-                $_SESSION["role_id"] = $user["role_id"];
-                $_SESSION['phone_number'] = $user['phone_number'];
-                $_SESSION["cart"] = array();
+                $_SESSION["user_full_name"] = $user["user_full_name"];
+                $_SESSION["user_username"] = $user["user_username"];
+                $_SESSION["user_email"] = $user["user_email"];
+                $_SESSION["user_role_id"] = $user["user_role_id"];
+                $_SESSION["user_phone_number"] = $user["user_phone_number"];
+                $_SESSION["user_cart"] = array();
 
                 return ['success' => true, 'message' => 'La inserción se realizó correctamente.'];
             } else {

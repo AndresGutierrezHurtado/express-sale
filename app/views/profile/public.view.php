@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Perfil de <?= $user['username'] ?> | Express Sale</title>
+    <title>Perfil de <?= $user['user_username'] ?> | Express Sale</title>
     <link rel="shortcut icon" href="/public/images/logo.png" type="image/png">
     <script src="https://kit.fontawesome.com/eb36e646d1.js" crossorigin="anonymous"></script>
     <script src="https://cdn.tailwindcss.com"></script>
@@ -14,19 +14,19 @@
         <div class="w-full max-w-[400px] bg-white p-6 rounded-lg shadow-md h-fit flex flex-col gap-5">
             <h3 class="text-2xl font-bold tracking-tight">Información del vendedor:</h3>
             <div class="flex flex-col sm:flex-row items-center space-x-4">
-                <img src="<?= $user['image']; ?>" alt="Perfil" class="h-24 w-24 rounded-full">
+                <img src="<?= $user['user_image'] ?>" alt="Perfil" class="h-24 w-24 rounded-full">
                 <div class="w-full ">
-                    <h2 class="text-xl font-bold"><?= $user['username']; ?></h2>
-                    <p class="text-sm text-gray-600">Ubicación: <?= $user['address']; ?></p>
-                    <p class="text-sm text-gray-600">Número: <?= $user['phone_number']; ?></p>
-                    <p class="text-sm text-gray-600"> <?= $user['sales_done'] ?> Ventas</p>
+                    <h2 class="text-xl font-bold"><?= $user['user_full_name'] ?></h2>
+                    <p class="text-sm text-gray-600">Ubicación: <?= $user['user_address'] ?></p>
+                    <p class="text-sm text-gray-600">Número: <?= $user['user_phone_number'] ?></p>
+                    <p class="text-sm text-gray-600"> <?= $user['user_sales_done'] ?> Ventas</p>
                 </div>
             </div>
             <div class="flex flex-col gap-2">
                 <h3 class="text-lg font-semibold">Calificación:</h3>
                 <span class="flex items-center">
                     <?php
-                        $calificacion = $user['rating'];
+                        $calificacion = $user['user_rating'];
                         $calificacionEntera = floor($calificacion);
                         $fraccion = $calificacion - $calificacionEntera;
 
@@ -43,37 +43,37 @@
                             echo '<i class="fa-regular fa-star"></i>';
                         }
                     ?>
-                    <p class="mx-3 text-black/[0.6]"> <?= $user['rating'] ?> (<?= $user['votes'] ?>) </p> 
+                    <p class="mx-3 text-black/[0.6]"> <?= $user['user_rating'] ?> (<?= $user['user_votes'] ?>) </p> 
                 </span>
                 <button class="bg-violet-600 text-white font-bold rounded-lg duration-300 hover:bg-violet-400 px-5 py-1 w-fit" onclick="<?= isset($_SESSION['user_id']) ?  "toggleModal()" : "login()" ?>">Votar</button>
             </div>
             <div class="">
                 <h3 class="text-lg font-semibold">Descripción:</h3>
-                <p><?= $user['description'] ?></p>
+                <p><?= $user['user_description'] ?></p>
             </div>
         </div>
         <div class="bg-white p-3 md:p-10 py-5 rounded-lg flex flex-col gap-5">
             <h3 class="text-2xl font-bold tracking-tight">Productos:</h3>
             <div class="w-full max-w-[650px] flex flex-col gap-2">
                 <?php foreach ($products['data'] as $product): ?>
-                    <?php if($product['state'] == 'private') { continue;} ?>
+                    <?php if($product['product_state'] == 'private') { continue;} ?>
                     <article class="flex flex-col md:flex-row justify-between gap-4 bg-white p-4 rounded-lg shadow-lg border min-h-[250px]">
                         <div class="w-full md:w-3/12 max-h-[230px] flex items-center justify-center">
-                            <img src="<?= $product['image'] ?>" alt="<?= $product['name']; ?>" class="max-w-full max-h-[230px]">
+                            <img src="<?= $product['product_image'] ?>" alt="<?= $product['product_name']; ?>" class="max-w-full max-h-[230px]">
                         </div>
                         <div class="w-full md:w-7/12 flex flex-col justify-between gap-5">
                             <div class="flex flex-col gap-4">   
                                 <div>
-                                    <h2 class="text-[25px] tracking-tight"><?= $product['name']; ?></h2>
+                                    <h2 class="text-[25px] tracking-tight"><?= $product['product_name']; ?></h2>
                                 </div>                             
-                                <p><?= $product['description']; ?></p>
+                                <p><?= $product['product_description']; ?></p>
                             </div>
                             <div class="w-full flex flex-col sm:flex-row justify-between">
-                                <h3 class="font-medium text-xl"><?= number_format($product['price']); ?> COP</h3>
+                                <h3 class="font-medium text-xl"><?= number_format($product['product_price']); ?> COP</h3>
                                 <span class="flex  gap-3"><span class="flex gap-3 items-center">
                                     <span>
                                         <?php
-                                            $calificacion = $product['rating'];
+                                            $calificacion = $product['product_rating'];
                                             $calificacionEntera = floor($calificacion);
                                             $fraccion = $calificacion - $calificacionEntera;
 
@@ -91,13 +91,13 @@
                                             }
                                         ?>
                                     </span>
-                                    <p class="opacity-[0.4]"><?= $product['rating'] ?> (<?= $product['votes'] ?>)</p>
-                                    <button class="text-violet-600 font-bold border-2 border-violet-600 duration-300 hover:bg-gray-100 size-[30px] rounded-full" onclick="<?= isset($_SESSION['user_id']) ?  "toggleModal(".$product['id'].", ".$product['rating'].", ".$product['votes'].")" : "login()" ?>"><i class="fa-solid fa-plus"></i></button>
+                                    <p class="opacity-[0.4]"><?= $product['product_rating'] ?> (<?= $product['product_votes'] ?>)</p>
+                                    <button class="text-violet-600 font-bold border-2 border-violet-600 duration-300 hover:bg-gray-100 size-[30px] rounded-full" onclick="<?= isset($_SESSION['user_id']) ?  "toggleModal(".$product['product_id'].", ".$product['product_rating'].", ".$product['product_votes'].")" : "login()" ?>"><i class="fa-solid fa-plus"></i></button>
                                 </span>
                             </div>
                         </div>
                         <span class="w-full sm:w-2/12 flex items-center justify-center">
-                            <button class="rounded-full size-[60px] border-2 border-black btn-add-cart"  data-id="<?= $product['id'] ?>" data-name="<?= $product['name'] ?>" data-price="<?= $product['price'] ?>" data-image="<?= $product['image'] ?>"><i class="fa-solid fa-cart-plus text-2xl"></i></button>
+                        <button class="rounded-full size-[60px] border-2 border-black btn-add-cart" data-product_id="<?= $product['product_id'] ?>" data-product_name="<?= $product['product_name'] ?>"data-user_id="<?= $product['user_id'] ?>"   data-product_price="<?= $product['product_price'] ?>" data-product_image="<?= $product['product_image'] ?>"  data-product_address="<?= $product['user_address'] ?>" <?= isset($_SESSION['user_id']) ? "data-session='true'" : "data-session='false'"?>><i class="fa-solid fa-cart-plus text-2xl"></i></button>
                         </span>
                     </article>
                 <?php endforeach; ?>
@@ -199,16 +199,16 @@
             e.preventDefault();
             
             let seller = <?= $_GET['vendedor']?>;
-            let votes = <?= $user['votes']?>;
-            let currentRating = <?= $user['rating'] ?>;
+            let votes = <?= $user['user_votes']?>;
+            let currentRating = <?= $user['user_rating'] ?>;
 
             let newRating = ((currentRating * votes) + parseInt(document.querySelector('.star.selected').dataset.value)) / (votes + 1);
 
             let formData = new FormData();
             
             formData.append('user_id', `${seller}`);
-            formData.append('votes',  `${votes + 1}`);
-            formData.append('rating', newRating);
+            formData.append('user_votes',  `${votes + 1}`);
+            formData.append('user_rating', newRating);
             
             fetch('/user/update/', {
                 method: 'POST',

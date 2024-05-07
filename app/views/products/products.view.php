@@ -1,12 +1,4 @@
 <?php
-function findUserById($users, $id) {
-    foreach ($users as $user) {
-        if ($user["user_id"] === $id) {
-            return $user['username'];
-        }
-    }
-    return null;
-}
 
 function buildQueryString($params) {
     $queryString = '';
@@ -41,9 +33,9 @@ function buildQueryString($params) {
                 <div class="flex items-center gap-2">
                     <p>ordenar por</p>
                     <select class="h-fit bg-transparent" id="sort-select" onchange="window.location = this.value">
-                        <option value="/page/products/?sort=rating<?= buildQueryString(['search', 'max', 'min', 'filter', 'value']) ?>" <?= isset($_GET['sort']) && $_GET['sort'] == 'calification' ? 'selected' : ''?>>Destacado</option>
-                        <option value="/page/products/?sort=date<?= buildQueryString(['search', 'max', 'min', 'filter', 'value']) ?>" <?= isset($_GET['sort']) && $_GET['sort'] == 'date' ? 'selected' : ''?>>Reciente</option>
-                        <option value="/page/products/?sort=price<?= buildQueryString(['search', 'max', 'min', 'filter', 'value']) ?>" <?= isset($_GET['sort']) && $_GET['sort'] == 'price' ? 'selected' : ''?>>Precio ascendente</option>
+                        <option value="/page/products/?sort=product_rating<?= buildQueryString(['search', 'max', 'min', 'filter', 'value']) ?>" <?= isset($_GET['sort']) && $_GET['sort'] == 'product_rating' ? 'selected' : ''?>>Destacado</option>
+                        <option value="/page/products/?sort=product_date<?= buildQueryString(['search', 'max', 'min', 'filter', 'value']) ?>" <?= isset($_GET['sort']) && $_GET['sort'] == 'product_date' ? 'selected' : ''?>>Reciente</option>
+                        <option value="/page/products/?sort=product_price<?= buildQueryString(['search', 'max', 'min', 'filter', 'value']) ?>" <?= isset($_GET['sort']) && $_GET['sort'] == 'product_price' ? 'selected' : ''?>>Precio ascendente</option>
                     </select>
                 </div>
             </span>
@@ -54,10 +46,10 @@ function buildQueryString($params) {
                         <label for="categoria" class="block text-sm font-medium text-gray-700">Categorías</label>
                         <select id="categoria" name="categoria" class="w-full p-1 px-2 border rounded-md" onchange="window.location = this.value">
                             <option value="/page/products/?none=none<?= buildQueryString(['search', 'max', 'min', 'sort']) ?>">Todas</option>
-                            <option value="/page/products/?filter=category_id&value=1<?= buildQueryString(['search', 'max', 'min', 'sort']) ?>" <?= isset($_GET['filter']) && isset($_GET['value']) && $_GET['filter'] == 'category_id' && $_GET['value'] == '1' ? 'selected' : ''?>>Ropa y calzado</option>
-                            <option value="/page/products/?filter=category_id&value=2<?= buildQueryString(['search', 'max', 'min', 'sort']) ?>" <?= isset($_GET['filter']) && isset($_GET['value']) && $_GET['filter'] == 'category_id' && $_GET['value'] == '2' ? 'selected' : ''?>>comida</option>
-                            <option value="/page/products/?filter=category_id&value=3<?= buildQueryString(['search', 'max', 'min', 'sort']) ?>" <?= isset($_GET['filter']) && isset($_GET['value']) && $_GET['filter'] == 'category_id' && $_GET['value'] == '3' ? 'selected' : ''?>>Tecnología</option>
-                            <option value="/page/products/?filter=category_id&value=4<?= buildQueryString(['search', 'max', 'min', 'sort']) ?>" <?= isset($_GET['filter']) && isset($_GET['value']) && $_GET['filter'] == 'category_id' && $_GET['value'] == '4' ? 'selected' : ''?>>Otras</option>
+                            <option value="/page/products/?filter=product_category_id&value=1<?= buildQueryString(['search', 'max', 'min', 'sort']) ?>" <?= isset($_GET['filter']) && isset($_GET['value']) && $_GET['filter'] == 'product_category_id' && $_GET['value'] == '1' ? 'selected' : ''?>>Ropa y calzado</option>
+                            <option value="/page/products/?filter=product_category_id&value=2<?= buildQueryString(['search', 'max', 'min', 'sort']) ?>" <?= isset($_GET['filter']) && isset($_GET['value']) && $_GET['filter'] == 'product_category_id' && $_GET['value'] == '2' ? 'selected' : ''?>>comida</option>
+                            <option value="/page/products/?filter=product_category_id&value=3<?= buildQueryString(['search', 'max', 'min', 'sort']) ?>" <?= isset($_GET['filter']) && isset($_GET['value']) && $_GET['filter'] == 'product_category_id' && $_GET['value'] == '3' ? 'selected' : ''?>>Tecnología</option>
+                            <option value="/page/products/?filter=product_category_id&value=4<?= buildQueryString(['search', 'max', 'min', 'sort']) ?>" <?= isset($_GET['filter']) && isset($_GET['value']) && $_GET['filter'] == 'product_category_id' && $_GET['value'] == '4' ? 'selected' : ''?>>Otras</option>
                         </select>
                     </div>
                     <div class="flex flex-col gap-1">
@@ -96,25 +88,25 @@ function buildQueryString($params) {
                         <h2 class="text-2lx font-bold py-10 text-center">No se encontraron Productos.</h2>
                     <?php endif; ?>
                     <?php foreach ($products['data'] as $product): ?>
-                        <?php if($product['state'] == 'private') { continue;} ?>
+                        <?php if($product['product_state'] == 'private') { continue;} ?>
                         <article class="flex flex-col md:flex-row justify-between gap-4 bg-white p-4 rounded-lg shadow-lg border min-h-[250px]">
                             <div class="w-full md:w-3/12 max-h-[230px] flex items-center justify-center">
-                                <img src="<?= $product['image'] ?>" alt="<?= $product['name']; ?>" class="max-w-full max-h-[230px]">
+                                <img src="<?= $product['product_image'] ?>" alt="<?= $product['product_name']; ?>" class="max-w-full max-h-[230px]">
                             </div>
                             <div class="w-full md:w-7/12 flex flex-col justify-between gap-5">
                                 <div class="flex flex-col gap-4">   
                                     <div>
-                                        <h2 class="text-[25px] tracking-tight"><?= $product['name']; ?></h2>
-                                        <a href="/page/public_profile/?vendedor=<?= $product['user_id'] ?>" class="text-black/[0.5] text-md hover:text-purple-600 hover:underline">Por <?= findUserById($users, $product['user_id']) ?></a>
+                                        <h2 class="text-[25px] tracking-tight"><?= $product['product_name']; ?></h2>
+                                        <a href="/page/public_profile/?vendedor=<?= $product['product_user_id'] ?>" class="text-black/[0.5] text-md hover:text-purple-600 hover:underline">Por <?= $product['user_username'] ?></a>
                                     </div>                             
-                                    <p><?= $product['description']; ?></p>
+                                    <p><?= $product['product_description']; ?></p>
                                 </div>
                                 <div class="w-full flex flex-col sm:flex-row justify-between">
-                                    <h3 class="font-medium text-xl"><?= number_format($product['price']); ?> COP</h3>
+                                    <h3 class="font-medium text-xl"><?= number_format($product['product_price']); ?> COP</h3>
                                     <span class="flex gap-3 items-center">
                                         <span>
                                             <?php
-                                                $calificacion = $product['rating'];
+                                                $calificacion = $product['product_rating'];
                                                 $calificacionEntera = floor($calificacion);
                                                 $fraccion = $calificacion - $calificacionEntera;
 
@@ -132,13 +124,13 @@ function buildQueryString($params) {
                                                 }
                                             ?>
                                         </span>
-                                        <p class="opacity-[0.4]"><?= $product['rating'] ?> (<?= $product['votes'] ?>)</p>
-                                        <button class="text-violet-600 font-bold border-2 border-violet-600 duration-300 hover:bg-gray-100 size-[30px] rounded-full" onclick="<?= isset($_SESSION['user_id']) ?  "toggleModal(".$product['id'].", ".$product['rating'].", ".$product['votes'].")" : "login()" ?>"><i class="fa-solid fa-plus"></i></button>
+                                        <p class="opacity-[0.4]"><?= $product['product_rating'] ?> (<?= $product['product_votes'] ?>)</p>
+                                        <button class="text-violet-600 font-bold border-2 border-violet-600 duration-300 hover:bg-gray-100 size-[30px] rounded-full" onclick="<?= isset($_SESSION['user_id']) ?  "toggleModal(".$product['product_id'].", ".$product['product_rating'].", ".$product['product_votes'].")" : "login()" ?>"><i class="fa-solid fa-plus"></i></button>
                                     </span>
                                 </div>
                             </div>
                             <span class="w-full sm:w-2/12 flex items-center justify-center">
-                                <button class="rounded-full size-[60px] border-2 border-black btn-add-cart" data-user_id="<?= $product['user_id'] ?>"  data-id="<?= $product['id'] ?>" data-name="<?= $product['name'] ?>" data-price="<?= $product['price'] ?>" data-image="<?= $product['image'] ?>" <?= isset($_SESSION['user_id']) ? "data-session='true'" : "data-session='false'"?>><i class="fa-solid fa-cart-plus text-2xl"></i></button>
+                                <button class="rounded-full size-[60px] border-2 border-black btn-add-cart" data-product_id="<?= $product['product_id'] ?>" data-product_name="<?= $product['product_name'] ?>"data-product_user_id="<?= $product['user_id'] ?>"   data-product_price="<?= $product['product_price'] ?>" data-product_image="<?= $product['product_image'] ?>"  data-product_address="<?= $product['user_address'] ?>" <?= isset($_SESSION['user_id']) ? "data-session='true'" : "data-session='false'"?>><i class="fa-solid fa-cart-plus text-2xl"></i></button>
                             </span>
                         </article>
                     <?php endforeach; ?>

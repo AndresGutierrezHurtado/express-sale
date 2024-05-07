@@ -20,11 +20,15 @@
                 </div>
             </form>
             <div class="flex gap-4">
-                <?php if (isset($_SESSION['username'])): ?> 
+                <?php if (isset($_SESSION['user_username'])): ?> 
                     <a href="/page/user_profile" class="flex gap-3 items-center"> <i class="fa-regular fa-circle-user text-[25px]"></i> Mi cuenta </a> 
                     <a href="/page/user_cart" class="flex gap-3 items-center"> <i class="fa-solid fa-cart-shopping text-[15px]"></i> Carrito </a>                 
                 <?php else: ?>
-                    <a href="/page/login" class="flex gap-3 items-center"> <i class="fa-solid fa-right-to-bracket text-[22px]"></i> Registro </a> 
+                    <a href="/page/login" class="flex gap-3 items-center"> <i class="fa-solid fa-right-to-bracket text-[18px]"></i> Registro </a> 
+                <?php endif; ?>
+                
+                <?php if (isset($_SESSION['user_role_id']) && $_SESSION['user_role_id'] == 4): ?> 
+                    <a href="/page/delivery" class="flex gap-3 items-center"> <i class="fa-solid fa-truck text-[15px]"></i> Envíos </a>
                 <?php endif; ?>
             </div>
         </span>
@@ -33,7 +37,7 @@
             <li class="flex flex-col sm:flex-row w-full text-center gap-1 sm:gap-4 text-[18px] mx-auto">
                 <a href="/" class="hover:scale-[1.05] hover:text-violet-800	duration-300">Inicio</a> <div class="hidden sm:block">|</div> <hr class="block sm:hidden">
                 <a href="/page/products" class="hover:scale-[1.05] hover:text-violet-800 duration-300">Productos</a><div class="hidden sm:block">|</div> <hr class="block sm:hidden">
-                <a href="/" class="hover:scale-[1.05] hover:text-violet-800	duration-300">Sobre Nosotros</a>                
+                <a href="/page/home/#aboutUs" class="hover:scale-[1.05] hover:text-violet-800	duration-300">Sobre Nosotros</a>                
             </li>
         </ul>
     </nav>

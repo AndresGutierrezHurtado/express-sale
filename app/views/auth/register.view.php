@@ -24,18 +24,18 @@
                     </h1>
                 </div>
                 <form id="register_form" method="post" class="space-y-4">
-                    <input type="hidden" name="image" id="image" value='/public/images/users/nf.jpg'>
+                    <input type="hidden" name="user_image" id="image" value='/public/images/users/nf.jpg'>
                     <div>
                         <label for="fullname" class="block text-sm font-medium text-gray-700">Nombre completo</label>
                         <div class="mt-1">
-                            <input id="full_name" type="text" name="full_name" required
+                            <input id="full_name" type="text" name="user_full_name" required
                                 class="block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 placeholder-gray-400 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm">
                         </div>
                     </div>
                     <div>
                         <label for="username" class="block text-sm font-medium text-gray-700">Usuario</label>
                         <div class="mt-1">
-                            <input id="username" type="text" name="username" required
+                            <input id="username" type="text" name="user_username" required
                                 class="block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 placeholder-gray-400 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
                                 value="">
                         </div>
@@ -43,7 +43,7 @@
                     <div>
                         <label for="email" class="block text-sm font-medium text-gray-700">Correo electrónico</label>
                         <div class="mt-1">
-                            <input id="email" type="email" name="email" required
+                            <input id="email" type="email" name="user_email" required
                                 class="block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 placeholder-gray-400 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
                                 value="">
                         </div>
@@ -51,17 +51,18 @@
                     <div>
                         <label for="password" class="block text-sm font-medium text-gray-700">Contraseña</label>
                         <div class="mt-1">
-                            <input id="password" type="password" name="password" autocomplete="current-password" required
+                            <input id="password" type="password" name="user_password" autocomplete="current-password" required
                                 class="block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 placeholder-gray-400 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
                                 value="">
                         </div>
                     </div>
                     <div>
                         <label for="role_id" class="block text-sm font-medium text-gray-700">Tipo de cuenta</label>
-                        <select id="role_id" name="role_id" required="" class="block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 placeholder-gray-400 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm">
+                        <select id="role_id" name="user_role_id" required="" class="block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 placeholder-gray-400 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm">
                             <option value="" disabled selected>Selecciona el tipo de cuenta</option>
                             <option value="1">Cliente</option>
                             <option value="2">Vendedor</option>
+                            <option value="4">Domiciliario</option>
                         </select>
                     </div>
                     <div class="mt-4">

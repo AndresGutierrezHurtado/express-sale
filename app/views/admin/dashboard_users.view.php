@@ -30,10 +30,10 @@ function buildQueryString($params) {
                             <div class="absolute top-[120%] left-1/2 transform -translate-x-1/2 bg-white flex flex-col rounded-md min-w-[150px] overflow-hidden duration-200 opacity-0" id="list-sort">
                                 <h1 class="text-black text-md uppercase font-bold tracking-tight upercase p-1 px-3">Ordernar por:</h1>
                                 <a href="/page/dashboard_users/?sort=user_id<?= buildQueryString(['search'])?>" class="text-black duraton-300 hover:bg-gray-200 p-1 px-3 cursor-pointer">Id</a>
-                                <a href="/page/dashboard_users/?sort=full_name<?= buildQueryString(['search'])?>" class="text-black duraton-300 hover:bg-gray-200 p-1 px-3 cursor-pointer">Nombre</a>
-                                <a href="/page/dashboard_users/?sort=username<?= buildQueryString(['search'])?>" class="text-black duraton-300 hover:bg-gray-200 p-1 px-3 cursor-pointer">Usuario</a>
-                                <a href="/page/dashboard_users/?sort=email<?= buildQueryString(['search'])?>" class="text-black duraton-300 hover:bg-gray-200 p-1 px-3 cursor-pointer">Correo</a>
-                                <a href="/page/dashboard_users/?sort=role_id<?= buildQueryString(['search'])?>" class="text-black duraton-300 hover:bg-gray-200 p-1 px-3 cursor-pointer">Rol</a>
+                                <a href="/page/dashboard_users/?sort=user_full_name<?= buildQueryString(['search'])?>" class="text-black duraton-300 hover:bg-gray-200 p-1 px-3 cursor-pointer">Nombre</a>
+                                <a href="/page/dashboard_users/?sort=user_username<?= buildQueryString(['search'])?>" class="text-black duraton-300 hover:bg-gray-200 p-1 px-3 cursor-pointer">Usuario</a>
+                                <a href="/page/dashboard_users/?sort=user_email<?= buildQueryString(['search'])?>" class="text-black duraton-300 hover:bg-gray-200 p-1 px-3 cursor-pointer">Correo</a>
+                                <a href="/page/dashboard_users/?sort=user_role_id<?= buildQueryString(['search'])?>" class="text-black duraton-300 hover:bg-gray-200 p-1 px-3 cursor-pointer">Rol</a>
                             </div>
                         </div>
                         <form action="/page/dashboard_users/" method="GET" class="flex gap-2">
@@ -45,7 +45,7 @@ function buildQueryString($params) {
                         </form>
                     </div>
                     <a href="/page/user_profile" class="w-[80px] rounded-full flex justify-center items-center overflow-hidden">
-                        <img src="<?= $user_sesion -> image ?>" alt="profile" class="">
+                        <img src="<?= $user_sesion['user_image'] ?>" alt="profile" class="">
                     </a>
                 </span>
                 <span class="flex flex-col text-center items-center">
@@ -81,10 +81,10 @@ function buildQueryString($params) {
                         <?php foreach ($users['data'] as $user): ?>
                         <tr>
                             <td class="p-2"><?= $user['user_id']; ?></td>
-                            <td class="p-2 hidden lg:table-cell"><?= $user['full_name']; ?></td>
-                            <td class="p-2"><?= $user['username']; ?></td>
-                            <td class="p-2 hidden sm:table-cell"><?= $user['email']; ?></td>
-                            <td class="p-2"><?= $user['role_id'] == 3 ? 'Adminstrador' : ($user['role_id'] == 2 ? 'Vendedor' : 'Usuario'); ?></td>
+                            <td class="p-2 hidden lg:table-cell"><?= $user['user_full_name']; ?></td>
+                            <td class="p-2"><?= $user['user_username']; ?></td>
+                            <td class="p-2 hidden sm:table-cell"><?= $user['user_email']; ?></td>
+                            <td class="p-2"><?= $user['role_name']?></td>
                             <td class="p-2 flex flex-col gap-3 sm:flex-row justify-center"> 
                                 <a href="/page/user_profile/?id=<?= $user['user_id'] ?>"> <button class="p-[2px] sm:px-3 border-2 border-violet-800 text-violet-800 rounded-md font-bold duration-300 hover:bg-gray-200"><i class="fa-solid fa-pen-to-square"></i></button> </a>
                                 <button class="p-[2px] sm:px-3 bg-violet-800 text-white rounded-md font-bold duration-300 hover:bg-violet-600" id="btn-delete" onclick="deleteElement(<?= $user['user_id'] ?>)"><i class="fa-solid fa-trash-can"></i></button> 

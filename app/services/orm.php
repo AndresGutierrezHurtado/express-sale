@@ -90,13 +90,12 @@ class Orm {
         }
     }
 
-    public function paginate($page, $limit, $customQueryRows = "", $customQuery = "") {
+    public function paginate($page, $limit, $customQueryRows = "", $customQuery = "", $innerJoin = "") {
 
         $offset = ($page - 1) * $limit;
 
         $rows = $this->db->query("SELECT COUNT(*) FROM $this->table $customQueryRows") -> fetch_column();
-        $result = $this->db->query("SELECT * FROM $this->table $customQuery LIMIT {$offset}, {$limit}") -> fetch_all(MYSQLI_ASSOC);
-
+        $result = $this->db->query("SELECT * FROM $this->table $innerJoin $customQuery LIMIT {$offset}, {$limit}") -> fetch_all(MYSQLI_ASSOC);
         $pages  = ceil($rows / $limit);
         
         return [

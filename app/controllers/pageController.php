@@ -17,24 +17,23 @@ class PageController {
     }  
 
     public function products(){
-        $users = $this -> userModel -> getAll();
         $page = isset($_GET['page']) ? $_GET['page'] : 1;
 
-        $search = isset($_GET['search']) ? "(name LIKE '%".$_GET['search']."%' OR description LIKE '%".$_GET['search']."%') AND" : "" ;
+        $search = isset($_GET['search']) ? "(products.product_name LIKE '%".$_GET['search']."%' OR products.product_description LIKE '%".$_GET['search']."%') AND" : "" ;
 
         $addition = isset($_GET['filter']) && isset($_GET['value']) ? $_GET['filter']." = ".$_GET['value']." AND" : "";
 
         $min = isset($_GET['min']) ? $_GET['min'] : 0;
         $max = isset($_GET['max']) ? $_GET['max'] : 1000000000;
-        $max_and_min = "price > $min AND price < $max";
+        $max_and_min = "product_price > $min AND product_price < $max";
 
-        $sort = isset($_GET['sort']) ? $_GET['sort'] : 'rating';
-        $sortQuery = $sort == 'price' ? "ORDER BY $sort ASC " :  "ORDER BY $sort DESC" ;
+        $sort = isset($_GET['sort']) ? $_GET['sort'] : 'product_rating';
+        $sortQuery = $sort == 'product_price' ? "ORDER BY $sort ASC " :  "ORDER BY $sort DESC" ;
         
         $queryRows = "WHERE $search $addition $max_and_min";
         $query = "WHERE $search $addition $max_and_min $sortQuery";
 
-        $products = $this -> productModel -> paginate($page, 5,  $queryRows, $query);
+        $products = $this -> productModel -> paginate($page, 5,  $queryRows, $query, "INNER JOIN users ON products.product_user_id = users.user_id");
         require_once(__DIR__ . "/../views/products/products.view.php");
     }
     public function login(){
@@ -50,63 +49,64 @@ class PageController {
     }
 
     public function user_profile() {        
+
         $id = isset($_GET['id']) ? $_GET['id'] : $_SESSION['user_id'] ;
-        $isAdmin = isset($_SESSION['role_id']) && $_SESSION['role_id'] == 3 || $_SESSION['user_id'] == $id ? true : false;
+        $isAdmin = isset($_SESSION['user_role_id']) && $_SESSION['user_role_id'] == 3 || $_SESSION['user_id'] == $id ? true : false;
         if (!$isAdmin) {header('location: /'); exit();}
 
         $pageProducts = isset($_GET['pageProducts']) ? $_GET['pageProducts'] : 1;
         
         $user = $this -> userModel -> getById( $id );
 
-        $products = $this -> productModel -> paginate($pageProducts, 5, "WHERE user_id = $id", "WHERE user_id = $id");
+        $products = $this -> productModel -> paginate($pageProducts, 5, "WHERE product_user_id = $id", "WHERE product_user_id = $id");
 
         $pageSales = isset($_GET['pageSales']) ? $_GET['pageSales'] : 1;
-        $sales = $this -> saleModel -> paginate($pageSales, 5, "WHERE user_id = $id", "WHERE user_id = $id");
+        $sales = $this -> saleModel -> paginate($pageSales, 5, "WHERE sale_user_id = $id", "WHERE sale_user_id = $id");
         require_once(__DIR__. "/../views/profile/user.view.php");
     }
 
     public function product_profile() {
         $product = $this -> productModel -> getById( $_GET['id'] );
-        $isAdmin = isset($_SESSION['role_id']) && $_SESSION['role_id'] == 3 || $_SESSION['user_id'] == $product['user_id'] ? true : false;
+        $isAdmin = isset($_SESSION['user_role_id']) && $_SESSION['user_role_id'] == 3 || $_SESSION['user_id'] == $product['product_user_id'] ? true : false;
         if (!$isAdmin) {header('location: /'); exit();}
 
         require_once(__DIR__. "/../views/profile/product.view.php");
     }
 
     public function dashboard_users() {
-        $isAdmin = isset($_SESSION['role_id']) && $_SESSION['role_id'] == 3 ? true : false;
+        $isAdmin = isset($_SESSION['user_role_id']) && $_SESSION['user_role_id'] == 3 ? true : false;
         if (!$isAdmin) {header('location: /'); exit();}
 
         $page = isset($_GET['page']) ? $_GET['page'] : 1; 
 
-        $search = isset($_GET['search']) ? "WHERE (full_name LIKE '%".$_GET['search']."%' OR username LIKE '%".$_GET['search']."%' OR email LIKE '% ".$_GET['search']."%' OR user_id LIKE '% ".$_GET['search']."%')" : "" ;
+        $search = isset($_GET['search']) ? "WHERE (user_full_name LIKE '%".$_GET['search']."%' OR user_username LIKE '%".$_GET['search']."%' OR user_email LIKE '% ".$_GET['search']."%' OR user_id LIKE '% ".$_GET['search']."%')" : "" ;
 
         $sort = isset($_GET['sort']) ? $_GET['sort'] : 'user_id';
 
         $queryRows = "$search";
         $query = "$search ORDER BY $sort ASC";
 
-        $users = $this -> userModel -> paginate($page, 5, $queryRows, $query);
+        $users = $this -> userModel -> paginate($page, 5, $queryRows, $query, "INNER JOIN roles ON users.user_role_id = roles.role_id");
 
         $user_sesion = $this -> userModel -> getById($_SESSION['user_id']);
         require_once(__DIR__ . "/../views/admin/dashboard_users.view.php");
     }
     
     public function dashboard_products() {
-        $isAdmin = isset($_SESSION['role_id']) && $_SESSION['role_id'] == 3 ? true : false;
+        $isAdmin = isset($_SESSION['user_role_id']) && $_SESSION['user_role_id'] == 3 ? true : false;
         if (!$isAdmin) {header('location: /'); exit();}
 
         $page = isset($_GET['page']) ? $_GET['page'] : 1;        
-        $sort = isset($_GET['sort']) ? $_GET['sort'] : 'id';
+        $sort = isset($_GET['sort']) ? $_GET['sort'] : 'product_id';
 
-        $search = isset($_GET['search']) ? "WHERE (name LIKE '%".$_GET['search']."%' OR description LIKE '%".$_GET['search']."%' OR id LIKE '% ".$_GET['search']."%')" : "" ;
+        $search = isset($_GET['search']) ? "WHERE (product_name LIKE '%".$_GET['search']."%' OR product_description LIKE '%".$_GET['search']."%' OR product_id LIKE '% ".$_GET['search']."%')" : "" ;
 
         $queryRows = "$search";
         $query = "$search ORDER BY $sort ASC";
 
-        $products = $this -> productModel -> paginate($page, 5, $queryRows, $query);
-        $user_sesion = $this -> userModel -> getById($_SESSION['user_id']);
-        $users = $this -> userModel -> getAll();
+        $products = $this->productModel->paginate($page, 5, $queryRows, $query, "INNER JOIN categories ON products.product_category_id = categories.category_id INNER JOIN users ON products.product_user_id = users.user_id");
+        $user_session = $this->userModel->getById($_SESSION['user_id']);
+        $users = $this->userModel->getAll();
         require_once(__DIR__ . "/../views/admin/dashboard_products.view.php");
     }
 
@@ -121,16 +121,25 @@ class PageController {
 
         $user = $this -> userModel -> getById( $vendedor_id );
 
-        $isAdmin = $user['role_id'] == 2 ? true : false;
+        $isAdmin = $user['user_role_id'] == 2 ? true : false;
         if (!$isAdmin) {header('location: /'); exit();}
 
-        $products = $this -> productModel -> paginate($page, 2, "WHERE user_id = $vendedor_id", "WHERE user_id = $vendedor_id");   
-
+        $products = $this -> productModel -> paginate($page, 2, "WHERE product_user_id = $vendedor_id", "WHERE product_user_id = $vendedor_id", "INNER JOIN users ON products.product_user_id = users.user_id");   
+        $user = $products['data'][0];
         require_once(__DIR__ . "/../views/profile/public.view.php");
     }
 
     public function payprocess () {
         
         require_once(__DIR__ . "/../views/pay/form.view.php");
+    }
+
+    public function delivery () {
+        $isAdmin = $_SESSION['user_role_id'] == 4 || $_SESSION['user_role_id'] == 3 ? true : false;
+        if (!$isAdmin) {header('location: /'); exit();}
+
+        $deliveries = $this -> saleModel -> paginate(1, 1000 ,"WHERE state_sale = 'Espera'", "WHERE state_sale = 'Espera'", "INNER JOIN users ON sales.user_id = users.user_id");
+        
+        require_once(__DIR__ . "/../views/delivery/list.view.php");
     }
 }
