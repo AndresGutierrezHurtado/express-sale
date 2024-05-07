@@ -16,7 +16,7 @@ CREATE TABLE `users` (
     `user_phone_number` DECIMAL(10),
     `user_address` VARCHAR(255),
     `user_image` VARCHAR(100),
-    `user_password` TEXT NOT NULL,
+    `user_password` TEXT,
     `user_role_id` INT NOT NULL
 );
 

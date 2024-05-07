@@ -210,6 +210,8 @@ function obtenerDistancia($origen, $destino) {
                 console.log('Venta terminada: ' + data.message);
 
                 <?php $_SESSION['user_delivery']['state'] = 'free'; ?>
+
+                window.location.href="/pages/delivery_list"
                 updateDelivery();
             })
         });
