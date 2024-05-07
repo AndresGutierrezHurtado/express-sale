@@ -10,7 +10,7 @@ class mailController {
 
     public function footerForm (){
         $data = json_decode($_POST["data"], true);
-        $to = "andres52885241@gmail.com";
+        $to = "expresssale.exsl@gmail.com";
         $subject = "Formulario de envío | ".$_POST['subject'];
         
         $message = "autor = [";
@@ -30,15 +30,15 @@ class mailController {
     }
 
     public function recover_account() {
-        $email = $_POST['email'] ;
-        $user = $this -> userModel -> paginate(1, 1, "WHERE email = '$email'", "WHERE email = '$email'");
+        $email = $_POST['user_email'] ;
+        $user = $this -> userModel -> paginate(1, 1, "WHERE user_email = '$email'", "WHERE user_email = '$email'");
         if ($user['rows'] > 0) {
             $to = $email;
             $subject = "Recupera tu cuenta | Express Sale";
             
             $message = "Recupera tu cuenta\n";
-            $message .= "Correo: ".$user['data'][0]['email']." \n";
-            $message .= "Contraseña: ".$user['data'][0]['password']." \n";
+            $message .= "Correo: ".$user['data'][0]['user_email']." \n";
+            $message .= "Contraseña: ".$user['data'][0]['user_password']." \n";
 
             $result = $this -> mailModel -> send($to, $subject, $message);
 

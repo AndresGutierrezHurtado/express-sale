@@ -16,7 +16,7 @@
             <div class="container px-5 flex flex-col md:flex-row justify-center gap-10">
                 <div class="w-full md:w-6/12 flex flex-col justify-center gap-3">
                     <p class="text-white text-xl text-center">¡Bienvenidos a Express Sale, <br> acá podrás comprar diferentes productos de tiendas locales!</p>
-                    <button class="p-1 px-3 border border-white rounded-md text-white font-bold w-fit mx-auto duration-300 hover:bg-white/[0.15]">Ver más</button>    
+                    <a href="#categories" class="p-1 px-3 border border-white rounded-md text-white font-bold w-fit mx-auto duration-300 hover:bg-white/[0.15]">Ver más</a>    
                 </div>
                 <div class="w-full md:w-5/12">
                     <img src="https://cdni.iconscout.com/illustration/free/thumb/free-online-shopping-4277122-3561282.png?f=webp" alt="intro photo" class="max-w-full">
@@ -36,7 +36,7 @@
                         </div>
                         <h1 class="text-xl capitalize font-bold">Vestuario</h1>
                         <p>Busca las mejores tiendas locales de ropa y calzado.</p>
-                        <a href="/page/products/?filter=category_id&value=1" class="w-full">
+                        <a href="/page/products/?filter=product_category_id&value=1" class="w-full">
                             <button class="w-full p-1 px-3 rounded-lg bg-violet-800 text-white font-bold duration-300 hover:bg-violet-600">Ver más</button>
                         </a>
                     </article>
@@ -47,7 +47,7 @@
                         </div>
                         <h1 class="text-xl capitalize font-bold">Comida</h1>
                         <p>Busca las mejores restaurantes y tiendas de comida locales.</p>
-                        <a href="/page/products/?filter=category_id&value=2" class="w-full">
+                        <a href="/page/products/?filter=product_category_id&value=2" class="w-full">
                             <button class="w-full p-1 px-3 rounded-lg bg-violet-800 text-white font-bold duration-300 hover:bg-violet-600">Ver más</button>
                         </a>
                     </article>
@@ -59,7 +59,7 @@
                         </div>
                         <h1 class="text-xl capitalize font-bold">Tecnología</h1>
                         <p>Busca los mejores productos de tecnología de las tiendas locales.</p>
-                        <a href="/page/products/?filter=category_id&value=3" class="w-full">
+                        <a href="/page/products/?filter=product_category_id&value=3" class="w-full">
                             <button class="w-full p-1 px-3 rounded-lg bg-violet-800 text-white font-bold duration-300 hover:bg-violet-600">Ver más</button>
                         </a>
                     </article>
@@ -70,7 +70,7 @@
                         </div>
                         <h1 class="text-xl capitalize font-bold">Otros</h1>
                         <p>Busca las mejores tiendas locales de ropa y calzado.</p>
-                        <a href="/page/products/?filter=category_id&value=4" class="w-full">
+                        <a href="/page/products/?filter=product_category_id&value=4" class="w-full">
                             <button class="w-full p-1 px-3 rounded-lg bg-violet-800 text-white font-bold duration-300 hover:bg-violet-600">Ver más</button>
                         </a>
                     </article>

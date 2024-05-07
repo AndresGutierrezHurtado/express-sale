@@ -245,9 +245,9 @@ function buildQueryString($params) {
                 
                 let formData = new FormData();
                 
-                formData.append('id', `${product}`);
-                formData.append('votes',  `${votes + 1}`);
-                formData.append('rating', newRating);
+                formData.append('product_id', `${product}`);
+                formData.append('product_votes',  `${votes + 1}`);
+                formData.append('product_rating', newRating);
                 
                 fetch('/product/update/', {
                     method: 'POST',

@@ -58,7 +58,7 @@ class PageController {
         
         $user = $this -> userModel -> getById( $id );
 
-        $products = $this -> productModel -> paginate($pageProducts, 5, "WHERE product_user_id = $id", "WHERE product_user_id = $id");
+        $products = $this -> productModel -> paginate($pageProducts, 5, "WHERE product_user_id = $id", "WHERE product_user_id = $id", "INNER JOIN categories ON products.product_category_id = categories.category_id");
 
         $pageSales = isset($_GET['pageSales']) ? $_GET['pageSales'] : 1;
         $sales = $this -> saleModel -> paginate($pageSales, 5, "WHERE sale_user_id = $id", "WHERE sale_user_id = $id");

@@ -144,14 +144,11 @@ function buildQueryString($params) {
             })
             .then(Response => Response.json())
             .then(Data => {
-                console.log(Data);
+                alert(Data.message)
                 if (Data.success) {
                     alert(Data.message)
-                    window.location = '/page/dashboard_users';
-                } else {
-                    alert(Data.message)
-                }
-
+                    window.location.reload();
+                } 
             });
         }
     </script>    

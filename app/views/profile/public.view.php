@@ -10,7 +10,9 @@
 </head>
 <body class="bg-gray-100">
     <?php require_once(__DIR__ . "/../layout/header.php")?>
+
     <main class="container mx-auto p-4 flex flex-col md:flex-row justify-center gap-10 py-12">
+        <!-- Vendedor contenedor -->
         <div class="w-full max-w-[400px] bg-white p-6 rounded-lg shadow-md h-fit flex flex-col gap-5">
             <h3 class="text-2xl font-bold tracking-tight">Información del vendedor:</h3>
             <div class="flex flex-col sm:flex-row items-center space-x-4">
@@ -45,13 +47,15 @@
                     ?>
                     <p class="mx-3 text-black/[0.6]"> <?= $user['user_rating'] ?> (<?= $user['user_votes'] ?>) </p> 
                 </span>
-                <button class="bg-violet-600 text-white font-bold rounded-lg duration-300 hover:bg-violet-400 px-5 py-1 w-fit" onclick="<?= isset($_SESSION['user_id']) ?  "toggleModal()" : "login()" ?>">Votar</button>
+                <button class="bg-violet-600 text-white font-bold rounded-lg duration-300 hover:bg-violet-400 px-5 py-1 w-fit" onclick="<?= isset($_SESSION['user_id']) ?  "toggleModal('modalVendedor', ".$user['user_id'].", ".$user['user_rating'].", ".$user['user_votes'].")" : "login()" ?>">Votar</button>
             </div>
             <div class="">
                 <h3 class="text-lg font-semibold">Descripción:</h3>
                 <p><?= $user['user_description'] ?></p>
             </div>
         </div>
+
+        <!-- Productos contenedor -->
         <div class="bg-white p-3 md:p-10 py-5 rounded-lg flex flex-col gap-5">
             <h3 class="text-2xl font-bold tracking-tight">Productos:</h3>
             <div class="w-full max-w-[650px] flex flex-col gap-2">
@@ -92,7 +96,7 @@
                                         ?>
                                     </span>
                                     <p class="opacity-[0.4]"><?= $product['product_rating'] ?> (<?= $product['product_votes'] ?>)</p>
-                                    <button class="text-violet-600 font-bold border-2 border-violet-600 duration-300 hover:bg-gray-100 size-[30px] rounded-full" onclick="<?= isset($_SESSION['user_id']) ?  "toggleModal(".$product['product_id'].", ".$product['product_rating'].", ".$product['product_votes'].")" : "login()" ?>"><i class="fa-solid fa-plus"></i></button>
+                                    <button class="text-violet-600 font-bold border-2 border-violet-600 duration-300 hover:bg-gray-100 size-[30px] rounded-full" onclick="<?= isset($_SESSION['user_id']) ?  "toggleModal('modalProducto', ".$product['product_id'].", ".$product['product_rating'].", ".$product['product_votes'].")" : "login()" ?>"><i class="fa-solid fa-plus"></i></button>
                                 </span>
                             </div>
                         </div>
@@ -132,30 +136,60 @@
                 </ul>
             </div>
         </div>
-        
-        <div class="fixed inset-0 z-50 hidden" id="modal">
-            <div id="modalBackground" class="fixed inset-0 bg-black bg-opacity-40" onclick="toggleModal()"></div>
-            <div id="myModal" class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 flex items-center justify-center ">
+
+        <!-- Modal para calificar al vendedor -->
+        <div class="fixed inset-0 z-50 hidden" id="modalVendedor">
+            <div id="modalBackgroundVendedor" class="fixed inset-0 bg-black bg-opacity-40" onclick="toggleModal('modalVendedor')"></div>
+            <div id="myModalVendedor" class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 flex items-center justify-center ">
                 <div class="w-full md:w-auto md:max-w-full md:min-w-[500px] bg-white p-5 rounded-md">
                     <span class="flex justify-between items-center">
                         <span class="text-lg font-bold">Califica al vendedor</span>
-                        <button id="closeModalButton" class="text-gray-500 hover:text-gray-700"  onclick="toggleModal()">
+                        <button id="closeModalButtonVendedor" class="text-gray-500 hover:text-gray-700"  onclick="toggleModal('modalVendedor')">
                             <svg class="h-6 w-6" stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
                             </svg>
                         </button>
                     </span>
                     <p class="w-full max-w-[350px] text-center mx-auto py-4">Ten en cuenta el servicio que ha brindado el vendedor o la calidad de sus productos.</p>
-                    <form id="rating-form" class="flex flex-col gap-4">
-                        <div id="stars" class="flex items-center justify-center gap-2 text-[20px]">
-                            <span class="star" data-value="1"><i class="fa-regular fa-star cursor-pointer text-amber-600 duration-300 hover:scale-[1.15]"> </i></span>
-                            <span class="star" data-value="2"><i class="fa-regular fa-star cursor-pointer text-amber-600 duration-300 hover:scale-[1.15]"> </i></span>
-                            <span class="star" data-value="3"><i class="fa-regular fa-star cursor-pointer text-amber-600 duration-300 hover:scale-[1.15]"> </i></span>
-                            <span class="star" data-value="4"><i class="fa-regular fa-star cursor-pointer text-amber-600 duration-300 hover:scale-[1.15]"> </i></span>
-                            <span class="star" data-value="5"><i class="fa-regular fa-star cursor-pointer text-amber-600 duration-300 hover:scale-[1.15]"> </i></span>
+                    <form id="rating-form-vendedor" class="flex flex-col gap-4">
+                        <div id="starsVendedor" class="flex items-center justify-center gap-2 text-[20px]">
+                            <span class="starVendedor" data-value="1"><i class="fa-regular fa-star cursor-pointer text-amber-600 duration-300 hover:scale-[1.15]"> </i></span>
+                            <span class="starVendedor" data-value="2"><i class="fa-regular fa-star cursor-pointer text-amber-600 duration-300 hover:scale-[1.15]"> </i></span>
+                            <span class="starVendedor" data-value="3"><i class="fa-regular fa-star cursor-pointer text-amber-600 duration-300 hover:scale-[1.15]"> </i></span>
+                            <span class="starVendedor" data-value="4"><i class="fa-regular fa-star cursor-pointer text-amber-600 duration-300 hover:scale-[1.15]"> </i></span>
+                            <span class="starVendedor" data-value="5"><i class="fa-regular fa-star cursor-pointer text-amber-600 duration-300 hover:scale-[1.15]"> </i></span>
                         </div>
                         <a class="hidden" id="btn-empty"></a>
-                        <button id="calificar-btn" class="hidden bg-violet-600 font-bold duration-300 hover:bg-violet-800 text-white py-2 px-4 rounded-lg">Calificar</button>
+                        <button type="submit" id="calificar-btn-vendedor" class="hidden bg-violet-600 font-bold duration-300 hover:bg-violet-800 text-white py-2 px-4 rounded-lg">Calificar</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Modal para calificar al producto -->
+        <div class="fixed inset-0 z-50 hidden" id="modalProducto">
+            <div id="modalBackgroundProducto" class="fixed inset-0 bg-black bg-opacity-40" onclick="toggleModal('modalProducto')"></div>
+            <div id="myModalProducto" class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 flex items-center justify-center ">
+                <div class="w-full md:w-auto md:max-w-full md:min-w-[500px] bg-white p-5 rounded-md">
+                    <span class="flex justify-between items-center">
+                        <span class="text-lg font-bold">Califica al producto</span>
+                        <button id="closeModalButtonProducto" class="text-gray-500 hover:text-gray-700"  onclick="toggleModal('modalProducto')">
+                            <svg class="h-6 w-6" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                            </svg>
+                        </button>
+                    </span>
+                    <p class="w-full max-w-[350px] text-center mx-auto py-4">Califica este producto según tu experiencia con él.</p>
+                    <form id="rating-form-producto" class="flex flex-col gap-4" method="post">
+                        <div id="starsProducto" class="flex items-center justify-center gap-2 text-[20px]">
+                            <span class="starProducto" data-value="1"><i class="fa-regular fa-star cursor-pointer text-amber-600 duration-300 hover:scale-[1.15]"> </i></span>
+                            <span class="starProducto" data-value="2"><i class="fa-regular fa-star cursor-pointer text-amber-600 duration-300 hover:scale-[1.15]"> </i></span>
+                            <span class="starProducto" data-value="3"><i class="fa-regular fa-star cursor-pointer text-amber-600 duration-300 hover:scale-[1.15]"> </i></span>
+                            <span class="starProducto" data-value="4"><i class="fa-regular fa-star cursor-pointer text-amber-600 duration-300 hover:scale-[1.15]"> </i></span>
+                            <span class="starProducto" data-value="5"><i class="fa-regular fa-star cursor-pointer text-amber-600 duration-300 hover:scale-[1.15]"> </i></span>
+                        </div>
+                        <a class="hidden" id="btn-empty"></a>
+                        <button type="submit" id="calificar-btn-producto" class="hidden bg-violet-600 font-bold duration-300 hover:bg-violet-800 text-white py-2 px-4 rounded-lg">Calificar</button>
                     </form>
                 </div>
             </div>
@@ -163,73 +197,14 @@
     </main>
     <?php require_once(__DIR__ . "/../layout/footer.php") ?>
     <script src="/public/js/cart.js"></script>
-    <script>        
-        const stars = document.querySelectorAll('.star');
-        const submitButton = document.getElementById('calificar-btn');
-
-        stars.forEach(star => {
-            star.addEventListener('click', () => {
-                const value = parseInt(star.dataset.value);
-
-                if (star.classList.contains('selected')) {
-                    stars.forEach(s => {
-                        s.innerHTML = '<i class="far fa-star cursor-pointer text-amber-600 duration-300 hover:scale-[1.15]"></i>';
-                        s.classList.remove('selected');
-                        submitButton.classList.remove('hidden');
-                    });
-                } else {
-                    stars.forEach((s, index) => {
-                        if (index < value) {
-                            s.innerHTML = '<i class="fas fa-star cursor-pointer text-amber-400 duration-300 hover:scale-[1.15]"></i>';
-                            s.classList.remove('selected');
-                        } else {
-                            s.innerHTML = '<i class="far fa-star cursor-pointer text-amber-600 duration-300 hover:scale-[1.15]"></i>';
-                            s.classList.remove('selected');
-                        }
-                    });
-                    star.classList.add('selected');
-                }
-
-                const anySelected = Array.from(stars).some(s => s.classList.contains('selected'));
-                submitButton.classList.toggle('hidden', !anySelected);
-            });
-        });
-
-        document.getElementById('rating-form').addEventListener('submit' , (e) => {
-            e.preventDefault();
-            
-            let seller = <?= $_GET['vendedor']?>;
-            let votes = <?= $user['user_votes']?>;
-            let currentRating = <?= $user['user_rating'] ?>;
-
-            let newRating = ((currentRating * votes) + parseInt(document.querySelector('.star.selected').dataset.value)) / (votes + 1);
-
-            let formData = new FormData();
-            
-            formData.append('user_id', `${seller}`);
-            formData.append('user_votes',  `${votes + 1}`);
-            formData.append('user_rating', newRating);
-            
-            fetch('/user/update/', {
-                method: 'POST',
-                body: formData
-            })
-            .then(response => response.json())
-            .then(data => {
-                alert(data.message);
-                if (data.success) {
-                    window.location.reload();
-                }
-            })
-        });
-
-        function toggleModal() {
-            document.getElementById('modal').classList.toggle('hidden');
-        }
-
-        function login () {
-            alert('para votar tienes que iniciar sesión')
-            window.location.href = "/page/login";
+    <script src="/public/js/rating.js"></script>
+    <script>
+        function toggleModal(modalId, id="", rating="", votes="") {
+            document.getElementById(modalId).classList.toggle('hidden');
+            let attribute = 'data-'+ (modalId == 'modalProducto' ? 'product_' : 'user_');
+            document.querySelector(`#${modalId} button[type="submit"]`).setAttribute(`${attribute}id`, id);
+            document.querySelector(`#${modalId} button[type="submit"]`).setAttribute(`${attribute}rating`, rating);
+            document.querySelector(`#${modalId} button[type="submit"]`).setAttribute(`${attribute}votes`, votes);
         }
     </script>
 </body>

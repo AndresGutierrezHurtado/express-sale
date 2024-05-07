@@ -104,20 +104,28 @@ CREATE TABLE `sales` (
 -- Add foreign keys
 ALTER TABLE `users` 
 ADD FOREIGN KEY (`user_role_id`) 
-REFERENCES `roles`(`role_id`);
+REFERENCES `roles`(`role_id`)
+ON UPDATE CASCADE
+ON DELETE CASCADE;
 
 ALTER TABLE `products` 
 ADD FOREIGN KEY (`product_user_id`) 
-REFERENCES `users`(`user_id`);
+REFERENCES `users`(`user_id`)
+ON UPDATE CASCADE
+ON DELETE CASCADE;
 
 ALTER TABLE `products` 
 ADD FOREIGN KEY (`product_category_id`) 
-REFERENCES `categories`(`category_id`);
+REFERENCES `categories`(`category_id`)
+ON UPDATE CASCADE
+ON DELETE CASCADE;
 
 
 ALTER TABLE `sales`
 ADD FOREIGN KEY (`sale_user_id`) 
-REFERENCES `users`(`user_id`);
+REFERENCES `users`(`user_id`)
+ON UPDATE CASCADE
+ON DELETE CASCADE;
 
 DELIMITER $$
 
