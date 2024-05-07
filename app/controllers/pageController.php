@@ -138,7 +138,7 @@ class PageController {
         $isAdmin = $_SESSION['user_role_id'] == 4 || $_SESSION['user_role_id'] == 3 ? true : false;
         if (!$isAdmin) {header('location: /'); exit();}
 
-        $deliveries = $this -> saleModel -> paginate(1, 1000 ,"WHERE state_sale = 'Espera'", "WHERE state_sale = 'Espera'", "INNER JOIN users ON sales.user_id = users.user_id");
+        $deliveries = $this -> saleModel -> paginate(1, 1000 ,"WHERE sale_state = 'Espera'", "WHERE sale_state = 'Espera'", "INNER JOIN users ON sales.sale_user_id = users.user_id");
         
         require_once(__DIR__ . "/../views/delivery/list.view.php");
     }

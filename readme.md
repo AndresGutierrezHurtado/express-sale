@@ -1,6 +1,6 @@
 FALTA :
  - pasarela
- - domicilio
+ - domicilio (realizar pediddo, mostrar ruta y terminarla (mientras se actualiza todo en la app),)
 
 ACCIONES :
  - Login y register

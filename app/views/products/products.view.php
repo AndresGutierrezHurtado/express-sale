@@ -130,7 +130,7 @@ function buildQueryString($params) {
                                 </div>
                             </div>
                             <span class="w-full sm:w-2/12 flex items-center justify-center">
-                                <button class="rounded-full size-[60px] border-2 border-black btn-add-cart" data-product_id="<?= $product['product_id'] ?>" data-product_name="<?= $product['product_name'] ?>"data-product_user_id="<?= $product['user_id'] ?>"   data-product_price="<?= $product['product_price'] ?>" data-product_image="<?= $product['product_image'] ?>"  data-product_address="<?= $product['user_address'] ?>" <?= isset($_SESSION['user_id']) ? "data-session='true'" : "data-session='false'"?>><i class="fa-solid fa-cart-plus text-2xl"></i></button>
+                                <button class="rounded-full size-[60px] border-2 border-black btn-add-cart" data-product_id="<?= $product['product_id'] ?>" data-product_name="<?= $product['product_name'] ?>" data-user_id="<?= $product['user_id'] ?>"   data-product_price="<?= $product['product_price'] ?>" data-product_image="<?= $product['product_image'] ?>"  data-product_address="<?= $product['user_address'] ?>" <?= isset($_SESSION['user_id']) ? "data-session='true'" : "data-session='false'"?>><i class="fa-solid fa-cart-plus text-2xl"></i></button>
                             </span>
                         </article>
                     <?php endforeach; ?>

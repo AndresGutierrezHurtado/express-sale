@@ -21,7 +21,7 @@
                     <h2 class="text-xl font-bold"><?= $user['user_full_name'] ?></h2>
                     <p class="text-sm text-gray-600">Ubicación: <?= $user['user_address'] ?></p>
                     <p class="text-sm text-gray-600">Número: <?= $user['user_phone_number'] ?></p>
-                    <p class="text-sm text-gray-600"> <?= $user['user_sales_done'] ?> Ventas</p>
+                    <p class="text-sm text-gray-600"> <?= $user['user_sales_done'] ?> Productos vendidos</p>
                 </div>
             </div>
             <div class="flex flex-col gap-2">
@@ -101,7 +101,7 @@
                             </div>
                         </div>
                         <span class="w-full sm:w-2/12 flex items-center justify-center">
-                        <button class="rounded-full size-[60px] border-2 border-black btn-add-cart" data-product_id="<?= $product['product_id'] ?>" data-product_name="<?= $product['product_name'] ?>"data-user_id="<?= $product['user_id'] ?>"   data-product_price="<?= $product['product_price'] ?>" data-product_image="<?= $product['product_image'] ?>"  data-product_address="<?= $product['user_address'] ?>" <?= isset($_SESSION['user_id']) ? "data-session='true'" : "data-session='false'"?>><i class="fa-solid fa-cart-plus text-2xl"></i></button>
+                        <button class="rounded-full size-[60px] border-2 border-black btn-add-cart" data-product_id="<?= $product['product_id'] ?>" data-product_name="<?= $product['product_name'] ?>" data-user_id="<?= $product['user_id'] ?>"   data-product_price="<?= $product['product_price'] ?>" data-product_image="<?= $product['product_image'] ?>"  data-product_address="<?= $product['user_address'] ?>" <?= isset($_SESSION['user_id']) ? "data-session='true'" : "data-session='false'"?>><i class="fa-solid fa-cart-plus text-2xl"></i></button>
                         </span>
                     </article>
                 <?php endforeach; ?>

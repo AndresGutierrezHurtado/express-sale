@@ -43,7 +43,7 @@
 
                 <div class="flex flex-col gap-1">
                     <label for="address" class="text-md font-medium text-gray-700">Dirección:</label>
-                    <input type="text" id="address" name="user_address" value="<?= $user['user_address']; ?>" class="w-full border rounded-lg py-1 px-3" disabled>
+                    <input type="text" id="address_input" name="user_address" value="<?= $user['user_address']; ?>" class="w-full border rounded-lg py-1 px-3" disabled autocomplete="off">
                 </div>
 
                 <div class="flex flex-col gap-1">
@@ -54,7 +54,7 @@
                 <?php if ($user['user_role_id'] == 2):?>
                     <div class="flex flex-col gap-1">
                         <label for="description" class="text-md font-medium text-gray-700">Descripción:</label>
-                        <textarea type="text" id="description" name="user_description" class="h-24 w-full border rounded-lg py-1 px-1 resize-none" disabled><?= $user['user_description'] ?></textarea>
+                        <textarea type="text" id="description" name="user_description" class="h-24 w-full border rounded-lg py-1 px-3 resize-none" disabled><?= $user['user_description'] ?></textarea>
                     </div>
                 <?php endif; ?>
 
@@ -306,6 +306,13 @@
 
             });
         }        
+    </script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyACEoqwUojmSsTZX_zMVHRZVDkAoBharV0&libraries=places&callback=initMap" async defer></script>
+    <script>
+        function initMap() {
+            geocoder = new google.maps.Geocoder();
+            autocomplete = new google.maps.places.Autocomplete(document.getElementById("address_input"));
+        }
     </script>
     <script src="/public/js/user_profile.js"></script>
 </body>

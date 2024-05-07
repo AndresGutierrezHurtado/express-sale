@@ -12,16 +12,39 @@
     <?php require_once(__DIR__ . "/../layout/header.php"); ?>
     <main class="w-full flex justify-center ">
         <div class="w-full md:w-7/12 my-[70px]">            
-            <div class="w-full bg-slate-700 px-3 p-1 rounded-t-lg">
-                <h1 class="tracking-tight font-bold text-white">Lista de envíos pendientes</h1>
+            <div class="w-full bg-slate-700 px-7 p-5 rounded-lg mb-5">
+                <h1 class="tracking-tight font-bold text-white text-3xl">Lista de envíos pendientes: </h1>
             </div>
-            <div>
+            <div class="flex flex-col gap-2">
+                <?php if ($deliveries['rows'] < 1) : ?>
+                    <h1 class="text-center text-2xl font-bold">No se encontraron envíos disponibles...</h1>
+                <?php endif;?>
                 <?php foreach($deliveries['data'] as $delivery): ?>
-                    <article class="p-5 w-full bg-white">
-                        <h1>Envio para <?= $delivery['full_name'] ?></h1>
-                        <p>desde: </p>
-                        <p>hasta: <?= $delivery['address_sale'] ?></p>
-                        
+                    <article class="p-5 w-full bg-white rounded-lg shadow-lg flex justify-between">
+                        <div class="flex flex-col gap-1">                            
+                            <h1 class="font-bold text-2xl">Envio para <?= $delivery['user_full_name'] ?></h1>
+                            <p> <a class="font-bold"> Por:</a>
+                                <?php 
+                                    $productos = json_decode($delivery['sale_description'], true);
+                                    $totalProductos = count($productos);
+                                    $contador = 0;
+                                    foreach ($productos as $producto):
+                                        echo $producto['product_address'];
+                                        if (++$contador < $totalProductos) {
+                                            echo ', ';
+                                        } else {
+                                            echo '.';
+                                        }
+                                    endforeach;
+                                ?>
+                            </p>
+                            <p><a class="font-bold"> Hasta:</a> <?= $delivery['sale_address'] ?></p>
+                            <p><a class="font-bold"> Fecha:</a> <?= $delivery['sale_date'] ?></p>
+                            <p><a class="font-bold"> Precio:</a> 7,000 COP</p>
+                        </div>
+                        <div>
+                            <button class="px-3 p-1 border-2 border-green-500 rounded-lg text-green-500 font-bold flex gap-3 items-center hover:bg-gray-100 duration-300"> <i class="fa-solid fa-circle-check "></i> Realizar Envío</button>
+                        </div>                        
                     </article>
                 <?php endforeach; ?>
             </div>

@@ -19,7 +19,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 product.append('user_id', button.getAttribute('data-user_id'));
                 product.append('product_name', button.getAttribute('data-product_name'));
                 product.append('product_price', button.getAttribute('data-product_price'));
-                product.append('user_address', button.getAttribute('data-user_address'));
+                product.append('product_address', button.getAttribute('data-product_address'));
                 product.append('product_image', button.getAttribute('data-product_image'));
 
                 fetch('/cart/add', {
