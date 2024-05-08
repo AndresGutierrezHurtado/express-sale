@@ -1,6 +1,6 @@
 FALTA :
  - pasarela
- - domicilio (realizar pediddo, mostrar ruta y terminarla (mientras se actualiza todo en la app),)
+ - facturas, ventas y envíos hechos, perfil domiciliario
 
 ACCIONES :
  - Login y register

@@ -34,8 +34,8 @@ function buildQueryString($params) {
                                 <a href="/page/dashboard_products/?sort=product_name<?= buildQueryString(['search']) ?>" class="text-black duraton-300 hover:bg-gray-200 p-1 px-3 cursor-pointer">Nombre</a>
                                 <a href="/page/dashboard_products/?sort=product_price<?= buildQueryString(['search']) ?>" class="text-black duraton-300 hover:bg-gray-200 p-1 px-3 cursor-pointer">Precio</a>
                                 <a href="/page/dashboard_products/?sort=product_stock<?= buildQueryString(['search']) ?>" class="text-black duraton-300 hover:bg-gray-200 p-1 px-3 cursor-pointer">Stock</a>
-                                <a href="/page/dashboard_products/?sort=product_user_id<?= buildQueryString(['search']) ?>" class="text-black duraton-300 hover:bg-gray-200 p-1 px-3 cursor-pointer">Vendedor</a>
-                                <a href="/page/dashboard_products/?sort=product_category_id<?= buildQueryString(['search']) ?>" class="text-black duraton-300 hover:bg-gray-200 p-1 px-3 cursor-pointer">Categoría</a>
+                                <a href="/page/dashboard_products/?sort=user_username<?= buildQueryString(['search']) ?>" class="text-black duraton-300 hover:bg-gray-200 p-1 px-3 cursor-pointer">Vendedor</a>
+                                <a href="/page/dashboard_products/?sort=category_name<?= buildQueryString(['search']) ?>" class="text-black duraton-300 hover:bg-gray-200 p-1 px-3 cursor-pointer">Categoría</a>
                             </div>
                         </div>
                         <form action="/page/dashboard_products/" method="GET" class="flex gap-2">

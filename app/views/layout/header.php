@@ -27,7 +27,7 @@
                     <a href="/page/login" class="flex gap-3 items-center"> <i class="fa-solid fa-right-to-bracket text-[18px]"></i> Registro </a> 
                 <?php endif; ?>
                 
-                <?php if (isset($_SESSION['user_role_id']) && $_SESSION['user_role_id'] == 4): ?> 
+                <?php if (isset($_SESSION['user_role_id']) && $_SESSION['user_role_id'] == 3): ?> 
                     <a href="/page/delivery_list" class="flex gap-3 items-center"> <i class="fa-solid fa-truck text-[15px]"></i> Envíos </a>
                 <?php endif; ?>
             </div>

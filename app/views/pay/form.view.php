@@ -52,8 +52,8 @@ foreach ($_SESSION['user_cart'] as $item) {
         <button id="submit-button" type="submit" class="bg-violet-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-4">Continuar</button>
     </form>
 
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyACEoqwUojmSsTZX_zMVHRZVDkAoBharV0&libraries=places&callback=initMap" async defer></script>
     <script src="/public/js/googleMaps.js"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyACEoqwUojmSsTZX_zMVHRZVDkAoBharV0&libraries=places&callback=initMap" async defer></script>
     <script src="/public/js/sale.js"></script>
 </body>
 </html>

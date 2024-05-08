@@ -70,13 +70,13 @@ function buildQueryString($params) {
                             <input type="radio" id="filtro-precios-mas-100k" name="precio" value="/page/products/?min=100000&max=1000000000<?= buildQueryString(['search', 'filter', 'value', 'sort']) ?>" <?= isset($_GET['min']) && isset($_GET['max']) && $_GET['min'] == 100000  && $_GET['max'] == 1000000000 ? 'checked' : '' ?>>
                             <label for="filtro-precios-mas-100k">Más de $100.000</label>
                         </span>
-                        <form action="/page/products/<?= buildQueryString(['search', 'filter', 'value', 'sort']) ?>" method="GET" class="flex flex-col gap-3 w-full my-2">
+                        <form action="/page/products/" method="GET" class="flex flex-col gap-3 w-full my-2">
                             <div class="flex gap-3">
                                 <input type="number" name="min" class="border p-1 px-2 w-1/2 input-price-filter" required placeholder="Desde...">
                                 <input type="number" name="max" class="border p-1 px-2 w-1/2 input-price-filter" required placeholder="Hasta">
                             </div>
                             <div class="flex w-full gap-3">
-                                <?= isset($_GET['max']) && isset($_GET['max']) ? ' <a href="/page/products/search='. buildQueryString(['search', 'filter', 'value', 'sort']) .'" class="bg-violet-800 rounded-lg text-white font-bold p-1 px-3 duration-300 hover:bg-violet-600 text-center flex justify-center items-center"> <i class="fa-solid fa-arrows-rotate"></i> </a> ' : '' ?>
+                                <?= isset($_GET['max']) && isset($_GET['max']) ? ' <a href="/page/products/" class="bg-violet-800 rounded-lg text-white font-bold p-1 px-3 duration-300 hover:bg-violet-600 text-center flex justify-center items-center"> <i class="fa-solid fa-arrows-rotate"></i> </a> ' : '' ?>
                                 <button class="bg-violet-800 rounded-lg text-white font-bold hidden p-1 px-3 duration-300 hover:bg-violet-600 w-full" id="btn-price-filter-submit"> Cambiar </button>
                             </div>
                         </form>
@@ -97,7 +97,7 @@ function buildQueryString($params) {
                                 <div class="flex flex-col gap-4">   
                                     <div>
                                         <h2 class="text-[25px] tracking-tight"><?= $product['product_name']; ?></h2>
-                                        <a href="/page/public_profile/?vendedor=<?= $product['product_user_id'] ?>" class="text-black/[0.5] text-md hover:text-purple-600 hover:underline">Por <?= $product['user_username'] ?></a>
+                                        <a href="/page/public_profile/?vendedor=<?= $product['product_seller_id'] ?>" class="text-black/[0.5] text-md hover:text-purple-600 hover:underline">Por <?= $product['user_username'] ?></a>
                                     </div>                             
                                     <p><?= $product['product_description']; ?></p>
                                 </div>
@@ -130,7 +130,7 @@ function buildQueryString($params) {
                                 </div>
                             </div>
                             <span class="w-full sm:w-2/12 flex items-center justify-center">
-                                <button class="rounded-full size-[60px] border-2 border-black btn-add-cart" data-product_id="<?= $product['product_id'] ?>" data-product_name="<?= $product['product_name'] ?>" data-user_id="<?= $product['user_id'] ?>"   data-product_price="<?= $product['product_price'] ?>" data-product_image="<?= $product['product_image'] ?>"  data-product_address="<?= $product['user_address'] ?>" <?= isset($_SESSION['user_id']) ? "data-session='true'" : "data-session='false'"?>><i class="fa-solid fa-cart-plus text-2xl"></i></button>
+                                <button class="rounded-full size-[60px] border-2 border-black btn-add-cart" data-product_id="<?= $product['product_id'] ?>" data-product_name="<?= $product['product_name'] ?>" data-seller_id="<?= $product['seller_id'] ?>"   data-product_price="<?= $product['product_price'] ?>" data-product_image="<?= $product['product_image'] ?>"  data-product_address="<?= $product['user_address'] ?>" <?= isset($_SESSION['user_id']) ? "data-session='true'" : "data-session='false'"?>><i class="fa-solid fa-cart-plus text-2xl"></i></button>
                             </span>
                         </article>
                     <?php endforeach; ?>

@@ -12,7 +12,6 @@ class Orm {
     }
 
     public function insert($data) {
-        // Inicio de la construcción de la consulta SQL
         $query = "INSERT INTO $this->table (";
         foreach ($data as $key => $value) {
             $query .= "`$key`,";
@@ -50,11 +49,13 @@ class Orm {
     public function getAll() {
         $query = "SELECT * FROM $this->table";
         $result = $this->db->query($query);
+
         return $result -> fetch_all(MYSQLI_ASSOC);
     }
-    public function getById($id) {
-        $query = "SELECT * FROM $this->table WHERE $this->id = $id";
+    public function getById($id, $inner_join = "") {
+        $query = "SELECT * FROM $this->table $inner_join WHERE $this->id = $id";
         $result = $this->db->query($query);
+
         return $result -> fetch_assoc();
     }
     

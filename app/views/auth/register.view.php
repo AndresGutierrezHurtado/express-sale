@@ -33,17 +33,32 @@
                         </div>
                     </div>
                     <div>
-                        <label for="username" class="block text-sm font-medium text-gray-700">Usuario</label>
+                        <label for="email" class="block text-sm font-medium text-gray-700">Correo electrónico</label>
                         <div class="mt-1">
-                            <input id="username" type="text" name="user_username" required
+                            <input id="email" type="email" name="user_email" required
                                 class="block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 placeholder-gray-400 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
                                 value="">
                         </div>
                     </div>
                     <div>
-                        <label for="email" class="block text-sm font-medium text-gray-700">Correo electrónico</label>
+                        <label for="email" class="block text-sm font-medium text-gray-700">Documento</label>
+                        <div class="flex">
+                            <select name="user_document" required="" class="bg-gray-200 rounded-l-md text-center px-2">
+                                <option value=""> -- seleccione --</option>
+                                <option value="CC">Cédula de ciudadanía</option>
+                                <option value="TI">Tarjeta de identidad</option>
+                                <option value="CE">Cédula de extranjería</option>
+                            </select>
+
+                            <input type="number" name="user_document_number" required
+                                class="block w-full appearance-none rounded-r-md border border-gray-300 px-3 py-2 placeholder-gray-400 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+                                value="">
+                        </div>
+                    </div>
+                    <div>
+                        <label for="username" class="block text-sm font-medium text-gray-700">Usuario</label>
                         <div class="mt-1">
-                            <input id="email" type="email" name="user_email" required
+                            <input id="username" type="text" name="user_username" required
                                 class="block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 placeholder-gray-400 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
                                 value="">
                         </div>
@@ -62,7 +77,7 @@
                             <option value="" disabled selected>Selecciona el tipo de cuenta</option>
                             <option value="1">Cliente</option>
                             <option value="2">Vendedor</option>
-                            <option value="4">Domiciliario</option>
+                            <option value="3">Domiciliario</option>
                         </select>
                     </div>
                     <div class="mt-4">

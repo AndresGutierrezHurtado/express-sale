@@ -91,19 +91,19 @@ productButton.addEventListener('click' , (e) => {
 sellerButton.addEventListener('click' , (e) => {
     e.preventDefault();
 
-    let user = sellerButton.dataset.user_id;
-    let votes = parseInt(sellerButton.dataset.user_votes);
-    let currentRating = sellerButton.dataset.user_rating;
+    let user = sellerButton.dataset.seller_id;
+    let votes = parseInt(sellerButton.dataset.seller_votes);
+    let currentRating = sellerButton.dataset.seller_rating;
     
     let newRating = ((currentRating * votes) + parseInt(document.querySelector('.starVendedor.selected').dataset.value)) / (votes + 1);
     
     let formData = new FormData();
     
-    formData.append('user_id', user);
-    formData.append('user_votes',  votes + 1);
-    formData.append('user_rating', newRating);
+    formData.append('seller_id', user);
+    formData.append('seller_votes',  votes + 1);
+    formData.append('seller_rating', newRating);
     
-    fetch('/user/update/', {
+    fetch('/seller/update/', {
         method: 'POST',
         body: formData
     })

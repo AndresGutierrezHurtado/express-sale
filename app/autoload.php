@@ -9,3 +9,4 @@ require_once(__DIR__ ."/models/mailer.php");
 require_once(__DIR__ ."/models/product.php");
 require_once(__DIR__ ."/models/sale.php");
 require_once(__DIR__ ."/models/user.php");
+require_once(__DIR__ ."/models/seller.php");

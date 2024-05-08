@@ -21,14 +21,14 @@
                     <h2 class="text-xl font-bold"><?= $user['user_full_name'] ?></h2>
                     <p class="text-sm text-gray-600">Ubicación: <?= $user['user_address'] ?></p>
                     <p class="text-sm text-gray-600">Número: <?= $user['user_phone_number'] ?></p>
-                    <p class="text-sm text-gray-600"> <?= $user['user_sales_done'] ?> Productos vendidos</p>
+                    <p class="text-sm text-gray-600"> <?= $user['seller_sales_done'] ?> Productos vendidos</p>
                 </div>
             </div>
             <div class="flex flex-col gap-2">
                 <h3 class="text-lg font-semibold">Calificación:</h3>
                 <span class="flex items-center">
                     <?php
-                        $calificacion = $user['user_rating'];
+                        $calificacion = $user['seller_rating'];
                         $calificacionEntera = floor($calificacion);
                         $fraccion = $calificacion - $calificacionEntera;
 
@@ -45,13 +45,13 @@
                             echo '<i class="fa-regular fa-star"></i>';
                         }
                     ?>
-                    <p class="mx-3 text-black/[0.6]"> <?= $user['user_rating'] ?> (<?= $user['user_votes'] ?>) </p> 
+                    <p class="mx-3 text-black/[0.6]"> <?= $user['seller_rating'] ?> (<?= $user['seller_votes'] ?>) </p> 
                 </span>
-                <button class="bg-violet-600 text-white font-bold rounded-lg duration-300 hover:bg-violet-400 px-5 py-1 w-fit" onclick="<?= isset($_SESSION['user_id']) ?  "toggleModal('modalVendedor', ".$user['user_id'].", ".$user['user_rating'].", ".$user['user_votes'].")" : "login()" ?>">Votar</button>
+                <button class="bg-violet-600 text-white font-bold rounded-lg duration-300 hover:bg-violet-400 px-5 py-1 w-fit" onclick="<?= isset($_SESSION['user_id']) ?  "toggleModal('modalVendedor', ".$user['seller_id'].", ".$user['seller_rating'].", ".$user['seller_votes'].")" : "login()" ?>">Votar</button>
             </div>
-            <div class="">
+            <div>
                 <h3 class="text-lg font-semibold">Descripción:</h3>
-                <p><?= $user['user_description'] ?></p>
+                <p><?= $user['seller_description'] ?></p>
             </div>
         </div>
 
@@ -61,6 +61,7 @@
             <div class="w-full max-w-[650px] flex flex-col gap-2">
                 <?php foreach ($products['data'] as $product): ?>
                     <?php if($product['product_state'] == 'private') { continue;} ?>
+
                     <article class="flex flex-col md:flex-row justify-between gap-4 bg-white p-4 rounded-lg shadow-lg border min-h-[250px]">
                         <div class="w-full md:w-3/12 max-h-[230px] flex items-center justify-center">
                             <img src="<?= $product['product_image'] ?>" alt="<?= $product['product_name']; ?>" class="max-w-full max-h-[230px]">
@@ -101,16 +102,17 @@
                             </div>
                         </div>
                         <span class="w-full sm:w-2/12 flex items-center justify-center">
-                        <button class="rounded-full size-[60px] border-2 border-black btn-add-cart" data-product_id="<?= $product['product_id'] ?>" data-product_name="<?= $product['product_name'] ?>" data-user_id="<?= $product['user_id'] ?>"   data-product_price="<?= $product['product_price'] ?>" data-product_image="<?= $product['product_image'] ?>"  data-product_address="<?= $product['user_address'] ?>" <?= isset($_SESSION['user_id']) ? "data-session='true'" : "data-session='false'"?>><i class="fa-solid fa-cart-plus text-2xl"></i></button>
+                            <button class="rounded-full size-[60px] border-2 border-black btn-add-cart" data-product_id="<?= $product['product_id'] ?>" data-product_name="<?= $product['product_name'] ?>" data-seller_id="<?= $product['product_seller_id'] ?>"   data-product_price="<?= $product['product_price'] ?>" data-product_image="<?= $product['product_image'] ?>"  data-product_address="<?= $user['user_address'] ?>" <?= isset($_SESSION['user_id']) ? "data-session='true'" : "data-session='false'"?>><i class="fa-solid fa-cart-plus text-2xl"></i></button>
                         </span>
                     </article>
+
                 <?php endforeach; ?>
             </div>
             <div class="flex justify-center py-6">
                 <ul class="inline-flex -space-x-px text-lg">
                     <?php if ($products['page'] > 1): ?>
                     <li>
-                        <a href="/page/public_profile/?vendedor=<?=$user['user_id']?>&page=<?= $products['page'] - 1 ?>" class="flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-gray-50 border border-gray-500 rounded-s-lg hover:bg-gray-100 hover:text-gray-700">Anterior</a>
+                        <a href="/page/public_profile/?vendedor=<?=$user['seller_id']?>&page=<?= $products['page'] - 1 ?>" class="flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-gray-50 border border-gray-500 rounded-s-lg hover:bg-gray-100 hover:text-gray-700">Anterior</a>
                     </li>
                     <?php else: ?>
                     <li>
@@ -120,13 +122,13 @@
 
                     <?php for ($i = 1; $i <= $products['pages']; $i++): ?>
                     <li>
-                        <a href="/page/public_profile/?vendedor=<?=$user['user_id']?>&page=<?= $i ?>" class=" flex items-center justify-center px-3 h-8 leading-tight border border-gray-500 duration-300 <?= $i == $products['page'] ? 'text-black bg-gray-300 font-semibold hover:bg-slate-700 hover:text-white' : 'text-gray-500 bg-gray-50 hover:bg-gray-300 hover:text-gray-700' ?>"><?= $i ?></a>
+                        <a href="/page/public_profile/?vendedor=<?=$user['seller_id']?>&page=<?= $i ?>" class=" flex items-center justify-center px-3 h-8 leading-tight border border-gray-500 duration-300 <?= $i == $products['page'] ? 'text-black bg-gray-300 font-semibold hover:bg-slate-700 hover:text-white' : 'text-gray-500 bg-gray-50 hover:bg-gray-300 hover:text-gray-700' ?>"><?= $i ?></a>
                     </li>
                     <?php endfor; ?>
 
                     <?php if ($products['page'] < $products['pages']): ?>
                     <li>
-                        <a href="/page/public_profile/?vendedor=<?=$user['user_id']?>&page=<?= $products['page'] + 1 ?>" class="flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-gray-50 border border-gray-500 rounded-e-lg hover:bg-gray-100 hover:text-gray-700">Siguiente</a>
+                        <a href="/page/public_profile/?vendedor=<?=$user['seller_id']?>&page=<?= $products['page'] + 1 ?>" class="flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-gray-50 border border-gray-500 rounded-e-lg hover:bg-gray-100 hover:text-gray-700">Siguiente</a>
                     </li>
                     <?php else: ?>
                     <li>
@@ -201,7 +203,7 @@
     <script>
         function toggleModal(modalId, id="", rating="", votes="") {
             document.getElementById(modalId).classList.toggle('hidden');
-            let attribute = 'data-'+ (modalId == 'modalProducto' ? 'product_' : 'user_');
+            let attribute = 'data-'+ (modalId == 'modalProducto' ? 'product_' : 'seller_');
             document.querySelector(`#${modalId} button[type="submit"]`).setAttribute(`${attribute}id`, id);
             document.querySelector(`#${modalId} button[type="submit"]`).setAttribute(`${attribute}rating`, rating);
             document.querySelector(`#${modalId} button[type="submit"]`).setAttribute(`${attribute}votes`, votes);

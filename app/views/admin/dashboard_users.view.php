@@ -33,7 +33,7 @@ function buildQueryString($params) {
                                 <a href="/page/dashboard_users/?sort=user_full_name<?= buildQueryString(['search'])?>" class="text-black duraton-300 hover:bg-gray-200 p-1 px-3 cursor-pointer">Nombre</a>
                                 <a href="/page/dashboard_users/?sort=user_username<?= buildQueryString(['search'])?>" class="text-black duraton-300 hover:bg-gray-200 p-1 px-3 cursor-pointer">Usuario</a>
                                 <a href="/page/dashboard_users/?sort=user_email<?= buildQueryString(['search'])?>" class="text-black duraton-300 hover:bg-gray-200 p-1 px-3 cursor-pointer">Correo</a>
-                                <a href="/page/dashboard_users/?sort=user_role_id<?= buildQueryString(['search'])?>" class="text-black duraton-300 hover:bg-gray-200 p-1 px-3 cursor-pointer">Rol</a>
+                                <a href="/page/dashboard_users/?sort=role_name<?= buildQueryString(['search'])?>" class="text-black duraton-300 hover:bg-gray-200 p-1 px-3 cursor-pointer">Rol</a>
                             </div>
                         </div>
                         <form action="/page/dashboard_users/" method="GET" class="flex gap-2">

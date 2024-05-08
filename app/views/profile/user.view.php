@@ -51,20 +51,20 @@
                     <input type="number" id="phone_number" name="user_phone_number" value="<?= $user['user_phone_number']; ?>" class="w-full border rounded-lg py-1 px-3" disabled>
                 </div>
 
-                <?php if ($user['user_role_id'] == 2):?>
+                <?php if ($user['user_role_id'] == 2 || $user['user_role_id'] == 3):?>
                     <div class="flex flex-col gap-1">
                         <label for="description" class="text-md font-medium text-gray-700">Descripción:</label>
-                        <textarea type="text" id="description" name="user_description" class="h-24 w-full border rounded-lg py-1 px-3 resize-none" disabled><?= $user['user_description'] ?></textarea>
+                        <textarea type="text" id="description" name="user_description" class="h-24 w-full border rounded-lg py-1 px-3 resize-none" disabled><?= $user['user_role_id'] == 2  ? $user['seller_description'] : $user['delivery_description']  ;?></textarea>
                     </div>
                 <?php endif; ?>
 
-                <label for="account_type" class="">Tipo de Cuenta: <strong> <?= $user['user_role_id'] == 3 ? 'Adminstrador' : ($user['user_role_id']  == 2 ? 'Vendedor' : ($user['user_role_id']  == 4 ? 'Domiciliario' : 'Usuario')); ?> </strong></label>
+                <label for="account_type">Tipo de Cuenta: <strong class="capitalize"> <?= $user['role_name']?> </strong></label>
 
                 <span class="w-full flex justify-between items-center">
                     <div>
                         <button type="submit" id="btn-submit" name="submit" class="bg-violet-800 text-white py-2 px-4 rounded-md mt-auto w-max font-bold hidden">Actualizar Perfil</button>
                     </div>
-                    <?php if ($_SESSION['user_role_id'] == 3):?>
+                    <?php if ($_SESSION['user_role_id'] == 4):?>
                         <div class="flex justify-end gap-5">
                             <a href="/page/dashboard_users" class="bg-violet-800 text-white py-2 px-4 rounded-md mt-auto w-max font-bold"> Administrador </a>
                         </div>

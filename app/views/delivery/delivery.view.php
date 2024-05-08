@@ -207,17 +207,15 @@ function obtenerDistancia($origen, $destino) {
             })
             .then(response => response.json())
             .then(data => { 
-                console.log('Venta terminada: ' + data.message);
+                alert('Envío terminado: \n +7000 COP');
 
-                <?php $_SESSION['user_delivery']['state'] = 'free'; ?>
-
-                window.location.href="/pages/delivery_list"
+                window.location.href="/page/delivery_list"
                 updateDelivery();
             })
         });
 
         function updateDelivery() {
-            
+            <?php $_SESSION['user_delivery']['state'] = 'free'; ?>
         }
 
     </script>
