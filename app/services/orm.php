@@ -11,6 +11,7 @@ class Orm {
         $this->db = $conn;
     }
 
+    // CREATE
     public function insert($data) {
         $query = "INSERT INTO $this->table (";
         foreach ($data as $key => $value) {
@@ -32,8 +33,9 @@ class Orm {
                 
         try {
             $result = $this->db->query($query);
+            $inserted_id = $this->db->insert_id;
             if ($result) {
-                return ['success' => true, 'message' => 'La inserción se realizó correctamente.'];
+                return ['success' => true, 'message' => 'La inserción se realizó correctamente.', 'last_id' => $inserted_id];
             } else {
                 return ['success' => false, 'message' => 'Error al insertar los datos.'];
             }
@@ -46,21 +48,24 @@ class Orm {
         }
     }
 
-    public function getAll() {
-        $query = "SELECT * FROM $this->table";
+    // READ
+    public function getAll($select = "*", $inner_join = "", $custom_query = "") {
+        $query = "SELECT $select FROM $this->table $inner_join $custom_query";
         $result = $this->db->query($query);
 
         return $result -> fetch_all(MYSQLI_ASSOC);
     }
-    public function getById($id, $inner_join = "") {
-        $query = "SELECT * FROM $this->table $inner_join WHERE $this->id = $id";
+    
+    public function getById($id, $select = "*", $inner_join = "", $custom_query = "") {
+        $query = "SELECT $select FROM $this->table $inner_join WHERE $this->id = $id $custom_query";
         $result = $this->db->query($query);
 
         return $result -> fetch_assoc();
     }
-    
-    public function updateById($id, $data) {
-        $query = "UPDATE $this->table SET ";
+
+    // UPDATE    
+    public function updateById($id, $data, $inner_join = "") {
+        $query = "UPDATE $this->table $inner_join SET ";
         foreach ($data as $key => $value) {
             if (is_int($value)) {
                 $query .= "$key = $value, ";
@@ -80,6 +85,7 @@ class Orm {
         }
     }
 
+    // DELETE
     public function deleteById($id) {
         $query = "DELETE FROM $this->table WHERE $this->id = $id";
         $result = $this->db->query($query);
@@ -91,13 +97,15 @@ class Orm {
         }
     }
 
-    public function paginate($page, $limit, $customQueryRows = "", $customQuery = "", $innerJoin = "") {
+    // PAGINATE
+    public function paginate($page, $limit, $select = "*", $inner_join = "", $customQueryRows = "", $customQuery = "" ) {
 
         $offset = ($page - 1) * $limit;
 
-        $rows = $this->db->query("SELECT COUNT(*) FROM $this->table $customQueryRows") -> fetch_column();
-        $result = $this->db->query("SELECT * FROM $this->table $innerJoin $customQuery LIMIT {$offset}, {$limit}") -> fetch_all(MYSQLI_ASSOC);
+        $rows = $this->db->query("SELECT COUNT(*) FROM $this->table $inner_join $customQueryRows") -> fetch_column();
+        $result = $this->db->query("SELECT $select FROM $this->table $inner_join $customQuery LIMIT {$offset}, {$limit}") -> fetch_all(MYSQLI_ASSOC);
         $pages  = ceil($rows / $limit);
+
         
         return [
             'data' => $result,
@@ -108,10 +116,4 @@ class Orm {
         ];
     }
 
-    public function autenticate($isAdmin) {
-        if (!$isAdmin) {
-            header("Location: /");
-            exit();
-        }        
-    }
 }

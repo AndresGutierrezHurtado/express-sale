@@ -1,6 +1,7 @@
 const editButton = document.getElementById('btn-edit');
 let editable = false;
 
+// Botón cerrar sesión
 document.getElementById('btn-logout').addEventListener('click', () => {
     if (confirm('¿Estás seguro que quieres cerrar sesión?')) {
         fetch('/user/log_out')
@@ -16,6 +17,7 @@ document.getElementById('btn-logout').addEventListener('click', () => {
     }
 });
 
+// Botón editar sesión
 editButton.addEventListener('click', (e) => {
     e.preventDefault();
     if (!editable){
@@ -35,6 +37,7 @@ editButton.addEventListener('click', (e) => {
     }
 })
 
+// user_profile
 document.getElementById('user_profile_form').addEventListener('submit', (e) => {
     e.preventDefault();
     UpdateProfile();
@@ -56,6 +59,7 @@ async function UpdateProfile() {
     })
 }
 
+// logica para la inserción de un nuevo producto
 document.getElementById('new-product-form').addEventListener('submit', (e) => {
     e.preventDefault();
     newProduct();

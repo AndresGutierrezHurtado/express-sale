@@ -35,24 +35,27 @@ function obtenerDistancia($origen, $destino) {
                 <h1 class="tracking-tight font-bold text-white text-3xl">Lista de envíos pendientes: </h1>
             </div>
             <div class="flex flex-col gap-2">
-                <?php if ($deliveries['rows'] < 1) : ?>
+                <!-- Si no hay envíos para hacer -->
+                <?php if (count($orders) < 1) : ?>
                     <h1 class="text-center text-2xl font-bold">No se encontraron envíos disponibles...</h1>
                 <?php endif;?>
-                <?php foreach($deliveries['data'] as $delivery): ?>
+                <!-- cada articulo-->
+                <?php foreach($orders as $order): ?>
                     <article class="p-5 w-full bg-white rounded-lg shadow-lg flex justify-between">
                         <div class="flex flex-col gap-1">                            
-                            <h1 class="font-bold text-2xl">Envio para <?= $delivery['user_full_name'] ?></h1>
+                            <h1 class="font-bold text-2xl">Envio para <?= $order['order_first_name'] ." ". $order['order_last_name'] ?></h1>
                             <div class="flex gap-2 my-2">
                                 
                                 <p class="font-bold">Ruta:</p>
                                 <p class="text-[13px]"> <strong>Desde:</strong>
                                     <?php 
-                                        $productos = json_decode($delivery['sale_description'], true);
+                                        // aca haz cada producto 
+                                        $productos = $order['products'];
                                         $distancia_total = 0;
                                     
                                         for ($i = 0; $i < count($productos); $i++) {
-                                            $origen = $productos[$i]['product_address'];
-                                            $destino = ($i == count($productos) - 1) ? $destino = $delivery['sale_address'] : $destino = $productos[$i + 1]['product_address'] ;
+                                            $origen = $productos[$i]['sold_product_address'];
+                                            $destino = ($i == count($productos) - 1) ? $destino = $order['order_address'] : $destino = $productos[$i + 1]['sold_product_address'] ;
                                         
                                             $dataApi = obtenerDistancia($origen, $destino);
                                             $distancia_total += $dataApi['distance']['value'];
@@ -62,24 +65,23 @@ function obtenerDistancia($origen, $destino) {
                                         $contador = 0;
                                         
                                         foreach ($productos as $producto):
-                                            $productos = json_decode($delivery['sale_description'], true);
-                                            
-                                            echo $producto['product_address'];
+
+                                            echo $producto['sold_product_address'];
                                             if (++$contador < $totalProductos) {
                                                 echo '<br> <strong>luego por:</strong> ';
                                             } else {
                                                 echo '.';
                                             }
-                                        endforeach;
+                                        endforeach; 
                                         ?>
-                                    <br><strong>Hasta:</strong> <?= $delivery['sale_address'] ?>
+                                    <br><strong>Hasta:</strong> <?= $order['order_address'] ?>
                                 </p>
                             </div>
                             <p><strong>Distancia:</strong> <?= $distancia_total / 1000 ?> Km </p>
-                            <p><strong>Precio:</strong> 7,000 COP</p>
-                            <p><strong>Fecha:</strong> <?= $delivery['sale_date'] ?></p>
+                            <p><strong>Pago:</strong> <?= $distancia_total > 10000 ? '10,000' : '7,000' ?> COP </p>
+                            <p><strong>Fecha:</strong> <?= $order['order_date'] ?></p>
                         </div>
-                        <a href="/page/delivery/?id=<?= $delivery['sale_id']?>">
+                        <a href="/page/delivery/?id=<?= $order['order_id']?>">
                             <button class="px-3 p-1 border-2 border-green-500 rounded-lg text-green-500 font-bold flex gap-3 items-center hover:bg-gray-100 duration-300"> <i class="fa-solid fa-circle-check "></i> Realizar Envío</button>
                         </a>                        
                     </article>

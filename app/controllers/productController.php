@@ -19,19 +19,16 @@ class ProductController {
     }
 
     public function update() {
-        if (!empty($_FILES['product_image']['name'])) {
-            $product_id = $_POST['product_id'];
-
-            $image_extension = pathinfo($_FILES['product_image']['name'], PATHINFO_EXTENSION);
+        if (!empty($_FILES['image']['name'])) {
             
-            $image_name = $product_id . '.jpg';
-            $image_path = '/public/images/products/' . $image_name;
+            $image_path = '/public/images/products/' . $_POST['product_id'] . '.jpg';
             
-            move_uploaded_file($_FILES['product_image']['tmp_name'], $_SERVER['DOCUMENT_ROOT'] . $image_path);
-            $_POST['product_image'] = $image_path;
+            // guardar imagen en los directorios
+            move_uploaded_file($_FILES['image']['tmp_name'], $_SERVER['DOCUMENT_ROOT'] . $image_path);
+            $_POST['image_url'] = $image_path;
         }
 
-        $result = $this->productModel->updateById($_POST['product_id'], $_POST);
+        $result = $this->productModel->updateById($_POST['product_id'], $_POST, "INNER JOIN images ON products.product_id = images.image_object_id AND images.image_object_type = 'producto'");
         echo json_encode($result);
     }
 

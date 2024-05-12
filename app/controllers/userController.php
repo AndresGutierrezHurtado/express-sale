@@ -4,6 +4,7 @@ class UserController {
     private $userModel;
 
     public function __construct(mysqli $conn) {
+        
         $this->userModel = new User($conn);
     }
 
@@ -25,20 +26,18 @@ class UserController {
 
     public function update() {
         // Verificar si se ha enviado una imagen
-        if (!empty($_FILES['user_image']['name'])) {
-            $user_id = $_POST['user_id'];
-    
-            $image_extension = pathinfo($_FILES['user_image']['name'], PATHINFO_EXTENSION);
-            
-            $image_name = $user_id . '.jpg';
-            $image_path = '/public/images/users/' . $image_name;
-            
-            // Mover la imagen a la ubicación deseada en el servidor
-            move_uploaded_file($_FILES['user_image']['tmp_name'], $_SERVER['DOCUMENT_ROOT'] . $image_path);
-            $_POST['user_image'] = $image_path;
-        }
+        if (!empty($_FILES['image']['name'])) {            
 
-        $result = $this -> userModel -> updateById($_POST['user_id'], $_POST);
+            $image_path = '/public/images/users/' . $_POST['user_id'] . '.jpg';     
+
+            // Mover la imagen a la ubicación deseada en en directorio
+            move_uploaded_file($_FILES['image']['tmp_name'], $_SERVER['DOCUMENT_ROOT'] . $image_path);
+            
+            $_POST['image_url'] = $image_path;
+        }
+        
+        $result = $this -> userModel -> updateById($_POST['user_id'], $_POST, "INNER JOIN images ON users.user_id = images.image_object_id AND images.image_object_type = 'usuario'
+        INNER JOIN workers ON users.user_id = workers.worker_user_id");
         
         echo json_encode($result);
     }
@@ -58,4 +57,3 @@ class UserController {
     }
     
 }
-

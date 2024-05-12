@@ -16,19 +16,19 @@
         <div class="w-full max-w-[400px] bg-white p-6 rounded-lg shadow-md h-fit flex flex-col gap-5">
             <h3 class="text-2xl font-bold tracking-tight">Información del vendedor:</h3>
             <div class="flex flex-col sm:flex-row items-center space-x-4">
-                <img src="<?= $user['user_image'] ?>" alt="Perfil" class="h-24 w-24 rounded-full">
+                <img src="<?= $user['image_url'] ?>" alt="Perfil" class="h-24 w-24 rounded-full">
                 <div class="w-full ">
-                    <h2 class="text-xl font-bold"><?= $user['user_full_name'] ?></h2>
+                    <h2 class="text-xl font-bold"><?= $user['user_first_name'] . " " . $user['user_last_name'] ?></h2>
                     <p class="text-sm text-gray-600">Ubicación: <?= $user['user_address'] ?></p>
                     <p class="text-sm text-gray-600">Número: <?= $user['user_phone_number'] ?></p>
-                    <p class="text-sm text-gray-600"> <?= $user['seller_sales_done'] ?> Productos vendidos</p>
+                    <p class="text-sm text-gray-600"> <?= $user['worker_works_done'] ?> Productos vendidos</p>
                 </div>
             </div>
             <div class="flex flex-col gap-2">
                 <h3 class="text-lg font-semibold">Calificación:</h3>
                 <span class="flex items-center">
                     <?php
-                        $calificacion = $user['seller_rating'];
+                        $calificacion = $user['avg_calification'];
                         $calificacionEntera = floor($calificacion);
                         $fraccion = $calificacion - $calificacionEntera;
 
@@ -45,13 +45,13 @@
                             echo '<i class="fa-regular fa-star"></i>';
                         }
                     ?>
-                    <p class="mx-3 text-black/[0.6]"> <?= $user['seller_rating'] ?> (<?= $user['seller_votes'] ?>) </p> 
+                    <p class="mx-3 text-black/[0.6]"> <?= $user['avg_calification'] ?> (<?= $user['califications_count'] ?>) </p> 
                 </span>
-                <button class="bg-violet-600 text-white font-bold rounded-lg duration-300 hover:bg-violet-400 px-5 py-1 w-fit" onclick="<?= isset($_SESSION['user_id']) ?  "toggleModal('modalVendedor', ".$user['seller_id'].", ".$user['seller_rating'].", ".$user['seller_votes'].")" : "login()" ?>">Votar</button>
+                <button class="bg-violet-600 text-white font-bold rounded-lg duration-300 hover:bg-violet-400 px-5 py-1 w-fit" onclick="<?= isset($_SESSION['user_id']) ?  "toggleModal('modalVendedor', ".$user['user_id'].")" : "login()" ?>">Votar</button>
             </div>
             <div>
                 <h3 class="text-lg font-semibold">Descripción:</h3>
-                <p><?= $user['seller_description'] ?></p>
+                <p><?= $user['worker_description'] ?></p>
             </div>
         </div>
 
@@ -60,11 +60,11 @@
             <h3 class="text-2xl font-bold tracking-tight">Productos:</h3>
             <div class="w-full max-w-[650px] flex flex-col gap-2">
                 <?php foreach ($products['data'] as $product): ?>
-                    <?php if($product['product_state'] == 'private') { continue;} ?>
+                    <?php if($product['state_name'] == 'private') { continue;} ?>
 
                     <article class="flex flex-col md:flex-row justify-between gap-4 bg-white p-4 rounded-lg shadow-lg border min-h-[250px]">
                         <div class="w-full md:w-3/12 max-h-[230px] flex items-center justify-center">
-                            <img src="<?= $product['product_image'] ?>" alt="<?= $product['product_name']; ?>" class="max-w-full max-h-[230px]">
+                            <img src="<?= $product['image_url'] ?>" alt="<?= $product['product_name']; ?>" class="max-w-full max-h-[230px]">
                         </div>
                         <div class="w-full md:w-7/12 flex flex-col justify-between gap-5">
                             <div class="flex flex-col gap-4">   
@@ -78,7 +78,7 @@
                                 <span class="flex  gap-3"><span class="flex gap-3 items-center">
                                     <span>
                                         <?php
-                                            $calificacion = $product['product_rating'];
+                                            $calificacion = $product['avg_calification'];
                                             $calificacionEntera = floor($calificacion);
                                             $fraccion = $calificacion - $calificacionEntera;
 
@@ -96,13 +96,18 @@
                                             }
                                         ?>
                                     </span>
-                                    <p class="opacity-[0.4]"><?= $product['product_rating'] ?> (<?= $product['product_votes'] ?>)</p>
-                                    <button class="text-violet-600 font-bold border-2 border-violet-600 duration-300 hover:bg-gray-100 size-[30px] rounded-full" onclick="<?= isset($_SESSION['user_id']) ?  "toggleModal('modalProducto', ".$product['product_id'].", ".$product['product_rating'].", ".$product['product_votes'].")" : "login()" ?>"><i class="fa-solid fa-plus"></i></button>
+                                    <p class="opacity-[0.4]"><?= $product['avg_calification'] ?> (<?= $product['califications_count'] ?>)</p>
+                                    <button class="text-violet-600 font-bold border-2 border-violet-600 duration-300 hover:bg-gray-100 size-[30px] rounded-full" onclick="<?= isset($_SESSION['user_id']) ?  "toggleModal('modalProducto', ".$product['product_id'].")" : "login()" ?>"><i class="fa-solid fa-plus"></i></button>
                                 </span>
                             </div>
                         </div>
                         <span class="w-full sm:w-2/12 flex items-center justify-center">
-                            <button class="rounded-full size-[60px] border-2 border-black btn-add-cart" data-product_id="<?= $product['product_id'] ?>" data-product_name="<?= $product['product_name'] ?>" data-seller_id="<?= $product['product_seller_id'] ?>"   data-product_price="<?= $product['product_price'] ?>" data-product_image="<?= $product['product_image'] ?>"  data-product_address="<?= $user['user_address'] ?>" <?= isset($_SESSION['user_id']) ? "data-session='true'" : "data-session='false'"?>><i class="fa-solid fa-cart-plus text-2xl"></i></button>
+                            <button data-product_id="<?= $product['product_id'] ?>" data-product_name="<?= $product['product_name'] ?>" data-product_price="<?= $product['product_price'] ?>"
+                            data-image_url="<?= $product['image_url'] ?>" data-product_user_id="<?= $product['product_user_id'] ?>" data-user_address="<?= $user['user_address'] ?>"
+                            <?= isset($_SESSION['user_id']) ? "data-session='true'" : "data-session='false'"?>
+                            class="rounded-full size-[60px] border-2 border-black btn-add-cart">
+                                <i class="fa-solid fa-cart-plus text-2xl"></i>
+                            </button>
                         </span>
                     </article>
 
@@ -112,7 +117,7 @@
                 <ul class="inline-flex -space-x-px text-lg">
                     <?php if ($products['page'] > 1): ?>
                     <li>
-                        <a href="/page/public_profile/?vendedor=<?=$user['seller_id']?>&page=<?= $products['page'] - 1 ?>" class="flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-gray-50 border border-gray-500 rounded-s-lg hover:bg-gray-100 hover:text-gray-700">Anterior</a>
+                        <a href="/page/public_profile/?usuario=<?=$user['user_id']?>&page=<?= $products['page'] - 1 ?>" class="flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-gray-50 border border-gray-500 rounded-s-lg hover:bg-gray-100 hover:text-gray-700">Anterior</a>
                     </li>
                     <?php else: ?>
                     <li>
@@ -122,13 +127,13 @@
 
                     <?php for ($i = 1; $i <= $products['pages']; $i++): ?>
                     <li>
-                        <a href="/page/public_profile/?vendedor=<?=$user['seller_id']?>&page=<?= $i ?>" class=" flex items-center justify-center px-3 h-8 leading-tight border border-gray-500 duration-300 <?= $i == $products['page'] ? 'text-black bg-gray-300 font-semibold hover:bg-slate-700 hover:text-white' : 'text-gray-500 bg-gray-50 hover:bg-gray-300 hover:text-gray-700' ?>"><?= $i ?></a>
+                        <a href="/page/public_profile/?usuario=<?=$user['user_id']?>&page=<?= $i ?>" class=" flex items-center justify-center px-3 h-8 leading-tight border border-gray-500 duration-300 <?= $i == $products['page'] ? 'text-black bg-gray-300 font-semibold hover:bg-slate-700 hover:text-white' : 'text-gray-500 bg-gray-50 hover:bg-gray-300 hover:text-gray-700' ?>"><?= $i ?></a>
                     </li>
                     <?php endfor; ?>
 
                     <?php if ($products['page'] < $products['pages']): ?>
                     <li>
-                        <a href="/page/public_profile/?vendedor=<?=$user['seller_id']?>&page=<?= $products['page'] + 1 ?>" class="flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-gray-50 border border-gray-500 rounded-e-lg hover:bg-gray-100 hover:text-gray-700">Siguiente</a>
+                        <a href="/page/public_profile/?usuario=<?=$user['user_id']?>&page=<?= $products['page'] + 1 ?>" class="flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-gray-50 border border-gray-500 rounded-e-lg hover:bg-gray-100 hover:text-gray-700">Siguiente</a>
                     </li>
                     <?php else: ?>
                     <li>
@@ -152,8 +157,10 @@
                             </svg>
                         </button>
                     </span>
-                    <p class="w-full max-w-[350px] text-center mx-auto py-4">Ten en cuenta el servicio que ha brindado el vendedor o la calidad de sus productos.</p>
+                    <p class="w-full  py-4">Ten en cuenta el servicio que ha brindado el vendedor o la calidad de sus productos.</p>
                     <form id="rating-form-vendedor" class="flex flex-col gap-4">
+                        <textarea id="calification-comment-user" required
+                        class="px-3 p-1 h-32 border resize-none rounded-lg focus:border-violet-600 focus:outline-none" placeholder="Mensaje..."></textarea>
                         <div id="starsVendedor" class="flex items-center justify-center gap-2 text-[20px]">
                             <span class="starVendedor" data-value="1"><i class="fa-regular fa-star cursor-pointer text-amber-600 duration-300 hover:scale-[1.15]"> </i></span>
                             <span class="starVendedor" data-value="2"><i class="fa-regular fa-star cursor-pointer text-amber-600 duration-300 hover:scale-[1.15]"> </i></span>
@@ -181,8 +188,10 @@
                             </svg>
                         </button>
                     </span>
-                    <p class="w-full max-w-[350px] text-center mx-auto py-4">Califica este producto según tu experiencia con él.</p>
+                    <p class="w-full py-4">Califica este producto según tu experiencia con él.</p>
                     <form id="rating-form-producto" class="flex flex-col gap-4" method="post">
+                        <textarea id="calification-comment-product" required
+                        class="px-3 p-1 h-32 border resize-none rounded-lg focus:border-violet-600 focus:outline-none" placeholder="Mensaje..."></textarea>
                         <div id="starsProducto" class="flex items-center justify-center gap-2 text-[20px]">
                             <span class="starProducto" data-value="1"><i class="fa-regular fa-star cursor-pointer text-amber-600 duration-300 hover:scale-[1.15]"> </i></span>
                             <span class="starProducto" data-value="2"><i class="fa-regular fa-star cursor-pointer text-amber-600 duration-300 hover:scale-[1.15]"> </i></span>
@@ -199,14 +208,12 @@
     </main>
     <?php require_once(__DIR__ . "/../layout/footer.php") ?>
     <script src="/public/js/cart.js"></script>
-    <script src="/public/js/rating.js"></script>
+    <script src="/public/js/califications.js"></script>
     <script>
         function toggleModal(modalId, id="", rating="", votes="") {
             document.getElementById(modalId).classList.toggle('hidden');
-            let attribute = 'data-'+ (modalId == 'modalProducto' ? 'product_' : 'seller_');
-            document.querySelector(`#${modalId} button[type="submit"]`).setAttribute(`${attribute}id`, id);
-            document.querySelector(`#${modalId} button[type="submit"]`).setAttribute(`${attribute}rating`, rating);
-            document.querySelector(`#${modalId} button[type="submit"]`).setAttribute(`${attribute}votes`, votes);
+            document.querySelector(`#${modalId} button[type="submit"]`).setAttribute('data-calificator_user_id', <?= $user['user_id'] ?>);
+            document.querySelector(`#${modalId} button[type="submit"]`).setAttribute('data-calificated_object_id', id);
         }
     </script>
 </body>

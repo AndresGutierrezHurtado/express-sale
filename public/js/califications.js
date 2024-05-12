@@ -4,6 +4,7 @@ const sellerButton = document.getElementById('calificar-btn-vendedor');
 const productStars = document.querySelectorAll('.starProducto');
 const productButton = document.getElementById('calificar-btn-producto');
 
+// logica estrellas vendedor
 sellerStars.forEach(star => {
     star.addEventListener('click', () => {
         const value = parseInt(star.dataset.value);
@@ -32,6 +33,7 @@ sellerStars.forEach(star => {
     });
 });
 
+// logica estrellas producto
 productStars.forEach(star => {
     star.addEventListener('click', () => {
         const value = parseInt(star.dataset.value);
@@ -60,22 +62,19 @@ productStars.forEach(star => {
     });
 });
 
-productButton.addEventListener('click' , (e) => {
+// logica fetch producto
+document.getElementById('rating-form-producto').addEventListener('submit' , (e) => {
     e.preventDefault();
 
-    let product = productButton.dataset.product_id;
-    let currentRating = productButton.dataset.product_rating;
-    let votes = parseInt(productButton.dataset.product_votes);
-    
-    let newRating = ((currentRating * votes) + parseInt(document.querySelector('.starProducto.selected').dataset.value)) / (votes + 1);
-    
     let formData = new FormData();
     
-    formData.append('product_id', product);
-    formData.append('product_votes',  votes + 1);
-    formData.append('product_rating', newRating);
+    formData.append('calification_object_type', 'producto');
+    formData.append('calification_comment', document.getElementById('calification-comment-product').value);
+    formData.append('calification', parseInt(document.querySelector('.starProducto.selected').dataset.value));
+    formData.append('calificator_user_id',  document.getElementById('calificar-btn-producto').dataset.calificator_user_id )
+    formData.append('calificated_object_id', document.getElementById('calificar-btn-producto').dataset.calificated_object_id );
     
-    fetch('/product/update/', {
+    fetch('/calification/rate', {
         method: 'POST',
         body: formData
     })
@@ -88,22 +87,19 @@ productButton.addEventListener('click' , (e) => {
     })
 });
 
-sellerButton.addEventListener('click' , (e) => {
+// logica fetch vendedor
+document.getElementById('rating-form-vendedor').addEventListener('submit' , (e) => {
     e.preventDefault();
 
-    let user = sellerButton.dataset.seller_id;
-    let votes = parseInt(sellerButton.dataset.seller_votes);
-    let currentRating = sellerButton.dataset.seller_rating;
-    
-    let newRating = ((currentRating * votes) + parseInt(document.querySelector('.starVendedor.selected').dataset.value)) / (votes + 1);
-    
     let formData = new FormData();
     
-    formData.append('seller_id', user);
-    formData.append('seller_votes',  votes + 1);
-    formData.append('seller_rating', newRating);
+    formData.append('calification_object_type', 'usuario');
+    formData.append('calification_comment', document.getElementById('calification-comment-user').value);
+    formData.append('calification', parseInt(document.querySelector('.starVendedor.selected').dataset.value));
+    formData.append('calificator_user_id',  document.getElementById('calificar-btn-vendedor').dataset.calificator_user_id );
+    formData.append('calificated_object_id', document.getElementById('calificar-btn-vendedor').dataset.calificated_object_id );
     
-    fetch('/seller/update/', {
+    fetch('/calification/rate', {
         method: 'POST',
         body: formData
     })

@@ -16,10 +16,10 @@
         
         <div class="bg-white flex flex-col gap-4 p-5 rounded-lg shadow-lg w-full md:w-4/12 lg:w-3/12 xl:w-2/12">
             <h1 class="text-lg uppercase tracking-tight font-bold">Imagen:</h1>
-            <div class="mx-auto size-full p-2">
-                <img src="<?= $product['product_image'] ?>" alt="Imagen de perfil" class="object-cover rounded-lg shadow-lg">
+            <div class="mx-auto size-full p-2 flex items-center justify-center">
+                <img src="<?= $product['image_url'] ?>" alt="Imagen de perfil" class="object-cover rounded-lg shadow-lg">
             </div>
-            <input type="file" id="image" name="product_image" class="hidden w-full text-sm text-slate-500 hover:file:bg-violet-100 file:duration-300 file:cursor-pointer file:bg-violet-50 file:text-violet-700 file:font-semibold file:rounded-xl file:border-0 file:p-1 file:px-3">
+            <input type="file" id="image" name="image" class="hidden w-full text-sm text-slate-500 hover:file:bg-violet-100 file:duration-300 file:cursor-pointer file:bg-violet-50 file:text-violet-700 file:font-semibold file:rounded-xl file:border-0 file:p-1 file:px-3">
             
             <button id="btn-edit" class="text-violet-800 border-2 border-violet-800 py-2 px-4 rounded-md mt-auto w-max font-bold cursor-pointer mb-3">Editar</button>
         </div>
@@ -58,9 +58,9 @@
 
             <div class="flex flex-col gap-1">
                 <label for="state" class="text-md font-medium text-gray-700">Estado:</label>
-                <select name="product_state" id="state" class="w-full border rounded-lg py-1 px-3" disabled>
-                    <option value="public" <?= $product['product_state'] == 'public' ? 'selected' : '' ?>>Public</option>
-                    <option value="private" <?= $product['product_state'] == 'private' ? 'selected' : '' ?>>Private</option>
+                <select name="product_state_id" id="state" class="w-full border rounded-lg py-1 px-3" disabled>
+                    <option value="1" <?= $product['product_state_id'] == '1' ? 'selected' : '' ?>>Public</option>
+                    <option value="2" <?= $product['product_state_id'] == '2' ? 'selected' : '' ?>>Private</option>
                 </select>
             </div>
 

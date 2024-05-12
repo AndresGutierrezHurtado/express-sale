@@ -29,7 +29,7 @@ function obtenerDistancia($origen, $destino) {
 </head>
 <body class="w-full min-h-screen bg-gray-100">
 <div class="container mx-auto py-8">
-    <?php if ($delivery['sale_state'] == 'completed') : ?>
+    <?php if ($order['state_name'] == 'finalizado') : ?>
         <div class="flex flex-col gap-5 justify-center items-center">
             <h1 class="text-center font-bold text-3xl tracking-tight"> este envío ya fue realizado.</h1>
             <a href="/page/delivery_list"><button class="text-md flex gap-3 font-semibold items-center rounded-full border-2 border-red-500 px-4 p-1 text-red-500"> <i class ="fa-solid fa-angle-left"></i> Volver</button></a>
@@ -37,22 +37,22 @@ function obtenerDistancia($origen, $destino) {
     <?php else : ?>
         <!-- Encabezado: información del destinatario -->
         <div class="bg-white p-4 shadow-md rounded-md mb-8">
-            <h2 class="text-xl font-semibold mb-2">Envío para <?= $delivery['sale_full_name'] ?></h2>
-            <p class="text-gray-600">Dirección: <?= $delivery['sale_address'] ?></p>
-            <p class="text-gray-600">Teléfono: <?= $delivery['sale_phone_number'] ?></p>
+            <h2 class="text-xl font-semibold mb-2">Envío para <?= $order['order_first_name'] . " " . $order['order_last_name'] ?></h2>
+            <p class="text-gray-600">Dirección: <?= $order['order_address'] ?></p>
+            <p class="text-gray-600">Teléfono: <?= $order['order_phone_number'] ?></p>
         </div>
 
         <!-- Lista de productos a entregar -->
         <div class="bg-white p-4 shadow-md rounded-md mb-8">
             <h2 class="text-xl font-semibold mb-2">Productos a entregar</h2>
             <ul>
-                <?php foreach($productos = json_decode($delivery['sale_description'], true) as $producto): ?>
+                <?php foreach($products as $producto): ?>
                     <li class="flex justify-between items-center py-2">
                         <div>
-                            <p class="font-semibold"><?= $producto['product_name'] ?> (<?= $producto['product_quantity'] ?>) | <?= number_format($producto['product_price'])?> COP por producto</p>
+                            <p class="font-semibold"><?= $producto['product_name'] ?> (<?= $producto['sold_product_quantity'] ?>) | <?= number_format($producto['sold_product_price'])?> COP por producto</p>
                             <p class="text-gray-600">Vendedor: pendiente </p>
                         </div>
-                        <p class="font-semibold"><?= $producto['product_address'] ?></p>
+                        <p class="font-semibold"><?= $producto['sold_product_address'] ?></p>
                     </li>
                 <?php endforeach; ?>
             </ul>
@@ -60,10 +60,10 @@ function obtenerDistancia($origen, $destino) {
             <ul>
                 <li class="flex justify-between items-center py-2">
                     <div>
-                        <h2 class="font-semibold mb-2">Sitio de entrega de <?= $delivery['sale_full_name'] ?></h2>
-                        <p class="text-gray-600">Teléfono: <?= $delivery['sale_phone_number'] ?></p>
+                        <h2 class="font-semibold mb-2">Sitio de entrega de <?= $order['order_first_name'] ?></h2>
+                        <p class="text-gray-600">Teléfono: <?= $order['order_phone_number'] ?></p>
                     </div>
-                    <p class="font-semibold"><?= $delivery['sale_address'] ?></p>
+                    <p class="font-semibold"><?= $order['order_address'] ?></p>
                 </li>
             </ul>  
         </div>
@@ -82,7 +82,7 @@ function obtenerDistancia($origen, $destino) {
         </div>
 
         <div class="text-center">
-            <button id="submit-delivery-button" class="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded" data-sale_id="<?= $_GET['id']?>">
+            <button id="submit-delivery-button" class="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded" data-order_id="<?= $_GET['id']?>">
                 <i class="fas fa-check-circle mr-2"></i> Marcar como terminado
             </button>
         </div>
@@ -102,6 +102,7 @@ function obtenerDistancia($origen, $destino) {
                 map: map,
             });
             
+            // obtener la ubicación
             function getCurrentLocation(callback) {
                 if (navigator.geolocation) {
                     navigator.geolocation.getCurrentPosition(function(position) {
@@ -109,7 +110,6 @@ function obtenerDistancia($origen, $destino) {
                             lat: position.coords.latitude,
                             lng: position.coords.longitude
                         };
-                        map.setCenter(userLocation);
                         callback(userLocation);
                     }, function() {
                         console.log('Error: No se pudo obtener la ubicación del usuario.');
@@ -124,11 +124,12 @@ function obtenerDistancia($origen, $destino) {
             
             getCurrentLocation(function(userLocation) {
                 if (userLocation) {
+                    // centrar el mapa en la ubicación del usuario
                     map.setCenter(userLocation);
                     
-                    var waypoints = <?php echo json_encode(json_decode($delivery['sale_description'], true)); ?>;
+                    var waypoints = <?php echo json_encode($products); ?>;
                     var destinations = waypoints.map(function(waypoint) {
-                        return waypoint.product_address;
+                        return waypoint.sold_product_address;
                     });
                     
                     // Calcular la distancia entre el usuario y los destinos
@@ -155,10 +156,10 @@ function obtenerDistancia($origen, $destino) {
                             
                             var request = {
                                 origin: userLocation,
-                                destination: '<?= $delivery['sale_address'] ?>',
+                                destination: '<?= $order['order_address'] ?>',
                                 waypoints: waypoints.map(function(waypoint) {
                                     return {
-                                        location: waypoint.product_address,
+                                        location: waypoint.sold_product_address,
                                         stopover: true
                                     };
                                 }),
@@ -180,28 +181,28 @@ function obtenerDistancia($origen, $destino) {
             });
         }
 
-        document.getElementById('openRouteBtn').addEventListener('click', function() {
-            var selectApp = document.getElementById('selectApp');
-            
+        // reenviar a google maps con la ruta
+        document.getElementById('openRouteBtn').addEventListener('click', function() {            
             var routeURL = 'https://www.google.com/maps/dir/';
-            var waypoints = <?php echo json_encode(json_decode($delivery['sale_description'], true)); ?>;
+            var waypoints = <?= json_encode($products); ?>;
 
             waypoints.forEach(function(waypoint) {
-                routeURL += waypoint.product_address + '/';
+                routeURL += waypoint.sold_product_address + '/';
             });
 
-            routeURL += '<?= $delivery['sale_address'] ?>';
+            routeURL += '<?= $order['order_address'] ?>';
             
             window.open(routeURL, '_blank');
         });
 
+        // terminar ruta
         document.getElementById('submit-delivery-button').addEventListener('click', function() {
             const data = new FormData();
 
-            data.append('sale_id', this.dataset.sale_id);
-            data.append('sale_state', 'completed');
+            data.append('order_id', this.dataset.order_id);
+            data.append('order_state_id', '5');
 
-            fetch('/sale/update', {
+            fetch('/order/update', {
                 method: 'POST',
                 body: data 
             })

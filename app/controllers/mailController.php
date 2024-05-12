@@ -19,7 +19,7 @@ class mailController {
         $message .= "\nemail: " . $data['email'] . "\n]";
         
         $message .= "\n\nFORMULARIO DE ENVIO:";
-        $message .= "\nNombre: " . $_POST['fullNameFrom'] . ",";
+        $message .= "\nNombre: " . $_POST['firstNameFrom'] . " " . $_POST['lastNameFrom'] . ",";
         $message .= "\nCorreo: " . $_POST['emailFrom'];
         $message .= "\n\nMensaje:";
         $message .= "\n" . $_POST['message'];

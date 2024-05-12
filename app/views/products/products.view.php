@@ -33,7 +33,7 @@ function buildQueryString($params) {
                 <div class="flex items-center gap-2">
                     <p>ordenar por</p>
                     <select class="h-fit bg-transparent" id="sort-select" onchange="window.location = this.value">
-                        <option value="/page/products/?sort=product_rating<?= buildQueryString(['search', 'max', 'min', 'filter', 'value']) ?>" <?= isset($_GET['sort']) && $_GET['sort'] == 'product_rating' ? 'selected' : ''?>>Destacado</option>
+                        <option value="/page/products/?sort=avg_calification<?= buildQueryString(['search', 'max', 'min', 'filter', 'value']) ?>" <?= isset($_GET['sort']) && $_GET['sort'] == 'product_rating' ? 'selected' : ''?>>Destacado</option>
                         <option value="/page/products/?sort=product_date<?= buildQueryString(['search', 'max', 'min', 'filter', 'value']) ?>" <?= isset($_GET['sort']) && $_GET['sort'] == 'product_date' ? 'selected' : ''?>>Reciente</option>
                         <option value="/page/products/?sort=product_price<?= buildQueryString(['search', 'max', 'min', 'filter', 'value']) ?>" <?= isset($_GET['sort']) && $_GET['sort'] == 'product_price' ? 'selected' : ''?>>Precio ascendente</option>
                     </select>
@@ -88,16 +88,16 @@ function buildQueryString($params) {
                         <h2 class="text-2lx font-bold py-10 text-center">No se encontraron Productos.</h2>
                     <?php endif; ?>
                     <?php foreach ($products['data'] as $product): ?>
-                        <?php if($product['product_state'] == 'private') { continue;} ?>
+                        <?php if($product['state_name'] == 'private') { continue;} ?>
                         <article class="flex flex-col md:flex-row justify-between gap-4 bg-white p-4 rounded-lg shadow-lg border min-h-[250px]">
                             <div class="w-full md:w-3/12 max-h-[230px] flex items-center justify-center">
-                                <img src="<?= $product['product_image'] ?>" alt="<?= $product['product_name']; ?>" class="max-w-full max-h-[230px]">
+                                <img src="<?= $product['image_url'] ?>" alt="<?= $product['product_name']; ?>" class="max-w-full max-h-[230px]">
                             </div>
                             <div class="w-full md:w-7/12 flex flex-col justify-between gap-5">
                                 <div class="flex flex-col gap-4">   
                                     <div>
                                         <h2 class="text-[25px] tracking-tight"><?= $product['product_name']; ?></h2>
-                                        <a href="/page/public_profile/?vendedor=<?= $product['product_seller_id'] ?>" class="text-black/[0.5] text-md hover:text-purple-600 hover:underline">Por <?= $product['user_username'] ?></a>
+                                        <a href="/page/public_profile/?usuario=<?= $product['product_user_id'] ?>" class="text-black/[0.5] text-md hover:text-purple-600 hover:underline">Por <?= $product['user_username'] ?></a>
                                     </div>                             
                                     <p><?= $product['product_description']; ?></p>
                                 </div>
@@ -106,7 +106,7 @@ function buildQueryString($params) {
                                     <span class="flex gap-3 items-center">
                                         <span>
                                             <?php
-                                                $calificacion = $product['product_rating'];
+                                                $calificacion = $product['calification'];
                                                 $calificacionEntera = floor($calificacion);
                                                 $fraccion = $calificacion - $calificacionEntera;
 
@@ -124,13 +124,18 @@ function buildQueryString($params) {
                                                 }
                                             ?>
                                         </span>
-                                        <p class="opacity-[0.4]"><?= $product['product_rating'] ?> (<?= $product['product_votes'] ?>)</p>
-                                        <button class="text-violet-600 font-bold border-2 border-violet-600 duration-300 hover:bg-gray-100 size-[30px] rounded-full" onclick="<?= isset($_SESSION['user_id']) ?  "toggleModal(".$product['product_id'].", ".$product['product_rating'].", ".$product['product_votes'].")" : "login()" ?>"><i class="fa-solid fa-plus"></i></button>
+                                        <p class="opacity-[0.4]"><?= $product['avg_calification'] ?> (<?= $product['califications_count'] ?>)</p>
+                                        <button class="text-violet-600 font-bold border-2 border-violet-600 duration-300 hover:bg-gray-100 size-[30px] rounded-full" onclick="<?= isset($_SESSION['user_id']) ?  "toggleModal(".$product['product_id'].")" : "login()" ?>"><i class="fa-solid fa-plus"></i></button>
                                     </span>
                                 </div>
                             </div>
                             <span class="w-full sm:w-2/12 flex items-center justify-center">
-                                <button class="rounded-full size-[60px] border-2 border-black btn-add-cart" data-product_id="<?= $product['product_id'] ?>" data-product_name="<?= $product['product_name'] ?>" data-seller_id="<?= $product['seller_id'] ?>"   data-product_price="<?= $product['product_price'] ?>" data-product_image="<?= $product['product_image'] ?>"  data-product_address="<?= $product['user_address'] ?>" <?= isset($_SESSION['user_id']) ? "data-session='true'" : "data-session='false'"?>><i class="fa-solid fa-cart-plus text-2xl"></i></button>
+                                <button data-product_id="<?= $product['product_id'] ?>" data-product_name="<?= $product['product_name'] ?>" data-product_price="<?= $product['product_price'] ?>"
+                                 data-image_url="<?= $product['image_url'] ?>" data-product_user_id="<?= $product['product_user_id'] ?>" data-user_address="<?= $product['user_address'] ?>"
+                                <?= isset($_SESSION['user_id']) ? "data-session='true'" : "data-session='false'"?>
+                                class="rounded-full size-[60px] border-2 border-black btn-add-cart">
+                                    <i class="fa-solid fa-cart-plus text-2xl"></i>
+                                </button>
                             </span>
                         </article>
                     <?php endforeach; ?>
@@ -168,7 +173,7 @@ function buildQueryString($params) {
         </div>
     </section>
     
-    
+    <!-- Modal Calificación -->
     <div class="fixed inset-0 z-50 hidden" id="modal">
         <div class="fixed inset-0 bg-black bg-opacity-40" onclick="toggleModal()"></div>
         <div id="myModal" class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 flex items-center justify-center ">
@@ -181,8 +186,10 @@ function buildQueryString($params) {
                         </svg>
                     </button>
                 </span>
-                <p class="w-full max-w-[350px] text-center mx-auto py-4">Ten en cuenta la calidad del producto y tiempo de envío.</p>
+                <p class="w-full py-4">Ten en cuenta la calidad del producto y tiempo de envío.</p>
                 <form id="rating-form" class="flex flex-col gap-4">
+                    <textarea id="calification_comment" required
+                    class="px-3 p-1 h-32 border resize-none rounded-lg focus:border-violet-600 focus:outline-none" placeholder="Mensaje..."></textarea>
                     <div id="stars" class="flex items-center justify-center gap-2 text-[20px]">
                         <span class="star" data-value="1"><i class="fa-regular fa-star cursor-pointer text-amber-600 duration-300 hover:scale-[1.15]"> </i></span>
                         <span class="star" data-value="2"><i class="fa-regular fa-star cursor-pointer text-amber-600 duration-300 hover:scale-[1.15]"> </i></span>
@@ -206,6 +213,7 @@ function buildQueryString($params) {
             const stars = document.querySelectorAll('.star');
             const submitButton = document.getElementById('calificar-btn');
 
+            // logica para seleccionar y des-seleccionar estrellas y aparecer o desaparecer botón de subir
             stars.forEach(star => {
                 star.addEventListener('click', () => {
                     const value = parseInt(star.dataset.value);
@@ -234,22 +242,19 @@ function buildQueryString($params) {
                 });
             });
 
-            
+            // logica para guardar la calificacion
             document.getElementById('rating-form').addEventListener('submit' , (e) => {
                 e.preventDefault();
-                let product = submitButton.dataset.id;
-                let votes = parseInt(submitButton.dataset.votes);
-                let currentRating = submitButton.dataset.rating;
-                
-                let newRating = ((currentRating * votes) + parseInt(document.querySelector('.star.selected').dataset.value)) / (votes + 1);
-                
+
                 let formData = new FormData();
                 
-                formData.append('product_id', `${product}`);
-                formData.append('product_votes',  `${votes + 1}`);
-                formData.append('product_rating', newRating);
+                formData.append('calification_object_type', 'producto');
+                formData.append('calification_comment', document.getElementById('calification_comment').value);
+                formData.append('calification', parseInt(document.querySelector('.star.selected').dataset.value));
+                formData.append('calificator_user_id', <?= $_SESSION['user_id'] ?>);
+                formData.append('calificated_object_id', document.getElementById('calificar-btn').dataset.calificated_object_id );
                 
-                fetch('/product/update/', {
+                fetch('/calification/rate', {
                     method: 'POST',
                     body: formData
                 })
@@ -262,6 +267,7 @@ function buildQueryString($params) {
                 })
             });
 
+            // logica para rango de precios
             radios.forEach(radio => {
                 radio.addEventListener('change', () => {
                     if (radio.checked) {
@@ -270,6 +276,7 @@ function buildQueryString($params) {
                 });
             });
 
+            // logica para el select de order
             inputs.forEach(input => {
                 input.addEventListener('change', () => {
                     if (input.value == '') {
@@ -280,6 +287,7 @@ function buildQueryString($params) {
                 });
             });
 
+            // logica para aparecer el boton de subir rango de precio personalizado
             inputs.forEach(input => {
                 if (input.value == '') {
                     document.getElementById('btn-price-filter-submit').classList.add('hidden');
@@ -289,18 +297,18 @@ function buildQueryString($params) {
             });
         });
 
-        function toggleModal(id = '', rating = '', votes = '') {
-            document.getElementById('modal').classList.toggle('hidden');
-            document.getElementById('calificar-btn').setAttribute("data-id", id);
-            document.getElementById('calificar-btn').setAttribute("data-rating", rating);
-            document.getElementById('calificar-btn').setAttribute("data-votes", votes);
-        }
-
-        function login () {
-            if (confirm('para realizar esta acción tienes que iniciar sesión')){
-                window.location.href = '/page/login'
+            // logica para mostrar o desaparecer el modal de calificación
+            function toggleModal( id = '' ) {
+                document.getElementById('modal').classList.toggle('hidden');
+                document.getElementById('calificar-btn').setAttribute('data-calificated_object_id', id);
             }
-        }
+
+            // alerta de debes iniciar sesión
+            function login () {
+                if (confirm('para realizar esta acción tienes que iniciar sesión')){
+                    window.location.href = '/page/login'
+                }
+            }
     </script>
 </body>
 </html>

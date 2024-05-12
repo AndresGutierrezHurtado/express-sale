@@ -4,6 +4,7 @@ const productProfileForm = document.getElementById('product_profile_form');
 const inputs = document.querySelectorAll('[disabled]');
 let editable = false;
 
+// logica para el botón de edición
 editButton.addEventListener('click', (e) => {
     e.preventDefault();
     if (!editable){
@@ -23,6 +24,7 @@ editButton.addEventListener('click', (e) => {
     }
 })
 
+// logica para actualización de datos
 productProfileForm.addEventListener('submit', (e) => {
     e.preventDefault();
     UpdateProfile();

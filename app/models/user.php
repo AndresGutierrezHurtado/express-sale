@@ -14,9 +14,10 @@ class User extends Orm{
             $user = $result->fetch_assoc();
             if ($data["user_password"] == $user["user_password"]) {
                 $_SESSION["user_id"] = $user["user_id"];
-                $_SESSION["user_full_name"] = $user["user_full_name"];
-                $_SESSION["user_username"] = $user["user_username"];
+                $_SESSION["user_first_name"] = $user["user_first_name"];
+                $_SESSION["user_last_name"] = $user["user_last_name"];
                 $_SESSION["user_email"] = $user["user_email"];
+                $_SESSION["user_username"] = $user["user_username"];
                 $_SESSION["user_role_id"] = $user["user_role_id"];
                 $_SESSION["user_phone_number"] = $user["user_phone_number"];
                 $_SESSION["user_cart"] = array();

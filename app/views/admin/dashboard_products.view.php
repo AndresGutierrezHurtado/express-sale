@@ -47,7 +47,7 @@ function buildQueryString($params) {
                         </form>
                     </div>
                     <a href="/page/user_profile" class="w-[80px] rounded-full flex justify-center items-center overflow-hidden">
-                        <img src="<?= $user_session['user_image'] ?>" alt="profile" class="">
+                        <img src="<?= $user_session['image_url'] ?>" alt="profile" class="">
                     </a>
                 </span>
                 <span class="flex flex-col text-center items-center">

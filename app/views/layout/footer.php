@@ -19,9 +19,10 @@
 
                 <input type="email" name="emailFrom" id="emailFrom" placeholder="correo electronico" class="p-2 text-gray-800 w-full rounded-sm border-gray-300" required>
                 <div class="div-group flex flex-col lg:flex-row  gap-2">
-                    <input type="text" name="fullNameFrom" id="fullNameFrom" placeholder="Nombre" class="p-2 text-gray-800 w-full lg:w-1/2 rounded-sm border-gray-300" required>
-                    <input type="text" name="subject" id="subject" placeholder="Asunto" class="p-2 text-gray-800 w-full lg:w-1/2 rounded-sm border-gray-300" required>
+                    <input type="text" name="firstNameFrom" id="firstNameFrom" placeholder="Nombre" class="p-2 text-gray-800 w-full lg:w-1/2 rounded-sm border-gray-300" required>
+                    <input type="text" name="lastNameFrom" id="lastNameFrom" placeholder="Nombre" class="p-2 text-gray-800 w-full lg:w-1/2 rounded-sm border-gray-300" required>
                 </div>
+                <input type="text" name="subject" id="subject" placeholder="Asunto" class="p-2 text-gray-800 w-full rounded-sm border-gray-300" required>
                 <textarea name="message" id="message" class="h-28 w-full p-2 resize-none border rounded-sm border-gray-300 text-black" placeholder="Escribe tu mensaje aquí..." ></textarea>
                 <button type="submit" class="p-2 w-full duration-300 bg-transparent border-2 border-white rounded-xl hover:bg-white/[0.1] text-lg tracking-tight uppercase font-bold">Enviar</button>
             </form>
@@ -32,4 +33,4 @@
         </div>
     </div>
 </footer>
-<script src="/public/js/form.js"></script>
+<script src="/public/js/footer_form.js"></script>

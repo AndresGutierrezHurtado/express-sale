@@ -1,232 +1,356 @@
+DROP DATABASE IF EXISTS `express-sale-db`;
 CREATE DATABASE `express-sale-db`;
 USE `express-sale-db`;
 
--- --------------------------------------------------------
+-- ---------------------------------------------------------------
 --
 -- Create users table
 CREATE TABLE `users` (
     `user_id` INT PRIMARY KEY AUTO_INCREMENT,
-    `user_full_name` VARCHAR(100) NOT NULL,
-    `user_username` VARCHAR(100) UNIQUE NOT NULL,
-    `user_email` VARCHAR(100) UNIQUE NOT NULL,
+    `user_first_name` VARCHAR(40) NOT NULL,
+    `user_last_name` VARCHAR(50) NOT NULL,
+    `user_document_type` ENUM('CC', 'TI', 'CE') DEFAULT 'CC',
     `user_document_number` DECIMAL(10, 0) UNIQUE NOT NULL,
-    `user_document` ENUM('CC', 'TI', 'CE') DEFAULT 'CC',
-    `user_phone_number` DECIMAL(10, 0),
-    `user_address` VARCHAR(255),
-    `user_image` VARCHAR(100) DEFAULT '/public/images/users/nf.jpg',
-    `user_password` TEXT,
-    `user_role_id` INT NOT NULL
+    `user_email`VARCHAR(50) UNIQUE NOT NULL,
+    `user_username` VARCHAR(30) UNIQUE NOT NULL,
+    `user_phone_number` DECIMAL(10),
+    `user_address` VARCHAR(100),
+    `user_password` VARCHAR(150),
+    `user_role_id` INT DEFAULT 1
 );
 
 -- Insert data into users table
-INSERT INTO `users` (`user_id`, `user_full_name`, `user_username`, `user_email`, `user_document_number`, `user_document`, `user_phone_number`, `user_address`, `user_image`, `user_password`, `user_role_id`) VALUES
-(1, 'Express Sale', 'Express_Sale', 'express_sale@gmail.com', '0', 'CC', '3209202177', 'Bogotá, Colombia', '/public/images/users/1.jpg', '1234', 4),
-(2, 'Andrés Gutiérrez Hurtado', 'Andres_Gutierrez', 'andres52885241@gmail.com', '1033707596', 'TI', '3209202177', 'Dg. 68D Sur #70c-31, Bogotá, Colombia', '/public/images/users/2.jpg', '1234', 2),
-(3, 'David Fernando Diaz Niausa', 'David_Diaz', 'davidfernandodiazniausa@gmail.com', '1', 'TI', '3214109557', 'Alfonso Lopez, Bogotá, Colombia', '/public/images/users/nf.jpg', '1234', 2),
-(4, 'Jaider Harley Rondón Herrera', 'Jaider_Rondon', 'rondonjaider@gmail.com', '2', 'CC', '3112369205', 'Usme, Bogotá, Colombia', '/public/images/users/4.jpg', '1234', 2),
-(5, 'Juan Sebastian Bernal Gamboa', 'Juan_Sebastian', 'juansebastianbernalgamboa@gmail.com', '3', 'TI', '3053964455', 'Usme, Bogotá, Colombia', '/public/images/users/nf.jpg', '1234', 2),
-(6, 'Wendy Alejandra Navarro Arias', 'Wendy_Navarro', 'nwendy798@gmail.com', '1025532941', 'CC', '3044462452', 'Kalamary V, Diagonal 69 Sur, Bogotá, Colombia', '/public/images/users/6.jpg', '1234', 1),
-(7, 'Santiago Hurtado Medina', 'Santiago_Hurtado', 'shurtado@gmail.com', '4', 'TI', '3208878515', 'Molinos del sur, Diagonal 49f Bis Sur, Bogotá, Colombia', '/public/images/users/7.jpg', '1234', 3);
+INSERT INTO `users` (`user_id`, `user_first_name`, `user_last_name`, `user_document_type`, `user_document_number`, `user_email`, `user_username`, `user_phone_number`, `user_address`, `user_password`, `user_role_id`) VALUES
+(1, 'Express', 'Sale', 'CC', 0, 'express_sale@gmail.com', 'Express_Sale', 3209202177, 'Bogotá, Colombia', '1234', 4),
+(2, 'Andrés', 'Gutiérrez Hurtado', 'TI', 1033707596, 'andres52885241@gmail.com', 'Andres_Gutierrez', 3209202177, 'Dg. 68D Sur #70c-31, Bogotá, Colombia', '1234', 2),
+(3, 'David Fernando', 'Diaz Niausa', 'TI', 1, 'davidfernandodiazniausa@gmail.com', 'David_Diaz', 3214109557, 'Alfonso Lopez, Bogotá, Colombia', '1234', 2),
+(4, 'Jaider Harley', 'Rondón Herrera', 'CC', 2, 'rondonjaider@gmail.com', 'Jaider_Rondon', 3112369205, 'Usme, Bogotá, Colombia', '1234', 2),
+(5, 'Juan Sebastian', 'Bernal Gamboa', 'TI', 3, 'juansebastianbernalgamboa@gmail.com', 'Juan_Sebastian', 3053964455, 'Usme, Bogotá, Colombia', '1234', 2),
+(6, 'Santiago', 'Hurtado Medina', 'TI', 4, 'shurtado@gmail.com', 'Santiago_Hurtado', 3208878515, 'Molinos del sur, Diagonal 49f Bis Sur, Bogotá, Colombia', '1234', 3),
+(7, 'Wendy Alejandra', 'Navarro Arias', 'CC', 1025532941, 'nwendy798@gmail.com', 'Wendy_Navarro', 3044462452, 'Kalamary V, Diagonal 69 Sur, Bogotá, Colombia', '1234', 1);
 
--- --------------------------------------------------------
+-- ---------------------------------------------------------------
 --
--- Create roles table
-CREATE TABLE `roles` (
-    `role_id` INT PRIMARY KEY AUTO_INCREMENT,
-    `role_name` VARCHAR(50) NOT NULL
+-- Create users table
+CREATE TABLE `workers` (
+    `worker_id` INT PRIMARY KEY AUTO_INCREMENT,
+    `worker_description` TEXT DEFAULT 'Usuario nuevo.',
+    `worker_works_done` INT DEFAULT 0,
+    `worker_user_id` INT
 );
 
--- Insert predefined roles
-INSERT INTO `roles` (`role_id`, `role_name`) VALUES 
-(1, 'usuario'),
+INSERT INTO `workers` (`worker_user_id`) VALUES 
+(2), -- Andres
+(3), -- David
+(4), -- Jaider
+(5), -- Juan
+(6); -- Santiago
+-- ---------------------------------------------------------------
+--
+-- Create users table
+CREATE TABLE `roles` (
+    `role_id` INT PRIMARY KEY AUTO_INCREMENT,
+    `role_name` VARCHAR(15)
+);
+
+INSERT INTO `roles` (`role_id`, `role_name`) VALUES
+(1, 'cliente'),
 (2, 'vendedor'),
 (3, 'domiciliario'),
 (4, 'administrador');
 
--- --------------------------------------------------------
+-- ---------------------------------------------------------------
 --
--- acá iría la nueva tabla
-CREATE TABLE `sellers` (
-    `seller_id` INT PRIMARY KEY AUTO_INCREMENT,
-    `seller_description` TEXT DEFAULT 'vendedor.',
-    `seller_rating` DECIMAL(3, 2) DEFAULT 0.00,
-    `seller_votes` INT DEFAULT 0,
-    `seller_sales_done` INT DEFAULT 0,
-    `seller_user_id` INT UNIQUE
+-- Create users table
+CREATE TABLE `images` (
+    `image_id` INT PRIMARY KEY AUTO_INCREMENT,
+    `image_object_type` ENUM('producto', 'usuario') DEFAULT 'usuario',
+    `image_url` VARCHAR(50),
+    `image_object_id` INT
 );
 
--- Insert data into sellers table
-INSERT INTO `sellers` (`seller_user_id`) VALUES
-(2),
-(3),
-(4),
-(5);
+-- Insertar imágenes para usuarios existentes
+INSERT INTO images (image_object_type, image_url, image_object_id) 
+VALUES 
+('usuario', '/public/images/users/1.jpg', 1),
+('usuario', '/public/images/users/2.jpg', 2),
+('usuario', '/public/images/users/nf.jpg', 3),
+('usuario', '/public/images/users/4.jpg', 4),
+('usuario', '/public/images/users/nf.jpg', 5),
+('usuario', '/public/images/users/6.jpg', 6),
+('usuario', '/public/images/users/7.jpg', 7);
 
--- Create delivery table
-CREATE TABLE `deliveries` (
-    `delivery_id` INT PRIMARY KEY AUTO_INCREMENT,
-    `delivery_description` TEXT DEFAULT 'domiciliario.',
-    `delivery_rating` DECIMAL(3, 2) DEFAULT 0.00, 
-    `delivery_votes` INT DEFAULT 0,
-    `deliveries_done` INT DEFAULT 0,
-    `delivery_user_id` INT UNIQUE
+-- Insertar imágenes para productos existentes
+INSERT INTO images (image_object_type, image_url, image_object_id) 
+VALUES 
+('producto', '/public/images/products/1.jpg', 1),
+('producto', '/public/images/products/2.jpg', 2),
+('producto', '/public/images/products/3.jpg', 3),
+('producto', '/public/images/products/4.jpg', 4),
+('producto', '/public/images/products/5.jpg', 5),
+('producto', '/public/images/products/6.jpg', 6),
+('producto', '/public/images/products/7.jpg', 7),
+('producto', '/public/images/products/8.jpg', 8),
+('producto', '/public/images/products/9.jpg', 9),
+('producto', '/public/images/products/10.jpg', 10),
+('producto', '/public/images/products/11.jpg', 11),
+('producto', '/public/images/products/12.jpg', 12);
+
+-- ---------------------------------------------------------------
+--
+-- Create users table
+CREATE TABLE `califications` (
+    `calification_id` INT PRIMARY KEY AUTO_INCREMENT,
+    `calification_object_type`ENUM('producto', 'usuario') DEFAULT 'usuario',
+    `calification_comment` TEXT,
+    `calification` DECIMAL(3, 2),
+    `calificator_user_id` INT,
+    `calificated_object_id` INT
 );
 
--- Insert data into deliveries table
-INSERT INTO `deliveries` (`delivery_user_id`) VALUES
-(7);
-
--- --------------------------------------------------------
+-- ---------------------------------------------------------------
 --
--- Create products table
+-- Create users table
 CREATE TABLE `products` (
     `product_id` INT PRIMARY KEY AUTO_INCREMENT,
-    `product_name` VARCHAR(100) NOT NULL,
-    `product_description` TEXT,
-    `product_price` DECIMAL(10, 2) NOT NULL,
+    `product_name` VARCHAR(40) NOT NULL,
+    `product_description` VARCHAR(200) NOT NULL,
+    `product_price`DECIMAL(10, 2) NOT NULL,
     `product_stock` INT NOT NULL,
-    `product_image` VARCHAR(100),
-    `product_rating` DECIMAL(3, 2),
-    `product_votes` INT DEFAULT 0,
-    `product_category_id` INT,
-    `product_seller_id` INT, 
-    `product_date` DATE,
-    `product_state` ENUM('public', 'private') DEFAULT 'public'
+    `product_date` DATE NOT NULL,
+    `product_category_id` INT NOT NULL,
+    `product_user_id` INT,
+    `product_state_id` INT
 );
 
--- Insert data into products table
-INSERT INTO `products` (`product_id`, `product_name`, `product_description`, `product_price`, `product_stock`, `product_image`, `product_rating`, `product_votes`, `product_category_id`, `product_seller_id`, `product_date`, `product_state`) VALUES
-(1, 'Nike Air Jordan 1', 'Las icónicas zapatillas Nike Air Jordan 1 son un clásico atemporal en el mundo de la moda urbana, conocidas por su estilo y comodidad.', 289900.00, 15, '/public/images/products/1.jpg', 0.00, 0, 1, 2, '2024-01-15', 'public'),
-(2, 'Cadena Cubana de Plata', 'Una cadena cubana de plata es un accesorio clásico y llamativo que puede complementar cualquier atuendo, ya sea casual o más elegante.', 24900.00, 9, '/public/images/products/2.jpg', 0.00, 0, 1, 2, '2024-02-20', 'public'),
-(3, 'Casio G-Shock GA-2100', 'El reloj Casio G-Shock GA-2100 es conocido por su resistencia y estilo, con características como resistencia a golpes, al agua y un diseño moderno y elegante.', 224000.00, 10, '/public/images/products/3.jpg', 0.00, 0, 1, 2, '2024-03-05', 'public'),
-(4, 'iPhone 13 Pro', 'El iPhone 13 Pro es el último modelo de Apple que combina un diseño elegante con un rendimiento potente y cámaras avanzadas para capturar imágenes impresionantes.', 2100000.00, 8, '/public/images/products/4.jpg', 0.00, 0, 3, 3, '2024-04-10', 'public'),
-(5, 'Xbox Series X', 'La Xbox Series X ofrece potencia de próxima generación, velocidades de carga ultrarrápidas y una amplia biblioteca de juegos para una experiencia de juego inigualable.', 3599900.00, 13, '/public/images/products/5.jpg', 0.00, 0, 3, 3, '2024-01-25', 'public'),
-(6, 'PlayStation 5', 'La PlayStation 5 es la consola de última generación de Sony, que ofrece gráficos impresionantes, carga ultrarrápida y una amplia variedad de juegos exclusivos.', 4599900.00, 12, '/public/images/products/6.jpg', 0.00, 0, 3, 3, '2024-02-05', 'public'),
-(7, 'Galletas Oreo', 'Las deliciosas galletas Oreo, con su crujiente galleta y su cremoso relleno de vainilla, son un clásico de la merienda que gusta a niños y adultos por igual.', 26900.00, 40, '/public/images/products/7.jpg', 0.00, 0, 2, 4, '2024-03-15', 'public'),
-(8, 'Nutella', 'La crema de avellanas Nutella, con su textura suave y su sabor dulce, es un imprescindible en el desayuno de millones de personas en todo el mundo.', 7000.00, 22, '/public/images/products/8.jpg', 0.00, 0, 2, 4, '2024-04-20', 'public'),
-(9, 'KitKat', 'El delicioso chocolate KitKat, con sus característicos barquillos y su irresistible sabor, es el snack perfecto para disfrutar en cualquier momento del día.', 4000.00, 28, '/public/images/products/9.jpg', 0.00, 0, 2, 4, '2024-01-30', 'public'),
-(10, 'Mancuernas Ajustables', 'Un par de mancuernas ajustables con diferentes pesos, perfectas para entrenamiento de fuerza en casa o en el gimnasio.', 89900.00, 8, '/public/images/products/10.jpg', 0.00, 0, 4, 1, '2024-02-10', 'public'),
-(11, 'Megaplex | Creatine Power', 'Suplemento de proteína en polvo de alta calidad, ideal para la recuperación muscular y el crecimiento después del entrenamiento.', 59900.00, 10, '/public/images/products/11.jpg', 0.00, 0, 4, 1, '2024-03-20', 'public'),
-(12, 'Rubik`s Cube', 'El clásico cubo de Rubik, con su diseño de colores vivos y su desafiante mecánica, es uno de los rompecabezas más populares y reconocidos del mundo.', 15000.00, 15, '/public/images/products/12.jpg', 0.00, 0, 4, 1, '2024-04-27', 'public');
+-- Insert data into products table with product_date
+INSERT INTO `products` (`product_name`, `product_description`, `product_date`, `product_price`, `product_stock`, `product_category_id`, `product_user_id`, `product_state_id`) VALUES
+-- Moda
+('Nike Air Jordan 1', 'Las icónicas zapatillas Nike Air Jordan 1 son un clásico atemporal en el mundo de la moda urbana, conocidas por su estilo y comodidad.', '2024-02-01', 289900.00, 15, 1, 3, 1),
+('Cadena Cubana de Plata', 'Una cadena cubana de plata es un accesorio clásico y llamativo que puede complementar cualquier atuendo, ya sea casual o más elegante.', '2024-03-25', 24900.00, 9, 1, 3, 1),
+('Casio G-Shock GA-2100', 'El reloj Casio G-Shock GA-2100 es conocido por su resistencia y estilo, con características como resistencia a golpes, al agua y un diseño moderno y elegante.', '2024-04-20', 224000.00, 10, 1, 3, 1),
+-- Tecnología
+('iPhone 13 Pro', 'El iPhone 13 Pro es el último modelo de Apple que combina un diseño elegante con un rendimiento potente y cámaras avanzadas para capturar imágenes impresionantes.', '2024-05-10', 2100000.00, 8, 3, 4, 1),
+('Xbox Series X', 'La Xbox Series X ofrece potencia de próxima generación, velocidades de carga ultrarrápidas y una amplia biblioteca de juegos para una experiencia de juego inigualable.', '2024-05-05', 3599900.00, 13, 3, 4, 1),
+('PlayStation 5', 'La PlayStation 5 es la consola de última generación de Sony, que ofrece gráficos impresionantes, carga ultrarrápida y una amplia variedad de juegos exclusivos.', '2024-04-15', 4599900.00, 12, 3, 4, 1),
+-- Comida
+('Galletas Oreo', 'Las deliciosas galletas Oreo, con su crujiente galleta y su cremoso relleno de vainilla, son un clásico de la merienda que gusta a niños y adultos por igual.', '2024-03-01', 26900.00, 40, 2, 5, 1),
+('Nutella', 'La crema de avellanas Nutella, con su textura suave y su sabor dulce, es un imprescindible en el desayuno de millones de personas en todo el mundo.', '2024-02-10', 7000.00, 22, 2, 5, 1),
+('KitKat', 'El delicioso chocolate KitKat, con sus característicos barquillos y su irresistible sabor, es el snack perfecto para disfrutar en cualquier momento del día.', '2024-03-20', 4000.00, 28, 2, 5, 1),
+-- Otros
+('Mancuernas Ajustables', 'Un par de mancuernas ajustables con diferentes pesos, perfectas para entrenamiento de fuerza en casa o en el gimnasio.', '2024-04-05', 89900.00, 8, 4, 2, 1),
+('Megaplex | Creatine Power', 'Suplemento de proteína en polvo de alta calidad, ideal para la recuperación muscular y el crecimiento después del entrenamiento.', '2024-05-01', 59900.00, 10, 4, 2, 1),
+('Rubik`s Cube', 'El clásico cubo de Rubik, con su diseño de colores vivos y su desafiante mecánica, es uno de los rompecabezas más populares y reconocidos del mundo.', '2024-02-15', 15000.00, 15, 4, 2, 1);
 
--- --------------------------------------------------------
+-- ---------------------------------------------------------------
 --
--- Create categories table
+-- Create users table
 CREATE TABLE `categories` (
     `category_id` INT PRIMARY KEY AUTO_INCREMENT,
-    `category_name` VARCHAR(50) NOT NULL
+    `category_name` VARCHAR(30)
 );
 
--- Insert predefined categories
-INSERT INTO `categories` (`category_id`, `category_name`) VALUES 
+INSERT INTO `categories` (`category_id`, `category_name`) VALUES
 (1, 'moda'),
 (2, 'comida'),
 (3, 'tecnologia'),
 (4, 'otros');
 
--- --------------------------------------------------------
+-- ---------------------------------------------------------------
 --
--- Create sales table
-CREATE TABLE `sales` (
-    `sale_id` INT PRIMARY KEY AUTO_INCREMENT,
-    `sale_user_id` INT,
-    `sale_description` TEXT,
-    `sale_message` TEXT,
-    `sale_full_name` VARCHAR(100),
-    `sale_email` VARCHAR(100),
-    `sale_phone_number` VARCHAR(20),
-    `sale_address` VARCHAR(255),
-    `sale_coords` VARCHAR(255),
-    `sale_price` DECIMAL(9, 2),
-    `sale_state` ENUM('waiting', 'pending', 'completed') DEFAULT 'waiting',
-    `sale_date` DATE
+-- Create users table
+CREATE TABLE `states` (
+    `state_id` INT PRIMARY KEY AUTO_INCREMENT,
+    `state_name` VARCHAR(30)
 );
 
--- --------------------------------------------------------
+INSERT INTO `states` (`state_id`, `state_name`) VALUES
+(1, 'publico'),
+(2, 'privado'),
+(3, 'esperando'),
+(4, 'enviando'),
+(5, 'finalizado'),
+(6, 'rechadazo');
+
+-- ---------------------------------------------------------------
 --
--- Add foreign keys
-ALTER TABLE `users` 
-ADD FOREIGN KEY (`user_role_id`) 
+-- Create users table
+CREATE TABLE `orders` (
+    `order_id` INT PRIMARY KEY AUTO_INCREMENT,
+    `order_date` DATE NOT NULL,
+    `order_iva` DECIMAL(10, 2) NOT NULL,
+    `order_amount` DECIMAL(10, 2) NOT NULL,
+    `order_first_name` VARCHAR(60) NOT NULL,
+    `order_last_name` VARCHAR(60) NOT NULL,
+    `order_email` VARCHAR(80) NOT NULL,
+    `order_phone_number` DECIMAL(10, 0) NOT NULL,
+    `order_address` VARCHAR(100) NOT NULL,
+    `order_coords` JSON NOT NULL,
+    `order_user_id` INT NOT NULL,
+    `order_worker_id` INT,
+    `order_state_id` INT DEFAULT 3
+);
+
+-- ---------------------------------------------------------------
+--
+-- Create users table
+CREATE TABLE `sold_products` (
+    `sold_product_id` INT PRIMARY KEY AUTO_INCREMENT,
+    `sold_product_product_id` INT,
+    `sold_product_order_id` INT,
+    `sold_product_quantity` INT,
+    `sold_product_price` DECIMAL(10, 2),
+    `sold_product_address` VARCHAR(100)    
+);
+
+-- ---------------------------------------------------------------
+--
+-- Create users table
+CREATE TABLE `receipts` (
+    `receipt_id` INT PRIMARY KEY AUTO_INCREMENT,
+    `receipt_date` DATE,
+    `receipt_time` DATE,
+    `receipt_amount` DECIMAL(10, 2),
+    `receipt_pay_form_id` INT DEFAULT 4,
+    `receipt_order_id` INT
+);
+
+-- ---------------------------------------------------------------
+--
+-- Create users table
+CREATE TABLE `pay_method` (
+    `pay_method_id` INT PRIMARY KEY AUTO_INCREMENT,
+    `pay_method_name` VARCHAR(30)
+);
+
+INSERT INTO `pay_method` (`pay_method_id`, `pay_method_name`) VALUES 
+(2, 'CREDIT_CARD'),
+(4, 'PSE'),
+(5, 'ACH'),
+(6, 'DEBIT_CARD'),
+(7, 'CASH'),
+(8, 'REFERENCED'),
+(10, 'BANK_REFERENCED'),
+(14, 'SPEI');
+-- Agregar clave foránea a la tabla `users`
+ALTER TABLE `users`
+ADD CONSTRAINT `fk_user_role_id`
+FOREIGN KEY (`user_role_id`)
 REFERENCES `roles`(`role_id`)
 ON UPDATE CASCADE
 ON DELETE CASCADE;
 
-ALTER TABLE `sellers`
-ADD FOREIGN KEY (`seller_user_id`) 
-REFERENCES `users`(`user_id`) 
-ON UPDATE CASCADE
-ON DELETE CASCADE;
-
-ALTER TABLE `deliveries`
-ADD FOREIGN KEY (`delivery_user_id`) 
-REFERENCES `users`(`user_id`) 
-ON UPDATE CASCADE 
-ON DELETE CASCADE;
-
-ALTER TABLE `products` 
-ADD FOREIGN KEY (`product_seller_id`) 
-REFERENCES `sellers`(`seller_id`)
-ON UPDATE CASCADE
-ON DELETE CASCADE;
-
-ALTER TABLE `products` 
-ADD FOREIGN KEY (`product_category_id`) 
-REFERENCES `categories`(`category_id`)
-ON UPDATE CASCADE
-ON DELETE CASCADE;
-
-
-ALTER TABLE `sales`
-ADD FOREIGN KEY (`sale_user_id`) 
+-- Agregar clave foránea a la tabla `workers`
+ALTER TABLE `workers`
+ADD CONSTRAINT `fk_worker_user_id`
+FOREIGN KEY (`worker_user_id`)
 REFERENCES `users`(`user_id`)
 ON UPDATE CASCADE
 ON DELETE CASCADE;
 
--- --------------------------------------------------------
---
--- Add triggers
+-- Agregar clave foránea a la tabla `images`
+ALTER TABLE `images`
+ADD CONSTRAINT `fk_image_object_id`
+FOREIGN KEY (`image_object_id`)
+REFERENCES `products`(`product_id`)
+ON UPDATE CASCADE
+ON DELETE CASCADE;
 
--- Disparador para insertar automáticamente en las tablas de vendedores o domiciliarios después de insertar un usuario
+-- Agregar clave foránea a la tabla `califications`
+ALTER TABLE `califications`
+ADD CONSTRAINT `fk_calificator_user_id`
+FOREIGN KEY (`calificator_user_id`)
+REFERENCES `users`(`user_id`)
+ON UPDATE CASCADE
+ON DELETE CASCADE;
+
+-- Agregar clave foránea a la tabla `products`
+ALTER TABLE `products`
+ADD CONSTRAINT `fk_product_category_id`
+FOREIGN KEY (`product_category_id`)
+REFERENCES `categories`(`category_id`)
+ON UPDATE CASCADE
+ON DELETE CASCADE,
+ADD CONSTRAINT `fk_product_user_id`
+FOREIGN KEY (`product_user_id`)
+REFERENCES `users`(`user_id`)
+ON UPDATE CASCADE
+ON DELETE CASCADE,
+ADD CONSTRAINT `fk_product_state_id`
+FOREIGN KEY (`product_state_id`)
+REFERENCES `states`(`state_id`)
+ON UPDATE CASCADE
+ON DELETE CASCADE;
+
+-- Agregar clave foránea a la tabla `orders`
+ALTER TABLE `orders`
+ADD CONSTRAINT `fk_order_user_id`
+FOREIGN KEY (`order_user_id`)
+REFERENCES `users`(`user_id`)
+ON UPDATE CASCADE
+ON DELETE CASCADE,
+ADD CONSTRAINT `fk_order_worker_id`
+FOREIGN KEY (`order_worker_id`)
+REFERENCES `workers`(`worker_id`)
+ON UPDATE CASCADE
+ON DELETE CASCADE,
+ADD CONSTRAINT `fk_order_state_id`
+FOREIGN KEY (`order_state_id`)
+REFERENCES `states`(`state_id`)
+ON UPDATE CASCADE
+ON DELETE CASCADE;
+
+-- Agregar clave foránea a la tabla `sold_products`
+ALTER TABLE `sold_products`
+ADD CONSTRAINT `fk_sold_products_product_id`
+FOREIGN KEY (`sold_product_product_id`)
+REFERENCES `products`(`product_id`)
+ON UPDATE CASCADE
+ON DELETE CASCADE,
+ADD CONSTRAINT `fk_sold_products_order_id`
+FOREIGN KEY (`sold_product_order_id`)
+REFERENCES `orders`(`order_id`)
+ON UPDATE CASCADE
+ON DELETE CASCADE;
+
+-- Agregar clave foránea a la tabla `receipts`
+ALTER TABLE `receipts`
+ADD CONSTRAINT `fk_receipt_pay_form_id`
+FOREIGN KEY (`receipt_pay_form_id`)
+REFERENCES `pay_method`(`pay_method_id`)
+ON UPDATE CASCADE
+ON DELETE CASCADE,
+ADD CONSTRAINT `fk_receipt_order_id`
+FOREIGN KEY (`receipt_order_id`)
+REFERENCES `orders`(`order_id`)
+ON UPDATE CASCADE
+ON DELETE CASCADE;
+
 DELIMITER $$
-CREATE TRIGGER after_insert_user
-AFTER INSERT ON `users`
+CREATE TRIGGER insert_worker_after_user_insert
+AFTER INSERT ON users
 FOR EACH ROW
 BEGIN
-    IF NEW.user_role_id = 2 THEN
-        INSERT INTO `sellers` (`seller_user_id`) VALUES (NEW.`user_id`);
-    ELSEIF NEW.user_role_id = 3 THEN
-        INSERT INTO `deliveries` (`delivery_user_id`) VALUES (NEW.`user_id`);
+    IF (NEW.user_role_id = 2 OR NEW.user_role_id = 3) THEN
+        INSERT INTO workers (worker_user_id) VALUES (NEW.user_id);
     END IF;
 END$$
 DELIMITER ;
 
--- Disparador para actualizar el stock de productos y el recuento de ventas del vendedor después de realizar una venta
 DELIMITER $$
-CREATE TRIGGER after_insert_sale
-AFTER INSERT ON `sales`
+CREATE TRIGGER insert_image_after_user_or_product_insert
+AFTER INSERT ON users
 FOR EACH ROW
 BEGIN
-    DECLARE product_id INT;
-    DECLARE quantity_sold INT;
-    DECLARE seller_id INT;
-    DECLARE total_products INT; 
+    INSERT INTO images (image_object_type, image_url, image_object_id)
+    VALUES ('usuario', '/public/images/users/nf.jpg', NEW.user_id);
+END$$
 
-    SET total_products = JSON_LENGTH(NEW.sale_description); 
-
-    SET @i = 0;
-    WHILE @i < total_products DO 
-        -- Obtener el ID del producto, la cantidad vendida y el ID del vendedor
-        SET product_id = JSON_UNQUOTE(JSON_EXTRACT(NEW.sale_description, CONCAT('$[', @i, '].product_id')));
-        SET quantity_sold = JSON_UNQUOTE(JSON_EXTRACT(NEW.sale_description, CONCAT('$[', @i, '].product_quantity')));
-        SET seller_id = JSON_UNQUOTE(JSON_EXTRACT(NEW.sale_description, CONCAT('$[', @i, '].seller_id')));
-
-        -- Verificar si el ID del producto no es nulo
-        IF product_id IS NOT NULL THEN
-            UPDATE products SET product_stock = product_stock - quantity_sold WHERE product_id = product_id;
-            UPDATE sellers SET seller_sales_done = seller_sales_done + quantity_sold WHERE seller_user_id = seller_id;
-        END IF;
-
-        SET @i = @i + 1;
-    END WHILE;
+CREATE TRIGGER insert_image_after_product_insert
+AFTER INSERT ON products
+FOR EACH ROW
+BEGIN
+    INSERT INTO images (image_object_type, image_url, image_object_id)
+    VALUES ('producto', '/public/images/products/nf.jpg', NEW.product_id);
 END$$
 DELIMITER ;

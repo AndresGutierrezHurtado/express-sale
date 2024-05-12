@@ -12,15 +12,15 @@ document.getElementById('submit-button').addEventListener('click', (e) => {
 function sale () {
     const data = new FormData(saleForm);
 
-    fetch('/sale/create', {
+    fetch('/order/create', {
         method: 'POST',
         body: data
     })
     .then(Response => Response.json())
     .then(Data => {
-        alert(Data.message);
-        if (Data.success) {
-            window.location.href = "/page/user_profile"
-        }   
+        if (Data[0].success && Data[2].success ) {
+            alert ('Compra realizada con éxito');
+            window.location.href = "/page/user_profile";
+        }
     });
 }

@@ -30,7 +30,7 @@ function buildQueryString($params) {
                             <div class="absolute top-[120%] left-1/2 transform -translate-x-1/2 bg-white flex flex-col rounded-md min-w-[150px] overflow-hidden duration-200 opacity-0" id="list-sort">
                                 <h1 class="text-black text-md uppercase font-bold tracking-tight upercase p-1 px-3">Ordernar por:</h1>
                                 <a href="/page/dashboard_users/?sort=user_id<?= buildQueryString(['search'])?>" class="text-black duraton-300 hover:bg-gray-200 p-1 px-3 cursor-pointer">Id</a>
-                                <a href="/page/dashboard_users/?sort=user_full_name<?= buildQueryString(['search'])?>" class="text-black duraton-300 hover:bg-gray-200 p-1 px-3 cursor-pointer">Nombre</a>
+                                <a href="/page/dashboard_users/?sort=user_first_name<?= buildQueryString(['search'])?>" class="text-black duraton-300 hover:bg-gray-200 p-1 px-3 cursor-pointer">Nombre</a>
                                 <a href="/page/dashboard_users/?sort=user_username<?= buildQueryString(['search'])?>" class="text-black duraton-300 hover:bg-gray-200 p-1 px-3 cursor-pointer">Usuario</a>
                                 <a href="/page/dashboard_users/?sort=user_email<?= buildQueryString(['search'])?>" class="text-black duraton-300 hover:bg-gray-200 p-1 px-3 cursor-pointer">Correo</a>
                                 <a href="/page/dashboard_users/?sort=role_name<?= buildQueryString(['search'])?>" class="text-black duraton-300 hover:bg-gray-200 p-1 px-3 cursor-pointer">Rol</a>
@@ -45,7 +45,7 @@ function buildQueryString($params) {
                         </form>
                     </div>
                     <a href="/page/user_profile" class="w-[80px] rounded-full flex justify-center items-center overflow-hidden">
-                        <img src="<?= $user_sesion['user_image'] ?>" alt="profile" class="">
+                        <img src="<?= $user_session['image_url'] ?>" alt="profile" class="">
                     </a>
                 </span>
                 <span class="flex flex-col text-center items-center">
@@ -81,7 +81,7 @@ function buildQueryString($params) {
                         <?php foreach ($users['data'] as $user): ?>
                         <tr>
                             <td class="p-2"><?= $user['user_id']; ?></td>
-                            <td class="p-2 hidden lg:table-cell"><?= $user['user_full_name']; ?></td>
+                            <td class="p-2 hidden lg:table-cell"><?= $user['user_first_name'] . " " . $user['user_last_name']; ?></td>
                             <td class="p-2"><?= $user['user_username']; ?></td>
                             <td class="p-2 hidden sm:table-cell"><?= $user['user_email']; ?></td>
                             <td class="p-2"><?= $user['role_name']?></td>
