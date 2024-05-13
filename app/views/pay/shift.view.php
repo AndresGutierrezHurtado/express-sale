@@ -56,6 +56,7 @@
             <div class="mb-6">
                 <h2 class="text-2xl font-semibold mb-4">Información adicional</h2>
                 <p><strong>Fecha de compra:</strong> <?= $delivery['order_date'] ?></p>
+                <p><strong>Domiciliario:</strong> <a href="" class="hover:text-purple-600 hover:underline">  <?= $worker['user_username'] ?> </a></p>
                 <p><strong>Precio total:</strong> <?= number_format($delivery['order_amount'], 2) ?> COP</p>
                 <p><strong>Estado:</strong> <?= ucfirst($delivery['state_name']) ?></p>
             </div>

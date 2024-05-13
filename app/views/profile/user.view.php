@@ -243,8 +243,8 @@
                         <div class="flex flex-col gap-1">
                             <label for="product_state" class="text-md font-medium text-gray-700">Estado:</label>
                             <select name="product_state_id" id="product_state" class="w-full border rounded-lg py-1 px-3" required>
-                                <option value="1">Public</option>
-                                <option value="2" selected>Private</option>
+                                <option value="1">Público</option>
+                                <option value="2" selected>Privado</option>
                             </select>
                         </div>
 

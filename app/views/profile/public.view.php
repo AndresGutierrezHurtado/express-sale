@@ -13,50 +13,123 @@
 
     <main class="container mx-auto p-4 flex flex-col md:flex-row justify-center gap-10 py-12">
         <!-- Vendedor contenedor -->
-        <div class="w-full max-w-[400px] bg-white p-6 rounded-lg shadow-md h-fit flex flex-col gap-5">
-            <h3 class="text-2xl font-bold tracking-tight">Información del vendedor:</h3>
-            <div class="flex flex-col sm:flex-row items-center space-x-4">
-                <img src="<?= $user['image_url'] ?>" alt="Perfil" class="h-24 w-24 rounded-full">
-                <div class="w-full ">
-                    <h2 class="text-xl font-bold"><?= $user['user_first_name'] . " " . $user['user_last_name'] ?></h2>
-                    <p class="text-sm text-gray-600">Ubicación: <?= $user['user_address'] ?></p>
-                    <p class="text-sm text-gray-600">Número: <?= $user['user_phone_number'] ?></p>
-                    <p class="text-sm text-gray-600"> <?= $user['worker_works_done'] ?> Productos vendidos</p>
+        <div class="md:max-w-[400px] flex flex-col gap-5">
+            <div class="w-full bg-white p-6 rounded-lg shadow-md h-fit flex flex-col gap-5">
+                <h3 class="text-2xl font-bold tracking-tight">Información del vendedor:</h3>
+                <div class="flex flex-col sm:flex-row items-center space-x-4">
+                    <img src="<?= $user['image_url'] ?>" alt="Perfil" class="h-24 w-24 rounded-full">
+                    <div class="w-full ">
+                        <h2 class="text-xl font-bold"><?= $user['user_first_name'] . " " . $user['user_last_name'] ?></h2>
+                        <p class="text-sm text-gray-600">Ubicación: <?= $user['user_address'] ?></p>
+                        <p class="text-sm text-gray-600">Número: <?= $user['user_phone_number'] ?></p>
+                        <p class="text-sm text-gray-600"> <?= $user['worker_works_done'] ?> Ventas hechas </p>
+                    </div>
+                </div>
+                <div class="flex flex-col gap-2">
+                    <h3 class="text-lg font-semibold">Calificaciones:</h3>
+                    <div class="flex gap-5 w-full">
+                        <div class="flex flex-col justify-center items-center">
+                            <h1 class="text-[40px] font-semibold"><?= $user['avg_calification'] == null ? 0 : $user['avg_calification'] ?></h1>
+                            <span class="flex items-center text-[15px] text-violet-500">
+                                <?php
+                                    $calificacion = $user['avg_calification'];
+                                    $calificacionEntera = floor($calificacion);
+                                    $fraccion = $calificacion - $calificacionEntera;
+
+                                    for ($i = 0; $i < $calificacionEntera; $i++) {
+                                        echo '<i class="fa-solid fa-star"></i>';
+                                    }
+                                    
+                                    if ($fraccion >= 0.5) {
+                                        echo '<i class="fa-solid fa-star-half-stroke"></i>';
+                                        $calificacionEntera++;
+                                    }
+
+                                    for ($i = $calificacionEntera; $i < 5; $i++) {
+                                        echo '<i class="fa-regular fa-star"></i>';
+                                    }
+                                ?>
+                            </span>
+                            <p class="mt-1 text-black/[0.6] "> <i class="fa-solid fa-user text-[13px]"></i> <?= $user['califications_count'] ?> </p> 
+                        </div>
+                        <div class="w-full flex flex-col gap-0">
+                            <span class="flex items-center gap-2">
+                                <p>5</p> 
+                                <div class="w-full bg-gray-200 h-[6px] rounded-xl overflow-hidden">
+                                    <div class="bg-violet-500 h-full" style="width: <?= ($user['num_calification_5'] / $user['califications_count']) * 100  ?>%"></div>
+                                </div>
+                            </span>
+                            <span class="flex items-center gap-2">
+                                <p>4</p>
+                                <div class="w-full bg-gray-200 h-[6px] rounded-xl overflow-hidden">
+                                    <div class="bg-violet-500 h-full" style="width: <?= ($user['num_calification_4'] / $user['califications_count']) * 100  ?>%"></div>
+                                </div>
+                            </span>
+                            <span class="flex items-center gap-2">
+                                <p>3</p>
+                                <div class="w-full bg-gray-200 h-[6px] rounded-xl overflow-hidden">
+                                    <div class="bg-violet-500 h-full" style="width: <?= ($user['num_calification_3'] / $user['califications_count']) * 100  ?>%"></div>
+                                </div>
+                            </span>
+                            <span class="flex items-center gap-2">
+                                <p>2</p>
+                                <div class="w-full bg-gray-200 h-[6px] rounded-xl overflow-hidden">
+                                    <div class="bg-violet-500 h-full" style="width: <?= ($user['num_calification_2'] / $user['califications_count']) * 100  ?>%"></div>
+                                </div>
+                            </span>
+                            <span class="flex items-center gap-2">
+                                <p>1</p>
+                                <div class="w-full bg-gray-200 h-[6px] rounded-xl overflow-hidden">
+                                    <div class="bg-violet-500 h-full" style="width: <?= ($user['num_calification_1'] / $user['califications_count']) * 100  ?>%"></div>
+                                </div>
+                            </span>
+                        </div>
+                    </div>
+                    <div class="flex gap-5 justify-between">
+                        <button onclick="<?= isset($_SESSION['user_id']) ?  "toggleModal('modalVendedor', ".$user['user_id'].")" : "login()" ?>"
+                        class="px-5 py-1 w-fit bg-violet-600 text-white font-bold rounded-lg duration-300 hover:bg-violet-400" > Votar </button>
+                        
+                        <button onclick="toggleComments()" class="text-violet-600 font-bold decoration-violet-600 hover:underline" id="btn-show-comments"> Ver comentarios </button>
+                    </div>
+                </div>
+                <div>
+                    <h3 class="text-lg font-semibold">Descripción:</h3>
+                    <p><?= $user['worker_description'] ?></p>
                 </div>
             </div>
-            <div class="flex flex-col gap-2">
-                <h3 class="text-lg font-semibold">Calificación:</h3>
-                <span class="flex items-center">
-                    <?php
-                        $calificacion = $user['avg_calification'];
-                        $calificacionEntera = floor($calificacion);
-                        $fraccion = $calificacion - $calificacionEntera;
-
-                        for ($i = 0; $i < $calificacionEntera; $i++) {
-                            echo '<i class="fa-solid fa-star"></i>';
-                        }
-                        
-                        if ($fraccion >= 0.5) {
-                            echo '<i class="fa-solid fa-star-half-stroke"></i>';
-                            $calificacionEntera++;
-                        }
-
-                        for ($i = $calificacionEntera; $i < 5; $i++) {
-                            echo '<i class="fa-regular fa-star"></i>';
-                        }
-                    ?>
-                    <p class="mx-3 text-black/[0.6]"> <?= $user['avg_calification'] ?> (<?= $user['califications_count'] ?>) </p> 
-                </span>
-                <button class="bg-violet-600 text-white font-bold rounded-lg duration-300 hover:bg-violet-400 px-5 py-1 w-fit" onclick="<?= isset($_SESSION['user_id']) ?  "toggleModal('modalVendedor', ".$user['user_id'].")" : "login()" ?>">Votar</button>
-            </div>
-            <div>
-                <h3 class="text-lg font-semibold">Descripción:</h3>
-                <p><?= $user['worker_description'] ?></p>
+            <div class="w-full bg-white p-6 rounded-lg shadow-md h-fit flex flex-col gap-5 hidden" id="comments-section">                
+                <div class="flex flex-col gap-2">
+                    <h3 class="text-lg font-semibold">Comentarios:</h3>
+                    <div class="flex flex-col gap-5">
+                        <?php foreach($califications as $calification) : ?>
+                            <article class="flex flex-col gap-2">
+                                <span class="flex justify-between items-center">
+                                    <div class="flex items-center gap-2">
+                                        <div class="size-[35px] rounded-full overflow-hidden flex items-center justify-center [background-image:url('<?= $calification['image_url'] ?>')]  bg-cover"> </div>
+                                        <p><?= $calification['user_username']?></p>
+                                    </div>
+                                    <i class="fa-solid fa-ellipsis-vertical"></i>
+                                </span>
+                                <span class="flex items-center text-[12px]">
+                                    <?php
+                                        for ($i = 0; $i <  $calification['calification']; $i++) {
+                                            echo '<i class="fa-solid fa-star text-violet-500"></i>';
+                                        }
+                                        for ($i =  $calification['calification']; $i < 5; $i++) {
+                                            echo '<i class="fa-regular fa-star text-violet-600"></i>';
+                                        }
+                                    ?>
+                                </span>
+                                <p> <?= strlen($calification['calification_comment']) > 100 ? substr($calification['calification_comment'], 0, 100) . '...' : $calification['calification_comment'] ?> </p>
+                            </article>
+                        <?php endforeach; ?>
+                    </div>
+                </div>
             </div>
         </div>
 
         <!-- Productos contenedor -->
-        <div class="bg-white p-3 md:p-10 py-5 rounded-lg flex flex-col gap-5">
+        <div class="bg-white p-3 md:p-10 py-5 rounded-lg flex flex-col gap-5 h-fit">
             <h3 class="text-2xl font-bold tracking-tight">Productos:</h3>
             <div class="w-full max-w-[650px] flex flex-col gap-2">
                 <?php foreach ($products['data'] as $product): ?>
@@ -210,10 +283,18 @@
     <script src="/public/js/cart.js"></script>
     <script src="/public/js/califications.js"></script>
     <script>
+        let commentsVisible = true;
+        let $innerHTMLComments = "";
         function toggleModal(modalId, id="", rating="", votes="") {
             document.getElementById(modalId).classList.toggle('hidden');
-            document.querySelector(`#${modalId} button[type="submit"]`).setAttribute('data-calificator_user_id', <?= $user['user_id'] ?>);
+            document.querySelector(`#${modalId} button[type="submit"]`).setAttribute('data-calificator_user_id', <?= $_SESSION['user_id'] ?>);
             document.querySelector(`#${modalId} button[type="submit"]`).setAttribute('data-calificated_object_id', id);
+        }
+        function toggleComments () {
+            document.getElementById('comments-section').classList.toggle('hidden');
+            $innerHTMLComments = commentsVisible ? "Cerrar comentarios" : "Ver comentarios" ;
+            document.getElementById('btn-show-comments').innerHTML = $innerHTMLComments;
+            commentsVisible = !commentsVisible;
         }
     </script>
 </body>

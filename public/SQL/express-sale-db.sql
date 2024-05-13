@@ -354,3 +354,29 @@ BEGIN
     VALUES ('producto', '/public/images/products/nf.jpg', NEW.product_id);
 END$$
 DELIMITER ;
+
+DELIMITER $$
+CREATE TRIGGER update_worker_works_done
+AFTER INSERT ON sold_products
+FOR EACH ROW
+BEGIN
+    DECLARE seller_id INT;
+    DECLARE num_sold INT;
+    
+    -- Obtener el ID del vendedor del producto vendido
+    SELECT product_user_id INTO seller_id
+    FROM products
+    WHERE product_id = NEW.sold_product_product_id;
+    
+    -- Obtener el número de productos vendidos del vendedor
+    SELECT COUNT(*) INTO num_sold
+    FROM sold_products sp
+    INNER JOIN products p ON sp.sold_product_product_id = p.product_id
+    WHERE p.product_user_id = seller_id;
+    
+    -- Actualizar el número de productos vendidos en la tabla workers
+    UPDATE workers
+    SET worker_works_done = num_sold
+    WHERE worker_user_id = seller_id;
+END$$
+DELIMITER ;

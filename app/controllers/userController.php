@@ -39,6 +39,9 @@ class UserController {
         $result = $this -> userModel -> updateById($_POST['user_id'], $_POST, "INNER JOIN images ON users.user_id = images.image_object_id AND images.image_object_type = 'usuario'
         INNER JOIN workers ON users.user_id = workers.worker_user_id");
         
+        
+        $_SESSION['user_delivery'] = isset($_POST['worker_works_done']) ?['state' => 'free'] : $_SESSION['user_delivery'] ;
+
         echo json_encode($result);
     }
 

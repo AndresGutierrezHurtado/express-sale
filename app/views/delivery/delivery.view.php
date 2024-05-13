@@ -208,17 +208,27 @@ function obtenerDistancia($origen, $destino) {
             })
             .then(response => response.json())
             .then(data => { 
-                alert('Envío terminado: \n +7000 COP');
-
-                window.location.href="/page/delivery_list"
                 updateDelivery();
+                window.location.href="/page/delivery_list"
             })
         });
 
         function updateDelivery() {
-            <?php $_SESSION['user_delivery']['state'] = 'free'; ?>
-        }
+            const data = new FormData();
 
+            data.append('user_id', '<?= $_SESSION['user_id'] ?>');
+            data.append('worker_works_done', '<?= $worker['worker_id'] ?>' );
+
+            fetch('/user/update', {
+                method: 'POST',
+                body: data 
+            }) 
+            .then(response => response.json())
+            .then(data => { 
+                alert('Envío terminado: \n +7000 COP \n +1 trabajo hecho');
+                window.location.href="/page/delivery_list";
+            })
+        }
     </script>
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyACEoqwUojmSsTZX_zMVHRZVDkAoBharV0&callback=initMap" async defer></script>
 </body>

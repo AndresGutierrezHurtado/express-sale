@@ -1,16 +1,15 @@
 FALTA :
- - pasarela
- - facturas, ventas y envíos hechos, domiciliario en la sales de la bd, perfil domiciliario
- - mostrar opiniones de productos / vendedores
+ - facturas
+ - perfil domiciliario
+ - perfil producto (zoom y calificaciones);
 
 ACCIONES :
- - Login y register
- - mailer (footer & password) 
- - index
- - products (search, cart, filter, sort, rate)
+ - index / mail footer
+ - register y login / forgotten password
+ - products (search, filter, sort, rate, cart)
  - public profile(rate [user, products])
  - cart (increase, decrease, delete, empty)
  - payForm (formulario con GoogleMaps)
- - profile (update image and description, products[add, delete, edit], mi purchases)
+ - profile (update image and description, products[add, delete, edit], mi purchases(shift))
  - dashboard (users & products)[search, sort, view, delete]
- - delivery (sección de listas y de pedido con direcciónes)
+ - delivery (sección de listas y de pedido con direcciónes) 

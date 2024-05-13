@@ -97,7 +97,8 @@ function buildQueryString($params) {
                                 <div class="flex flex-col gap-4">   
                                     <div>
                                         <h2 class="text-[25px] tracking-tight"><?= $product['product_name']; ?></h2>
-                                        <a href="/page/public_profile/?usuario=<?= $product['product_user_id'] ?>" class="text-black/[0.5] text-md hover:text-purple-600 hover:underline">Por <?= $product['user_username'] ?></a>
+                                        <a href="/page/public_profile/?usuario=<?= $product['product_user_id'] ?>" 
+                                        class="text-black/[0.5] text-md hover:text-purple-600 hover:underline">Por <?= $product['user_username'] ?></a>
                                     </div>                             
                                     <p><?= $product['product_description']; ?></p>
                                 </div>
@@ -125,7 +126,10 @@ function buildQueryString($params) {
                                             ?>
                                         </span>
                                         <p class="opacity-[0.4]"><?= $product['avg_calification'] ?> (<?= $product['califications_count'] ?>)</p>
-                                        <button class="text-violet-600 font-bold border-2 border-violet-600 duration-300 hover:bg-gray-100 size-[30px] rounded-full" onclick="<?= isset($_SESSION['user_id']) ?  "toggleModal(".$product['product_id'].")" : "login()" ?>"><i class="fa-solid fa-plus"></i></button>
+                                        <button onclick="<?= isset($_SESSION['user_id']) ?  "toggleModal(".$product['product_id'].")" : "login()" ?>"
+                                        class="text-violet-600 font-bold border-2 border-violet-600 duration-300 hover:bg-gray-100 size-[30px] rounded-full">
+                                            <i class="fa-solid fa-plus"></i>
+                                        </button>
                                     </span>
                                 </div>
                             </div>
@@ -133,7 +137,7 @@ function buildQueryString($params) {
                                 <button data-product_id="<?= $product['product_id'] ?>" data-product_name="<?= $product['product_name'] ?>" data-product_price="<?= $product['product_price'] ?>"
                                  data-image_url="<?= $product['image_url'] ?>" data-product_user_id="<?= $product['product_user_id'] ?>" data-user_address="<?= $product['user_address'] ?>"
                                 <?= isset($_SESSION['user_id']) ? "data-session='true'" : "data-session='false'"?>
-                                class="rounded-full size-[60px] border-2 border-black btn-add-cart">
+                                class="rounded-full size-[60px] border-2 border-black btn-add-cart duration-300 hover:bg-gray-200">
                                     <i class="fa-solid fa-cart-plus text-2xl"></i>
                                 </button>
                             </span>

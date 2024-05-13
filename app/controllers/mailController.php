@@ -31,14 +31,14 @@ class mailController {
 
     public function recover_account() {
         $email = $_POST['user_email'] ;
-        $user = $this -> userModel -> paginate(1, 1, "WHERE user_email = '$email'", "WHERE user_email = '$email'");
-        if ($user['rows'] > 0) {
+        $user = $this -> userModel -> getAll("*", "", "WHERE user_email = '$email'");
+        if (count($user) > 0) {
             $to = $email;
             $subject = "Recupera tu cuenta | Express Sale";
             
             $message = "Recupera tu cuenta\n";
-            $message .= "Correo: ".$user['data'][0]['user_email']." \n";
-            $message .= "Contraseña: ".$user['data'][0]['user_password']." \n";
+            $message .= "Correo: ".$user[0]['user_email']." \n";
+            $message .= "Contraseña: ".$user[0]['user_password']." \n";
 
             $result = $this -> mailModel -> send($to, $subject, $message);
 
