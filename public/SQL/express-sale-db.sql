@@ -2,6 +2,8 @@ DROP DATABASE IF EXISTS `express-sale-db`;
 CREATE DATABASE `express-sale-db`;
 USE `express-sale-db`;
 
+DROP TABLE IF EXISTS `users`, `workers`, `roles`, `images`, `califications`, `products`, `categories`, `states`, `orders`, `sold_products`, `receipts`, `pay_method`;
+
 -- ---------------------------------------------------------------
 --
 -- Create users table
@@ -209,7 +211,7 @@ CREATE TABLE `sold_products` (
 CREATE TABLE `receipts` (
     `receipt_id` INT PRIMARY KEY AUTO_INCREMENT,
     `receipt_date` DATE,
-    `receipt_time` DATE,
+    `receipt_time` TIME,
     `receipt_amount` DECIMAL(10, 2),
     `receipt_pay_form_id` INT DEFAULT 4,
     `receipt_order_id` INT

@@ -94,7 +94,7 @@ class PageController {
         $califications = $this -> calificationModel -> getAll("*", 
         "INNER JOIN users ON califications.calificator_user_id = users.user_id
         INNER JOIN images ON users.user_id = images.image_object_id AND images.image_object_type = 'usuario'", 
-        "WHERE califications.calification_object_type = 'usuario'");
+        "WHERE califications.calification_object_type = 'usuario' AND califications.calificated_object_id = " . $user_id );
         
         // productos
         $selectProducts = "*, ROUND(AVG(califications.calification), 2) AS avg_calification, 
@@ -302,9 +302,8 @@ class PageController {
         $delivery = $this -> orderModel -> getById($id, "*", $inner_join_orders);
 
         // obtener domiciliario
-        $worker = $this -> userModel -> getAll("*", "INNER JOIN workers ON users.user_id = workers.worker_user_id", "WHERE worker_id = ". $delivery['order_worker_id'])[0];
+        $worker = isset($delivery['order_worker_id']) ? $this -> userModel -> getAll("*", "INNER JOIN workers ON users.user_id = workers.worker_user_id", "WHERE worker_id = ". $delivery['order_worker_id'])[0] : ['user_username' => 'pendiente'] ;
         
-
         // autenticación
         $isAdmin = $_SESSION['user_role_id'] == 4 || $_SESSION['user_id'] == $delivery['order_user_id'] ? true : false;
         if (!$isAdmin) {header('location: /'); exit();}

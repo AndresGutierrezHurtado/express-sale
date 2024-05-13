@@ -148,6 +148,7 @@ class FacturaPDF extends FPDF {
 
 // Crear instancia de la clase FacturaPDF
 $pdf = new FacturaPDF($order);
+$pdf->SetTitle('Recibo - Express Sale');
 $pdf->AliasNbPages();
 $pdf->AddPage();
 $pdf->Content();

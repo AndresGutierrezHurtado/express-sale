@@ -1,6 +1,6 @@
-const saleForm = document.getElementById('sale-form');
+const orderForm = document.getElementById('order-form');
 
-saleForm.addEventListener('click', (e) => {
+orderForm.addEventListener('click', (e) => {
     e.preventDefault();
 });
 
@@ -10,7 +10,7 @@ document.getElementById('submit-button').addEventListener('click', (e) => {
 });
 
 function sale () {
-    const data = new FormData(saleForm);
+    const data = new FormData(orderForm);
 
     fetch('/order/create', {
         method: 'POST',

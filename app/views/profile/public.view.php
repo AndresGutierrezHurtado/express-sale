@@ -17,7 +17,7 @@
             <div class="w-full bg-white p-6 rounded-lg shadow-md h-fit flex flex-col gap-5">
                 <h3 class="text-2xl font-bold tracking-tight">Información del vendedor:</h3>
                 <div class="flex flex-col sm:flex-row items-center space-x-4">
-                    <img src="<?= $user['image_url'] ?>" alt="Perfil" class="h-24 w-24 rounded-full">
+                    <div class="size-24 min-w-24 min-h-24 rounded-full [background-image:url('<?= $user['image_url'] ?>')]  bg-cover bg-center"></div>
                     <div class="w-full ">
                         <h2 class="text-xl font-bold"><?= $user['user_first_name'] . " " . $user['user_last_name'] ?></h2>
                         <p class="text-sm text-gray-600">Ubicación: <?= $user['user_address'] ?></p>
@@ -56,31 +56,31 @@
                             <span class="flex items-center gap-2">
                                 <p>5</p> 
                                 <div class="w-full bg-gray-200 h-[6px] rounded-xl overflow-hidden">
-                                    <div class="bg-violet-500 h-full" style="width: <?= ($user['num_calification_5'] / $user['califications_count']) * 100  ?>%"></div>
+                                    <div class="bg-violet-500 h-full" style="width: <?= ($user['califications_count'] != 0) ? (($user['num_calification_5'] / $user['califications_count']) * 100) : 0 ?>%"></div>
                                 </div>
                             </span>
                             <span class="flex items-center gap-2">
                                 <p>4</p>
                                 <div class="w-full bg-gray-200 h-[6px] rounded-xl overflow-hidden">
-                                    <div class="bg-violet-500 h-full" style="width: <?= ($user['num_calification_4'] / $user['califications_count']) * 100  ?>%"></div>
+                                    <div class="bg-violet-500 h-full" style="width: <?= ($user['califications_count'] != 0) ? (($user['num_calification_4'] / $user['califications_count']) * 100) : 0 ?>%"></div>
                                 </div>
                             </span>
                             <span class="flex items-center gap-2">
                                 <p>3</p>
                                 <div class="w-full bg-gray-200 h-[6px] rounded-xl overflow-hidden">
-                                    <div class="bg-violet-500 h-full" style="width: <?= ($user['num_calification_3'] / $user['califications_count']) * 100  ?>%"></div>
+                                    <div class="bg-violet-500 h-full" style="width: <?= ($user['califications_count'] != 0) ? (($user['num_calification_3'] / $user['califications_count']) * 100) : 0 ?>%"></div>
                                 </div>
                             </span>
                             <span class="flex items-center gap-2">
                                 <p>2</p>
                                 <div class="w-full bg-gray-200 h-[6px] rounded-xl overflow-hidden">
-                                    <div class="bg-violet-500 h-full" style="width: <?= ($user['num_calification_2'] / $user['califications_count']) * 100  ?>%"></div>
+                                    <div class="bg-violet-500 h-full" style="width: <?= ($user['califications_count'] != 0) ? (($user['num_calification_2'] / $user['califications_count']) * 100) : 0 ?>%"></div>
                                 </div>
                             </span>
                             <span class="flex items-center gap-2">
                                 <p>1</p>
                                 <div class="w-full bg-gray-200 h-[6px] rounded-xl overflow-hidden">
-                                    <div class="bg-violet-500 h-full" style="width: <?= ($user['num_calification_1'] / $user['califications_count']) * 100  ?>%"></div>
+                                    <div class="bg-violet-500 h-full" style="width: <?= ($user['califications_count'] != 0) ? (($user['num_calification_1'] / $user['califications_count']) * 100) : 0 ?>%"></div>
                                 </div>
                             </span>
                         </div>
@@ -105,7 +105,7 @@
                             <article class="flex flex-col gap-2">
                                 <span class="flex justify-between items-center">
                                     <div class="flex items-center gap-2">
-                                        <div class="size-[35px] rounded-full overflow-hidden flex items-center justify-center [background-image:url('<?= $calification['image_url'] ?>')]  bg-cover"> </div>
+                                        <div class="size-[35px] rounded-full overflow-hidden flex items-center justify-center [background-image:url('<?= $calification['image_url'] ?>')]  bg-cover bg-center"> </div>
                                         <p><?= $calification['user_username']?></p>
                                     </div>
                                     <i class="fa-solid fa-ellipsis-vertical"></i>

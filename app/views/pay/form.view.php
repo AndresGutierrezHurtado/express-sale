@@ -16,7 +16,7 @@ foreach ($_SESSION['user_cart'] as $item) {
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body class="w-full min-h-screen flex justify-center items-center bg-gray-100">
-    <form id="sale-form" class="w-full lg:w-5/12 flex flex-col items-center gap-5 p-5 bg-white rounded-lg shadow-lg my-[70px]">
+    <form id="order-form" class="w-full lg:w-5/12 flex flex-col items-center gap-5 p-5 bg-white rounded-lg shadow-lg my-[70px]">
         <input type="hidden" name="order_user_id" value="<?= $_SESSION['user_id'] ?>">
         <input type="hidden" name="order_data" id="cart" value="<?= htmlspecialchars(json_encode($_SESSION['user_cart'])) ?>">
         <input type="hidden" name="order_coords" id="cords" value="">
