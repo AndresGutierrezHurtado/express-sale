@@ -20,7 +20,7 @@
                     <p><strong>Teléfono:</strong> <?= $delivery['order_phone_number'] ?></p>
                     <p><strong>Dirección de entrega:</strong> <?= $delivery['order_address'] ?></p>                
                 </div>
-                <a href="descargar_factura.php?sale_id=<?= $sale['sale_id'] ?>" class="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded inline-block w-fit">
+                <a href="/page/order_receipt_pdf/?id=<?= $delivery['order_id'] ?>" class="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded inline-block w-fit">
                     <i class="fas fa-download mr-2"></i> Descargar Factura
                 </a>
             </div>

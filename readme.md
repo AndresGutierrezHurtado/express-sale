@@ -1,5 +1,4 @@
 FALTA :
- - facturas
  - perfil domiciliario
  - perfil producto (zoom y calificaciones);
 
@@ -10,6 +9,7 @@ ACCIONES :
  - public profile(rate [user, products])
  - cart (increase, decrease, delete, empty)
  - payForm (formulario con GoogleMaps)
- - profile (update image and description, products[add, delete, edit], mi purchases(shift))
+ - profile (update image and description, products[add, delete, edit])
+ - mi purchases(receipt)
  - dashboard (users & products)[search, sort, view, delete]
  - delivery (sección de listas y de pedido con direcciónes) 

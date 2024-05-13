@@ -317,4 +317,31 @@ class PageController {
 
         require_once(__DIR__ . "/../views/pay/shift.view.php");
     }
+
+    public function order_receipt_pdf () {
+
+        //lógica:
+
+        $id = $_GET['id'];
+
+        // obtener orden
+        $inner_join_orders = "INNER JOIN users ON orders.order_user_id = users.user_id
+        INNER JOIN states ON orders.order_state_id = states.state_id
+        INNER JOIN receipts ON orders.order_id = receipts.receipt_order_id";
+
+        $order = $this -> orderModel -> getById($id, "*", $inner_join_orders);
+
+        // autenticación
+        $isAdmin = $_SESSION['user_role_id'] == 4 || $_SESSION['user_id'] == $order['order_user_id'] ? true : false;
+        if (!$isAdmin) {header('location: /'); exit();}
+        
+        // obtener productos de la orden
+        $inner_join_products = "INNER JOIN products ON sold_products.sold_product_product_id = products.product_id 
+        INNER JOIN images ON products.product_id = images.image_object_id AND images.image_object_type = 'producto'";
+
+        $order['products'] = $this -> soldProductModel -> getAll("*", $inner_join_products, "WHERE sold_product_order_id = $id");
+
+        require_once(__DIR__ . "/../services/FPDF/fpdf.php");
+        require_once(__DIR__ . "/../views/pay/receipt.view.php");
+    }
 }
