@@ -192,7 +192,14 @@ class PageController {
 
         // Filtros y sorts para obtener los usuarios
         $page = isset($_GET['page']) ? $_GET['page'] : 1; 
-        $search = isset($_GET['search']) ? "WHERE (user_first_name LIKE '%".$_GET['search']."%' OR role_name LIKE '%".$_GET['search']."%' OR user_last_name LIKE '%".$_GET['search']."%' OR user_username LIKE '%".$_GET['search']."%' OR user_email LIKE '% ".$_GET['search']."%' OR user_id LIKE '% ".$_GET['search']."%')" : "" ;
+        $search = isset($_GET['search']) ? "WHERE 
+        (user_first_name LIKE '%".$_GET['search']."%' OR 
+        role_name LIKE '%".$_GET['search']."%' OR 
+        user_first_name LIKE '%".$_GET['search']."%' OR 
+        user_last_name LIKE '%".$_GET['search']."%' OR 
+        user_username LIKE '%".$_GET['search']."%' OR 
+        user_email LIKE '%".$_GET['search']."%' OR 
+        user_id LIKE '%".$_GET['search']."%')" : "" ;
         $sort = isset($_GET['sort']) ? $_GET['sort'] : 'user_id';
 
         $queryRows = "$search";
@@ -213,6 +220,8 @@ class PageController {
         $search = isset($_GET['search']) ? "WHERE 
         (product_name LIKE '%".$_GET['search']."%' OR 
         product_description LIKE '%".$_GET['search']."%' OR 
+        category_name LIKE '%".$_GET['search']."%' OR 
+        user_username LIKE '%".$_GET['search']."%' OR 
         product_id LIKE '% ".$_GET['search']."%')" : "" ;
 
         $sort = isset($_GET['sort']) ? $_GET['sort'] : 'product_id';

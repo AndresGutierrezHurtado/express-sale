@@ -22,7 +22,7 @@
                         <h2 class="text-xl font-bold"><?= $user['user_first_name'] . " " . $user['user_last_name'] ?></h2>
                         <p class="text-sm text-gray-600">Ubicación: <?= $user['user_address'] ?></p>
                         <p class="text-sm text-gray-600">Número: <?= $user['user_phone_number'] ?></p>
-                        <p class="text-sm text-gray-600"> <?= $user['worker_works_done'] ?> Ventas hechas </p>
+                        <p class="text-sm text-gray-600"> <?= $user['worker_works_done'] ?> productos vendidos </p>
                     </div>
                 </div>
                 <div class="flex flex-col gap-2">
