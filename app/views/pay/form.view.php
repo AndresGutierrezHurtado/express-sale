@@ -60,7 +60,7 @@ foreach ($_SESSION['user_cart'] as $item) {
             <div id="map" class="w-11/12 h-[400px] mt-5 mx-auto rounded-lg shadow-md"></div>
         </div>
         <div class="w-full">
-            <label for="order_message" class="text-gray-700">Notas adicionales:</label>
+            <label for="order_message" class="text-gray-700">Mensaje para el domiciliario:</label>
             <textarea id="order_message" placeholder="Notas adicionales" name="order_message" 
             class="w-full border rounded-md px-3 py-2 focus:outline-none focus:border-violet-600 mt-1 h-36 resize-none"></textarea>
         </div>

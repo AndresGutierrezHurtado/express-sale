@@ -86,8 +86,8 @@
                         </div>
                     </div>
                     <div class="flex gap-5 justify-between">
-                        <button onclick="<?= isset($_SESSION['user_id']) ?  "toggleModal('modalVendedor', ".$user['user_id'].")" : "login()" ?>"
-                        class="px-5 py-1 w-fit bg-violet-600 text-white font-bold rounded-lg duration-300 hover:bg-violet-400" > Votar </button>
+                        <button onclick="<?= isset($_SESSION['user_id']) ? "toggleModal('modalVendedor', ".$user['user_id'].")" : "login()" ?>"
+                        class="px-5 py-1 w-fit bg-violet-600 text-white font-bold rounded-lg duration-300 hover:bg-violet-400" > Calificar </button>
                         
                         <button onclick="toggleComments()" class="text-violet-600 font-bold decoration-violet-600 hover:underline" id="btn-show-comments"> Ver comentarios </button>
                     </div>
@@ -287,7 +287,7 @@
         let $innerHTMLComments = "";
         function toggleModal(modalId, id="", rating="", votes="") {
             document.getElementById(modalId).classList.toggle('hidden');
-            document.querySelector(`#${modalId} button[type="submit"]`).setAttribute('data-calificator_user_id', <?= $_SESSION['user_id'] ?>);
+            document.querySelector(`#${modalId} button[type="submit"]`).setAttribute('data-calificator_user_id', <?= isset($_SESSION['user_id']) ? $_SESSION['user_id'] : 'error' ?>);
             document.querySelector(`#${modalId} button[type="submit"]`).setAttribute('data-calificated_object_id', id);
         }
         function toggleComments () {
@@ -295,6 +295,10 @@
             $innerHTMLComments = commentsVisible ? "Cerrar comentarios" : "Ver comentarios" ;
             document.getElementById('btn-show-comments').innerHTML = $innerHTMLComments;
             commentsVisible = !commentsVisible;
+        }
+        function login () {
+            if (confirm('Debes iniciar sesión para realizar esto.')) {
+                window.location.href = "/page/login";}
         }
     </script>
 </body>
