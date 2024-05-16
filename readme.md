@@ -61,4 +61,12 @@ Además, se ha implementado un ORM (Object-Relational Mapping) como parte de la 
  
 ### POR HACER:
  - perfil domiciliario
- - perfil producto (zoom y calificaciones);
+ - quitar el caché al perfil de usuario y de producto
+ - mejorar el ui de la sección de ventas
+ - cambiar firma factura
+ - eliminación y reporte de comentarios
+ - mostrar mensaje al domiciliario
+ - mostrar vendedor en la sección de delivery
+ - añadir ruta en waze y arreglar el de google maps
+ - arreglar update user
+ - perfil producto (zoom y calificaciones)
