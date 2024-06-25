@@ -15,16 +15,25 @@
         <!-- Vendedor contenedor -->
         <div class="md:max-w-[400px] flex flex-col gap-5">
             <div class="w-full bg-white p-6 rounded-lg shadow-md h-fit flex flex-col gap-5">
+
                 <h3 class="text-2xl font-bold tracking-tight">Información del vendedor:</h3>
+
                 <div class="flex flex-col sm:flex-row items-center space-x-4">
                     <div class="size-24 min-w-24 min-h-24 rounded-full [background-image:url('<?= $user['image_url'] ?>')]  bg-cover bg-center"></div>
                     <div class="w-full ">
                         <h2 class="text-xl font-bold"><?= $user['user_first_name'] . " " . $user['user_last_name'] ?></h2>
-                        <p class="text-sm text-gray-600">Ubicación: <?= $user['user_address'] ?></p>
-                        <p class="text-sm text-gray-600">Número: <?= $user['user_phone_number'] ?></p>
+                        <p class="text-sm text-gray-600">
+                            Ubicación: 
+                            <?= $user['user_address'] ?>
+                        </p>
+                        <p class="text-sm text-gray-600">
+                            Número: 
+                            <?= $user['user_phone_number'] ?>
+                        </p>
                         <p class="text-sm text-gray-600"> <?= $user['worker_works_done'] ?> productos vendidos </p>
                     </div>
                 </div>
+                
                 <div class="flex flex-col gap-2">
                     <h3 class="text-lg font-semibold">Calificaciones:</h3>
                     <div class="flex gap-5 w-full">
@@ -97,6 +106,8 @@
                     <p><?= $user['worker_description'] ?></p>
                 </div>
             </div>
+
+            <!-- comments box -->
             <div class="w-full bg-white p-6 rounded-lg shadow-md h-fit flex flex-col gap-5 hidden" id="comments-section">                
                 <div class="flex flex-col gap-2">
                     <h3 class="text-lg font-semibold">Comentarios:</h3>
@@ -108,7 +119,29 @@
                                         <div class="size-[35px] rounded-full overflow-hidden flex items-center justify-center [background-image:url('<?= $calification['image_url'] ?>')]  bg-cover bg-center"> </div>
                                         <p><?= $calification['user_username']?></p>
                                     </div>
-                                    <i class="fa-solid fa-ellipsis-vertical"></i>
+                                    <button id="comment-button" class="relative p-4 ">
+                                        <i id="icon-comment" class="fa-solid fa-ellipsis-vertical"></i>
+                                        <div id="comment-modal"
+                                        class="absolute top-[75%] left-1/2 transform -translate-x-1/2 py-2 bg-white rounded-md shadow-lg border border-gray-300 text-xm w-[200px] hidden">
+                                            <ol>
+                                                <a href="">
+                                                    <li class="hover:bg-gray-100 py-2 text-red-500">
+                                                        <i class="fa-solid fa-info mr-2"></i>
+                                                        Reportar comentario
+                                                    </li>
+                                                </a>
+                                                <?php if ( $calification['calificator_user_id'] == $_SESSION['user_id'] ): ?>
+                                                    
+                                                    <a href="">
+                                                        <li class="hover:bg-gray-100 p-2">
+                                                            <i class="fa-regular fa-trash-can mr-2"></i>
+                                                            Eliminar comentario
+                                                        </li>
+                                                    </a>
+                                                <?php endif; ?>
+                                            </ol>
+                                        </div>
+                                    </button>
                                 </span>
                                 <span class="flex items-center text-[12px]">
                                     <?php
@@ -300,6 +333,12 @@
             if (confirm('Debes iniciar sesión para realizar esto.')) {
                 window.location.href = "/page/login";}
         }
+
+        document.getElementById('comment-button').addEventListener('click', function() {
+            document.getElementById('comment-modal').classList.toggle('hidden');
+            document.getElementById('icon-comment').classList.toggle('fa-ellipsis-vertical');
+            document.getElementById('icon-comment').classList.toggle('fa-xmark');
+        })
     </script>
 </body>
 </html>

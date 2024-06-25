@@ -107,7 +107,8 @@ CREATE TABLE `califications` (
     `calification_comment` TEXT,
     `calification` DECIMAL(3, 2),
     `calificator_user_id` INT,
-    `calificated_object_id` INT
+    `calificated_object_id` INT,
+    `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
 -- ---------------------------------------------------------------
