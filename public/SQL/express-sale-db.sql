@@ -23,7 +23,7 @@ CREATE TABLE `users` (
 
 -- Insert data into users table
 INSERT INTO `users` (`user_id`, `user_first_name`, `user_last_name`, `user_document_type`, `user_document_number`, `user_email`, `user_username`, `user_phone_number`, `user_address`, `user_password`, `user_role_id`) VALUES
-(1, 'Express', 'Sale', 'CC', 0, 'express_sale@gmail.com', 'Express_Sale', 3209202177, 'Bogotá, Colombia', '1234', 4),
+(1, 'Express', 'Sale', 'CC', 0, 'expresssale.exsl@gmail.com', 'Express_Sale', 3209202177, 'Bogotá, Colombia', '1234', 4),
 (2, 'Andrés', 'Gutiérrez Hurtado', 'TI', 1033707596, 'andres52885241@gmail.com', 'Andres_Gutierrez', 3209202177, 'Dg. 68D Sur #70c-31, Bogotá, Colombia', '1234', 2),
 (3, 'David Fernando', 'Diaz Niausa', 'TI', 1, 'davidfernandodiazniausa@gmail.com', 'David_Diaz', 3214109557, 'Alfonso Lopez, Bogotá, Colombia', '1234', 2),
 (4, 'Jaider Harley', 'Rondón Herrera', 'CC', 2, 'rondonjaider@gmail.com', 'Jaider_Rondon', 3112369205, 'Usme, Bogotá, Colombia', '1234', 2),
