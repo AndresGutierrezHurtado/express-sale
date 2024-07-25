@@ -1,18 +1,17 @@
 <!-- Header -->
-<header class="w-full bg-white flex justify-center sticky top-0 z-50 shadow-lg">
-    <nav class="container px-5 flex flex-col gap-5 py-3 sm:gap-2">
+<header class="w-full bg-white flex justify-center sticky top-0 z-50 shadow-lg px-3">
+    <nav class="w-full max-w-[1200px] flex flex-col gap-5 py-3 sm:gap-2">
         <!-- Header top section --> 
         <span class="flex flex-col sm:flex-row items-center gap-4 justify-between w-full">
-            <div class="flex gap-5">
-                <a href="/" class="flex items-center gap-3">
-                    <img src="/public/images/logo.png" alt="Logo navbar" class="max-h-[45px]">
-                    <h2 class="font-sans text-xl">Express Sale</h2>
+            <div class="w-full sm:w-fit flex justify-between">
+                <a href="/" class="flex items-center gap-3 font-sans text-xl">
+                    <img src="/public/images/logo.png" alt="Logo navbar" class="max-h-[45px]"> Express Sale
                 </a>
                 <button class="px-3 sm:hidden" id="dropdown-menu-button"><i class="fa-solid fa-bars"></i></button>
             </div>
 
             <!-- Search form -->
-            <form class="hidden md:block w-5/12" action="/page/products/" method="GET" >
+            <form class="hidden md:block grow" action="/page/products/" method="GET" >
                 <div class="flex justify-center">
                     <?php if (isset($_GET['search']) && !empty($_GET['search'])) : ?>
                         <a href="/page/products/" class="fa-solid fa-arrows-rotate border border-gray-800 mr-2 rounded-full size-[35px] flex items-center justify-center"></a>
@@ -24,7 +23,7 @@
 
             <!-- Account buttons -->
             <div class="flex gap-4">
-                <?php if (isset($_SESSION['user_username'])): ?> 
+                <?php if (isset($_SESSION['usuario_alias'])): ?> 
                     <a href="/page/user_profile" class="flex gap-3 items-center"> 
                         <i class="fa-regular fa-circle-user text-[25px]"></i> 
                         Mi cuenta 
@@ -40,14 +39,14 @@
                     </a> 
                 <?php endif; ?>
                 
-                <?php if (isset($_SESSION['user_role_id']) && $_SESSION['user_role_id'] == 3): ?> 
+                <?php if (isset($_SESSION['rol_id']) && $_SESSION['rol_id'] == 3): ?> 
                     <a href="/page/delivery_list" class="flex gap-3 items-center"> 
                         <i class="fa-solid fa-truck text-[15px]"></i> 
                         Envíos 
                     </a>
                 <?php endif; ?>
                 
-                <?php if (isset($_SESSION['user_role_id']) && $_SESSION['user_role_id'] == 4): ?> 
+                <?php if (isset($_SESSION['rol_id']) && $_SESSION['rol_id'] == 4): ?> 
                     <a href="/page/dashboard_users" class="flex gap-3 items-center"> 
                         <i class="fa-solid fa-gear text-[15px]"></i> 
                         Administrador 
@@ -57,12 +56,19 @@
         </span>
 
         <!-- Header bottom section  -->
-        <ul class="w-full sm:w-fit mx-auto hidden sm:block" id="dropdown-ul">
-            <li class="flex flex-col sm:flex-row w-full text-center gap-1 sm:gap-4 text-[18px] mx-auto">
-                <a href="/" class="hover:scale-[1.05] hover:text-violet-800	duration-300">Inicio</a> <div class="hidden sm:block">|</div> <hr class="block sm:hidden">
-                <a href="/page/products" class="hover:scale-[1.05] hover:text-violet-800 duration-300">Productos</a><div class="hidden sm:block">|</div> <hr class="block sm:hidden">
-                <a href="/page/home/#aboutUs" class="hover:scale-[1.05] hover:text-violet-800	duration-300">Sobre Nosotros</a>                
-            </li>
+        <ul class="hidden md:flex gap-4 text-[18px] w-fit mx-auto">
+            <li class="duration-300 hover:text-violet-800 hover:scale-105"><a href="/">Inicio</a></li>|
+            <li class="duration-300 hover:text-violet-800 hover:scale-105"><a href="/page/products">Productos</a></li>|
+            <li class="duration-300 hover:text-violet-800 hover:scale-105"><a href="/page/home/#aboutUs">Sobre Nosotros</a></li>
+        </ul>
+
+        <!-- Header mobile section -->
+        <ul id="dropdown-ul" class="text-[18px] text-center hidden">
+            <li class="p-2 rounded duration-300 hover:bg-gray-100"><a href="/">Inicio</a></li>
+            <hr>
+            <li class="p-2 rounded duration-300 hover:bg-gray-100"><a href="/page/products">Productos</a></li>
+            <hr>
+            <li class="p-2 rounded duration-300 hover:bg-gray-100"><a href="/page/home/#aboutUs">Sobre Nosotros</a></li>
         </ul>
     </nav>
 </header>

@@ -2,7 +2,7 @@ document.getElementById('mail-form-contact').addEventListener('submit', (e) => {
     e.preventDefault();
 
     let mail = new FormData(document.getElementById('mail-form-contact'));
-
+    
     const data = {
         id: document.getElementById('session_id').value,
         username: document.getElementById('username_session').value,

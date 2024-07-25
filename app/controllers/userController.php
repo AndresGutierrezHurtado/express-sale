@@ -19,6 +19,8 @@ class UserController {
     }
 
     public function create() {
+        $_POST['usuario_contraseña'] = md5($_POST['usuario_contraseña']);
+        
         $result = $this -> userModel -> insert($_POST);
     
         echo json_encode($result);

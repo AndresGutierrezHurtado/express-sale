@@ -44,31 +44,28 @@ class PageController {
     public function products(){
         // filtros y sorts
         $page = isset($_GET['page']) ? $_GET['page'] : 1;
-        $search = isset($_GET['search']) ? "(product_name LIKE '%".$_GET['search']."%' OR product_description LIKE '%".$_GET['search']."%' OR users.user_username LIKE '%".$_GET['search']."%') AND" : "" ;
-        $addition = isset($_GET['filter']) && isset($_GET['value']) ? $_GET['filter']." = ".$_GET['value']." AND" : "";
+        // $search = isset($_GET['search']) ? "(producto_nombre LIKE '%".$_GET['search']."%' OR producto_descripcion LIKE '%".$_GET['search']."%' OR usuarios.usuario_alias LIKE '%".$_GET['search']."%') AND" : "" ;
+        // $addition = isset($_GET['filter']) && isset($_GET['value']) ? $_GET['filter']." = ".$_GET['value']." AND" : "";
 
-        $min = isset($_GET['min']) ? $_GET['min'] : 0;
-        $max = isset($_GET['max']) ? $_GET['max'] : 1000000000;
-        $max_and_min = "product_price > $min AND product_price < $max";
+        // $min = isset($_GET['min']) ? $_GET['min'] : 0;
+        // $max = isset($_GET['max']) ? $_GET['max'] : 1000000000;
+        // $max_and_min = "producto_precio > $min AND producto_precio < $max";
 
-        $sort = isset($_GET['sort']) ? $_GET['sort'] : 'avg_calification';
-        $sortQuery = $sort == 'product_price' ? "ORDER BY $sort ASC " :  "ORDER BY $sort DESC" ;
+        // $sort = isset($_GET['sort']) ? $_GET['sort'] : 'avg_calification';
+        // $sortQuery = $sort == 'producto_precio' ? "ORDER BY $sort ASC " :  "ORDER BY $sort DESC" ;
         
-        $select = "*, ROUND(AVG(califications.calification), 2) AS avg_calification, 
-        (SELECT COUNT(*) FROM califications WHERE califications.calificated_object_id = products.product_id AND califications.calification_object_type = 'producto') AS califications_count";
+        // $select = "*, ROUND(AVG(calificaciones.calification), 2) AS avg_calification, 
+        // (SELECT COUNT(*) FROM califications WHERE califications.calificated_object_id = products.product_id AND califications.calification_object_type = 'producto') AS califications_count";
 
         $inner_join = "
-        INNER JOIN categories ON products.product_category_id = categories.category_id
-        INNER JOIN states ON products.product_state_id = states.state_id
-        INNER JOIN users ON products.product_user_id = users.user_id
-        INNER JOIN images ON products.product_id = images.image_object_id AND images.image_object_type = 'producto'
-        LEFT JOIN califications ON products.product_id = califications.calificated_object_id AND califications.calification_object_type = 'producto'
+        INNER JOIN categorias ON productos.categoria_id = categorias.categoria_id
+        INNER JOIN usuarios ON productos.usuario_id = usuarios.usuario_id
         ";
 
-        $queryRows = "WHERE $search $addition $max_and_min";
-        $query = "WHERE $search $addition $max_and_min GROUP BY products.product_id $sortQuery ";
+        // $queryRows = "WHERE $search $addition $max_and_min";
+        // $query = "WHERE $search $addition $max_and_min GROUP BY products.product_id $sortQuery ";
 
-        $products = $this -> productModel -> paginate($page, 5, $select, $inner_join, $queryRows, $query);
+        $products = $this -> productModel -> paginate($page, 5, "*", $inner_join, "", "");
         
         require_once(__DIR__ . "/../views/products/products.view.php");
     }

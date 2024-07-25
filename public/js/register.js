@@ -1,10 +1,8 @@
 const registerForm = document.getElementById('register_form');
+
 registerForm.addEventListener('submit', (e) => {
     e.preventDefault();
-    registerFormSubmit();
-})
-
-async function registerFormSubmit() {
+    
     let user = new FormData(registerForm);
 
     fetch('/user/create', {
@@ -13,10 +11,10 @@ async function registerFormSubmit() {
     })
     .then(response => response.json())
     .then(data => {
-        alert(data.message)
+        alert(data.message);
         if (data.success) {
             window.location.href = '/page/login';
         }
     });
 
-}
+});

@@ -30,15 +30,15 @@ class mailController {
     }
 
     public function recover_account() {
-        $email = $_POST['user_email'] ;
-        $user = $this -> userModel -> getAll("*", "", "WHERE user_email = '$email'");
+        $email = $_POST['usuario_correo'] ;
+        $user = $this -> userModel -> getAll("*", "", "WHERE usuario_correo = '$email'");
         if (count($user) > 0) {
             $to = $email;
             $subject = "Recupera tu cuenta | Express Sale";
             
             $message = "Recupera tu cuenta\n";
-            $message .= "Correo: ".$user[0]['user_email']." \n";
-            $message .= "Contraseña: ".$user[0]['user_password']." \n";
+            $message .= "Correo: ".$user[0]['usuario_correo']." \n";
+            $message .= "Contraseña: ".$user[0]['usuario_contraseña']." \n";
 
             $result = $this -> mailModel -> send($to, $subject, $message);
 

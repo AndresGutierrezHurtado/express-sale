@@ -33,11 +33,11 @@ El proyecto Express Sale sigue una estructura organizativa clara para facilitar 
    - El archivo .htaccess se utiliza para configurar las reglas de reescritura de URL y garantizar que todas las solicitudes sean dirigidas correctamente al archivo index.php. Esto es fundamental para el funcionamiento del enrutador.
 
 3. **app/:**
-   - En esta carpeta se encuentran todos los componentes relacionados con la lógica de la aplicación.
-     - **models/:** Contiene los modelos de datos, que se encargan de interactuar con la base de datos y realizar consultas.
-     - **views/:** En esta carpeta se encuentran las vistas de la aplicación, que son archivos de plantillas utilizados para generar la interfaz de usuario.
-     - **controllers/:** Aquí se almacenan los controladores, que son responsables de procesar las solicitudes del usuario y coordinar las acciones necesarias.
-     - **services/:** Esta carpeta guarda servicios adicionales utilizados en la aplicación, como la conexión a la base de datos, PHP Mailer, FPDF para la generación de facturas, y un ORM para ejecutar operaciones CRUD.
+    - En esta carpeta se encuentran todos los componentes relacionados con la lógica de la aplicación.
+        - **models/:** Contiene los modelos de datos, que se encargan de interactuar con la base de datos y realizar consultas.
+        - **views/:** En esta carpeta se encuentran las vistas de la aplicación, que son archivos de plantillas utilizados para generar la interfaz de usuario.
+        - **controllers/:** Aquí se almacenan los controladores, que son responsables de procesar las solicitudes del usuario y coordinar las acciones necesarias.
+        - **services/:** Esta carpeta guarda servicios adicionales utilizados en la aplicación, como la conexión a la base de datos, PHP Mailer, FPDF para la generación de facturas, y un ORM para ejecutar operaciones CRUD.
 
 4. **public/:**
    - Esta carpeta contiene archivos accesibles públicamente, como JavaScript, CSS e imágenes.
@@ -60,11 +60,11 @@ Además, se ha implementado un ORM (Object-Relational Mapping) como parte de la 
 - Panel de Control: (panel de control para administradores con capacidades de búsqueda, clasificación, visualización y eliminación de usuarios y productos.)
  
 ### POR HACER:
- - perfil domiciliario
- - cambiar firma factura
- - eliminación y reporte de comentarios
- - mostrar mensaje al domiciliario
- - mostrar vendedor en la sección de delivery
- - añadir ruta en waze y arreglar el de google maps
- - arreglar update user
- - perfil producto (zoom y calificaciones)
+- mejorar el login (recuperar cuenta y google login)
+- cambiar firma factura
+- eliminación y reporte de comentarios
+- mostrar mensaje al domiciliario
+- mostrar vendedor en la sección de delivery
+- añadir ruta en waze y arreglar el de google maps
+- arreglar update user
+- perfil producto (zoom y calificaciones)

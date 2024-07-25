@@ -9,7 +9,9 @@ define('URL', $url);
 define('DB_HOSTNAME', 'localhost');
 define('DB_USERNAME', 'root');
 define('DB_PASSWORD', '');
-define('DB_NAME', 'express-sale-db');
+define('DB_NAME', 'express-sale-bd');
+
+define('API_MAPS', 'AIzaSyACEoqwUojmSsTZX_zMVHRZVDkAoBharV0');
 
 /*
 define('DB_HOSTNAME', 'localhost');
