@@ -45,9 +45,20 @@ class PageController {
         require_once(__DIR__ . "/../views/pay/form.view.php");
     }
 
-    public function user_cart() {
+    public function cart() {
         $cart = $this -> cartModel -> getAll();
-        require_once(__DIR__ . "/../views/profile/cart.view.php");
+        $products = [];
+
+        foreach($cart as $product){
+            $result = $this -> productModel -> getById($product['producto_id'], "productos.producto_nombre, productos.producto_id, productos.producto_imagen_url, productos.producto_precio");
+            $result['producto_cantidad'] = $product['producto_cantidad'];
+            array_push($products, $result);
+        }
+
+        $title = "Carrito";
+        $content = __DIR__ . "/../views/pages/pay/cart.view.php";
+
+        require_once(__DIR__ . "/../views/layouts/app.layout.php");
     }
     
     public function products(){

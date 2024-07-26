@@ -28,7 +28,7 @@
                         <i class="fa-regular fa-circle-user text-[25px]"></i> 
                         Mi cuenta 
                     </a> 
-                    <a href="/page/user_cart" class="flex gap-3 items-center"> 
+                    <a href="/page/cart" class="flex gap-3 items-center"> 
                         <i class="fa-solid fa-cart-shopping text-[15px]"></i> 
                         Carrito 
                     </a>                 
