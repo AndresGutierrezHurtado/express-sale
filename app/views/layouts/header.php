@@ -24,7 +24,7 @@
             <!-- Account buttons -->
             <div class="flex gap-4">
                 <?php if (isset($_SESSION['usuario_alias'])): ?> 
-                    <a href="/page/user_profile" class="flex gap-3 items-center"> 
+                    <a href="/page/profile" class="flex gap-3 items-center"> 
                         <i class="fa-regular fa-circle-user text-[25px]"></i> 
                         Mi cuenta 
                     </a> 

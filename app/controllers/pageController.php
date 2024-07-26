@@ -180,41 +180,44 @@ class PageController {
         $user = $this -> userModel -> getById($id, "*", $inner_join);
 
         // Orders
-        // $orders_inner_join = "INNER JOIN states ON orders.order_state_id = states.state_id
-        // INNER JOIN sold_products ON sold_products.sold_product_order_id = orders.order_id
-        // INNER JOIN products ON sold_products.sold_product_product_id = products.product_id ";
 
-        // $deliveries = $this -> orderModel -> getAll("*", $orders_inner_join, "WHERE orders.order_usuario_id = $id");
+        $select_orders = " pedidos.*, detalles_pagos.*, detalles_envios.*, productos_pedidos.*, productos.producto_nombre ";
 
-        // $orders = [];
+        $inner_join_orders = " INNER JOIN detalles_pagos ON pedidos.pedido_id = detalles_pagos.pago_id
+        INNER JOIN detalles_envios ON pedidos.pedido_id = detalles_envios.pedido_id 
+        INNER JOIN productos_pedidos ON pedidos.pedido_id = productos_pedidos.pedido_id 
+        INNER JOIN productos ON productos_pedidos.producto_id = productos.producto_id";
 
-        // foreach ($deliveries as $order) {
-        //     $order_id = $order['order_id'];
+        $orders_consulta = $this -> orderModel -> getAll($select_orders, $inner_join_orders, "WHERE pedidos.usuario_id = " . $user['usuario_id']. " ORDER BY pedidos.pedido_fecha");
 
-        //     if (!array_key_exists($order_id, $orders)) {
-        //         $orders[$order_id] = array(
-        //             'order_id' => $order['order_id'],
-        //             'order_date' => $order['order_date'],
-        //             'order_first_name' => $order['order_first_name'],
-        //             'order_last_name' => $order['order_last_name'],
-        //             'order_address' => $order['order_address'],
-        //             'order_coords' => $order['order_coords'],
-        //             'order_usuario_id' => $order['order_usuario_id'],
-        //             'order_amount' => $order['order_amount'],
-        //             'state_name' => $order['state_name'],
-        //             'products' => array()
-        //         );
-        //     }
+        $orders = [];
+
+        foreach ($orders_consulta as $order) {
+            $order_id = $order['pedido_id'];
+
+            if (!array_key_exists($order_id, $orders)) {
+                $orders[$order_id] = array(
+                    'pedido_id' => $order['pedido_id'],
+                    'pedido_fecha' => $order['pedido_fecha'],
+                    'comprador_nombre' => $order['comprador_nombre'],
+                    'envio_direccion' => $order['envio_direccion'],
+                    'envio_coordenadas' => $order['envio_coordenadas'],
+                    'usuario_id' => $order['usuario_id'],
+                    'pago_valor' => $order['pago_valor'],
+                    'pedido_estado' => $order['pedido_estado'],
+                    'products' => array()
+                );
+            }
         
-        //     $orders[$order_id]['products'][] = array(
-        //         'sold_product_id' => $order['sold_product_id'],
-        //         'sold_product_quantity' => $order['sold_product_quantity'],
-        //         'sold_product_address' => $order['sold_product_address'],
-        //         'product_name'=> $order['product_name']
-        //     );
-        // }
+            $orders[$order_id]['productos'][] = array(
+                'producto_id' => $order['producto_id'],
+                'producto_cantidad' => $order['producto_cantidad'],
+                'producto_precio'=> $order['producto_precio'],
+                'producto_nombre' => $order['producto_nombre']
+            );
+        }
 
-        // $deliveries['rows'] = count($orders);
+        $orders_consulta['rows'] = count($orders);
 
         // Products
         $products_page = isset($_GET['products_page']) ? $_GET['products_page'] : 1 ;

@@ -74,12 +74,12 @@ class Orm {
             }           
         }
         $query = rtrim($query, ',');        
-        $query .= " WHERE $this->id = $id";   
+        $query .= " WHERE $this->table.$this->id = $id";   
         
         $result = $this->db->query($query);
 
         if ($result) {
-            return ['success' => true, 'message' => 'La actualización se realizó correctamente.'];
+            return ['success' => true, 'message' => 'La actualización se realizó correctamente.', 'data' => $this -> getById($this -> db -> insert_id)];
         } else {
             return ['success' => false, 'message' => 'Error al actualizar los datos: ' . $this->db->error];
         }

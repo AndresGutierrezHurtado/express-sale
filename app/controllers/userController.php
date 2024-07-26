@@ -27,23 +27,21 @@ class UserController {
     }
 
     public function update() {
+        $id = $_POST['usuario_id'];
+        unset($_POST['usuario_id']);
+
+        $_POST['usuario_direccion'] = $_POST['usuario_direccion'] == "" ? null : $_POST['usuario_direccion'];
+        $_POST['usuario_telefono'] = $_POST['usuario_telefono'] == "" || $_POST['usuario_telefono'] == "0" ? null : $_POST['usuario_telefono'];
+
         // Verificar si se ha enviado una imagen
-        if (!empty($_FILES['image']['name'])) {            
+        if (!empty($_FILES['usuario_imagen']['name'])) {
+            $_POST['usuario_imagen_url'] = '/public/images/users/' . $id . '.jpg';
 
-            $image_path = '/public/images/users/' . $_POST['user_id'] . '.jpg';     
-
-            // Mover la imagen a la ubicación deseada en en directorio
-            move_uploaded_file($_FILES['image']['tmp_name'], $_SERVER['DOCUMENT_ROOT'] . $image_path);
-            
-            $_POST['image_url'] = $image_path;
+            move_uploaded_file($_FILES['usuario_imagen']['tmp_name'], $_SERVER['DOCUMENT_ROOT'] . $_POST['usuario_imagen_url']);
         }
         
-        $result = $this -> userModel -> updateById($_POST['user_id'], $_POST, "INNER JOIN images ON users.user_id = images.image_object_id AND images.image_object_type = 'usuario'
-        INNER JOIN workers ON users.user_id = workers.worker_user_id");
+        $result = $this -> userModel -> updateById($id, $_POST, "INNER JOIN trabajadores ON usuarios.usuario_id = trabajadores.usuario_id");
         
-        
-        $_SESSION['user_delivery'] = isset($_POST['worker_works_done']) ?['state' => 'free'] : $_SESSION['user_delivery'] ;
-
         echo json_encode($result);
     }
 

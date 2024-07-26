@@ -22,7 +22,7 @@ function buildQueryString( $add = [], $remove = []) {
 <main class="w-full max-w-[1200px] space-y-10 py-10 mx-auto">
 
     <form id="user_profile_form" class="w-full flex flex-col md:flex-row justify-between items-start gap-5" enctype="multipart/form-data">
-        <input type="hidden" class="hidden" name="user_id" id="user_id" value="<?= isset($_GET['id']) ? $_GET['id'] : $_SESSION['usuario_id'] ?>">
+        <input type="hidden" class="hidden" name="usuario_id" id="user_id" value="<?= isset($_GET['id']) ? $_GET['id'] : $_SESSION['usuario_id'] ?>">
         
         <!-- Image container -->
         <div class="w-full max-w-[350px] p-5 mx-auto flex flex-col gap-3 bg-white rounded-lg shadow-lg">
@@ -33,7 +33,7 @@ function buildQueryString( $add = [], $remove = []) {
                 class="object-cover h-full w-full">
             </div>
 
-            <input type="file" id="image" name="image" 
+            <input type="file" id="usuario_imagen" name="usuario_imagen" 
             class="hidden w-full text-sm text-slate-500 hover:file:bg-violet-100 file:duration-300 file:cursor-pointer file:bg-violet-50 file:text-violet-700 file:font-semibold file:rounded-xl file:border-0 file:p-1 file:px-3">
             
             <!-- Botones de edición y cerrar sesión -->
@@ -61,64 +61,64 @@ function buildQueryString( $add = [], $remove = []) {
 
             <div class="flex flex-col gap-1">
                 <label for="full_name" class="text-md font-medium text-gray-700">Nombres:</label>
-                <input type="text" id="full_name" name="user_first_name" value="<?= $user['usuario_nombre']; ?>" 
-                class="w-full border rounded-lg py-1 px-3" disabled>
+                <input type="text" id="full_name" name="usuario_nombre" value="<?= $user['usuario_nombre']; ?>" 
+                class="w-full border rounded-lg py-1 px-3 disabled:opacity-50" disabled required>
             </div>
 
             <div class="flex flex-col gap-1">
                 <label for="full_name" class="text-md font-medium text-gray-700">Apellidos:</label>
-                <input type="text" id="full_name" name="user_last_name" value="<?= $user['usuario_apellido']; ?>" 
-                class="w-full border rounded-lg py-1 px-3" disabled>
+                <input type="text" id="full_name" name="usuario_apellido" value="<?= $user['usuario_apellido']; ?>" 
+                class="w-full border rounded-lg py-1 px-3 disabled:opacity-50" disabled required>
             </div>
 
             <div class="flex flex-col gap-1">
                 <label for="username" class="text-md font-medium text-gray-700">Nombre de Usuario:</label>
-                <input type="text" id="username" name="user_username" value="<?= $user['usuario_alias']; ?>" 
-                class="w-full border rounded-lg py-1 px-3" disabled>
+                <input type="text" id="username" name="usuario_alias" value="<?= $user['usuario_alias']; ?>" 
+                class="w-full border rounded-lg py-1 px-3 disabled:opacity-50" disabled required>
             </div>
 
             <div class="flex flex-col gap-1">
                 <label for="email" class="text-md font-medium text-gray-700">Correo Electrónico:</label>
-                <input type="email" id="email" name="user_email" value="<?= $user['usuario_correo']; ?>" 
-                class="w-full border rounded-lg py-1 px-3" disabled>
+                <input type="email" id="email" name="usuario_correo" value="<?= $user['usuario_correo']; ?>" 
+                class="w-full border rounded-lg py-1 px-3 disabled:opacity-50" disabled required>
             </div>
 
             <div class="flex flex-col gap-1">
                 <label for="address" class="text-md font-medium text-gray-700">Dirección:</label>
-                <input type="text" id="address_input" name="user_address" value="<?= $user['usuario_direccion']; ?>" 
-                class="w-full border rounded-lg py-1 px-3" disabled autocomplete="off">
+                <input type="text" id="address_input" name="usuario_direccion" value="<?= $user['usuario_direccion']; ?>" 
+                class="w-full border rounded-lg py-1 px-3 disabled:opacity-50" disabled autocomplete="off">
             </div>
 
             <div class="flex flex-col gap-1">
                 <label for="phone_number" class="text-md font-medium text-gray-700">Número de Teléfono:</label>
-                <input type="number" id="phone_number" name="user_phone_number" value="<?= $user['usuario_telefono']; ?>" 
-                class="w-full border rounded-lg py-1 px-3" disabled>
+                <input type="number" id="phone_number" name="usuario_telefono" value="<?= $user['usuario_telefono']; ?>" 
+                class="w-full border rounded-lg py-1 px-3 disabled:opacity-50" disabled>
             </div>
 
             <?php if ($user['rol_id'] == 2 || $user['rol_id'] == 3):?>
                 <div class="flex flex-col gap-1">
                     <label for="description" class="text-md font-medium text-gray-700">Descripción:</label>
-                    <textarea type="text" id="description" name="worker_description" 
-                    class="h-24 w-full border rounded-lg py-1 px-3 resize-none" disabled><?= $user['trabajador_descripcion'] ?></textarea>
+                    <textarea type="text" id="description" name="trabajador_descripcion" required
+                    class="h-24 w-full border rounded-lg py-1 px-3 resize-none disabled:opacity-50" disabled><?= $user['trabajador_descripcion'] ?></textarea>
                 </div>
             <?php endif; ?>
 
             <label for="account_type">Tipo de Cuenta: <strong class="capitalize"> <?= $user['rol_nombre']?> </strong></label>
 
-            <span class="w-full flex justify-between items-center">
-                <button type="submit" id="btn-submit" name="submit" 
-                class="bg-violet-800 text-white py-2 px-4 rounded-md mt-auto w-max font-bold hidden">
-                    <i class="fa-solid fa-arrow-up-from-bracket mr-2"></i>
-                    Actualizar Perfil
-                </button>
-            </span>
+            <button type="submit" id="btn-submit" name="submit" 
+            class="hidden group relative flex w-full justify-center rounded-md border border-transparent bg-violet-600 px-4 py-2 text-sm font-medium text-white hover:bg-violet-700 focus:outline-none focus:ring-2 focus:ring-violet-500 focus:ring-offset-2 disabled:cursor-wait disabled:opacity-50 cursor-pointer">
+                <span class="absolute inset-y-0 left-0 flex items-center pl-3">
+                    <i class="fa-solid fa-arrow-up-from-bracket text-[18px] text-violet-500 duration-300 group-hover:text-violet-400"></i>
+                </span>
+                Actualizar perfil
+            </button>
         </div>
     </form>
 
-    
-    <!-- <div class="w-full flex flex-col shadow-lg rounded-lg">
+    <!-- Contenedor de compras -->
+    <div class="w-full flex flex-col shadow-lg rounded-lg">
         <span class="w-full flex flex-col sm:flex-row gap-2 justify-between bg-slate-800 text-white p-3 rounded-t-lg">
-            <h1 class="text-xl tracking-tight font-bold ">Compras de <?= $user['user_username'] ?></h1>
+            <h1 class="text-xl tracking-tight font-bold ">Compras de <?= $user['usuario_alias'] ?></h1>
         </span>
         <div class="w-full bg-white flex flex-col gap-5 justify-center items-center p-5 rounded-b-lg">
             <table class="w-full table-auto border-collapse border border-gray-900 text-[13px] sm:text-[16px] text-center max-w-full" >
@@ -134,18 +134,18 @@ function buildQueryString( $add = [], $remove = []) {
                 <tbody>
                     <?php foreach ($orders as $order): ?>
                     <tr>
-                        <td ><?= $order['order_date'] ?></td>
+                        <td ><?= $order['pedido_fecha'] ?></td>
                         <td >
                             <ol>
-                                <?php foreach ($order['products'] as $product) :?>
-                                    <li><?= $product['sold_product_quantity'] ?>  <?= $product['product_name'] ?></li> 
+                                <?php foreach ($order['productos'] as $product) :?>
+                                    <li>(<?= $product['producto_cantidad'] ?>) - <?= $product['producto_nombre'] ?></li> 
                                 <?php endforeach; ?>
                             </ol>
                         </td>
-                        <td > <?= $order['state_name'] ?> </td>
-                        <td ><?= number_format($order['order_amount']); ?> COP</td>
+                        <td > <?= $order['pedido_estado'] ?> </td>
+                        <td ><?= number_format($order['pago_valor']); ?> COP</td>
                         <td > 
-                            <a href="/page/order_shift/?id=<?= $order['order_id'] ?>">
+                            <a href="/page/order/?order=<?= $order['pedido_id'] ?>">
                                 <button class="p-[2px] sm:px-3 border-2 border-violet-800 text-violet-800 rounded-md font-bold duration-300 hover:bg-gray-200">
                                     <i class="fa-regular fa-eye"></i>
                                 </button>
@@ -156,13 +156,14 @@ function buildQueryString( $add = [], $remove = []) {
                     
                 </tbody>
             </table>
-            <?php if ($deliveries['rows'] < 1) : ?>
+            <?php if ($orders_consulta['rows'] < 1) : ?>
                 <p class="font-bold text-md">No se encontraron compras.</p>
             <?php endif;?>
         </div>
-    </div> -->
+    </div>
 
     <?php if ( $user['rol_id'] == 2 ) : ?> 
+        <!-- Contenedor de productos vendedor -->
         <div class="w-full flex flex-col shadow-lg rounded-lg">
             <span class="w-full flex flex-col sm:flex-row gap-2 justify-between bg-slate-800 text-white p-3 rounded-t-lg">
                 <h1 class="text-xl tracking-tight font-bold ">Productos de <?= $user['usuario_alias'] ?></h1>
