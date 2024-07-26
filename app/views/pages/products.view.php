@@ -95,7 +95,9 @@
                                 <div class="flex justify-between items-center w-full">
                                     <div>
                                         <h3 class="font-semibold text-2xl"><?= $product['producto_nombre'] ?></h3>
-                                        <p class="text-gray-600/60 text-sm font-semibold cursor-pointer hover:underline hover:text-violet-600">Publicado por <?= $product['usuario_alias'] ?></p>
+                                        <a href="/page/sellers/?seller=<?= $product['usuario_id'] ?>" class="text-gray-600/60 text-sm font-semibold cursor-pointer hover:underline hover:text-violet-600">
+                                            Publicado por <?= $product['usuario_alias'] ?>
+                                        </a>
                                     </div>
                                     <p class="text-gray-600/60 text-sm font-semibold hidden sm:block"><?= explode(' ', $product['producto_fecha'])[0] ; ?></p>
                                 </div>

@@ -14,7 +14,7 @@ class PageController {
         $this -> cartModel = new Cart();
         $this -> orderModel = new Order($conn);
         $this -> soldProductModel = new soldProduct($conn);
-        $this -> calificationModel = new calification( $conn);
+        $this -> calificationModel = new Calification($conn);
     }
     
     public function home(){
@@ -106,45 +106,57 @@ class PageController {
         require_once(__DIR__ . "/../views/layouts/app.layout.php");
     }
 
-    public function public_profile () {
-        // Vendedor
-        $selectUser =  "*, 
-        ROUND(AVG(califications.calification), 2) AS avg_calification,
-        (SELECT COUNT(*) FROM califications WHERE califications.calificated_object_id = users.user_id AND califications.calification_object_type = 'usuario' AND califications.calification = 1) as num_calification_1,
-        (SELECT COUNT(*) FROM califications WHERE califications.calificated_object_id = users.user_id AND califications.calification_object_type = 'usuario' AND califications.calification = 2) as num_calification_2,
-        (SELECT COUNT(*) FROM califications WHERE califications.calificated_object_id = users.user_id AND califications.calification_object_type = 'usuario' AND califications.calification = 3) as num_calification_3,
-        (SELECT COUNT(*) FROM califications WHERE califications.calificated_object_id = users.user_id AND califications.calification_object_type = 'usuario' AND califications.calification = 4) as num_calification_4,
-        (SELECT COUNT(*) FROM califications WHERE califications.calificated_object_id = users.user_id AND califications.calification_object_type = 'usuario' AND califications.calification = 5) as num_calification_5,
-        (SELECT COUNT(*) FROM califications WHERE califications.calificated_object_id = users.user_id AND califications.calification_object_type = 'usuario') AS califications_count";
-
-        $inner_join_users = " INNER JOIN images ON users.user_id = images.image_object_id AND images.image_object_type = 'usuario'
-        INNER JOIN workers ON users.user_id = workers.worker_user_id
-        LEFT JOIN califications ON users.user_id = califications.calificated_object_id AND califications.calification_object_type = 'usuario' ";
-
-        $user = $this -> userModel -> getById($_GET['usuario'], $selectUser, $inner_join_users);
-        $user_id = $user['user_id'];
-
-        $califications = $this -> calificationModel -> getAll("*", 
-        "INNER JOIN users ON califications.calificator_user_id = users.user_id
-        INNER JOIN images ON users.user_id = images.image_object_id AND images.image_object_type = 'usuario'", 
-        "WHERE califications.calification_object_type = 'usuario' AND califications.calificated_object_id = " . $user_id );
+    public function sellers () {
+        $page = isset($_GET['page']) ? $_GET['page'] : 1;
         
-        // productos
-        $selectProducts = "*, ROUND(AVG(califications.calification), 2) AS avg_calification, 
-        (SELECT COUNT(*) FROM califications WHERE califications.calificated_object_id = products.product_id AND califications.calification_object_type = 'producto') AS califications_count";
-        
-        $inner_join_products = "
-        INNER JOIN categories ON products.product_category_id = categories.category_id
-        INNER JOIN states ON products.product_state_id = states.state_id
-        INNER JOIN images ON products.product_id = images.image_object_id AND images.image_object_type = 'producto'
-        LEFT JOIN califications ON products.product_id = califications.calificated_object_id AND califications.calification_object_type = 'producto'
+        $select_seller = "*,
+        COUNT(calificaciones_usuarios.usuario_id) AS numero_calificaciones,
+        ROUND(AVG(calificaciones.calificacion), 2) AS calificacion_promedio,
+        (SELECT COUNT(*) FROM calificaciones WHERE calificaciones.calificacion = 1) AS num_calification_1,
+        (SELECT COUNT(*) FROM calificaciones WHERE calificaciones.calificacion = 2) AS num_calification_2,
+        (SELECT COUNT(*) FROM calificaciones WHERE calificaciones.calificacion = 3) AS num_calification_3,
+        (SELECT COUNT(*) FROM calificaciones WHERE calificaciones.calificacion = 4) AS num_calification_4,
+        (SELECT COUNT(*) FROM calificaciones WHERE calificaciones.calificacion = 5) AS num_calification_5
         ";
 
-        $page = isset($_GET['page']) ? $_GET['page'] : 1;
-        $products = $this -> productModel -> paginate($page, 2, $selectProducts, $inner_join_products, "WHERE product_user_id = ".$user_id , "WHERE product_user_id = ".$user_id. " GROUP BY products.product_id ORDER BY avg_calification DESC");   
+        $inner_join_seller = "INNER JOIN trabajadores ON usuarios.usuario_id = trabajadores.usuario_id 
+        LEFT JOIN calificaciones_usuarios ON calificaciones_usuarios.usuario_id = usuarios.usuario_id
+        LEFT JOIN calificaciones ON calificaciones.calificacion_id = calificaciones_usuarios.calificacion_id
+        ";
+        
+        $seller = $this -> userModel -> getById($_GET['seller'], $select_seller, $inner_join_seller);
 
 
-        require_once(__DIR__ . "/../views/profile/public.view.php");
+        $inner_join_calification = "
+        INNER JOIN calificaciones_usuarios ON calificaciones_usuarios.calificacion_id = calificaciones.calificacion_id
+        INNER JOIN usuarios ON usuarios.usuario_id = calificaciones.usuario_id
+        ";
+
+        $query_calification = "WHERE calificaciones_usuarios.usuario_id = " . $_GET['seller'];
+
+        $califications = $this -> calificationModel -> getAll("*", $inner_join_calification, $query_calification);
+        
+        // Select
+        $select_products = "productos.*, usuarios.usuario_alias,
+        COUNT(calificaciones_productos.producto_id) AS numero_calificaciones,
+        ROUND(AVG(calificaciones.calificacion), 2) AS calificacion_promedio";
+
+        // Inner join
+        $inner_join_products = "
+        INNER JOIN categorias ON productos.categoria_id = categorias.categoria_id
+        INNER JOIN usuarios ON productos.usuario_id = usuarios.usuario_id
+        LEFT JOIN calificaciones_productos ON productos.producto_id = calificaciones_productos.producto_id
+        LEFT JOIN calificaciones ON calificaciones_productos.calificacion_id = calificaciones.calificacion_id
+        ";
+
+        $query_products = "WHERE productos.usuario_id = " . $_GET['seller'] . " GROUP BY productos.producto_id";
+
+        $products = $this -> productModel -> paginate($page, 5, $select_products, $inner_join_products, $query_products, $query_products);
+
+        $title = $seller['usuario_alias'];
+        $content = __DIR__ . "/../views/pages/seller.view.php";
+
+        require_once(__DIR__ . "/../views/layouts/app.layout.php");
     }
 
     public function user_profile() {

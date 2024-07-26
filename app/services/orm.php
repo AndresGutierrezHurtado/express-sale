@@ -57,7 +57,7 @@ class Orm {
     }
     
     public function getById($id, $select = "*", $inner_join = "", $custom_query = "") {
-        $query = "SELECT $select FROM $this->table $inner_join WHERE $this->id = $id $custom_query";
+        $query = "SELECT $select FROM $this->table $inner_join WHERE $this->table.$this->id = $id $custom_query";
         $result = $this->db->query($query);
 
         return $result -> fetch_assoc();

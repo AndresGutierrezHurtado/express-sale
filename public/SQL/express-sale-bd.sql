@@ -25,7 +25,7 @@ CREATE TABLE `usuarios` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 INSERT INTO `usuarios` (`usuario_id`, `usuario_nombre`, `usuario_apellido`, `usuario_correo`, `usuario_alias`, `usuario_telefono`, `usuario_direccion`, `usuario_contraseña`, `usuario_creacion`, `usuario_actualizacion`, `usuario_imagen_url`, `rol_id`) VALUES
-(1, 'Express', 'Sale', 'expresssale.exsl@gmail.com', 'Express_Sale', NULL, NULL, '81dc9bdb52d04dc20036dbd8313ed055', '2024-07-25 04:39:15', '2024-07-25 04:56:12', '/public/images/users/default.jpg', 4),
+(1, 'Express', 'Sale', 'expresssale.exsl@gmail.com', 'Express_Sale', NULL, NULL, '81dc9bdb52d04dc20036dbd8313ed055', '2024-07-25 04:39:15', '2024-07-25 04:56:12', '/public/images/users/1.jpg', 4),
 (2, 'Andrés', 'Gutiérrez Hurtado', 'andres52885241@gmail.com', 'Andres_Gutierrez', NULL, NULL, '81dc9bdb52d04dc20036dbd8313ed055', '2024-07-25 04:47:10', '2024-07-25 04:47:10', '/public/images/users/default.jpg', 2),
 (3, 'David Fernando', 'Diaz Niausa', 'davidfernandodiazniausa@gmail.com', 'David_Diaz', NULL, NULL, '81dc9bdb52d04dc20036dbd8313ed055', '2024-07-25 04:53:27', '2024-07-25 04:53:27', '/public/images/users/default.jpg', 2),
 (4, 'Jaider Harley', 'Rondon Herrera', 'rondonjaider@gmail.com', 'Jaider_Rondon', NULL, NULL, '81dc9bdb52d04dc20036dbd8313ed055', '2024-07-25 04:54:25', '2024-07-25 04:54:25', '/public/images/users/default.jpg', 2),
@@ -38,17 +38,24 @@ INSERT INTO `usuarios` (`usuario_id`, `usuario_nombre`, `usuario_apellido`, `usu
 -- Tabla de Trabajadores
 CREATE TABLE `trabajadores` (
     `trabajador_id` INT PRIMARY KEY AUTO_INCREMENT,
-    `trabajador_descripcion` TEXT,
-    `trabajador_numeros_trabajos` INT,
-    `usuario_id` INT
+    `trabajador_descripcion` TEXT NOT NULL DEFAULT 'usuario nuevo.',
+    `trabajador_numero_trabajos` INT NOT NULL DEFAULT 0,
+    `usuario_id` INT NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+INSERT INTO `trabajadores` (`usuario_id`) VALUES
+(2), -- Andrés Gutiérrez
+(3), -- David Diaz
+(4), -- Jaider Herrera
+(5), -- Juan Bernal
+(7); -- Samuel Useche
 
 -- ---------------------------------------------------------------
 --
 -- Tabla de Roles
 CREATE TABLE `roles` (
     `rol_id` INT PRIMARY KEY AUTO_INCREMENT,
-    `rol_nombre` VARCHAR(50)
+    `rol_nombre` VARCHAR(50) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 INSERT INTO `roles` (`rol_id`, `rol_nombre`) VALUES
@@ -67,7 +74,7 @@ CREATE TABLE `productos` (
     `producto_cantidad` INT,
     `producto_precio` DECIMAL(10, 0),
     `producto_imagen_url` VARCHAR(255) NOT NULL DEFAULT '/public/images/products/default.jpg',
-    `producto_estado` ENUM('privado', 'publico') DEFAULT 'privado',
+    `producto_estado` ENUM('privado', 'publico') DEFAULT 'publico',
     `producto_fecha` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     `usuario_id` INT,
     `categoria_id` INT
@@ -293,3 +300,14 @@ FOREIGN KEY (`producto_id`)
 REFERENCES `productos`(`producto_id`)
 ON UPDATE CASCADE
 ON DELETE CASCADE;
+
+DELIMITER $$
+CREATE TRIGGER insertar_trabajador_despues_de_insertar_usuario
+AFTER INSERT ON usuarios
+FOR EACH ROW
+BEGIN
+    IF (NEW.rol_id = 2 OR NEW.rol_id = 3) THEN
+        INSERT INTO trabajadores (usuario_id) VALUES (NEW.usuario_id);
+    END IF;
+END$$
+DELIMITER ;

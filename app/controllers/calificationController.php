@@ -20,7 +20,7 @@ class CalificationController {
         if ($result['success']) {
             $id = $result['last_id'];
 
-            if (isset($_FILES['calificacion_imagen'])) {
+            if (!empty($_FILES['calificacion_imagen']['name'])) {
                 $data['calificacion_imagen_url'] = '/public/images/califications/' . $id . '.jpg';
 
                 move_uploaded_file($_FILES['calificacion_imagen']['tmp_name'], $_SERVER['DOCUMENT_ROOT'] . $data['calificacion_imagen_url']);
@@ -38,7 +38,7 @@ class CalificationController {
 
                 $final_result = $this -> calificationModel -> addCalification([
                     'calificacion_id' => $id,
-                    'usuario_id' => $_POST['usuario_id']
+                    'usuario_id' => $_POST['vendedor_id']
                 ], "calificaciones_usuarios");
             }
             
