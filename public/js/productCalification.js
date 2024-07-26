@@ -34,6 +34,10 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     document.querySelectorAll('form').forEach(form => {
+        // si el id del form es search-form se activa el evento submit
+        if (form.id === 'search-form') {
+            return;
+        }
         form.addEventListener('submit', event => {
             event.preventDefault();
 

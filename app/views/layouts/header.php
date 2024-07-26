@@ -11,7 +11,7 @@
             </div>
 
             <!-- Search form -->
-            <form class="hidden md:block grow" action="/page/products/" method="GET" >
+            <form id="search-form" class="hidden md:block grow" action="/page/products/" method="GET" >
                 <div class="flex justify-center">
                     <?php if (isset($_GET['search']) && !empty($_GET['search'])) : ?>
                         <a href="/page/products/" class="fa-solid fa-arrows-rotate border border-gray-800 mr-2 rounded-full size-[35px] flex items-center justify-center"></a>
