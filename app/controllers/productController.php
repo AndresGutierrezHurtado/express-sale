@@ -15,6 +15,15 @@ class ProductController {
     public function create(){
         $result = $this -> productModel -> insert($_POST);
         
+        if (!empty($_FILES['producto_imagen']['name']) && $result['success']) {
+            
+            $_POST['producto_imagen_url'] = '/public/images/products/' . $result['last_id'] . '.jpg';
+            
+            move_uploaded_file($_FILES['producto_imagen']['tmp_name'], $_SERVER['DOCUMENT_ROOT'] . $_POST['producto_imagen_url']);
+
+            $result = $this -> productModel -> updateById($result['last_id'], $_POST);
+        }
+
         echo json_encode($result);
     }
 

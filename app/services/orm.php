@@ -30,21 +30,13 @@ class Orm {
         $query = rtrim($query, ', ');
         $query .= ')';
     
-                
-        try {
-            $result = $this->db->query($query);
-            $inserted_id = $this->db->insert_id;
-            if ($result) {
-                return ['success' => true, 'message' => 'La inserción se realizó correctamente.', 'last_id' => $inserted_id];
-            } else {
-                return ['success' => false, 'message' => 'Error al insertar los datos.'];
-            }
-        } catch (mysqli_sql_exception $e) {
-            if ($e->getCode() == 1062) {
-                return ['success' => false, 'message' => 'Error al insertar los datos: El usuario o correo ya existe'];
-            } else {
-                return ['success' => false, 'message' => 'Error al insertar los datos: ' . $e->getCode()];
-            }
+            
+        $result = $this->db->query($query);
+        $inserted_id = $this->db->insert_id;
+        if ($result) {
+            return ['success' => true, 'message' => 'La inserción se realizó correctamente.', 'last_id' => $inserted_id];
+        } else {
+            return ['success' => false, 'message' => 'Error al insertar los datos.'];
         }
     }
 

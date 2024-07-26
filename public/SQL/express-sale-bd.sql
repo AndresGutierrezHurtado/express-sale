@@ -26,7 +26,7 @@ CREATE TABLE `usuarios` (
 
 INSERT INTO `usuarios` (`usuario_id`, `usuario_nombre`, `usuario_apellido`, `usuario_correo`, `usuario_alias`, `usuario_telefono`, `usuario_direccion`, `usuario_contraseña`, `usuario_creacion`, `usuario_actualizacion`, `usuario_imagen_url`, `rol_id`) VALUES
 (1, 'Express', 'Sale', 'expresssale.exsl@gmail.com', 'Express_Sale', NULL, NULL, '81dc9bdb52d04dc20036dbd8313ed055', '2024-07-25 04:39:15', '2024-07-25 04:56:12', '/public/images/users/1.jpg', 4),
-(2, 'Andrés', 'Gutiérrez Hurtado', 'andres52885241@gmail.com', 'Andres_Gutierrez', NULL, NULL, '81dc9bdb52d04dc20036dbd8313ed055', '2024-07-25 04:47:10', '2024-07-25 04:47:10', '/public/images/users/default.jpg', 2),
+(2, 'Andrés', 'Gutiérrez Hurtado', 'andres52885241@gmail.com', 'Andres_Gutierrez', NULL, NULL, '81dc9bdb52d04dc20036dbd8313ed055', '2024-07-25 04:47:10', '2024-07-25 04:47:10', '/public/images/users/2.jpg', 2),
 (3, 'David Fernando', 'Diaz Niausa', 'davidfernandodiazniausa@gmail.com', 'David_Diaz', NULL, NULL, '81dc9bdb52d04dc20036dbd8313ed055', '2024-07-25 04:53:27', '2024-07-25 04:53:27', '/public/images/users/default.jpg', 2),
 (4, 'Jaider Harley', 'Rondon Herrera', 'rondonjaider@gmail.com', 'Jaider_Rondon', NULL, NULL, '81dc9bdb52d04dc20036dbd8313ed055', '2024-07-25 04:54:25', '2024-07-25 04:54:25', '/public/images/users/default.jpg', 2),
 (5, 'Juan Sebastian', 'Bernal Gamboa', 'juansebastianbernalgamboa@gmail.com', 'Juan_Bernal', NULL, NULL, '81dc9bdb52d04dc20036dbd8313ed055', '2024-07-25 04:55:02', '2024-07-25 04:55:02', '/public/images/users/default.jpg', 2),
@@ -74,7 +74,7 @@ CREATE TABLE `productos` (
     `producto_cantidad` INT,
     `producto_precio` DECIMAL(10, 0),
     `producto_imagen_url` VARCHAR(255) NOT NULL DEFAULT '/public/images/products/default.jpg',
-    `producto_estado` ENUM('privado', 'publico') DEFAULT 'publico',
+    `producto_estado` ENUM('privado', 'publico') DEFAULT 'privado',
     `producto_fecha` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     `usuario_id` INT,
     `categoria_id` INT

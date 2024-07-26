@@ -59,44 +59,44 @@ function buildQueryString( $add = [], $remove = []) {
 
             <h1 class="text-lg uppercase tracking-tight font-bold">Datos de <?= $user['usuario_alias'] ?>:</h1>
 
-            <div class="flex flex-col gap-1">
+            <div class="space-y-1">
                 <label for="full_name" class="text-md font-medium text-gray-700">Nombres:</label>
                 <input type="text" id="full_name" name="usuario_nombre" value="<?= $user['usuario_nombre']; ?>" 
                 class="w-full border rounded-lg py-1 px-3 disabled:opacity-50" disabled required>
             </div>
 
-            <div class="flex flex-col gap-1">
+            <div class="space-y-1">
                 <label for="full_name" class="text-md font-medium text-gray-700">Apellidos:</label>
                 <input type="text" id="full_name" name="usuario_apellido" value="<?= $user['usuario_apellido']; ?>" 
                 class="w-full border rounded-lg py-1 px-3 disabled:opacity-50" disabled required>
             </div>
 
-            <div class="flex flex-col gap-1">
+            <div class="space-y-1">
                 <label for="username" class="text-md font-medium text-gray-700">Nombre de Usuario:</label>
                 <input type="text" id="username" name="usuario_alias" value="<?= $user['usuario_alias']; ?>" 
                 class="w-full border rounded-lg py-1 px-3 disabled:opacity-50" disabled required>
             </div>
 
-            <div class="flex flex-col gap-1">
+            <div class="space-y-1">
                 <label for="email" class="text-md font-medium text-gray-700">Correo Electrónico:</label>
                 <input type="email" id="email" name="usuario_correo" value="<?= $user['usuario_correo']; ?>" 
                 class="w-full border rounded-lg py-1 px-3 disabled:opacity-50" disabled required>
             </div>
 
-            <div class="flex flex-col gap-1">
+            <div class="space-y-1">
                 <label for="address" class="text-md font-medium text-gray-700">Dirección:</label>
                 <input type="text" id="address_input" name="usuario_direccion" value="<?= $user['usuario_direccion']; ?>" 
                 class="w-full border rounded-lg py-1 px-3 disabled:opacity-50" disabled autocomplete="off">
             </div>
 
-            <div class="flex flex-col gap-1">
+            <div class="space-y-1">
                 <label for="phone_number" class="text-md font-medium text-gray-700">Número de Teléfono:</label>
                 <input type="number" id="phone_number" name="usuario_telefono" value="<?= $user['usuario_telefono']; ?>" 
                 class="w-full border rounded-lg py-1 px-3 disabled:opacity-50" disabled>
             </div>
 
             <?php if ($user['rol_id'] == 2 || $user['rol_id'] == 3):?>
-                <div class="flex flex-col gap-1">
+                <div class="space-y-1">
                     <label for="description" class="text-md font-medium text-gray-700">Descripción:</label>
                     <textarea type="text" id="description" name="trabajador_descripcion" required
                     class="h-24 w-full border rounded-lg py-1 px-3 resize-none disabled:opacity-50" disabled><?= $user['trabajador_descripcion'] ?></textarea>
@@ -195,7 +195,7 @@ function buildQueryString( $add = [], $remove = []) {
                             <td ><?= $product['categoria_nombre'] ?> </td>
                             <td class="flex flex-col gap-3 sm:flex-row justify-center"> 
                                 <a href="/page/product_profile/?id=<?= $product['producto_id'] ?>"><button class="p-[2px] sm:px-3 border-2 border-violet-800 text-violet-800 rounded-md font-bold duration-300 hover:bg-gray-200"><i class="fa-solid fa-pen-to-square"></i></button></a>
-                                <button class="p-[2px] sm:px-3 bg-violet-800 text-white rounded-md font-bold duration-300 hover:bg-violet-600 btn-delete" onclick="deleteElement(<?= $product['producto_id'] ?>)"><i class="fa-solid fa-trash-can"></i></button> 
+                                <button class="p-[2px] sm:px-3 bg-violet-800 text-white rounded-md font-bold duration-300 hover:bg-violet-600 btn-delete" onclick="if(confirm('¿Deseas eliminar este producto?')) deleteElement(<?= $product['producto_id'] ?>)"><i class="fa-solid fa-trash-can"></i></button> 
                             </td>
                         </tr>
                         <?php endforeach; ?>
@@ -225,66 +225,73 @@ function buildQueryString( $add = [], $remove = []) {
         </div>
     <?php endif; ?>
 
-    <div class="fixed inset-0 hidden z-50" id="modalproducto">
-        <div id="modalBackground" class="fixed inset-0 bg-black bg-opacity-40" onclick="toggleModal('producto')"></div>
-        <div id="myModal" class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 flex items-center justify-center w-10/12 sm:w-8/12 md:w-6/12 lg:w-4/12 xl:w-2/12">
-            <div class="w-full md:w-auto md:max-w-full md:min-w-[500px] bg-white p-5 rounded-md">
-                <span class="flex justify-between items-center mb-3">
-                    <span class="text-lg font-bold">Nuevo producto:</span>
-                    <button id="closeModalButton" class="text-gray-500 hover:text-gray-700"  onclick="toggleModal('producto')">
-                        <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
-                        </svg>
-                    </button>
-                </span>
-                <form id="new-product-form" class="flex flex-col gap-4">
-                    <input type="hidden" id="product_user_id" name="product_user_id" value="<?= $user['usuario_id'] ?>">
+</main>
 
-                    <div class="flex flex-col gap-1">
-                        <label for="product_name" class="text-md font-medium text-gray-700">Nombre:</label>
-                        <input type="text" id="product_name" name="product_name" class="w-full border rounded-lg py-1 px-3" required>
-                    </div> 
+<div class="fixed inset-0 hidden z-50" id="modalproducto">
+    <div id="modalBackground" class="fixed inset-0 bg-black bg-opacity-40" onclick="toggleModal('producto')"></div>
+    <div id="myModal" class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 flex items-center justify-center w-full max-w-[500px]">
+        <div class="w-full bg-white p-5 rounded-md">
+            <span class="flex justify-between items-center mb-3">
+                <span class="text-lg font-bold">Nuevo producto:</span>
+                <button id="closeModalButton" class="text-gray-500 hover:text-gray-700"  onclick="toggleModal('producto')">
+                    <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                    </svg>
+                </button>
+            </span>
+            <form id="new-product-form" class="flex flex-col gap-4">
+                <input type="hidden" id="usuario_id" name="usuario_id" value="<?= $user['usuario_id'] ?>">
 
-                    <div class="flex flex-col gap-1">
-                        <label for="product_description" class="text-md font-medium text-gray-700">Descripción:</label>
-                        <textarea id="product_description" name="product_description" class="w-full h-24 resize-none border rounded-lg py-1 px-3" required></textarea>
-                    </div>
+                <div class="space-y-2">
+                    <label for="producto_nombre" class="text-md font-medium text-gray-700">Nombre:</label>
+                    <input type="text" id="producto_nombre" name="producto_nombre" class="w-full border rounded-lg py-1 px-3" required>
+                </div> 
 
-                    <div class="flex flex-col gap-1">
-                        <label for="product_price" class="text-md font-medium text-gray-700">Precio:</label>
-                        <input type="text" id="product_price" name="product_price" class="w-full border rounded-lg py-1 px-3" required>
-                    </div>
+                <div class="space-y-2">
+                    <label for="producto_descripcion" class="text-md font-medium text-gray-700">Descripción:</label>
+                    <textarea id="producto_descripcion" name="producto_descripcion" class="w-full h-24 resize-none border rounded-lg py-1 px-3" required></textarea>
+                </div>
 
-                    <div class="flex flex-col gap-1">
-                        <label for="product_stock" class="text-md font-medium text-gray-700">Stock:</label>
-                        <input type="text" id="product_stock" name="product_stock" class="w-full border rounded-lg py-1 px-3" required>
-                    </div>
+                <div class="space-y-2">
+                    <label for="producto_precio" class="text-md font-medium text-gray-700">Precio:</label>
+                    <input type="text" id="producto_precio" name="producto_precio" class="w-full border rounded-lg py-1 px-3" required>
+                </div>
 
-                    <div class="flex flex-col gap-1">
-                        <label for="product_category_id" class="text-md font-medium text-gray-700">Categoría:</label>
-                        <select name="product_category_id" id="product_category_id" class="w-full border rounded-lg py-1 px-3" required>
-                            <option value="1">Moda</option>
-                            <option value="2">Comida</option>
-                            <option value="3">Tecnología</option>
-                            <option value="4">Otros</option>
-                        </select>
-                    </div>
+                <div class="space-y-2">
+                    <label for="producto_cantidad" class="text-md font-medium text-gray-700">Stock:</label>
+                    <input type="text" id="producto_cantidad" name="producto_cantidad" class="w-full border rounded-lg py-1 px-3" required>
+                </div>
 
-                    <div class="flex flex-col gap-1">
-                        <label for="product_state" class="text-md font-medium text-gray-700">Estado:</label>
-                        <select name="product_state_id" id="product_state" class="w-full border rounded-lg py-1 px-3" required>
-                            <option value="1">Público</option>
-                            <option value="2" selected>Privado</option>
-                        </select>
-                    </div>
+                <div class="space-y-2">
+                    <label for="producto_imagen" class="text-md font-medium text-gray-700">Imagen:</label>
+                    <input type="file" id="producto_imagen" name="producto_imagen" required
+                    class="w-full text-sm text-slate-500 hover:file:bg-violet-100 file:duration-300 file:cursor-pointer file:bg-violet-50 file:text-violet-700 file:font-semibold file:rounded-xl file:border-0 file:p-1 file:px-3">
+                </div>
 
-                    <button type="submit" id="btn-submit" name="submit" class="bg-violet-800 text-white py-2 px-4 rounded-md mt-auto w-max font-bold">Subir</button>
-                </form>
+                <div class="flex flex-col gap-1">
+                    <label for="categoria_id" class="text-md font-medium text-gray-700">Categoría:</label>
+                    <select name="categoria_id" id="categoria_id" class="w-full border rounded-lg py-1 px-3" required>
+                        <option value="1">Moda</option>
+                        <option value="2">Comida</option>
+                        <option value="3">Tecnología</option>
+                        <option value="4">Otros</option>
+                    </select>
+                </div>
 
-            </div>
+                <div class="space-y-2">
+                    <label for="producto_estado" class="text-md font-medium text-gray-700">Estado:</label>
+                    <select name="producto_estado" id="producto_estado" class="w-full border rounded-lg py-1 px-3" required>
+                        <option value="publico">Público</option>
+                        <option value="privado" selected>Privado</option>
+                    </select>
+                </div>
+
+                <button type="submit" id="btn-submit" name="submit" class="bg-violet-800 text-white py-2 px-4 rounded-md mt-auto w-max font-bold">Subir</button>
+            </form>
+
         </div>
     </div>
-</main>
+</div>
 <script>
     function toggleModal(nombre) {
         document.getElementById('modal' + nombre).classList.toggle('hidden');
