@@ -4,20 +4,78 @@ class orderController {
 
     private $orderModel;
     private $soldProductModel;
-    private $receiptModel;
     private $cartModel;
+    private $paymentDetailsModel;
+    private $shippingDetailsModel;
     protected $conn;
 
     public function __construct(mysqli $conn) {
-        $this -> orderModel = new order($conn);
-        $this -> soldProductModel = new soldProduct($conn);
-        $this -> receiptModel = new receipt($conn);
+        $this -> orderModel = new Order($conn);
+        $this -> soldProductModel = new SoldProduct($conn);
+        $this -> paymentDetailsModel = new PaymentDetails($conn);
+        $this -> shippingDetailsModel = new ShippingDetails($conn);
         $this -> cartModel = new Cart($conn);
         $this -> conn = $conn;
     }
 
     public function response() {
-        var_dump($_GET);
+
+        $data['order'] = [
+            'usuario_id' => $_SESSION['usuario_id'],
+        ];
+
+        $resultado_pedido = $this -> orderModel -> insert($data['order']);
+
+        if ($resultado_pedido['success']) {
+
+            $data['payment_details'] = [
+                // Variables de PAYU
+                'pedido_id' => $resultado_pedido['last_id'],
+                'pago_metodo' => $_GET['polPaymentMethodType'],
+                'pago_valor' => $_GET['TX_VALUE'],
+                'comprador_correo' => $_GET['buyerEmail'],
+
+                // Variables guardadas en el formulario
+                'comprador_nombre' => $_SESSION['payment_data']['buyerFullName'],
+                'comprador_tipo_documento' => $_SESSION['payment_data']['payerDocumentType'],
+                'comprador_numero_documento' => $_SESSION['payment_data']['payerDocument'],
+                'comprador_telefono' => $_SESSION['payment_data']['payerPhone']
+            ];
+
+            $result_payment = $this -> paymentDetailsModel -> insert($data['payment_details']);
+
+
+            $products = $this -> cartModel -> getAll();
+            $data['sold_products'] = [];
+            foreach ($products as $product) {
+                $data['sold_products'][] = ['pedido_id' => $resultado_pedido['last_id'], 'producto_id' => $product['producto_id'], 'producto_precio' => $product['producto_precio'], 'producto_cantidad' => $product['producto_cantidad']];
+            }
+
+            foreach ($data['sold_products'] as $soldProduct) {
+                $result_sold_products = $this -> soldProductModel -> insert($soldProduct);
+            }
+
+            $data['shipping_details'] = [
+                'pedido_id' => $resultado_pedido['last_id'],
+                'envio_direccion' => $_SESSION['payment_data']['shippingAddress'],
+                'envio_coordenadas' => $_SESSION['payment_data']['order_coords']
+            ];
+
+            $result_shipping = $this -> shippingDetailsModel -> insert($data['shipping_details']);
+
+        }
+
+        if ($resultado_pedido['success'] && $result_payment['success'] && $result_sold_products['success'] && $result_shipping['success'] ) {
+            echo ' <script>
+            alert("Transacción realizada correctamente");
+            window.location = "/page/profile";
+            </script> ';
+        } else {
+            echo ' <script>
+            alert("Hubo un error.");
+            window.location = "/page/profile";
+            </script> ';
+        }
     }
 
     public function store_session_data(){
@@ -26,64 +84,13 @@ class orderController {
         echo json_encode(['success' => true, 'message' => 'La información fue guardada.']);
     }
 
-    // public function create() {
-    //     $data = $_POST;
-    //     $data['order_data'] = json_decode($data['order_data'], true);
-    //     $data['order_iva'] = $data['order_amount'] * 0.19;
-    //     $data['order_amount'] += $data['order_iva'] + 10000;
-    //     $order_data = array(
-    //         'order_date' => $data['order_date'],
-    //         'order_iva' => $data['order_iva'],
-    //         'order_amount' => $data['order_amount'],
-    //         'order_first_name' => $data['order_first_name'],
-    //         'order_last_name' => $data['order_last_name'],
-    //         'order_email' => $data['order_email'],
-    //         'order_phone_number' => $data['order_phone_number'],
-    //         'order_address' => $data['order_address'],
-    //         'order_coords' => $data['order_coords'],
-    //         'order_user_id' => $data['order_user_id'],
-    //     );
+    public function update () {
+        $data = $_POST;
 
-    //     $result = $this -> orderModel -> insert($order_data);
+        $result = $this -> orderModel -> updateById($data['pedido_id'], $data);
         
-    //     if ($result['success']) {
-    //         $order_id = $result['last_id'];
-    //         $result2 = [];
-
-    //         foreach ($data['order_data'] as $product) {
-    //             $product_data = [
-    //                 'sold_product_product_id' => $product['product_id'],
-    //                 'sold_product_order_id' => $order_id,
-    //                 'sold_product_quantity' => $product['product_quantity'],
-    //                 'sold_product_price' => $product['product_price'],
-    //                 'sold_product_address' => $product['product_address']
-    //             ];                
-    //             $result_order_data = $this-> soldProductModel -> insert($product_data);                
-    //             array_push($result2, $result_order_data );
-    //         }
-
-    //         $receipt_data = [
-    //             'receipt_date' => date('Y-m-d'),
-    //             'receipt_time' => date('H:i:s'),
-    //             'receipt_amount' => $data['order_amount'],
-    //             'receipt_order_id' => $order_id
-    //         ];
-
-    //         $result3 = $this -> receiptModel -> insert($receipt_data);
-
-    //     }
-    //     $this -> cartModel -> empty();
-    //     echo json_encode([$result, $result2, $result3]);
-    // }
-
-
-    // public function update () {
-    //     $data = $_POST;
-
-    //     $result = $this -> orderModel -> updateById($data['order_id'], $data);
-        
-    //     echo json_encode($result);
-    // }
+        echo json_encode($result);
+    }
 
 }
 

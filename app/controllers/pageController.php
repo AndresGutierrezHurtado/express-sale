@@ -168,80 +168,82 @@ class PageController {
         require_once(__DIR__ . "/../views/layouts/app.layout.php");
     }
 
-    public function user_profile() {
-        // Autenticación
-        $id = isset($_GET['id']) ? $_GET['id'] : $_SESSION['user_id'] ;
-        $isAdmin = $_SESSION['user_role_id'] == 4 || $_SESSION['user_id'] == $id ? true : false;
+    public function profile() {
+        // MiddleWare
+        $id = isset($_GET['id']) ? $_GET['id'] : $_SESSION['usuario_id'] ;
+        $isAdmin = $_SESSION['rol_id'] == 4 || $_SESSION['usuario_id'] == $id ? true : false;
         if (!$isAdmin) {header('location: /'); exit();}
 
-        // usuario
-        $inner_join = "INNER JOIN roles ON users.user_role_id = roles.role_id
-        INNER JOIN images ON users.user_id = images.image_object_id AND images.image_object_type = 'usuario'
-        LEFT JOIN workers ON users.user_id = workers.worker_user_id 
-        ";
-        $products_page = isset($_GET["products_page"]) ? $_GET["products_page"] : 1;
+        // User
+        $inner_join = " INNER JOIN roles ON usuarios.rol_id = roles.rol_id
+        LEFT JOIN trabajadores ON usuarios.usuario_id = trabajadores.usuario_id ";
         $user = $this -> userModel -> getById($id, "*", $inner_join);
 
-        // orders
-        $orders_inner_join = "INNER JOIN states ON orders.order_state_id = states.state_id
-        INNER JOIN sold_products ON sold_products.sold_product_order_id = orders.order_id
-        INNER JOIN products ON sold_products.sold_product_product_id = products.product_id ";
+        // Orders
+        // $orders_inner_join = "INNER JOIN states ON orders.order_state_id = states.state_id
+        // INNER JOIN sold_products ON sold_products.sold_product_order_id = orders.order_id
+        // INNER JOIN products ON sold_products.sold_product_product_id = products.product_id ";
 
-        $deliveries = $this -> orderModel -> getAll("*", $orders_inner_join, "WHERE orders.order_user_id = $id");
+        // $deliveries = $this -> orderModel -> getAll("*", $orders_inner_join, "WHERE orders.order_usuario_id = $id");
 
-        $orders = [];
+        // $orders = [];
 
-        foreach ($deliveries as $order) {
-            $order_id = $order['order_id'];
+        // foreach ($deliveries as $order) {
+        //     $order_id = $order['order_id'];
 
-            if (!array_key_exists($order_id, $orders)) {
-                $orders[$order_id] = array(
-                    'order_id' => $order['order_id'],
-                    'order_date' => $order['order_date'],
-                    'order_first_name' => $order['order_first_name'],
-                    'order_last_name' => $order['order_last_name'],
-                    'order_address' => $order['order_address'],
-                    'order_coords' => $order['order_coords'],
-                    'order_user_id' => $order['order_user_id'],
-                    'order_amount' => $order['order_amount'],
-                    'state_name' => $order['state_name'],
-                    'products' => array()
-                );
-            }
+        //     if (!array_key_exists($order_id, $orders)) {
+        //         $orders[$order_id] = array(
+        //             'order_id' => $order['order_id'],
+        //             'order_date' => $order['order_date'],
+        //             'order_first_name' => $order['order_first_name'],
+        //             'order_last_name' => $order['order_last_name'],
+        //             'order_address' => $order['order_address'],
+        //             'order_coords' => $order['order_coords'],
+        //             'order_usuario_id' => $order['order_usuario_id'],
+        //             'order_amount' => $order['order_amount'],
+        //             'state_name' => $order['state_name'],
+        //             'products' => array()
+        //         );
+        //     }
         
-            $orders[$order_id]['products'][] = array(
-                'sold_product_id' => $order['sold_product_id'],
-                'sold_product_quantity' => $order['sold_product_quantity'],
-                'sold_product_address' => $order['sold_product_address'],
-                'product_name'=> $order['product_name']
-            );
-        }
+        //     $orders[$order_id]['products'][] = array(
+        //         'sold_product_id' => $order['sold_product_id'],
+        //         'sold_product_quantity' => $order['sold_product_quantity'],
+        //         'sold_product_address' => $order['sold_product_address'],
+        //         'product_name'=> $order['product_name']
+        //     );
+        // }
 
-        $deliveries['rows'] = count($orders);
+        // $deliveries['rows'] = count($orders);
 
-        // productos
-        if ($user['role_name'] == 'vendedor') {
-            $products = $this -> productModel -> paginate($products_page, 5, '*', "INNER JOIN categories ON products.product_category_id = categories.category_id", "WHERE product_user_id = $id", "WHERE product_user_id = $id");
+        // Products
+        $products_page = isset($_GET['products_page']) ? $_GET['products_page'] : 1 ;
+        if ($user['rol_nombre'] == 'vendedor') {
+            $products = $this -> productModel -> paginate($products_page, 5, '*', "INNER JOIN categorias ON productos.categoria_id = categorias.categoria_id", "WHERE productos.usuario_id = $id", "WHERE productos.usuario_id = $id");
         }
         
-        require_once(__DIR__. "/../views/profile/user.view.php");
+        $title = "Perfil";
+        $content = __DIR__ . "/../views/pages/profile/user.view.php";
+
+        require_once(__DIR__ . "/../views/layouts/app.layout.php");
+        
     }
 
     public function product_profile() {
         // obtener datos del producto
-        $product = $this -> productModel -> getById( $_GET['id'] , "*", "INNER JOIN users ON products.product_user_id = users.user_id 
+        $product = $this -> productModel -> getById( $_GET['id'] , "*", "INNER JOIN usuarios ON products.product_usuario_id = usuarios.usuario_id 
         INNER JOIN images ON products.product_id = images.image_object_id AND images.image_object_type = 'producto'");
         
         // Autenticación
-        $isAdmin = $_SESSION['user_role_id'] == 4 || $_SESSION['user_id'] == $product['product_user_id'] ? true : false;
+        $isAdmin = $_SESSION['rol_id'] == 4 || $_SESSION['usuario_id'] == $product['product_usuario_id'] ? true : false;
         if (!$isAdmin) {header('location: /'); exit();}
 
         require_once(__DIR__. "/../views/profile/product.view.php");
     }
 
-    public function dashboard_users() {
+    public function dashboard_usuarios() {
         // Autenticación
-        $isAdmin = $_SESSION['user_role_id'] == 4 ? true : false;
+        $isAdmin = $_SESSION['rol_id'] == 4 ? true : false;
         if (!$isAdmin) {header('location: /'); exit();}
 
         // Filtros y sorts para obtener los usuarios
@@ -253,20 +255,20 @@ class PageController {
         user_last_name LIKE '%".$_GET['search']."%' OR 
         user_username LIKE '%".$_GET['search']."%' OR 
         user_email LIKE '%".$_GET['search']."%' OR 
-        user_id LIKE '%".$_GET['search']."%')" : "" ;
-        $sort = isset($_GET['sort']) ? $_GET['sort'] : 'user_id';
+        usuario_id LIKE '%".$_GET['search']."%')" : "" ;
+        $sort = isset($_GET['sort']) ? $_GET['sort'] : 'usuario_id';
 
         $queryRows = "$search";
         $query = "$search ORDER BY $sort ASC";
-        $users = $this -> userModel -> paginate($page, 5, "*", "INNER JOIN roles ON users.user_role_id = roles.role_id", $queryRows, $query);
+        $usuarios = $this -> userModel -> paginate($page, 5, "*", "INNER JOIN roles ON usuarios.rol_id = roles.role_id", $queryRows, $query);
 
-        $user_session = $this -> userModel -> getById($_SESSION['user_id'], "*", "INNER JOIN images ON users.user_id = images.image_object_id AND images.image_object_type = 'usuario'");
-        require_once(__DIR__ . "/../views/admin/dashboard_users.view.php");
+        $user_session = $this -> userModel -> getById($_SESSION['usuario_id'], "*", "INNER JOIN images ON usuarios.usuario_id = images.image_object_id AND images.image_object_type = 'usuario'");
+        require_once(__DIR__ . "/../views/admin/dashboard_usuarios.view.php");
     }
     
     public function dashboard_products() {
         // Autenticación
-        $isAdmin = $_SESSION['user_role_id'] == 4 ? true : false;
+        $isAdmin = $_SESSION['rol_id'] == 4 ? true : false;
         if (!$isAdmin) {header('location: /'); exit();}
 
         // Filtros y sorts para obtener los productos
@@ -283,18 +285,18 @@ class PageController {
         $queryRows = "$search";
         $query = "$search ORDER BY $sort ASC";
         $inner_join = "INNER JOIN categories ON products.product_category_id = categories.category_id 
-        INNER JOIN users ON products.product_user_id = users.user_id";
+        INNER JOIN usuarios ON products.product_usuario_id = usuarios.usuario_id";
 
         $products = $this -> productModel -> paginate($page, 5, "*", $inner_join, $queryRows, $query);
         
-        $user_session = $this -> userModel -> getById($_SESSION['user_id'], "*", "INNER JOIN images ON users.user_id = images.image_object_id AND images.image_object_type = 'usuario'");
+        $user_session = $this -> userModel -> getById($_SESSION['usuario_id'], "*", "INNER JOIN images ON usuarios.usuario_id = images.image_object_id AND images.image_object_type = 'usuario'");
         require_once(__DIR__ . "/../views/admin/dashboard_products.view.php");
     }
 
     public function delivery_list () {
         // autenticación
         if ($_SESSION['user_delivery']['state'] == 'busy') { header('location: /page/delivery/?id='. $_SESSION['user_delivery']['order_id'] ); exit(); }
-        $isAdmin = $_SESSION['user_role_id'] == 4 || $_SESSION['user_role_id'] == 3 ? true : false;
+        $isAdmin = $_SESSION['rol_id'] == 4 || $_SESSION['rol_id'] == 3 ? true : false;
         if (!$isAdmin) {header('location: /'); exit();}
         
         // obtener las ordenes pendientes
@@ -321,7 +323,7 @@ class PageController {
                     'order_last_name' => $order['order_last_name'],
                     'order_address' => $order['order_address'],
                     'order_coords' => $order['order_coords'],
-                    'order_user_id' => $order['order_user_id'],
+                    'order_usuario_id' => $order['order_usuario_id'],
                     'products' => array()
                 );
             }
@@ -339,11 +341,11 @@ class PageController {
         $id = $_GET['id'];
         // actualizar al domiciliario y su orden
         $_SESSION['user_delivery'] = ['state' => 'busy','order_id'=> $id];
-        $worker = $this -> userModel -> getById($_SESSION['user_id'], "*", "INNER JOIN workers ON users.user_id = workers.worker_user_id");
+        $worker = $this -> userModel -> getById($_SESSION['usuario_id'], "*", "INNER JOIN workers ON usuarios.usuario_id = workers.worker_usuario_id");
         $this -> orderModel -> updateById($id, ['order_worker_id' => $worker['worker_id']]);
         
         // obtener detalles de la orden
-        $inner_join_orders = "INNER JOIN users ON orders.order_user_id = users.user_id
+        $inner_join_orders = "INNER JOIN usuarios ON orders.order_usuario_id = usuarios.usuario_id
         INNER JOIN states ON orders.order_state_id = states.state_id";
         $order = $this -> orderModel -> getById($id, "*", $inner_join_orders);
         
@@ -359,16 +361,16 @@ class PageController {
     public function order_shift () {
         $id = $_GET['id'];
         // obtener orden
-        $inner_join_orders = "INNER JOIN users ON orders.order_user_id = users.user_id
+        $inner_join_orders = "INNER JOIN usuarios ON orders.order_usuario_id = usuarios.usuario_id
         INNER JOIN states ON orders.order_state_id = states.state_id";
 
         $delivery = $this -> orderModel -> getById($id, "*", $inner_join_orders);
 
         // obtener domiciliario
-        $worker = isset($delivery['order_worker_id']) ? $this -> userModel -> getAll("*", "INNER JOIN workers ON users.user_id = workers.worker_user_id", "WHERE worker_id = ". $delivery['order_worker_id'])[0] : ['user_username' => 'pendiente'] ;
+        $worker = isset($delivery['order_worker_id']) ? $this -> userModel -> getAll("*", "INNER JOIN workers ON usuarios.usuario_id = workers.worker_usuario_id", "WHERE worker_id = ". $delivery['order_worker_id'])[0] : ['user_username' => 'pendiente'] ;
         
         // autenticación
-        $isAdmin = $_SESSION['user_role_id'] == 4 || $_SESSION['user_id'] == $delivery['order_user_id'] ? true : false;
+        $isAdmin = $_SESSION['rol_id'] == 4 || $_SESSION['usuario_id'] == $delivery['order_usuario_id'] ? true : false;
         if (!$isAdmin) {header('location: /'); exit();}
         
         // obtener productos de la orden
@@ -387,14 +389,14 @@ class PageController {
         $id = $_GET['id'];
 
         // obtener orden
-        $inner_join_orders = "INNER JOIN users ON orders.order_user_id = users.user_id
+        $inner_join_orders = "INNER JOIN usuarios ON orders.order_usuario_id = usuarios.usuario_id
         INNER JOIN states ON orders.order_state_id = states.state_id
         INNER JOIN receipts ON orders.order_id = receipts.receipt_order_id";
 
         $order = $this -> orderModel -> getById($id, "*", $inner_join_orders);
 
         // autenticación
-        $isAdmin = $_SESSION['user_role_id'] == 4 || $_SESSION['user_id'] == $order['order_user_id'] ? true : false;
+        $isAdmin = $_SESSION['rol_id'] == 4 || $_SESSION['usuario_id'] == $order['order_usuario_id'] ? true : false;
         if (!$isAdmin) {header('location: /'); exit();}
         
         // obtener productos de la orden

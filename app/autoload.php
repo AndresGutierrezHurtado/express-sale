@@ -17,5 +17,3 @@ require_once(__DIR__ . "/models/cart.php");
 require_once(__DIR__ . "/models/mailer.php");
 require_once(__DIR__ . "/models/order.php");
 require_once(__DIR__ . "/models/calification.php");
-require_once(__DIR__ . "/models/sold_product.php");
-require_once(__DIR__ . "/models/receipt.php");

@@ -14,13 +14,14 @@ class="w-full max-w-[700px] my-10 flex flex-col items-center gap-5 p-5 bg-white 
     <input name="shippingCity"    type="hidden"  value="Bogotá" >
     <input name="shippingCountry" type="hidden"  value="CO"  >
     <input name="ing"             type="hidden"  value="es" >
+    <input name="order_coords"    type="hidden"  value="" id="cords">
 
     <!-- Formulario -->
     <h1 class="text-3xl font-bold mb-4">Formulario de pago</h1>
     <div class="w-full">
         <div class="w-full space-y-2">
             <label for="order_last_name" class="block text-sm font-medium text-gray-700">Nombre completo:</label>
-            <input type="text" id="order_last_name" placeholder="Apellidos" name="order_last_name" value="<?= $_SESSION['usuario_apellido'] ?>" 
+            <input type="text" id="order_last_name" placeholder="Apellidos" name="buyerFullName" value="<?= $_SESSION['usuario_apellido'] ?>" 
             class="block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 focus:border-violet-600 focus:outline-none sm:text-sm">
         </div>
     </div>
@@ -32,8 +33,8 @@ class="w-full max-w-[700px] my-10 flex flex-col items-center gap-5 p-5 bg-white 
     </div>
 
     <div class="w-full space-y-2">
-        <label for="order_phone_number" class="block text-sm font-medium text-gray-700">Teléfono:</label>
-        <input type="number" id="order_phone_number" placeholder="Teléfono" name="payerPhone" value="<?= $_SESSION['usuario_telefono'] ?? '' ?>" 
+        <label for="payerPhone" class="block text-sm font-medium text-gray-700">Teléfono:</label>
+        <input type="number" id="payerPhone" placeholder="Teléfono" name="payerPhone" value="<?= $_SESSION['usuario_telefono'] ?? '' ?>" 
         class="block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 focus:border-violet-600 focus:outline-none sm:text-sm">
     </div>
     
