@@ -141,7 +141,7 @@ class PageController {
 
         // calificaciones vendedor
         $inner_join_califications = " INNER JOIN calificaciones_usuarios ON calificaciones.calificacion_id = calificaciones_usuarios.calificacion_id
-        INNER JOIN usuarios ON calificaciones_usuarios.usuario_id = usuarios.usuario_id";
+        INNER JOIN usuarios ON calificaciones.usuario_id = usuarios.usuario_id";
 
         $califications = $this -> calificationModel -> getAll("*", $inner_join_califications, "WHERE calificaciones_usuarios.usuario_id = " . $seller['usuario_id']);
 

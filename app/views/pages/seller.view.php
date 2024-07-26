@@ -443,12 +443,13 @@ function buildQueryString( $add = [], $remove = []) {
 
 <script src="/public/js/cart.js"></script>
 <script>
-    document.addEventListener('DOMContentLoaded', () => {
-        
-
-    });
-
     let visible = false;
+    
+    function login () {
+        if (confirm('Para calificar un producto debes iniciar sesión.')) {
+            window.location.href = '/page/login';
+        }
+    }
 
     function toggleOptions(id) {
         document.getElementById(id).classList.toggle('hidden');
