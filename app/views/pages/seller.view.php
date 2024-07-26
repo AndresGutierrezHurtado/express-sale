@@ -42,10 +42,10 @@ function buildQueryString( $add = [], $remove = []) {
                 <h3 class="text-lg font-semibold">Calificaciones:</h3>
                 <div class="flex gap-5 w-full">
                     <div class="flex flex-col justify-center items-center">
-                        <h1 class="text-[40px] font-semibold"><?= $seller['calificacion_promedio'] ?? '0.00' ?></h1>
+                        <h1 class="text-[40px] font-semibold"><?= $seller['calificacion_promedio'] ?></h1>
                         <span class="flex items-center text-[15px] text-violet-500">
                             <?php
-                                $calificacion = $seller['calificacion_promedio'] ?? 0;
+                                $calificacion = $seller['calificacion_promedio'];
                                 $calificacionEntera = floor($calificacion);
                                 $fraccion = $calificacion - $calificacionEntera;
 
@@ -63,37 +63,37 @@ function buildQueryString( $add = [], $remove = []) {
                                 }
                             ?>
                         </span>
-                        <p class="mt-1 text-black/[0.6] "> <i class="fa-solid fa-user text-[13px]"></i> <?= $seller['numero_calificaciones'] ?? 0 ?> </p> 
+                        <p class="mt-1 text-black/[0.6] "> <i class="fa-solid fa-user text-[13px]"></i> <?= $seller['numero_calificaciones'] ?> </p> 
                     </div>
                     <div class="w-full flex flex-col gap-0">
                         <span class="flex items-center gap-2">
                             <p>5</p> 
                             <div class="w-full bg-gray-200 h-[6px] rounded-xl overflow-hidden">
-                                <div class="bg-violet-500 h-full" style="width: <?= ($seller['numero_calificaciones'] ?? 0 != 0) ? (($seller['num_calification_5'] / $seller['numero_calificaciones']) * 100) : 0 ?>%"></div>
+                                <div class="bg-violet-500 h-full" style="width: <?= $seller['numero_calificaciones'] < 1 ? '0' : ($seller['calificaciones_5'] / $seller['numero_calificaciones']) * 100 ?>%"></div>
                             </div>
                         </span>
                         <span class="flex items-center gap-2">
                             <p>4</p>
                             <div class="w-full bg-gray-200 h-[6px] rounded-xl overflow-hidden">
-                                <div class="bg-violet-500 h-full" style="width: <?= ($seller['numero_calificaciones'] ?? 0 != 0) ? (($seller['num_calification_4'] / $seller['numero_calificaciones']) * 100) : 0 ?>%"></div>
+                                <div class="bg-violet-500 h-full" style="width: <?= $seller['numero_calificaciones'] < 1 ? '0' : ($seller['calificaciones_4'] / $seller['numero_calificaciones']) * 100 ?>%"></div>
                             </div>
                         </span>
                         <span class="flex items-center gap-2">
                             <p>3</p>
                             <div class="w-full bg-gray-200 h-[6px] rounded-xl overflow-hidden">
-                                <div class="bg-violet-500 h-full" style="width: <?= ($seller['numero_calificaciones'] ?? 0 != 0) ? (($seller['num_calification_3'] / $seller['numero_calificaciones']) * 100) : 0 ?>%"></div>
+                                <div class="bg-violet-500 h-full" style="width: <?= $seller['numero_calificaciones'] < 1 ? '0' : ($seller['calificaciones_3'] / $seller['numero_calificaciones']) * 100 ?>%"></div>
                             </div>
                         </span>
                         <span class="flex items-center gap-2">
                             <p>2</p>
                             <div class="w-full bg-gray-200 h-[6px] rounded-xl overflow-hidden">
-                                <div class="bg-violet-500 h-full" style="width: <?= ($seller['numero_calificaciones'] ?? 0 != 0) ? (($seller['num_calification_2'] / $seller['numero_calificaciones']) * 100) : 0 ?>%"></div>
+                                <div class="bg-violet-500 h-full" style="width: <?= $seller['numero_calificaciones'] < 1 ? '0' : ($seller['calificaciones_2'] / $seller['numero_calificaciones']) * 100 ?>%"></div>
                             </div>
                         </span>
                         <span class="flex items-center gap-2">
                             <p>1</p>
                             <div class="w-full bg-gray-200 h-[6px] rounded-xl overflow-hidden">
-                                <div class="bg-violet-500 h-full" style="width: <?= ($seller['numero_calificaciones'] ?? 0 != 0) ? (($seller['num_calification_1'] / $seller['numero_calificaciones']) * 100) : 0 ?>%"></div>
+                                <div class="bg-violet-500 h-full" style="width: <?= $seller['numero_calificaciones'] < 1 ? '0' : ($seller['calificaciones_1'] / $seller['numero_calificaciones']) * 100 ?>%"></div>
                             </div>
                         </span>
                     </div>
@@ -114,7 +114,7 @@ function buildQueryString( $add = [], $remove = []) {
         <!-- Caja de comentarios -->
         <div class="w-full p-5 bg-white rounded-lg shadow-lg hidden" id="comment-box">
             <h3 class="text-2xl font-bold tracking-tight">Comentarios:</h3>
-            <div class="w-full space-y-5">
+            <div class="w-full divide-y divide-y-gray-300">
 
                 <?php if (count($califications) < 1): ?> 
                     <p class="text-lg mt-5 font-semibold text-gray-800/70">No hay calificaciones...</p>
@@ -122,8 +122,8 @@ function buildQueryString( $add = [], $remove = []) {
                 
                 <?php foreach ($califications as $calification): ?>
 
-                    <article class="w-full space-y-2">
-                        <span class="w-full flex justify-between">
+                    <article class="w-full space-y-2 py-4">
+                        <span class="w-full flex items-center justify-between">
                             <!-- Información del usuario -->
                             <div>
                                 <div class="flex gap-2 items-center">
@@ -154,20 +154,29 @@ function buildQueryString( $add = [], $remove = []) {
 
                             <!-- Botón desplegable de calificación -->
                             <div class="relative">
-                                <button>
-                                    <i>...</i>
+                                <button onclick="<?= isset($_SESSION['usuario_id']) ? "toggleOptions('dropdown-" . $calification['calificacion_id'] . "')" : 'login()' ?>">
+                                    <i class="fa-solid fa-ellipsis-vertical text-sm"></i>
                                 </button>
                                 <ul class="absolute top-[-25px] right-0 translate-x-1/2 translate-y-1/2 bg-white p-2 rounded-lg shadow w-[200px] text-center z-10 hidden" id="dropdown-<?= $calification['calificacion_id'] ?>">
-                                    <?php if ($calification['usuario_id'] == $_SESSION['usuario_id']):?>
-                                        <li class="px-3 py-1 hover:bg-gray-100"> <i class="fa-solid fa-pen text-sm mr-1"></i> Editar</li>
-                                        <li class="px-3 py-1 hover:bg-gray-100 text-red-500"> <i class="fa-solid fa-trash text-sm mr-1"></i> Eliminar</li>
+                                    <?php if ($calification['usuario_id'] == $_SESSION['usuario_id'] || $_SESSION['rol_id'] == 4):?>
+                                        <li class="px-3 py-1 hover:bg-gray-100 cursor-pointer" onclick="toggleModal('vendedor<?= $calification['calificacion_id'] ?>')"> <i class="fa-solid fa-pen text-sm mr-1"></i> Editar</li>
+                                        <form action="/calification/delete" method="post" onsubmit="return confirm('¿Seguro que quieres eliminar este comentario?, esta acción es irreversible.')" class="w-full">
+                                            <input type="hidden" name="calificacion_id" value="<?= $calification['calificacion_id'] ?>">
+                                            <button type="submit" class="px-3 py-1 hover:bg-gray-100 cursor-pointer text-red-500 w-full"> <i class="fa-solid fa-trash text-sm mr-1"></i> Eliminar</button>
+                                        </form>
                                     <?php endif; ?>
-                                    <li class="px-3 py-1 hover:bg-gray-100 text-red-500"> <i class="fa-solid fa-flag text-sm mr-1"></i> Reportar</li>
+                                    <li class="px-3 py-1 hover:bg-gray-100 cursor-pointer text-red-500" onclick="setTimeout(() => {alert('Elemento reportado.'); window.location.href= window.location.href;}, 1000)"> <i class="fa-solid fa-flag text-sm mr-1"></i> Reportar</li>
                                 </ul>
                             </div>
                         </span>
 
-                        <p> <?= $calification['calificacion_comentario'] ?></p>                        
+                        <p> <?= $calification['calificacion_comentario'] ?></p>
+                        <?php if($calification['calificacion_imagen_url']):?>
+                            <div class="w-full h-[230px] mx-auto">
+                                <img src="<?= $calification['calificacion_imagen_url']?>" alt="Imagen de comentario" class="object-contain h-full w-full">
+                            </div>
+                        <?php endif;?>
+
 
                     </article>
 
@@ -236,7 +245,7 @@ function buildQueryString( $add = [], $remove = []) {
                                         ?>
                                     </span>
                                     <div class="flex w-full justify-between text-sm text-gray-600/90 font-semibold">
-                                        <p><?= $product['calificacion_promedio'] ?? '0.00' ?></p>
+                                        <p><?= $product['calificacion_promedio'] ?></p>
                                         <p>
                                             <?= $product['numero_calificaciones'] ?>
                                             <i class="fa-solid fa-user"></i>
@@ -305,7 +314,7 @@ function buildQueryString( $add = [], $remove = []) {
             </div>
             <form id="rating-form" class="space-y-5" action="/calification/rate" method="POST" enctype="multipart/form-data">
                 <input type="hidden" name="vendedor_id" value="<?= $seller['usuario_id'] ?>">
-                <input type="hidden" name="usuario_id" value="<?= $_SESSION['usuario_id'] ?? ''?>">
+                <input type="hidden" name="usuario_id" value="<?= $_SESSION['usuario_id'] ?>">
                 <input type="hidden" name="tipo_objeto" value="usuario">
                 <input type="hidden" name="calificacion">
 
@@ -333,6 +342,54 @@ function buildQueryString( $add = [], $remove = []) {
     </div>
 </div>
 
+<!-- Modal vendedor calificaciones -->
+<?php foreach($califications as $calification) :?>
+<div class="fixed inset-0 z-50 hidden modal" id="modalvendedor<?= $calification['calificacion_id'] ?>">
+    <!-- Fondo oscuro -->
+    <div class="fixed inset-0 bg-black bg-opacity-50" onclick="toggleModal('vendedor<?= $calification['calificacion_id'] ?>')"></div>
+    <!-- Espacio modal -->
+    <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 flex items-center justify-center w-full max-w-[500px]">
+        <div class="w-full bg-white p-5 rounded-md space-y-5">
+            <div>                
+                <span class="w-full flex justify-between items-center">
+                    <h1 class="text-xl font-bold tracking-tight">Califica el vendedor</h1>
+                    <button class="duration-300 hover:text-gray-700" onclick="toggleModal('vendedor<?= $calification['calificacion_id'] ?>')">
+                        <i class="fa-solid fa-xmark text-2xl"></i>
+                    </button>
+                </span>
+                <p>Ten en cuenta la calidad de sus productos ofrecidos y la rapidez de entrega.</p>
+            </div>
+            <form id="rating-form" class="space-y-5" action="/calification/update" method="POST" enctype="multipart/form-data">
+                <input type="hidden" name="calificacion_id" value="<?= $calification['calificacion_id'] ?>">
+                <input type="hidden" name="vendedor_id" value="<?= $seller['usuario_id'] ?>">
+                <input type="hidden" name="usuario_id" value="<?= $_SESSION['usuario_id'] ?>">
+                <input type="hidden" name="tipo_objeto" value="usuario">
+                <input type="hidden" name="calificacion">
+
+                <div class="w-full space-y-2">
+                    <label for="calificacion_comentario" class="text-sm font-semibold text-gray-700">Mensaje</label>
+                    <textarea id="calificacion_comentario" name="calificacion_comentario" required
+                    class="w-full h-32 p-2 border resize-none rounded-lg focus:border-violet-600 focus:outline-none" placeholder="Mensaje..."><?= $calification['calificacion_comentario'] ?></textarea>
+                </div>
+                <div class="space-y-2">
+                    <label for="calificacion_imagen_url" class="text-sm font-semibold text-gray-700">Imagen</label> <br>
+                    <input type="file" name="calificacion_imagen" id="calificacion_imagen"
+                    class="file:bg-violet-600/80 file:text-white file:px-4 file:py-1 file:cursor-pointer file:border-0 file:rounded-md file:font-semibold file:text-sm file:hover:bg-violet-700 file:duration-300">
+                </div>
+                <div id="stars" class="flex items-center justify-center gap-2 text-[25px]">
+                    <span class="star starProducto" data-value="1"><i class="fa-solid fa-star cursor-pointer text-gray-300 duration-300 hover:scale-110"> </i></span>
+                    <span class="star starProducto" data-value="2"><i class="fa-solid fa-star cursor-pointer text-gray-300 duration-300 hover:scale-110"> </i></span>
+                    <span class="star starProducto" data-value="3"><i class="fa-solid fa-star cursor-pointer text-gray-300 duration-300 hover:scale-110"> </i></span>
+                    <span class="star starProducto" data-value="4"><i class="fa-solid fa-star cursor-pointer text-gray-300 duration-300 hover:scale-110"> </i></span>
+                    <span class="star starProducto" data-value="5"><i class="fa-solid fa-star cursor-pointer text-gray-300 duration-300 hover:scale-110"> </i></span>
+                </div>
+                <button id="calificar-btn" class="w-full bg-violet-600 font-bold duration-300 hover:bg-violet-800 text-white py-2 px-4 rounded-lg">Calificar</button>
+            </form>
+
+        </div>
+    </div>
+</div>
+<?php endforeach; ?>
 
 <!-- Modales -->
 <?php foreach($products['data'] as $product): ?>
@@ -353,7 +410,7 @@ function buildQueryString( $add = [], $remove = []) {
             </div>
             <form id="rating-form" class="space-y-5" action="/calification/rate" method="POST" enctype="multipart/form-data">
                 <input type="hidden" name="product_id" value="<?= $product['producto_id'] ?>">
-                <input type="hidden" name="usuario_id" value="<?= $_SESSION['usuario_id'] ?? ''?>">
+                <input type="hidden" name="usuario_id" value="<?= $_SESSION['usuario_id'] ?>">
                 <input type="hidden" name="tipo_objeto" value="producto">
                 <input type="hidden" name="calificacion">
 
@@ -390,6 +447,10 @@ function buildQueryString( $add = [], $remove = []) {
     });
 
     let visible = false;
+
+    function toggleOptions(id) {
+        document.getElementById(id).classList.toggle('hidden');
+    }
 
     function toggleComments() {
         document.getElementById('comment-box').classList.toggle('hidden');

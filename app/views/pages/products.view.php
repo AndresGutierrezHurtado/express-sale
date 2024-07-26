@@ -136,7 +136,7 @@
                                             ?>
                                         </span>
                                         <div class="flex w-full justify-between text-sm text-gray-600/90 font-semibold">
-                                            <p><?= $product['calificacion_promedio'] ?? '0.00' ?></p>
+                                            <p><?= $product['calificacion_promedio'] ?></p>
                                             <p>
                                                 <?= $product['numero_calificaciones'] ?>
                                                 <i class="fa-solid fa-user"></i>
@@ -208,7 +208,7 @@
             </div>
             <form id="rating-form" class="space-y-5" action="/calification/rate" method="POST" enctype="multipart/form-data">
                 <input type="hidden" name="product_id" value="<?= $product['producto_id'] ?>">
-                <input type="hidden" name="usuario_id" value="<?= $_SESSION['usuario_id'] ?? ''?>">
+                <input type="hidden" name="usuario_id" value="<?= $_SESSION['usuario_id'] ?>">
                 <input type="hidden" name="tipo_objeto" value="producto">
                 <input type="hidden" name="calificacion">
 

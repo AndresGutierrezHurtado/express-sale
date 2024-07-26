@@ -48,4 +48,26 @@ class CalificationController {
         }
     }
 
+    public function update() {
+        $data = [
+            'calificacion_comentario' => $_POST['calificacion_comentario'],
+            'calificacion' => $_POST['calificacion'],
+        ];
+
+        if (!empty($_FILES['calificacion_imagen']['name'])) {
+            $data['calificacion_imagen_url'] = '/public/images/califications/' . $_POST['calificacion_id'] . '.jpg';
+
+            move_uploaded_file($_FILES['calificacion_imagen']['tmp_name'], $_SERVER['DOCUMENT_ROOT'] . $data['calificacion_imagen_url']);
+        } else { $data['calificacion_imagen_url'] = null; }
+
+        $result = $this -> calificationModel -> updateById($_POST['calificacion_id'], $data);
+
+        echo json_encode($result);
+    }
+
+    public function delete() {
+        $result = $this -> calificationModel -> deleteById($_POST['calificacion_id']);
+
+        echo json_encode($result);
+    }
 }
