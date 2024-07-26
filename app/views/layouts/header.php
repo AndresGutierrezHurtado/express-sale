@@ -59,7 +59,7 @@
         <ul class="hidden md:flex gap-4 text-[18px] w-fit mx-auto">
             <li class="duration-300 hover:text-violet-800 hover:scale-105"><a href="/">Inicio</a></li>|
             <li class="duration-300 hover:text-violet-800 hover:scale-105"><a href="/page/products">Productos</a></li>|
-            <li class="duration-300 hover:text-violet-800 hover:scale-105"><a href="/page/home/#aboutUs">Sobre Nosotros</a></li>
+            <li class="duration-300 hover:text-violet-800 hover:scale-105"><a href="/page/home/#about">Sobre Nosotros</a></li>
         </ul>
 
         <!-- Header mobile section -->

@@ -18,14 +18,23 @@ class PageController {
     }
     
     public function home(){
-        require_once(__DIR__ . "/../views/home/home.view.php");
+        $title = "Inicio";
+        $content = __DIR__ . "/../views/pages/home.view.php";
+
+        require_once(__DIR__ . "/../views/layouts/app.layout.php");
     }  
 
     public function login(){
-        require_once(__DIR__ . "/../views/auth/login.view.php");
+        $title = "Inicia Sesión";
+        $content = __DIR__ . "/../views/pages/auth/login.view.php";
+
+        require_once(__DIR__ . "/../views/layouts/guest.layout.php");
     }
     public function register(){
-        require_once(__DIR__ . "/../views/auth/register.view.php");
+        $title = "Regístrate";
+        $content = __DIR__ . "/../views/pages/auth/register.view.php";
+
+        require_once(__DIR__ . "/../views/layouts/guest.layout.php");
     }
 
     public function recover_account () {
@@ -44,30 +53,57 @@ class PageController {
     public function products(){
         // filtros y sorts
         $page = isset($_GET['page']) ? $_GET['page'] : 1;
-        // $search = isset($_GET['search']) ? "(producto_nombre LIKE '%".$_GET['search']."%' OR producto_descripcion LIKE '%".$_GET['search']."%' OR usuarios.usuario_alias LIKE '%".$_GET['search']."%') AND" : "" ;
-        // $addition = isset($_GET['filter']) && isset($_GET['value']) ? $_GET['filter']." = ".$_GET['value']." AND" : "";
+        $categoria = isset($_GET['categoria']) ? " categorias.categoria_id = " . $_GET['categoria'] . " AND" : "";
 
-        // $min = isset($_GET['min']) ? $_GET['min'] : 0;
-        // $max = isset($_GET['max']) ? $_GET['max'] : 1000000000;
-        // $max_and_min = "producto_precio > $min AND producto_precio < $max";
+        // Búsqueda
+        $search = isset($_GET['search']) ? "(producto_nombre LIKE '%".$_GET['search']."%' OR producto_descripcion LIKE '%".$_GET['search']."%' OR usuarios.usuario_alias LIKE '%".$_GET['search']."%') AND" : "" ;
 
-        // $sort = isset($_GET['sort']) ? $_GET['sort'] : 'avg_calification';
-        // $sortQuery = $sort == 'producto_precio' ? "ORDER BY $sort ASC " :  "ORDER BY $sort DESC" ;
-        
-        // $select = "*, ROUND(AVG(calificaciones.calification), 2) AS avg_calification, 
-        // (SELECT COUNT(*) FROM califications WHERE califications.calificated_object_id = products.product_id AND califications.calification_object_type = 'producto') AS califications_count";
+        $min = isset($_GET['min']) ? $_GET['min'] : 0;
+        $max = isset($_GET['max']) ? $_GET['max'] : 1000000000;
+        $minmax = "producto_precio > $min AND producto_precio < $max";
 
+        // Select
+        $select = "productos.*, usuarios.usuario_alias,
+        COUNT(calificaciones_productos.producto_id) AS numero_calificaciones,
+        ROUND(AVG(calificaciones.calificacion), 2) AS calificacion_promedio";
+
+        // Inner join
         $inner_join = "
         INNER JOIN categorias ON productos.categoria_id = categorias.categoria_id
         INNER JOIN usuarios ON productos.usuario_id = usuarios.usuario_id
+        LEFT JOIN calificaciones_productos ON productos.producto_id = calificaciones_productos.producto_id
+        LEFT JOIN calificaciones ON calificaciones_productos.calificacion_id = calificaciones.calificacion_id
         ";
 
-        // $queryRows = "WHERE $search $addition $max_and_min";
-        // $query = "WHERE $search $addition $max_and_min GROUP BY products.product_id $sortQuery ";
+        // Order By
+        $sort = isset($_GET['sort']) ? $_GET['sort'] : 'calificacion_promedio';
+        $sortQuery = $sort == 'producto_precio' ? "ORDER BY $sort ASC " :  "ORDER BY $sort DESC" ;
 
-        $products = $this -> productModel -> paginate($page, 5, "*", $inner_join, "", "");
+        // Armar consulta con todo lo anterior
+        $queryRows = "WHERE $search $categoria $minmax";
+        $query = "WHERE $search $categoria $minmax GROUP BY productos.producto_id $sortQuery";
+
+        function buildQueryString( $add = [], $remove = []) {
+            $params = $_GET;
+            $queryString = '?';
+            foreach ($params as $key => $param) {
+                if (!in_array($key, $remove) && !array_key_exists($key, $add)) {
+                    $queryString.= $key . '=' . $param . '&';
+                }
+            }
+            foreach ($add as $key => $param) {
+                $queryString.= $key . '=' . $param . '&';
+            }
+            $queryString = rtrim($queryString, '&');
+            return $queryString;
+        }
         
-        require_once(__DIR__ . "/../views/products/products.view.php");
+        $products = $this -> productModel -> paginate($page, 5, $select, $inner_join, $queryRows, $query);
+
+        $title = "Productos";
+        $content = __DIR__ . "/../views/pages/products.view.php";
+
+        require_once(__DIR__ . "/../views/layouts/app.layout.php");
     }
 
     public function public_profile () {

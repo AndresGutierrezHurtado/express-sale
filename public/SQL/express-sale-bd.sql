@@ -66,32 +66,31 @@ CREATE TABLE `productos` (
     `producto_descripcion` TEXT,
     `producto_cantidad` INT,
     `producto_precio` DECIMAL(10, 0),
-    `producto_imagen_url` VARCHAR(255),
+    `producto_imagen_url` VARCHAR(255) NOT NULL DEFAULT '/public/images/products/default.jpg',
     `producto_estado` ENUM('privado', 'publico') DEFAULT 'privado',
     `producto_fecha` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     `usuario_id` INT,
     `categoria_id` INT
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Insert data into products table with product_date
-INSERT INTO `productos` (`producto_nombre`, `producto_descripcion`, `producto_fecha`, `producto_precio`, `producto_cantidad`, `categoria_id`, `usuario_id`) VALUES
+-- Insertar datos en la tabla productos con la URL de la imagen
+INSERT INTO `productos` (`producto_nombre`, `producto_descripcion`, `producto_fecha`, `producto_imagen_url`, `producto_precio`, `producto_cantidad`, `categoria_id`, `usuario_id`) VALUES
 -- Moda
-('Nike Air Jordan 1', 'Las icónicas zapatillas Nike Air Jordan 1 son un clásico atemporal en el mundo de la moda urbana, conocidas por su estilo y comodidad.', '2024-02-01', 289900.00, 15, 1, 3),
-('Cadena Cubana de Plata', 'Una cadena cubana de plata es un accesorio clásico y llamativo que puede complementar cualquier atuendo, ya sea casual o más elegante.', '2024-03-25', 24900.00, 9, 1, 3),
-('Casio G-Shock GA-2100', 'El reloj Casio G-Shock GA-2100 es conocido por su resistencia y estilo, con características como resistencia a golpes, al agua y un diseño moderno y elegante.', '2024-04-20', 224000.00, 10, 1, 3),
+('Nike Air Jordan 1', 'Las icónicas zapatillas Nike Air Jordan 1 son un clásico atemporal en el mundo de la moda urbana, conocidas por su estilo y comodidad.', '2024-02-01', '/public/images/products/1.jpg', 289900.00, 15, 1, 3),
+('Cadena Cubana de Plata', 'Una cadena cubana de plata es un accesorio clásico y llamativo que puede complementar cualquier atuendo, ya sea casual o más elegante.', '2024-03-25', '/public/images/products/2.jpg', 24900.00, 9, 1, 3),
+('Casio G-Shock GA-2100', 'El reloj Casio G-Shock GA-2100 es conocido por su resistencia y estilo, con características como resistencia a golpes, al agua y un diseño moderno y elegante.', '2024-04-20', '/public/images/products/3.jpg', 224000.00, 10, 1, 3),
 -- Tecnología
-('iPhone 13 Pro', 'El iPhone 13 Pro es el último modelo de Apple que combina un diseño elegante con un rendimiento potente y cámaras avanzadas para capturar imágenes impresionantes.', '2024-05-10', 2100000.00, 8, 3, 4),
-('Xbox Series X', 'La Xbox Series X ofrece potencia de próxima generación, velocidades de carga ultrarrápidas y una amplia biblioteca de juegos para una experiencia de juego inigualable.', '2024-05-05', 3599900.00, 13, 3, 4),
-('PlayStation 5', 'La PlayStation 5 es la consola de última generación de Sony, que ofrece gráficos impresionantes, carga ultrarrápida y una amplia variedad de juegos exclusivos.', '2024-04-15', 4599900.00, 12, 3, 4),
+('iPhone 13 Pro', 'El iPhone 13 Pro es el último modelo de Apple que combina un diseño elegante con un rendimiento potente y cámaras avanzadas para capturar imágenes impresionantes.', '2024-05-10', '/public/images/products/4.jpg', 2100000.00, 8, 3, 4),
+('Xbox Series X', 'La Xbox Series X ofrece potencia de próxima generación, velocidades de carga ultrarrápidas y una amplia biblioteca de juegos para una experiencia de juego inigualable.', '2024-05-05', '/public/images/products/5.jpg', 3599900.00, 13, 3, 4),
+('PlayStation 5', 'La PlayStation 5 es la consola de última generación de Sony, que ofrece gráficos impresionantes, carga ultrarrápida y una amplia variedad de juegos exclusivos.', '2024-04-15', '/public/images/products/6.jpg', 4599900.00, 12, 3, 4),
 -- Comida
-('Galletas Oreo', 'Las deliciosas galletas Oreo, con su crujiente galleta y su cremoso relleno de vainilla, son un clásico de la merienda que gusta a niños y adultos por igual.', '2024-03-01', 26900.00, 40, 2, 5),
-('Nutella', 'La crema de avellanas Nutella, con su textura suave y su sabor dulce, es un imprescindible en el desayuno de millones de personas en todo el mundo.', '2024-02-10', 7000.00, 22, 2, 5),
-('KitKat', 'El delicioso chocolate KitKat, con sus característicos barquillos y su irresistible sabor, es el snack perfecto para disfrutar en cualquier momento del día.', '2024-03-20', 4000.00, 28, 2, 5),
+('Galletas Oreo', 'Las deliciosas galletas Oreo, con su crujiente galleta y su cremoso relleno de vainilla, son un clásico de la merienda que gusta a niños y adultos por igual.', '2024-03-01', '/public/images/products/7.jpg', 26900.00, 40, 2, 5),
+('Nutella', 'La crema de avellanas Nutella, con su textura suave y su sabor dulce, es un imprescindible en el desayuno de millones de personas en todo el mundo.', '2024-02-10', '/public/images/products/8.jpg', 7000.00, 22, 2, 5),
+('KitKat', 'El delicioso chocolate KitKat, con sus característicos barquillos y su irresistible sabor, es el snack perfecto para disfrutar en cualquier momento del día.', '2024-03-20', '/public/images/products/9.jpg', 4000.00, 28, 2, 5),
 -- Otros
-('Mancuernas Ajustables', 'Un par de mancuernas ajustables con diferentes pesos, perfectas para entrenamiento de fuerza en casa o en el gimnasio.', '2024-04-05', 89900.00, 8, 4, 2),
-('Megaplex | Creatine Power', 'Suplemento de proteína en polvo de alta calidad, ideal para la recuperación muscular y el crecimiento después del entrenamiento.', '2024-05-01', 59900.00, 10, 4, 2),
-('Rubik`s Cube', 'El clásico cubo de Rubik, con su diseño de colores vivos y su desafiante mecánica, es uno de los rompecabezas más populares y reconocidos del mundo.', '2024-02-15', 15000.00, 15, 4, 2);
-
+('Mancuernas Ajustables', 'Un par de mancuernas ajustables con diferentes pesos, perfectas para entrenamiento de fuerza en casa o en el gimnasio.', '2024-04-05', '/public/images/products/10.jpg', 89900.00, 8, 4, 2),
+('Megaplex | Creatine Power', 'Suplemento de proteína en polvo de alta calidad, ideal para la recuperación muscular y el crecimiento después del entrenamiento.', '2024-05-01', '/public/images/products/11.jpg', 59900.00, 10, 4, 2),
+('Rubik`s Cube', 'El clásico cubo de Rubik, con su diseño de colores vivos y su desafiante mecánica, es uno de los rompecabezas más populares y reconocidos del mundo.', '2024-02-15', '/public/images/products/12.jpg', 15000.00, 15, 4, 2);
 -- ---------------------------------------------------------------
 --
 -- Tabla de Categorías
@@ -111,10 +110,10 @@ INSERT INTO `categorias` (`categoria_id`, `categoria_nombre`) VALUES
 -- Tabla de Calificaciones
 CREATE TABLE `calificaciones` (
     `calificacion_id` INT PRIMARY KEY AUTO_INCREMENT,
-    `calificacion_comentario` TEXT,
+    `calificacion_comentario` TEXT NOT NULL,
     `calificacion_imagen_url` VARCHAR(255),
     `calificacion_fecha` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    `calificacion` INT,
+    `calificacion` INT NOT NULL,
     `usuario_id` INT
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 

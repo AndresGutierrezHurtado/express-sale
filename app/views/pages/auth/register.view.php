@@ -10,12 +10,12 @@
 </head>
 <body class="w-full min-h-screen bg-gray-50 flex items-center justify-center relative">
     <!-- Fondo Morado -->
-    <div class="absolute inset-0 fixed overflow-hidden">
+    <div class="fixed inset-0 overflow-hidden">
         <div class="absolute bg-violet-800 h-[120%] md:h-[140vh] w-[100%] right-[-50%] rounded-full top-1/2 transform -translate-y-1/2"></div>
     </div>
 
     <!-- Login -->
-    <main class="flex items-center justify-center z-50 py-5">
+    <main class="flex items-center justify-center z-50 py-5 md:py-10">
         <div class="w-full max-w-[500px] bg-white px-4 py-7 sm:rounded-xl sm:px-10 sm:shadow-xl z-50 flex flex-col gap-5">
             <!-- Logo y Titulo -->
             <div>
