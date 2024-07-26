@@ -7,7 +7,7 @@
 
             <!-- Listado de productos -->
             <div class="divide-y divide-y-gray-300">
-                <?php if(count($cart) < 1): ?>
+                <?php if(count($products) < 1): ?>
                     <div class="w-full">
                         <p class="font-bold">No se encontraron productos.</p>
                     </div>
@@ -65,7 +65,7 @@
                 <?php endforeach; ?>
             </div>
 
-            <?php if(count($cart) > 1): ?>
+            <?php if(count($products) > 1): ?>
                 <hr>
                 <button id="btn-empty" class="w-full border-2 border-violet-600 text-violet-600 font-bold rounded-md p-1.5 px-3 duration-300 hover:bg-gray-200">Vaciar carrito</button>
             <?php endif; ?>

@@ -8,7 +8,7 @@
     <script src="https://kit.fontawesome.com/eb36e646d1.js" crossorigin="anonymous"></script>
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body class="w-full min-h-screen flex items-center justify-center">
+<body class="w-full min-h-screen flex items-center justify-center bg-gray-50">
 
     <!-- Main -->
     <?php require_once($content); ?>

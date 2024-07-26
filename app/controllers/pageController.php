@@ -11,7 +11,7 @@ class PageController {
     public function __construct(mysqli $conn) { 
         $this -> productModel = new Product($conn);
         $this -> userModel = new User($conn);
-        $this -> cartModel = new Cart();
+        $this -> cartModel = new Cart($conn);
         $this -> orderModel = new Order($conn);
         $this -> soldProductModel = new soldProduct($conn);
         $this -> calificationModel = new Calification($conn);
@@ -42,18 +42,22 @@ class PageController {
     }
     
     public function payprocess () {
-        require_once(__DIR__ . "/../views/pay/form.view.php");
+        $title = "Formulario de pago";
+        $content = __DIR__ . "/../views/pages/pay/form.view.php";
+
+        $totalPrice = $this -> cartModel -> getTotalPrice();
+        $products = $this -> cartModel -> getAll();
+
+        $reference_code = md5(date('Ymd') . '-' . $_SESSION['usuario_id'] . microtime(true));
+        
+        // "ApiKey~merchantId~referenceCode~amount~currency~paymentMethods~iin~pseBanks"
+        $signature = md5(PAYU_API_KEY . '~' . PAYU_MERCHANT_ID . '~' . $reference_code . '~' . $totalPrice . '~' . 'COP' );
+
+        require_once(__DIR__ . "/../views/layouts/guest.layout.php");
     }
 
     public function cart() {
-        $cart = $this -> cartModel -> getAll();
-        $products = [];
-
-        foreach($cart as $product){
-            $result = $this -> productModel -> getById($product['producto_id'], "productos.producto_nombre, productos.producto_id, productos.producto_imagen_url, productos.producto_precio");
-            $result['producto_cantidad'] = $product['producto_cantidad'];
-            array_push($products, $result);
-        }
+        $products = $this -> cartModel -> getAll();
 
         $title = "Carrito";
         $content = __DIR__ . "/../views/pages/pay/cart.view.php";
