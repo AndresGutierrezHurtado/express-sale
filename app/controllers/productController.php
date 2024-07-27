@@ -83,9 +83,21 @@ class ProductController {
         $post_data = file_get_contents('php://input');
         $post_data = json_decode( $post_data , true);
 
-        $result = $this -> multimediaModel -> deleteById($post_data['id']);
+        $media = $this->multimediaModel->getById($post_data['id']);
 
-        echo json_encode($result);
+        if ($media) {
+            $filePath = $_SERVER['DOCUMENT_ROOT'] . $media['multimedia_url'];
+
+            if (file_exists($filePath)) {
+                unlink($filePath);
+            }
+
+            $result = $this->multimediaModel->deleteById($post_data['id']);
+            echo json_encode($result);
+        } else {
+            // Manejar el caso donde el multimedia no se encontró
+            echo json_encode(['success' => false, 'message' => 'El archivo multimedia no se encontró.']);
+        }
     }
 
 }
