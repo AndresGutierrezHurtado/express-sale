@@ -19,7 +19,7 @@ function buildQueryString( $add = [], $remove = []) {
         padding: 8px;
     }
 </style>
-<main class="w-full max-w-[1200px] space-y-10 py-10 mx-auto">
+<main class="w-full max-w-[1200px] space-y-10 py-12 mx-auto">
 
     <form id="user_profile_form" class="w-full flex flex-col md:flex-row justify-between items-start gap-5" enctype="multipart/form-data">
         <input type="hidden" class="hidden" name="usuario_id" id="user_id" value="<?= isset($_GET['id']) ? $_GET['id'] : $_SESSION['usuario_id'] ?>">
@@ -194,7 +194,13 @@ function buildQueryString( $add = [], $remove = []) {
                             <td class="hidden sm:table-cell"><?= $product['producto_cantidad']; ?></td>
                             <td ><?= $product['categoria_nombre'] ?> </td>
                             <td class="flex flex-col gap-3 sm:flex-row justify-center"> 
-                                <a href="/page/product_profile/?id=<?= $product['producto_id'] ?>"><button class="p-[2px] sm:px-3 border-2 border-violet-800 text-violet-800 rounded-md font-bold duration-300 hover:bg-gray-200"><i class="fa-solid fa-pen-to-square"></i></button></a>
+
+                                <a href="/page/product_profile/?producto=<?= $product['producto_id'] ?>">
+                                    <button class="p-[2px] sm:px-3 border-2 border-violet-800 text-violet-800 rounded-md font-bold duration-300 hover:bg-gray-200">
+                                        <i class="fa-solid fa-pen-to-square"></i>
+                                    </button>
+                                </a>
+                                
                                 <button class="p-[2px] sm:px-3 bg-violet-800 text-white rounded-md font-bold duration-300 hover:bg-violet-600 btn-delete" onclick="if(confirm('¿Deseas eliminar este producto?')) deleteElement(<?= $product['producto_id'] ?>)"><i class="fa-solid fa-trash-can"></i></button> 
                             </td>
                         </tr>

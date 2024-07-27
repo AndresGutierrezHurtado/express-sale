@@ -3,7 +3,7 @@ CREATE DATABASE `express-sale-bd`;
 USE `express-sale-bd`;
 
 
-DROP TABLE IF EXISTS `usuarios`, `trabajadores`, `roles`, `productos`, `categorias`, `calificaciones`, `calificaciones_usuarios`, `calificaciones_productos`, `imagenes`, `pedidos`, `detalles_pagos`, `detalles_envios`, `productos_pedidos`;
+DROP TABLE IF EXISTS `usuarios`, `trabajadores`, `roles`, `productos`, `categorias`, `calificaciones`, `calificaciones_usuarios`, `calificaciones_productos`, `multimedias`, `pedidos`, `detalles_pagos`, `detalles_envios`, `productos_pedidos`;
 
 
 -- ---------------------------------------------------------------
@@ -98,6 +98,7 @@ INSERT INTO `productos` (`producto_nombre`, `producto_descripcion`, `producto_fe
 ('Mancuernas Ajustables', 'Un par de mancuernas ajustables con diferentes pesos, perfectas para entrenamiento de fuerza en casa o en el gimnasio.', '2024-04-05', '/public/images/products/10.jpg', 89900.00, 8, 4, 2),
 ('Megaplex | Creatine Power', 'Suplemento de proteína en polvo de alta calidad, ideal para la recuperación muscular y el crecimiento después del entrenamiento.', '2024-05-01', '/public/images/products/11.jpg', 59900.00, 10, 4, 2),
 ('Rubik`s Cube', 'El clásico cubo de Rubik, con su diseño de colores vivos y su desafiante mecánica, es uno de los rompecabezas más populares y reconocidos del mundo.', '2024-02-15', '/public/images/products/12.jpg', 15000.00, 15, 4, 2);
+
 -- ---------------------------------------------------------------
 --
 -- Tabla de Categorías
@@ -142,10 +143,11 @@ CREATE TABLE `calificaciones_productos` (
 
 -- ---------------------------------------------------------------
 --
--- Tabla de Imágenes
-CREATE TABLE `imagenes` (
-    `imagen_id` INT PRIMARY KEY AUTO_INCREMENT,
-    `imagen_url` VARCHAR(255),
+-- Tabla de archivos multimedia
+CREATE TABLE `multimedias` (
+    `multimedia_id` INT PRIMARY KEY AUTO_INCREMENT,
+    `multimedia_url` VARCHAR(255) NOT NULL,
+    `multimedia_tipo` ENUM('imagen', 'video') NOT NULL,
     `producto_id` INT
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
@@ -256,8 +258,8 @@ REFERENCES `productos`(`producto_id`)
 ON UPDATE CASCADE
 ON DELETE CASCADE;
 
-ALTER TABLE `imagenes`
-ADD CONSTRAINT `fk_imagenes_productos` 
+ALTER TABLE `multimedias`
+ADD CONSTRAINT `fk_multimedia_productos` 
 FOREIGN KEY (`producto_id`) 
 REFERENCES `productos`(`producto_id`)
 ON UPDATE CASCADE

@@ -234,14 +234,22 @@ class PageController {
 
     public function product_profile() {
         // obtener datos del producto
-        $product = $this -> productModel -> getById( $_GET['id'] , "*", "INNER JOIN usuarios ON products.product_usuario_id = usuarios.usuario_id 
-        INNER JOIN images ON products.product_id = images.image_object_id AND images.image_object_type = 'producto'");
-        
-        // Autenticación
-        $isAdmin = $_SESSION['rol_id'] == 4 || $_SESSION['usuario_id'] == $product['product_usuario_id'] ? true : false;
+        $select_products = "productos.*, multimedias.multimedia_id, multimedias.multimedia_url,
+        COUNT(multimedias.producto_id) AS numero_multimedias";
+
+        $inner_join_products = " LEFT JOIN multimedias ON productos.producto_id = multimedias.producto_id ";
+
+        $product = $this -> productModel -> getById( $_GET['producto'] , $select_products, $inner_join_products);
+
+
+        // // MiddleWare
+        $isAdmin = $_SESSION['rol_id'] == 4 || $_SESSION['usuario_id'] == $product['usuario_id'] ? true : false;
         if (!$isAdmin) {header('location: /'); exit();}
 
-        require_once(__DIR__. "/../views/profile/product.view.php");
+        $title = "Perfil de Producto";
+        $content = __DIR__ . "/../views/pages/profile/product.view.php";
+
+        require_once(__DIR__ . "/../views/layouts/app.layout.php");
     }
 
     public function dashboard_usuarios() {
