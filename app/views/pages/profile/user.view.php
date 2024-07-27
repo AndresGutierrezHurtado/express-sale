@@ -19,7 +19,7 @@ function buildQueryString( $add = [], $remove = []) {
         padding: 8px;
     }
 </style>
-<main class="w-full max-w-[1200px] space-y-10 py-12 mx-auto">
+<main class="w-full max-w-[1200px] space-y-10 py-12 mx-auto px-3">
 
     <form id="user_profile_form" class="w-full flex flex-col md:flex-row justify-between items-start gap-5" enctype="multipart/form-data">
         <input type="hidden" class="hidden" name="usuario_id" id="user_id" value="<?= isset($_GET['id']) ? $_GET['id'] : $_SESSION['usuario_id'] ?>">
@@ -125,7 +125,7 @@ function buildQueryString( $add = [], $remove = []) {
                 <thead>
                     <tr class="bg-gray-200">
                         <th>Fecha</th>
-                        <th class=" hidden lg:table-cell">Productos</th>
+                        <th class="hidden lg:table-cell">Productos</th>
                         <th>Estado</th>
                         <th>Precio</th>
                         <th>Ver</th>
@@ -134,20 +134,20 @@ function buildQueryString( $add = [], $remove = []) {
                 <tbody>
                     <?php foreach ($orders as $order): ?>
                     <tr>
-                        <td ><?= $order['pedido_fecha'] ?></td>
-                        <td >
+                        <td><?= $order['pedido_fecha'] ?></td>
+                        <td class="hidden lg:table-cell">
                             <ol>
                                 <?php foreach ($order['productos'] as $product) :?>
                                     <li>(<?= $product['producto_cantidad'] ?>) - <?= $product['producto_nombre'] ?></li> 
                                 <?php endforeach; ?>
                             </ol>
                         </td>
-                        <td > <?= $order['pedido_estado'] ?> </td>
-                        <td ><?= number_format($order['pago_valor']); ?> COP</td>
-                        <td > 
+                        <td> <?= $order['pedido_estado'] ?> </td>
+                        <td><?= number_format($order['pago_valor']); ?> COP</td>
+                        <td class="flex justify-center"> 
                             <a href="/page/order/?order=<?= $order['pedido_id'] ?>">
-                                <button class="p-[2px] sm:px-3 border-2 border-violet-800 text-violet-800 rounded-md font-bold duration-300 hover:bg-gray-200">
-                                    <i class="fa-regular fa-eye"></i>
+                                <button class="group flex items-center justify-center rounded-md border border-transparent bg-violet-600 px-4 py-2 text-sm font-medium text-white hover:bg-violet-700 focus:outline-none focus:ring-2 focus:ring-violet-500 focus:ring-offset-2 disabled:cursor-wait disabled:opacity-50 cursor-pointer">
+                                    <i class="fa-solid fa-eye text-[18px] text-violet-400 duration-300 group-hover:text-violet-300"></i>
                                 </button>
                             </a>
                         </td>
@@ -193,15 +193,18 @@ function buildQueryString( $add = [], $remove = []) {
                             <td ><?= number_format($product['producto_precio']); ?> COP</td>
                             <td class="hidden sm:table-cell"><?= $product['producto_cantidad']; ?></td>
                             <td ><?= $product['categoria_nombre'] ?> </td>
-                            <td class="flex flex-col gap-3 sm:flex-row justify-center"> 
+                            <td class="flex flex-col sm:flex-row gap-3 justify-center items-center"> 
 
                                 <a href="/page/product_profile/?producto=<?= $product['producto_id'] ?>">
-                                    <button class="p-[2px] sm:px-3 border-2 border-violet-800 text-violet-800 rounded-md font-bold duration-300 hover:bg-gray-200">
-                                        <i class="fa-solid fa-pen-to-square"></i>
+                                    <button  class="group flex items-center justify-center rounded-md border border-transparent bg-gray-300 px-4 py-2 text-sm font-medium text-white hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-gray-200 focus:ring-offset-2 disabled:cursor-wait disabled:opacity-50 cursor-pointer" >
+                                        <i class="fa-solid fa-pen-to-square text-[18px] text-gray-400 duration-300 group-hover:text-gray-500"></i>
                                     </button>
                                 </a>
                                 
-                                <button class="p-[2px] sm:px-3 bg-violet-800 text-white rounded-md font-bold duration-300 hover:bg-violet-600 btn-delete" onclick="if(confirm('¿Deseas eliminar este producto?')) deleteElement(<?= $product['producto_id'] ?>)"><i class="fa-solid fa-trash-can"></i></button> 
+                                <button  class="group flex items-center justify-center rounded-md border border-transparent bg-red-600 px-4 py-2 text-sm font-medium text-white hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 disabled:cursor-wait disabled:opacity-50 cursor-pointer" 
+                                onclick="if(confirm('¿Deseas eliminar este producto?')) deleteElement(<?= $product['producto_id'] ?>)">
+                                    <i class="fa-solid fa-trash-can text-[18px] text-red-400 duration-300 group-hover:text-red-300"></i>
+                                </button> 
                             </td>
                         </tr>
                         <?php endforeach; ?>

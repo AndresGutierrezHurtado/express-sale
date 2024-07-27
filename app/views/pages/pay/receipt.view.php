@@ -30,8 +30,8 @@ class FacturaPDF extends FPDF {
         $this->SetFont('Arial','B',14);
         $this->Cell(45, 7,'FACTURAR A:',0,1,'L');
         $this->SetFont('Arial','',10);
-        $this->MultiCell(45, 4, mb_convert_encoding($this->order['user_first_name'] . " " . $this->order['user_last_name'], 'ISO-8859-1', 'UTF-8' ), 0);
-        $this->MultiCell(45, 4, mb_convert_encoding($this->order['user_address'], 'ISO-8859-1', 'UTF-8' ), 0);
+        $this->MultiCell(45, 4, mb_convert_encoding($_SESSION['usuario_nombre'] . " ". $_SESSION['usuario_apellido'], 'ISO-8859-1', 'UTF-8' ), 0);
+        $this->MultiCell(45, 4, mb_convert_encoding($this->order['envio_direccion'], 'ISO-8859-1', 'UTF-8' ), 0);
 
         // Columna         
         $this->SetY($this->GetY() - 19);
@@ -40,9 +40,9 @@ class FacturaPDF extends FPDF {
         $this->Cell(45, 7,'ENVIAR A:',0,1,'L');
         $this->Cell(65);
         $this->SetFont('Arial','',10);
-        $this->MultiCell(45, 4, mb_convert_encoding($this->order['order_first_name'] . " " . $this->order['order_last_name'], 'ISO-8859-1', 'UTF-8' ), 0);
+        $this->MultiCell(45, 4, mb_convert_encoding($this->order['comprador_nombre'], 'ISO-8859-1', 'UTF-8' ), 0);
         $this->Cell(65);
-        $this->MultiCell(45, 4, mb_convert_encoding($this->order['user_address'], 'ISO-8859-1', 'UTF-8' ), 0);
+        $this->MultiCell(45, 4, mb_convert_encoding($this->order['envio_direccion'], 'ISO-8859-1', 'UTF-8' ), 0);
 
         // Columna 3
         $this->SetY($this->GetY() - 19);
@@ -51,21 +51,21 @@ class FacturaPDF extends FPDF {
         $this->Cell(45, 7,'N DE FACTURA:',0,0,'L');
 
         $this->SetFont('Arial','',12);
-        $this->Cell(15, 7,$this->order['receipt_id'],0,1,'R');
+        $this->Cell(15, 7,$this->order['pago_id'],0,1,'R');
 
         $this->Cell(130);
         $this->SetFont('Arial','B',14);
         $this->Cell(45, 7,'N DE PEDIDO:',0,0,'L');
         
         $this->SetFont('Arial','',12);
-        $this->Cell(15, 7,$this->order['order_id'],0,1,'R');
+        $this->Cell(15, 7,$this->order['pedido_id'],0,1,'R');
 
         $this->Cell(130);
         $this->SetFont('Arial','B',14);
         $this->Cell(45, 7,'FECHA:',0,0,'L');
         
         $this->SetFont('Arial','',12);
-        $this->Cell(15, 7,$this->order['receipt_date'],0,1,'R');
+        $this->Cell(15, 7,explode(" ", $this->order['pedido_fecha'])[0],0,1,'R');
 
         $this->Ln(10);
 
@@ -108,12 +108,12 @@ class FacturaPDF extends FPDF {
 
         // Aquí puedes agregar los datos de las filas
         $this->SetFont('Arial','',12);
-        foreach ($this->order['products'] as $product) {
-            $this->Cell(70,10,$product['product_name'],0,0, 'C');
-            $this->Cell(30,10, $product['sold_product_quantity'],0,0,'C');
-            $this->Cell(45,10,number_format($product['sold_product_price']).'COP',0,0,'C');
-            $this->Cell(45,10,number_format($product['sold_product_price'] * $product['sold_product_quantity']).'COP',0,1,'C');
-            $preciototal += $product['sold_product_price'] * $product['sold_product_quantity'];
+        foreach ($this->order['productos'] as $product) {
+            $this->Cell(70,10,$product['producto_nombre'],0,0, 'C');
+            $this->Cell(30,10, $product['producto_cantidad'],0,0,'C');
+            $this->Cell(45,10,number_format($product['producto_precio']).'COP',0,0,'C');
+            $this->Cell(45,10,number_format($product['producto_precio'] * $product['producto_cantidad']).'COP',0,1,'C');
+            $preciototal += $product['producto_precio'] * $product['producto_cantidad'];
         }
         $this->Cell(100);
         $this->Cell(45,10,'SubTotal',0,0,'C');
@@ -135,7 +135,7 @@ class FacturaPDF extends FPDF {
         $this->Cell(100);
         $posX = $this->GetX();
         $posY = $this->GetY();
-        $this->Image('public/images/firma.png',$posX +10, $posY - 15  ,70);
+        $this->Image('public/images/firma.png', $posX + 20, $posY - 23, 60);
         
         // Dibujar línea 
         $this->SetLineWidth(0.5);
@@ -148,7 +148,7 @@ class FacturaPDF extends FPDF {
 
 // Crear instancia de la clase FacturaPDF
 $pdf = new FacturaPDF($order);
-$pdf->SetTitle('Recibo - Express Sale');
+$pdf->SetTitle('Recibo | Express Sale');
 $pdf->AliasNbPages();
 $pdf->AddPage();
 $pdf->Content();

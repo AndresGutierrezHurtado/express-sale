@@ -254,6 +254,120 @@ class PageController {
         require_once(__DIR__ . "/../views/layouts/app.layout.php");
     }
 
+    public function order () {
+
+        // Orders
+        $id = $_GET['order'];
+        
+        $select_orders = " pedidos.*, detalles_pagos.*, detalles_envios.*, productos_pedidos.*, productos.producto_nombre, productos.producto_imagen_url, usuarios.usuario_alias, usuarios.usuario_id AS seller_id";
+
+        $inner_join_orders = " INNER JOIN detalles_pagos ON pedidos.pedido_id = detalles_pagos.pago_id
+        INNER JOIN detalles_envios ON pedidos.pedido_id = detalles_envios.pedido_id 
+        INNER JOIN productos_pedidos ON pedidos.pedido_id = productos_pedidos.pedido_id 
+        INNER JOIN productos ON productos_pedidos.producto_id = productos.producto_id
+        INNER JOIN usuarios on productos.usuario_id = usuarios.usuario_id";
+
+        $orders_consulta = $this -> orderModel -> getAll($select_orders, $inner_join_orders, "WHERE pedidos.pedido_id = " . $id);
+
+        $order = [];
+
+        foreach ($orders_consulta as $order_consulta) {
+            $order_id = $order_consulta['pedido_id'];
+
+            if (!array_key_exists($order_id, $order)) {
+                $order[$order_id] = array(
+                    'pedido_id' => $order_consulta['pedido_id'],
+                    'pedido_fecha' => $order_consulta['pedido_fecha'],
+                    'comprador_nombre' => $order_consulta['comprador_nombre'],
+                    'comprador_correo' => $order_consulta['comprador_correo'],
+                    'comprador_telefono' => $order_consulta['comprador_telefono'],
+                    'envio_direccion' => $order_consulta['envio_direccion'],
+                    'envio_coordenadas' => $order_consulta['envio_coordenadas'],
+                    'usuario_id' => $order_consulta['usuario_id'],
+                    'pago_valor' => $order_consulta['pago_valor'],
+                    'pedido_estado' => $order_consulta['pedido_estado'],
+                    'products' => array()
+                );
+            }
+        
+            $order[$order_id]['productos'][] = array(
+                'producto_id' => $order_consulta['producto_id'],
+                'producto_cantidad' => $order_consulta['producto_cantidad'],
+                'producto_precio'=> $order_consulta['producto_precio'],
+                'producto_nombre' => $order_consulta['producto_nombre'],
+                'producto_imagen_url' => $order_consulta['producto_imagen_url'],
+                'usuario_alias' => $order_consulta['usuario_alias'],
+                'usuario_id' => $order_consulta['seller_id']
+            );
+        }
+
+        $order = $order[$id];
+
+        // MiddleWare
+        $isAdmin = $_SESSION['rol_id'] == 4 || $_SESSION['usuario_id'] == $order['usuario_id'] ? true : false;
+        if (!$isAdmin) {header('location: /'); exit();}
+
+        $title = "Pedido";
+        $content = __DIR__ . "/../views/pages/pay/order.view.php";
+
+        require_once(__DIR__ . "/../views/layouts/guest.layout.php");
+    }
+    
+    public function receipt () {
+
+        // Orders
+        $id = $_GET['receipt'];
+
+        $select_orders = " pedidos.*, detalles_pagos.*, detalles_envios.*, productos_pedidos.*, productos.producto_nombre, productos.producto_imagen_url";
+
+        $inner_join_orders = " INNER JOIN detalles_pagos ON pedidos.pedido_id = detalles_pagos.pago_id
+        INNER JOIN detalles_envios ON pedidos.pedido_id = detalles_envios.pedido_id 
+        INNER JOIN productos_pedidos ON pedidos.pedido_id = productos_pedidos.pedido_id 
+        INNER JOIN productos ON productos_pedidos.producto_id = productos.producto_id";
+
+        $orders_consulta = $this -> orderModel -> getAll($select_orders, $inner_join_orders, "WHERE pedidos.pedido_id = " . $id);
+
+        $order = [];
+
+        foreach ($orders_consulta as $order_consulta) {
+            $order_id = $order_consulta['pedido_id'];
+
+            if (!array_key_exists($order_id, $order)) {
+                $order[$order_id] = array(
+                    'pedido_id' => $order_consulta['pedido_id'],
+                    'pago_id' => $order_consulta['pago_id'],
+                    'pedido_fecha' => $order_consulta['pedido_fecha'],
+                    'comprador_nombre' => $order_consulta['comprador_nombre'],
+                    'comprador_correo' => $order_consulta['comprador_correo'],
+                    'comprador_telefono' => $order_consulta['comprador_telefono'],
+                    'envio_direccion' => $order_consulta['envio_direccion'],
+                    'envio_coordenadas' => $order_consulta['envio_coordenadas'],
+                    'usuario_id' => $order_consulta['usuario_id'],
+                    'pago_valor' => $order_consulta['pago_valor'],
+                    'pedido_estado' => $order_consulta['pedido_estado'],
+                    'products' => array()
+                );
+            }
+        
+            $order[$order_id]['productos'][] = array(
+                'producto_id' => $order_consulta['producto_id'],
+                'producto_cantidad' => $order_consulta['producto_cantidad'],
+                'producto_precio'=> $order_consulta['producto_precio'],
+                'producto_nombre' => $order_consulta['producto_nombre'],
+                'producto_imagen_url' => $order_consulta['producto_imagen_url']
+            );
+        }
+
+        $order = $order[$id];
+
+        // autenticación
+        $isAdmin = $_SESSION['rol_id'] == 4 || $_SESSION['usuario_id'] == $order['usuario_id'] ? true : false;
+        if (!$isAdmin) {header('location: /'); exit();}
+        
+        require_once(__DIR__ . "/../services/FPDF/fpdf.php");
+        require_once(__DIR__ . "/../views/pages/pay/receipt.view.php");
+    }
+
     public function dashboard_usuarios() {
         // Autenticación
         $isAdmin = $_SESSION['rol_id'] == 4 ? true : false;
@@ -369,56 +483,5 @@ class PageController {
         $products = $this -> soldProductModel -> getAll("*", $inner_join_products, "WHERE sold_product_order_id = $id");
 
         require_once(__DIR__ . "/../views/delivery/delivery.view.php");
-    }
-
-    public function order_shift () {
-        $id = $_GET['id'];
-        // obtener orden
-        $inner_join_orders = "INNER JOIN usuarios ON orders.order_usuario_id = usuarios.usuario_id
-        INNER JOIN states ON orders.order_state_id = states.state_id";
-
-        $delivery = $this -> orderModel -> getById($id, "*", $inner_join_orders);
-
-        // obtener domiciliario
-        $worker = isset($delivery['order_worker_id']) ? $this -> userModel -> getAll("*", "INNER JOIN workers ON usuarios.usuario_id = workers.worker_usuario_id", "WHERE worker_id = ". $delivery['order_worker_id'])[0] : ['user_username' => 'pendiente'] ;
-        
-        // autenticación
-        $isAdmin = $_SESSION['rol_id'] == 4 || $_SESSION['usuario_id'] == $delivery['order_usuario_id'] ? true : false;
-        if (!$isAdmin) {header('location: /'); exit();}
-        
-        // obtener productos de la orden
-        $inner_join_products = "INNER JOIN products ON sold_products.sold_product_product_id = products.product_id 
-        INNER JOIN images ON products.product_id = images.image_object_id AND images.image_object_type = 'producto'";
-
-        $products = $this -> soldProductModel -> getAll("*", $inner_join_products, "WHERE sold_product_order_id = $id");
-
-        require_once(__DIR__ . "/../views/pay/shift.view.php");
-    }
-
-    public function order_receipt_pdf () {
-
-        //lógica:
-
-        $id = $_GET['id'];
-
-        // obtener orden
-        $inner_join_orders = "INNER JOIN usuarios ON orders.order_usuario_id = usuarios.usuario_id
-        INNER JOIN states ON orders.order_state_id = states.state_id
-        INNER JOIN receipts ON orders.order_id = receipts.receipt_order_id";
-
-        $order = $this -> orderModel -> getById($id, "*", $inner_join_orders);
-
-        // autenticación
-        $isAdmin = $_SESSION['rol_id'] == 4 || $_SESSION['usuario_id'] == $order['order_usuario_id'] ? true : false;
-        if (!$isAdmin) {header('location: /'); exit();}
-        
-        // obtener productos de la orden
-        $inner_join_products = "INNER JOIN products ON sold_products.sold_product_product_id = products.product_id 
-        INNER JOIN images ON products.product_id = images.image_object_id AND images.image_object_type = 'producto'";
-
-        $order['products'] = $this -> soldProductModel -> getAll("*", $inner_join_products, "WHERE sold_product_order_id = $id");
-
-        require_once(__DIR__ . "/../services/FPDF/fpdf.php");
-        require_once(__DIR__ . "/../views/pay/receipt.view.php");
     }
 }
