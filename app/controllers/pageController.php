@@ -7,6 +7,7 @@ class PageController {
     private $orderModel;
     private $soldProductModel;
     private $calificationModel;
+    private $multimediaModel;
 
     public function __construct(mysqli $conn) { 
         $this -> productModel = new Product($conn);
@@ -15,6 +16,7 @@ class PageController {
         $this -> orderModel = new Order($conn);
         $this -> soldProductModel = new soldProduct($conn);
         $this -> calificationModel = new Calification($conn);
+        $this -> multimediaModel = new Multimedia($conn);
     }
     
     public function home(){
@@ -234,13 +236,13 @@ class PageController {
 
     public function product_profile() {
         // obtener datos del producto
-        $select_products = "productos.*, multimedias.multimedia_id, multimedias.multimedia_url,
+        $select_products = "productos.*,
         COUNT(multimedias.producto_id) AS numero_multimedias";
 
-        $inner_join_products = " LEFT JOIN multimedias ON productos.producto_id = multimedias.producto_id ";
+        $product = $this -> productModel -> getById( $_GET['producto'] , $select_products, " LEFT JOIN multimedias ON productos.producto_id = multimedias.producto_id ");
 
-        $product = $this -> productModel -> getById( $_GET['producto'] , $select_products, $inner_join_products);
-
+        // obtener multimedias
+        $multimedias = $this -> multimediaModel -> getAll("*", "", "WHERE producto_id = " . $product['producto_id'] );
 
         // // MiddleWare
         $isAdmin = $_SESSION['rol_id'] == 4 || $_SESSION['usuario_id'] == $product['usuario_id'] ? true : false;

@@ -3,9 +3,11 @@
 class ProductController {
 
     private $productModel;
+    private $multimediaModel;
 
     public function __construct(mysqli $conn) {
         $this->productModel = new Product($conn);
+        $this->multimediaModel = new Multimedia($conn);
     }
 
     public function index() {
@@ -35,6 +37,35 @@ class ProductController {
             move_uploaded_file($_FILES['producto_imagen']['tmp_name'], $_SERVER['DOCUMENT_ROOT'] . $_POST['producto_imagen_url']);
         }
 
+        // Subir archivos multimedia
+        if (!empty($_FILES['multimedia']['name'])) {
+            foreach ($_FILES['multimedia']['tmp_name'] as $index => $tmpName) {
+                if ( ! is_uploaded_file($tmpName)) return ['success' => false, 'message' => 'Error al cargar el archivo multimedia.'];
+
+                // determinar si es video o imagen
+                $mimeType = mime_content_type($tmpName);
+                $extension = (strpos($mimeType, 'image/') === 0) ? 'jpg' : 'mp4';
+                
+                $data_media = [
+                    'multimedia_url' => '/public/images/products/media/' . $_POST['producto_id'] . '_' . $index . '.' . date('YmdHis') . '.' . $extension,
+                    'multimedia_tipo' => (strpos($mimeType, 'image/') === 0) ? 'imagen' : 'video',
+                    'producto_id' => $_POST['producto_id']
+                ];
+
+                if (move_uploaded_file($tmpName, $_SERVER['DOCUMENT_ROOT'] . $data_media['multimedia_url'])) {
+                    $result = $this->multimediaModel->insert($data_media);
+
+                    if (!$result['success']) {
+                        return $result;
+                    }
+                } else {
+                    // Manejar el error si el archivo no se pudo mover
+                    return ['success' => false, 'message' => 'Error al mover el archivo multimedia.'];
+                }
+                
+            }
+        }
+        
         $result = $this->productModel->updateById($_POST['producto_id'], $_POST);
         echo json_encode($result);
     }
@@ -44,6 +75,15 @@ class ProductController {
         $post_data = json_decode( $post_data , true);
 
         $result = $this -> productModel -> deleteById($post_data['id']);
+
+        echo json_encode($result);
+    }
+
+    public function deleteMultimedia() {
+        $post_data = file_get_contents('php://input');
+        $post_data = json_decode( $post_data , true);
+
+        $result = $this -> multimediaModel -> deleteById($post_data['id']);
 
         echo json_encode($result);
     }

@@ -4,11 +4,11 @@
         
         <div class="w-full max-w-[300px] space-y-5">
             <!-- Imagen -->
-            <div class="bg-white p-5 space-y-4 rounded-lg shadow-lg w-full mx-auto">
+            <div class="bg-white p-5 space-y-5 rounded-lg shadow-lg w-full mx-auto">
                 <h1 class="text-lg uppercase tracking-tight font-bold">Imagen:</h1>
-                    <div class="w-full aspect-square rounded-lg shadow-lg flex justify-center items-center"> 
-                        <img src="<?= $product['producto_imagen_url'] ?>" alt="Producto <?= $product['producto_nombre'] ?>" class="max-w-full max-h-full">
-                    </div>
+                        <div class="w-[250px] h-[250px] border-2 border-black rounded-lg shadow-lg overflow-hidden mx-auto"> 
+                            <img src="<?= $product['producto_imagen_url'] ?>" alt="Producto <?= $product['producto_nombre'] ?>" class="object-contain w-full h-full">
+                        </div>
                 <input type="file" id="image" name="producto_imagen" 
                 class="hidden w-full text-sm text-slate-500 hover:file:bg-violet-100 file:duration-300 file:cursor-pointer file:bg-violet-50 file:text-violet-700 file:font-semibold file:rounded-xl file:border-0 file:p-1 file:px-3">
                 
@@ -25,6 +25,28 @@
             <!-- Archivos multimedia -->
             <div class="bg-white p-5 space-y-4 rounded-lg shadow-lg w-full mx-auto">
                 <h1 class="text-lg uppercase tracking-tight font-bold">Archivos multimedia:</h1>
+                <div class="divide-y divide-gray-300">
+                    <?php foreach($multimedias as $index =>$file): ?>
+                        <article class="py-5 space-y-2">
+                            <div class="w-[200px] h-[200px] border border-black rounded-lg shadow-lg flex items-center justify-center overflow-hidden mx-auto">
+                                <?php if ($file['multimedia_tipo'] == 'imagen'): ?>
+                                    <img src="<?= $file['multimedia_url'] ?>" alt="Archivo multimedia <?= $index?>">
+                                <?php else: ?>
+                                    <video src="<?= $file['multimedia_url'] ?>" alt="Archivo multimedia <?= $index ?>" class="w-[200px] h-[200px] border border-black rounded-lg shadow-lg flex items-center justify-center overflow-hidden mx-auto bg-slate-900">
+                                <?php endif; ?>
+                            </div>
+                            <div>
+                                <a onclick="deleteMultimedia(<?= $file['multimedia_id'] ?>)"
+                                    class="btn-delete group relative flex w-full justify-center rounded-md border border-transparent bg-red-600 px-4 py-2 text-sm font-medium text-white hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 disabled:cursor-wait disabled:opacity-50">
+                                    <span class="absolute inset-y-0 left-0 flex items-center pl-3">
+                                        <i class="fa-solid fa-trash-can text-[17px] text-red-500 duration-300 group-hover:text-red-400"></i>
+                                    </span>
+                                    Eliminar
+                                </a>
+                            </div>
+                        </article>
+                    <?php endforeach; ?>
+                </div>
             </div>
         </div>
 
@@ -80,10 +102,14 @@
             </div>
 
             <span class="w-full flex justify-between items-center">
-                <div>
-                    <button type="submit" id="btn-submit" name="submit" class="bg-violet-800 text-white py-2 px-4 rounded-md mt-auto w-max font-bold hidden">Actualizar Perfil</button>
-                </div>
-                
+                <button type="submit" id="btn-submit" name="submit" 
+                class="hidden group relative flex w-full justify-center rounded-md border border-transparent bg-violet-600 px-4 py-2 text-sm font-medium text-white hover:bg-violet-700 focus:outline-none focus:ring-2 focus:ring-violet-500 focus:ring-offset-2 disabled:cursor-wait disabled:opacity-50 cursor-pointer">
+                    <span class="absolute inset-y-0 left-0 flex items-center pl-3">
+                        <i class="fa-solid fa-arrow-up-from-bracket text-[18px] text-violet-500 duration-300 group-hover:text-violet-400"></i>
+                    </span>
+                    Actualizar producto
+                </button>
+
                 <div class="flex gap-5">
                     <?php if ($_SESSION['rol_id'] == 4): ?>
                         <a href="/page/dashboard_products" class="bg-violet-800 text-white py-2 px-4 rounded-md mt-auto w-max font-bold"> Administrador </a>
@@ -104,6 +130,25 @@
         if (files.length > ( maximo - archivos) ) {
             alert("Solo puedes seleccionar un máximo de " + (maximo - archivos) +" archivos");
             input.value = '';
+        }
+    }
+
+    function deleteMultimedia(idMultimedia) {
+        if (confirm('¿Estas seguro de eliminar este archivo multimedia?')) {
+
+            fetch('/product/deleteMultimedia', {
+            method: 'POST',
+            body: JSON.stringify({'id' : idMultimedia}),
+            })
+            .then(Response => Response.json())
+            .then(Data => {
+                if (Data.success) {
+                    alert(Data.message)
+                    window.location.reload();
+                } else {
+                    console.error(Data.message)
+                }
+            });
         }
     }
 </script>
