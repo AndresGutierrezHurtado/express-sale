@@ -37,8 +37,8 @@
                     </p>
                     <p>
                         <strong>Domiciliario:</strong> 
-                        <a href="" class="text-gray-600 text-sm font-semibold cursor-pointer hover:underline hover:text-violet-600">  
-                            <?= $order_consulta['trabajador_id'] ?? 'pendiente.' ?> 
+                        <a href="<?= isset($order['domiciliario_id']) ? '/page/deliveries/?delivery=' . $order['domiciliario_id'] : '' ?>" class="text-gray-600 text-sm font-semibold cursor-pointer hover:underline hover:text-violet-600">  
+                            <?= isset($order['domiciliario_id']) ? $order['domiciliario_alias'] : 'pendiente' ?> 
                         </a>
                     </p>
                     <p>
@@ -58,9 +58,9 @@
         <div>
             <h2 class="text-3xl font-bold mb-4">Productos</h2>
             
-            <div class="flex flex-col gap-10 py-5">
+            <div class="space-y-5 py-5">
                 <?php foreach($order['productos'] as $product): ?>
-                    <article class="flex items-center justify-center p-5 border rounded-md gap-5">
+                    <article class="flex flex-col md:flex-row items-center justify-center p-5 border rounded-md gap-5">
                         <div class="w-[150px] flex-none">
                             <img src="<?= $product['producto_imagen_url'] ?>" alt="<?= $product['producto_nombre'] ?>" class="h-full w-full object-cover">
                         </div>
@@ -106,6 +106,15 @@
                     Descargar factura
                 </button>
             </a>
+            <?php if($order['pedido_estado'] == 'entregado'): ?>
+                <button id="check-button" onclick="if (confirm('¿Estás seguro que recibiste tu pedido?')) { checkOrder(<?= $order['pedido_id'] ?>) }"
+                class="group relative flex w-full justify-center rounded-md border border-transparent bg-green-600 px-4 py-2 text-sm font-medium text-white hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 disabled:cursor-wait disabled:opacity-50 cursor-pointer">
+                    <span class="absolute inset-y-0 left-0 flex items-center pl-3">
+                        <i class="fa-solid fa-circle-check text-[18px] text-green-500 duration-300 group-hover:text-green-400"></i>
+                    </span>
+                    Marcar como recibido
+                </button>
+            <?php endif; ?>
             <a href="/page/profile/?id=<?= $order['usuario_id'] ?>">
                 <button
                 class="group relative flex w-full justify-center rounded-md border border-transparent bg-gray-100 px-4 py-2 text-sm font-medium text-black hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-gray-300 focus:ring-offset-2 disabled:cursor-wait disabled:opacity-50 cursor-pointer">
@@ -118,3 +127,26 @@
         </div>
     </div>
 </div>
+
+<script>
+    function checkOrder (id) {
+        const data = new FormData();
+        data.append('pedido_id', id);
+        data.append('pedido_estado', 'recibido');
+
+        fetch('/order/update', {
+        method: 'POST',
+        body: data,
+        })
+        .then(Response => Response.json())
+        .then(Data => {
+            console.log(Data);
+            if (Data.success) {
+                alert(Data.message)
+                window.location.reload();
+            } else {
+                alert(Data.message)
+            }
+        });
+    }
+</script>

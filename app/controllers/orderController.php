@@ -66,6 +66,7 @@ class orderController {
         }
 
         if ($resultado_pedido['success'] && $result_payment['success'] && $result_sold_products['success'] && $result_shipping['success'] ) {
+            $this -> cartModel -> empty();
             echo ' <script>
             alert("Transacción realizada correctamente");
             window.location = "/page/profile";

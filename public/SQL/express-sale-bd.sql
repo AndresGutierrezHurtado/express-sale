@@ -15,7 +15,7 @@ CREATE TABLE `usuarios` (
     `usuario_apellido` VARCHAR(100),
     `usuario_correo` VARCHAR(255) UNIQUE,
     `usuario_alias` VARCHAR(50) UNIQUE,
-    `usuario_telefono` DECIMAL(10, 0) UNIQUE,
+    `usuario_telefono` DECIMAL(10, 0),
     `usuario_direccion` TEXT,
     `usuario_contraseña` TEXT,
     `usuario_creacion` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
@@ -24,14 +24,14 @@ CREATE TABLE `usuarios` (
     `rol_id` INT
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
-INSERT INTO `usuarios` (`usuario_id`, `usuario_nombre`, `usuario_apellido`, `usuario_correo`, `usuario_alias`, `usuario_telefono`, `usuario_direccion`, `usuario_contraseña`, `usuario_creacion`, `usuario_actualizacion`, `usuario_imagen_url`, `rol_id`) VALUES
-(1, 'Express', 'Sale', 'expresssale.exsl@gmail.com', 'Express_Sale', NULL, NULL, '81dc9bdb52d04dc20036dbd8313ed055', '2024-07-25 04:39:15', '2024-07-25 04:56:12', '/public/images/users/1.jpg', 4),
-(2, 'Andrés', 'Gutiérrez Hurtado', 'andres52885241@gmail.com', 'Andres_Gutierrez', NULL, NULL, '81dc9bdb52d04dc20036dbd8313ed055', '2024-07-25 04:47:10', '2024-07-25 04:47:10', '/public/images/users/2.jpg', 2),
-(3, 'David Fernando', 'Diaz Niausa', 'davidfernandodiazniausa@gmail.com', 'David_Diaz', NULL, NULL, '81dc9bdb52d04dc20036dbd8313ed055', '2024-07-25 04:53:27', '2024-07-25 04:53:27', '/public/images/users/default.jpg', 2),
-(4, 'Jaider Harley', 'Rondon Herrera', 'rondonjaider@gmail.com', 'Jaider_Rondon', NULL, NULL, '81dc9bdb52d04dc20036dbd8313ed055', '2024-07-25 04:54:25', '2024-07-25 04:54:25', '/public/images/users/default.jpg', 2),
-(5, 'Juan Sebastian', 'Bernal Gamboa', 'juansebastianbernalgamboa@gmail.com', 'Juan_Bernal', NULL, NULL, '81dc9bdb52d04dc20036dbd8313ed055', '2024-07-25 04:55:02', '2024-07-25 04:55:02', '/public/images/users/default.jpg', 2),
-(6, 'Kevin Alejandro', 'Parra Cifuentes', 'luisparra5380@gmail.com', 'Kevin_Parra', NULL, NULL, '81dc9bdb52d04dc20036dbd8313ed055', '2024-07-25 05:04:47', '2024-07-25 05:04:47', '/public/images/users/default.jpg', 1),
-(7, 'Samuel', 'Useche Chaparro', 'samuuseche01@gmail.com', 'Samuel_Useche', NULL, NULL, '81dc9bdb52d04dc20036dbd8313ed055', '2024-07-25 05:05:19', '2024-07-25 05:05:19', '/public/images/users/default.jpg', 3);
+INSERT INTO `usuarios` (`usuario_id`, `usuario_nombre`, `usuario_apellido`, `usuario_correo`, `usuario_alias`, `usuario_direccion`, `usuario_telefono`, `usuario_contraseña`, `usuario_creacion`, `usuario_actualizacion`, `usuario_imagen_url`, `rol_id`) VALUES
+(1, 'Express', 'Sale', 'expresssale.exsl@gmail.com', 'Express_Sale', NULL, 3209202177, '81dc9bdb52d04dc20036dbd8313ed055', '2024-07-25 04:39:15', '2024-07-25 04:56:12', '/public/images/users/1.jpg', 4),
+(2, 'Andrés', 'Gutiérrez Hurtado', 'andres52885241@gmail.com', 'Andres_Gutierrez', 'Dg. 68D Sur #70c-31, Bogotá, Colombia', 3209202177, '81dc9bdb52d04dc20036dbd8313ed055', '2024-07-25 04:47:10', '2024-07-25 04:47:10', '/public/images/users/2.jpg', 2),
+(3, 'David Fernando', 'Diaz Niausa', 'davidfernandodiazniausa@gmail.com', 'David_Diaz', 'Cra. 5i Este #89-23, Bogotá, Colombia', 3214109557, '81dc9bdb52d04dc20036dbd8313ed055', '2024-07-25 04:53:27', '2024-07-25 04:53:27', '/public/images/users/default.jpg', 2),
+(4, 'Jaider Harley', 'Rondon Herrera', 'rondonjaider@gmail.com', 'Jaider_Rondon', 'Cra. 5i Este #89-23, Bogotá, Colombia', 3112369205, '81dc9bdb52d04dc20036dbd8313ed055', '2024-07-25 04:54:25', '2024-07-25 04:54:25', '/public/images/users/default.jpg', 2),
+(5, 'Juan Sebastian', 'Bernal Gamboa', 'juansebastianbernalgamboa@gmail.com', 'Juan_Bernal', 'Cra. 5i Este #89-23, Bogotá, Colombia', 3053964455, '81dc9bdb52d04dc20036dbd8313ed055', '2024-07-25 04:55:02', '2024-07-25 04:55:02', '/public/images/users/default.jpg', 2),
+(6, 'Kevin Alejandro', 'Parra Cifuentes', 'luisparra5380@gmail.com', 'Kevin_Parra', 'Cra. 19b #62a Sur, Bogotá, Colombia', 3212376552, '81dc9bdb52d04dc20036dbd8313ed055', '2024-07-25 05:04:47', '2024-07-25 05:04:47', '/public/images/users/default.jpg', 1),
+(7, 'Samuel', 'Useche Chaparro', 'samuuseche01@gmail.com', 'Samuel_Useche', 'Cl. 68f Sur #71g-18, Bogotá, Colombia', 3107838443, '81dc9bdb52d04dc20036dbd8313ed055', '2024-07-25 05:05:19', '2024-07-25 05:05:19', '/public/images/users/default.jpg', 3);
 
 -- ---------------------------------------------------------------
 --

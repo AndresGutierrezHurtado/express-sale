@@ -1,10 +1,10 @@
-<main class="w-full max-w-[1200px] flex flex-col gap-10 py-12 justify-center items-center mx-auto">
+<main class="w-full max-w-[1200px] flex flex-col gap-10 py-12 justify-center items-center mx-auto px-3">
     <form id="product_profile_form" class="w-full flex flex-col md:flex-row justify-center items-start gap-5 my-12" enctype="multipart/form-data">
         <input type="hidden" id="id" name="producto_id" value="<?= $_GET['producto'] ?>">
         
-        <div class="w-full max-w-[300px] space-y-5">
+        <div class="w-full max-w-[300px] space-y-5 mx-auto">
             <!-- Imagen -->
-            <div class="bg-white p-5 space-y-5 rounded-lg shadow-lg w-full mx-auto">
+            <div class="bg-white p-5 space-y-5 rounded-lg shadow-lg w-full">
                 <h1 class="text-lg uppercase tracking-tight font-bold">Imagen:</h1>
                         <div class="w-[250px] h-[250px] border-2 border-black rounded-lg shadow-lg overflow-hidden mx-auto"> 
                             <img src="<?= $product['producto_imagen_url'] ?>" alt="Producto <?= $product['producto_nombre'] ?>" class="object-contain w-full h-full">

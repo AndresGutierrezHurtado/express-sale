@@ -30,8 +30,12 @@ class UserController {
         $id = $_POST['usuario_id'];
         unset($_POST['usuario_id']);
 
-        $_POST['usuario_direccion'] = $_POST['usuario_direccion'] == "" ? null : $_POST['usuario_direccion'];
-        $_POST['usuario_telefono'] = $_POST['usuario_telefono'] == "" || $_POST['usuario_telefono'] == "0" ? null : $_POST['usuario_telefono'];
+        if (isset($_POST['usuario_direccion']) && isset($_POST['usuario_telefono'])) {
+            $_POST['usuario_direccion'] = $_POST['usuario_direccion'] == "" ? null : $_POST['usuario_direccion'];
+            $_POST['usuario_telefono'] = $_POST['usuario_telefono'] == "" || $_POST['usuario_telefono'] == "0" ? null : $_POST['usuario_telefono'];
+        } else if (isset($_POST['trabajador_numero_trabajos'])) {
+            $_SESSION['usuario_informacion'] = ['estado' => 'libre', 'pedido_id' => null];
+        }
 
         // Verificar si se ha enviado una imagen
         if (!empty($_FILES['usuario_imagen']['name'])) {
@@ -40,7 +44,7 @@ class UserController {
             move_uploaded_file($_FILES['usuario_imagen']['tmp_name'], $_SERVER['DOCUMENT_ROOT'] . $_POST['usuario_imagen_url']);
         }
         
-        $result = $this -> userModel -> updateById($id, $_POST, "INNER JOIN trabajadores ON usuarios.usuario_id = trabajadores.usuario_id");
+        $result = $this -> userModel -> updateById($id, $_POST, "LEFT JOIN trabajadores ON usuarios.usuario_id = trabajadores.usuario_id");
         
         echo json_encode($result);
     }

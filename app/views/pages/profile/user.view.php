@@ -86,7 +86,7 @@ function buildQueryString( $add = [], $remove = []) {
             <div class="space-y-1">
                 <label for="address" class="text-md font-medium text-gray-700">Dirección:</label>
                 <input type="text" id="address_input" name="usuario_direccion" value="<?= $user['usuario_direccion']; ?>" 
-                class="w-full border rounded-lg py-1 px-3 disabled:opacity-50" disabled autocomplete="off">
+                class="w-full border rounded-lg py-1 px-3 disabled:opacity-50" disabled <?= $user['rol_id'] == 2 ? 'required' : '' ?> autocomplete="off">
             </div>
 
             <div class="space-y-1">
@@ -144,19 +144,26 @@ function buildQueryString( $add = [], $remove = []) {
                         </td>
                         <td> <?= $order['pedido_estado'] ?> </td>
                         <td><?= number_format($order['pago_valor']); ?> COP</td>
-                        <td class="flex justify-center"> 
-                            <a href="/page/order/?order=<?= $order['pedido_id'] ?>">
-                                <button class="group flex items-center justify-center rounded-md border border-transparent bg-violet-600 px-4 py-2 text-sm font-medium text-white hover:bg-violet-700 focus:outline-none focus:ring-2 focus:ring-violet-500 focus:ring-offset-2 disabled:cursor-wait disabled:opacity-50 cursor-pointer">
-                                    <i class="fa-solid fa-eye text-[18px] text-violet-400 duration-300 group-hover:text-violet-300"></i>
-                                </button>
-                            </a>
+                        <td class="align-middle text-center"> 
+                            <div class="flex justify-center items-center">
+                                <a href="/page/order/?order=<?= $order['pedido_id'] ?>">
+                                    <button class="relative group flex items-center justify-center rounded-md border border-transparent bg-violet-600 px-4 py-2 text-sm font-medium text-white hover:bg-violet-700 focus:outline-none focus:ring-2 focus:ring-violet-500 focus:ring-offset-2 disabled:cursor-wait disabled:opacity-50 cursor-pointer">
+                                        <i class="fa-solid fa-eye text-[18px] text-violet-400 duration-300 group-hover:text-violet-300"></i>
+                                        <?php if($order['pedido_estado'] == 'entregado'): ?>
+                                            <span class=" absolute top-0 right-0 translate-x-1/2 -translate-y-1/2 flex items-center justify-center w-5 h-5 ms-2 text-center font-bold text-red-800 bg-red-400 rounded-full">
+                                            !
+                                            </span>
+                                        <?php endif; ?>
+                                    </button>
+                                </a>
+                            </div>
                         </td>
                     </tr>
                     <?php endforeach; ?>
                     
                 </tbody>
             </table>
-            <?php if ($orders_consulta['rows'] < 1) : ?>
+            <?php if (count($orders) < 1) : ?>
                 <p class="font-bold text-md">No se encontraron compras.</p>
             <?php endif;?>
         </div>

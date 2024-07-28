@@ -4,6 +4,109 @@ class Order extends Orm{
     public function __construct(mysqli $conn) {
         parent::__construct('pedido_id', 'pedidos', $conn);
     }
+
+    public function getOrders($customQuery = "") {
+        $temp_orders = $this -> getAll(
+            "pedidos.*, detalles_pagos.*, detalles_envios.*, 
+            productos_pedidos.*, productos.producto_nombre, productos.producto_imagen_url, 
+            usuarios.usuario_direccion", 
+            " INNER JOIN detalles_pagos ON pedidos.pedido_id = detalles_pagos.pago_id
+            INNER JOIN detalles_envios ON pedidos.pedido_id = detalles_envios.pedido_id 
+            INNER JOIN productos_pedidos ON pedidos.pedido_id = productos_pedidos.pedido_id 
+            INNER JOIN productos ON productos_pedidos.producto_id = productos.producto_id 
+            INNER JOIN usuarios ON productos.usuario_id = usuarios.usuario_id",
+            $customQuery
+        );
+        
+        $orders = [];
+
+        foreach ($temp_orders as $temp_order) {
+            $order_id = $temp_order['pedido_id'];
+
+            if (!array_key_exists($order_id, $orders)) {
+                $orders[$order_id] = array(
+                    'pedido_id' => $temp_order['pedido_id'],
+                    'pago_id' => $temp_order['pago_id'],
+                    'pedido_fecha' => $temp_order['pedido_fecha'],
+                    'comprador_nombre' => $temp_order['comprador_nombre'],
+                    'comprador_correo' => $temp_order['comprador_correo'],
+                    'comprador_telefono' => $temp_order['comprador_telefono'],
+                    'envio_direccion' => $temp_order['envio_direccion'],
+                    'envio_coordenadas' => $temp_order['envio_coordenadas'],
+                    'usuario_id' => $temp_order['usuario_id'],
+                    'pago_valor' => $temp_order['pago_valor'],
+                    'pedido_estado' => $temp_order['pedido_estado'],
+                    'products' => array()
+                );
+            }
+        
+            $orders[$order_id]['productos'][] = array(
+                'producto_id' => $temp_order['producto_id'],
+                'producto_cantidad' => $temp_order['producto_cantidad'],
+                'producto_precio'=> $temp_order['producto_precio'],
+                'producto_nombre' => $temp_order['producto_nombre'],
+                'producto_imagen_url' => $temp_order['producto_imagen_url'],
+                'usuario_direccion' => $temp_order['usuario_direccion']
+            );
+        }
+
+        return $orders;
+    }
+
+    public function getOrder($id) {
+
+        $select_orders = "pedidos.*, detalles_pagos.*, detalles_envios.*, trabajadores.trabajador_id, domiciliarios.usuario_id as domiciliario_id, domiciliarios.usuario_alias as domiciliario_alias,
+        productos_pedidos.*, productos.producto_nombre, productos.producto_imagen_url, 
+        vendedores.usuario_id as vendedor_id, vendedores.usuario_alias, vendedores.usuario_direccion";
+
+        $inner_join_orders = " INNER JOIN detalles_pagos ON pedidos.pedido_id = detalles_pagos.pago_id
+        INNER JOIN detalles_envios ON pedidos.pedido_id = detalles_envios.pedido_id 
+        INNER JOIN productos_pedidos ON pedidos.pedido_id = productos_pedidos.pedido_id 
+        INNER JOIN productos ON productos_pedidos.producto_id = productos.producto_id
+        INNER JOIN usuarios as vendedores ON productos.usuario_id = vendedores.usuario_id
+        LEFT JOIN trabajadores ON detalles_envios.trabajador_id = trabajadores.trabajador_id
+        LEFT JOIN usuarios as domiciliarios ON trabajadores.usuario_id = domiciliarios.usuario_id";
+
+        $orders_consulta = $this -> getAll($select_orders, $inner_join_orders, "WHERE pedidos.pedido_id = " . $id);
+
+        $orders = [];
+
+        foreach ($orders_consulta as $order_consulta) {
+            $order_id = $order_consulta['pedido_id'];
+
+            if (!array_key_exists($order_id, $orders)) {
+                $orders[$order_id] = array(
+                    'pedido_id' => $order_consulta['pedido_id'],
+                    'pago_id' => $order_consulta['pago_id'],
+                    'pedido_fecha' => $order_consulta['pedido_fecha'],
+                    'comprador_nombre' => $order_consulta['comprador_nombre'],
+                    'comprador_correo' => $order_consulta['comprador_correo'],
+                    'comprador_telefono' => $order_consulta['comprador_telefono'],
+                    'envio_direccion' => $order_consulta['envio_direccion'],
+                    'envio_coordenadas' => $order_consulta['envio_coordenadas'],
+                    'usuario_id' => $order_consulta['usuario_id'],
+                    'pago_valor' => $order_consulta['pago_valor'],
+                    'pedido_estado' => $order_consulta['pedido_estado'],
+                    'domiciliario_id' => $order_consulta['domiciliario_id'],
+                    'domiciliario_alias' => $order_consulta['domiciliario_alias'],
+                    'products' => array()
+                );
+            }
+        
+            $orders[$order_id]['productos'][] = array(
+                'producto_id' => $order_consulta['producto_id'],
+                'producto_cantidad' => $order_consulta['producto_cantidad'],
+                'producto_precio'=> $order_consulta['producto_precio'],
+                'producto_nombre' => $order_consulta['producto_nombre'],
+                'producto_imagen_url' => $order_consulta['producto_imagen_url'],
+                'usuario_direccion' => $order_consulta['usuario_direccion'],
+                'usuario_id' => $order_consulta['vendedor_id'],
+                'usuario_alias' => $order_consulta['usuario_alias']
+            );
+        }
+        
+        return $orders[$id];
+    }
 }
 
 class PaymentDetails extends Orm {

@@ -40,7 +40,7 @@
                 <?php endif; ?>
                 
                 <?php if (isset($_SESSION['rol_id']) && $_SESSION['rol_id'] == 3): ?> 
-                    <a href="/page/delivery_list" class="flex gap-3 items-center"> 
+                    <a href="/page/shipments" class="flex gap-3 items-center"> 
                         <i class="fa-solid fa-truck text-[15px]"></i> 
                         Envíos 
                     </a>

@@ -23,7 +23,7 @@ class User extends Orm{
                 $_SESSION["rol_id"] = $user["rol_id"];
 
                 $_SESSION["carrito"] = array();
-                $_SESSION["usuario_informacion"] = ['state' => 'free'];
+                $_SESSION["usuario_informacion"] = ['estado' => 'libre'];
 
                 return ['success' => true, 'message' => 'La inserción se realizó correctamente.'];
             } else {

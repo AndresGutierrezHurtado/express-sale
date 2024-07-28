@@ -177,49 +177,13 @@ class PageController {
         if (!$isAdmin) {header('location: /'); exit();}
 
         // User
-        $inner_join = " INNER JOIN roles ON usuarios.rol_id = roles.rol_id
+        $select_user = "usuarios.*, roles.*, trabajadores.trabajador_descripcion";
+        $inner_join_user = " INNER JOIN roles ON usuarios.rol_id = roles.rol_id
         LEFT JOIN trabajadores ON usuarios.usuario_id = trabajadores.usuario_id ";
-        $user = $this -> userModel -> getById($id, "*", $inner_join);
+        $user = $this -> userModel -> getById($id, $select_user, $inner_join_user);
 
         // Orders
-
-        $select_orders = " pedidos.*, detalles_pagos.*, detalles_envios.*, productos_pedidos.*, productos.producto_nombre ";
-
-        $inner_join_orders = " INNER JOIN detalles_pagos ON pedidos.pedido_id = detalles_pagos.pago_id
-        INNER JOIN detalles_envios ON pedidos.pedido_id = detalles_envios.pedido_id 
-        INNER JOIN productos_pedidos ON pedidos.pedido_id = productos_pedidos.pedido_id 
-        INNER JOIN productos ON productos_pedidos.producto_id = productos.producto_id";
-
-        $orders_consulta = $this -> orderModel -> getAll($select_orders, $inner_join_orders, "WHERE pedidos.usuario_id = " . $user['usuario_id']. " ORDER BY pedidos.pedido_fecha");
-
-        $orders = [];
-
-        foreach ($orders_consulta as $order) {
-            $order_id = $order['pedido_id'];
-
-            if (!array_key_exists($order_id, $orders)) {
-                $orders[$order_id] = array(
-                    'pedido_id' => $order['pedido_id'],
-                    'pedido_fecha' => $order['pedido_fecha'],
-                    'comprador_nombre' => $order['comprador_nombre'],
-                    'envio_direccion' => $order['envio_direccion'],
-                    'envio_coordenadas' => $order['envio_coordenadas'],
-                    'usuario_id' => $order['usuario_id'],
-                    'pago_valor' => $order['pago_valor'],
-                    'pedido_estado' => $order['pedido_estado'],
-                    'products' => array()
-                );
-            }
-        
-            $orders[$order_id]['productos'][] = array(
-                'producto_id' => $order['producto_id'],
-                'producto_cantidad' => $order['producto_cantidad'],
-                'producto_precio'=> $order['producto_precio'],
-                'producto_nombre' => $order['producto_nombre']
-            );
-        }
-
-        $orders_consulta['rows'] = count($orders);
+        $orders = $this -> orderModel -> getOrders("WHERE pedidos.usuario_id = $id");
 
         // Products
         $products_page = isset($_GET['products_page']) ? $_GET['products_page'] : 1 ;
@@ -258,50 +222,7 @@ class PageController {
 
         // Orders
         $id = $_GET['order'];
-        
-        $select_orders = " pedidos.*, detalles_pagos.*, detalles_envios.*, productos_pedidos.*, productos.producto_nombre, productos.producto_imagen_url, usuarios.usuario_alias, usuarios.usuario_id AS seller_id";
-
-        $inner_join_orders = " INNER JOIN detalles_pagos ON pedidos.pedido_id = detalles_pagos.pago_id
-        INNER JOIN detalles_envios ON pedidos.pedido_id = detalles_envios.pedido_id 
-        INNER JOIN productos_pedidos ON pedidos.pedido_id = productos_pedidos.pedido_id 
-        INNER JOIN productos ON productos_pedidos.producto_id = productos.producto_id
-        INNER JOIN usuarios on productos.usuario_id = usuarios.usuario_id";
-
-        $orders_consulta = $this -> orderModel -> getAll($select_orders, $inner_join_orders, "WHERE pedidos.pedido_id = " . $id);
-
-        $order = [];
-
-        foreach ($orders_consulta as $order_consulta) {
-            $order_id = $order_consulta['pedido_id'];
-
-            if (!array_key_exists($order_id, $order)) {
-                $order[$order_id] = array(
-                    'pedido_id' => $order_consulta['pedido_id'],
-                    'pedido_fecha' => $order_consulta['pedido_fecha'],
-                    'comprador_nombre' => $order_consulta['comprador_nombre'],
-                    'comprador_correo' => $order_consulta['comprador_correo'],
-                    'comprador_telefono' => $order_consulta['comprador_telefono'],
-                    'envio_direccion' => $order_consulta['envio_direccion'],
-                    'envio_coordenadas' => $order_consulta['envio_coordenadas'],
-                    'usuario_id' => $order_consulta['usuario_id'],
-                    'pago_valor' => $order_consulta['pago_valor'],
-                    'pedido_estado' => $order_consulta['pedido_estado'],
-                    'products' => array()
-                );
-            }
-        
-            $order[$order_id]['productos'][] = array(
-                'producto_id' => $order_consulta['producto_id'],
-                'producto_cantidad' => $order_consulta['producto_cantidad'],
-                'producto_precio'=> $order_consulta['producto_precio'],
-                'producto_nombre' => $order_consulta['producto_nombre'],
-                'producto_imagen_url' => $order_consulta['producto_imagen_url'],
-                'usuario_alias' => $order_consulta['usuario_alias'],
-                'usuario_id' => $order_consulta['seller_id']
-            );
-        }
-
-        $order = $order[$id];
+        $order = $this -> orderModel -> getOrder($id);
 
         // MiddleWare
         $isAdmin = $_SESSION['rol_id'] == 4 || $_SESSION['usuario_id'] == $order['usuario_id'] ? true : false;
@@ -315,10 +236,10 @@ class PageController {
     
     public function receipt () {
 
-        // Orders
+        // Order
         $id = $_GET['receipt'];
 
-        $select_orders = " pedidos.*, detalles_pagos.*, detalles_envios.*, productos_pedidos.*, productos.producto_nombre, productos.producto_imagen_url";
+        $select_orders = "pedidos.*, detalles_pagos.*, detalles_envios.*, productos_pedidos.*, productos.producto_nombre, productos.producto_imagen_url";
 
         $inner_join_orders = " INNER JOIN detalles_pagos ON pedidos.pedido_id = detalles_pagos.pago_id
         INNER JOIN detalles_envios ON pedidos.pedido_id = detalles_envios.pedido_id 
@@ -420,68 +341,37 @@ class PageController {
         require_once(__DIR__ . "/../views/admin/dashboard_products.view.php");
     }
 
-    public function delivery_list () {
+    public function shipments () {
         // autenticación
-        if ($_SESSION['user_delivery']['state'] == 'busy') { header('location: /page/delivery/?id='. $_SESSION['user_delivery']['order_id'] ); exit(); }
-        $isAdmin = $_SESSION['rol_id'] == 4 || $_SESSION['rol_id'] == 3 ? true : false;
-        if (!$isAdmin) {header('location: /'); exit();}
-        
+        if ( $_SESSION['usuario_informacion']['estado'] == 'ocupado' ) header('location: /page/shipment/?shipment='. $_SESSION['usuario_informacion']['pedido_id'] );
+        if ( ! $_SESSION['rol_id'] == 4 || ! $_SESSION['rol_id'] == 3) header('location: /');
+
         // obtener las ordenes pendientes
-        $select_deliveries = "
-        orders.*,
-        sold_products.*";
+        $orders = $this -> orderModel -> getOrders("WHERE pedido_estado = 'pendiente'");
 
-        $inner_join_deliveries = " INNER JOIN sold_products ON sold_products.sold_product_order_id = orders.order_id
-        INNER JOIN products ON sold_products.sold_product_product_id = products.product_id";
+        $title = "Pedido";
+        $content = __DIR__ . "/../views/pages/delivery/shipments.view.php";
 
-        $deliveries = $this -> orderModel -> getAll($select_deliveries, $inner_join_deliveries, "WHERE order_state_id = 3 ORDER BY orders.order_date");
-
-        // agrupar las ordenes con sus productos
-        $orders = [];
-
-        foreach ($deliveries as $order) { 
-            $order_id = $order['order_id'];
-            if (!array_key_exists($order_id, $orders)) {
-                // Si la orden no existe, crear una nueva entrada en el arreglo para ella
-                $orders[$order_id] = array(
-                    'order_id' => $order['order_id'],
-                    'order_date' => $order['order_date'],
-                    'order_first_name' => $order['order_first_name'],
-                    'order_last_name' => $order['order_last_name'],
-                    'order_address' => $order['order_address'],
-                    'order_coords' => $order['order_coords'],
-                    'order_usuario_id' => $order['order_usuario_id'],
-                    'products' => array()
-                );
-            }
-        
-            $orders[$order_id]['products'][] = array(
-                'sold_product_id' => $order['sold_product_id'],
-                'sold_product_address' => $order['sold_product_address']
-            );
-        }
-        
-        require_once(__DIR__ . "/../views/delivery/list.view.php");
+        require_once(__DIR__ . "/../views/layouts/guest.layout.php");
     }
 
-    public function delivery () {
-        $id = $_GET['id'];
-        // actualizar al domiciliario y su orden
-        $_SESSION['user_delivery'] = ['state' => 'busy','order_id'=> $id];
-        $worker = $this -> userModel -> getById($_SESSION['usuario_id'], "*", "INNER JOIN workers ON usuarios.usuario_id = workers.worker_usuario_id");
-        $this -> orderModel -> updateById($id, ['order_worker_id' => $worker['worker_id']]);
-        
+    public function shipment () {
         // obtener detalles de la orden
-        $inner_join_orders = "INNER JOIN usuarios ON orders.order_usuario_id = usuarios.usuario_id
-        INNER JOIN states ON orders.order_state_id = states.state_id";
-        $order = $this -> orderModel -> getById($id, "*", $inner_join_orders);
+        $id = $_GET['shipment'];
+        $order = $this -> orderModel -> getOrder($id);
+        $trabajador = $this -> userModel -> getById($_SESSION['usuario_id'], "*", "INNER JOIN trabajadores ON usuarios.usuario_id = trabajadores.usuario_id");
+
+        if ($order['pedido_estado'] == 'pendiente') {
+            // actualizar al domiciliario y su orden
+            $_SESSION['usuario_informacion'] = ['estado' => 'ocupado','pedido_id'=> $id];            
+            
+            $this -> orderModel -> updateById($id, ['trabajador_id' => $trabajador['trabajador_id'], 'pedido_estado' => 'enviando'], "INNER JOIN detalles_envios ON pedidos.pedido_id = detalles_envios.pedido_id");
         
-        // obtener productos de la orden
-        $inner_join_products = "INNER JOIN products ON sold_products.sold_product_product_id = products.product_id 
-        INNER JOIN images ON products.product_id = images.image_object_id AND images.image_object_type = 'producto'";
+        }
 
-        $products = $this -> soldProductModel -> getAll("*", $inner_join_products, "WHERE sold_product_order_id = $id");
+        $title = "Pedido";
+        $content = __DIR__ . "/../views/pages/delivery/shipment.view.php";
 
-        require_once(__DIR__ . "/../views/delivery/delivery.view.php");
+        require_once(__DIR__ . "/../views/layouts/guest.layout.php");
     }
 }
