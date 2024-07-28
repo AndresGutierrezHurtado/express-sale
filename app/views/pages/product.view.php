@@ -67,7 +67,7 @@
         </div>
 
         <!-- Sección comentarios -->
-        <div class="w-full p-5 md:p-10 bg-white rounded-lg shadow-lg flex gap-10 hidden" id="comment-box">
+        <div class="w-full p-5 md:p-10 bg-white rounded-lg shadow-lg flex flex-col md:flex-row gap-10 hidden" id="comment-box">
             <div class="space-y-5 w-full md:w-1/2">
                 <h2 class="text-3xl font-bold tracking-tight">Estadísticas</h2>
                 <div class="flex gap-10 w-full justify-center">
@@ -140,7 +140,7 @@
                 <div class="space-y-3">
                     <h4 class="text-lg font-semibold">Agrega tu comentario:</h4>
                     
-                    <form action="/calification/rate" method="POST" enctype="multipart/form-data" class="space-y-3 modal">
+                    <form action="/calification/rate" method="POST" enctype="multipart/form-data" class="space-y-3 modal" <?= (!isset($_SESSION['usuario_id']) ? 'onsubmit="login(event)"' : '') ?>>
                         <div id="stars" class="flex items-center justify-center gap-2 text-[25px]">
                             <span class="star starProducto" data-value="1"><i class="fa-solid fa-star cursor-pointer text-gray-300 duration-300 hover:scale-110"> </i></span>
                             <span class="star starProducto" data-value="2"><i class="fa-solid fa-star cursor-pointer text-gray-300 duration-300 hover:scale-110"> </i></span>
@@ -150,7 +150,7 @@
                         </div>
                         <div class="w-full rounded-[100px] bg-gray-200 px-4 py-2 flex items-center gap-4">
                             <input type="hidden" name="product_id" value="<?= $product['producto_id'] ?>">
-                            <input type="hidden" name="usuario_id" value="<?= $_SESSION['usuario_id'] ?>">
+                            <input type="hidden" name="usuario_id" value="<?= (!isset($_SESSION['usuario_id']) ? '' : $_SESSION['usuario_id'])?>">
                             <input type="hidden" name="tipo_objeto" value="producto">
                             <input type="hidden" name="calificacion" value="producto">
     
@@ -253,12 +253,12 @@
         <div class="w-full bg-white p-5 rounded-md space-y-5">
             <div>                
                 <span class="w-full flex justify-between items-center">
-                    <h1 class="text-xl font-bold tracking-tight">Califica el vendedor</h1>
+                    <h1 class="text-xl font-bold tracking-tight">Califica el producto</h1>
                     <button class="duration-300 hover:text-gray-700" onclick="toggleModal('Producto<?= $calification['calificacion_id'] ?>')">
                         <i class="fa-solid fa-xmark text-2xl"></i>
                     </button>
                 </span>
-                <p>Ten en cuenta la calidad de sus productos ofrecidos y la rapidez de entrega.</p>
+                <p>Ten en cuenta la calidad de su material y tiempo de envío.</p>
             </div>
             <form id="rating-form" class="space-y-5" action="/calification/update" method="POST" enctype="multipart/form-data">
                 <input type="hidden" name="calificacion_id" value="<?= $calification['calificacion_id'] ?>">
@@ -327,9 +327,11 @@
 
     let visible = false;
     
-    function login () {
+    function login (event = null) {
+        event.preventDefault();
         if (confirm('Para calificar un producto debes iniciar sesión.')) {
             window.location.href = '/page/login';
+            exit();
         }
     }
 

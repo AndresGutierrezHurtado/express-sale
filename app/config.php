@@ -6,28 +6,28 @@ date_default_timezone_set('America/Bogota');
 
 define('URL_PATH', $urlpath);
 define('URL', $url);
-define('DOMAIN', getenv('DOMAIN'));
+define('DOMAIN', $_ENV['DOMAIN'] );
 
 // Credenciales de Google
-define('CLIENT_ID', getenv('CLIENT_ID'));
-define('CLIENT_SECRET', getenv('CLIENT_SECRET'));
-define('REDIRECT_URL', getenv('REDIRECT_URL'));
+define('CLIENT_ID', $_ENV['CLIENT_ID'] );
+define('CLIENT_SECRET', $_ENV['CLIENT_SECRET'] );
+define('REDIRECT_URL', $_ENV['REDIRECT_URL'] );
 
 // Credenciales para la base de datos
-define('DB_HOSTNAME', getenv('DB_HOSTNAME'));
-define('DB_USERNAME', getenv('DB_USERNAME'));
-define('DB_PASSWORD', getenv('DB_PASSWORD'));
-define('DB_NAME',     getenv('DB_NAME'));
+define('DB_HOSTNAME', $_ENV['DB_HOSTNAME'] );
+define('DB_USERNAME', $_ENV['DB_USERNAME'] );
+define('DB_PASSWORD', $_ENV['DB_PASSWORD'] );
+define('DB_NAME',     $_ENV['DB_NAME'] );
 
 // Credenciales para API de Google Maps
-define('API_MAPS', getenv('API_MAPS'));
+define('API_MAPS', $_ENV['API_MAPS'] );
 
 // Credenciales de PayU
-define('PAYU_REQUEST_URI',  getenv('PAYU_REQUEST_URI'));
-define('PAYU_API_KEY',      getenv('PAYU_API_KEY'));
-define('PAYU_MERCHANT_ID',  getenv('PAYU_MERCHANT_ID'));
-define('PAYU_ACCOUNT_ID',   getenv('PAYU_ACCOUNT_ID'));
-define('PAYU_TEST_MODE',    getenv('PAYU_TEST_MODE')); // 1 pruebas | 0
+define('PAYU_REQUEST_URI',  $_ENV['PAYU_REQUEST_URI'] );
+define('PAYU_API_KEY',      $_ENV['PAYU_API_KEY'] );
+define('PAYU_MERCHANT_ID',  $_ENV['PAYU_MERCHANT_ID'] );
+define('PAYU_ACCOUNT_ID',   $_ENV['PAYU_ACCOUNT_ID'] );
+define('PAYU_TEST_MODE',    $_ENV['PAYU_TEST_MODE']); // 1 pruebas | 0
 
 /*
 CREDENCIALES PARA HACER TRANSACCIONES DE PRUEBA

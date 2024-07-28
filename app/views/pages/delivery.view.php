@@ -1,5 +1,5 @@
 <main class="w-full bg-gray-200 min-h-screen flex justify-center items-center">
-    <div class="w-full max-w-[700px] mx-auto py-12 space-y-10">
+    <div class="w-full max-w-[700px] mx-auto py-[100px] space-y-10">
         <div class="w-full bg-white p-10 rounded-lg shadow-lg relative space-y-5">
             <!-- centrar verticalmente -->
             <div class="absolute top-0 left-1/2 transform -translate-x-1/2 -translate-y-1/2 rounded-full overflow-hidden border-[7px] border-white size-[150px]">

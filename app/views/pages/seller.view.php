@@ -14,7 +14,7 @@ function buildQueryString( $add = [], $remove = []) {
     return $queryString;
 }
 ?>
-<main class="w-full max-w-[1200px] mx-auto py-10 flex gap-10">
+<main class="w-full max-w-[1200px] mx-auto py-10 flex flex-col md:flex-row justify-between gap-10">
     <!-- Vendedor contenedor -->
     <div class="w-full max-w-[450px] space-y-5">
         <div class="w-full bg-white p-6 rounded-lg shadow-md h-fit flex flex-col gap-5">
@@ -22,7 +22,7 @@ function buildQueryString( $add = [], $remove = []) {
             <h3 class="text-2xl font-bold tracking-tight">Información del vendedor:</h3>
 
             <div class="flex flex-col sm:flex-row items-center gap-4">
-                <div class="w-24 h-24 rounded-full">
+                <div class="w-24 h-24 rounded-full overflow-hidden">
                     <img src="<?= $seller['usuario_imagen_url'] ?>" alt="Foto de <?= $seller['usuario_nombre'] ?>" class="object-cover w-full h-full">
                 </div>
                 <div class="w-full ">

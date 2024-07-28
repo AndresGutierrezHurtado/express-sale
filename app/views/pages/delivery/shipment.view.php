@@ -116,7 +116,7 @@
                     <li class="flex justify-between items-center py-2">
                         <div>
                             <p class="font-semibold"> (<?= $producto['producto_cantidad'] ?>) <?= $producto['producto_nombre'] ?> | <?= number_format($producto['producto_precio'])?> COP por producto</p>
-                            <p class="text-gray-600">Vendedor: pendiente </p>
+                            <p class="text-gray-600">Vendedor: <a href="/page/sellers/?seller=<?= $producto['usuario_id'] ?>"><?= $producto['usuario_alias'] ?></a>  </p>
                         </div>
                         <p class="font-semibold"><?= $producto['usuario_direccion'] ?></p>
                     </li>

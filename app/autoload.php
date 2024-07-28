@@ -14,8 +14,14 @@ if (file_exists($envPath)) {
         $key = trim($key);
         $value = trim($value);
 
-        putenv("$key=$value");
+        if (function_exists('putenv')) {
+            putenv("$key=$value");
+        } else {
+            $_ENV[$key] = $value;
+        }
+
         $_ENV[$key] = $value;
+        $_SERVER[$key] = $value;
     }
 }
 

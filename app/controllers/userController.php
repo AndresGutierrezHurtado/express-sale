@@ -57,6 +57,12 @@ class UserController {
             $result = $this -> userModel -> auth_google($user);
 
             if ($result['success']) {
+                echo "
+                <script>
+                    alert('¡La autenticación se realizó correctamente!');
+                    window.location.href = '/';
+                </script>
+                ";
                 header("Location: /");
             }
 

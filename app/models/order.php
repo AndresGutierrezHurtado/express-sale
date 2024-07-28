@@ -9,12 +9,12 @@ class Order extends Orm{
         $temp_orders = $this -> getAll(
             "pedidos.*, detalles_pagos.*, detalles_envios.*, 
             productos_pedidos.*, productos.producto_nombre, productos.producto_imagen_url, 
-            usuarios.usuario_direccion", 
+            vendedores.usuario_direccion as vendedor_direccion, vendedores.usuario_alias as vendedor_alias, vendedores.usuario_id as vendedor_id", 
             " INNER JOIN detalles_pagos ON pedidos.pedido_id = detalles_pagos.pago_id
             INNER JOIN detalles_envios ON pedidos.pedido_id = detalles_envios.pedido_id 
             INNER JOIN productos_pedidos ON pedidos.pedido_id = productos_pedidos.pedido_id 
             INNER JOIN productos ON productos_pedidos.producto_id = productos.producto_id 
-            INNER JOIN usuarios ON productos.usuario_id = usuarios.usuario_id",
+            INNER JOIN usuarios as vendedores ON productos.usuario_id = vendedores.usuario_id",
             $customQuery
         );
         
@@ -36,7 +36,7 @@ class Order extends Orm{
                     'envio_direccion' => $temp_order['envio_direccion'],
                     'envio_coordenadas' => $temp_order['envio_coordenadas'],
                     'envio_mensaje' => $temp_order['envio_mensaje'],
-                    'usuario_id' => $temp_order['usuario_id'],
+                    'usuario_id' => $temp_order['usuario_id'],                    
                     'products' => array()
                 );
             }
@@ -47,7 +47,9 @@ class Order extends Orm{
                 'producto_precio'=> $temp_order['producto_precio'],
                 'producto_nombre' => $temp_order['producto_nombre'],
                 'producto_imagen_url' => $temp_order['producto_imagen_url'],
-                'usuario_direccion' => $temp_order['usuario_direccion']
+                'usuario_direccion' => $temp_order['vendedor_direccion'],
+                'usuario_alias' => $temp_order['vendedor_alias'],
+                'usuario_id' => $temp_order['vendedor_id']
             );
         }
 

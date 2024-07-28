@@ -42,7 +42,7 @@ class="w-full max-w-[700px] my-10 flex flex-col items-center gap-5 p-5 bg-white 
         <label for="order_phone_number" class="block text-sm font-medium text-gray-700">Número y tipo de documento:</label>
         <div class="flex flex-col md:flex-row gap-4">
             <select name="payerDocumentType" required
-            class="block w-fit appearance-none rounded-md border border-gray-300 px-3 py-2 focus:border-violet-600 focus:outline-none sm:text-sm" >
+            class="block w-full md:w-fit appearance-none rounded-md border border-gray-300 px-3 py-2 focus:border-violet-600 focus:outline-none sm:text-sm" >
                 <option value="CC">Cédula de Ciudadanía</option>
                 <option value="CE">Cédula de Extranjería</option>
                 <option value="TI">Tarjeta de Identidad</option>
