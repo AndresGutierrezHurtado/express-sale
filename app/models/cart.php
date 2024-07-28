@@ -2,45 +2,67 @@
 
 class Cart{
 
+    private $productModel;
+
+    public function __construct($conn) {
+        $this -> productModel = new Product($conn);
+    }
+
     public function getAll(){
-        return $_SESSION['user_cart'];
+        $products = [];
+
+        foreach($_SESSION['carrito'] as $product){
+            $result = $this -> productModel -> getById($product['producto_id'], "productos.producto_nombre, productos.producto_id, productos.producto_imagen_url, productos.producto_precio");
+            $result['producto_cantidad'] = $product['producto_cantidad'];
+            array_push($products, $result);
+        }
+
+        return $products;
     }
 
     public function add($product, $action = 'increase'){
         $found = false;
-        foreach ($_SESSION['user_cart'] as &$item) {
-            if ($item['product_id'] == $product['product_id']) {
-                $item['product_quantity'] = $action == 'increase' ? $item['product_quantity'] + 1 : $item['product_quantity'] - 1 ;
+        foreach ($_SESSION['carrito'] as &$item) {
+            if ($item['producto_id'] == $product['producto_id']) {
+                $item['producto_cantidad'] = $action == 'increase' ? $item['producto_cantidad'] + 1 : $item['producto_cantidad'] - 1 ;
                 $found = true;
                 break;
             }
         }
 
         if (!$found) {
-            $product['product_quantity'] = 1;
-            $_SESSION['user_cart'][] = $product;
+            $product['producto_cantidad'] = 1;
+            $_SESSION['carrito'][] = $product;
         }
 
-        return ['success' => true, 'message' => 'La acción se realizó correctamente', 'cart' => $_SESSION['user_cart']];
+        return ['success' => true, 'message' => 'La acción se realizó correctamente', 'cart' => $_SESSION['carrito']];
     }
 
     public function remove($product){
-        foreach ($_SESSION['user_cart'] as $key => $item) {
-            if ($item['product_id'] == $product['product_id']) {
-                array_splice($_SESSION['user_cart'], $key, 1);
+        foreach ($_SESSION['carrito'] as $key => $item) {
+            if ($item['producto_id'] == $product['producto_id']) {
+                array_splice($_SESSION['carrito'], $key, 1);
                 break;
             }
         }
 
-        return ['success' => true, 'message' => 'Producto eliminado correctamente', 'cart' => $_SESSION['user_cart']];
-
+        return ['success' => true, 'message' => 'Producto eliminado correctamente', 'cart' => $_SESSION['carrito']];
     }
 
     public function empty(){
-        $_SESSION['user_cart'] = [];
+        $_SESSION['carrito'] = [];
         
-        return ['success' => true, 'message' => 'Carrito vaciado correctamente', 'cart' => $_SESSION['user_cart']];
-        
+        return ['success' => true, 'message' => 'Carrito vaciado correctamente', 'cart' => $_SESSION['carrito']];        
+    }
+
+    public function getTotalPrice() {
+        $totalPrice = 0;
+        foreach ($_SESSION['carrito'] as $item) {
+            $product = $this -> productModel -> getById($item['producto_id'], "producto_id, producto_precio");
+            $totalPrice += floatval($product['producto_precio']) * intval($item['producto_cantidad']);
+        }
+
+        return $totalPrice;
     }
 
 }

@@ -30,21 +30,13 @@ class Orm {
         $query = rtrim($query, ', ');
         $query .= ')';
     
-                
-        try {
-            $result = $this->db->query($query);
-            $inserted_id = $this->db->insert_id;
-            if ($result) {
-                return ['success' => true, 'message' => 'La inserción se realizó correctamente.', 'last_id' => $inserted_id];
-            } else {
-                return ['success' => false, 'message' => 'Error al insertar los datos.'];
-            }
-        } catch (mysqli_sql_exception $e) {
-            if ($e->getCode() == 1062) {
-                return ['success' => false, 'message' => 'Error al insertar los datos: El usuario o correo ya existe'];
-            } else {
-                return ['success' => false, 'message' => 'Error al insertar los datos: ' . $e->getCode()];
-            }
+            
+        $result = $this->db->query($query);
+        $inserted_id = $this->db->insert_id;
+        if ($result) {
+            return ['success' => true, 'message' => 'La inserción se realizó correctamente.', 'last_id' => $inserted_id];
+        } else {
+            return ['success' => false, 'message' => 'Error al insertar los datos.'];
         }
     }
 
@@ -57,7 +49,7 @@ class Orm {
     }
     
     public function getById($id, $select = "*", $inner_join = "", $custom_query = "") {
-        $query = "SELECT $select FROM $this->table $inner_join WHERE $this->id = $id $custom_query";
+        $query = "SELECT $select FROM $this->table $inner_join WHERE $this->table.$this->id = $id $custom_query";
         $result = $this->db->query($query);
 
         return $result -> fetch_assoc();
@@ -68,18 +60,18 @@ class Orm {
         $query = "UPDATE $this->table $inner_join SET ";
         foreach ($data as $key => $value) {
             if (is_int($value)) {
-                $query .= "$key = $value, ";
+                $query .= "$key = $value,";
             } else {
-                $query .= "$key = '$value' ,";
+                $query .= "$key = '$value',";
             }           
         }
         $query = rtrim($query, ',');        
-        $query .= " WHERE $this->id = $id";   
+        $query .= " WHERE $this->table.$this->id = $id";
         
         $result = $this->db->query($query);
 
         if ($result) {
-            return ['success' => true, 'message' => 'La actualización se realizó correctamente.'];
+            return ['success' => true, 'message' => 'La actualización se realizó correctamente.', 'data' => $this -> getById($this -> db -> insert_id)];
         } else {
             return ['success' => false, 'message' => 'Error al actualizar los datos: ' . $this->db->error];
         }

@@ -3,8 +3,8 @@
 class cartController {
     
     private $cartModel;
-    public function __construct() {
-        $this->cartModel = new Cart();
+    public function __construct($conn) {
+        $this->cartModel = new Cart($conn);
     }
 
     public function add() {

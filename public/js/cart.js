@@ -3,110 +3,107 @@ document.addEventListener('DOMContentLoaded', () => {
     const increaseButtons = document.querySelectorAll('.btn-increase');
     const decreaseButtons = document.querySelectorAll('.btn-decrease');
     const deleteButtons = document.querySelectorAll('.btn-delete');
+    const emptyButton = document.querySelector('#btn-empty');
 
-    // Agregar al carrito
-    addButtons.forEach(button => {
-        button.addEventListener('click', () => {
-            if (button.getAttribute('data-session') == "false") {                
-                if (confirm('para realizar esta acción tienes que iniciar sesión')){
-                    window.location.href = '/page/login'
-                }
-            } else {
-                console.log()
-                
+    if (addButtons.length) {
+        addButtons.forEach(button => {
+            button.addEventListener('click', () => {
+
                 let product = new FormData();
-                product.append('product_id', button.getAttribute('data-product_id'));
-                product.append('product_name', button.getAttribute('data-product_name'));
-                product.append('product_price', button.getAttribute('data-product_price'));
-                product.append('image_url', button.getAttribute('data-image_url'));
-                product.append('product_user_id', button.getAttribute('data-product_user_id'));
-                product.append('product_address', button.getAttribute('data-user_address'));
+                product.append('producto_id', button.getAttribute('data-producto-id'));
 
                 fetch('/cart/add', {
                     method: 'POST',
                     body: product
                 })
-                .then(Response => Response.json())
-                .then(Data => {
-                    if (Data.success) {
-                        console.log('Producto agregado correctamente.');
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        alert(data.message);
+                        window.location.reload();
                     }
-                })   
-            }         
-        })
-    })
-
-    increaseButtons.forEach(button => {
-        button.addEventListener('click', () => {
-            let product = new FormData();
-            product.append('product_id', button.getAttribute('data-product_id'));
-            product.append('action', 'increase');
-
-            fetch(`/cart/update/`, { 
-                method: 'POST',
-                body: product
-            })
-            .then(Response => Response.json())
-            .then(Data => {
-                if (Data.success) {
-                    window.location.reload();
-                }
+                })
             });
         });
-    });
+    }
 
-    // Disminuir cantidad de un producto en el carrito
-    decreaseButtons.forEach(button => {
-        button.addEventListener('click', () => {
-            let product = new FormData();
-            product.append('product_id', button.getAttribute('data-product_id'));
-            product.append('action', 'decrease');
-
-            fetch(`/cart/update/`, { 
-                method: 'POST',
-                body: product
-            })
-            .then(Response => Response.json())
-            .then(Data => {
-                if (Data.success) {
-                    window.location.reload();
-                }
-            });
-        });
-    });
-    
-    // Eliminar un producto del carrito
-    deleteButtons.forEach(button => {
-        button.addEventListener('click', () => {
-            if (confirm('¿seguro que quieres eliminar este producto de tu carrito?')) {
+    if (increaseButtons.length) {
+        increaseButtons.forEach(button => {
+            button.addEventListener('click', () => {
                 let product = new FormData();
-                product.append('product_id', button.getAttribute('data-product_id'));
+                product.append('producto_id', button.getAttribute('data-producto-id'));
+                product.append('action', 'increase');
 
-                fetch(`/cart/delete/`, { 
+                fetch(`/cart/update/`, { 
                     method: 'POST',
                     body: product
                 })
                 .then(response => response.json())
-                .then(Data => {
-                    if (Data.success) {
+                .then(data => {
+                    if (data.success) {
                         window.location.reload();
                     }
-                });
-            }
+                })
+            });
         });
-    });
+    }
 
-    document.querySelector('#btn-empty').addEventListener('click', () => {
-        if (confirm('¿seguro que quieres eliminar TODOS los productos de tu carrito?')) {
-            fetch(`/cart/empty/`)
-            .then(response => response.json())
-            .then(Data => {
-                if (Data.success) {
-                    window.location.reload();
+    if (decreaseButtons.length) {
+        decreaseButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                let product = new FormData();
+                product.append('producto_id', button.getAttribute('data-producto-id'));
+                product.append('action', 'decrease');
+
+                fetch(`/cart/update/`, { 
+                    method: 'POST',
+                    body: product
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        window.location.reload();
+                    }
+                })
+            });
+        });
+    }
+
+    if (deleteButtons.length) {
+        deleteButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                if (confirm('¿Seguro que quieres eliminar este producto de tu carrito?')) {
+                    let product = new FormData();
+                    product.append('producto_id', button.getAttribute('data-producto-id'));
+
+                    fetch(`/cart/delete/`, { 
+                        method: 'POST',
+                        body: product
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.success) {
+                            alert(data.message);
+                            window.location.reload();
+                        }
+                    })
                 }
             });
-        }
+        });
+    }
 
-    })
-    
-})
+    if (emptyButton) {
+        emptyButton.addEventListener('click', () => {
+            if (confirm('¿Seguro que quieres eliminar TODOS los productos de tu carrito?')) {
+                fetch(`/cart/empty/`)
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        alert(data.message);
+                        window.location.reload();
+                    }
+                })
+            }
+        });
+    }
+});

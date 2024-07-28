@@ -1,113 +1,65 @@
-const sellerStars = document.querySelectorAll('.starVendedor');
-const sellerButton = document.getElementById('calificar-btn-vendedor');
+document.addEventListener('DOMContentLoaded', () => {
+    // Selecciona todos los elementos de estrellas
+    const productStars = document.querySelectorAll('.starProducto');
 
-const productStars = document.querySelectorAll('.starProducto');
-const productButton = document.getElementById('calificar-btn-producto');
-
-// logica estrellas vendedor
-sellerStars.forEach(star => {
-    star.addEventListener('click', () => {
-        const value = parseInt(star.dataset.value);
-
-        if (star.classList.contains('selected')) {
-            sellerStars.forEach(s => {
-                s.innerHTML = '<i class="far fa-star cursor-pointer text-amber-600 duration-300 hover:scale-[1.15]"></i>';
-                s.classList.remove('selected');
-                sellerButton.classList.remove('hidden');
-            });
-        } else {
-            sellerStars.forEach((s, index) => {
-                if (index < value) {
-                    s.innerHTML = '<i class="fas fa-star cursor-pointer text-amber-400 duration-300 hover:scale-[1.15]"></i>';
-                    s.classList.remove('selected');
-                } else {
-                    s.innerHTML = '<i class="far fa-star cursor-pointer text-amber-600 duration-300 hover:scale-[1.15]"></i>';
-                    s.classList.remove('selected');
+    productStars.forEach((star, index) => {
+        star.addEventListener('click', () => {
+            // Encuentra el contenedor del modal padre de la estrella clicada
+            const modal = star.closest('.modal');
+            
+            // Selecciona el input dentro de este modal específico
+            const ratingInput = modal.querySelector('input[name="calificacion"]');
+            
+            // Itera a través de todas las estrellas
+            productStars.forEach((s, i) => {
+                if (s.children[0]) {
+                    if (i <= index) {
+                        s.children[0].classList.add('text-yellow-500');
+                        s.children[0].classList.remove('text-gray-300');
+                    } else {
+                        s.children[0].classList.remove('text-yellow-500');
+                        s.children[0].classList.add('text-gray-300');
+                    }
                 }
             });
-            star.classList.add('selected');
-        }
 
-        const anySelected = Array.from(sellerStars).some(s => s.classList.contains('selected'));
-        sellerButton.classList.toggle('hidden', !anySelected);
+            // Guarda el valor de la calificación en el input oculto
+            if (ratingInput) {
+                ratingInput.value = star.dataset.value;
+            } else {
+                console.error("No se encontró el input 'calificacion' en el modal.");
+            }
+        });
     });
-});
 
-// logica estrellas producto
-productStars.forEach(star => {
-    star.addEventListener('click', () => {
-        const value = parseInt(star.dataset.value);
+    document.querySelectorAll('form').forEach(form => {
+        // si el id del form es search-form se activa el evento submit
+        if (form.id === 'search-form') {
+            return;
+        }
+        form.addEventListener('submit', event => {
+            event.preventDefault();
 
-        if (star.classList.contains('selected')) {
-            productStars.forEach(s => {
-                s.innerHTML = '<i class="far fa-star cursor-pointer text-amber-600 duration-300 hover:scale-[1.15]"></i>';
-                s.classList.remove('selected');
-                productButton.classList.remove('hidden');
-            });
-        } else {
-            productStars.forEach((s, index) => {
-                if (index < value) {
-                    s.innerHTML = '<i class="fas fa-star cursor-pointer text-amber-400 duration-300 hover:scale-[1.15]"></i>';
-                    s.classList.remove('selected');
+            const data = new FormData(form);
+
+            fetch(form.action, {
+                method: 'POST',
+                body: data
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    alert(data.message);
+                    window.location.reload();
                 } else {
-                    s.innerHTML = '<i class="far fa-star cursor-pointer text-amber-600 duration-300 hover:scale-[1.15]"></i>';
-                    s.classList.remove('selected');
+                    console.error(data);
                 }
             });
-            star.classList.add('selected');
-        }
-
-        const anySelected = Array.from(productStars).some(s => s.classList.contains('selected'));
-        productButton.classList.toggle('hidden', !anySelected);
+        });
     });
+
 });
 
-// logica fetch producto
-document.getElementById('rating-form-producto').addEventListener('submit' , (e) => {
-    e.preventDefault();
-
-    let formData = new FormData();
-    
-    formData.append('calification_object_type', 'producto');
-    formData.append('calification_comment', document.getElementById('calification-comment-product').value);
-    formData.append('calification', parseInt(document.querySelector('.starProducto.selected').dataset.value));
-    formData.append('calificator_user_id',  document.getElementById('calificar-btn-producto').dataset.calificator_user_id )
-    formData.append('calificated_object_id', document.getElementById('calificar-btn-producto').dataset.calificated_object_id );
-    
-    fetch('/calification/rate', {
-        method: 'POST',
-        body: formData
-    })
-    .then(response => response.json())
-    .then(data => {
-        alert(data.message);
-        if (data.success) {
-            window.location.reload();
-        }
-    })
-});
-
-// logica fetch vendedor
-document.getElementById('rating-form-vendedor').addEventListener('submit' , (e) => {
-    e.preventDefault();
-
-    let formData = new FormData();
-    
-    formData.append('calification_object_type', 'usuario');
-    formData.append('calification_comment', document.getElementById('calification-comment-user').value);
-    formData.append('calification', parseInt(document.querySelector('.starVendedor.selected').dataset.value));
-    formData.append('calificator_user_id',  document.getElementById('calificar-btn-vendedor').dataset.calificator_user_id );
-    formData.append('calificated_object_id', document.getElementById('calificar-btn-vendedor').dataset.calificated_object_id );
-    
-    fetch('/calification/rate', {
-        method: 'POST',
-        body: formData
-    })
-    .then(response => response.json())
-    .then(data => {
-        alert(data.message);
-        if (data.success) {
-            window.location.reload();
-        }
-    })
-});
+function toggleModal(id) {
+    document.getElementById('modal' + id).classList.toggle('hidden');
+}

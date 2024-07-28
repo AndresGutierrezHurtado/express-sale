@@ -21,9 +21,15 @@ document.getElementById('btn-logout').addEventListener('click', () => {
 editButton.addEventListener('click', (e) => {
     e.preventDefault();
     if (!editable){
-        editButton.innerHTML = 'Cancelar';
+        editButton.innerHTML = `
+            <span class="absolute inset-y-0 left-0 flex items-center pl-3">
+                <i class="fa-solid fa-x text-[17px] text-gray-300 duration-300 group-hover:text-gray-500"></i>
+            </span>
+            Cancelar
+        `;
+      
         document.getElementById('btn-submit').classList.toggle('hidden');
-        document.getElementById('image').classList.toggle('hidden');
+        document.getElementById('usuario_imagen').classList.toggle('hidden');
         document.querySelectorAll('[disabled]').forEach(input => {
             input.disabled = editable;
         })
@@ -40,13 +46,10 @@ editButton.addEventListener('click', (e) => {
 // user_profile
 document.getElementById('user_profile_form').addEventListener('submit', (e) => {
     e.preventDefault();
-    UpdateProfile();
-})
 
-async function UpdateProfile() {
     let user = new FormData(document.getElementById('user_profile_form'));
     
-    await fetch('/user/update', {
+    fetch('/user/update', {
         method: 'POST',
         body: user
     })
@@ -57,23 +60,15 @@ async function UpdateProfile() {
             window.location.reload();
         }
     })
-}
+});
 
 // logica para la inserción de un nuevo producto
 document.getElementById('new-product-form').addEventListener('submit', (e) => {
     e.preventDefault();
-    newProduct();
-})
 
-async function newProduct() {
     let product = new FormData(document.getElementById('new-product-form'));
     
-    var currentDate = new Date();
-    var formattedDate = currentDate.toISOString().split('T')[0];
-    
-    product.append('product_date', formattedDate);
-
-    await fetch('/product/create', {
+    fetch('/product/create', {
         method: 'POST',
         body: product
     })
@@ -85,6 +80,4 @@ async function newProduct() {
         }
     })
 
-}
-
-
+});

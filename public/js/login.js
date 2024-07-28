@@ -1,12 +1,8 @@
-
 const loginForm = document.getElementById('login_form');
 
 loginForm.addEventListener('submit', (e) => {
     e.preventDefault();
-    loginFormSubmit();
-});
 
-async function loginFormSubmit() {
     let user = new FormData(loginForm);
 
     fetch('/user/login', {
@@ -22,5 +18,4 @@ async function loginFormSubmit() {
             alert('Error al ingresar el usuario: ' + data.message);
         }
     })
-
-}
+});
