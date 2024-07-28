@@ -166,13 +166,13 @@ CREATE TABLE `pedidos` (
 -- Tabla de Detalles de Pagos
 CREATE TABLE `detalles_pagos` (
     `pago_id` INT PRIMARY KEY AUTO_INCREMENT,
-    `pedido_id` INT,
-    `pago_metodo` INT, -- polPaymentMethodType
-    `pago_valor` DECIMAL(10, 0), -- TX_VALUE
+    `pedido_id` INT NOT NULL,
+    `pago_metodo` INT NOT NULL, -- polPaymentMethodType
+    `pago_valor` DECIMAL(10, 0) NOT NULL, -- TX_VALUE
     `comprador_nombre` VARCHAR(100), -- buyerFullName
-    `comprador_correo` VARCHAR(255), -- buyerEmail
-    `comprador_tipo_documento` ENUM('CC', 'CE', 'TI', 'PPN', 'NIT', 'SSN', 'EIN') DEFAULT 'CC', -- payerDocumentType
-    `comprador_numero_documento` DECIMAL(10, 0), -- payerDocument
+    `comprador_correo` VARCHAR(255) NOT NULL, -- buyerEmail
+    `comprador_tipo_documento` ENUM('CC', 'CE', 'TI', 'PPN', 'NIT', 'SSN', 'EIN') DEFAULT 'CC' NOT NULL, -- payerDocumentType
+    `comprador_numero_documento` DECIMAL(10, 0) NOT NULL, -- payerDocument
     `comprador_telefono` DECIMAL(10, 0) -- payerPhone
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
@@ -181,13 +181,14 @@ CREATE TABLE `detalles_pagos` (
 -- Tabla de Detalles de Envíos
 CREATE TABLE `detalles_envios` (
     `envio_id` INT PRIMARY KEY AUTO_INCREMENT,
-    `pedido_id` INT,
+    `pedido_id` INT NOT NULL,
     `trabajador_id` INT,
-    `envio_direccion` TEXT,
+    `envio_direccion` TEXT NOT NULL,
     `envio_coordenadas` VARCHAR(100),
-    `fecha_inicio` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    `fecha_entrega` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    `envio_valor` DECIMAL(10, 0)
+    `fecha_inicio` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    `fecha_entrega` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    `envio_valor` DECIMAL(10, 0),
+    `envio_mensaje` TEXT
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- ---------------------------------------------------------------

@@ -1,12 +1,3 @@
-<?php
-function obtenerDistancia($origen, $destino) {
-    $data = json_decode(file_get_contents( "https://maps.googleapis.com/maps/api/distancematrix/json?destinations=".urlencode($origen)."&origins=".urlencode($destino)."&units=meters&key=" . API_MAPS ), true);
-
-    $data['status'] == 'OK' ? $data = $data['rows'][0]['elements'][0] : $data = 0;
-    return $data;
-}
-?>
-
 <main class="w-full min-h-screen flex justify-center items-center bg-gray-100">
     <div class="w-full max-w-[1200px] my-12">
         <a href="/">
@@ -34,16 +25,9 @@ function obtenerDistancia($origen, $destino) {
                                 <?php 
                                     $productos = $order['productos'];
                                     $totalProductos = count($productos);
-                                    $distancia_total = 0;
-
-                                    foreach($order['productos'] as $i => $producto) {
-                                        $origen = $productos[$i]['usuario_direccion'];
-                                        $destino = ($i == count($productos) - 1) ? $destino = $order['envio_direccion'] : $destino = $productos[$i]['usuario_direccion'] ;
-                                    
-                                        $distancia_total += obtenerDistancia($origen, $destino)['distance']['value'];
-                                    }
-
                                     $contador = 0;
+                                    $distancia_total = $this -> orderModel -> getTotalDistance($order['pedido_id']);
+                                    $envio_valor = $distancia_total > 10000 ? $distancia_total * 1.3 : 10000;
                                     
                                     foreach ($productos as $producto){
                                         echo $producto['usuario_direccion'];
@@ -56,8 +40,9 @@ function obtenerDistancia($origen, $destino) {
                             </p>
                         </div>
                         <p><strong>Distancia:</strong> <?= $distancia_total / 1000 ?> Km </p>
-                        <p><strong>Pago:</strong> <?= number_format($distancia_total > 10000 ? 10000 : 7000) ?> COP </p>
+                        <p><strong>Pago:</strong> <?= number_format($envio_valor) ?> COP </p>
                         <p><strong>Fecha:</strong> <?= $order['pedido_fecha'] ?></p>
+                        <p><strong>Mensaje:</strong> <?= $order['envio_mensaje'] ?></p>
                     </div>
                     <a href="/page/shipment/?shipment=<?= $order['pedido_id']?>">
                         <button class="px-3 p-1 border-2 border-green-500 rounded-lg text-green-500 font-bold flex gap-3 items-center hover:bg-gray-100 duration-300"> <i class="fa-solid fa-circle-check "></i> Realizar Envío</button>

@@ -58,7 +58,7 @@ El ORM implementado en el proyecto es una clase base para los modelos, facilitan
 
 ## Por Hacer
 
-- Mejorar el login (recuperar cuenta y Google login)
-- Mostrar mensaje al domiciliario
-- Añadir ruta en Waze y corregir integración con Google Maps
 - Agregar el perfil de producto (zoom y calificaciones)
+- Agregar el perfil de domiciliario.
+- Seccion de estadísticas para vendedores y domiciliarios
+- Mejorar el login (recuperar cuenta y Google login)

@@ -1,12 +1,3 @@
-<?php
-function obtenerDistancia($origen, $destino) {
-    $data = json_decode(file_get_contents( "https://maps.googleapis.com/maps/api/distancematrix/json?destinations=".urlencode($origen)."&origins=".urlencode($destino)."&units=meters&key=" . API_MAPS ), true);
-
-    $data['status'] == 'OK' ? $data = $data['rows'][0]['elements'][0] : $data = 0;
-    return $data;
-}
-?>
-
 <script src="https://maps.googleapis.com/maps/api/js?key=<?= API_MAPS ?>&callback=initMap" async defer></script>
 <!-- Carga de la API de Google Maps -->
 <script>
@@ -111,9 +102,10 @@ function obtenerDistancia($origen, $destino) {
     <?php else : ?>
         <!-- Encabezado: información del destinatario -->
         <div class="bg-white p-4 shadow-md rounded-md mb-8">
-            <h2 class="text-xl font-semibold mb-2">Envío para <?= $order['comprador_nombre'] ?></h2>
-            <p class="text-gray-600">Dirección: <?= $order['envio_direccion'] ?></p>
-            <p class="text-gray-600">Teléfono: <?= $order['comprador_telefono'] ?></p>
+            <h2 class="text-4xl font-bold mb-2">Envío para <?= $order['comprador_nombre'] ?></h2>
+            <p class="text-gray-700"><strong>Dirección:</strong> <?= $order['envio_direccion'] ?></p>
+            <p class="text-gray-700"><strong>Teléfono:</strong> <?= $order['comprador_telefono'] ?></p>
+            <p class="text-gray-700"><strong>Mensaje:</strong> <?= $order['envio_mensaje'] ?></p>
         </div>
 
         <!-- Lista de productos a entregar -->
@@ -152,8 +144,15 @@ function obtenerDistancia($origen, $destino) {
             <!-- Mapa -->
             <div id="map" class="h-96"></div>
 
+            <!-- Botón para abrir la ruta en Waze -->
+            <div class="text-center mt-5 flex gap-4 justify-center items-center">
+                <button id="openWazeBtn" class="font-semibold flex gap-2 items-center text-blue-500 px-5 p-2 rounded-full border-2 border-blue-500 hover:bg-gray-200 duration-300">
+                <i class="fas fa-map-marked-alt"></i> Abrir Ruta en Waze
+                </button>
+            </div>
+
             <!-- Botón para abrir la ruta en Google Maps -->
-            <div class="text-center mt-4 flex ga-4 justify-center items-center">
+            <div class="text-center mt-2 flex ga-4 justify-center items-center">
                 <button id="openRouteBtn" class="font-semibold flex gap-2 items-center text-blue-500 px-5 p-2 rounded-full border-2 border-blue-500 hover:bg-gray-200 duration-300">
                 <i class="fas fa-map-marked-alt"></i> Abrir Ruta en Google maps
                 </button>
@@ -176,14 +175,18 @@ function obtenerDistancia($origen, $destino) {
             navigator.geolocation.getCurrentPosition(function(position) {
                 var routeURL = 'https://www.google.com/maps/dir/' + position.coords.latitude + ',' + position.coords.longitude + '/';
                 var waypoints = <?= json_encode($order['productos']) ?>;
-
+                
+                // Agregar los waypoints a la URL de Google Maps
                 waypoints.forEach(function(waypoint) {
                     if (waypoint.usuario_direccion) {
                         routeURL += encodeURIComponent(waypoint.usuario_direccion) + '/';
                     }
                 });
 
+                // Agregar la dirección final
                 routeURL += encodeURIComponent('<?= $order['envio_direccion'] ?>');
+
+                // Abrir la URL de Google Maps
                 window.open(routeURL, '_blank');
             }, function(error) {
                 console.error("Error obteniendo la ubicación: " + error.message);
@@ -192,6 +195,34 @@ function obtenerDistancia($origen, $destino) {
             alert("La geolocalización no es soportada por este navegador.");
         }
     });
+
+    // Abrir la ruta en Waze al presionar el botón de Waze
+    document.getElementById('openWazeBtn').addEventListener('click', function() {
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(function(position) {
+                var wazeURL = 'waze://?ll=' + position.coords.latitude + ',' + position.coords.longitude + '&navigate=yes';
+                var waypoints = <?= json_encode($order['productos']) ?>;
+
+                // Agregar los waypoints a la URL de Waze
+                waypoints.forEach(function(waypoint) {
+                    if (waypoint.usuario_direccion) {
+                        wazeURL += '&via=' + encodeURIComponent(waypoint.usuario_direccion);
+                    }
+                });
+
+                // Agregar la dirección final
+                wazeURL += '&via=' + encodeURIComponent('<?= $order['envio_direccion'] ?>');
+
+                // Abrir la URL de Waze
+                window.open(wazeURL, '_blank');
+            }, function(error) {
+                console.error("Error obteniendo la ubicación: " + error.message);
+            });
+        } else {
+            alert("La geolocalización no es soportada por este navegador.");
+        }
+    });
+
 
     // terminar ruta
     document.getElementById('submit-delivery-button').addEventListener('click', function() {
@@ -218,7 +249,7 @@ function obtenerDistancia($origen, $destino) {
         const data = new FormData();
 
         data.append('usuario_id', '<?= $_SESSION['usuario_id'] ?>');
-        data.append('trabajador_numero_trabajos', '<?= $trabajador['trabajador_numero_trabajos'] + 1 ?>' );
+        data.append('trabajador_numero_trabajos', '<?= $trabajador['trabajador_numero_trabajos'] ?>' );
 
         fetch('/user/update', {
             method: 'POST',

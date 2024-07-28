@@ -49,6 +49,16 @@
                         <strong>Estado:</strong> 
                         <?= ucfirst($order['pedido_estado']) ?>
                     </p>
+                    <?php if ($order['pedido_estado'] == 'entregado' || $order['pedido_estado'] == 'recibido') :?>
+                        <p>
+                            <strong>Fecha entrega:</strong> 
+                            <?= explode(" ",$order['fecha_entrega'])[0] ?>
+                        </p>
+                        <p>
+                            <strong>Hora entrega:</strong> 
+                            <?= explode(" ",$order['fecha_entrega'])[1] ?>
+                        </p>
+                    <?php endif; ?>
                 </div>
             </div>
         </div>
@@ -133,6 +143,7 @@
         const data = new FormData();
         data.append('pedido_id', id);
         data.append('pedido_estado', 'recibido');
+        data.append('trabajador_numero_trabajos', <?= $order['trabajador_numero_trabajos'] + 1 ?>);
 
         fetch('/order/update', {
         method: 'POST',

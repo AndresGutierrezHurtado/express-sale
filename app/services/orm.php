@@ -60,13 +60,13 @@ class Orm {
         $query = "UPDATE $this->table $inner_join SET ";
         foreach ($data as $key => $value) {
             if (is_int($value)) {
-                $query .= "$key = $value, ";
+                $query .= "$key = $value,";
             } else {
-                $query .= "$key = '$value' ,";
+                $query .= "$key = '$value',";
             }           
         }
         $query = rtrim($query, ',');        
-        $query .= " WHERE $this->table.$this->id = $id";   
+        $query .= " WHERE $this->table.$this->id = $id";
         
         $result = $this->db->query($query);
 

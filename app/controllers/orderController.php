@@ -7,6 +7,7 @@ class orderController {
     private $cartModel;
     private $paymentDetailsModel;
     private $shippingDetailsModel;
+    private $productModel;
     protected $conn;
 
     public function __construct(mysqli $conn) {
@@ -14,6 +15,7 @@ class orderController {
         $this -> soldProductModel = new SoldProduct($conn);
         $this -> paymentDetailsModel = new PaymentDetails($conn);
         $this -> shippingDetailsModel = new ShippingDetails($conn);
+        $this -> productModel = new Product($conn);
         $this -> cartModel = new Cart($conn);
         $this -> conn = $conn;
     }
@@ -53,20 +55,35 @@ class orderController {
 
             foreach ($data['sold_products'] as $soldProduct) {
                 $result_sold_products = $this -> soldProductModel -> insert($soldProduct);
+
+                if ($result_sold_products['success']) {
+
+                    $producto_temp = $this -> productModel -> getById($soldProduct['producto_id'], 
+                    "productos.*, trabajadores.* ", 
+                    "INNER JOIN trabajadores ON productos.usuario_id = trabajadores.usuario_id");
+
+                    $resultado_trabajador = $this -> productModel -> updateById($producto_temp['producto_id'], 
+                    ['trabajador_numero_trabajos' => $producto_temp['trabajador_numero_trabajos'] + $soldProduct['producto_cantidad'], 'producto_cantidad' => $producto_temp['producto_cantidad'] - $soldProduct['producto_cantidad']], 
+                    "INNER JOIN trabajadores ON productos.usuario_id = trabajadores.usuario_id ");
+                }
             }
 
             $data['shipping_details'] = [
                 'pedido_id' => $resultado_pedido['last_id'],
                 'envio_direccion' => $_SESSION['payment_data']['shippingAddress'],
-                'envio_coordenadas' => $_SESSION['payment_data']['order_coords']
+                'envio_coordenadas' => $_SESSION['payment_data']['order_coords'],
+                'envio_valor' => 7000,
+                'envio_mensaje' => $_SESSION['payment_data']['order_message']
             ];
 
             $result_shipping = $this -> shippingDetailsModel -> insert($data['shipping_details']);
+            
 
         }
 
-        if ($resultado_pedido['success'] && $result_payment['success'] && $result_sold_products['success'] && $result_shipping['success'] ) {
+        if ($resultado_pedido['success'] && $result_payment['success'] && $result_sold_products['success'] && $result_shipping['success'] && $resultado_trabajador['success']) {
             $this -> cartModel -> empty();
+            $_SESSION['payment_data'] = null;
             echo ' <script>
             alert("Transacción realizada correctamente");
             window.location = "/page/profile";
@@ -74,9 +91,9 @@ class orderController {
         } else {
             echo ' <script>
             alert("Hubo un error.");
-            window.location = "/page/profile";
             </script> ';
         }
+
     }
 
     public function store_session_data(){
@@ -86,9 +103,15 @@ class orderController {
     }
 
     public function update () {
+        $id = $_POST['pedido_id'];
         $data = $_POST;
+        // eliminar pedido_id de la información
+        unset($data['pedido_id']);
+        $data['fecha_entrega'] = date('Y-m-d H:i:s');
 
-        $result = $this -> orderModel -> updateById($data['pedido_id'], $data);
+        $result = $this -> orderModel -> updateById($_POST['pedido_id'], $data, 
+        "INNER JOIN detalles_envios ON pedidos.pedido_id = detalles_envios.pedido_id
+        LEFT JOIN trabajadores ON detalles_envios.trabajador_id = trabajadores.trabajador_id");
         
         echo json_encode($result);
     }

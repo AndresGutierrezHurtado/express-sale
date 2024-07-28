@@ -52,7 +52,6 @@ class PageController {
 
         $reference_code = md5(date('Ymd') . '-' . $_SESSION['usuario_id'] . microtime(true));
         
-        // "ApiKey~merchantId~referenceCode~amount~currency~paymentMethods~iin~pseBanks"
         $signature = md5(PAYU_API_KEY . '~' . PAYU_MERCHANT_ID . '~' . $reference_code . '~' . $totalPrice . '~' . 'COP' );
 
         require_once(__DIR__ . "/../views/layouts/guest.layout.php");
@@ -363,9 +362,11 @@ class PageController {
 
         if ($order['pedido_estado'] == 'pendiente') {
             // actualizar al domiciliario y su orden
-            $_SESSION['usuario_informacion'] = ['estado' => 'ocupado','pedido_id'=> $id];            
+            $distancia_total = $this -> orderModel -> getTotalDistance($id);
+            $envio_valor = $distancia_total > 10000 ? $distancia_total * 1.3 : 10000;
+            $_SESSION['usuario_informacion'] = ['estado' => 'ocupado', 'pedido_id'=> $id];
             
-            $this -> orderModel -> updateById($id, ['trabajador_id' => $trabajador['trabajador_id'], 'pedido_estado' => 'enviando'], "INNER JOIN detalles_envios ON pedidos.pedido_id = detalles_envios.pedido_id");
+            $this -> orderModel -> updateById($id, ['trabajador_id' => $trabajador['trabajador_id'], 'pedido_estado' => 'enviando',  'envio_valor' => $envio_valor], "INNER JOIN detalles_envios ON pedidos.pedido_id = detalles_envios.pedido_id");
         
         }
 

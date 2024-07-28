@@ -21,7 +21,7 @@ class="w-full max-w-[700px] my-10 flex flex-col items-center gap-5 p-5 bg-white 
     <div class="w-full">
         <div class="w-full space-y-2">
             <label for="order_last_name" class="block text-sm font-medium text-gray-700">Nombre completo:</label>
-            <input type="text" id="order_last_name" placeholder="Apellidos" name="buyerFullName" value="<?= $_SESSION['usuario_apellido'] ?>" 
+            <input type="text" id="order_last_name" placeholder="Apellidos" name="buyerFullName" value="<?= $_SESSION['usuario_nombre'] . ' ' . $_SESSION['usuario_apellido'] ?>" 
             class="block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 focus:border-violet-600 focus:outline-none sm:text-sm">
         </div>
     </div>
