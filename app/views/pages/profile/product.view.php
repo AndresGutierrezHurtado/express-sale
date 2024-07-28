@@ -32,7 +32,10 @@
                                 <?php if ($file['multimedia_tipo'] == 'imagen'): ?>
                                     <img src="<?= $file['multimedia_url'] ?>" alt="Archivo multimedia <?= $index?>">
                                 <?php else: ?>
-                                    <video src="<?= $file['multimedia_url'] ?>" alt="Archivo multimedia <?= $index ?>" class="w-[200px] h-[200px] border border-black rounded-lg shadow-lg flex items-center justify-center overflow-hidden mx-auto bg-slate-900">
+                                    <video class="object-contain w-full h-full border border-gray-400 rounded duration-300 hover:scale-[1.01] hover:shadow-md">
+                                        <source src="<?= $file['multimedia_url'] ?>" type="video/mp4">
+                                        Tu navegador no soporta video HTML5.
+                                    </video>                                
                                 <?php endif; ?>
                             </div>
                             <div>

@@ -3,24 +3,25 @@
         <div class="w-full p-5 md:p-10 bg-white rounded-lg shadow-lg flex flex-col md:flex-row gap-10">
             <!-- Imagen -->
             <div class="w-full max-w-[500px] divide-y-2 divide-black border-2 border-black rounded overflow-hidden">
+                <!-- Imagen principal -->
                 <div class="w-full h-[250px] bg-slate-800">
-                    <img src="<?= $product['producto_imagen_url'] ?>" alt="Imagen de <?= $product['producto_nombre'] ?>"
+                    <img id="main-media" src="<?= $product['producto_imagen_url'] ?>" alt="Imagen de <?= $product['producto_nombre'] ?>"
                     class="object-contain w-full h-full">
                 </div>
-                <div class="w-full h-[150px] flex p-5 gap-5">
-                    <!-- Multimedia -->
-                    <div class="w-auto max-w-[200px] h-full">
+                <!-- archivos multimedia -->
+                <div class="w-full h-[150px] flex p-5 gap-5 overflow-x-auto">
+                    <div class="w-[150px] h-full flex-shrink-0 cursor-pointer">
                         <img src="<?= $product['producto_imagen_url'] ?>" alt="Imagen de <?= $product['producto_nombre'] ?>" 
-                        class="object-contain w-full h-full border border-gray-400 rounded duration-300 hover:scale-[1.01] hover:shadow-md">
+                        class="thumbnail object-contain w-full h-full border-2 border-violet-600 rounded duration-300 hover:scale-[1.01] hover:shadow-md">
                     </div>
 
-                    <?php foreach($product['multimedia'] ?? [] as $file):?>
-                        <div class="w-auto max-w-[200px] h-full overflow-x-scroll flex items-center justify-center">
+                    <?php foreach($product['multimedia'] ?? [] as $index => $file):?>
+                        <div class="w-[150px] h-full flex items-center justify-center flex-shrink-0 cursor-pointer">
                             <?php if ($file['multimedia_tipo'] == 'imagen') :?>
                                 <img src="<?= $file['multimedia_url'] ?>" alt="archivo multimedia"
-                                class="object-contain w-full h-full border border-gray-400 rounded duration-300 hover:scale-[1.01] hover:shadow-md">
+                                class="thumbnail object-contain w-full h-full border border-gray-400 rounded duration-300 hover:scale-[1.01] hover:shadow-md">
                             <?php else:?>
-                                <video class="object-contain w-full h-full border border-gray-400 rounded duration-300 hover:scale-[1.01] hover:shadow-md">
+                                <video class="thumbnail object-contain w-full h-full border border-gray-400 rounded duration-300 hover:scale-[1.01] hover:shadow-md">
                                     <source src="<?= $file['multimedia_url'] ?>" type="video/mp4">
                                     Tu navegador no soporta video HTML5.
                                 </video>
@@ -294,6 +295,36 @@
 <script src="/public/js/cart.js"></script>
 <script src="/public/js/califications.js"></script>
 <script>
+    // Selecciona todas las miniaturas
+    document.querySelectorAll('.thumbnail').forEach(item => {
+        item.addEventListener('click', function() {
+            var mainMedia = document.getElementById('main-media');
+            
+            // Si es un video, cambiar el source
+            if (item.tagName.toLowerCase() === 'video') {
+                mainMedia.outerHTML = `<video id="main-media" class="object-contain w-full h-full" controls>
+                                          <source src="${item.querySelector('source').src}" type="video/mp4">
+                                          Tu navegador no soporta video HTML5.
+                                       </video>`;
+            } else {
+                mainMedia.outerHTML = `<img id="main-media" src="${item.src}" alt="archivo multimedia"
+                                        class="object-contain w-full h-full">`;
+            }
+
+            // remover el y agregar estilos
+            document.querySelectorAll('.thumbnail').forEach(thumbnail => {
+                if (thumbnail !== item) {
+                    thumbnail.classList.remove('border-violet-600');
+                    thumbnail.classList.remove('border-2');
+                    thumbnail.classList.add('border');
+                }
+            });
+            item.classList.add('border-2');
+            item.classList.add('border-violet-600');
+
+        });
+    });
+
     let visible = false;
     
     function login () {
