@@ -46,9 +46,9 @@ El ORM implementado en el proyecto es una clase base para los modelos, facilitan
 ## Funcionalidades Actuales
 
 - **Index / Mail Footer:** Sección principal de la página con un formulario de envío.
-- **Registro, Contraseña Olvidada e Inicio de Sesión:** Registro de usuarios con opción para recuperar credenciales.
-- **Productos:** Sección de productos con búsqueda, filtro, organización, calificación y adición al carrito.
-- **Perfil Público:** Perfil de vendedores con información y productos, incluyendo calificaciones y comentarios.
+- **Registro, Contraseña Olvidada e Inicio de Sesión:** Registro de usuarios con opción para resetear la contraseña.
+- **Productos:** Sección de productos con búsqueda, filtro, organización, link al perfil del producto y adición al carrito.
+- **Perfil vendedor:** Perfil de vendedores con información y productos, incluyendo calificaciones y comentarios.
 - **Carrito de Compras:** Visualización de productos en el carrito, con opciones para modificar la cantidad o eliminar artículos.
 - **Formulario de Pago:** Formulario de información del comprador con integración de Google Maps para selección de direcciones.
 - **Perfil de Usuario:** Actualización de información del usuario y gestión de productos para vendedores.

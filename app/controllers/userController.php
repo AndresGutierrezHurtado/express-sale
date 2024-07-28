@@ -21,9 +21,9 @@ class UserController {
 
     public function google_login() {
 
-        $client_id = GOOGLE_CLIENT_ID ;
-        $client_secret = GOOGLE_CLIENT_SECRET ;
-        $redirect_uri = GOOGLE_REDIRECT_URL ;
+        $client_id = CLIENT_ID ;
+        $client_secret = CLIENT_SECRET ;
+        $redirect_uri = REDIRECT_URL ;
 
         if (isset($_GET['code'])) {
             $code = $_GET['code'];

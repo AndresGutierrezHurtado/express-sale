@@ -26,7 +26,7 @@
                     </div>
                     <h1 class="text-xl capitalize font-bold">Vestuario</h1>
                     <p> las mejores tiendas locales de ropa y calzado. </p>
-                    <a href="/page/products/?filter=id_categoria&value=1" class="w-full ">
+                    <a href="/page/products/?categoria=1" class="w-full ">
                         <button class="w-full p-1 px-3 rounded-lg bg-violet-800 text-white font-bold duration-300 hover:bg-violet-600 mt-[15px]">Ver más</button>
                     </a>
                 </article>
@@ -38,7 +38,7 @@
                     </div>
                     <h1 class="text-xl capitalize font-bold">Comida</h1>
                     <p> Busca las mejores restaurantes y tiendas de comida locales. </p>
-                    <a href="/page/products/?filter=id_categoria&value=1" class="w-full ">
+                    <a href="/page/products/?categoria=2" class="w-full ">
                         <button class="w-full p-1 px-3 rounded-lg bg-violet-800 text-white font-bold duration-300 hover:bg-violet-600 mt-[15px]">Ver más</button>
                     </a>
                 </article>
@@ -50,7 +50,7 @@
                     </div>
                     <h1 class="text-xl capitalize font-bold">Tecnología</h1>
                     <p> Busca los mejores productos de tecnología de las tiendas locales. </p>
-                    <a href="/page/products/?filter=id_categoria&value=1" class="w-full ">
+                    <a href="/page/products/?categoria=3" class="w-full ">
                         <button class="w-full p-1 px-3 rounded-lg bg-violet-800 text-white font-bold duration-300 hover:bg-violet-600 mt-[15px]">Ver más</button>
                     </a>
                 </article>
@@ -62,7 +62,7 @@
                     </div>
                     <h1 class="text-xl capitalize font-bold">Otros</h1>
                     <p> Busca las mejores tiendas locales de ropa y calzado. </p>
-                    <a href="/page/products/?filter=id_categoria&value=1" class="w-full ">
+                    <a href="/page/products/?categoria=4" class="w-full ">
                         <button class="w-full p-1 px-3 rounded-lg bg-violet-800 text-white font-bold duration-300 hover:bg-violet-600 mt-[15px]">Ver más</button>
                     </a>
                 </article>
