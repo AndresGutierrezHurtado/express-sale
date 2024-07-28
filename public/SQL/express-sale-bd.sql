@@ -151,7 +151,7 @@ CREATE TABLE `multimedias` (
     `producto_id` INT
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
-INSERT INTO `multimedias` (`multimedia_id`, `multimedia_url`, `multimedia_tipo`, `producto_id`) VALUES
+INSERT INTO `multimedias` (`multimedia_url`, `multimedia_tipo`, `producto_id`) VALUES
 ('/public/images/products/media/1_0.20240728012919.jpg', 'imagen', 1),
 ('/public/images/products/media/1_1.20240728012919.mp4', 'video', 1),
 ('/public/images/products/media/1_2.20240728012919.jpg', 'imagen', 1);

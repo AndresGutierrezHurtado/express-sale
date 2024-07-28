@@ -58,7 +58,5 @@ El ORM implementado en el proyecto es una clase base para los modelos, facilitan
 
 ## Por Hacer
 
-- Agregar el perfil de producto (zoom y calificaciones)
-- Agregar el perfil de domiciliario.
 - Seccion de estadísticas para vendedores y domiciliarios
 - Mejorar el login (recuperar cuenta y Google login)

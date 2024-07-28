@@ -135,26 +135,25 @@ class PageController {
     public function sellers () {
 
         // vendedor
-        $select_seller = " usuarios.*, trabajadores.*, 
+        $seller = $this -> userModel -> getById($_GET['seller'], 
+        " usuarios.*, trabajadores.*, 
         COUNT(calificaciones_usuarios.calificacion_id) AS numero_calificaciones, 
         ROUND(IFNULL(AVG(calificaciones.calificacion), 0), 2) AS calificacion_promedio, 
         COUNT(CASE WHEN calificaciones.calificacion = 1 THEN 1 END) AS calificaciones_1, 
         COUNT(CASE WHEN calificaciones.calificacion = 2 THEN 1 END) AS calificaciones_2, 
         COUNT(CASE WHEN calificaciones.calificacion = 3 THEN 1 END) AS calificaciones_3, 
         COUNT(CASE WHEN calificaciones.calificacion = 4 THEN 1 END) AS calificaciones_4, 
-        COUNT(CASE WHEN calificaciones.calificacion = 5 THEN 1 END) AS calificaciones_5 ";
-
-        $inner_join_seller = " INNER JOIN trabajadores ON usuarios.usuario_id = trabajadores.usuario_id
+        COUNT(CASE WHEN calificaciones.calificacion = 5 THEN 1 END) AS calificaciones_5 ", 
+        " INNER JOIN trabajadores ON usuarios.usuario_id = trabajadores.usuario_id
         LEFT JOIN calificaciones_usuarios ON usuarios.usuario_id = calificaciones_usuarios.usuario_id
-        LEFT JOIN calificaciones ON calificaciones_usuarios.calificacion_id = calificaciones.calificacion_id ";
-
-        $seller = $this -> userModel -> getById($_GET['seller'], $select_seller, $inner_join_seller, " GROUP BY usuarios.usuario_id");
+        LEFT JOIN calificaciones ON calificaciones_usuarios.calificacion_id = calificaciones.calificacion_id ", 
+        "GROUP BY usuarios.usuario_id");
 
         // calificaciones vendedor
-        $inner_join_califications = " INNER JOIN calificaciones_usuarios ON calificaciones.calificacion_id = calificaciones_usuarios.calificacion_id
-        INNER JOIN usuarios ON calificaciones.usuario_id = usuarios.usuario_id";
-
-        $califications = $this -> calificationModel -> getAll("*", $inner_join_califications, "WHERE calificaciones_usuarios.usuario_id = " . $seller['usuario_id']);
+        $califications = $this -> calificationModel -> getAll("*", 
+        " INNER JOIN calificaciones_usuarios ON calificaciones.calificacion_id = calificaciones_usuarios.calificacion_id
+        INNER JOIN usuarios ON calificaciones.usuario_id = usuarios.usuario_id ", 
+        "WHERE calificaciones_usuarios.usuario_id = " . $seller['usuario_id']);
 
         // productos vendedor
         $page = isset($_GET['page']) ? $_GET['page'] : 1;
@@ -180,7 +179,29 @@ class PageController {
     }
 
     public function delivery() {
+        // Obtener domiciliario
+        $user = $this -> userModel -> getById($_GET['delivery'], "usuarios.*, trabajadores.*, roles.*,
+        COUNT(calificaciones_usuarios.calificacion_id) AS numero_calificaciones, 
+        ROUND(IFNULL(AVG(calificaciones.calificacion), 0), 2) AS calificacion_promedio, 
+        COUNT(CASE WHEN calificaciones.calificacion = 1 THEN 1 END) AS calificaciones_1, 
+        COUNT(CASE WHEN calificaciones.calificacion = 2 THEN 1 END) AS calificaciones_2, 
+        COUNT(CASE WHEN calificaciones.calificacion = 3 THEN 1 END) AS calificaciones_3, 
+        COUNT(CASE WHEN calificaciones.calificacion = 4 THEN 1 END) AS calificaciones_4, 
+        COUNT(CASE WHEN calificaciones.calificacion = 5 THEN 1 END) AS calificaciones_5 ", 
+        " INNER JOIN roles ON usuarios.rol_id = roles.rol_id
+        INNER JOIN trabajadores ON usuarios.usuario_id = trabajadores.usuario_id
+        LEFT JOIN calificaciones_usuarios ON usuarios.usuario_id = calificaciones_usuarios.usuario_id
+        LEFT JOIN calificaciones ON calificaciones_usuarios.calificacion_id = calificaciones.calificacion_id ",
+        " GROUP BY usuarios.usuario_id " );
 
+        if ($user['rol_id'] != 3) {header('location: /'); exit();}
+
+        // Calificaciones
+        $califications = $this -> calificationModel -> getAll("*", 
+        " INNER JOIN calificaciones_usuarios ON calificaciones.calificacion_id = calificaciones_usuarios.calificacion_id
+        INNER JOIN usuarios ON calificaciones.usuario_id = usuarios.usuario_id ", 
+        "WHERE calificaciones_usuarios.usuario_id = " . $user['usuario_id']);
+        
         $title = "Domiciliario";
         $content = __DIR__ . "/../views/pages/delivery.view.php";
 

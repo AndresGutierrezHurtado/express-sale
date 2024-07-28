@@ -37,7 +37,7 @@
                     </p>
                     <p>
                         <strong>Domiciliario:</strong> 
-                        <a href="<?= isset($order['domiciliario_id']) ? '/page/deliveries/?delivery=' . $order['domiciliario_id'] : '' ?>" class="text-gray-600 text-sm font-semibold cursor-pointer hover:underline hover:text-violet-600">  
+                        <a href="<?= isset($order['domiciliario_id']) ? '/page/delivery/?delivery=' . $order['domiciliario_id'] : '' ?>" class="text-gray-600 text-sm font-semibold cursor-pointer hover:underline hover:text-violet-600">  
                             <?= isset($order['domiciliario_id']) ? $order['domiciliario_alias'] : 'pendiente' ?> 
                         </a>
                     </p>
