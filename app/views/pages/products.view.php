@@ -240,7 +240,7 @@
 </div>
 <?php endforeach; ?>
 
-<script src="/public/js/productCalification.js"></script>
+<script src="/public/js/califications.js"></script>
 <script src="/public/js/cart.js"></script>
 <script>
 document.addEventListener('DOMContentLoaded', () => {

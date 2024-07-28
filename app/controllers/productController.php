@@ -38,9 +38,9 @@ class ProductController {
         }
 
         // Subir archivos multimedia
-        if (!empty($_FILES['multimedia']['name'])) {
+        if (!empty($_FILES['multimedia']['name'][0]) ) {
             foreach ($_FILES['multimedia']['tmp_name'] as $index => $tmpName) {
-                if ( ! is_uploaded_file($tmpName)) return ['success' => false, 'message' => 'Error al cargar el archivo multimedia.'];
+                if ( ! is_uploaded_file($tmpName)) echo json_encode(['success' => false, 'message' => 'Error al cargar el archivo multimedia.']);
 
                 // determinar si es video o imagen
                 $mimeType = mime_content_type($tmpName);
@@ -56,11 +56,11 @@ class ProductController {
                     $result = $this->multimediaModel->insert($data_media);
 
                     if (!$result['success']) {
-                        return $result;
+                        echo json_encode($result);
                     }
                 } else {
                     // Manejar el error si el archivo no se pudo mover
-                    return ['success' => false, 'message' => 'Error al mover el archivo multimedia.'];
+                    echo json_encode(['success' => false, 'message' => 'Error al mover el archivo multimedia.']);
                 }
                 
             }

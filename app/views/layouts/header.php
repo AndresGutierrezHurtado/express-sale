@@ -11,15 +11,31 @@
             </div>
 
             <!-- Search form -->
-            <form id="search-form" class="hidden md:block grow" action="/page/products/" method="GET" >
-                <div class="flex justify-center">
-                    <?php if (isset($_GET['search']) && !empty($_GET['search'])) : ?>
-                        <a href="/page/products/" class="fa-solid fa-arrows-rotate border border-gray-800 mr-2 rounded-full size-[35px] flex items-center justify-center"></a>
-                    <?php endif; ?>
-                    <input type="text" name="search" placeholder="Buscar producto..." class="border rounded-l-xl border-gray-800 max-w-[500px] w-full p-1 px-3" value="<?= isset($_GET['search']) && !empty($_GET['search']) ? $_GET['search'] : '' ?>"> 
-                    <button class="border rounded-r-xl border-gray-800 bg-gray-800 text-white rounded-r-md p-1 px-3"><i class="fa-solid fa-magnifying-glass"></i></button>
+            <form id="search-form" class="hidden md:flex gap-2 items-center grow max-w-[550px]" action="/page/products/" method="GET" >
+                <?php if (isset($_GET['search']) && !empty($_GET['search'])) : ?>
+                    <a href="/page/products/" 
+                    class="border border-gray-400 size-[35px] rounded flex items-center justify-center text-gray-600 bg-gray-50 duration-300 hover:bg-gray-100 hover:text-gray-700 focus:ring-1 focus:ring-violet-600 focus:ring-offset-2 focus:outline-none">
+                        <i class="fa-solid fa-arrows-rotate"></i>
+                    </a>
+                <?php endif; ?>
+                <div class="relative grow">
+                    <div class="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
+                        <svg class="w-4 h-4 text-gray-500" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
+                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"/>
+                        </svg>
+                    </div>
+                    <input type="text" name="search" placeholder="Buscar producto..." value="<?= isset($_GET['search']) && !empty($_GET['search']) ? $_GET['search'] : '' ?>"
+                    class="block w-full p-2 ps-10 text-sm text-gray-900 border border-gray-400 rounded-lg bg-gray-50 focus:ring-1 focus:ring-violet-600 focus:outline-none focus:border-violet-600" />
+                    <button type="submit" class="text-black absolute top-1/2 right-5 -translate-y-1/2 font-medium text-sm hover:text-violet-600">Search</button>
                 </div>
             </form>
+
+            <!-- <form id="search-form" class="hidden md:block grow" action="/page/products/" method="GET" >
+                <div class="flex justify-center">
+                    <input type="text" name="search" placeholder="Buscar producto..." class="border rounded-l-xl border-gray-800 max-w-[500px] w-full p-1 px-3" > 
+                    <button class="border rounded-r-xl border-gray-800 bg-gray-800 text-white rounded-r-md p-1 px-3"><i class="fa-solid fa-magnifying-glass"></i></button>
+                </div>
+            </form> -->
 
             <!-- Account buttons -->
             <div class="flex gap-4">

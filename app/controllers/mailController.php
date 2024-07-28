@@ -48,7 +48,7 @@ class mailController {
             
             $message = "Recupera tu cuenta\n";
             $message .= "Para recuperar tu cuenta, da clic en el siguiente enlace:\n";
-            $message .= DOMAIN ."/page/reset_password/?token=$token";
+            $message .= DOMAIN . "/page/reset_password/?token=$token";
 
             $result = $this -> mailModel -> send($to, $subject, $message);
 

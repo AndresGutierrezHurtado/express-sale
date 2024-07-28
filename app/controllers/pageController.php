@@ -385,29 +385,28 @@ class PageController {
         require_once(__DIR__ . "/../views/pages/pay/receipt.view.php");
     }
 
-    public function dashboard_usuarios() {
+    public function dashboard_users() {
         // Autenticación
         $isAdmin = $_SESSION['rol_id'] == 4 ? true : false;
         if (!$isAdmin) {header('location: /'); exit();}
 
         // Filtros y sorts para obtener los usuarios
-        $page = isset($_GET['page']) ? $_GET['page'] : 1; 
-        $search = isset($_GET['search']) ? "WHERE 
-        (user_first_name LIKE '%".$_GET['search']."%' OR 
-        role_name LIKE '%".$_GET['search']."%' OR 
-        user_first_name LIKE '%".$_GET['search']."%' OR 
-        user_last_name LIKE '%".$_GET['search']."%' OR 
-        user_username LIKE '%".$_GET['search']."%' OR 
-        user_email LIKE '%".$_GET['search']."%' OR 
-        usuario_id LIKE '%".$_GET['search']."%')" : "" ;
+        $page = isset($_GET['page']) ? $_GET['page'] : 1;
+        $search = isset($_GET['search']) ? "WHERE ( usuarios.usuario_nombre LIKE '%".$_GET['search']."%' OR usuarios.usuario_correo LIKE '%".$_GET['search']."%' OR usuarios.usuario_alias LIKE '%".$_GET['search']."%' ) "  : "";
+
         $sort = isset($_GET['sort']) ? $_GET['sort'] : 'usuario_id';
 
         $queryRows = "$search";
         $query = "$search ORDER BY $sort ASC";
-        $usuarios = $this -> userModel -> paginate($page, 5, "*", "INNER JOIN roles ON usuarios.rol_id = roles.role_id", $queryRows, $query);
 
-        $user_session = $this -> userModel -> getById($_SESSION['usuario_id'], "*", "INNER JOIN images ON usuarios.usuario_id = images.image_object_id AND images.image_object_type = 'usuario'");
-        require_once(__DIR__ . "/../views/admin/dashboard_usuarios.view.php");
+        $users = $this -> userModel -> paginate($page, 5, "*", "INNER JOIN roles ON usuarios.rol_id = roles.rol_id", $queryRows, $query);
+
+        $user_session = $this -> userModel -> getById($_SESSION['usuario_id'], "*");
+
+        $title = "Dashboard de usuarios";
+        $content = __DIR__ . "/../views/pages/admin/dashboard_users.view.php";
+
+        require_once(__DIR__ . "/../views/layouts/guest.layout.php");
     }
     
     public function dashboard_products() {
@@ -417,24 +416,27 @@ class PageController {
 
         // Filtros y sorts para obtener los productos
         $page = isset($_GET['page']) ? $_GET['page'] : 1;
-        $search = isset($_GET['search']) ? "WHERE 
-        (product_name LIKE '%".$_GET['search']."%' OR 
-        product_description LIKE '%".$_GET['search']."%' OR 
-        category_name LIKE '%".$_GET['search']."%' OR 
-        user_username LIKE '%".$_GET['search']."%' OR 
-        product_id LIKE '% ".$_GET['search']."%')" : "" ;
+        $search = isset($_GET['search']) ? "WHERE ( 
+        productos.producto_nombre LIKE '%".$_GET['search']."%' OR 
+        productos.producto_descripcion LIKE '%".$_GET['search']."%' OR 
+        categorias.categoria_nombre LIKE '%".$_GET['search']."%' OR 
+        usuarios.usuario_alias LIKE '% ".$_GET['search']."%' )" : "" ;
 
-        $sort = isset($_GET['sort']) ? $_GET['sort'] : 'product_id';
+        $sort = isset($_GET['sort']) ? $_GET['sort'] : 'producto_id';
 
         $queryRows = "$search";
         $query = "$search ORDER BY $sort ASC";
-        $inner_join = "INNER JOIN categories ON products.product_category_id = categories.category_id 
-        INNER JOIN usuarios ON products.product_usuario_id = usuarios.usuario_id";
 
-        $products = $this -> productModel -> paginate($page, 5, "*", $inner_join, $queryRows, $query);
+        $products = $this -> productModel -> paginate($page, 5, "*", 
+        "INNER JOIN categorias ON productos.categoria_id = categorias.categoria_id 
+        INNER JOIN usuarios ON productos.usuario_id = usuarios.usuario_id" , $queryRows, $query);
         
-        $user_session = $this -> userModel -> getById($_SESSION['usuario_id'], "*", "INNER JOIN images ON usuarios.usuario_id = images.image_object_id AND images.image_object_type = 'usuario'");
-        require_once(__DIR__ . "/../views/admin/dashboard_products.view.php");
+        $user_session = $this -> userModel -> getById($_SESSION['usuario_id'], "*");
+
+        $title = "Dashboard de productos";
+        $content = __DIR__ . "/../views/pages/admin/dashboard_products.view.php";
+
+        require_once(__DIR__ . "/../views/layouts/guest.layout.php");
     }
 
     public function shipments () {

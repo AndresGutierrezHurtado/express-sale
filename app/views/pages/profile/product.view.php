@@ -104,18 +104,25 @@
                 </select>
             </div>
 
+            <!-- Botón de actualizar y de administrador -->
             <span class="w-full flex justify-between items-center">
-                <button type="submit" id="btn-submit" name="submit" 
-                class="hidden group relative flex w-full justify-center rounded-md border border-transparent bg-violet-600 px-4 py-2 text-sm font-medium text-white hover:bg-violet-700 focus:outline-none focus:ring-2 focus:ring-violet-500 focus:ring-offset-2 disabled:cursor-wait disabled:opacity-50 cursor-pointer">
-                    <span class="absolute inset-y-0 left-0 flex items-center pl-3">
-                        <i class="fa-solid fa-arrow-up-from-bracket text-[18px] text-violet-500 duration-300 group-hover:text-violet-400"></i>
-                    </span>
-                    Actualizar producto
-                </button>
+                <div class="flex gap-5 w-full">
+                    <button type="submit" id="btn-submit" name="submit" 
+                    class="hidden group relative flex w-full justify-center rounded-md border border-transparent bg-violet-600 px-4 py-2 text-sm font-medium text-white hover:bg-violet-700 focus:outline-none focus:ring-2 focus:ring-violet-500 focus:ring-offset-2 disabled:cursor-wait disabled:opacity-50 cursor-pointer">
+                        <span class="absolute inset-y-0 left-0 flex items-center pl-3">
+                            <i class="fa-solid fa-arrow-up-from-bracket text-[18px] text-violet-500 duration-300 group-hover:text-violet-400"></i>
+                        </span>
+                        Actualizar producto
+                    </button>
 
-                <div class="flex gap-5">
                     <?php if ($_SESSION['rol_id'] == 4): ?>
-                        <a href="/page/dashboard_products" class="bg-violet-800 text-white py-2 px-4 rounded-md mt-auto w-max font-bold"> Administrador </a>
+                        <a href="/page/dashboard_products" 
+                        class="group relative flex w-full justify-center rounded-md border border-transparent bg-violet-600 px-4 py-2 text-sm font-medium text-white hover:bg-violet-700 focus:outline-none focus:ring-2 focus:ring-violet-500 focus:ring-offset-2 disabled:cursor-wait disabled:opacity-50 cursor-pointer">
+                            <span class="absolute inset-y-0 left-0 flex items-center pl-3">
+                                <i class="fa-solid fa-gear text-[18px] text-violet-500 duration-300 group-hover:text-violet-400"></i>
+                            </span>
+                            Administrador 
+                        </a>
                     <?php endif; ?>
                 </div>
             </span>
@@ -143,13 +150,11 @@
             method: 'POST',
             body: JSON.stringify({'id' : idMultimedia}),
             })
-            .then(Response => Response.json())
-            .then(Data => {
-                if (Data.success) {
-                    alert(Data.message)
+            .then(response => response.json())
+            .then(data => {
+                alert(data.message)
+                if (data.success) {
                     window.location.reload();
-                } else {
-                    console.error(Data.message)
                 }
             });
         }
