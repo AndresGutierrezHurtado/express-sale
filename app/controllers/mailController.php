@@ -3,9 +3,12 @@
 class mailController {  
     private $mailModel;  
     private $userModel;
+    protected $conn;
+
     public function __construct(mysqli $conn) {
         $this -> mailModel = new Mailer();
-        $this ->userModel = new User($conn);
+        $this -> userModel = new User($conn);
+        $this -> conn = $conn;
     }
 
     public function footerForm (){
@@ -33,12 +36,19 @@ class mailController {
         $email = $_POST['usuario_correo'] ;
         $user = $this -> userModel -> getAll("*", "", "WHERE usuario_correo = '$email'");
         if (count($user) > 0) {
+
+            $token = bin2hex(random_bytes(16)); // Genera un token aleatorio
+            $query = "INSERT INTO recuperacion_cuentas ( usuario_id, token, email ) VALUES
+            (" . $user[0]['usuario_id'] . ", '$token', '" . $email . "');";
+
+            $this -> conn -> query($query);
+
             $to = $email;
             $subject = "Recupera tu cuenta | Express Sale";
             
             $message = "Recupera tu cuenta\n";
-            $message .= "Correo: ".$user[0]['usuario_correo']." \n";
-            $message .= "Contraseña: ".$user[0]['usuario_contraseña']." \n";
+            $message .= "Para recuperar tu cuenta, da clic en el siguiente enlace:\n";
+            $message .= DOMAIN ."/page/reset_password/?token=$token";
 
             $result = $this -> mailModel -> send($to, $subject, $message);
 

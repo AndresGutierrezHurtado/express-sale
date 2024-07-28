@@ -1,14 +1,4 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Recupera tu cuenta | Express Sale</title>
-    <link rel="shortcut icon" href="/public/images/logo.png" type="image/png">
-    <script src="https://kit.fontawesome.com/eb36e646d1.js" crossorigin="anonymous"></script>
-    <script src="https://cdn.tailwindcss.com"></script>
-</head>
-<body class="w-full min-h-screen flex justify-center items-center bg-violet-700">
+<main class="w-full min-h-screen flex justify-center items-center bg-violet-700">
 
     <div class="w-full max-w-[600px] p-3 md:p-8 bg-white rounded-lg border space-y-4 shadow-xl">
         <a href="/" class="">
@@ -33,30 +23,30 @@
                     <span class="absolute inset-y-0 left-0 flex items-center pl-3">
                         <i class="fa-solid fa-paper-plane text-[17px] text-violet-500 duration-300 group-hover:text-violet-400"></i>
                     </span>
-                    Iniciar sesión
+                    Enviar correo
                 </button>
             </div>
         </form>
-        </div>
-    
-    <script>
-        function recover_account(e) {
-            e.preventDefault();
+    </div>
 
-            let data = new FormData(document.getElementById('form-recover-account'));
-            
-            fetch('/mail/recover_account', {
-                method: 'POST',
-                body: data
-            })
-            .then(Response => Response.json())
-            .then(data => {
-                alert(data.message);
-                if (data.success) {
-                    window.location = '/page/login';
-                }
-            });
-        }
-    </script>
-</body>
-</html>
+</main>
+
+<script>
+    function recover_account(e) {
+        e.preventDefault();
+
+        let data = new FormData(document.getElementById('form-recover-account'));
+        
+        fetch('/mail/recover_account', {
+            method: 'POST',
+            body: data
+        })
+        .then(Response => Response.json())
+        .then(data => {
+            alert(data.message);
+            if (data.success) {
+                window.location = '/page/login';
+            }
+        });
+    }
+</script>

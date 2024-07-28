@@ -6,20 +6,28 @@ date_default_timezone_set('America/Bogota');
 
 define('URL_PATH', $urlpath);
 define('URL', $url);
-define('DOMAIN', 'http://localhost:3000');
+define('DOMAIN', getenv('DOMAIN'));
 
-define('DB_HOSTNAME', 'localhost');
-define('DB_USERNAME', 'root');
-define('DB_PASSWORD', '');
-define('DB_NAME', 'express-sale-bd');
+// Credenciales de Google
+define('CLIENT_ID', getenv('CLIENT_ID'));
+define('CLIENT_SECRET', getenv('CLIENT_SECRET'));
+define('REDIRECT_URL', getenv('REDIRECT_URL'));
 
-define('API_MAPS', 'AIzaSyACEoqwUojmSsTZX_zMVHRZVDkAoBharV0');
+// Credenciales para la base de datos
+define('DB_HOSTNAME', getenv('DB_HOSTNAME'));
+define('DB_USERNAME', getenv('DB_USERNAME'));
+define('DB_PASSWORD', getenv('DB_PASSWORD'));
+define('DB_NAME',     getenv('DB_NAME'));
 
-define('PAYU_REQUEST_URI', 'https://sandbox.checkout.payulatam.com/ppp-web-gateway-payu/');
-define('PAYU_API_KEY', '4Vj8eK4rloUd272L48hsrarnUA');
-define('PAYU_MERCHANT_ID', '508029');
-define('PAYU_ACCOUNT_ID', '512321');
-define('PAYU_TEST_MODE', '1');  // 1 pruebas | 0 producción
+// Credenciales para API de Google Maps
+define('API_MAPS', getenv('API_MAPS'));
+
+// Credenciales de PayU
+define('PAYU_REQUEST_URI',  getenv('PAYU_REQUEST_URI'));
+define('PAYU_API_KEY',      getenv('PAYU_API_KEY'));
+define('PAYU_MERCHANT_ID',  getenv('PAYU_MERCHANT_ID'));
+define('PAYU_ACCOUNT_ID',   getenv('PAYU_ACCOUNT_ID'));
+define('PAYU_TEST_MODE',    getenv('PAYU_TEST_MODE')); // 1 pruebas | 0
 
 /*
 CREDENCIALES PARA HACER TRANSACCIONES DE PRUEBA
@@ -27,17 +35,4 @@ APPROVED
 4000123456789010 || 4509420000000008
 777
 3 / 25
-
-CREDENCIALES PARA PRODUCCIÓN
-define('PAYU_REQUEST_URI', 'https://checkout.payulatam.com/ppp-web-gateway-payu');
-define('PAYU_API_KEY', 'yKCKj7p1K1xeM1CtR8sLtF1pcM');
-define('PAYU_MERCHANT_ID', '999993');
-define('PAYU_ACCOUNT_ID', '1008657');
-define('PAYU_TEST_MODE', '0'); // 1 pruebas | 0 producción 
-define('DOMAIN', 'https://express-sale-2024.000webhostapp.com');
-
-define('DB_HOSTNAME', 'localhost');
-define('DB_USERNAME', 'id22105035_expresssale');
-define('DB_PASSWORD', 'Exsl.2024');
-define('DB_NAME', 'id22105035_express_sale_db');
 */

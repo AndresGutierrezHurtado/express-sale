@@ -5,6 +5,17 @@ USE `express-sale-bd`;
 
 DROP TABLE IF EXISTS `usuarios`, `trabajadores`, `roles`, `productos`, `categorias`, `calificaciones`, `calificaciones_usuarios`, `calificaciones_productos`, `multimedias`, `pedidos`, `detalles_pagos`, `detalles_envios`, `productos_pedidos`;
 
+-- ---------------------------------------------------------------
+--
+-- Tabla de recuperación de contraseñas
+CREATE TABLE `recuperacion_cuentas` (
+    `recuperacion_id` INT PRIMARY KEY AUTO_INCREMENT,
+    `usuario_id` INT NOT NULL,
+    `token` VARCHAR(255) NOT NULL,
+    `email` VARCHAR(255) NOT NULL,
+    `fecha_creacion` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    `fecha_expiracion` TIMESTAMP DEFAULT DATE_ADD(CURRENT_TIMESTAMP, INTERVAL 1 HOUR)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- ---------------------------------------------------------------
 --
@@ -21,7 +32,7 @@ CREATE TABLE `usuarios` (
     `usuario_creacion` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     `usuario_actualizacion` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     `usuario_imagen_url` VARCHAR(255) DEFAULT '/public/images/users/default.jpg',
-    `rol_id` INT
+    `rol_id` INT DEFAULT 1
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 INSERT INTO `usuarios` (`usuario_id`, `usuario_nombre`, `usuario_apellido`, `usuario_correo`, `usuario_alias`, `usuario_direccion`, `usuario_telefono`, `usuario_contraseña`, `usuario_creacion`, `usuario_actualizacion`, `usuario_imagen_url`, `rol_id`) VALUES
@@ -306,6 +317,13 @@ ON DELETE CASCADE,
 ADD CONSTRAINT `fk_productos_pedidos_productos` 
 FOREIGN KEY (`producto_id`) 
 REFERENCES `productos`(`producto_id`)
+ON UPDATE CASCADE
+ON DELETE CASCADE;
+
+ALTER TABLE `recuperacion_cuentas`
+ADD CONSTRAINT `fk_recuperacion_cuentas_usuarios` 
+FOREIGN KEY (`usuario_id`) 
+REFERENCES `usuarios`(`usuario_id`)
 ON UPDATE CASCADE
 ON DELETE CASCADE;
 

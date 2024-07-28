@@ -8,6 +8,7 @@ class PageController {
     private $soldProductModel;
     private $calificationModel;
     private $multimediaModel;
+    protected $conn;
 
     public function __construct(mysqli $conn) { 
         $this -> productModel = new Product($conn);
@@ -17,6 +18,7 @@ class PageController {
         $this -> soldProductModel = new soldProduct($conn);
         $this -> calificationModel = new Calification($conn);
         $this -> multimediaModel = new Multimedia($conn);
+        $this -> conn = $conn;
     }
     
     public function home(){
@@ -27,12 +29,28 @@ class PageController {
     }  
 
     public function login(){
+        
+        $auth_url = 'https://accounts.google.com/o/oauth2/auth?' . http_build_query([
+            'client_id' => CLIENT_ID ,
+            'redirect_uri' => REDIRECT_URL ,
+            'response_type' => 'code',
+            'scope' => 'email profile'
+        ]);
+
         $title = "Inicia Sesión";
         $content = __DIR__ . "/../views/pages/auth/login.view.php";
 
         require_once(__DIR__ . "/../views/layouts/guest.layout.php");
     }
     public function register(){
+                
+        $auth_url = 'https://accounts.google.com/o/oauth2/auth?' . http_build_query([
+            'client_id' => CLIENT_ID ,
+            'redirect_uri' => REDIRECT_URL ,
+            'response_type' => 'code',
+            'scope' => 'email profile'
+        ]);
+
         $title = "Regístrate";
         $content = __DIR__ . "/../views/pages/auth/register.view.php";
 
@@ -40,7 +58,28 @@ class PageController {
     }
 
     public function recover_account () {
-        require_once(__DIR__ . "/../views/auth/recover_account.view.php");
+
+        $title = "Recupera tu cuenta";
+        $content = __DIR__ . "/../views/pages/auth/recover_account.view.php";
+
+        require_once(__DIR__ . "/../views/layouts/guest.layout.php");
+    }
+    
+    public function reset_password() {
+        $query = "SELECT * FROM recuperacion_cuentas WHERE token = '" . $_GET['token'] . "'  LIMIT 1";
+
+        $result = $this -> conn -> query($query) -> fetch_assoc();
+
+        if ($result) {
+            if (new DateTime() < new DateTime($result['fecha_expiracion'])) {
+                $title = "Cambia tu contraseña";
+                $content = __DIR__ . "/../views/pages/auth/reset_password.view.php";
+        
+                require_once(__DIR__ . "/../views/layouts/guest.layout.php");
+            } else {
+                echo "El token ha expirado. Solicite un nuevo enlace de recuperación.";
+            }
+        }
     }
     
     public function payprocess () {

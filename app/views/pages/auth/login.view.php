@@ -65,10 +65,10 @@
         </div>
 
         <!-- Login con Google -->
-        <button class="w-full bg-gray-50 border border-gray-300 py-1.5 px-4 rounded text-gray-500 font-semibold duration-300 hover:bg-gray-100">
+        <a href="<?= $auth_url ?>" class="w-full bg-gray-50 border border-gray-300 py-1.5 px-4 rounded text-gray-500 font-semibold duration-300 hover:bg-gray-100 flex items-center justify-center" >
             <i class="fa-brands fa-google text-[20px] mr-2"></i>
-            <span>Inicio de sesión con Google</span>
-        </button>
+            <span>Ingresa con Google</span>
+        </a>
 
         <span class="w-full text-center">No tienes cuenta aún?
             <a class="font-semibold text-violet-400 duration-300 hover:text-violet-600" href="/page/register">Regístrate</a>

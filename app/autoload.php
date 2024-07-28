@@ -2,6 +2,23 @@
 // session
 session_start();
 
+$envPath = (__DIR__ . '/../.env');
+
+if (file_exists($envPath)) {
+    $envFile = file($envPath, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
+    foreach ($envFile as $line) {
+        if (strpos(trim($line), '#') === 0 || empty($line)) continue;
+
+        list($key, $value) = explode('=', $line, 2);
+
+        $key = trim($key);
+        $value = trim($value);
+
+        putenv("$key=$value");
+        $_ENV[$key] = $value;
+    }
+}
+
 // router & config
 require_once(__DIR__ . "/router.php");
 require_once(__DIR__ . "/config.php");

@@ -59,4 +59,3 @@ El ORM implementado en el proyecto es una clase base para los modelos, facilitan
 ## Por Hacer
 
 - Seccion de estadísticas para vendedores y domiciliarios
-- Mejorar el login (recuperar cuenta y Google login)
