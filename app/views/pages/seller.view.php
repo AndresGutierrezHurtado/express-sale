@@ -193,9 +193,11 @@ function buildQueryString( $add = [], $remove = []) {
 
                 <article class="w-full bg-white p-5 flex flex-col sm:flex-row gap-4 my-2">
                     <!-- Imagen -->
-                    <div class="w-full max-w-[230px] h-[240px] mx-auto">
+                    <a href="/page/product/?product=<?= $product['producto_id'] ?>" class="block w-full max-w-[230px] h-[240px] mx-auto">
+                        <div class="w-full max-w-[230px] h-[240px] mx-auto">
                         <img src="<?= $product['producto_imagen_url'] ?>" alt="Imagen de <?= $product['producto_nombre'] ?>" class="object-contain h-full w-full">
-                    </div>
+                        </div>
+                    </a>
 
                     <!-- Contenido -->
                     <div class="flex flex-col justify-between space-y-5 sm:space-y-3 grow">
@@ -442,6 +444,7 @@ function buildQueryString( $add = [], $remove = []) {
 
 
 <script src="/public/js/cart.js"></script>
+<script src="/public/js/califications.js"></script>
 <script>
     let visible = false;
     
@@ -461,5 +464,4 @@ function buildQueryString( $add = [], $remove = []) {
         document.getElementById('btn-show-comments').innerHTML = visible ? 'Ocultar comentarios' : 'Ver comentarios' ;
     }
 </script>
-<script src="/public/js/productCalification.js"></script>
     

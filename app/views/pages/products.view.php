@@ -84,9 +84,11 @@
 
                     <article class="w-full bg-white p-5 rounded-lg shadow-lg flex flex-col sm:flex-row gap-4">
                         <!-- Imagen -->
-                        <div class="w-full max-w-[230px] h-[240px] mx-auto">
+                        <a href="/page/product/?product=<?= $product['producto_id'] ?>" class="block w-full max-w-[230px] h-[240px] mx-auto">
+                            <div class="w-full max-w-[230px] h-[240px] mx-auto">
                             <img src="<?= $product['producto_imagen_url'] ?>" alt="Imagen de <?= $product['producto_nombre'] ?>" class="object-contain h-full w-full">
-                        </div>
+                            </div>
+                        </a>
 
                         <!-- Contenido -->
                         <div class="flex flex-col justify-between space-y-5 sm:space-y-3 grow">

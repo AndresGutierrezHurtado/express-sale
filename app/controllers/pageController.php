@@ -122,6 +122,16 @@ class PageController {
         require_once(__DIR__ . "/../views/layouts/app.layout.php");
     }
 
+    public function product() {
+        
+        $product = $this -> productModel -> getProduct($_GET['product']);
+
+        $title = $product['producto_nombre'];
+        $content = __DIR__ . "/../views/pages/product.view.php";
+
+        require_once(__DIR__ . "/../views/layouts/app.layout.php");
+    }
+
     public function sellers () {
 
         // vendedor
@@ -169,6 +179,14 @@ class PageController {
         require_once(__DIR__ . "/../views/layouts/app.layout.php");
     }
 
+    public function delivery() {
+
+        $title = "Domiciliario";
+        $content = __DIR__ . "/../views/pages/delivery.view.php";
+
+        require_once(__DIR__ . "/../views/layouts/guest.layout.php");
+    }
+
     public function profile() {
         // MiddleWare
         $id = isset($_GET['id']) ? $_GET['id'] : $_SESSION['usuario_id'] ;
@@ -195,6 +213,25 @@ class PageController {
 
         require_once(__DIR__ . "/../views/layouts/app.layout.php");
         
+    }
+
+    public function stats() {
+        // MiddleWare
+        $id = isset($_GET['id']) ? $_GET['id'] : $_SESSION['usuario_id'] ;
+        if (!$_SESSION['rol_id'] == 4 || $_SESSION['usuario_id'] == $id ? true : false) {header('location: /'); exit();}
+
+        // User
+        $user = $this -> userModel -> getById($id);
+
+        $title = "Estadísticas";
+
+        if ($user['rol_id'] == 2) {
+            $content = __DIR__ . "/../views/pages/profile/stats_seller.view.php";
+        } else if ($user['rol_id'] == 3) {
+            $content = __DIR__ . "/../views/pages/profile/stats_delivery.view.php";
+        }
+
+        require_once(__DIR__ . "/../views/layouts/guest.layout.php");
     }
 
     public function product_profile() {

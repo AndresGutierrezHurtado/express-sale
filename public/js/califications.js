@@ -1,5 +1,4 @@
 document.addEventListener('DOMContentLoaded', () => {
-    
     // Selecciona todos los elementos de estrellas
     const productStars = document.querySelectorAll('.starProducto');
 

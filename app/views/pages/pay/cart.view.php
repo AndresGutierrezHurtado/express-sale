@@ -17,9 +17,11 @@
 
                     <article class="flex flex-col md:flex-row py-5">
                         <!-- Imagen -->
-                        <div class="w-full max-w-[180px] h-[180px] mx-auto mx-3">
-                            <img src="<?= $product['producto_imagen_url']; ?>" alt="<?= $product['producto_nombre']; ?>" class="object-contain h-full w-full">
-                        </div>
+                        <a href="/page/product/?product=<?= $product['producto_id'] ?>" class="block w-full max-w-[180px] h-[180px] mx-3">
+                            <div class="w-full max-w-[180px] h-[180px] mx-auto">
+                            <img src="<?= $product['producto_imagen_url'] ?>" alt="Imagen de <?= $product['producto_nombre'] ?>" class="object-contain h-full w-full">
+                            </div>
+                        </a>
                         
                         <div class="flex flex-col justify-between space-y-5 sm:space-y-3 grow">
                             <!-- Información del producto -->
