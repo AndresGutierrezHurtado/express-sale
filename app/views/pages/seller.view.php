@@ -22,7 +22,7 @@ function buildQueryString( $add = [], $remove = []) {
             <h3 class="text-2xl font-bold tracking-tight">Información del vendedor:</h3>
 
             <div class="flex flex-col sm:flex-row items-center gap-4">
-                <div class="w-24 h-24 rounded-full overflow-hidden">
+                <div class="w-24 h-24 rounded-full overflow-hidden flex-none">
                     <img src="<?= $seller['usuario_imagen_url'] ?>" alt="Foto de <?= $seller['usuario_nombre'] ?>" class="object-cover w-full h-full">
                 </div>
                 <div class="w-full ">

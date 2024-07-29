@@ -2,7 +2,7 @@
 // session
 session_start();
 
-$envPath = (__DIR__ . '/../.env');
+$envPath = (__DIR__ . '/../.env.pruebas'); // Poner .env a la hora de ir a producción
 
 if (file_exists($envPath)) {
     $envFile = file($envPath, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
