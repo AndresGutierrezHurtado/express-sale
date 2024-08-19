@@ -6,12 +6,12 @@ date_default_timezone_set('America/Bogota');
 
 define('URL_PATH', $urlpath);
 define('URL', $url);
-define('DOMAIN', $_ENV['DOMAIN'] );
+define('DOMAIN', ((!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') ? 'https' : 'http') . '://' . $_SERVER['HTTP_HOST'] );
 
 // Credenciales de Google
 define('CLIENT_ID', $_ENV['CLIENT_ID'] );
 define('CLIENT_SECRET', $_ENV['CLIENT_SECRET'] );
-define('REDIRECT_URL', $_ENV['REDIRECT_URL'] );
+define('REDIRECT_URL', DOMAIN . $_ENV['REDIRECT_URL'] );
 
 // Credenciales para la base de datos
 define('DB_HOSTNAME', $_ENV['DB_HOSTNAME'] );
