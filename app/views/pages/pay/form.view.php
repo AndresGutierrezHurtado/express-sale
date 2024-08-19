@@ -20,26 +20,26 @@ class="w-full max-w-[700px] my-10 flex flex-col items-center gap-5 p-5 bg-white 
     <h1 class="text-3xl font-bold mb-4">Formulario de pago</h1>
     <div class="w-full">
         <div class="w-full space-y-2">
-            <label for="order_last_name" class="block text-sm font-medium text-gray-700">Nombre completo:</label>
-            <input type="text" id="order_last_name" placeholder="Apellidos" name="buyerFullName" value="<?= $_SESSION['usuario_nombre'] . ' ' . $_SESSION['usuario_apellido'] ?>" 
+            <label for="order_last_name" class="block text-sm font-medium text-gray-700 after:content-['*'] after:ml-0.5 after:text-red-500">Nombre completo</label>
+            <input type="text" id="order_last_name" placeholder="Apellidos" name="buyerFullName" required value="<?= $_SESSION['usuario_nombre'] . ' ' . $_SESSION['usuario_apellido'] ?>" 
             class="block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 focus:border-violet-600 focus:outline-none sm:text-sm">
         </div>
     </div>
 
     <div class="w-full space-y-2">
-        <label for="order_email" class="block text-sm font-medium text-gray-700">Correo electrónico:</label>
-        <input type="email" id="order_email" placeholder="Correo electrónico" name="buyerEmail" value="<?= $_SESSION['usuario_correo'] ?>" 
+        <label for="order_email" class="block text-sm font-medium text-gray-700 after:content-['*'] after:ml-0.5 after:text-red-500">Correo electrónico</label>
+        <input type="email" id="order_email" placeholder="Correo electrónico" name="buyerEmail" required value="<?= $_SESSION['usuario_correo'] ?>" 
         class="block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 focus:border-violet-600 focus:outline-none sm:text-sm">
     </div>
 
     <div class="w-full space-y-2">
-        <label for="payerPhone" class="block text-sm font-medium text-gray-700">Teléfono:</label>
-        <input type="number" id="payerPhone" placeholder="Teléfono" name="payerPhone" value="<?= $_SESSION['usuario_telefono'] ?? '' ?>" 
+        <label for="payerPhone" class="block text-sm font-medium text-gray-700 after:content-['*'] after:ml-0.5 after:text-red-500">Teléfono</label>
+        <input type="number" id="payerPhone" placeholder="Teléfono" name="payerPhone" required value="<?= $_SESSION['usuario_telefono'] ?? '' ?>" 
         class="block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 focus:border-violet-600 focus:outline-none sm:text-sm">
     </div>
     
     <div class="w-full space-y-2">
-        <label for="order_phone_number" class="block text-sm font-medium text-gray-700">Número y tipo de documento:</label>
+        <label for="order_phone_number" class="block text-sm font-medium text-gray-700 after:content-['*'] after:ml-0.5 after:text-red-500">Tipo y número de documento</label>
         <div class="flex flex-col md:flex-row gap-4">
             <select name="payerDocumentType" required
             class="block w-full md:w-fit appearance-none rounded-md border border-gray-300 px-3 py-2 focus:border-violet-600 focus:outline-none sm:text-sm" >
@@ -57,8 +57,8 @@ class="w-full max-w-[700px] my-10 flex flex-col items-center gap-5 p-5 bg-white 
     </div>
 
     <div class="w-full space-y-2">
-        <label for="address_sale" class="block text-sm font-medium text-gray-700">Dirección de envío:</label>
-        <input type="text" id="address_sale" name="shippingAddress" placeholder="Dirección de envío" 
+        <label for="address_sale" class="block text-sm font-medium text-gray-700 after:content-['*'] after:ml-0.5 after:text-red-500">Dirección de envío</label>
+        <input type="text" id="address_sale" name="shippingAddress" placeholder="Dirección de envío" required
         class="block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 focus:border-violet-600 focus:outline-none sm:text-sm" autocomplete="off">
     </div>
 
@@ -66,8 +66,8 @@ class="w-full max-w-[700px] my-10 flex flex-col items-center gap-5 p-5 bg-white 
     <div id="map" class="w-11/12 h-[400px] mt-5 mx-auto rounded-lg shadow-md"></div>
 
     <div class="w-full space-y-2">
-        <label for="order_message" class="block text-sm font-medium text-gray-700">Mensaje para el domiciliario:</label>
-        <textarea id="order_message" placeholder="Notas adicionales" name="order_message" 
+        <label for="order_message" class="block text-sm font-medium text-gray-700 after:content-['*'] after:ml-0.5 after:text-red-500">Mensaje para el domiciliario</label>
+        <textarea id="order_message" placeholder="Notas adicionales" name="order_message"
         class="w-full border rounded-md px-3 py-2 focus:outline-none focus:border-violet-600 mt-1 h-36 resize-none" required></textarea>
     </div>
     <button id="submit-button" type="submit" class="bg-violet-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-4">Continuar</button>
