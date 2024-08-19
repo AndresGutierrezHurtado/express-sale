@@ -8,7 +8,7 @@
                 <a href="/" class="flex items-center gap-3 font-sans text-xl">
                     <img src="/public/images/logo.png" alt="Logo Express Sale" class="max-h-[45px]"> Express Sale
                 </a>
-                <div class="md:hidden">
+                <div class="sm:hidden">
                     <label for="my-drawer-3" aria-label="open sidebar" class="btn btn-square btn-ghost">
                         <svg
                             xmlns="http://www.w3.org/2000/svg"
@@ -80,14 +80,14 @@
         </span>
 
         <!-- Header bottom section  -->
-        <ul class="hidden md:flex gap-4 text-[18px] w-fit mx-auto">
+        <ul class="hidden sm:flex gap-4 text-[18px] w-fit mx-auto">
             <li class="duration-300 hover:text-violet-800 hover:scale-105"><a href="/">Inicio</a></li>|
             <li class="duration-300 hover:text-violet-800 hover:scale-105"><a href="/page/products">Productos</a></li>|
             <li class="duration-300 hover:text-violet-800 hover:scale-105"><a href="/page/home/#about">Sobre Nosotros</a></li>
         </ul>
 
         <!-- Header mobile section -->
-        <div class="drawer-side md:hidden">
+        <div class="drawer-side sm:hidden">
             <label for="my-drawer-3" aria-label="close sidebar" class="drawer-overlay"></label>
             <ul class="menu bg-white min-h-screen w-80 max-w-full p-4 ">
                 <!-- Inicio y cerrar -->
