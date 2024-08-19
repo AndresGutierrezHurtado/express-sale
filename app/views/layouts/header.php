@@ -5,7 +5,7 @@
         <span class="flex flex-col sm:flex-row items-center gap-4 justify-between w-full">
             <div class="w-full sm:w-fit flex justify-between">
                 <a href="/" class="flex items-center gap-3 font-sans text-xl">
-                    <img src="/public/images/logo.png" alt="Logo navbar" class="max-h-[45px]"> Express Sale
+                    <img src="/public/images/logo.png" alt="Logo Express Sale" class="max-h-[45px]"> Express Sale
                 </a>
                 <button class="px-3 sm:hidden" id="dropdown-menu-button"><i class="fa-solid fa-bars"></i></button>
             </div>
@@ -30,13 +30,6 @@
                 </div>
             </form>
 
-            <!-- <form id="search-form" class="hidden md:block grow" action="/page/products/" method="GET" >
-                <div class="flex justify-center">
-                    <input type="text" name="search" placeholder="Buscar producto..." class="border rounded-l-xl border-gray-800 max-w-[500px] w-full p-1 px-3" > 
-                    <button class="border rounded-r-xl border-gray-800 bg-gray-800 text-white rounded-r-md p-1 px-3"><i class="fa-solid fa-magnifying-glass"></i></button>
-                </div>
-            </form> -->
-
             <!-- Account buttons -->
             <div class="flex gap-4">
                 <?php if (isset($_SESSION['usuario_alias'])): ?> 
@@ -49,7 +42,7 @@
                         Carrito 
                     </a>                 
                 <?php else: ?>
-                    <a href="/page/login" class="flex gap-3 items-center"> 
+                    <a href="/page/login" class="flex gap-3 items-center tooltip tooltip-bottom" data-tip="Auntentícate"> 
                         <i class="fa-solid fa-right-to-bracket text-[18px]"></i> 
                         Registro 
                     </a> 
