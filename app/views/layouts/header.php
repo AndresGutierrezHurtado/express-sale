@@ -26,7 +26,7 @@
             </div>
 
             <!-- Search form -->
-            <form id="search-form" class="hidden md:flex gap-2 items-center grow max-w-[550px]" action="/page/products/" method="GET">
+            <form id="search-form" class="hidden lg:flex gap-2 items-center grow max-w-[550px]" action="/page/products/" method="GET">
                 <?php if (isset($_GET['search']) && !empty($_GET['search'])) : ?>
                     <a href="/page/products/"
                         class="border border-gray-400 size-[35px] rounded flex items-center justify-center text-gray-600 bg-gray-50 duration-300 hover:bg-gray-100 hover:text-gray-700 focus:ring-1 focus:ring-violet-600 focus:ring-offset-2 focus:outline-none">
