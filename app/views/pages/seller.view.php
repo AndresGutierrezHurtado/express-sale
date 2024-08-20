@@ -468,7 +468,7 @@ function buildQueryString($add = [], $remove = [])
     let visible = false;
 
     function login() {
-        if (confirm('Para calificar un producto debes iniciar sesión.')) {
+        if (confirm('Para realizar esta acción, debes iniciar sesión.')) {
             window.location.href = '/page/login';
         }
     }

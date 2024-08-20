@@ -20,6 +20,14 @@
                     </span>
                     Editar
                 </a>
+
+                <a href="/page/product/?product=<?= $product['producto_id'] ?>"
+                class="group relative flex w-full justify-center rounded-md border border-transparent bg-violet-600 px-4 py-2 text-sm font-medium text-white hover:bg-violet-700 focus:outline-none focus:ring-2 focus:ring-gray-300 focus:ring-offset-2 disabled:cursor-wait disabled:opacity-50 cursor-pointer">
+                    <span class="absolute inset-y-0 left-0 flex items-center pl-3">
+                        <i class="fa-solid fa-eye text-[17px] text-violet-500 duration-300 group-hover:text-violet-400"></i>
+                    </span>
+                    Ver perfil
+                </a>
             </div>
 
             <!-- Archivos multimedia -->
@@ -54,26 +62,39 @@
         </div>
 
         <div class="bg-white p-5 rounded-lg shadow-lg flex flex-col gap-4 w-full md:w-6/12 lg:w-9/12">
-            <h1 class="text-lg uppercase tracking-tight font-bold">Datos de <?= $product['producto_nombre'] ?>:</h1>   
-            <div class="flex flex-col gap-1">
-                <label for="producto_nombre" class="text-md font-medium text-gray-700">Nombre:</label>
-                <input type="text" id="producto_nombre" name="producto_nombre" value="<?= $product['producto_nombre']; ?>" class="w-full border rounded-lg py-1 px-3 disabled:opacity-50" disabled>
-            </div> 
+            <h1 class="text-lg uppercase tracking-tight font-bold">Datos de <?= $product['producto_nombre'] ?>:</h1>
+            
+            <label class="form-control w-full">
+                <div class="label">
+                    <span class="label-text font-medium text-gray-700">Nombre:</span>
+                </div>
+                <input type="text" id="producto_nombre" name="producto_nombre" placeholder="Ingresa el nombre del producto." value="<?= $product['producto_nombre']; ?>" disabled required
+                    class="input input-sm input-bordered w-full focus:outline-0 focus:border-violet-600 rounded py-1 h-auto">
+            </label>
 
-            <div class="flex flex-col gap-1">
-                <label for="producto_descripcion" class="text-md font-medium text-gray-700">Descripción:</label>
-                <textarea id="producto_descripcion" name="producto_descripcion" class="w-full h-24 resize-none border rounded-lg py-1 px-3 disabled:opacity-50" disabled><?= $product['producto_descripcion']; ?></textarea>
-            </div>
+            <label class="form-control w-full">
+                <div class="label">
+                    <span class="label-text font-medium text-gray-700">Descripción:</span>
+                </div>
+                <textarea type="text" id="producto_descripcion" name="producto_descripcion" placeholder="Ingresa una descripción breve del producto." required
+                class="textarea textarea-bordered h-24 resize-none focus:outline-0 focus:border-violet-600 rounded" disabled><?= $product['producto_descripcion'] ?></textarea>
+            </label>
 
-            <div class="flex flex-col gap-1">
-                <label for="producto_precio" class="text-md font-medium text-gray-700">Precio:</label>
-                <input type="number" id="producto_precio" name="producto_precio" value="<?= $product['producto_precio']; ?>" class="w-full border rounded-lg py-1 px-3 disabled:opacity-50" disabled>
-            </div>
+            <label class="form-control w-full">
+                <div class="label">
+                    <span class="label-text font-medium text-gray-700">Precio:</span>
+                </div>
+                <input type="number" id="producto_precio" name="producto_precio" placeholder="$10.000" value="<?= $product['producto_precio']; ?>" disabled required
+                    class="input input-sm input-bordered w-full focus:outline-0 focus:border-violet-600 rounded py-1 h-auto">
+            </label>
 
-            <div class="flex flex-col gap-1">
-                <label for="producto_cantidad" class="text-md font-medium text-gray-700">Cantidad:</label>
-                <input type="number" id="producto_cantidad" name="producto_cantidad" value="<?= $product['producto_cantidad']; ?>" class="w-full border rounded-lg py-1 px-3 disabled:opacity-50" disabled>
-            </div>
+            <label class="form-control w-full">
+                <div class="label">
+                    <span class="label-text font-medium text-gray-700">Cantidad:</span>
+                </div>
+                <input type="number" id="producto_cantidad" name="producto_cantidad" placeholder="10" value="<?= $product['producto_cantidad']; ?>" disabled required
+                    class="input input-sm input-bordered w-full focus:outline-0 focus:border-violet-600 rounded py-1 h-auto">
+            </label>
 
             <div class="flex flex-col gap-1">
                 <label for="categoria_id" class="text-md font-medium text-gray-700">Categoría:</label>

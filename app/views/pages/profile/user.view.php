@@ -64,7 +64,7 @@ function buildQueryString($add = [], $remove = [])
                 <div class="label">
                     <span class="label-text font-medium text-gray-700">Nombres:</span>
                 </div>
-                <input type="text" id="usuario_nombre" name="usuario_nombre" placeholder="10" value="<?= $user['usuario_nombre']; ?>" disabled required
+                <input type="text" id="usuario_nombre" name="usuario_nombre" placeholder="Ingresa tus nombres." value="<?= $user['usuario_nombre']; ?>" disabled required
                     class="input input-sm input-bordered w-full focus:outline-0 focus:border-violet-600 rounded py-1 h-auto">
             </label>
 
@@ -72,7 +72,7 @@ function buildQueryString($add = [], $remove = [])
                 <div class="label">
                     <span class="label-text font-medium text-gray-700">Apellidos:</span>
                 </div>
-                <input type="text" id="usuario_apellido" name="usuario_apellido" value="<?= $user['usuario_apellido']; ?>" disabled required
+                <input type="text" id="usuario_apellido" name="usuario_apellido" placeholder="Ingresa tus apellidos." value="<?= $user['usuario_apellido']; ?>" disabled required
                 class="input input-sm input-bordered w-full focus:outline-0 focus:border-violet-600 rounded py-1 h-auto">
             </label>
 
@@ -80,7 +80,7 @@ function buildQueryString($add = [], $remove = [])
                 <div class="label">
                     <span class="label-text font-medium text-gray-700">Usuario:</span>
                 </div>
-                <input type="text" id="usuario_alias" name="usuario_alias" value="<?= $user['usuario_alias']; ?>" disabled required
+                <input type="text" id="usuario_alias" name="usuario_alias" placeholder="Ingresa tu usuario." value="<?= $user['usuario_alias']; ?>" disabled required
                 class="input input-sm input-bordered w-full focus:outline-0 focus:border-violet-600 rounded py-1 h-auto">
             </label>
 
@@ -88,7 +88,7 @@ function buildQueryString($add = [], $remove = [])
                 <div class="label">
                     <span class="label-text font-medium text-gray-700">Correo electrónico:</span>
                 </div>
-                <input type="email" id="usuario_correo" name="usuario_correo" value="<?= $user['usuario_correo']; ?>" disabled required
+                <input type="email" id="usuario_correo" name="usuario_correo" placeholder="correo@ejemplo.com" value="<?= $user['usuario_correo']; ?>" disabled required
                 class="input input-sm input-bordered w-full focus:outline-0 focus:border-violet-600 rounded py-1 h-auto">
             </label>
 
@@ -96,7 +96,7 @@ function buildQueryString($add = [], $remove = [])
                 <div class="label">
                     <span class="label-text font-medium text-gray-700">Dirección:</span>
                 </div>
-                <input type="text" id="usuario_direccion" name="usuario_direccion" value="<?= $user['usuario_direccion']; ?>" disabled disabled <?= $user['rol_id'] == 2 ? 'required' : '' ?>
+                <input type="text" id="usuario_direccion" name="usuario_direccion" placeholder="Ingresa tu direccion." value="<?= $user['usuario_direccion']; ?>" disabled disabled <?= $user['rol_id'] == 2 ? 'required' : '' ?>
                 class="input input-sm input-bordered w-full focus:outline-0 focus:border-violet-600 rounded py-1 h-auto" autocomplete="off">
             </label>
 
@@ -104,7 +104,7 @@ function buildQueryString($add = [], $remove = [])
                 <div class="label">
                     <span class="label-text font-medium text-gray-700">Número de Teléfono:</span>
                 </div>
-                <input type="number" id="usuario_telefono" name="usuario_telefono" value="<?= $user['usuario_telefono']; ?>" disabled
+                <input type="number" id="usuario_telefono" name="usuario_telefono" placeholder="320 9202178" value="<?= $user['usuario_telefono']; ?>" disabled
                 class="input input-sm input-bordered w-full focus:outline-0 focus:border-violet-600 rounded py-1 h-auto">
             </label>
 
@@ -113,7 +113,7 @@ function buildQueryString($add = [], $remove = [])
                     <div class="label">
                         <span class="label-text font-medium text-gray-700">Descripcion:</span>
                     </div>
-                    <textarea type="text" id="description" name="trabajador_descripcion" required
+                    <textarea type="text" id="description" name="trabajador_descripcion" placeholder="Ingresa una descripción breve." required
                     class="textarea textarea-bordered h-24 resize-none focus:outline-0 focus:border-violet-600 rounded" disabled><?= $user['trabajador_descripcion'] ?></textarea>
                 </label>
             <?php endif; ?>
