@@ -33,8 +33,9 @@
             <!-- Archivos multimedia -->
             <div class="bg-white p-5 space-y-4 rounded-lg shadow-lg w-full mx-auto">
                 <h1 class="text-lg uppercase tracking-tight font-bold">Archivos multimedia:</h1>
+                <?= count($multimedias) < 1 ? '<p class="text-gray-600 font-medium">Aún no hay archivos multimedia...</p>' : '' ?>
                 <div class="divide-y divide-gray-300">
-                    <?php foreach($multimedias as $index =>$file): ?>
+                    <?php foreach($multimedias as $index => $file): ?>
                         <article class="py-5 space-y-2">
                             <div class="w-[200px] h-[200px] border border-black rounded-lg shadow-lg flex items-center justify-center overflow-hidden mx-auto">
                                 <?php if ($file['multimedia_tipo'] == 'imagen'): ?>
