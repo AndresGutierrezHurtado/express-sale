@@ -32,7 +32,7 @@ class CalificationController {
 
                 $final_result = $this -> calificationModel -> addCalification([
                     'calificacion_id' => $id,
-                    'producto_id' => $_POST['product_id']
+                    'producto_id' => $_POST['producto_id']
                 ], "calificaciones_productos");
             } else {
 
@@ -54,11 +54,11 @@ class CalificationController {
             'calificacion' => $_POST['calificacion'],
         ];
 
-        if (!empty($_FILES['calificacion_imagen']['name'])) {
+        if ($_FILES['calificacion_imagen']['size'] > 0) {
             $data['calificacion_imagen_url'] = '/public/images/califications/' . $_POST['calificacion_id'] . '.jpg';
 
             move_uploaded_file($_FILES['calificacion_imagen']['tmp_name'], $_SERVER['DOCUMENT_ROOT'] . $data['calificacion_imagen_url']);
-        } else { $data['calificacion_imagen_url'] = null; }
+        }
 
         $result = $this -> calificationModel -> updateById($_POST['calificacion_id'], $data);
 
