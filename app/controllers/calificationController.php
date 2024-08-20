@@ -20,7 +20,7 @@ class CalificationController {
         if ($result['success']) {
             $id = $result['last_id'];
 
-            if (!empty($_FILES['calificacion_imagen']['name'])) {
+            if ($_FILES['calificacion_imagen']['size'] > 0) {
                 $data['calificacion_imagen_url'] = '/public/images/califications/' . $id . '.jpg';
 
                 move_uploaded_file($_FILES['calificacion_imagen']['tmp_name'], $_SERVER['DOCUMENT_ROOT'] . $data['calificacion_imagen_url']);

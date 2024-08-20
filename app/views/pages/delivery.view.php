@@ -13,7 +13,7 @@
                     <i class="fa-solid fa-star text-yellow-500"></i>
                     <p class="ms-2 font-bold text-gray-900"><?= $user['calificacion_promedio'] ?></p>
                     <span class="w-1 h-1 mx-1.5 bg-gray-500 rounded-full"></span>
-                    <a class="font-medium text-gray-900  hover:underline cursor-pointer" onclick="toggleComments()"><?= $user['numero_calificaciones'] ?> opiniones</a>
+                    <a class="font-medium text-gray-900  hover:underline cursor-pointer tooltip tooltip-bottom" data-tip="Mostrar/ocultar opiniones" onclick="toggleComments()"><?= $user['numero_calificaciones'] ?> opiniones</a>
                 </div>
                 <p class="font-semibold"><?= $user['trabajador_numero_trabajos'] ?> envío/s realizados</p>
                 <p class="my-2"><?= $user['trabajador_descripcion'] ?></p>                
@@ -32,24 +32,30 @@
 
             <!-- Agregar comentario -->
             <div class="space-y-3">
-                <h4 class="text-2xl font-bold tracking-tight mb-2">Agrega tu calificacion:</h4>
-                
-                <form action="/calification/rate" method="POST" enctype="multipart/form-data" class="space-y-3 modal">
-                    <div id="stars" class="flex items-center justify-center gap-2 text-[25px]">
-                        <span class="star starProducto" data-value="1"><i class="fa-solid fa-star cursor-pointer text-gray-300 duration-300 hover:scale-110"> </i></span>
-                        <span class="star starProducto" data-value="2"><i class="fa-solid fa-star cursor-pointer text-gray-300 duration-300 hover:scale-110"> </i></span>
-                        <span class="star starProducto" data-value="3"><i class="fa-solid fa-star cursor-pointer text-gray-300 duration-300 hover:scale-110"> </i></span>
-                        <span class="star starProducto" data-value="4"><i class="fa-solid fa-star cursor-pointer text-gray-300 duration-300 hover:scale-110"> </i></span>
-                        <span class="star starProducto" data-value="5"><i class="fa-solid fa-star cursor-pointer text-gray-300 duration-300 hover:scale-110"> </i></span>
-                    </div>
-                    <div class="w-full rounded-[100px] bg-gray-200 px-4 py-2 flex items-center gap-4">
-                        <input type="hidden" name="vendedor_id" value="<?= $user['usuario_id'] ?>">
-                        <input type="hidden" name="usuario_id" value="<?= $_SESSION['usuario_id'] ?>">
-                        <input type="hidden" name="tipo_objeto" value="usuario">
-                        <input type="hidden" name="calificacion">
+                <h4 class="text-lg font-semibold">Agrega tu comentario:</h4>
 
-                        <input type="text" placeholder="Escribe un comentario..." name="calificacion_comentario" required
-                        class="w-full border-0 bg-transparent focus:outline-none placeholder:text-gray-400 text-lg">
+                <form action="/calification/rate" method="POST" enctype="multipart/form-data" class="space-y-3 fetch-form" <?= (!isset($_SESSION['usuario_id']) ? 'onsubmit="login(event)"' : '') ?>>
+                    <input type="hidden" name="vendedor_id" value="<?= $user['usuario_id'] ?>">
+                    <input type="hidden" name="usuario_id" value="<?= (!isset($_SESSION['usuario_id']) ? '' : $_SESSION['usuario_id']) ?>">
+                    <input type="hidden" name="tipo_objeto" value="usuario">
+
+                    <div class="rating flex justify-center gap-2 py-3">
+                        <input type="radio" name="calificacion" value="1" class="mask mask-star-2 bg-violet-600" checked />
+                        <input type="radio" name="calificacion" value="2" class="mask mask-star-2 bg-violet-600" />
+                        <input type="radio" name="calificacion" value="3" class="mask mask-star-2 bg-violet-600" />
+                        <input type="radio" name="calificacion" value="4" class="mask mask-star-2 bg-violet-600" />
+                        <input type="radio" name="calificacion" value="5" class="mask mask-star-2 bg-violet-600" />
+                    </div>
+
+                    <div class="w-full rounded-[100px] bg-gray-200 px-4 py-2 flex items-center gap-4">
+                        <label for="fileUpload" class="cursor-pointer">
+                            <input type="file" id="fileUpload" class="hidden" name="calificacion_imagen">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" fill="none" viewBox="0 0 24 24">
+                                <path fill="currentColor" fill-rule="evenodd" d="M9 7a5 5 0 0 1 10 0v8a7 7 0 1 1-14 0V9a1 1 0 0 1 2 0v6a5 5 0 0 0 10 0V7a3 3 0 1 0-6 0v8a1 1 0 1 0 2 0V9a1 1 0 1 1 2 0v6a3 3 0 1 1-6 0z" clip-rule="evenodd"></path>
+                            </svg>
+                        </label>
+                        <input type="text" placeholder="Escribe un comentario..." name="calificacion_comentario"
+                            class="w-full border-0 bg-transparent focus:outline-none placeholder:text-gray-400 text-lg">
                         <button class="bg-violet-600 py-1 px-3 rounded-lg text-violet-400 hover:bg-violet-700 hover:text-violet-300 duration-300">
                             <i class="fa-solid fa-paper-plane"></i>
                         </button>
@@ -60,7 +66,7 @@
         <div class="w-full bg-white p-10 rounded-lg shadow-lg relative space-y-5 hidden" id="comment-box">
             <h2 class="text-2xl font-bold tracking-tight">Comentarios</h2>
 
-            <div class="space-y-3">
+            <div class="space-y-3 divide-y divide-y-gray-300">
                 <?php if(!isset($califications) || count($califications) < 1) :?>
                     <p class="text-lg text-gray-600">Aún no hay comentarios</p>
                 <?php endif;?>
@@ -99,19 +105,29 @@
 
                             <!-- Botón desplegable de calificación -->
                             <div class="relative">
-                                <button onclick="<?= isset($_SESSION['usuario_id']) ? "toggleOptions('dropdown-" . $calification['calificacion_id'] . "')" : 'login()' ?>">
-                                    <i class="fa-solid fa-ellipsis-vertical text-sm"></i>
-                                </button>
-                                <ul class="absolute top-[-25px] right-0 translate-x-1/2 translate-y-1/2 bg-white p-2 rounded-lg shadow w-[200px] text-center z-10 hidden" id="dropdown-<?= $calification['calificacion_id'] ?>">
-                                    <?php if ($calification['usuario_id'] == $_SESSION['usuario_id'] || $_SESSION['rol_id'] == 4):?>
-                                        <li class="px-3 py-1 hover:bg-gray-100 cursor-pointer" onclick="toggleModal('Producto<?= $calification['calificacion_id'] ?>')"> <i class="fa-solid fa-pen text-sm mr-1"></i> Editar</li>
-                                        <form action="/calification/delete" method="post" onsubmit="return confirm('¿Seguro que quieres eliminar este comentario?, esta acción es irreversible.')" class="w-full">
-                                            <input type="hidden" name="calificacion_id" value="<?= $calification['calificacion_id'] ?>">
-                                            <button type="submit" class="px-3 py-1 hover:bg-gray-100 cursor-pointer text-red-500 w-full"> <i class="fa-solid fa-trash text-sm mr-1"></i> Eliminar</button>
-                                        </form>
-                                    <?php endif; ?>
-                                    <li class="px-3 py-1 hover:bg-gray-100 cursor-pointer text-red-500" onclick="setTimeout(() => {alert('Elemento reportado.'); window.location.href= window.location.href;}, 1000)"> <i class="fa-solid fa-flag text-sm mr-1"></i> Reportar</li>
-                                </ul>
+                                <div class="dropdown dropdown-hover">
+                                    <div tabindex="0" role="button" class="btn btn-sm btn-ghost m-1">
+                                        <i class="fa-solid fa-ellipsis-vertical text-sm"></i>
+                                    </div>
+                                    <ul tabindex="0" class="dropdown-content menu bg-base-100 rounded-box z-[1] w-52 p-2 shadow">
+                                        <!-- Opciones de eliminar, editar y reportar comentario -->
+                                        <?php if ($calification['usuario_id'] == $_SESSION['usuario_id'] || $_SESSION['rol_id'] == 4): ?>
+                                            <li onclick="seller_modal_<?= $calification['calificacion_id'] ?>.showModal()"><a class="text-center flex justify-center gap-2"> <i class="fa-solid fa-pen text-sm"></i>Editar</a></li>
+                                            <form class="fetch-form w-full text-red-500" action="/calification/delete" method="post">
+                                                <input type="hidden" name="calificacion_id" value="<?= $calification['calificacion_id'] ?>">
+                                                <button type="submit" class="w-full" onclick="return confirm('¿Seguro que quieres eliminar este comentario?, esta acción es irreversible.')">
+                                                    <li>
+                                                        <a class="text-center flex justify-center gap-2">
+                                                            <i class="fa-solid fa-trash-can text-sm"></i>Eliminar
+                                                        </a>
+                                                    </li>
+                                                </button>
+                                            </form>
+                                            <hr class="border-gray-300">
+                                        <?php endif; ?>
+                                        <li onclick="setTimeout(() => {alert('Elemento reportado.'); window.location.href= window.location.href;}, 1000)"><a class="text-center text-red-500 flex justify-center gap-2"> <i class="fa-solid fa-flag text-sm"></i>Reportar</a></li>
+                                    </ul>
+                                </div>
                             </div>
                         </span>
 
@@ -129,48 +145,57 @@
     </div>
 </main>
 
-<!-- Modales -->
-<?php foreach($califications as $calification) :?>
-<div class="fixed inset-0 z-50 hidden modal" id="modalProducto<?= $calification['calificacion_id'] ?>">
-    <!-- Fondo oscuro -->
-    <div class="fixed inset-0 bg-black bg-opacity-50" onclick="toggleModal('Producto<?= $calification['calificacion_id'] ?>')"></div>
-    <!-- Espacio modal -->
-    <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 flex items-center justify-center w-full max-w-[500px]">
-        <div class="w-full bg-white p-5 rounded-md space-y-5">
-            <div>                
-                <span class="w-full flex justify-between items-center">
-                    <h1 class="text-xl font-bold tracking-tight">Califica el vendedor</h1>
-                    <button class="duration-300 hover:text-gray-700" onclick="toggleModal('Producto<?= $calification['calificacion_id'] ?>')">
-                        <i class="fa-solid fa-xmark text-2xl"></i>
-                    </button>
-                </span>
-                <p>Ten en cuenta la calidad de sus productos ofrecidos y la rapidez de entrega.</p>
-            </div>
-            <form id="rating-form" class="space-y-5" action="/calification/update" method="POST" enctype="multipart/form-data">
-                <input type="hidden" name="calificacion_id" value="<?= $calification['calificacion_id'] ?>">
-                <input type="hidden" name="vendedor_id" value="<?= $user['usuario_id'] ?>">
-                <input type="hidden" name="usuario_id" value="<?= $_SESSION['usuario_id'] ?>">
-                <input type="hidden" name="tipo_objeto" value="usuario">
-                <input type="hidden" name="calificacion">
+<!-- Modales calificaciones -->
+<?php foreach ($califications as $calification) : ?>
 
-                <div class="w-full space-y-2">
-                    <label for="calificacion_comentario" class="text-sm font-semibold text-gray-700">Mensaje</label>
-                    <textarea id="calificacion_comentario" name="calificacion_comentario" required
-                    class="w-full h-32 p-2 border resize-none rounded-lg focus:border-violet-600 focus:outline-none" placeholder="Mensaje..."><?= $calification['calificacion_comentario'] ?></textarea>
-                </div>
-                <div id="stars" class="flex items-center justify-center gap-2 text-[25px]">
-                    <span class="star starProducto" data-value="1"><i class="fa-solid fa-star cursor-pointer text-gray-300 duration-300 hover:scale-110"> </i></span>
-                    <span class="star starProducto" data-value="2"><i class="fa-solid fa-star cursor-pointer text-gray-300 duration-300 hover:scale-110"> </i></span>
-                    <span class="star starProducto" data-value="3"><i class="fa-solid fa-star cursor-pointer text-gray-300 duration-300 hover:scale-110"> </i></span>
-                    <span class="star starProducto" data-value="4"><i class="fa-solid fa-star cursor-pointer text-gray-300 duration-300 hover:scale-110"> </i></span>
-                    <span class="star starProducto" data-value="5"><i class="fa-solid fa-star cursor-pointer text-gray-300 duration-300 hover:scale-110"> </i></span>
-                </div>
-                <button id="calificar-btn" class="w-full bg-violet-600 font-bold duration-300 hover:bg-violet-800 text-white py-2 px-4 rounded-lg">Calificar</button>
+<dialog id="seller_modal_<?= $calification['calificacion_id'] ?>" class="modal">
+    <div class="modal-box rounded-lg">
+        <div class="modal-action m-0">
+            <form method="dialog">
+                <button class="btn btn-sm btn-circle btn-ghost absolute right-3 top-3">✕</button>
             </form>
-
         </div>
+        <!-- Contenido modal -->
+        <h3 class="text-xl font-bold">Calificar al domiciliario:</h3>
+        <p>Ten en cuenta la rapidez y cuidado de entrega.</p>
+
+        <form action="/calification/update" method="post" enctype="multipart/form-data" class="fetch-form space-y-2">
+            <input type="hidden" name="calificacion_id" value="<?= $calification['calificacion_id'] ?>">
+            <input type="hidden" name="vendedor_id" value="<?= $seller['usuario_id'] ?>">
+            <input type="hidden" name="usuario_id" value="<?= $_SESSION['usuario_id'] ?>">
+            <input type="hidden" name="tipo_objeto" value="usuario">
+
+            <label class="form-control w-full">
+                <div class="label">
+                    <span class="label-text font-medium text-gray-700">Mensaje:</span>
+                </div>
+                <textarea placeholder="Ingresa un comentario sobre el vendedor." id="calificacion_comentario" name="calificacion_comentario"
+                    class="textarea textarea-bordered h-24 resize-none focus:outline-0 focus:border-violet-600 rounded"><?= $calification['calificacion_comentario'] ?></textarea>
+            </label>
+
+            <label class="form-control w-full">
+                <div class="label">
+                    <span class="label-text font-medium text-gray-700">Imagen:</span>
+                </div>
+                <input type="file" name="calificacion_imagen" id="calificacion_imagen"
+                    class="w-full text-sm text-slate-500 hover:file:bg-violet-100 file:duration-300 file:cursor-pointer file:bg-violet-50 file:text-violet-700 file:font-semibold file:rounded-xl file:border-0 file:p-1 file:px-3">
+            </label>
+
+            <div class="rating flex justify-center gap-2 py-3">
+                <input type="radio" name="calificacion" value="1" class="mask mask-star-2 bg-violet-600" <?= $calification['calificacion'] == 1 ? 'checked' : '' ?> />
+                <input type="radio" name="calificacion" value="2" class="mask mask-star-2 bg-violet-600" <?= $calification['calificacion'] == 2 ? 'checked' : '' ?> />
+                <input type="radio" name="calificacion" value="3" class="mask mask-star-2 bg-violet-600" <?= $calification['calificacion'] == 3 ? 'checked' : '' ?> />
+                <input type="radio" name="calificacion" value="4" class="mask mask-star-2 bg-violet-600" <?= $calification['calificacion'] == 4 ? 'checked' : '' ?> />
+                <input type="radio" name="calificacion" value="5" class="mask mask-star-2 bg-violet-600" <?= $calification['calificacion'] == 5 ? 'checked' : '' ?> />
+            </div>
+            <button id="calificar-btn" class="w-full bg-violet-600 font-bold duration-300 hover:bg-violet-800 text-white py-2 px-4 rounded-lg">Calificar</button>
+        </form>
     </div>
-</div>
+    <form method="dialog" class="modal-backdrop bg-black/50">
+        <button class="cursor-auto">close</button>
+    </form>
+</dialog>
+
 <?php endforeach; ?>
 
 <script>
