@@ -46,9 +46,11 @@ class mailController {
             $to = $email;
             $subject = "Recupera tu cuenta | Express Sale";
             
-            $message = "Recupera tu cuenta\n";
-            $message .= "Para recuperar tu cuenta, da clic en el siguiente enlace:\n";
-            $message .= DOMAIN . "/page/reset_password/?token=$token";
+            $recover_link = DOMAIN . "/page/reset_password/?token=$token";
+
+            ob_start();
+            include (__DIR__ . '/../views/mail/recover_account.mail.php');
+            $message = ob_get_clean();
 
             $result = $this -> mailModel -> send($to, $subject, $message);
 

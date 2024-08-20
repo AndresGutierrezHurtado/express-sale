@@ -23,6 +23,7 @@ class Mailer{
         $mail->setFrom('expresssale.exsl@gmail.com', 'Express Sale');
         $mail->addAddress($to);
         $mail->Subject = $subject;
+        $mail->isHTML(true); 
         $mail->Body = $message;
         $mail->CharSet = 'UTF-8';
 
