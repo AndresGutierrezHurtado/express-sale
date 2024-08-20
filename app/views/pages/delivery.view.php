@@ -48,11 +48,13 @@
                     </div>
 
                     <div class="w-full rounded-[100px] bg-gray-200 px-4 py-2 flex items-center gap-4">
-                        <label for="fileUpload" class="cursor-pointer">
+                        <label for="fileUpload" class="cursor-pointer relative rounded-full" onchange="document.getElementById('file_indicator').classList.remove('hidden'); this.classList.add('bg-gray-300', 'p-1.5');">
                             <input type="file" id="fileUpload" class="hidden" name="calificacion_imagen">
                             <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" fill="none" viewBox="0 0 24 24">
                                 <path fill="currentColor" fill-rule="evenodd" d="M9 7a5 5 0 0 1 10 0v8a7 7 0 1 1-14 0V9a1 1 0 0 1 2 0v6a5 5 0 0 0 10 0V7a3 3 0 1 0-6 0v8a1 1 0 1 0 2 0V9a1 1 0 1 1 2 0v6a3 3 0 1 1-6 0z" clip-rule="evenodd"></path>
                             </svg>
+                                <!-- Indicador de número de archivos -->
+                                <span id="file_indicator" class="hidden absolute top-[3px] right-[3px] translate-x-1/2 -translate-y-1/2 flex items-center justify-center w-4 h-4 ms-2 text-center text-xs font-bold text-blue-800 bg-blue-400 rounded-full"> 1 </span>
                         </label>
                         <input type="text" placeholder="Escribe un comentario..." name="calificacion_comentario"
                             class="w-full border-0 bg-transparent focus:outline-none placeholder:text-gray-400 text-lg">
