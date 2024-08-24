@@ -15,9 +15,9 @@
         <div class="grow flex flex-col gap-2 p-0 max-w-[520px]">
             <h2 class="font-bold text-2xl mb-3 uppercase tracking-tight text-center"> ¡Queremos escucharte! </h2>
             <form id="mail-form-contact" class="flex flex-col gap-2">
-                <input type="hidden" id="session_id" value="<?= isset($_SESSION['user_id']) ? $_SESSION['user_id'] : 'uknown' ?>">
-                <input type="hidden" id="username_session" value="<?= isset($_SESSION['user_username']) ? $_SESSION['user_username'] : 'uknown' ?>">
-                <input type="hidden" id="email_session" value="<?= isset($_SESSION['user_email']) ? $_SESSION['user_email'] : 'uknown' ?>">
+                <input type="hidden" id="session_id" value="<?= isset($_SESSION['usuario_id']) ? $_SESSION['usuario_id'] : 'uknown' ?>">
+                <input type="hidden" id="username_session" value="<?= isset($_SESSION['usuario']['usuario_nombre']) && isset($_SESSION['usuario']['usuario_apellido']) ? $_SESSION['usuario']['usuario_nombre'] . ' ' . $_SESSION['usuario']['usuario_apellido'] : 'uknown' ?>">
+                <input type="hidden" id="email_session" value="<?= isset($_SESSION['usuario']['usuario_correo']) ? $_SESSION['usuario']['usuario_correo'] : 'uknown' ?>">
 
                 <input type="email" name="emailFrom" id="emailFrom" placeholder="correo electronico" class="p-2 text-gray-800 w-full rounded-sm border-gray-300" required>
                 <div class="div-group flex flex-col lg:flex-row  gap-2">

@@ -248,7 +248,7 @@ class PageController {
     public function profile() {
         // MiddleWare
         $id = isset($_GET['id']) ? $_GET['id'] : $_SESSION['usuario_id'] ;
-        $isAdmin = $_SESSION['rol_id'] == 4 || $_SESSION['usuario_id'] == $id ? true : false;
+        $isAdmin = $_SESSION["usuario"]['rol_id'] == 4 || $_SESSION['usuario_id'] == $id ? true : false;
         if (!$isAdmin) {header('location: /'); exit();}
 
         // User
@@ -276,7 +276,7 @@ class PageController {
     public function stats() {
         // MiddleWare
         $id = isset($_GET['id']) ? $_GET['id'] : $_SESSION['usuario_id'] ;
-        if (!$_SESSION['rol_id'] == 4 || $_SESSION['usuario_id'] == $id ? true : false) {header('location: /'); exit();}
+        if (!$_SESSION['usuario']['rol_id'] == 4 || $_SESSION['usuario_id'] == $id ? true : false) {header('location: /'); exit();}
 
         // User
         $user = $this -> userModel -> getById($id);
@@ -303,7 +303,7 @@ class PageController {
         $multimedias = $this -> multimediaModel -> getAll("*", "", "WHERE producto_id = " . $product['producto_id'] );
 
         // // MiddleWare
-        $isAdmin = $_SESSION['rol_id'] == 4 || $_SESSION['usuario_id'] == $product['usuario_id'] ? true : false;
+        $isAdmin = $_SESSION['usuario']['rol_id'] == 4 || $_SESSION['usuario_id'] == $product['usuario_id'] ? true : false;
         if (!$isAdmin) {header('location: /'); exit();}
 
         $title = "Perfil de Producto";
@@ -319,7 +319,7 @@ class PageController {
         $order = $this -> orderModel -> getOrder($id);
 
         // MiddleWare
-        $isAdmin = $_SESSION['rol_id'] == 4 || $_SESSION['usuario_id'] == $order['usuario_id'] ? true : false;
+        $isAdmin = $_SESSION['usuario']['rol_id'] == 4 || $_SESSION['usuario_id'] == $order['usuario_id'] ? true : false;
         if (!$isAdmin) {header('location: /'); exit();}
 
         $title = "Pedido";
@@ -376,7 +376,7 @@ class PageController {
         $order = $order[$id];
 
         // autenticación
-        $isAdmin = $_SESSION['rol_id'] == 4 || $_SESSION['usuario_id'] == $order['usuario_id'] ? true : false;
+        $isAdmin = $_SESSION['usuario']['rol_id'] == 4 || $_SESSION['usuario_id'] == $order['usuario_id'] ? true : false;
         if (!$isAdmin) {header('location: /'); exit();}
         
         require_once(__DIR__ . "/../services/FPDF/fpdf.php");
@@ -385,7 +385,7 @@ class PageController {
 
     public function dashboard_users() {
         // Autenticación
-        $isAdmin = $_SESSION['rol_id'] == 4 ? true : false;
+        $isAdmin = $_SESSION['usuario']['rol_id'] == 4 ? true : false;
         if (!$isAdmin) {header('location: /'); exit();}
 
         // Filtros y sorts para obtener los usuarios
@@ -409,7 +409,7 @@ class PageController {
     
     public function dashboard_products() {
         // Autenticación
-        $isAdmin = $_SESSION['rol_id'] == 4 ? true : false;
+        $isAdmin = $_SESSION['usuario']['rol_id'] == 4 ? true : false;
         if (!$isAdmin) {header('location: /'); exit();}
 
         // Filtros y sorts para obtener los productos
@@ -440,7 +440,7 @@ class PageController {
     public function shipments () {
         // autenticación
         if ( $_SESSION['usuario_informacion']['estado'] == 'ocupado' ) header('location: /page/shipment/?shipment='. $_SESSION['usuario_informacion']['pedido_id'] );
-        if ( ! $_SESSION['rol_id'] == 4 || ! $_SESSION['rol_id'] == 3) header('location: /');
+        if ( ! $_SESSION['usuario']['rol_id'] == 4 || ! $_SESSION['usuario']['rol_id'] == 3) header('location: /');
 
         // obtener las ordenes pendientes
         $orders = $this -> orderModel -> getOrders("WHERE pedido_estado = 'pendiente'");

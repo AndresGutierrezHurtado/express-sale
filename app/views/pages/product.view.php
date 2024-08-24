@@ -64,7 +64,7 @@
                         </span>
                         Agregar al carrito
                     </button>
-                    <?php if (isset($_SESSION['rol_id']) && $_SESSION['rol_id'] == 4 || isset($_SESSION['usuario_id']) && $product['usuario_id'] == $_SESSION['usuario_id']) : ?>
+                    <?php if (isset($_SESSION['usuario']['rol_id']) && $_SESSION['usuario']['rol_id'] == 4 || isset($_SESSION['usuario_id']) && $product['usuario_id'] == $_SESSION['usuario_id']) : ?>
                         <a href="/page/product_profile/?producto=<?= $product['producto_id'] ?>" data-tip="Editar producto"
                         class="relative group flex items-center justify-center rounded-md border border-transparent bg-violet-600 px-4 py-2 text-sm font-medium text-white hover:bg-violet-700 focus:outline-none focus:ring-2 focus:ring-violet-500 focus:ring-offset-2 disabled:cursor-wait disabled:opacity-50 cursor-pointer tooltip">
                             <i class="fa-solid fa-user-gear text-[18px] text-violet-500 duration-300 group-hover:text-violet-400"></i>
@@ -212,7 +212,7 @@
                                                 </div>
                                                 <ul tabindex="0" class="dropdown-content menu bg-base-100 rounded-box z-[1] w-52 p-2 shadow">
                                                     <!-- Opciones de eliminar, editar y reportar comentario -->
-                                                    <?php if ($calification['usuario_id'] == $_SESSION['usuario_id'] || $_SESSION['rol_id'] == 4): ?>
+                                                    <?php if ($calification['usuario_id'] == $_SESSION['usuario_id'] || $_SESSION['usuario']['rol_id'] == 4): ?>
                                                         <li onclick="seller_modal_<?= $calification['calificacion_id'] ?>.showModal()"><a class="text-center flex justify-center gap-2"> <i class="fa-solid fa-pen text-sm"></i>Editar</a></li>
                                                         <form class="fetch-form w-full text-red-500" action="/calification/delete" method="post">
                                                             <input type="hidden" name="calificacion_id" value="<?= $calification['calificacion_id'] ?>">

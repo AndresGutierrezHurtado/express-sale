@@ -30,7 +30,7 @@ class FacturaPDF extends FPDF {
         $this->SetFont('Arial','B',14);
         $this->Cell(45, 7,'FACTURAR A:',0,1,'L');
         $this->SetFont('Arial','',10);
-        $this->MultiCell(45, 4, mb_convert_encoding($_SESSION['usuario_nombre'] . " ". $_SESSION['usuario_apellido'], 'ISO-8859-1', 'UTF-8' ), 0);
+        $this->MultiCell(45, 4, mb_convert_encoding($_SESSION['usuario']['usuario_nombre'] . " ". $_SESSION['usuario']['usuario_apellido'], 'ISO-8859-1', 'UTF-8' ), 0);
         $this->MultiCell(45, 4, mb_convert_encoding($this->order['envio_direccion'], 'ISO-8859-1', 'UTF-8' ), 0);
 
         // Columna         

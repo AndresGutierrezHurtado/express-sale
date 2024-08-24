@@ -15,12 +15,6 @@ class User extends Orm{
             if (md5($data["usuario_contraseña"]) === $user["usuario_contraseña"]) {
                 // Variables de sesión de usuarios
                 $_SESSION["usuario_id"] = $user["usuario_id"];
-                $_SESSION["usuario_nombre"] = $user["usuario_nombre"];
-                $_SESSION["usuario_apellido"] = $user["usuario_apellido"];
-                $_SESSION["usuario_correo"] = $user["usuario_correo"];
-                $_SESSION["usuario_alias"] = $user["usuario_alias"];
-                $_SESSION["usuario_telefono"] = $user["usuario_telefono"];
-                $_SESSION["rol_id"] = $user["rol_id"];
 
                 $_SESSION["carrito"] = array();
                 $_SESSION["usuario_informacion"] = ['estado' => 'libre'];
@@ -50,12 +44,6 @@ class User extends Orm{
         if ($result && $result->num_rows > 0) {
             $user = $result->fetch_assoc();
             $_SESSION["usuario_id"] = $user["usuario_id"];
-            $_SESSION["usuario_nombre"] = $user["usuario_nombre"];
-            $_SESSION["usuario_apellido"] = $user["usuario_apellido"];
-            $_SESSION["usuario_correo"] = $user["usuario_correo"];
-            $_SESSION["usuario_alias"] = $user["usuario_alias"];
-            $_SESSION["usuario_telefono"] = $user["usuario_telefono"];
-            $_SESSION["rol_id"] = $user["rol_id"];
 
             $_SESSION["carrito"] = array();
             $_SESSION["usuario_informacion"] = ['estado' => 'libre'];
@@ -68,12 +56,6 @@ class User extends Orm{
                 $user = $this -> getById($result['last_id']);
                 
                 $_SESSION["usuario_id"] = $user["usuario_id"];
-                $_SESSION["usuario_nombre"] = $user["usuario_nombre"];
-                $_SESSION["usuario_apellido"] = $user["usuario_apellido"];
-                $_SESSION["usuario_correo"] = $user["usuario_correo"];
-                $_SESSION["usuario_alias"] = $user["usuario_alias"];
-                $_SESSION["usuario_telefono"] = $user["usuario_telefono"];
-                $_SESSION["rol_id"] = $user["rol_id"];
 
                 $_SESSION["carrito"] = array();
                 $_SESSION["usuario_informacion"] = ['estado' => 'libre'];

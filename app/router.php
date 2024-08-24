@@ -20,6 +20,10 @@ class Router {
         $database = new Database();
         $conn = $database -> getConnection();
 
+        if (isset($_SESSION["usuario_id"])) {
+            $_SESSION["usuario"] = $conn->query("SELECT * FROM usuarios INNER JOIN roles ON usuarios.rol_id = roles.rol_id LEFT JOIN trabajadores ON usuarios.usuario_id = trabajadores.usuario_id WHERE usuarios.usuario_id = " . $_SESSION["usuario_id"])->fetch_assoc();
+        }
+
         $controller = new $this -> controller($conn);
         $method = $this -> method;
         $controller -> $method();

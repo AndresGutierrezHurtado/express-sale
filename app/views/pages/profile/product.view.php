@@ -137,7 +137,7 @@
                         Actualizar producto
                     </button>
 
-                    <?php if ($_SESSION['rol_id'] == 4): ?>
+                    <?php if ($_SESSION['usuario']['rol_id'] == 4): ?>
                         <a href="/page/dashboard_products" 
                         class="group relative flex w-full justify-center rounded-md border border-transparent bg-violet-600 px-4 py-2 text-sm font-medium text-white hover:bg-violet-700 focus:outline-none focus:ring-2 focus:ring-violet-500 focus:ring-offset-2 disabled:cursor-wait disabled:opacity-50 cursor-pointer">
                             <span class="absolute inset-y-0 left-0 flex items-center pl-3">

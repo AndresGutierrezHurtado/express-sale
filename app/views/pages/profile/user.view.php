@@ -189,7 +189,7 @@ function buildQueryString($add = [], $remove = [])
         <div class="w-full flex flex-col shadow-lg rounded-lg">
             <span class="w-full flex flex-col sm:flex-row gap-2 justify-between bg-slate-800 text-white p-3 rounded-t-lg">
                 <h1 class="text-xl tracking-tight font-bold ">Productos de <?= $user['usuario_alias'] ?></h1>
-                <?php if ($_SESSION['rol_id'] == 2) : ?>
+                <?php if ($_SESSION['usuario']['rol_id'] == 2) : ?>
                     <div class="flex gap-5">
                         <button class="btn btn-success btn-sm text-white" onclick="new_product_modal.showModal()">
                             <i class="fa-solid fa-plus mr-2"></i>

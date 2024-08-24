@@ -47,7 +47,7 @@
 
             <!-- Account buttons -->
             <div class="flex gap-4">
-                <?php if (isset($_SESSION['usuario_alias'])): ?>
+                <?php if (isset($_SESSION['usuario']['usuario_alias'])): ?>
                     <a href="/page/profile" class="flex gap-3 items-center">
                         <i class="fa-regular fa-circle-user text-[25px]"></i>
                         Mi cuenta
@@ -63,14 +63,14 @@
                     </a>
                 <?php endif; ?>
 
-                <?php if (isset($_SESSION['rol_id']) && $_SESSION['rol_id'] == 3): ?>
+                <?php if (isset($_SESSION['usuario']['rol_id']) && $_SESSION['usuario']['rol_id'] == 3): ?>
                     <a href="/page/shipments" class="flex gap-3 items-center">
                         <i class="fa-solid fa-truck text-[15px]"></i>
                         Envíos
                     </a>
                 <?php endif; ?>
 
-                <?php if (isset($_SESSION['rol_id']) && $_SESSION['rol_id'] == 4): ?>
+                <?php if (isset($_SESSION['usuario']['rol_id']) && $_SESSION['usuario']['rol_id'] == 4): ?>
                     <a href="/page/dashboard_users" class="flex gap-3 items-center">
                         <i class="fa-solid fa-gear text-[15px]"></i>
                         Administrador

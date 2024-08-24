@@ -21,20 +21,20 @@ class="w-full max-w-[700px] my-10 flex flex-col items-center gap-5 p-5 bg-white 
     <div class="w-full">
         <div class="w-full space-y-2">
             <label for="order_last_name" class="block text-sm font-medium text-gray-700 after:content-['*'] after:ml-0.5 after:text-red-500">Nombre completo</label>
-            <input type="text" id="order_last_name" placeholder="Apellidos" name="buyerFullName" required value="<?= $_SESSION['usuario_nombre'] . ' ' . $_SESSION['usuario_apellido'] ?>" 
+            <input type="text" id="order_last_name" placeholder="Apellidos" name="buyerFullName" required value="<?= $_SESSION['usuario']['usuario_nombre'] . ' ' . $_SESSION['usuario']['usuario_apellido'] ?>" 
             class="block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 focus:border-violet-600 focus:outline-none sm:text-sm">
         </div>
     </div>
 
     <div class="w-full space-y-2">
         <label for="order_email" class="block text-sm font-medium text-gray-700 after:content-['*'] after:ml-0.5 after:text-red-500">Correo electrónico</label>
-        <input type="email" id="order_email" placeholder="Correo electrónico" name="buyerEmail" required value="<?= $_SESSION['usuario_correo'] ?>" 
+        <input type="email" id="order_email" placeholder="Correo electrónico" name="buyerEmail" required value="<?= $_SESSION['usuario']['usuario_correo'] ?>" 
         class="block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 focus:border-violet-600 focus:outline-none sm:text-sm">
     </div>
 
     <div class="w-full space-y-2">
         <label for="payerPhone" class="block text-sm font-medium text-gray-700 after:content-['*'] after:ml-0.5 after:text-red-500">Teléfono</label>
-        <input type="number" id="payerPhone" placeholder="Teléfono" name="payerPhone" required value="<?= $_SESSION['usuario_telefono'] ?? '' ?>" 
+        <input type="number" id="payerPhone" placeholder="Teléfono" name="payerPhone" required value="<?= $_SESSION['usuario']['usuario_telefono'] ?? '' ?>" 
         class="block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 focus:border-violet-600 focus:outline-none sm:text-sm">
     </div>
     
