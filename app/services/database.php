@@ -9,7 +9,6 @@ class Database {
 
     // Constructor
     public function __construct() {
-        require_once(__DIR__ . "/../config.php");
         $this->hostname = DB_HOSTNAME;
         $this->username = DB_USERNAME;
         $this->password = DB_PASSWORD;

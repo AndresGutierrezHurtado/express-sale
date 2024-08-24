@@ -5,7 +5,6 @@ class PageController {
     private $userModel;
     private $cartModel;
     private $orderModel;
-    private $soldProductModel;
     private $calificationModel;
     private $multimediaModel;
     protected $conn;
@@ -15,7 +14,6 @@ class PageController {
         $this -> userModel = new User($conn);
         $this -> cartModel = new Cart($conn);
         $this -> orderModel = new Order($conn);
-        $this -> soldProductModel = new soldProduct($conn);
         $this -> calificationModel = new Calification($conn);
         $this -> multimediaModel = new Multimedia($conn);
         $this -> conn = $conn;
