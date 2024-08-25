@@ -39,8 +39,7 @@ function buildQueryString($add = [], $remove = [])
                 class="hidden w-full text-sm text-slate-500 hover:file:bg-violet-100 file:duration-300 file:cursor-pointer file:bg-violet-50 file:text-violet-700 file:font-semibold file:rounded-xl file:border-0 file:p-1 file:px-3">
 
             <!-- Botones de edición y cerrar sesión -->
-             
-            <?php if ($user['usuario_id'] == $_SESSION['usuario_id'] || isset($_SESSION['usuario']['rol_id']) && $_SESSION['usuario']['rol_id'] == 4 ) : ?>
+            <?php if (isset($_SESSION['usuario']['rol_id']) && $_SESSION['usuario']['rol_id'] == 2 || isset($_SESSION['usuario']['rol_id']) && $_SESSION['usuario']['rol_id'] == 4 ) : ?>
                 <a href="/page/sellers/?seller=<?= $user['usuario_id'] ?>"
                     class="group relative flex w-full justify-center rounded-md border border-transparent bg-violet-600 px-4 py-2 text-sm font-medium text-white hover:bg-violet-700 focus:outline-none focus:ring-2 focus:ring-violet-500 focus:ring-offset-2 disabled:cursor-wait disabled:opacity-50 cursor-pointer">
                     <span class="absolute inset-y-0 left-0 flex items-center pl-3">

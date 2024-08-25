@@ -79,7 +79,7 @@ class User extends Orm
         // Información del mes (dinero hecho en ventas y número de ventas)
 
         $sql = "
-        SELECT COUNT(pedidos.pedido_id) AS numero_ventas, SUM(productos_pedidos.producto_precio) AS dinero_ventas
+        SELECT SUM(productos_pedidos.producto_cantidad) AS numero_ventas, SUM(productos_pedidos.producto_precio) AS dinero_ventas
         FROM pedidos
         INNER JOIN productos_pedidos ON productos_pedidos.pedido_id = pedidos.pedido_id
         INNER JOIN productos ON productos_pedidos.producto_id = productos.producto_id

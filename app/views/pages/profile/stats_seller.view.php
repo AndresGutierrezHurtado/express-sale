@@ -49,12 +49,12 @@
             <div class="w-full flex flex-col md:flex-row justify-between">
                 <div class="stat text-center">
                     <div class="stat-title">Dinero total ventas</div>
-                    <div class="stat-value"><?= number_format($result['informacion_mes']['dinero_ventas']) ?> COP</div>
+                    <div class="stat-value"><?= number_format($result['informacion_mes']['dinero_ventas'] ?? 0) ?> COP</div>
                     <div class="stat-desc">21% more than last month</div>
                 </div>
                 <div class="stat text-center">
                     <div class="stat-title">Número de productos vendidos</div>
-                    <div class="stat-value"><?= $result['informacion_mes']['numero_ventas'] ?></div>
+                    <div class="stat-value"><?= $result['informacion_mes']['numero_ventas'] ?? 0 ?></div>
                     <div class="stat-desc">21% more than last month</div>
                 </div>
             </div>
