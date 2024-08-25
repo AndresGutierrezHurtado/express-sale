@@ -39,6 +39,23 @@ function buildQueryString($add = [], $remove = [])
                 class="hidden w-full text-sm text-slate-500 hover:file:bg-violet-100 file:duration-300 file:cursor-pointer file:bg-violet-50 file:text-violet-700 file:font-semibold file:rounded-xl file:border-0 file:p-1 file:px-3">
 
             <!-- Botones de edición y cerrar sesión -->
+             
+            <?php if ($user['usuario_id'] == $_SESSION['usuario_id'] || isset($_SESSION['usuario']['rol_id']) && $_SESSION['usuario']['rol_id'] == 4 ) : ?>
+                <a href="/page/sellers/?seller=<?= $user['usuario_id'] ?>"
+                    class="group relative flex w-full justify-center rounded-md border border-transparent bg-violet-600 px-4 py-2 text-sm font-medium text-white hover:bg-violet-700 focus:outline-none focus:ring-2 focus:ring-violet-500 focus:ring-offset-2 disabled:cursor-wait disabled:opacity-50 cursor-pointer">
+                    <span class="absolute inset-y-0 left-0 flex items-center pl-3">
+                        <i class="fa-solid fa-user text-[18px] text-violet-500 duration-300 group-hover:text-violet-400"></i>
+                    </span>
+                    Perfil
+                </a>
+                <a href="/page/stats/?id=<?= $user['usuario_id'] ?>"
+                    class="group relative flex w-full justify-center rounded-md border border-transparent bg-violet-600 px-4 py-2 text-sm font-medium text-white hover:bg-violet-700 focus:outline-none focus:ring-2 focus:ring-violet-500 focus:ring-offset-2 disabled:cursor-wait disabled:opacity-50 cursor-pointer">
+                    <span class="absolute inset-y-0 left-0 flex items-center pl-3">
+                        <i class="fa-solid fa-wallet text-[18px] text-violet-500 duration-300 group-hover:text-violet-400"></i>
+                    </span>
+                    Panel vendedor
+                </a>
+            <?php endif; ?>
             <a id="btn-edit"
                 class="group relative flex w-full justify-center rounded-md border border-transparent bg-gray-100 px-4 py-2 text-sm font-medium text-black hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-gray-300 focus:ring-offset-2 disabled:cursor-wait disabled:opacity-50 cursor-pointer">
                 <span class="absolute inset-y-0 left-0 flex items-center pl-3">
@@ -46,13 +63,15 @@ function buildQueryString($add = [], $remove = [])
                 </span>
                 Editar
             </a>
-            <a id="btn-logout"
-                class="group relative flex w-full justify-center rounded-md border border-transparent bg-violet-600 px-4 py-2 text-sm font-medium text-white hover:bg-violet-700 focus:outline-none focus:ring-2 focus:ring-violet-500 focus:ring-offset-2 disabled:cursor-wait disabled:opacity-50 cursor-pointer">
-                <span class="absolute inset-y-0 left-0 flex items-center pl-3">
-                    <i class="fa-solid fa-right-from-bracket text-[18px] text-violet-500 duration-300 group-hover:text-violet-400"></i>
-                </span>
-                Cerrar sesión
-            </a>
+            <?php if ($user['usuario_id'] == $_SESSION['usuario_id']) : ?>
+                <a id="btn-logout"
+                    class="group relative flex w-full justify-center rounded-md border border-transparent bg-violet-600 px-4 py-2 text-sm font-medium text-white hover:bg-violet-700 focus:outline-none focus:ring-2 focus:ring-violet-500 focus:ring-offset-2 disabled:cursor-wait disabled:opacity-50 cursor-pointer">
+                    <span class="absolute inset-y-0 left-0 flex items-center pl-3">
+                        <i class="fa-solid fa-right-from-bracket text-[18px] text-violet-500 duration-300 group-hover:text-violet-400"></i>
+                    </span>
+                    Cerrar sesión
+                </a>
+            <?php endif; ?>
 
         </div>
 

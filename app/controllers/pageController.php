@@ -275,13 +275,14 @@ class PageController {
 
     public function stats() {
         // MiddleWare
-        $id = isset($_GET['id']) ? $_GET['id'] : $_SESSION['usuario_id'] ;
-        if (!$_SESSION['usuario']['rol_id'] == 4 || $_SESSION['usuario_id'] == $id ? true : false) {header('location: /'); exit();}
+        $id = isset($_GET['id']) ? $_GET['id'] : $_SESSION['usuario_id'];
+        if (!$_SESSION['usuario']['rol_id'] == 4 || !$_SESSION['usuario_id'] == $id) {header('location: /'); exit();}
 
         // User
-        $user = $this -> userModel -> getById($id);
+        $user = $this -> userModel -> getById($id, "*", "INNER JOIN roles ON usuarios.rol_id = roles.rol_id INNER JOIN trabajadores ON usuarios.usuario_id = trabajadores.usuario_id");
 
-        $title = "Estadísticas";
+        $title = "Estadísticas " . $user['rol_nombre'];
+        $current_page = "stats";
 
         if ($user['rol_id'] == 2) {
             $content = __DIR__ . "/../views/pages/profile/stats_seller.view.php";
@@ -289,7 +290,7 @@ class PageController {
             $content = __DIR__ . "/../views/pages/profile/stats_delivery.view.php";
         }
 
-        require_once(__DIR__ . "/../views/layouts/guest.layout.php");
+        require_once(__DIR__ . "/../views/layouts/stats.layout.php");
     }
 
     public function product_profile() {
