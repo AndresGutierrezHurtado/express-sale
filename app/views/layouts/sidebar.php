@@ -4,7 +4,7 @@
         <!-- Main -->
         <?php require_once($content); ?>        
     </div>
-    <div class="h-screen overflow-visible w-full max-w-[70px] md:max-w-[280px]">
+    <div class="h-[100dvh] overflow-visible w-full max-w-[70px] md:max-w-[280px]">
         <ul class="menu min-h-full w-full bg-white py-5 p-1 md:px-3 flex flex-col justify-between text-lg">
             <div>
                 <a href="/" class="w-full tooltip tooltip-right" data-tip="Ir a inicio">
