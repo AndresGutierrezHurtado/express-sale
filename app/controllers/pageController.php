@@ -285,6 +285,10 @@ class PageController {
         $current_page = "stats";
 
         if ($user['rol_id'] == 2) {
+            $result = $this -> userModel -> getSellerInfo($id);
+            $result['cantidad_pedidos_pendientes'] = count($this -> orderModel -> getOrders("WHERE vendedores.usuario_id = $id AND pedidos.pedido_estado = 'Pendiente'"));
+            $result['cantidad_total_productos'] = count($this->productModel->getAll("*", "INNER JOIN categorias ON productos.categoria_id = categorias.categoria_id", "WHERE productos.usuario_id = $id"));
+
             $content = __DIR__ . "/../views/pages/profile/stats_seller.view.php";
         } else if ($user['rol_id'] == 3) {
             $content = __DIR__ . "/../views/pages/profile/stats_delivery.view.php";
@@ -313,14 +317,14 @@ class PageController {
         require_once(__DIR__ . "/../views/layouts/app.layout.php");
     }
 
-    public function order () {
+    public function order() {
 
         // Orders
         $id = $_GET['order'];
         $order = $this -> orderModel -> getOrder($id);
 
         // MiddleWare
-        $isAdmin = $_SESSION['usuario']['rol_id'] == 4 || $_SESSION['usuario_id'] == $order['usuario_id'] ? true : false;
+        $isAdmin = $_SESSION['usuario']['rol_id'] == 4 || $_SESSION['usuario_id'] == $order['usuario_id'] ||  $_SESSION['usuario']['rol_id'] == 2;
         if (!$isAdmin) {header('location: /'); exit();}
 
         $title = "Pedido";

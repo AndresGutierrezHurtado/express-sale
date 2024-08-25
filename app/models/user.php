@@ -1,11 +1,14 @@
 <?php
 
-class User extends Orm{
-    public function __construct(mysqli $conn) {
+class User extends Orm
+{
+    public function __construct(mysqli $conn)
+    {
         parent::__construct('usuario_id', 'usuarios', $conn);
     }
-    
-    public function auth($data) {
+
+    public function auth($data)
+    {
         $username = $data['usuario_alias'];
         $query = "SELECT * FROM $this->table WHERE usuario_alias = '$username' OR usuario_correo = '$username'";
         $result = $this->db->query($query);
@@ -28,7 +31,8 @@ class User extends Orm{
         }
     }
 
-    public function auth_google($data) {
+    public function auth_google($data)
+    {
         $data = [
             'usuario_correo' => $data['email'],
             'usuario_nombre' => $data['given_name'],
@@ -50,11 +54,11 @@ class User extends Orm{
 
             return ['success' => true, 'message' => 'La inserción se realizó correctamente.'];
         } else {
-            $result = $this -> insert($data);
+            $result = $this->insert($data);
 
             if ($result['success']) {
-                $user = $this -> getById($result['last_id']);
-                
+                $user = $this->getById($result['last_id']);
+
                 $_SESSION["usuario_id"] = $user["usuario_id"];
 
                 $_SESSION["carrito"] = array();
@@ -63,5 +67,91 @@ class User extends Orm{
                 return ['success' => true, 'message' => 'La inserción se realizó correctamente.'];
             }
         }
+    }
+
+    public function getSellerInfo($vendedorId, $mes = null, $año = null)
+    {
+        $result = [];
+
+        $mes = $mes ?? date('m');
+        $año = $año ?? date('Y');
+
+        // Información del mes (dinero hecho en ventas y número de ventas)
+
+        $sql = "
+        SELECT COUNT(pedidos.pedido_id) AS numero_ventas, SUM(productos_pedidos.producto_precio) AS dinero_ventas
+        FROM pedidos
+        INNER JOIN productos_pedidos ON productos_pedidos.pedido_id = pedidos.pedido_id
+        INNER JOIN productos ON productos_pedidos.producto_id = productos.producto_id
+        WHERE productos.usuario_id = $vendedorId AND MONTH(pedidos.pedido_fecha) = $mes AND YEAR(pedidos.pedido_fecha) = $año
+        ";
+        $result['informacion_mes'] = $this->db->query($sql)->fetch_assoc();
+
+        // Cantidad total de productos vendidos
+
+        $sql = "
+        SELECT SUM(productos_pedidos.producto_cantidad) AS cantidad_total_productos_vendidos
+        FROM productos_pedidos 
+        INNER JOIN productos ON productos_pedidos.producto_id = productos.producto_id 
+        INNER JOIN usuarios ON productos.usuario_id = usuarios.usuario_id
+        WHERE usuarios.usuario_id = $vendedorId
+        ";
+        $result['cantidad_total_productos_vendidos'] = $this->db->query($sql)->fetch_assoc();
+
+        // Todos los pedidos con productos del vendedor
+
+        $sql = "
+        SELECT pedidos.*, categorias.*, productos.producto_id,
+        usuarios.usuario_nombre, usuarios.usuario_apellido,
+        productos.producto_nombre, productos.producto_imagen_url, 
+        productos_pedidos.producto_precio, productos_pedidos.producto_cantidad
+        FROM productos_pedidos 
+        INNER JOIN productos ON productos_pedidos.producto_id = productos.producto_id
+        INNER JOIN categorias ON productos.categoria_id = categorias.categoria_id
+        INNER JOIN pedidos ON productos_pedidos.pedido_id = pedidos.pedido_id
+        INNER JOIN usuarios ON pedidos.usuario_id = usuarios.usuario_id
+        WHERE productos.usuario_id = 2;
+        ";
+        $tmp_result = $this->db->query($sql)->fetch_all(MYSQLI_ASSOC);
+
+        $result['todos_los_pedidos'] = [];
+
+        foreach ($tmp_result as $order) {
+            $order_id = $order['pedido_id'];
+
+            if (!array_key_exists($order_id, $result['todos_los_pedidos'])) {
+                $result['todos_los_pedidos'][$order_id] = array(
+                    'pedido_id' => $order['pedido_id'],
+                    'pedido_fecha' => $order['pedido_fecha'],
+                    'pedido_estado' => $order['pedido_estado'],
+                    'comprador_nombre' => $order['usuario_nombre'] . " " . $order['usuario_apellido'],
+                    'products' => array()
+                );
+            }
+
+
+            $result['todos_los_pedidos'][$order_id]['productos'][] = array(
+                'producto_id' => $order['producto_id'],
+                'producto_nombre' => $order['producto_nombre'],
+                'producto_imagen_url' => $order['producto_imagen_url'],
+                'producto_cantidad' => $order['producto_cantidad'],
+                'producto_precio' => $order['producto_precio'],
+                'producto_categoria' => $order['categoria_nombre'],
+            );
+        }
+
+        // Productos más vendidos
+
+        $sql = "
+        SELECT productos.producto_id, productos.producto_nombre, productos.producto_imagen_url, COALESCE(SUM(productos_pedidos.producto_cantidad), 0) AS numero_ventas 
+        FROM productos
+        LEFT JOIN productos_pedidos ON productos_pedidos.producto_id = productos.producto_id
+        WHERE productos.usuario_id = $vendedorId
+        GROUP BY productos.producto_id
+        ORDER BY numero_ventas DESC
+        ";
+        $result['productos_mas_vendidos'] = $this->db->query($sql)->fetch_all(MYSQLI_ASSOC);
+
+        return $result;
     }
 }
