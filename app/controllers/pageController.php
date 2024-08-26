@@ -297,6 +297,27 @@ class PageController {
         require_once(__DIR__ . "/../views/layouts/stats.layout.php");
     }
 
+    public function seller_products() {
+        // MiddleWare
+        $id = isset($_GET['seller']) ? $_GET['seller'] : $_SESSION['usuario_id'];
+        if (!$_SESSION['usuario']['rol_id'] == 4 || !$_SESSION['usuario_id'] == $id) {header('location: /'); exit();}
+
+        // User
+        $user = $this -> userModel -> getById($id, "*", "INNER JOIN roles ON usuarios.rol_id = roles.rol_id INNER JOIN trabajadores ON usuarios.usuario_id = trabajadores.usuario_id");
+
+        // Products
+        $products_page = isset($_GET['products_page']) ? $_GET['products_page'] : 1 ;
+        if ($user['rol_nombre'] == 'vendedor') {
+            $products = $this -> productModel -> paginate($products_page, 5, '*', "INNER JOIN categorias ON productos.categoria_id = categorias.categoria_id", "WHERE productos.usuario_id = $id", "WHERE productos.usuario_id = $id");
+        }
+        
+        $title = "Estadísticas " . $user['rol_nombre'];
+        $current_page = "products";
+        $content = __DIR__ . "/../views/pages/profile/seller_products.view.php";   
+
+        require_once(__DIR__ . "/../views/layouts/stats.layout.php");
+    }
+
     public function product_profile() {
         // obtener datos del producto
         $select_products = "productos.*,

@@ -22,14 +22,14 @@
                     </a>
                 </li>
                 <li class="w-full">
-                    <a class="tooltip tooltip-right text-left flex gap-2 items-center justify-center md:justify-start <?= $current_page == "stats" ? "bg-gradient-to-r from-violet-600/80 from-10% to-white to-90% font-semibold" : "" ?>" data-tip="Ver estadísticas de la cuenta">
+                    <a href="/page/stats/?id=<?= $user['usuario_id'] ?>" class="tooltip tooltip-right text-left flex gap-2 items-center justify-center md:justify-start <?= $current_page == "stats" ? "bg-gradient-to-r from-violet-600/80 from-10% to-white to-90% font-semibold" : "" ?>" data-tip="Ver estadísticas de la cuenta">
                         <i class="fa-solid fa-user-gear"></i>
                         <p class="hidden md:block">Panel de <?= $user['rol_nombre'] ?></p>
                     </a>
                 </li>
                 <?php if ($user['rol_id'] == 2): ?>
                     <li class="w-full">
-                        <a class="tooltip tooltip-right text-left flex gap-2 items-center justify-center md:justify-start" data-tip="Ver los productos del vendedor">
+                        <a href="/page/seller_products/?seller=<?= $user['usuario_id'] ?>" class="tooltip tooltip-right text-left flex gap-2 items-center justify-center md:justify-start <?= $current_page == "products" ? "bg-gradient-to-r from-violet-600/80 from-10% to-white to-90% font-semibold" : "" ?>" data-tip="Ver los productos del vendedor">
                             <i class="fa-solid fa-boxes-stacked"></i>
                             <p class="hidden md:block">Productos</p>
                         </a>
