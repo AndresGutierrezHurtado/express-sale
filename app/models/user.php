@@ -214,4 +214,89 @@ class User extends Orm
 
         return $result;
     }
+
+    public function getDeliveryInfo($vendedorId, $trabajadorId, $año = null)
+    {
+        $result = [];
+    
+        // obtener las ventas del vendedor
+        if ($año === null) {
+            $sql = "
+            SELECT
+                YEAR(date_range.date) AS año,
+                MONTH(date_range.date) AS mes,
+                COALESCE(SUM(IF(detalles_envios.trabajador_id = $trabajadorId, detalles_envios.pedido_id, 0)), 0) as numero_envios,
+                COALESCE(SUM(IF(detalles_envios.trabajador_id = $trabajadorId, detalles_envios.envio_valor, 0)), 0) as dinero_envios
+            FROM (
+                SELECT DATE_ADD(CURRENT_DATE(), INTERVAL -i MONTH) AS date
+                    FROM (
+                        SELECT 0 AS i UNION ALL
+                        SELECT 1 UNION ALL
+                        SELECT 2 UNION ALL
+                        SELECT 3 UNION ALL
+                        SELECT 4 UNION ALL
+                        SELECT 5 UNION ALL
+                        SELECT 6 UNION ALL
+                        SELECT 7 UNION ALL
+                        SELECT 8 UNION ALL
+                        SELECT 9 UNION ALL
+                        SELECT 10 UNION ALL
+                        SELECT 11
+                ) AS months
+            ) AS date_range
+            LEFT JOIN detalles_envios ON YEAR(detalles_envios.fecha_inicio) = YEAR(date_range.date) 
+            AND MONTH(detalles_envios.fecha_inicio) = MONTH(date_range.date) AND detalles_envios.trabajador_id = $trabajadorId
+            GROUP BY YEAR(date_range.date), MONTH(date_range.date)
+            ORDER BY YEAR(date_range.date), MONTH(date_range.date)
+        ";
+        } else {
+            $sql = "
+                SELECT 
+                    $año AS año,
+                    meses.mes AS mes,
+                    COALESCE(SUM(IF(detalles_envios.trabajador_id = $trabajadorId, detalles_envios.pedido_id, 0)), 0) as numero_envios,
+                    COALESCE(SUM(IF(detalles_envios.trabajador_id = $trabajadorId, detalles_envios.envio_valor, 0)), 0) as dinero_envios
+                FROM (
+                    SELECT 1 AS mes UNION ALL
+                    SELECT 2 UNION ALL
+                    SELECT 3 UNION ALL
+                    SELECT 4 UNION ALL
+                    SELECT 5 UNION ALL
+                    SELECT 6 UNION ALL
+                    SELECT 7 UNION ALL
+                    SELECT 8 UNION ALL
+                    SELECT 9 UNION ALL
+                    SELECT 10 UNION ALL
+                    SELECT 11 UNION ALL
+                    SELECT 12
+                ) AS meses                
+                LEFT JOIN detalles_envios ON MONTH(detalles_envios.fecha_inicio) = meses.mes 
+                                   AND YEAR(detalles_envios.fecha_inicio) = $año AND detalles_envios.trabajador_id = $trabajadorId
+                GROUP BY meses.mes
+                ORDER BY meses.mes
+            ";
+        }
+    
+        $result['domicilios_mensuales'] = $this->db->query($sql)->fetch_all(MYSQLI_ASSOC);
+
+        // Cantidad total de domicilios ehchos
+        $sql = "
+        SELECT COALESCE(SUM(pedido_id), 0) as cantidad_total_productos_vendidos
+        FROM detalles_envios 
+        WHERE trabajador_id = $trabajadorId
+        ";
+        $result['cantidad_total_productos_vendidos'] = $this->db->query($sql)->fetch_assoc()['cantidad_total_productos_vendidos'];
+
+        // Verificar retiros
+        $sql = "
+        SELECT COUNT(*) AS retiros_mes
+        FROM retiros
+        WHERE trabajador_id = $trabajadorId
+        AND MONTH(retiro_fecha) = MONTH(CURRENT_DATE())
+        AND YEAR(retiro_fecha) = YEAR(CURRENT_DATE());
+        ";
+        $result['retiros_mes'] = $this->db->query($sql)->fetch_assoc()['retiros_mes'];
+
+        return $result;
+    }
 }

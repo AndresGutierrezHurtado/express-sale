@@ -40,7 +40,7 @@ function buildQueryString($add = [], $remove = [])
 
             <!-- Botones de edición y cerrar sesión -->
             <?php if (isset($_SESSION['usuario']['rol_id']) && $_SESSION['usuario']['rol_id'] == 2 || isset($_SESSION['usuario']['rol_id']) && $_SESSION['usuario']['rol_id'] == 4 || isset($_SESSION['usuario']['rol_id']) && $_SESSION['usuario']['rol_id'] == 3) : ?>
-                <a href="/page/sellers/?seller=<?= $user['usuario_id'] ?>"
+                <a href="<?= $_SESSION['usuario']['rol_id'] == 2 ? "/page/sellers/?seller=" . $user['usuario_id'] : "/page/delivery/?delivery=" . $user['usuario_id'] ?>"
                     class="group relative flex w-full justify-center rounded-md border border-transparent bg-violet-600 px-4 py-2 text-sm font-medium text-white hover:bg-violet-700 focus:outline-none focus:ring-2 focus:ring-violet-500 focus:ring-offset-2 disabled:cursor-wait disabled:opacity-50 cursor-pointer">
                     <span class="absolute inset-y-0 left-0 flex items-center pl-3">
                         <i class="fa-solid fa-user text-[18px] text-violet-500 duration-300 group-hover:text-violet-400"></i>

@@ -238,17 +238,17 @@ class PageController
         $user = $this->userModel->getById(
             $_GET['delivery'],
             "usuarios.*, trabajadores.*, roles.*,
-        COUNT(calificaciones_usuarios.calificacion_id) AS numero_calificaciones, 
-        ROUND(IFNULL(AVG(calificaciones.calificacion), 0), 2) AS calificacion_promedio, 
-        COUNT(CASE WHEN calificaciones.calificacion = 1 THEN 1 END) AS calificaciones_1, 
-        COUNT(CASE WHEN calificaciones.calificacion = 2 THEN 1 END) AS calificaciones_2, 
-        COUNT(CASE WHEN calificaciones.calificacion = 3 THEN 1 END) AS calificaciones_3, 
-        COUNT(CASE WHEN calificaciones.calificacion = 4 THEN 1 END) AS calificaciones_4, 
-        COUNT(CASE WHEN calificaciones.calificacion = 5 THEN 1 END) AS calificaciones_5 ",
-            " INNER JOIN roles ON usuarios.rol_id = roles.rol_id
-        INNER JOIN trabajadores ON usuarios.usuario_id = trabajadores.usuario_id
-        LEFT JOIN calificaciones_usuarios ON usuarios.usuario_id = calificaciones_usuarios.usuario_id
-        LEFT JOIN calificaciones ON calificaciones_usuarios.calificacion_id = calificaciones.calificacion_id ",
+            COUNT(calificaciones_usuarios.calificacion_id) AS numero_calificaciones, 
+            ROUND(IFNULL(AVG(calificaciones.calificacion), 0), 2) AS calificacion_promedio, 
+            COUNT(CASE WHEN calificaciones.calificacion = 1 THEN 1 END) AS calificaciones_1, 
+            COUNT(CASE WHEN calificaciones.calificacion = 2 THEN 1 END) AS calificaciones_2, 
+            COUNT(CASE WHEN calificaciones.calificacion = 3 THEN 1 END) AS calificaciones_3, 
+            COUNT(CASE WHEN calificaciones.calificacion = 4 THEN 1 END) AS calificaciones_4, 
+            COUNT(CASE WHEN calificaciones.calificacion = 5 THEN 1 END) AS calificaciones_5 ",
+                " INNER JOIN roles ON usuarios.rol_id = roles.rol_id
+            INNER JOIN trabajadores ON usuarios.usuario_id = trabajadores.usuario_id
+            LEFT JOIN calificaciones_usuarios ON usuarios.usuario_id = calificaciones_usuarios.usuario_id
+            LEFT JOIN calificaciones ON calificaciones_usuarios.calificacion_id = calificaciones.calificacion_id ",
             " GROUP BY usuarios.usuario_id "
         );
 
@@ -324,6 +324,7 @@ class PageController
 
             $content = __DIR__ . "/../views/pages/profile/stats_seller.view.php";
         } else if ($user['rol_id'] == 3) {
+            $result = $this->userModel->getDeliveryInfo($id, $user['trabajador_id'], isset($_GET['año']) ? $_GET['año'] : null);
             $content = __DIR__ . "/../views/pages/profile/stats_delivery.view.php";
         }
 
@@ -340,7 +341,7 @@ class PageController
         // Obtener las ordenes pendientes
         $orders = $this->orderModel->getOrders("WHERE pedido_estado = 'pendiente'");
         $user = $this->userModel->getById($id, "*", "INNER JOIN roles ON usuarios.rol_id = roles.rol_id INNER JOIN trabajadores ON usuarios.usuario_id = trabajadores.usuario_id");
-        
+
         $title = "Domicilios";
         $current_page = "products";
         $content = __DIR__ . "/../views/pages/delivery/shipments.view.php";
