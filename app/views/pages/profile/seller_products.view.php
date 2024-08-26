@@ -5,7 +5,8 @@
         </h1>
 
         <div class="flex gap-2 items-start w-full max-w-[400px]">
-            <form action="/profile/stats" method="GET" class="grow">
+            <form action="/page/seller_products/" method="GET" class="grow">
+                <input type="hidden" name="seller" value="<?= $user['usuario_id'] ?>">
                 <label class="input input-bordered flex w-full items-center gap-2">
                     <svg
                         xmlns="http://www.w3.org/2000/svg"
@@ -17,18 +18,14 @@
                             d="M9.965 11.026a5 5 0 1 1 1.06-1.06l2.755 2.754a.75.75 0 1 1-1.06 1.06l-2.755-2.754ZM10.5 7a3.5 3.5 0 1 1-7 0 3.5 3.5 0 0 1 7 0Z"
                             clip-rule="evenodd" />
                     </svg>
-                    <input type="text" class="w-full" placeholder="Search" />
+                    <input type="text" class="w-full" name="search" placeholder="Buscar productos..." value="<?= isset($_GET['search']) ? $_GET['search'] : '' ?>"/>
                 </label>
             </form>
-            <div class="dropdown dropdown-end dropdown-hover">
-                <div tabindex="0" role="button" class="btn bg-white">
-                    <i class="fa-solid fa-ellipsis rotate-90"></i>
-                </div>
-                <ul tabindex="0" class="dropdown-content menu bg-base-100 rounded-box z-[1] w-52 p-2 shadow">
-                    <li><a>Item 1</a></li>
-                    <li><a>Item 2</a></li>
-                </ul>
-            </div>
+            <?php if (isset($_GET['search']) && !empty($_GET['search'])):?>
+                <a href="/page/seller_products/?seller=<?= $user['usuario_id'] ?>" role="button" class="btn bg-white">
+                    <i class="fa-solid fa-arrows-rotate rotate-90"></i>
+                </a>
+            <?php endif; ?>
         </div>
     </nav>
     <!-- Contenedor de productos vendedor -->
@@ -47,15 +44,15 @@
             <?php endif; ?>
         </span>
         <div class="w-full bg-white flex flex-col gap-5 justify-center items-center p-5 rounded-b-lg">
-            <div class="w-full overflow-x-auto border border-gray-500">
+            <div class="w-full overflow-x-auto overflow-y-visible border border-gray-500">
                 <table class="w-full table text-left">
                     <thead>
                         <tr class="bg-gray-200 text-md font-bold text-gray-700 text-left">
-                            <th>ID</th>
-                            <th>Nombre</th>
-                            <th>Precio</th>
-                            <th>Stock</th>
-                            <th>Categoría</th>
+                            <th><a href="/page/seller_products/<?= $this->buildQueryString([], ['order', 'sort']) ?>" class="tooltip tooltip-bottom" data-tip="Ordenar por ID">ID</a></th>
+                            <th><a href="/page/seller_products/<?= $this->buildQueryString(['order' => 'asc', 'sort' => 'producto_nombre']) ?>" class="tooltip tooltip-bottom" data-tip="Ordenar por ID">Nombre</a></th>
+                            <th><a href="/page/seller_products/<?= $this->buildQueryString(['order' => 'asc', 'sort' => 'producto_precio']) ?>" class="tooltip tooltip-bottom" data-tip="Ordenar por precio">Precio</a></th>
+                            <th><a href="/page/seller_products/<?= $this->buildQueryString(['order' => 'asc', 'sort' => 'producto_cantidad']) ?>" class="tooltip tooltip-bottom" data-tip="Ordenar por cantidad">Stock</a></th>
+                            <th><a href="/page/seller_products/<?= $this->buildQueryString(['order' => 'asc', 'sort' => 'categoria_nombre']) ?>" class="tooltip tooltip-bottom" data-tip="Ordenar por categoria">Categoria</a></th>
                             <th class="text-center">Acciones</th>
                         </tr>
                     </thead>
