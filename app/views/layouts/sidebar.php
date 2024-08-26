@@ -60,7 +60,7 @@
 <dialog id="new_product_modal" class="modal">
     <div class="modal-box">
         <h3 class="text-lg font-bold">Nuevo producto:</h3>
-        <form id="new-product-form" class="flex flex-col gap-2 my-5">
+        <form id="new-product-form" action="/product/create" method="post" class="fetch-form flex flex-col gap-2 my-5">
             <input type="hidden" id="usuario_id" name="usuario_id" value="<?= $user['usuario_id'] ?>">
 
             <label class="form-control w-full">
@@ -138,3 +138,5 @@
         <button class="cursor-auto">close</button>
     </form>
 </dialog>
+
+<script src="/public/js/fetch-form.js"></script>
