@@ -285,7 +285,7 @@ class PageController {
         $current_page = "stats";
 
         if ($user['rol_id'] == 2) {
-            $result = $this -> userModel -> getSellerInfo($id);
+            $result = $this -> userModel -> getSellerInfo($id, $user['trabajador_id']);
             $result['cantidad_pedidos_pendientes'] = count($this -> orderModel -> getOrders("WHERE vendedores.usuario_id = $id AND pedidos.pedido_estado = 'Pendiente'"));
             $result['cantidad_total_productos'] = count($this->productModel->getAll("*", "INNER JOIN categorias ON productos.categoria_id = categorias.categoria_id", "WHERE productos.usuario_id = $id"));
 

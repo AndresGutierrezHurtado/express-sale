@@ -63,22 +63,24 @@
         <!-- Dinero disponible -->
         <article class="w-full max-w-[500px] p-4 flex flex-col items-center justify-center gap-1 card bg-base-100 stat text-center">
             <div class="stat-title">Saldo actual</div>
-            <div class="stat-value"><?= number_format($result['informacion_mes']['dinero_ventas']) ?> COP</div>
-            <div class="stat-desc">* retiros disponibles</div>
+            <div class="stat-value"><?= number_format($user['trabajador_saldo']) ?> COP</div>
+            <div class="stat-desc"><?= 5 - $result['retiros_mes'] ?> retiros disponibles</div>
             <div class="divider"></div>
             <div class="space-y-2">
                 <p>Se actualiza cada 2 minutos aproximadamente</p>
-                <button class="btn btn-success text-white rounded-full px-10">
-                    <i class="fa-solid fa-money-bill-wave"></i>
-                    Retirar ahora
-                </button>
+                <div class="<?= $user['trabajador_saldo'] < 10000 || $result['retiros_mes'] >= 5 ? 'tooltip tooltip-left' : '' ?>" <?= $result['retiros_mes'] >= 5 ? 'disabled data-tip="Ya no tienes retiros disponibles"' : ( $user['trabajador_saldo'] > 10000 ? 'onclick="retirar_dinero.showModal()"' : 'data-tip="Debes tener al menos 10.000 COP" disabled' ) ?>>
+                    <button class="btn btn-success text-white rounded-full px-10" <?= $result['retiros_mes'] >= 5 ? 'disabled data-tip="Ya no tienes retiros disponibles"' : ( $user['trabajador_saldo'] > 10000 ? 'onclick="retirar_dinero.showModal()"' : 'data-tip="Debes tener al menos 10.000 COP" disabled' ) ?>>
+                        <i class="fa-solid fa-money-bill-wave"></i>
+                        Retirar ahora
+                    </button>
+                </div>
             </div>
         </article>
     </section>
     <section class="w-full flex gap-5">
         <div class="flex flex-grow flex-col gap-5">
             <nav class="flex flex-col md:flex-row gap-3">
-                <!-- Dinero disponible -->
+                <!-- Cartas información -->
                 <article class="min-w-[170px] w-fit p-4 flex flex-row items-center gap-4 card bg-base-100 stat text-center">
                     <div>
                         <i class="fa-solid fa-boxes-stacked text-5xl"></i>
@@ -107,6 +109,7 @@
                     </div>
                 </article>
             </nav>
+            <!-- Tabla de pedidos -->
             <article class="min-w-[170px] w-full p-4 flex flex-col items-center gap-4 card bg-base-100 stat text-center">
                 <nav class="w-full flex justify-between">
                     <h1 class="text-xl font-bold">Ventas recientes</h1>
@@ -193,6 +196,8 @@
                 </div>
             </article>
         </div>
+
+        <!-- Mas vendidos -->
         <div class="w-full max-w-[400px] p-4 flex flex-col items-center gap-4 card bg-base-100 stat text-center">
             <h1 class="text-xl font-bold">Productos más vendidos</h1>
             <div class="w-full space-y-3 overflow-y-auto">
@@ -218,3 +223,38 @@
         </div>
     </section>
 </main>
+
+<dialog id="retirar_dinero" class="modal">
+    <div class="modal-box space-y-2">
+        <form method="dialog">
+            <button class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">✕</button>
+        </form>
+        <!-- Contenido modal -->
+        <h3 class="text-xl font-bold">Retira tu dinero:</h3>
+        <p class="leading-none text-gray-600">Esta es la sección donde podrás retirar tu dinero, <span class="font-semibold text-violet-600">debes tener en cuenta que tienes que ser mayor de 18 años, el valor mínimo es de 10.000.</span></p>
+
+        <form action="/user/withdraw" method="post" enctype="multipart/form-data" class="fetch-form space-y-5">
+            <input type="hidden" name="trabajador_id" value="<?= $user['trabajador_id'] ?>">
+            <label class="form-control w-full">
+                <div class="label">
+                    <span class="label-text font-medium text-gray-700">Valor a retirar:</span>
+                </div>
+                <input type="number"
+                    name="retiro_valor" id="retiro_valor" required
+                    placeholder="10,000 ~ <?= number_format($user['trabajador_saldo']) ?>" min="10000" max="<?= $user['trabajador_saldo'] ?>"
+                    class="input input-sm input-bordered w-full focus:outline-0 focus:border-violet-600 rounded py-1 h-auto">
+            </label>
+
+            <div class="my-3">
+                <button class="w-full bg-violet-600 font-bold duration-300 hover:bg-violet-800 text-white py-2 px-4 rounded-lg">
+                    Retirar
+                </button>
+            </div>
+        </form>
+    </div>
+    <form method="dialog" class="modal-backdrop">
+        <button>close</button>
+    </form>
+</dialog>
+
+<script src="/public/js/califications.js"></script>

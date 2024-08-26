@@ -69,7 +69,7 @@ class User extends Orm
         }
     }
 
-    public function getSellerInfo($vendedorId, $mes = null, $año = null)
+    public function getSellerInfo($vendedorId, $trabajadorId, $mes = null, $año = null)
     {
         $result = [];
 
@@ -79,7 +79,7 @@ class User extends Orm
         // Información del mes (dinero hecho en ventas y número de ventas)
 
         $sql = "
-        SELECT SUM(productos_pedidos.producto_cantidad) AS numero_ventas, SUM(productos_pedidos.producto_precio) AS dinero_ventas
+        SELECT SUM(productos_pedidos.producto_cantidad) AS numero_ventas, SUM(productos_pedidos.producto_precio * productos_pedidos.producto_cantidad) AS dinero_ventas
         FROM pedidos
         INNER JOIN productos_pedidos ON productos_pedidos.pedido_id = pedidos.pedido_id
         INNER JOIN productos ON productos_pedidos.producto_id = productos.producto_id
@@ -152,6 +152,17 @@ class User extends Orm
         ";
         $result['productos_mas_vendidos'] = $this->db->query($sql)->fetch_all(MYSQLI_ASSOC);
 
+        // Verificar retiros
+        $sql = "
+        SELECT COUNT(*) AS retiros_mes
+        FROM retiros
+        WHERE trabajador_id = $trabajadorId
+        AND MONTH(retiro_fecha) = MONTH(CURRENT_DATE())
+        AND YEAR(retiro_fecha) = YEAR(CURRENT_DATE());
+        ";
+        $result['retiros_mes'] = $this->db->query($sql)->fetch_assoc()['retiros_mes'];
+
         return $result;
     }
+    
 }

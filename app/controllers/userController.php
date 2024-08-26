@@ -2,10 +2,12 @@
 
 class UserController {
     private $userModel;
+    private $withdrawModel;
     protected $conn;
 
     public function __construct(mysqli $conn) {
         $this -> userModel = new User($conn);
+        $this -> withdrawModel = new Withdraw($conn);
         $this -> conn = $conn;
     }
 
@@ -119,6 +121,14 @@ class UserController {
         $post_data = json_decode( $post_data , true);
 
         $result = $this -> userModel -> deleteById($post_data['id']);
+
+        echo json_encode($result);
+    }
+
+    public function withdraw() {
+        $data = $_POST;
+
+        $result = $this -> withdrawModel -> insert($data);
 
         echo json_encode($result);
     }

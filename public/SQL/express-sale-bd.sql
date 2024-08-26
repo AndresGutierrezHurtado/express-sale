@@ -51,6 +51,7 @@ CREATE TABLE `trabajadores` (
     `trabajador_id` INT PRIMARY KEY AUTO_INCREMENT,
     `trabajador_descripcion` TEXT NOT NULL DEFAULT 'usuario nuevo.',
     `trabajador_numero_trabajos` INT NOT NULL DEFAULT 0,
+    `trabajador_saldo` DECIMAL(10, 0) NOT NULL DEFAULT 0,
     `usuario_id` INT NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
@@ -60,6 +61,16 @@ INSERT INTO `trabajadores` (`usuario_id`) VALUES
 (4), -- Jaider Herrera
 (5), -- Juan Bernal
 (7); -- Samuel Useche
+
+-- ---------------------------------------------------------------
+--
+-- Tabla de retiros
+CREATE TABLE `retiros` (
+    `retiro_id` INT PRIMARY KEY AUTO_INCREMENT,
+    `trabajador_id` INT,
+    `retiro_valor` DECIMAL(10, 2),
+    `retiro_fecha` TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- ---------------------------------------------------------------
 --
@@ -327,6 +338,13 @@ REFERENCES `usuarios`(`usuario_id`)
 ON UPDATE CASCADE
 ON DELETE CASCADE;
 
+ALTER TABLE `retiros`
+ADD CONSTRAINT `fk_retiros_usuarios` 
+FOREIGN KEY (`trabajador_id`) 
+REFERENCES `trabajadores`(`trabajador_id`)
+ON UPDATE CASCADE
+ON DELETE CASCADE;
+
 DELIMITER $$
 CREATE TRIGGER insertar_trabajador_despues_de_insertar_usuario
 AFTER INSERT ON usuarios
@@ -335,5 +353,14 @@ BEGIN
     IF (NEW.rol_id = 2 OR NEW.rol_id = 3) THEN
         INSERT INTO trabajadores (usuario_id) VALUES (NEW.usuario_id);
     END IF;
+END$$
+DELIMITER ;
+
+DELIMITER $$
+CREATE TRIGGER bajar_saldo_trabajador_despues_de_insertar_retiros
+AFTER INSERT ON retiros
+FOR EACH ROW
+BEGIN
+    UPDATE trabajadores SET trabajador_saldo = trabajador_saldo - NEW.retiro_valor WHERE trabajador_id = NEW.trabajador_id;
 END$$
 DELIMITER ;
