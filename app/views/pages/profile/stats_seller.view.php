@@ -31,45 +31,50 @@
             </div>
         </div>
     </nav>
-    <section class="w-full flex gap-5">
+    <section class="w-full flex flex-col xl:flex-row gap-5">
         <!-- Sección de gráfica -->
         <article class="w-full p-4 flex flex-col gap-3 card bg-base-100 ">
-            <nav class="w-full flex flex-col md:flex-row justify-between">
-                <h3 class="text-xl font-bold tracking-tight">Ventas del mes de <?= !isset($_GET['mes']) ? date('F') : date('F', mktime(0, 0, 0, $_GET['mes'], 10)) ?> del <?= !isset($_GET['año']) ? date('Y') : $_GET['año'] ?></h3>
-                <select name="" id="">
-                    <option value="">Este mes</option>
-                    <option value="">Hace 3 meses</option>
-                    <option value="">Hace 6 meses</option>
-                    <option value="">Hace 12 meses</option>
+            <nav class="w-full flex flex-col lg:flex-row justify-between">
+                <h3 class="text-xl font-bold tracking-tight">Ventas del mes de <?= !isset($_GET['mes']) ? date('F', mktime(0, 0, 0, $result['ventas_mensuales'][count($result['ventas_mensuales']) - 1]['mes'], 1, date('Y'))) : date('F', mktime(0, 0, 0, $_GET['mes'], 1, date('Y'))) ?> del <?= !isset($_GET['año']) ? date('Y') : $_GET['año'] ?></h3>
+                <select name="" id="" onchange="window.location.href = this.value">
+                    <option <?= !isset($_GET['año']) ? 'selected' : '' ?> value="/page/stats/<?= $this->buildQueryString([], ['año', 'mes']) ?>">Ultimos 12 meses</option>
+                    <option <?= isset($_GET['año']) && $_GET['año'] == date('Y') ? 'selected' : '' ?> value="/page/stats/<?= $this->buildQueryString(['año' => date('Y')], ['mes']) ?>">año <?= date('Y') ?></option>
+                    <option <?= isset($_GET['año']) && $_GET['año'] == date('Y') - 1 ? 'selected' : '' ?> value="/page/stats/<?= $this->buildQueryString(['año' => date('Y') - 1], ['mes']) ?>">año <?= date('Y') - 1 ?></option>
+                    <option <?= isset($_GET['año']) && $_GET['año'] == date('Y') - 2 ? 'selected' : '' ?> value="/page/stats/<?= $this->buildQueryString(['año' => date('Y') - 2], ['mes']) ?>">año <?= date('Y') - 2 ?></option>
                 </select>
             </nav>
-            <figure class="w-full min-h-[200px] bg-violet-500 rounded-lg">
+            <div class="w-full h-full overflow-auto">
+                <canvas class="min-w-[600px] w-full min-h-[400px]  rounded-lg" id="sales-chart">
 
-            </figure>
+                </canvas>
+            </div>
             <div class="w-full flex flex-col md:flex-row justify-between">
-                <div class="stat text-center">
-                    <div class="stat-title">Dinero total ventas</div>
-                    <div class="stat-value"><?= number_format($result['informacion_mes']['dinero_ventas'] ?? 0) ?> COP</div>
-                    <div class="stat-desc">21% more than last month</div>
+                <div class="stat text-center items-center justify-center">
+                    <div class="stat-title whitespace-normal">Dinero total ventas</div>
+                    <div class="stat-value whitespace-normal">
+                        <?= number_format(isset($_GET['mes']) ? $result['ventas_mensuales'][$_GET['mes'] - 1]['dinero_ventas'] : $result['ventas_mensuales'][count($result['ventas_mensuales']) - 1]['dinero_ventas']) ?>
+                        COP
+                    </div>
+                    <div class="stat-desc whitespace-normal">21% more than last month</div>
                 </div>
-                <div class="stat text-center">
-                    <div class="stat-title">Número de productos vendidos</div>
-                    <div class="stat-value"><?= $result['informacion_mes']['numero_ventas'] ?? 0 ?></div>
-                    <div class="stat-desc">21% more than last month</div>
+                <div class="stat text-center items-center justify-center">
+                    <div class="stat-title whitespace-normal">Número de productos vendidos</div>
+                    <div class="stat-value whitespace-normal"><?= isset($_GET['mes']) ? $result['ventas_mensuales'][$_GET['mes'] - 1]['numero_productos'] :  $result['ventas_mensuales'][count($result['ventas_mensuales']) - 1]['numero_productos'] ?></div>
+                    <div class="stat-desc whitespace-normal">21% more than last month</div>
                 </div>
             </div>
         </article>
 
         <!-- Dinero disponible -->
-        <article class="w-full max-w-[500px] p-4 flex flex-col items-center justify-center gap-1 card bg-base-100 stat text-center">
-            <div class="stat-title">Saldo actual</div>
-            <div class="stat-value"><?= number_format($user['trabajador_saldo']) ?> COP</div>
-            <div class="stat-desc"><?= 5 - $result['retiros_mes'] ?> retiros disponibles</div>
+        <article class="w-full max-w-[500px] mx-auto h-fit p-10 flex flex-col items-center justify-center gap-1 card bg-base-100 stat text-center">
+            <div class="stat-title whitespace-normal">Saldo actual</div>
+            <div class="stat-value whitespace-normal"><?= number_format($user['trabajador_saldo']) ?> COP</div>
+            <div class="stat-desc whitespace-normal"><?= 5 - $result['retiros_mes'] ?> retiros disponibles</div>
             <div class="divider"></div>
             <div class="space-y-2">
                 <p>Se actualiza cada 2 minutos aproximadamente</p>
-                <div class="<?= $user['trabajador_saldo'] < 10000 || $result['retiros_mes'] >= 5 ? 'tooltip tooltip-left' : '' ?>" <?= $result['retiros_mes'] >= 5 ? 'disabled data-tip="Ya no tienes retiros disponibles"' : ( $user['trabajador_saldo'] > 10000 ? 'onclick="retirar_dinero.showModal()"' : 'data-tip="Debes tener al menos 10.000 COP" disabled' ) ?>>
-                    <button class="btn btn-success text-white rounded-full px-10" <?= $result['retiros_mes'] >= 5 ? 'disabled data-tip="Ya no tienes retiros disponibles"' : ( $user['trabajador_saldo'] > 10000 ? 'onclick="retirar_dinero.showModal()"' : 'data-tip="Debes tener al menos 10.000 COP" disabled' ) ?>>
+                <div class="<?= $user['trabajador_saldo'] < 10000 || $result['retiros_mes'] >= 5 ? 'tooltip tooltip-left' : '' ?>" <?= $result['retiros_mes'] >= 5 ? 'disabled data-tip="Ya no tienes retiros disponibles"' : ($user['trabajador_saldo'] > 10000 ? 'onclick="retirar_dinero.showModal()"' : 'data-tip="Debes tener al menos 10.000 COP" disabled') ?>>
+                    <button class="btn btn-success text-white rounded-full px-10" <?= $result['retiros_mes'] >= 5 ? 'disabled data-tip="Ya no tienes retiros disponibles"' : ($user['trabajador_saldo'] > 10000 ? 'onclick="retirar_dinero.showModal()"' : 'data-tip="Debes tener al menos 10.000 COP" disabled') ?>>
                         <i class="fa-solid fa-money-bill-wave"></i>
                         Retirar ahora
                     </button>
@@ -77,9 +82,9 @@
             </div>
         </article>
     </section>
-    <section class="w-full flex gap-5">
+    <section class="w-full flex flex-col xl:flex-row gap-5">
         <div class="flex flex-grow flex-col gap-5">
-            <nav class="flex flex-col md:flex-row gap-3">
+            <nav class="flex flex-wrap gap-3">
                 <!-- Cartas información -->
                 <article class="min-w-[170px] w-fit p-4 flex flex-row items-center gap-4 card bg-base-100 stat text-center">
                     <div>
@@ -128,6 +133,7 @@
                             </tr>
                         </thead>
                         <tbody>
+                            <?= empty($result['todos_los_pedidos']) ? '<tr><td colspan="7" class="text-center text-xl font-medium text-gray-600">No hay pedidos</td></tr>' : '' ?>
                             <?php foreach ($result['todos_los_pedidos'] as $order): ?>
                                 <tr>
                                     <td>
@@ -198,12 +204,12 @@
         </div>
 
         <!-- Mas vendidos -->
-        <div class="w-full max-w-[400px] p-4 flex flex-col items-center gap-4 card bg-base-100 stat text-center">
+        <div class="w-full max-w-[400px] mx-auto p-4 flex flex-col items-center gap-4 card bg-base-100 stat text-center">
             <h1 class="text-xl font-bold">Productos más vendidos</h1>
             <div class="w-full space-y-3 overflow-y-auto">
                 <?php foreach ($result['productos_mas_vendidos'] as $product): ?>
-                    <article class="bg-gray-100 rounded-lg p-3 flex gap-4 justify-between items-center">
-                        <div class="flex items-center gap-2">
+                    <article class="bg-gray-100 rounded-lg p-3 flex flex-col md:flex-row gap-4 justify-between items-center">
+                        <div class="flex flex-col md:flex-row items-center gap-2">
                             <figure class="w-[50px] aspect-square">
                                 <img class="object-contain h-full w-full"
                                     src="<?= $product['producto_imagen_url'] ?>"
@@ -258,3 +264,68 @@
 </dialog>
 
 <script src="/public/js/califications.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const ctx = document.getElementById('sales-chart').getContext('2d');
+
+        // Datos del PHP
+        const data = <?= json_encode($result['ventas_mensuales']) ?>;
+
+        const labels = [];
+        const salesData = [];
+
+        const meses = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'];
+
+        data.forEach(item => {
+            const mes = parseInt(item.mes);
+
+            labels.push(meses[mes - 1]);
+
+            salesData.push(item.numero_productos);
+        })
+
+        // Crear el gráfico
+        const myChart = new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: labels,
+                datasets: [{
+                    label: 'Número de Ventas mensuales',
+                    data: salesData,
+                    borderColor: 'rgb(124 58 237 / 1)',
+                    backgroundColor: 'rgb(124 58 237 / 0.2)',
+                    fill: true
+                }]
+            },
+            options: {
+                scales: {
+                    x: {
+                        title: {
+                            display: true,
+                            text: 'Meses'
+                        }
+                    },
+                    y: {
+                        title: {
+                            display: true,
+                            text: 'N° Productos Vendidos'
+                        },
+                        beginAtZero: true
+                    }
+                },
+                onClick: function(event, elements) {
+                    if (elements.length > 0) {
+                        const index = elements[0].index;
+                        const mesSeleccionado = data[index].mes;
+                        const añoSeleccionado = data[index].año;
+
+                        // Construir la URL con los parámetros mes y año
+                        const queryString = `<?= count($_GET) > 0 ? $this->buildQueryString([], ['mes', 'año']) . '&' : '?' ?>mes=${mesSeleccionado}&año=${añoSeleccionado}`;
+                        window.location.href = window.location.pathname + queryString;
+                    }
+                }
+            }
+        });
+    });
+</script>

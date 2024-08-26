@@ -285,7 +285,7 @@ class PageController {
         $current_page = "stats";
 
         if ($user['rol_id'] == 2) {
-            $result = $this -> userModel -> getSellerInfo($id, $user['trabajador_id']);
+            $result = $this -> userModel -> getSellerInfo($id, $user['trabajador_id'], isset($_GET['año']) ? $_GET['año'] : null);
             $result['cantidad_pedidos_pendientes'] = count($this -> orderModel -> getOrders("WHERE vendedores.usuario_id = $id AND pedidos.pedido_estado = 'Pendiente'"));
             $result['cantidad_total_productos'] = count($this->productModel->getAll("*", "INNER JOIN categorias ON productos.categoria_id = categorias.categoria_id", "WHERE productos.usuario_id = $id"));
 
@@ -476,5 +476,20 @@ class PageController {
         $content = __DIR__ . "/../views/pages/delivery/shipment.view.php";
 
         require_once(__DIR__ . "/../views/layouts/guest.layout.php");
+    }
+
+    public function buildQueryString( $add = [], $remove = []) {
+        $params = $_GET;
+        $queryString = '?';
+        foreach ($params as $key => $param) {
+            if (!in_array($key, $remove) && !array_key_exists($key, $add)) {
+                $queryString.= $key . '=' . $param . '&';
+            }
+        }
+        foreach ($add as $key => $param) {
+            $queryString.= $key . '=' . $param . '&';
+        }
+        $queryString = rtrim($queryString, '&');
+        return $queryString;
     }
 }
