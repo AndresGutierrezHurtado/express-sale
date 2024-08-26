@@ -146,6 +146,7 @@
         data.append('pedido_id', id);
         data.append('pedido_estado', 'recibido');
         data.append('trabajador_numero_trabajos', <?= $order['trabajador_numero_trabajos'] + 1 ?>);
+        data.append('trabajador_saldo', <?= $order['trabajador_saldo'] + $order['envio_valor'] ?>);
 
         fetch('/order/update', {
         method: 'POST',

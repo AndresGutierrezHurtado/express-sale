@@ -45,6 +45,7 @@ class Order extends Orm
                     'envio_direccion' => $temp_order['envio_direccion'],
                     'envio_coordenadas' => $temp_order['envio_coordenadas'],
                     'envio_mensaje' => $temp_order['envio_mensaje'],
+                    'envio_valor' => $temp_order['envio_valor'],
                     'usuario_id' => $temp_order['usuario_id'],
                     'products' => array()
                 );
@@ -69,7 +70,7 @@ class Order extends Orm
     public function getOrder($id)
     {
 
-        $select_orders = "pedidos.*, detalles_pagos.*, detalles_envios.*, trabajadores.trabajador_id, trabajadores.trabajador_numero_trabajos,
+        $select_orders = "pedidos.*, detalles_pagos.*, detalles_envios.*, trabajadores.trabajador_id, trabajadores.trabajador_numero_trabajos, trabajadores.trabajador_saldo,
         domiciliarios.usuario_id as domiciliario_id, domiciliarios.usuario_alias as domiciliario_alias, 
         productos_pedidos.*, productos.producto_nombre, productos.producto_imagen_url, 
         vendedores.usuario_id as vendedor_id, vendedores.usuario_alias, vendedores.usuario_direccion";
@@ -102,9 +103,12 @@ class Order extends Orm
                     'envio_direccion' => $order_consulta['envio_direccion'],
                     'envio_coordenadas' => $order_consulta['envio_coordenadas'],
                     'envio_mensaje' => $order_consulta['envio_mensaje'],
+                    'envio_valor' => $order_consulta['envio_valor'],
                     'fecha_entrega' => $order_consulta['fecha_entrega'],
                     'domiciliario_id' => $order_consulta['domiciliario_id'],
                     'domiciliario_alias' => $order_consulta['domiciliario_alias'],
+                    'trabajador_id' => $order_consulta['trabajador_id'],
+                    'trabajador_saldo' => $order_consulta['trabajador_saldo'],
                     'trabajador_numero_trabajos' => $order_consulta['trabajador_numero_trabajos'],
                     'usuario_id' => $order_consulta['usuario_id'],
                     'products' => array()

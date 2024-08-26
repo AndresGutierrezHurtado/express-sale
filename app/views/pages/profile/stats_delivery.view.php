@@ -114,7 +114,10 @@
                             display: true,
                             text: 'Número de domicilios entregados'
                         },
-                        beginAtZero: true
+                        beginAtZero: true,
+                        ticks: {
+                            precision: 0
+                        }
                     }
                 },
                 onClick: function(event, elements) {
