@@ -2,7 +2,9 @@
     <input id="my-drawer-2" type="checkbox" class="drawer-toggle" />
     <div class="drawer-content flex flex-col items-center justify-center pr-5 py-5 max-h-[100dvh] overflow-y-auto">
         <!-- Main -->
-        <?php require_once($content); ?>
+        <main class="w-full h-full p-5 rounded-[30px] bg-gray-200 overflow-y-auto overflow-x-hidden flex flex-col gap-5">
+            <?php require_once($content); ?>
+        </main>
     </div>
     <div class="h-[100dvh] overflow-visible w-full max-w-[70px] md:max-w-[280px]">
         <ul class="menu min-h-full w-full bg-white py-5 p-1 md:px-3 flex flex-col justify-between text-lg">
@@ -34,23 +36,30 @@
                             <p class="hidden md:block">Productos</p>
                         </a>
                     </li>
-                <?php endif; ?>
-            </div>
-            <div>
-                <li>
-                    <a class="tooltip tooltip-right text-left flex gap-2 items-center justify-center md:justify-start" onclick="new_product_modal.showModal()" data-tip="Crear un nuevo producto">
-                        <i class="fa-solid fa-arrow-up-from-bracket"></i>
-                        <p class="hidden md:block">Subir producto</p>
-                    </a>
-                </li>
-                <?php if ($user['rol_id'] == 2): ?>
-                    <li>
-                        <a href="javascript:history.back()" class="flex ga-2 items-center justify-center md:justify-start">
-                            <i class="fa-solid fa-arrow-left"></i>
-                            <p class="hidden md:block">Volver</p>
+                <?php elseif ($user['rol_id'] == 3): ?>
+                    <li class="w-full">
+                        <a href="/page/shipments/" class="tooltip tooltip-right text-left flex gap-2 items-center justify-center md:justify-start <?= $current_page == "products" ? "bg-gradient-to-r from-violet-600/80 from-10% to-white to-90% font-semibold" : "" ?>" data-tip="Ver los productos del vendedor">
+                            <i class="fa-solid fa-truck"></i>
+                            <p class="hidden md:block">Envíos</p>
                         </a>
                     </li>
                 <?php endif; ?>
+            </div>
+            <div>
+                <?php if ($user['rol_id'] == 2): ?>
+                    <li>
+                        <a class="tooltip tooltip-right text-left flex gap-2 items-center justify-center md:justify-start" onclick="new_product_modal.showModal()" data-tip="Crear un nuevo producto">
+                            <i class="fa-solid fa-arrow-up-from-bracket"></i>
+                            <p class="hidden md:block">Subir producto</p>
+                        </a>
+                    </li>
+                <?php endif; ?>
+                <li>
+                    <a href="javascript:history.back()" class="flex ga-2 items-center justify-center md:justify-start">
+                        <i class="fa-solid fa-arrow-left"></i>
+                        <p class="hidden md:block">Volver</p>
+                    </a>
+                </li>
             </div>
         </ul>
     </div>
@@ -75,8 +84,8 @@
                 <div class="label">
                     <span class="label-text font-medium text-gray-700">Descripción:</span>
                 </div>
-                <textarea placeholder="Ingresa la descripción del producto" id="producto_descripcion" name="producto_descripcion" 
-                class="textarea textarea-bordered h-24 resize-none focus:outline-0 focus:border-violet-600 rounded"></textarea>
+                <textarea placeholder="Ingresa la descripción del producto" id="producto_descripcion" name="producto_descripcion"
+                    class="textarea textarea-bordered h-24 resize-none focus:outline-0 focus:border-violet-600 rounded"></textarea>
             </label>
 
             <label class="form-control w-full">

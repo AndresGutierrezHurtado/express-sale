@@ -330,6 +330,24 @@ class PageController
         require_once(__DIR__ . "/../views/layouts/stats.layout.php");
     }
 
+    public function shipments()
+    {
+        // MiddleWare
+        $id = isset($_GET['seller']) ? $_GET['seller'] : $_SESSION['usuario_id'];
+        if ($_SESSION['usuario_informacion']['estado'] == 'ocupado') header('location: /page/shipment/?shipment=' . $_SESSION['usuario_informacion']['pedido_id']);
+        if (! $_SESSION['usuario']['rol_id'] == 4 || ! $_SESSION['usuario']['rol_id'] == 3) header('location: /');
+
+        // Obtener las ordenes pendientes
+        $orders = $this->orderModel->getOrders("WHERE pedido_estado = 'pendiente'");
+        $user = $this->userModel->getById($id, "*", "INNER JOIN roles ON usuarios.rol_id = roles.rol_id INNER JOIN trabajadores ON usuarios.usuario_id = trabajadores.usuario_id");
+        
+        $title = "Domicilios";
+        $current_page = "products";
+        $content = __DIR__ . "/../views/pages/delivery/shipments.view.php";
+
+        require_once(__DIR__ . "/../views/layouts/stats.layout.php");
+    }
+
     public function seller_products()
     {
         // MiddleWare
@@ -359,7 +377,7 @@ class PageController
             );
         }
 
-        $title = "Estadísticas " . $user['rol_nombre'];
+        $title = "Productos " . $user['rol_nombre'];
         $current_page = "products";
         $content = __DIR__ . "/../views/pages/profile/seller_products.view.php";
 
@@ -533,21 +551,6 @@ class PageController
 
         $title = "Dashboard de productos";
         $content = __DIR__ . "/../views/pages/admin/dashboard_products.view.php";
-
-        require_once(__DIR__ . "/../views/layouts/guest.layout.php");
-    }
-
-    public function shipments()
-    {
-        // autenticación
-        if ($_SESSION['usuario_informacion']['estado'] == 'ocupado') header('location: /page/shipment/?shipment=' . $_SESSION['usuario_informacion']['pedido_id']);
-        if (! $_SESSION['usuario']['rol_id'] == 4 || ! $_SESSION['usuario']['rol_id'] == 3) header('location: /');
-
-        // obtener las ordenes pendientes
-        $orders = $this->orderModel->getOrders("WHERE pedido_estado = 'pendiente'");
-
-        $title = "Pedido";
-        $content = __DIR__ . "/../views/pages/delivery/shipments.view.php";
 
         require_once(__DIR__ . "/../views/layouts/guest.layout.php");
     }
