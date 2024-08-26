@@ -1,8 +1,8 @@
 <div class="drawer lg:drawer-open">
     <input id="my-drawer-2" type="checkbox" class="drawer-toggle" />
-    <div class="drawer-content flex flex-col items-center justify-center pr-5 py-5">
+    <div class="drawer-content flex flex-col items-center justify-center pr-5 py-5 max-h-[100dvh] overflow-y-auto">
         <!-- Main -->
-        <?php require_once($content); ?>        
+        <?php require_once($content); ?>
     </div>
     <div class="h-[100dvh] overflow-visible w-full max-w-[70px] md:max-w-[280px]">
         <ul class="menu min-h-full w-full bg-white py-5 p-1 md:px-3 flex flex-col justify-between text-lg">
@@ -10,7 +10,7 @@
                 <a href="/" class="w-full tooltip tooltip-right" data-tip="Ir a inicio">
                     <figure class="w-full max-w-[150px] aspect-square mx-auto">
                         <img src="/public/images/logo.png" alt="Logo express sale"
-                        class="object-contain h-full w-full">
+                            class="object-contain h-full w-full">
                     </figure>
                 </a>
             </div>
@@ -27,7 +27,7 @@
                         <p class="hidden md:block">Panel de <?= $user['rol_nombre'] ?></p>
                     </a>
                 </li>
-                <?php if($user['rol_id'] == 2): ?>
+                <?php if ($user['rol_id'] == 2): ?>
                     <li class="w-full">
                         <a class="tooltip tooltip-right text-left flex gap-2 items-center justify-center md:justify-start" data-tip="Ver los productos del vendedor">
                             <i class="fa-solid fa-boxes-stacked"></i>
@@ -43,7 +43,7 @@
                         <p class="hidden md:block">Subir producto</p>
                     </a>
                 </li>
-                <?php if($user['rol_id'] == 2): ?>
+                <?php if ($user['rol_id'] == 2): ?>
                     <li>
                         <a href="javascript:history.back()" class="flex ga-2 items-center justify-center md:justify-start">
                             <i class="fa-solid fa-arrow-left"></i>
