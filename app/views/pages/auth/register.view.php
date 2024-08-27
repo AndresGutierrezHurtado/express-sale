@@ -60,9 +60,9 @@
                     </div>
                 </div>
                 <div>
-                    <label for="usuario_contraseña" class="block text-sm font-medium text-gray-700">Contraseña</label>
+                    <label for="usuario_contra" class="block text-sm font-medium text-gray-700">Contraseña</label>
                     <div class="mt-1">
-                        <input id="usuario_contraseña" type="password" name="usuario_contraseña" autocomplete="current-password" required
+                        <input id="usuario_contra" type="password" name="usuario_contra" autocomplete="current-password" required
                             class="block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 placeholder-gray-400 shadow-sm focus:border-violet-500 focus:outline-none focus:ring-violet-500 sm:text-sm"
                             value="">
                     </div>

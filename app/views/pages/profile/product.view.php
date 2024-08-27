@@ -33,9 +33,9 @@
             <!-- Archivos multimedia -->
             <div class="bg-white p-5 space-y-4 rounded-lg shadow-lg w-full mx-auto">
                 <h1 class="text-lg uppercase tracking-tight font-bold">Archivos multimedia:</h1>
-                <?= count($multimedias) < 1 ? '<p class="text-gray-600 font-medium">Aún no hay archivos multimedia...</p>' : '' ?>
+                <?= count($product['multimedia']) < 1 ? '<p class="text-gray-600 font-medium">Aún no hay archivos multimedia...</p>' : '' ?>
                 <div class="divide-y divide-gray-300">
-                    <?php foreach($multimedias as $index => $file): ?>
+                    <?php foreach($product['multimedia'] as $index => $file): ?>
                         <article class="py-5 space-y-2">
                             <div class="w-[200px] h-[200px] border border-black rounded-lg shadow-lg flex items-center justify-center overflow-hidden mx-auto">
                                 <?php if ($file['multimedia_tipo'] == 'imagen'): ?>
@@ -115,7 +115,7 @@
                     class="block w-full border border-gray-300 shadow-sm rounded-lg text-sm focus:z-10 focus:border-blue-500 focus:ring-blue-500 bg-gray-200 cursor-pointer
                         disabled:opacity-50 disabled:pointer-events-none                        
                         file:bg-gray-50 file:border-0 file:mr-4 file:py-2 file:px-4 file:cursor-pointer"
-                        multiple disabled onchange="checkFileCount(this <?= ',' . $product['numero_multimedias'] ?>)">
+                        multiple disabled onchange="checkFileCount(this<?= ', ' . count($product['multimedia']) ?>)">
             </div>
 
             <div class="flex flex-col gap-1">

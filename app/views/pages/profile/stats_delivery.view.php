@@ -52,14 +52,14 @@
             </div>
         </article>
 
-        <nav class="flex flex-wrap gap-3">
+        <nav class="flex justify-center items-center flex-wrap gap-3">
             <!-- Cartas información -->
             <article class="min-w-[170px] w-fit p-4 flex flex-row items-center gap-4 card bg-base-100 stat text-center">
                 <div>
                     <i class="fa-solid fa-truck-ramp-box text-5xl"></i>
                 </div>
                 <div class="flex-grow">
-                    <div class="stat-value text-xl"><?= $result['cantidad_total_productos_vendidos'] ?></div>
+                    <div class="stat-value text-xl"><?= $result['cantidad_total_envios'] ?></div>
                     <div class="text-gray-500 leading-none">Domicilios realizados</div>
                 </div>
             </article>

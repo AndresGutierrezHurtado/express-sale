@@ -456,10 +456,6 @@
         }
     }
 
-    function toggleOptions(id) {
-        document.getElementById(id).classList.toggle('hidden');
-    }
-
     function toggleComments() {
         document.getElementById('comment-box').classList.toggle('hidden');
         visible = !visible;

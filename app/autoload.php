@@ -10,6 +10,7 @@ require_once(__DIR__ . "/router.php");
 // services
 require_once(__DIR__ . "/services/database.php");
 require_once(__DIR__ . "/services/orm.php");
+require_once(__DIR__ . "/services/controller.php");
 
 // models
 require_once(__DIR__ . "/models/user.php");

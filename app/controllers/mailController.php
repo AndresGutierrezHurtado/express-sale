@@ -1,16 +1,10 @@
 <?php
 
-class mailController
+class mailController extends Controller
 {
-    private $mailModel;
-    private $userModel;
-    protected $conn;
-
     public function __construct(PDO $conn)
     {
-        $this->mailModel = new Mailer();
-        $this->userModel = new User($conn);
-        $this->conn = $conn;
+        parent::__construct($conn);
     }
 
     public function footerForm()
@@ -30,7 +24,7 @@ class mailController
         $message .= "\n\nMensaje:";
         $message .= "\n" . $_POST['message'];
 
-        $result = $this->mailModel->send($to, $subject, $message);
+        $result = $this->mailerModel->send($to, $subject, $message);
 
         echo json_encode($result);
     }
@@ -66,7 +60,7 @@ class mailController
             include(__DIR__ . '/../views/mail/recover_account.mail.php');
             $message = ob_get_clean();
 
-            $result = $this->mailModel->send($to, $subject, $message);
+            $result = $this->mailerModel->send($to, $subject, $message);
 
             echo json_encode($result);
         } else {

@@ -1,15 +1,11 @@
 <?php
 
-class ProductController
+class ProductController extends Controller
 {
-
-    private $productModel;
-    private $multimediaModel;
 
     public function __construct(PDO $conn)
     {
-        $this->productModel = new Product($conn);
-        $this->multimediaModel = new Multimedia($conn);
+        parent::__construct($conn);
     }
 
     public function index()

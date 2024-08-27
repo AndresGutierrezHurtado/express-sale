@@ -1,16 +1,11 @@
 <?php
 
-class UserController
+class UserController extends Controller
 {
-    private $userModel;
-    private $withdrawModel;
-    protected $conn;
 
     public function __construct(PDO $conn)
     {
-        $this->userModel = new User($conn);
-        $this->withdrawModel = new Withdraw($conn);
-        $this->conn = $conn;
+        parent::__construct($conn);
     }
 
     public function index()
@@ -79,7 +74,7 @@ class UserController
 
     public function create()
     {
-        $_POST['usuario_contraseña'] = md5($_POST['usuario_contraseña']);
+        $_POST['usuario_contra'] = md5($_POST['usuario_contra']);
 
         $result = $this->userModel->insert($_POST);
 
@@ -118,7 +113,7 @@ class UserController
 
         if ($stmt->execute()) {
 
-            $result = $this->userModel->updateById($_POST['usuario_id'], ['usuario_contraseña' => md5($_POST['usuario_contraseña'])]);
+            $result = $this->userModel->updateById($_POST['usuario_id'], ['usuario_contra' => md5($_POST['usuario_contra'])]);
 
             echo json_encode($result);
         }

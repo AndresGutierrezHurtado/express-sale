@@ -9,13 +9,13 @@
                 <input type="hidden" name="token" value="<?= $_GET['token'] ?>">
                 <input type="hidden" name="usuario_id" value="<?= $result['usuario_id'] ?>">
                 <div class="space-y-1">
-                    <label for="usuario_contraseña" class="block text-sm font-medium text-gray-700">Contraseña</label>
-                    <input id="usuario_contraseña" name="usuario_contraseña" type="text" 
+                    <label for="usuario_contra" class="block text-sm font-medium text-gray-700">Contraseña</label>
+                    <input id="usuario_contra" name="usuario_contra" type="text" 
                     class="block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-violet-600 focus:outline-none sm:text-sm" required>
                 </div>
                 <div class="space-y-1">
-                    <label for="usuario_contraseña_confirmacion" class="block text-sm font-medium text-gray-700">Confirma contraseña</label>
-                    <input id="usuario_contraseña_confirmacion" type="text" 
+                    <label for="usuario_contra_confirmacion" class="block text-sm font-medium text-gray-700">Confirma contraseña</label>
+                    <input id="usuario_contra_confirmacion" type="text" 
                     class="block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-violet-600 focus:outline-none sm:text-sm" required>
                 </div>
                 
@@ -37,7 +37,7 @@ document.getElementById('resetPasswordForm').addEventListener('submit', function
     let data = new FormData(this);
 
     // Verificar que las contraseñas coincidan
-    if (document.getElementById('usuario_contraseña').value !== document.getElementById('usuario_contraseña_confirmacion').value) {
+    if (document.getElementById('usuario_contra').value !== document.getElementById('usuario_contra_confirmacion').value) {
         alert ('Las contraseñas no coinciden.');
         return;
     }

@@ -1,13 +1,11 @@
 <?php
 
-class CalificationController
+class CalificationController extends Controller
 {
-
-    private $calificationModel;
 
     public function __construct(PDO $conn)
     {
-        $this->calificationModel = new calification($conn);
+        parent::__construct($conn);
     }
 
     public function rate()

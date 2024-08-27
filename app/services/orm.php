@@ -19,13 +19,14 @@ class Orm
         try {
 
             $columns = implode(", ", array_keys($data));
-            $placeholders = ":" . implode(", :", array_keys($data));
+            $placeholders = ":" . implode(" , :", array_keys($data));
 
-            $sql = "INSERT INTO {$this->table} ({$columns}) VALUES ({$placeholders})";
+            $sql = "INSERT INTO {$this->table} ( {$columns} ) VALUES ( {$placeholders} )";
+
             $stmt = $this->db->prepare($sql);
 
             foreach ($data as $key => $value) {
-                $stmt->bindValue(":$key", $value);
+                $stmt->bindParam(":$key", $value);
             }
 
             $stmt->execute();
@@ -80,7 +81,7 @@ class Orm
     }
 
     // UPDATE
-    public function updateById($idValue, $data, $where = "")
+    public function updateById($idValue, $data, $inner_join = "", $where = "")
     {
         try {
             $columns = "";
@@ -89,7 +90,7 @@ class Orm
             }
             $columns = rtrim($columns, ", ");
 
-            $sql = "UPDATE {$this->table} SET {$columns} WHERE {$this->id} = :id";
+            $sql = "UPDATE {$this->table} {$inner_join} SET {$columns} WHERE {$this->table}.{$this->id} = :id";
 
             if ($where) {
                 $sql .= " AND {$where}";
@@ -102,7 +103,9 @@ class Orm
                 $stmt->bindValue(":$key", $value);
             }
 
-            return $stmt->execute();
+            $stmt->execute();
+            
+            return ['success' => true, 'message' => 'La actualización se realizó correctamente.'];
         } catch (Exception $e) {
             return ['success' => false, 'message' => 'Error al actualizar los datos.', 'error' => $e->getMessage()];
         }
@@ -115,7 +118,9 @@ class Orm
             $sql = "DELETE FROM {$this->table} WHERE {$this->id} = :id";
             $stmt = $this->db->prepare($sql);
             $stmt->bindValue(':id', $idValue);
-            return $stmt->execute();
+            $stmt->execute();
+
+            return ['success' => true, 'message' => 'La eliminación se realizó correctamente.'];
         } catch (Exception $e) {
             return ['success' => false, 'message' => 'Error al borrar los datos.', 'error' => $e->getMessage()];
         }

@@ -1,24 +1,10 @@
 <?php
-class PageController
+class PageController extends Controller
 {
-
-    private $productModel;
-    private $userModel;
-    private $cartModel;
-    private $orderModel;
-    private $calificationModel;
-    private $multimediaModel;
-    protected $conn;
 
     public function __construct(PDO $conn)
     {
-        $this->productModel = new Product($conn);
-        $this->userModel = new User($conn);
-        $this->cartModel = new Cart($conn);
-        $this->orderModel = new Order($conn);
-        $this->calificationModel = new Calification($conn);
-        $this->multimediaModel = new Multimedia($conn);
-        $this->conn = $conn;
+        parent::__construct($conn);
     }
 
     public function home()
@@ -118,10 +104,10 @@ class PageController
     public function products()
     {
         $page = isset($_GET['page']) ? $_GET['page'] : 1;
-        
+
         // Búsqueda
         $search = isset($_GET['search']) ? "(producto_nombre LIKE '%" . $_GET['search'] . "%' OR producto_descripcion LIKE '%" . $_GET['search'] . "%' OR usuarios.usuario_alias LIKE '%" . $_GET['search'] . "%') AND" : "";
-        
+
         // filtros y sorts
         $categoria = isset($_GET['categoria']) ? " categorias.categoria_id = " . $_GET['categoria'] . " AND" : "";
 
@@ -145,7 +131,7 @@ class PageController
         // Order By
         $sort = isset($_GET['sort']) ? $_GET['sort'] : 'calificacion_promedio';
         $sortQuery = $sort == 'producto_precio' ? "$sort ASC " :  "$sort DESC";
-        
+
         $products = $this->productModel->paginate($page, 5, $select, $inner_join, "$search $categoria $minmax", $sortQuery, "productos.producto_id");
 
         $title = "Productos";
@@ -190,18 +176,18 @@ class PageController
             "*",
             " INNER JOIN calificaciones_usuarios ON calificaciones.calificacion_id = calificaciones_usuarios.calificacion_id
             INNER JOIN usuarios ON calificaciones.usuario_id = usuarios.usuario_id ",
-            "WHERE calificaciones_usuarios.usuario_id = " . $seller['usuario_id']
+            "calificaciones_usuarios.usuario_id = " . $seller['usuario_id']
         );
 
         // productos vendedor
         $page = isset($_GET['page']) ? $_GET['page'] : 1;
 
         $products = $this->productModel->paginate(
-            $page, 
-            5, 
+            $page,
+            5,
             "productos.*, usuarios.usuario_alias,
             COUNT(calificaciones_productos.producto_id) AS numero_calificaciones,
-            ROUND(IFNULL(AVG(calificaciones.calificacion), 0), 2) AS calificacion_promedio ", 
+            ROUND(IFNULL(AVG(calificaciones.calificacion), 0), 2) AS calificacion_promedio ",
             " INNER JOIN categorias ON productos.categoria_id = categorias.categoria_id
             INNER JOIN usuarios ON productos.usuario_id = usuarios.usuario_id
             LEFT JOIN calificaciones_productos ON productos.producto_id = calificaciones_productos.producto_id
@@ -248,7 +234,7 @@ class PageController
             "*",
             " INNER JOIN calificaciones_usuarios ON calificaciones.calificacion_id = calificaciones_usuarios.calificacion_id
             INNER JOIN usuarios ON calificaciones.usuario_id = usuarios.usuario_id ",
-            "WHERE calificaciones_usuarios.usuario_id = " . $user['usuario_id']
+            "calificaciones_usuarios.usuario_id = " . $user['usuario_id']
         );
 
         $title = "Domiciliario";
@@ -272,7 +258,6 @@ class PageController
         $inner_join_user = " INNER JOIN roles ON usuarios.rol_id = roles.rol_id
         LEFT JOIN trabajadores ON usuarios.usuario_id = trabajadores.usuario_id ";
         $user = $this->userModel->getById($id, $select_user, $inner_join_user);
-        var_dump($user);
 
         // Orders
         $orders = $this->orderModel->getOrders("pedidos.usuario_id = $id");
@@ -301,10 +286,12 @@ class PageController
         if ($user['rol_id'] == 2) {
             $result = $this->userModel->getSellerInfo($id, $user['trabajador_id'], isset($_GET['año']) ? $_GET['año'] : null);
             $result['cantidad_pedidos_pendientes'] = count($this->orderModel->getOrders("vendedores.usuario_id = $id AND pedidos.pedido_estado = 'Pendiente'"));
-            $result['cantidad_total_productos'] = count($this->productModel->getAll(
-                "*", 
-                "INNER JOIN categorias ON productos.categoria_id = categorias.categoria_id", 
-                "WHERE productos.usuario_id = $id")
+            $result['cantidad_total_productos'] = count(
+                $this->productModel->getAll(
+                    "*",
+                    "INNER JOIN categorias ON productos.categoria_id = categorias.categoria_id",
+                    "productos.usuario_id = $id"
+                )
             );
 
             $content = __DIR__ . "/../views/pages/profile/stats_seller.view.php";
@@ -372,18 +359,10 @@ class PageController
 
     public function product_profile()
     {
-        // obtener datos del producto
-        $select_products = "productos.*,
-        COUNT(multimedias.producto_id) AS numero_multimedias";
+        $product = $this->productModel->getProduct($_GET['producto']);
 
-        $product = $this->productModel->getById($_GET['producto'], $select_products, " LEFT JOIN multimedias ON productos.producto_id = multimedias.producto_id ");
-
-        // obtener multimedias
-        $multimedias = $this->multimediaModel->getAll("*", "", "WHERE producto_id = " . $product['producto_id']);
-
-        // // MiddleWare
-        $isAdmin = $_SESSION['usuario']['rol_id'] == 4 || $_SESSION['usuario_id'] == $product['usuario_id'] ? true : false;
-        if (!$isAdmin) {
+        // MiddleWare
+        if (!$_SESSION['usuario']['rol_id'] == 4 || !$_SESSION['usuario_id'] == $product['usuario_id']) {
             header('location: /');
             exit();
         }
@@ -427,7 +406,7 @@ class PageController
         INNER JOIN productos_pedidos ON pedidos.pedido_id = productos_pedidos.pedido_id 
         INNER JOIN productos ON productos_pedidos.producto_id = productos.producto_id";
 
-        $orders_consulta = $this->orderModel->getAll($select_orders, $inner_join_orders, "WHERE pedidos.pedido_id = $id ");
+        $orders_consulta = $this->orderModel->getAll($select_orders, $inner_join_orders, "pedidos.pedido_id = $id ");
 
         $order = [];
 
@@ -489,9 +468,9 @@ class PageController
         $sort = isset($_GET['sort']) ? $_GET['sort'] : 'usuario_id';
 
         $users = $this->userModel->paginate(
-            $page, 
-            5, 
-            "*", 
+            $page,
+            5,
+            "*",
             "INNER JOIN roles ON usuarios.rol_id = roles.rol_id",
             "$search",
             "$sort ASC"

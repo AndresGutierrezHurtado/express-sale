@@ -1,25 +1,11 @@
 <?php
 
-class orderController
+class orderController extends Controller
 {
-
-    private $orderModel;
-    private $soldProductModel;
-    private $cartModel;
-    private $paymentDetailsModel;
-    private $shippingDetailsModel;
-    private $productModel;
-    protected $conn;
 
     public function __construct(PDO $conn)
     {
-        $this->orderModel = new Order($conn);
-        $this->soldProductModel = new SoldProduct($conn);
-        $this->paymentDetailsModel = new PaymentDetails($conn);
-        $this->shippingDetailsModel = new ShippingDetails($conn);
-        $this->productModel = new Product($conn);
-        $this->cartModel = new Cart($conn);
-        $this->conn = $conn;
+        parent::__construct($conn);
     }
 
     public function response()
@@ -117,13 +103,14 @@ class orderController
         $data = $_POST;
         // eliminar pedido_id de la información
         unset($data['pedido_id']);
+        
         $data['fecha_entrega'] = date('Y-m-d H:i:s');
 
         $result = $this->orderModel->updateById(
             $_POST['pedido_id'],
             $data,
             "INNER JOIN detalles_envios ON pedidos.pedido_id = detalles_envios.pedido_id
-        LEFT JOIN trabajadores ON detalles_envios.trabajador_id = trabajadores.trabajador_id"
+            LEFT JOIN trabajadores ON detalles_envios.trabajador_id = trabajadores.trabajador_id"
         );
 
         echo json_encode($result);

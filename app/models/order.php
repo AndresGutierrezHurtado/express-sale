@@ -85,7 +85,7 @@ class Order extends Orm
         LEFT JOIN trabajadores ON detalles_envios.trabajador_id = trabajadores.trabajador_id
         LEFT JOIN usuarios as domiciliarios ON trabajadores.usuario_id = domiciliarios.usuario_id";
 
-        $orders_consulta = $this->getAll($select_orders, $inner_join_orders, "WHERE pedidos.pedido_id = $id");
+        $orders_consulta = $this->getAll($select_orders, $inner_join_orders, "pedidos.pedido_id = $id");
 
         $orders = [];
 

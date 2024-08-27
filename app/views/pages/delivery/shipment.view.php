@@ -5,11 +5,16 @@
         // Coordenadas y opciones del mapa
         var map = new google.maps.Map(document.getElementById('map'), {
             zoom: 10,
-            center: {lat: 0, lng: 0},
+            center: {
+                lat: 0,
+                lng: 0
+            },
         });
 
         var directionsService = new google.maps.DirectionsService();
-        var directionsRenderer = new google.maps.DirectionsRenderer({ map: map });
+        var directionsRenderer = new google.maps.DirectionsRenderer({
+            map: map
+        });
 
         // Obtener ubicación
         function getCurrentLocation(callback) {
@@ -90,14 +95,13 @@
             }
         });
     }
-
 </script>
 
 <div class="container mx-auto py-8">
     <?php if ($order['pedido_estado'] == 'entregado' || $order['pedido_estado'] == 'recibido') : ?>
         <div class="flex flex-col gap-5 justify-center items-center">
             <h1 class="text-center font-bold text-3xl tracking-tight"> este envío ya fue realizado.</h1>
-            <a href="/page/shipments"><button class="text-md flex gap-3 font-semibold items-center rounded-full border-2 border-red-500 px-4 p-1 text-red-500"> <i class ="fa-solid fa-angle-left"></i> Volver</button></a>
+            <a href="/page/shipments"><button class="text-md flex gap-3 font-semibold items-center rounded-full border-2 border-red-500 px-4 p-1 text-red-500"> <i class="fa-solid fa-angle-left"></i> Volver</button></a>
         </div>
     <?php else : ?>
         <!-- Encabezado: información del destinatario -->
@@ -112,17 +116,17 @@
         <div class="bg-white p-4 shadow-md rounded-md mb-8 space-y-4">
             <h2 class="text-2xl font-bold mb-2">Productos a entregar</h2>
             <ul>
-                <?php foreach($order['productos'] as $producto): ?>
+                <?php foreach ($order['productos'] as $producto): ?>
                     <li class="flex justify-between items-center py-2">
                         <div>
-                            <p class="font-semibold"> (<?= $producto['producto_cantidad'] ?>) <?= $producto['producto_nombre'] ?> | <?= number_format($producto['producto_precio'])?> COP por producto</p>
-                            <p class="text-gray-600">Vendedor: <a href="/page/sellers/?seller=<?= $producto['usuario_id'] ?>"><?= $producto['usuario_alias'] ?></a>  </p>
+                            <p class="font-semibold"> (<?= $producto['producto_cantidad'] ?>) <?= $producto['producto_nombre'] ?> | <?= number_format($producto['producto_precio']) ?> COP por producto</p>
+                            <p class="text-gray-600">Vendedor: <a href="/page/sellers/?seller=<?= $producto['usuario_id'] ?>"><?= $producto['usuario_alias'] ?></a> </p>
                         </div>
                         <p class="font-semibold"><?= $producto['usuario_direccion'] ?></p>
                     </li>
                 <?php endforeach; ?>
             </ul>
-            
+
             <hr>
 
             <h2 class="text-2xl font-bold mb-2">Destino</h2>
@@ -134,7 +138,7 @@
                     </div>
                     <p class="font-semibold"><?= $order['envio_direccion'] ?></p>
                 </li>
-            </ul>  
+            </ul>
         </div>
 
         <!-- Mapa con la ruta a las tiendas -->
@@ -147,25 +151,25 @@
             <!-- Botón para abrir la ruta en Waze -->
             <div class="text-center mt-5 flex gap-4 justify-center items-center">
                 <button id="openWazeBtn" class="font-semibold flex gap-2 items-center text-blue-500 px-5 p-2 rounded-full border-2 border-blue-500 hover:bg-gray-200 duration-300">
-                <i class="fas fa-map-marked-alt"></i> Abrir Ruta en Waze
+                    <i class="fas fa-map-marked-alt"></i> Abrir Ruta en Waze
                 </button>
             </div>
 
             <!-- Botón para abrir la ruta en Google Maps -->
             <div class="text-center mt-2 flex ga-4 justify-center items-center">
                 <button id="openRouteBtn" class="font-semibold flex gap-2 items-center text-blue-500 px-5 p-2 rounded-full border-2 border-blue-500 hover:bg-gray-200 duration-300">
-                <i class="fas fa-map-marked-alt"></i> Abrir Ruta en Google maps
+                    <i class="fas fa-map-marked-alt"></i> Abrir Ruta en Google maps
                 </button>
             </div>
         </div>
 
         <div class="text-center">
-            <button id="submit-delivery-button" class="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded" data-order_id="<?= $_GET['shipment']?>">
+            <button id="submit-delivery-button" class="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded" data-order_id="<?= $_GET['shipment'] ?>">
                 <i class="fas fa-check-circle mr-2"></i> Marcar como terminado
             </button>
         </div>
 
-    <?php endif;?>
+    <?php endif; ?>
 </div>
 
 <script>
@@ -175,7 +179,7 @@
             navigator.geolocation.getCurrentPosition(function(position) {
                 var routeURL = 'https://www.google.com/maps/dir/' + position.coords.latitude + ',' + position.coords.longitude + '/';
                 var waypoints = <?= json_encode($order['productos']) ?>;
-                
+
                 // Agregar los waypoints a la URL de Google Maps
                 waypoints.forEach(function(waypoint) {
                     if (waypoint.usuario_direccion) {
@@ -232,37 +236,37 @@
         data.append('pedido_estado', 'entregado');
 
         fetch('/order/update', {
-            method: 'POST',
-            body: data 
-        })
-        .then(response => response.json())
-        .then(data => { 
-            if (data.success) {
-                updateDelivery();
-            } else {
-                alert('Error al terminar el envío: ' + data.message);
-            }
-        })
+                method: 'POST',
+                body: data
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    updateDelivery();
+                } else {
+                    alert('Error al terminar el envío: ' + data.error);
+                }
+            })
     });
 
     function updateDelivery() {
         const data = new FormData();
 
         data.append('usuario_id', '<?= $_SESSION['usuario_id'] ?>');
-        data.append('trabajador_numero_trabajos', '<?= $trabajador['trabajador_numero_trabajos'] ?>' );
+        data.append('trabajador_numero_trabajos', '<?= $trabajador['trabajador_numero_trabajos'] ?>');
 
         fetch('/user/update', {
-            method: 'POST',
-            body: data 
-        }) 
-        .then(response => response.json())
-        .then(data => { 
-            if (data.success) {   
-                alert('Envío terminado.');
-                window.location.href="/page/shipments";
-            } else {
-                alert('Error al terminar el envío: ' + data.message);
-            }
-        })
+                method: 'POST',
+                body: data
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    alert('Envío terminado.');
+                    window.location.href = "/page/shipments";
+                } else {
+                    alert('Error al terminar el envío: ' + data.error);
+                }
+            })
     }
 </script>

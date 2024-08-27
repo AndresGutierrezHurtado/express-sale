@@ -31,7 +31,7 @@
             <div>
                 <label for="user_password" class="block text-sm font-medium text-gray-700">Contraseña</label>
                 <div class="mt-1"> 
-                    <input id="user_password" name="usuario_contraseña" type="password" autocomplete="current-password" 
+                    <input id="user_password" name="usuario_contra" type="password" autocomplete="current-password" 
                     class="block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-violet-600 focus:outline-none sm:text-sm" required>
                 </div>
             </div>

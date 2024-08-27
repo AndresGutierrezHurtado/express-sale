@@ -11,9 +11,11 @@ registerForm.addEventListener('submit', (e) => {
     })
     .then(response => response.json())
     .then(data => {
-        alert(data.message);
         if (data.success) {
+            alert(data.message);
             window.location.href = '/page/login';
+        } else {
+            alert(data.error);
         }
     });
 
