@@ -2,7 +2,7 @@
 
 class User extends Orm
 {
-    public function __construct(mysqli $conn)
+    public function __construct(PDO $conn)
     {
         parent::__construct('usuario_id', 'usuarios', $conn);
     }
@@ -10,12 +10,16 @@ class User extends Orm
     public function auth($data)
     {
         $username = $data['usuario_alias'];
-        $query = "SELECT * FROM $this->table WHERE usuario_alias = '$username' OR usuario_correo = '$username'";
-        $result = $this->db->query($query);
+        $sql = "SELECT * FROM $this->table WHERE usuario_alias = :username OR usuario_correo = :username";
 
-        if ($result && $result->num_rows > 0) {
-            $user = $result->fetch_assoc();
-            if (md5($data["usuario_contraseña"]) === $user["usuario_contraseña"]) {
+        $stmt = $this->db->prepare($sql);
+        $stmt->bindValue(':username', $username);
+        $stmt->execute();
+
+        $user = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        if (COUNT($user) > 0) {
+            if (md5($data["usuario_contra"]) === $user["usuario_contra"]) {
                 // Variables de sesión de usuarios
                 $_SESSION["usuario_id"] = $user["usuario_id"];
 
@@ -33,111 +37,124 @@ class User extends Orm
 
     public function auth_google($data)
     {
-        $data = [
-            'usuario_correo' => $data['email'],
-            'usuario_nombre' => $data['given_name'],
-            'usuario_apellido' => $data['family_name'],
-            'usuario_alias' => explode(" ", $data['given_name'])[0] . '_' . explode(" ", $data['family_name'])[0],
-            'usuario_imagen_url' => $data['picture'],
-        ];
+        try {
 
-        // verificar si existe un suaurio con ese correo
-        $query = "SELECT * FROM $this->table WHERE usuario_correo = '" . $data['usuario_correo'] . "'";
-        $result = $this->db->query($query);
+            $data = [
+                'usuario_correo' => $data['email'],
+                'usuario_nombre' => $data['given_name'],
+                'usuario_apellido' => $data['family_name'],
+                'usuario_alias' => explode(" ", $data['given_name'])[0] . '_' . explode(" ", $data['family_name'])[0],
+                'usuario_imagen_url' => $data['picture'],
+            ];
 
-        if ($result && $result->num_rows > 0) {
-            $user = $result->fetch_assoc();
-            $_SESSION["usuario_id"] = $user["usuario_id"];
+            // verificar si existe un suaurio con ese correo
+            $sql = "SELECT * FROM $this->table WHERE usuario_correo = :email";
 
-            $_SESSION["carrito"] = array();
-            $_SESSION["usuario_informacion"] = ['estado' => 'libre'];
+            $stmt = $this->db->prepare($sql);
+            $stmt->bindValue(':email', $data['usuario_correo']);
+            $stmt->execute();
 
-            return ['success' => true, 'message' => 'La inserción se realizó correctamente.'];
-        } else {
-            $result = $this->insert($data);
+            $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
-            if ($result['success']) {
-                $user = $this->getById($result['last_id']);
-
+            if (COUNT($user) > 0) {
                 $_SESSION["usuario_id"] = $user["usuario_id"];
 
                 $_SESSION["carrito"] = array();
                 $_SESSION["usuario_informacion"] = ['estado' => 'libre'];
 
                 return ['success' => true, 'message' => 'La inserción se realizó correctamente.'];
+            } else {
+                $result = $this->insert($data);
+
+                if ($result['success']) {
+                    $user = $this->getById($result['last_id']);
+
+                    $_SESSION["usuario_id"] = $user["usuario_id"];
+
+                    $_SESSION["carrito"] = array();
+                    $_SESSION["usuario_informacion"] = ['estado' => 'libre'];
+
+                    return ['success' => true, 'message' => 'La inserción se realizó correctamente.'];
+                }
             }
+        } catch (Exception $e) {
+            return ['success' => false, 'message' => 'Error al obtener los datos.', 'error' => $e->getMessage()];
         }
     }
 
     public function getSellerInfo($vendedorId, $trabajadorId, $año = null)
     {
         $result = [];
-    
-        // obtener las ventas del vendedor
-        if ($año === null) {
+
+        $sql = "
+        SELECT 
+            YEAR(date_range.date) AS año,
+            MONTH(date_range.date) AS mes,
+            COALESCE(SUM(IF(productos.usuario_id = :vendedor_id, productos_pedidos.producto_cantidad, 0)), 0) AS numero_productos,
+            COALESCE(SUM(IF(productos.usuario_id = :vendedor_id, productos_pedidos.producto_precio * productos_pedidos.producto_cantidad, 0)), 0) AS dinero_ventas
+        FROM (
+            SELECT DATE_ADD(CURRENT_DATE(), INTERVAL -i MONTH) AS date
+            FROM (
+                SELECT 0 AS i UNION ALL
+                SELECT 1 UNION ALL
+                SELECT 2 UNION ALL
+                SELECT 3 UNION ALL
+                SELECT 4 UNION ALL
+                SELECT 5 UNION ALL
+                SELECT 6 UNION ALL
+                SELECT 7 UNION ALL
+                SELECT 8 UNION ALL
+                SELECT 9 UNION ALL
+                SELECT 10 UNION ALL
+                SELECT 11
+            ) AS months
+        ) AS date_range
+        LEFT JOIN pedidos ON YEAR(pedidos.pedido_fecha) = YEAR(date_range.date) 
+                           AND MONTH(pedidos.pedido_fecha) = MONTH(date_range.date)
+        LEFT JOIN productos_pedidos ON productos_pedidos.pedido_id = pedidos.pedido_id
+        LEFT JOIN productos ON productos_pedidos.producto_id = productos.producto_id 
+                             AND productos.usuario_id = :vendedor_id
+        GROUP BY YEAR(date_range.date), MONTH(date_range.date)
+        ORDER BY YEAR(date_range.date), MONTH(date_range.date)
+        ";
+
+        if ($año) {
             $sql = "
             SELECT 
-                YEAR(date_range.date) AS año,
-                MONTH(date_range.date) AS mes,
-                COALESCE(SUM(IF(productos.usuario_id = $vendedorId, productos_pedidos.producto_cantidad, 0)), 0) AS numero_productos,
-                COALESCE(SUM(IF(productos.usuario_id = $vendedorId, productos_pedidos.producto_precio * productos_pedidos.producto_cantidad, 0)), 0) AS dinero_ventas
+                :year AS año,
+                meses.mes AS mes,
+                COALESCE(SUM(IF(productos.usuario_id = :vendedor_id, productos_pedidos.producto_cantidad, 0)), 0) AS numero_productos,
+                COALESCE(SUM(IF(productos.usuario_id = :vendedor_id, productos_pedidos.producto_precio * productos_pedidos.producto_cantidad, 0)), 0) AS dinero_ventas
             FROM (
-                SELECT DATE_ADD(CURRENT_DATE(), INTERVAL -i MONTH) AS date
-                FROM (
-                    SELECT 0 AS i UNION ALL
-                    SELECT 1 UNION ALL
-                    SELECT 2 UNION ALL
-                    SELECT 3 UNION ALL
-                    SELECT 4 UNION ALL
-                    SELECT 5 UNION ALL
-                    SELECT 6 UNION ALL
-                    SELECT 7 UNION ALL
-                    SELECT 8 UNION ALL
-                    SELECT 9 UNION ALL
-                    SELECT 10 UNION ALL
-                    SELECT 11
-                ) AS months
-            ) AS date_range
-            LEFT JOIN pedidos ON YEAR(pedidos.pedido_fecha) = YEAR(date_range.date) 
-                               AND MONTH(pedidos.pedido_fecha) = MONTH(date_range.date)
+                SELECT 1 AS mes UNION ALL
+                SELECT 2 UNION ALL
+                SELECT 3 UNION ALL
+                SELECT 4 UNION ALL
+                SELECT 5 UNION ALL
+                SELECT 6 UNION ALL
+                SELECT 7 UNION ALL
+                SELECT 8 UNION ALL
+                SELECT 9 UNION ALL
+                SELECT 10 UNION ALL
+                SELECT 11 UNION ALL
+                SELECT 12
+            ) AS meses                
+            LEFT JOIN pedidos ON MONTH(pedidos.pedido_fecha) = meses.mes AND YEAR(pedidos.pedido_fecha) = :year 
             LEFT JOIN productos_pedidos ON productos_pedidos.pedido_id = pedidos.pedido_id
-            LEFT JOIN productos ON productos_pedidos.producto_id = productos.producto_id 
-                                 AND productos.usuario_id = $vendedorId
-            GROUP BY YEAR(date_range.date), MONTH(date_range.date)
-            ORDER BY YEAR(date_range.date), MONTH(date_range.date)
-        ";
-        } else {
-            $sql = "
-                SELECT 
-                    $año AS año,
-                    meses.mes AS mes,
-                    COALESCE(SUM(IF(productos.usuario_id = $vendedorId, productos_pedidos.producto_cantidad, 0)), 0) AS numero_productos,
-                    COALESCE(SUM(IF(productos.usuario_id = $vendedorId, productos_pedidos.producto_precio * productos_pedidos.producto_cantidad, 0)), 0) AS dinero_ventas
-                FROM (
-                    SELECT 1 AS mes UNION ALL
-                    SELECT 2 UNION ALL
-                    SELECT 3 UNION ALL
-                    SELECT 4 UNION ALL
-                    SELECT 5 UNION ALL
-                    SELECT 6 UNION ALL
-                    SELECT 7 UNION ALL
-                    SELECT 8 UNION ALL
-                    SELECT 9 UNION ALL
-                    SELECT 10 UNION ALL
-                    SELECT 11 UNION ALL
-                    SELECT 12
-                ) AS meses
-                LEFT JOIN pedidos ON MONTH(pedidos.pedido_fecha) = meses.mes 
-                                   AND YEAR(pedidos.pedido_fecha) = $año
-                LEFT JOIN productos_pedidos ON productos_pedidos.pedido_id = pedidos.pedido_id
-                LEFT JOIN productos ON productos_pedidos.producto_id = productos.producto_id 
-                                     AND productos.usuario_id = $vendedorId
-                GROUP BY meses.mes
-                ORDER BY meses.mes
+            LEFT JOIN productos ON productos_pedidos.producto_id = productos.producto_id AND productos.usuario_id = :vendedor_id
+            GROUP BY meses.mes
+            ORDER BY meses.mes
             ";
         }
-    
-        $result['ventas_mensuales'] = $this->db->query($sql)->fetch_all(MYSQLI_ASSOC);
+
+        $stmt = $this->db->prepare($sql);
+        if ($año !== null) {
+            $stmt->bindValue(':year', $año, PDO::PARAM_INT);
+        }
+        $stmt->bindValue(':vendedor_id', $vendedorId, PDO::PARAM_INT);
+        $stmt->execute();
+
+        $result['ventas_mensuales'] = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
         // Cantidad total de productos vendidos
         $sql = "
@@ -145,9 +162,13 @@ class User extends Orm
         FROM productos_pedidos 
         INNER JOIN productos ON productos_pedidos.producto_id = productos.producto_id 
         INNER JOIN usuarios ON productos.usuario_id = usuarios.usuario_id
-        WHERE usuarios.usuario_id = $vendedorId
+        WHERE usuarios.usuario_id = :vendedor_id
         ";
-        $result['cantidad_total_productos_vendidos'] = $this->db->query($sql)->fetch_assoc();
+
+        $stmt = $this->db->prepare($sql);
+        $stmt->bindValue(':vendedor_id', $vendedorId);
+        $stmt->execute();
+        $result['cantidad_total_productos_vendidos'] = $stmt->fetch(PDO::FETCH_ASSOC);
 
         // Todos los pedidos con productos del vendedor
         $sql = "
@@ -162,7 +183,9 @@ class User extends Orm
         INNER JOIN usuarios ON pedidos.usuario_id = usuarios.usuario_id
         WHERE productos.usuario_id = 2;
         ";
-        $tmp_result = $this->db->query($sql)->fetch_all(MYSQLI_ASSOC);
+        $stmt = $this->db->prepare($sql);
+        $stmt->execute();
+        $tmp_result = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
         $result['todos_los_pedidos'] = [];
 
@@ -191,26 +214,34 @@ class User extends Orm
         }
 
         // Productos más vendidos
-
         $sql = "
         SELECT productos.producto_id, productos.producto_nombre, productos.producto_imagen_url, COALESCE(SUM(productos_pedidos.producto_cantidad), 0) AS numero_ventas 
         FROM productos
         LEFT JOIN productos_pedidos ON productos_pedidos.producto_id = productos.producto_id
-        WHERE productos.usuario_id = $vendedorId
+        WHERE productos.usuario_id = :vendedor_id
         GROUP BY productos.producto_id
         ORDER BY numero_ventas DESC
         ";
-        $result['productos_mas_vendidos'] = $this->db->query($sql)->fetch_all(MYSQLI_ASSOC);
+
+        $stmt = $this->db->prepare($sql);
+        $stmt->bindValue(':vendedor_id', $vendedorId);
+        $stmt->execute();
+        $result['productos_mas_vendidos'] = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
         // Verificar retiros
         $sql = "
         SELECT COUNT(*) AS retiros_mes
         FROM retiros
-        WHERE trabajador_id = $trabajadorId
+        WHERE trabajador_id = :trabajador_id
         AND MONTH(retiro_fecha) = MONTH(CURRENT_DATE())
         AND YEAR(retiro_fecha) = YEAR(CURRENT_DATE());
         ";
-        $result['retiros_mes'] = $this->db->query($sql)->fetch_assoc()['retiros_mes'];
+
+        $stmt = $this->db->prepare($sql);
+        $stmt->bindValue(':trabajador_id', $trabajadorId);
+        $stmt->execute();
+
+        $result['retiros_mes'] = $stmt->fetch(PDO::FETCH_ASSOC)['retiros_mes'];
 
         return $result;
     }
@@ -218,15 +249,15 @@ class User extends Orm
     public function getDeliveryInfo($vendedorId, $trabajadorId, $año = null)
     {
         $result = [];
-    
+
         // obtener las ventas del vendedor
         if ($año === null) {
             $sql = "
             SELECT
                 YEAR(date_range.date) AS año,
                 MONTH(date_range.date) AS mes,
-                COALESCE(SUM(IF(detalles_envios.trabajador_id = $trabajadorId AND pedidos.pedido_estado = 'recibido', 1, 0)), 0) as numero_envios,
-                COALESCE(SUM(IF(detalles_envios.trabajador_id = $trabajadorId AND pedidos.pedido_estado = 'recibido', detalles_envios.envio_valor, 0)), 0) as dinero_envios
+                COALESCE(SUM(IF(detalles_envios.trabajador_id = :trabajador_id AND pedidos.pedido_estado = 'recibido', 1, 0)), 0) as numero_envios,
+                COALESCE(SUM(IF(detalles_envios.trabajador_id = :trabajador_id AND pedidos.pedido_estado = 'recibido', detalles_envios.envio_valor, 0)), 0) as dinero_envios
             FROM (
                 SELECT DATE_ADD(CURRENT_DATE(), INTERVAL -i MONTH) AS date
                 FROM (
@@ -246,7 +277,7 @@ class User extends Orm
             ) AS date_range
             LEFT JOIN detalles_envios ON YEAR(detalles_envios.fecha_inicio) = YEAR(date_range.date) 
             AND MONTH(detalles_envios.fecha_inicio) = MONTH(date_range.date) 
-            AND detalles_envios.trabajador_id = $trabajadorId
+            AND detalles_envios.trabajador_id = :trabajador_id
             LEFT JOIN pedidos ON detalles_envios.pedido_id = pedidos.pedido_id AND pedidos.pedido_estado = 'recibido'
             GROUP BY YEAR(date_range.date), MONTH(date_range.date)
             ORDER BY YEAR(date_range.date), MONTH(date_range.date);
@@ -254,10 +285,10 @@ class User extends Orm
         } else {
             $sql = "
             SELECT 
-                $año AS año,
+                :year AS año,
                 meses.mes AS mes,
-                COALESCE(SUM(IF(detalles_envios.trabajador_id = $trabajadorId AND pedidos.pedido_estado = 'recibido', 1, 0)), 0) as numero_envios,
-                COALESCE(SUM(IF(detalles_envios.trabajador_id = $trabajadorId AND pedidos.pedido_estado = 'recibido', detalles_envios.envio_valor, 0)), 0) as dinero_envios
+                COALESCE(SUM(IF(detalles_envios.trabajador_id = :trabajador_id AND pedidos.pedido_estado = 'recibido', 1, 0)), 0) as numero_envios,
+                COALESCE(SUM(IF(detalles_envios.trabajador_id = :trabajador_id AND pedidos.pedido_estado = 'recibido', detalles_envios.envio_valor, 0)), 0) as dinero_envios
             FROM (
                 SELECT 1 AS mes UNION ALL
                 SELECT 2 UNION ALL
@@ -273,32 +304,46 @@ class User extends Orm
                 SELECT 12
             ) AS meses                
             LEFT JOIN detalles_envios ON MONTH(detalles_envios.fecha_inicio) = meses.mes 
-                                AND YEAR(detalles_envios.fecha_inicio) = $año AND detalles_envios.trabajador_id = $trabajadorId
+                                AND YEAR(detalles_envios.fecha_inicio) = :year AND detalles_envios.trabajador_id = :trabajador_id
             LEFT JOIN pedidos ON detalles_envios.pedido_id = pedidos.pedido_id AND pedidos.pedido_estado = 'recibido'
             GROUP BY meses.mes
             ORDER BY meses.mes
             ";
         }
-    
-        $result['domicilios_mensuales'] = $this->db->query($sql)->fetch_all(MYSQLI_ASSOC);
+
+        $stmt = $this->db->prepare($sql);
+        $stmt->bindValue(':trabajador_id', $trabajadorId);
+        $stmt->bindValue(':year', $año);
+        $stmt->execute();
+        $result['domicilios_mensuales'] = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
         // Cantidad total de domicilios ehchos
         $sql = "
-        SELECT COALESCE(COUNT(pedido_id), 0) as cantidad_total_productos_vendidos
+        SELECT COALESCE(COUNT(pedido_id), 0) as cantidad_total_envios
         FROM detalles_envios 
-        WHERE trabajador_id = $trabajadorId
+        WHERE trabajador_id = :trabajador_id
         ";
-        $result['cantidad_total_productos_vendidos'] = $this->db->query($sql)->fetch_assoc()['cantidad_total_productos_vendidos'];
+
+        $stmt = $this->db->prepare($sql);
+        $stmt->bindValue(':trabajador_id', $trabajadorId);
+        $stmt->execute();
+
+        $result['cantidad_total_envios'] = $stmt->fetch(PDO::FETCH_ASSOC)['cantidad_total_envios'];
 
         // Verificar retiros
         $sql = "
         SELECT COUNT(*) AS retiros_mes
         FROM retiros
-        WHERE trabajador_id = $trabajadorId
+        WHERE trabajador_id = :trabajador_id
         AND MONTH(retiro_fecha) = MONTH(CURRENT_DATE())
         AND YEAR(retiro_fecha) = YEAR(CURRENT_DATE());
         ";
-        $result['retiros_mes'] = $this->db->query($sql)->fetch_assoc()['retiros_mes'];
+
+        $stmt = $this->db->prepare($sql);
+        $stmt->bindValue(':trabajador_id', $trabajadorId);
+        $stmt->execute();
+
+        $result['retiros_mes'] = $stmt->fetch(PDO::FETCH_ASSOC)['retiros_mes'];
 
         return $result;
     }

@@ -85,7 +85,7 @@
         <div class="w-full bg-white p-3 flex gap-3 justify-center">
 
             <?php if ($products_page > 1): ?>
-                <a href="/page/profile/<?= buildQueryString(['products_page' => $products_page - 1]) ?>" class="font-semibold bg-gray-200 h-[30px] px-3 flex items-center justify-center rounded-sm duration-300 hover:bg-gray-300"> anterior </a>
+                <a href="/page/profile/<?= $this->buildQueryString(['products_page' => $products_page - 1]) ?>" class="font-semibold bg-gray-200 h-[30px] px-3 flex items-center justify-center rounded-sm duration-300 hover:bg-gray-300"> anterior </a>
             <?php else: ?>
                 <a class="font-semibold bg-gray-200 h-[30px] px-3 flex items-center justify-center rounded-sm duration-300 hover:bg-gray-300 opacity-50 cursor-not-allowed"> anterior </a>
             <?php endif; ?>

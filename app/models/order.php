@@ -2,12 +2,12 @@
 
 class Order extends Orm
 {
-    public function __construct(mysqli $conn)
+    public function __construct(PDO $conn)
     {
         parent::__construct('pedido_id', 'pedidos', $conn);
     }
 
-    public function getOrders($customQuery = "")
+    public function getOrders($where = "", $order_by = "", $group_by = "")
     {
         $temp_orders = $this->getAll(
             "pedidos.*, detalles_pagos.*, detalles_envios.*, categorias.*,
@@ -22,7 +22,9 @@ class Order extends Orm
             INNER JOIN productos ON productos_pedidos.producto_id = productos.producto_id 
             INNER JOIN categorias ON productos.categoria_id = categorias.categoria_id
             INNER JOIN usuarios as vendedores ON productos.usuario_id = vendedores.usuario_id",
-            $customQuery
+            $where,
+            $order_by,
+            $group_by
         );
 
         $orders = [];
@@ -83,7 +85,7 @@ class Order extends Orm
         LEFT JOIN trabajadores ON detalles_envios.trabajador_id = trabajadores.trabajador_id
         LEFT JOIN usuarios as domiciliarios ON trabajadores.usuario_id = domiciliarios.usuario_id";
 
-        $orders_consulta = $this->getAll($select_orders, $inner_join_orders, "WHERE pedidos.pedido_id = " . $id);
+        $orders_consulta = $this->getAll($select_orders, $inner_join_orders, "pedidos.pedido_id = $id");
 
         $orders = [];
 
@@ -156,7 +158,7 @@ class Order extends Orm
 
 class PaymentDetails extends Orm
 {
-    public function __construct(mysqli $conn)
+    public function __construct(PDO $conn)
     {
         parent::__construct('pago_id', 'detalles_pagos', $conn);
     }
@@ -164,7 +166,7 @@ class PaymentDetails extends Orm
 
 class SoldProduct extends Orm
 {
-    public function __construct(mysqli $conn)
+    public function __construct(PDO $conn)
     {
         parent::__construct('', 'productos_pedidos', $conn);
     }
@@ -172,7 +174,7 @@ class SoldProduct extends Orm
 
 class ShippingDetails extends Orm
 {
-    public function __construct(mysqli $conn)
+    public function __construct(PDO $conn)
     {
         parent::__construct('envio_id', 'detalles_envios', $conn);
     }

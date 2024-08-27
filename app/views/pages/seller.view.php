@@ -1,20 +1,3 @@
-<?php
-function buildQueryString($add = [], $remove = [])
-{
-    $params = $_GET;
-    $queryString = '?';
-    foreach ($params as $key => $param) {
-        if (!in_array($key, $remove) && !array_key_exists($key, $add)) {
-            $queryString .= $key . '=' . $param . '&';
-        }
-    }
-    foreach ($add as $key => $param) {
-        $queryString .= $key . '=' . $param . '&';
-    }
-    $queryString = rtrim($queryString, '&');
-    return $queryString;
-}
-?>
 <main class="w-full max-w-[1200px] mx-auto py-10 flex flex-col md:flex-row justify-between gap-10">
     <!-- Vendedor contenedor -->
     <div class="w-full max-w-[450px] space-y-5">
@@ -292,17 +275,17 @@ function buildQueryString($add = [], $remove = [])
         <div class="w-full bg-white p-3 flex gap-3 justify-center">
 
             <?php if ($page > 1): ?>
-                <a href="/page/sellers/<?= buildQueryString(['page' => $page - 1]) ?>" class="font-semibold bg-gray-200 h-[30px] px-3 flex items-center justify-center rounded-sm duration-300 hover:bg-gray-300"> anterior </a>
+                <a href="/page/sellers/<?= $this->buildQueryString(['page' => $page - 1]) ?>" class="font-semibold bg-gray-200 h-[30px] px-3 flex items-center justify-center rounded-sm duration-300 hover:bg-gray-300"> anterior </a>
             <?php else: ?>
                 <a class="font-semibold bg-gray-200 h-[30px] px-3 flex items-center justify-center rounded-sm duration-300 hover:bg-gray-300 opacity-50 cursor-not-allowed"> anterior </a>
             <?php endif; ?>
 
             <?php for ($i = 1; $i <= $products['pages']; $i++): ?>
-                <a href="/page/sellers/<?= buildQueryString(['page' => $i]) ?>" class="font-semibold bg-gray-200 size-[30px] flex items-center justify-center rounded-sm duration-300 <?= $i == $page ? 'bg-gray-400 font-bold' : ' hover:bg-gray-300' ?>"> <?= $i ?> </a>
+                <a href="/page/sellers/<?= $this->buildQueryString(['page' => $i]) ?>" class="font-semibold bg-gray-200 size-[30px] flex items-center justify-center rounded-sm duration-300 <?= $i == $page ? 'bg-gray-400 font-bold' : ' hover:bg-gray-300' ?>"> <?= $i ?> </a>
             <?php endfor; ?>
 
             <?php if ($page < $products['pages']): ?>
-                <a href="/page/sellers/<?= buildQueryString(['page' => $page + 1]) ?>" class="font-semibold bg-gray-200 h-[30px] px-3 flex items-center justify-center rounded-sm duration-300 hover:bg-gray-300"> siguiente </a>
+                <a href="/page/sellers/<?= $this->buildQueryString(['page' => $page + 1]) ?>" class="font-semibold bg-gray-200 h-[30px] px-3 flex items-center justify-center rounded-sm duration-300 hover:bg-gray-300"> siguiente </a>
             <?php else: ?>
                 <a class="font-semibold bg-gray-200 h-[30px] px-3 flex items-center justify-center rounded-sm duration-300 hover:bg-gray-300 opacity-50 cursor-not-allowed"> siguiente </a>
             <?php endif; ?>
@@ -471,10 +454,6 @@ function buildQueryString($add = [], $remove = [])
         if (confirm('Para realizar esta acción, debes iniciar sesión.')) {
             window.location.href = '/page/login';
         }
-    }
-
-    function toggleOptions(id) {
-        document.getElementById(id).classList.toggle('hidden');
     }
 
     function toggleComments() {

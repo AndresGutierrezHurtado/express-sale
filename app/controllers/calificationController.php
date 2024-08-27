@@ -1,21 +1,22 @@
 <?php
 
-class CalificationController {
+class CalificationController extends Controller
+{
 
-    private $calificationModel;
-    
-    public function __construct(mysqli $conn) {
-        $this -> calificationModel = new calification( $conn );
+    public function __construct(PDO $conn)
+    {
+        parent::__construct($conn);
     }
 
-    public function rate() {
+    public function rate()
+    {
         $data = [
             'calificacion_comentario' => $_POST['calificacion_comentario'],
-            'calificacion' => $_POST['calificacion'],
+            'calificacion' => (int) $_POST['calificacion'],
             'usuario_id' => $_POST['usuario_id'],
         ];
 
-        $result = $this -> calificationModel -> insert($data);
+        $result = $this->calificationModel->insert($data);
 
         if ($result['success']) {
             $id = $result['last_id'];
@@ -25,30 +26,31 @@ class CalificationController {
 
                 move_uploaded_file($_FILES['calificacion_imagen']['tmp_name'], $_SERVER['DOCUMENT_ROOT'] . $data['calificacion_imagen_url']);
 
-                $this -> calificationModel -> updateById($id, $data);
+                $this->calificationModel->updateById($id, ['calificacion_imagen_url' => $data['calificacion_imagen_url']]);
             }
 
             if ($_POST['tipo_objeto'] == 'producto') {
 
-                $final_result = $this -> calificationModel -> addCalification([
+                $final_result = $this->calificationModel->insertCalification([
                     'calificacion_id' => $id,
                     'producto_id' => $_POST['producto_id']
                 ], "calificaciones_productos");
             } else {
 
-                $final_result = $this -> calificationModel -> addCalification([
+                $final_result = $this->calificationModel->insertCalification([
                     'calificacion_id' => $id,
                     'usuario_id' => $_POST['vendedor_id']
                 ], "calificaciones_usuarios");
             }
-            
-            echo json_encode($final_result);            
+
+            echo json_encode($final_result);
         } else {
             echo json_encode($result);
         }
     }
 
-    public function update() {
+    public function update()
+    {
         $data = [
             'calificacion_comentario' => $_POST['calificacion_comentario'],
             'calificacion' => $_POST['calificacion'],
@@ -60,13 +62,14 @@ class CalificationController {
             move_uploaded_file($_FILES['calificacion_imagen']['tmp_name'], $_SERVER['DOCUMENT_ROOT'] . $data['calificacion_imagen_url']);
         }
 
-        $result = $this -> calificationModel -> updateById($_POST['calificacion_id'], $data);
+        $result = $this->calificationModel->updateById($_POST['calificacion_id'], $data);
 
         echo json_encode($result);
     }
 
-    public function delete() {
-        $result = $this -> calificationModel -> deleteById($_POST['calificacion_id']);
+    public function delete()
+    {
+        $result = $this->calificationModel->deleteById($_POST['calificacion_id']);
 
         echo json_encode($result);
     }

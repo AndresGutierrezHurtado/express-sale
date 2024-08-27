@@ -1,20 +1,3 @@
-<?php
-function buildQueryString($add = [], $remove = [])
-{
-    $params = $_GET;
-    $queryString = '?';
-    foreach ($params as $key => $param) {
-        if (!in_array($key, $remove) && !array_key_exists($key, $add)) {
-            $queryString .= $key . '=' . $param . '&';
-        }
-    }
-    foreach ($add as $key => $param) {
-        $queryString .= $key . '=' . $param . '&';
-    }
-    return rtrim($queryString, '&');
-}
-?>
-
 <main class="w-full min-h-screen bg-slate-800">
     <!-- Parte superior -->
     <section class="w-full mx-auto">
@@ -28,10 +11,10 @@ function buildQueryString($add = [], $remove = [])
                         </div>
                         <ul tabindex="0" class="dropdown-content menu bg-base-100 rounded-box z-[1] w-52 p-2 shadow text-black rounded-lg">
                             <h1 class="px-4 py-1.5 font-bold text-lg">Ordenar por:</h1>
-                            <li><a href="/page/dashboard_products/<?= buildQueryString(['sort' => 'producto_id']) ?>">Id</a></li>
-                            <li><a href="/page/dashboard_products/<?= buildQueryString(['sort' => 'producto_nombre']) ?>">Nombre</a></li>
-                            <li><a href="/page/dashboard_products/<?= buildQueryString(['sort' => 'usuario_alias']) ?>">Vendedor</a></li>
-                            <li><a href="/page/dashboard_products/<?= buildQueryString(['sort' => 'categoria_nombre']) ?>">Categoría</a></li>
+                            <li><a href="/page/dashboard_products/<?= $this->buildQueryString(['sort' => 'producto_id']) ?>">Id</a></li>
+                            <li><a href="/page/dashboard_products/<?= $this->buildQueryString(['sort' => 'producto_nombre']) ?>">Nombre</a></li>
+                            <li><a href="/page/dashboard_products/<?= $this->buildQueryString(['sort' => 'usuario_alias']) ?>">Vendedor</a></li>
+                            <li><a href="/page/dashboard_products/<?= $this->buildQueryString(['sort' => 'categoria_nombre']) ?>">Categoría</a></li>
                         </ul>
                     </div>
 
@@ -130,17 +113,17 @@ function buildQueryString($add = [], $remove = [])
 
                 <div class="flex gap-3">
                     <?php if ($page > 1): ?>
-                        <a href="/page/dashboard_products/<?= buildQueryString(['page' => $page - 1]) ?>" class="font-semibold bg-gray-200 h-[30px] px-3 flex items-center justify-center rounded-sm duration-300 hover:bg-gray-300"> anterior </a>
+                        <a href="/page/dashboard_products/<?= $this->buildQueryString(['page' => $page - 1]) ?>" class="font-semibold bg-gray-200 h-[30px] px-3 flex items-center justify-center rounded-sm duration-300 hover:bg-gray-300"> anterior </a>
                     <?php else: ?>
                         <a class="font-semibold bg-gray-200 h-[30px] px-3 flex items-center justify-center rounded-sm duration-300 hover:bg-gray-300 opacity-50 cursor-not-allowed"> anterior </a>
                     <?php endif; ?>
 
                     <?php for ($i = 1; $i <= $products['pages']; $i++): ?>
-                        <a href="/page/dashboard_products/<?= buildQueryString(['page' => $i]) ?>" class="font-semibold bg-gray-200 size-[30px] flex items-center justify-center rounded-sm duration-300 <?= $i == $page ? 'bg-gray-400 font-bold' : ' hover:bg-gray-300' ?>"> <?= $i ?> </a>
+                        <a href="/page/dashboard_products/<?= $this->buildQueryString(['page' => $i]) ?>" class="font-semibold bg-gray-200 size-[30px] flex items-center justify-center rounded-sm duration-300 <?= $i == $page ? 'bg-gray-400 font-bold' : ' hover:bg-gray-300' ?>"> <?= $i ?> </a>
                     <?php endfor; ?>
 
                     <?php if ($page < $products['pages']): ?>
-                        <a href="/page/dashboard_products/<?= buildQueryString(['page' => $page + 1]) ?>" class="font-semibold bg-gray-200 h-[30px] px-3 flex items-center justify-center rounded-sm duration-300 hover:bg-gray-300"> siguiente </a>
+                        <a href="/page/dashboard_products/<?= $this->buildQueryString(['page' => $page + 1]) ?>" class="font-semibold bg-gray-200 h-[30px] px-3 flex items-center justify-center rounded-sm duration-300 hover:bg-gray-300"> siguiente </a>
                     <?php else: ?>
                         <a class="font-semibold bg-gray-200 h-[30px] px-3 flex items-center justify-center rounded-sm duration-300 hover:bg-gray-300 opacity-50 cursor-not-allowed"> siguiente </a>
                     <?php endif; ?>

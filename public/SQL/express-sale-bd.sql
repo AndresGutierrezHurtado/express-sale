@@ -28,14 +28,14 @@ CREATE TABLE `usuarios` (
     `usuario_alias` VARCHAR(50) UNIQUE,
     `usuario_telefono` DECIMAL(10, 0),
     `usuario_direccion` TEXT,
-    `usuario_contraseña` TEXT,
+    `usuario_contra` TEXT,
     `usuario_creacion` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     `usuario_actualizacion` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     `usuario_imagen_url` VARCHAR(255) DEFAULT '/public/images/users/default.jpg',
     `rol_id` INT DEFAULT 1
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
-INSERT INTO `usuarios` (`usuario_id`, `usuario_nombre`, `usuario_apellido`, `usuario_correo`, `usuario_alias`, `usuario_direccion`, `usuario_telefono`, `usuario_contraseña`, `usuario_creacion`, `usuario_actualizacion`, `usuario_imagen_url`, `rol_id`) VALUES
+INSERT INTO `usuarios` (`usuario_id`, `usuario_nombre`, `usuario_apellido`, `usuario_correo`, `usuario_alias`, `usuario_direccion`, `usuario_telefono`, `usuario_contra`, `usuario_creacion`, `usuario_actualizacion`, `usuario_imagen_url`, `rol_id`) VALUES
 (1, 'Express', 'Sale', 'expresssale.exsl@gmail.com', 'Express_Sale', NULL, 3209202177, '81dc9bdb52d04dc20036dbd8313ed055', '2024-07-25 04:39:15', '2024-07-25 04:56:12', '/public/images/users/1.jpg', 4),
 (2, 'Andrés', 'Gutiérrez Hurtado', 'andres52885241@gmail.com', 'Andres_Gutierrez', 'Dg. 68D Sur #70c-31, Bogotá, Colombia', 3209202177, '81dc9bdb52d04dc20036dbd8313ed055', '2024-07-25 04:47:10', '2024-07-25 04:47:10', '/public/images/users/2.jpg', 2),
 (3, 'David Fernando', 'Diaz Niausa', 'davidfernandodiazniausa@gmail.com', 'David_Diaz', 'Cra. 5i Este #89-23, Bogotá, Colombia', 3214109557, '81dc9bdb52d04dc20036dbd8313ed055', '2024-07-25 04:53:27', '2024-07-25 04:53:27', '/public/images/users/default.jpg', 2),

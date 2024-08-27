@@ -1,6 +1,6 @@
 <nav class="flex flex-col md:flex-row items-center justify-between gap-3">
     <h1 class="text-3xl font-bold tracking-tight w-fit">
-        Estadísticas de <?= $user['rol_nombre'] ?>
+        Estadísticas de <?= $user['rol_nombre'] ?> <?= $user['usuario_nombre'] ?> <?= $user['usuario_apellido'] ?> 
     </h1>
 
     <div class="flex gap-2 items-start w-full max-w-[400px]">

@@ -1,31 +1,31 @@
 <?php
 
-class UserController {
-    private $userModel;
-    private $withdrawModel;
-    protected $conn;
+class UserController extends Controller
+{
 
-    public function __construct(mysqli $conn) {
-        $this -> userModel = new User($conn);
-        $this -> withdrawModel = new Withdraw($conn);
-        $this -> conn = $conn;
+    public function __construct(PDO $conn)
+    {
+        parent::__construct($conn);
     }
 
-    public function index() {
-        $user = $this -> userModel -> getAll();
+    public function index()
+    {
+        $user = $this->userModel->getAll();
     }
 
-    public function login() {
-        $result = $this -> userModel -> auth($_POST);
+    public function login()
+    {
+        $result = $this->userModel->auth($_POST);
 
         echo json_encode($result);
     }
 
-    public function google_login() {
+    public function google_login()
+    {
 
-        $client_id = CLIENT_ID ;
-        $client_secret = CLIENT_SECRET ;
-        $redirect_uri = REDIRECT_URL ;
+        $client_id = CLIENT_ID;
+        $client_secret = CLIENT_SECRET;
+        $redirect_uri = REDIRECT_URL;
 
         if (isset($_GET['code'])) {
             $code = $_GET['code'];
@@ -56,7 +56,7 @@ class UserController {
             $user_info = file_get_contents($user_info_url);
             $user = json_decode($user_info, true);
 
-            $result = $this -> userModel -> auth_google($user);
+            $result = $this->userModel->auth_google($user);
 
             if ($result['success']) {
                 echo "
@@ -67,21 +67,22 @@ class UserController {
                 ";
                 header("Location: /");
             }
-
         } else {
             echo "Error: No se recibió ningún código de autorización.";
         }
     }
 
-    public function create() {
-        $_POST['usuario_contraseña'] = md5($_POST['usuario_contraseña']);
-        
-        $result = $this -> userModel -> insert($_POST);
-    
+    public function create()
+    {
+        $_POST['usuario_contra'] = md5($_POST['usuario_contra']);
+
+        $result = $this->userModel->insert($_POST);
+
         echo json_encode($result);
     }
 
-    public function update() {
+    public function update()
+    {
         $id = $_POST['usuario_id'];
         unset($_POST['usuario_id']);
 
@@ -98,44 +99,48 @@ class UserController {
 
             move_uploaded_file($_FILES['usuario_imagen']['tmp_name'], $_SERVER['DOCUMENT_ROOT'] . $_POST['usuario_imagen_url']);
         }
-        
-        $result = $this -> userModel -> updateById($id, $_POST, "LEFT JOIN trabajadores ON usuarios.usuario_id = trabajadores.usuario_id");
-        
+
+        $result = $this->userModel->updateById($id, $_POST, "LEFT JOIN trabajadores ON usuarios.usuario_id = trabajadores.usuario_id");
+
         echo json_encode($result);
     }
 
-    public function reset_password() {
-        $query = "UPDATE recuperacion_cuentas SET fecha_expiracion = CURRENT_TIMESTAMP";
+    public function reset_password()
+    {
+        $sql = "UPDATE recuperacion_cuentas SET fecha_expiracion = CURRENT_TIMESTAMP";
 
-        $result = $this -> conn -> query($query);
+        $stmt = $this->conn->prepare($sql);
 
-        if ($result) {
-            $result = $this -> userModel -> updateById($_POST['usuario_id'], ['usuario_contraseña' => md5($_POST['usuario_contraseña'])]);
+        if ($stmt->execute()) {
+
+            $result = $this->userModel->updateById($_POST['usuario_id'], ['usuario_contra' => md5($_POST['usuario_contra'])]);
 
             echo json_encode($result);
         }
     }
 
-    public function delete() {
+    public function delete()
+    {
         $post_data = file_get_contents('php://input');
-        $post_data = json_decode( $post_data , true);
+        $post_data = json_decode($post_data, true);
 
-        $result = $this -> userModel -> deleteById($post_data['id']);
+        $result = $this->userModel->deleteById($post_data['id']);
 
         echo json_encode($result);
     }
 
-    public function withdraw() {
+    public function withdraw()
+    {
         $data = $_POST;
 
-        $result = $this -> withdrawModel -> insert($data);
+        $result = $this->withdrawModel->insert($data);
 
         echo json_encode($result);
     }
 
-    public function log_out() {
+    public function log_out()
+    {
         session_destroy();
         echo json_encode(['success' => true, 'message' => 'Sesión cerrada.']);
     }
-    
 }
