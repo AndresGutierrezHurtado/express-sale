@@ -51,12 +51,12 @@
                     <?= number_format(isset($_GET['mes']) ? $result['ventas_mensuales'][$_GET['mes'] - 1]['dinero_ventas'] : $result['ventas_mensuales'][count($result['ventas_mensuales']) - 1]['dinero_ventas']) ?>
                     COP
                 </div>
-                <div class="stat-desc whitespace-normal">En el mes de <?= isset($_GET['mes']) ? date('F', mktime(0, 0, 0, $_GET['mes'], 1, date('Y'))) : date('F', mktime(0, 0, 0, $result['domicilios_mensuales'][count($result['domicilios_mensuales']) - 1]['mes'], 1, date('Y'))) ?></div>
+                <div class="stat-desc whitespace-normal">En el mes de <?= isset($_GET['mes']) ? date('F', mktime(0, 0, 0, $_GET['mes'], 1, date('Y'))) : date('F', mktime(0, 0, 0, $result['ventas_mensuales'][count($result['ventas_mensuales']) - 1]['mes'], 1, date('Y'))) ?></div>
             </div>
             <div class="stat text-center items-center justify-center">
                 <div class="stat-title whitespace-normal">Número de productos vendidos</div>
                 <div class="stat-value whitespace-normal"><?= isset($_GET['mes']) ? $result['ventas_mensuales'][$_GET['mes'] - 1]['numero_productos'] :  $result['ventas_mensuales'][count($result['ventas_mensuales']) - 1]['numero_productos'] ?></div>
-                <div class="stat-desc whitespace-normal">En el mes de <?= isset($_GET['mes']) ? date('F', mktime(0, 0, 0, $_GET['mes'], 1, date('Y'))) : date('F', mktime(0, 0, 0, $result['domicilios_mensuales'][count($result['domicilios_mensuales']) - 1]['mes'], 1, date('Y'))) ?></div>
+                <div class="stat-desc whitespace-normal">En el mes de <?= isset($_GET['mes']) ? date('F', mktime(0, 0, 0, $_GET['mes'], 1, date('Y'))) : date('F', mktime(0, 0, 0, $result['ventas_mensuales'][count($result['ventas_mensuales']) - 1]['mes'], 1, date('Y'))) ?></div>
             </div>
         </div>
     </article>
