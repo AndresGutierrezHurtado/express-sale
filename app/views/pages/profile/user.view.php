@@ -1,20 +1,3 @@
-<?php
-function buildQueryString($add = [], $remove = [])
-{
-    $params = $_GET;
-    $queryString = '?';
-    foreach ($params as $key => $param) {
-        if (!in_array($key, $remove) && !array_key_exists($key, $add)) {
-            $queryString .= $key . '=' . $param . '&';
-        }
-    }
-    foreach ($add as $key => $param) {
-        $queryString .= $key . '=' . $param . '&';
-    }
-    $queryString = rtrim($queryString, '&');
-    return $queryString;
-}
-?>
 <style>
     th,
     td {

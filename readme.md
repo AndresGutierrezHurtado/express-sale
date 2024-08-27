@@ -58,4 +58,4 @@ El ORM implementado en el proyecto es una clase base para los modelos, facilitan
 
 ## Por Hacer
 
-- Seccion de estadísticas para vendedores y domiciliarios
+- Clase controlador que ya tenga todos los modelos cargados.
