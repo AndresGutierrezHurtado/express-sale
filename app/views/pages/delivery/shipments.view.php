@@ -1,10 +1,5 @@
-<main class="w-full min-h-screen flex justify-center items-center bg-gray-100">
-    <div class="w-full max-w-[1200px] my-12">
-        <a href="/">
-            <div class="h-[200px] w-[200px] rounded-full mx-auto">
-                <img src="/public/images/logo.png" alt="Logo Express Sale">
-            </div>
-        </a>
+<div class="w-full h-full flex items-start justify-center">
+    <div class="w-full max-w-[1200px] mb-12">
         <div class="w-full bg-slate-700 px-7 p-5 rounded-lg mb-5">
             <h1 class="tracking-tight font-bold text-white text-3xl">Lista de envíos pendientes: </h1>
         </div>
@@ -51,4 +46,4 @@
             <?php endforeach; ?>
         </div>
     </div>
-</main>
+</div>

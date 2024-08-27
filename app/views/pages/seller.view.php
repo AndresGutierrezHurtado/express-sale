@@ -463,7 +463,7 @@ function buildQueryString($add = [], $remove = [])
 <?php endforeach; ?>
 
 <script src="/public/js/cart.js"></script>
-<script src="/public/js/califications.js"></script>
+<script src="/public/js/fetch-form.js"></script>
 <script>
     let visible = false;
 

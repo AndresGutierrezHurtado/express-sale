@@ -107,15 +107,17 @@
 
         <div class="flex flex-col gap-2">
             <!-- Botón para descargar y regresar -->
-            <a href="/page/receipt/?receipt=<?= $order['pedido_id'] ?>" target="_blank" >
-                <button
-                class="group relative flex w-full justify-center rounded-md border border-transparent bg-violet-600 px-4 py-2 text-sm font-medium text-white hover:bg-violet-700 focus:outline-none focus:ring-2 focus:ring-violet-500 focus:ring-offset-2 disabled:cursor-wait disabled:opacity-50 cursor-pointer">
-                    <span class="absolute inset-y-0 left-0 flex items-center pl-3">
-                        <i class="fa-solid fa-download text-[18px] text-violet-500 duration-300 group-hover:text-violet-400"></i>
-                    </span>
-                    Descargar factura
-                </button>
-            </a>
+            <?php if($order['usuario_id'] == $_SESSION['usuario_id']):?>
+                <a href="/page/receipt/?receipt=<?= $order['pedido_id'] ?>" target="_blank" >
+                    <button
+                    class="group relative flex w-full justify-center rounded-md border border-transparent bg-violet-600 px-4 py-2 text-sm font-medium text-white hover:bg-violet-700 focus:outline-none focus:ring-2 focus:ring-violet-500 focus:ring-offset-2 disabled:cursor-wait disabled:opacity-50 cursor-pointer">
+                        <span class="absolute inset-y-0 left-0 flex items-center pl-3">
+                            <i class="fa-solid fa-download text-[18px] text-violet-500 duration-300 group-hover:text-violet-400"></i>
+                        </span>
+                        Descargar factura
+                    </button>
+                </a>
+            <?php endif; ?>
             <?php if($order['pedido_estado'] == 'entregado'): ?>
                 <button id="check-button" onclick="if (confirm('¿Estás seguro que recibiste tu pedido?')) { checkOrder(<?= $order['pedido_id'] ?>) }"
                 class="group relative flex w-full justify-center rounded-md border border-transparent bg-green-600 px-4 py-2 text-sm font-medium text-white hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 disabled:cursor-wait disabled:opacity-50 cursor-pointer">
@@ -125,7 +127,7 @@
                     Marcar como recibido
                 </button>
             <?php endif; ?>
-            <a href="/page/profile/?id=<?= $order['usuario_id'] ?>">
+            <a href="javascript:history.back()">
                 <button
                 class="group relative flex w-full justify-center rounded-md border border-transparent bg-gray-100 px-4 py-2 text-sm font-medium text-black hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-gray-300 focus:ring-offset-2 disabled:cursor-wait disabled:opacity-50 cursor-pointer">
                     <span class="absolute inset-y-0 left-0 flex items-center pl-3">
@@ -144,6 +146,7 @@
         data.append('pedido_id', id);
         data.append('pedido_estado', 'recibido');
         data.append('trabajador_numero_trabajos', <?= $order['trabajador_numero_trabajos'] + 1 ?>);
+        data.append('trabajador_saldo', <?= $order['trabajador_saldo'] + $order['envio_valor'] ?>);
 
         fetch('/order/update', {
         method: 'POST',

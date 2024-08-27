@@ -15,7 +15,17 @@ class ProductController {
     }
 
     public function create(){
-        $result = $this -> productModel -> insert($_POST);
+        $data = [
+            'producto_nombre' => $_POST['producto_nombre'],
+            'producto_descripcion' => $_POST['producto_descripcion'],
+            'producto_cantidad' => $_POST['producto_cantidad'],
+            'producto_precio' => $_POST['producto_precio'],
+            'producto_estado' => $_POST['producto_estado'],
+            'usuario_id' => $_POST['usuario_id'],
+            'categoria_id' => $_POST['categoria_id']
+        ];
+
+        $result = $this -> productModel -> insert($data);
         
         if (!empty($_FILES['producto_imagen']['name']) && $result['success']) {
             

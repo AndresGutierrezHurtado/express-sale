@@ -63,7 +63,9 @@ class orderController {
                     "INNER JOIN trabajadores ON productos.usuario_id = trabajadores.usuario_id");
 
                     $resultado_trabajador = $this -> productModel -> updateById($producto_temp['producto_id'], 
-                    ['trabajador_numero_trabajos' => $producto_temp['trabajador_numero_trabajos'] + $soldProduct['producto_cantidad'], 'producto_cantidad' => $producto_temp['producto_cantidad'] - $soldProduct['producto_cantidad']], 
+                    ['trabajador_numero_trabajos' => $producto_temp['trabajador_numero_trabajos'] + $soldProduct['producto_cantidad'], 
+                    'producto_cantidad' => $producto_temp['producto_cantidad'] - $soldProduct['producto_cantidad'],
+                    'trabajador_saldo' => $producto_temp['trabajador_saldo'] + $soldProduct['producto_precio'] * $soldProduct['producto_cantidad']],
                     "INNER JOIN trabajadores ON productos.usuario_id = trabajadores.usuario_id ");
                 }
             }

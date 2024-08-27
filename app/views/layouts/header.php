@@ -89,7 +89,7 @@
         <!-- Header mobile section -->
         <div class="drawer-side sm:hidden">
             <label for="my-drawer-3" aria-label="close sidebar" class="drawer-overlay"></label>
-            <ul class="menu bg-white min-h-screen w-80 max-w-full p-4 ">
+            <ul class="menu bg-white min-h-[100dvh] w-80 max-w-full p-4 ">
                 <!-- Inicio y cerrar -->
                 <span class="flex justify-between">
                     <li>
