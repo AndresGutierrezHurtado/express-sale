@@ -27,7 +27,7 @@ class calification extends Orm
 
             return ['success' => true, 'message' => 'La inserción se realizó correctamente.', 'last_id' => $last_id];
         } catch (Exception $e) {
-            return ['success' => false, 'message' => 'Error al insertar los datos.'];
+            return ['success' => false, 'message' => 'Error al insertar los datos.', 'error' => $e->getMessage()];
         }
     }
 }

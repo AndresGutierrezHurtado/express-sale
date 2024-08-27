@@ -26,7 +26,7 @@ class Orm
             $stmt = $this->db->prepare($sql);
 
             foreach ($data as $key => $value) {
-                $stmt->bindParam(":$key", $value);
+                $stmt->bindValue(":$key", $value);
             }
 
             $stmt->execute();

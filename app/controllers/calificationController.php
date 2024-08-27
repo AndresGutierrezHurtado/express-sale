@@ -12,7 +12,7 @@ class CalificationController extends Controller
     {
         $data = [
             'calificacion_comentario' => $_POST['calificacion_comentario'],
-            'calificacion' => $_POST['calificacion'],
+            'calificacion' => (int) $_POST['calificacion'],
             'usuario_id' => $_POST['usuario_id'],
         ];
 
@@ -26,7 +26,7 @@ class CalificationController extends Controller
 
                 move_uploaded_file($_FILES['calificacion_imagen']['tmp_name'], $_SERVER['DOCUMENT_ROOT'] . $data['calificacion_imagen_url']);
 
-                $this->calificationModel->updateById($id, $data);
+                $this->calificationModel->updateById($id, ['calificacion_imagen_url' => $data['calificacion_imagen_url']]);
             }
 
             if ($_POST['tipo_objeto'] == 'producto') {
