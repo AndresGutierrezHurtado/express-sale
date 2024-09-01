@@ -104,7 +104,7 @@ class Orm
             }
 
             $stmt->execute();
-            
+
             return ['success' => true, 'message' => 'La actualización se realizó correctamente.'];
         } catch (Exception $e) {
             return ['success' => false, 'message' => 'Error al actualizar los datos.', 'error' => $e->getMessage()];

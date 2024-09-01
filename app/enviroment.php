@@ -1,7 +1,7 @@
 <?php
 
 // Poner .env a la hora de ir a producción
-$envPath = (__DIR__ . '/../.env.example'); 
+$envPath = (__DIR__ . '/../.env.example');
 
 if (file_exists($envPath)) {
     $envFile = file($envPath, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);

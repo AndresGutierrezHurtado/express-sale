@@ -30,5 +30,4 @@ class Controller
         $this->shippingDetailsModel = new ShippingDetails($conn);
         $this->conn = $conn;
     }
-
 }
