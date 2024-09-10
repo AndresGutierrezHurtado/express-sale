@@ -26,8 +26,34 @@
                     };
                     callback(userLocation);
                 }, function(error) {
-                    console.error('Error: No se pudo obtener la ubicación del usuario.', error);
-                    callback(null);
+                    let errorMessage = "";
+
+                    switch (error.code) {
+                        case error.PERMISSION_DENIED:
+                            errorMessage = ("El usuario denegó la solicitud de geolocalización.");
+                            break;
+                        case error.POSITION_UNAVAILABLE:
+                            errorMessage = ("La información de ubicación no está disponible.");
+                            break;
+                        case error.TIMEOUT:
+                            errorMessage = ("La solicitud de ubicación ha caducado.");
+                            break;
+                        case error.UNKNOWN_ERROR:
+                            errorMessage = ("Ha ocurrido un error desconocido.");
+                            break;
+                    }
+
+                    alert("Error obteniendo la ubicación. Código: " + error.code + ". Mensaje: " + errorMessage);
+
+                    callback({
+                        // Bogotá
+                        lat: 4.710988599999999,
+                        lng: -74.07209219999999
+                    });
+                }, {
+                    enableHighAccuracy: true,
+                    timeout: 10000,
+                    maximumAge: 0
                 });
             } else {
                 console.error('Error: El navegador no admite la geolocalización.');
