@@ -34,7 +34,7 @@ class Orm
             $last_id = $this->db->lastInsertId();
 
             return ['success' => true, 'message' => 'La inserción se realizó correctamente.', 'last_id' => $last_id];
-        } catch (Exception $e) {
+        } catch (PDOException $e) {
             return ['success' => false, 'message' => 'Error al insertar los datos.', 'error' => $e->getMessage()];
         }
     }
@@ -61,7 +61,7 @@ class Orm
             $stmt = $this->db->prepare($sql);
             $stmt->execute();
             return $stmt->fetchAll(PDO::FETCH_ASSOC);
-        } catch (Exception $e) {
+        } catch (PDOException $e) {
             return ['success' => false, 'message' => 'Error al obtener los datos.', 'error' => $e->getMessage()];
         }
     }
@@ -75,7 +75,7 @@ class Orm
             $stmt->bindValue(':id', $id);
             $stmt->execute();
             return $stmt->fetch(PDO::FETCH_ASSOC);
-        } catch (Exception $e) {
+        } catch (PDOException $e) {
             return ['success' => false, 'message' => 'Error al obtener los datos.', 'error' => $e->getMessage()];
         }
     }
@@ -106,7 +106,7 @@ class Orm
             $stmt->execute();
 
             return ['success' => true, 'message' => 'La actualización se realizó correctamente.'];
-        } catch (Exception $e) {
+        } catch (PDOException $e) {
             return ['success' => false, 'message' => 'Error al actualizar los datos.', 'error' => $e->getMessage()];
         }
     }
@@ -121,7 +121,7 @@ class Orm
             $stmt->execute();
 
             return ['success' => true, 'message' => 'La eliminación se realizó correctamente.'];
-        } catch (Exception $e) {
+        } catch (PDOException $e) {
             return ['success' => false, 'message' => 'Error al borrar los datos.', 'error' => $e->getMessage()];
         }
     }
@@ -179,7 +179,7 @@ class Orm
                 'pages' => $pages,
                 'rows' => $rows,
             ];
-        } catch (Exception $e) {
+        } catch (PDOException $e) {
             return ['success' => false, 'message' => 'Error al obtener los datos.', 'error' => $e->getMessage()];
         }
     }
