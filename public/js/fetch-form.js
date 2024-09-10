@@ -1,23 +1,28 @@
-document.addEventListener('DOMContentLoaded', () => {
-    document.querySelectorAll('.fetch-form' ).forEach(form => {
-        form.addEventListener('submit', event => {
-            event.preventDefault();
+const forms = document.querySelectorAll('.fetch-form');
+const themeController = document.querySelector('.theme-controller');
 
-            const data = new FormData(form);
+forms.forEach(form => {
+    form.addEventListener('submit', event => {
+        event.preventDefault();
 
-            fetch(form.action, {
-                method: 'POST',
-                body: data
-            })
+        const data = new FormData(form);
+
+        fetch(form.action, {
+            method: form.method,
+            body: data
+        })
             .then(response => response.json())
             .then(data => {
                 if (data.success) {
                     alert(data.message);
-                    window.location.reload();
+                    if (form.dataset.redirect !== undefined) {
+                        window.location.href = form.dataset.redirect;
+                    } else {
+                        window.location.reload();
+                    }
                 } else {
-                    alert(data.error);
+                    alert('Error: ' + data.error);
                 }
             });
-        });
-    });
+    })
 });
