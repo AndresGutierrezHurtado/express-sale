@@ -107,5 +107,3 @@
         </div>
     </div>
 </main>
-
-<script src="/public/js/cart.js"></script>

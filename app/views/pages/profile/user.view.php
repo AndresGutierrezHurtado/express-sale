@@ -193,4 +193,3 @@
         autocomplete = new google.maps.places.Autocomplete(document.getElementById("usuario_direccion"));
     }
 </script>
-<script src="/public/js/user_profile.js"></script>

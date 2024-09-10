@@ -93,5 +93,5 @@ class="w-full max-w-[700px] my-10 flex flex-col items-center gap-5 p-5 bg-white 
         })
     });
 </script>
-<script src="/public/js/googleMaps.js"></script>
+
 <script src="https://maps.googleapis.com/maps/api/js?key=<?= API_MAPS ?>&libraries=places&callback=initMap" async defer></script>

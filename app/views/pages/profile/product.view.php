@@ -152,7 +152,6 @@
     </form>
 </main>
 
-<script src="/public/js/product_profile.js"></script>   
 <script>
     function checkFileCount(input, archivos = 7) {
         let maximo = 7;

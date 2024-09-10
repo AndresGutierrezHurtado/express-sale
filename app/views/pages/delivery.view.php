@@ -221,4 +221,3 @@
         }
     }
 </script>
-<script src="/public/js/fetch-form.js"></script>

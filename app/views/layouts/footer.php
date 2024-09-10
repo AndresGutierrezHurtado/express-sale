@@ -36,4 +36,3 @@
         </div>
     </div>
 </footer>
-<script src="/public/js/footer_form.js"></script>
