@@ -1,4 +1,3 @@
-<script src="https://maps.googleapis.com/maps/api/js?key=<?= API_MAPS ?>&callback=initMap" async defer></script>
 <!-- Carga de la API de Google Maps -->
 <script>
     function initMap() {

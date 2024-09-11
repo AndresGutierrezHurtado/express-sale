@@ -1,5 +1,4 @@
 const forms = document.querySelectorAll('.fetch-form');
-const themeController = document.querySelector('.theme-controller');
 
 forms.forEach(form => {
     form.addEventListener('submit', event => {

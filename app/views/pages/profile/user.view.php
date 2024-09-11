@@ -186,7 +186,6 @@
     </div>
 </main>
 
-<script src="https://maps.googleapis.com/maps/api/js?key=<?= API_MAPS ?>&libraries=places&callback=initMap" async defer></script>
 <script>
     function initMap() {
         geocoder = new google.maps.Geocoder();
