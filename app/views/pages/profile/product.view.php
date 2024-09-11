@@ -1,5 +1,7 @@
 <main class="w-full max-w-[1200px] flex flex-col gap-10 py-12 justify-center items-center mx-auto px-3">
-    <form id="product_profile_form" class="w-full flex flex-col md:flex-row justify-center items-start gap-5 my-12" enctype="multipart/form-data">
+
+    <form action="/product/update" method="post" enctype="multipart/form-data" 
+    class="fetch-form w-full flex flex-col md:flex-row justify-center items-start gap-5 my-12">
         <input type="hidden" id="id" name="producto_id" value="<?= $_GET['producto'] ?>">
         
         <div class="w-full max-w-[300px] space-y-5 mx-auto">

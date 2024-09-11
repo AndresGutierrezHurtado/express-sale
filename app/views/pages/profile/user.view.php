@@ -1,12 +1,7 @@
-<style>
-    th,
-    td {
-        padding: 8px;
-    }
-</style>
 <main class="w-full max-w-[1200px] space-y-10 py-12 mx-auto px-3">
 
-    <form id="user_profile_form" class="w-full flex flex-col md:flex-row justify-between items-start gap-5" enctype="multipart/form-data">
+    <form action="/user/update" method="post" enctype="multipart/form-data"
+        class="fetch-form w-full flex flex-col md:flex-row justify-between items-start gap-5">
         <input type="hidden" class="hidden" name="usuario_id" id="user_id" value="<?= isset($_GET['id']) ? $_GET['id'] : $_SESSION['usuario_id'] ?>">
 
         <!-- Contenedor de imagen -->
@@ -22,7 +17,7 @@
                 class="hidden w-full text-sm text-slate-500 hover:file:bg-violet-100 file:duration-300 file:cursor-pointer file:bg-violet-50 file:text-violet-700 file:font-semibold file:rounded-xl file:border-0 file:p-1 file:px-3">
 
             <!-- Botones de edición y cerrar sesión -->
-            <?php if (isset($_SESSION['usuario']['rol_id']) && $_SESSION['usuario']['rol_id'] == 2 || isset($_SESSION['usuario']['rol_id']) && $_SESSION['usuario']['rol_id'] == 4 && ($user['rol_id'] == 2 || $user['rol_id'] == 3)|| isset($_SESSION['usuario']['rol_id']) && $_SESSION['usuario']['rol_id'] == 3) : ?>
+            <?php if (isset($_SESSION['usuario']['rol_id']) && $_SESSION['usuario']['rol_id'] == 2 || isset($_SESSION['usuario']['rol_id']) && $_SESSION['usuario']['rol_id'] == 4 && ($user['rol_id'] == 2 || $user['rol_id'] == 3) || isset($_SESSION['usuario']['rol_id']) && $_SESSION['usuario']['rol_id'] == 3) : ?>
                 <a href="<?= $_SESSION['usuario']['rol_id'] == 2 ? "/page/sellers/?seller=" . $user['usuario_id'] : "/page/delivery/?delivery=" . $user['usuario_id'] ?>"
                     class="group relative flex w-full justify-center rounded-md border border-transparent bg-violet-600 px-4 py-2 text-sm font-medium text-white hover:bg-violet-700 focus:outline-none focus:ring-2 focus:ring-violet-500 focus:ring-offset-2 disabled:cursor-wait disabled:opacity-50 cursor-pointer">
                     <span class="absolute inset-y-0 left-0 flex items-center pl-3">
@@ -129,7 +124,7 @@
             <h1 class="text-xl tracking-tight font-bold ">Compras de <?= $user['usuario_alias'] ?></h1>
         </span>
         <div class="w-full bg-white gap-5 p-5 rounded-b-lg overflow-x-auto">
-            <table class="w-full table-auto border-collapse border border-gray-900 text-center">
+            <table class="w-full table-auto border-collapse border border-gray-900 text-center [&>thead>tr>th]:p-2 [&>tbody>tr>td]:p-2">
                 <thead>
                     <tr class="bg-gray-200">
                         <th>Fecha</th>

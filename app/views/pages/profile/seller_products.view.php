@@ -44,9 +44,9 @@
     </span>
     <div class="w-full bg-white flex flex-col gap-5 justify-center items-center p-5 rounded-b-lg">
         <div class="w-full overflow-x-auto overflow-y-visible border border-gray-500">
-            <table class="w-full table text-left">
+            <table class="w-full table text-left [&>thead>tr>th]:p-3 [&>tbody>tr>td]:p-3">
                 <thead>
-                    <tr class="bg-gray-200 text-md font-bold text-gray-700 text-left">
+                    <tr class="bg-gray-200 text-[14px] font-bold text-gray-700 text-left">
                         <th><a href="/page/seller_products/<?= $this->buildQueryString([], ['order', 'sort']) ?>" class="tooltip tooltip-bottom" data-tip="Ordenar por ID">ID</a></th>
                         <th><a href="/page/seller_products/<?= $this->buildQueryString(['order' => 'asc', 'sort' => 'producto_nombre']) ?>" class="tooltip tooltip-bottom" data-tip="Ordenar por ID">Nombre</a></th>
                         <th><a href="/page/seller_products/<?= $this->buildQueryString(['order' => 'asc', 'sort' => 'producto_precio']) ?>" class="tooltip tooltip-bottom" data-tip="Ordenar por precio">Precio</a></th>
@@ -62,7 +62,7 @@
                             <td><?= $product['producto_nombre'] ?></td>
                             <td><?= number_format($product['producto_precio']) ?> COP</td>
                             <td><?= $product['producto_cantidad'] ?></td>
-                            <td><?= $product['categoria_nombre'] ?></td>
+                            <td class="capitalize"><?= $product['categoria_nombre'] ?></td>
                             <td class="flex flex-col sm:flex-row gap-3 justify-center items-center">
 
                                 <a href="/page/product_profile/?producto=<?= $product['producto_id'] ?>">
