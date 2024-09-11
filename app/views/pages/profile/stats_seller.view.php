@@ -304,7 +304,10 @@
                             display: true,
                             text: 'N° Productos Vendidos'
                         },
-                        beginAtZero: true
+                        beginAtZero: true,
+                        ticks: {
+                            precision: 0
+                        }
                     }
                 },
                 onClick: function(event, elements) {
