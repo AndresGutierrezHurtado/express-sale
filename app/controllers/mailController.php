@@ -7,24 +7,27 @@ class mailController extends Controller
         parent::__construct($conn);
     }
 
-    public function footerForm()
+    public function contact_form()
     {
-        $data = json_decode($_POST["data"], true);
-        $to = "expresssale.exsl@gmail.com";
-        $subject = "Formulario de envío | " . $_POST['subject'];
 
-        $message = "autor = [";
-        $message .= "\nid: " . $data['id'] . ",";
-        $message .= "\nusername: " . $data['username'] . ",";
-        $message .= "\nemail: " . $data['email'] . "\n]";
+        // Preparar mensaje
+        $message = "Autor: { " . (isset($_SESSION['usuario_id']) ? 
+        "\n    ID: " . $_SESSION['usuario_id'] . ", \n    Perfil: " . DOMAIN . "/page/profile/?id=" . $_SESSION['usuario_id'] . " \n}": 
+        "Autor desconocido }");
 
         $message .= "\n\nFORMULARIO DE ENVIO:";
-        $message .= "\nNombre: " . $_POST['firstNameFrom'] . " " . $_POST['lastNameFrom'] . ",";
-        $message .= "\nCorreo: " . $_POST['emailFrom'];
+        $message .= "\nNombre: " . $_POST['usuario_nombre'] . " " . $_POST['usuario_apellido'] . ",";
+        $message .= "\nCorreo: " . $_POST['usuario_correo'];
         $message .= "\n\nMensaje:";
-        $message .= "\n" . $_POST['message'];
+        $message .= "\n" . $_POST['correo_mensaje'];
 
-        $result = $this->mailerModel->send($to, $subject, $message);
+        // Enviar correo
+        $result = $this->mailerModel->send(
+            "expresssale.exsl@gmail.com", // to
+            $_POST["correo_asunto"] . " Formulario de contacto Express Sale", // subject
+            $message, // message
+            false // isHTML
+        );
 
         echo json_encode($result);
     }
