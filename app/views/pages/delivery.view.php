@@ -203,16 +203,6 @@
 <script>
     let visible = false;
     
-    function login () {
-        if (confirm('Para calificar un producto debes iniciar sesión.')) {
-            window.location.href = '/page/login';
-        }
-    }
-
-    function toggleOptions(id) {
-        document.getElementById(id).classList.toggle('hidden');
-    }
-
     function toggleComments() {
         document.getElementById('comment-box').classList.toggle('hidden');
         visible = !visible;

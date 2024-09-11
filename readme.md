@@ -57,7 +57,6 @@ El ORM implementado en el proyecto es una clase base para los modelos, facilitan
 - **Panel de Control:** Panel para administradores con capacidades de búsqueda, clasificación y gestión de usuarios y productos.
 
 ## Por Hacer
-- cambiar links y scripts externos
 - cambiar como funciona el fetch form (cambiar carrito, y perfiles)
 - ver historial de retiros
 - agregar sweetAlert

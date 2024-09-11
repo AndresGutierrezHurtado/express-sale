@@ -15,9 +15,7 @@ class UserController extends Controller
 
     public function login()
     {
-        $result = $this->userModel->auth($_POST);
-
-        echo json_encode($result);
+        echo json_encode($this->userModel->auth($_POST));
     }
 
     public function google_login()

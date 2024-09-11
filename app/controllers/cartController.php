@@ -8,34 +8,18 @@ class cartController extends Controller
         parent::__construct($conn);
     }
 
-    public function add()
-    {
-        $product = $_POST;
-        $result = $this->cartModel->add($product);
-
-        echo json_encode($result);
-    }
-
     public function update()
     {
-        $product = $_POST;
-        $result = $this->cartModel->add($product, $product['action']);
-
-        echo json_encode($result);
+        echo json_encode($this->cartModel->add($_POST, $_POST['action'] ?? 'increase'));
     }
 
     public function delete()
     {
-        $product = $_POST;
-        $result = $this->cartModel->remove($product);
-
-        echo json_encode($result);
+        echo json_encode($this->cartModel->remove($_POST['producto_id']));
     }
 
     public function empty()
     {
-        $result = $this->cartModel->empty();
-
-        echo json_encode($result);
+        echo json_encode($this->cartModel->empty());
     }
 }
