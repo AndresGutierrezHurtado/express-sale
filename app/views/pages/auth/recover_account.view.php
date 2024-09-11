@@ -8,7 +8,8 @@
             <h3 class="text-3xl font-bold tracking-tight">¿Tienes problemas iniciando sesión?</h3>
             <p> Ingresa el correo vinculado a tu cuenta y te enviaremos un correo con las credenciales para iniciar sesión. </p>
         </div>
-        <form onsubmit="recover_account(event)" id="form-recover-account"class="w-full flex flex-col gap-4">
+
+        <form action="/mail/recover_account" method="POST" data-redirect="/page/login" class="fetch-form w-full flex flex-col gap-4">
             <div class="space-y-2">
                 <label for="usuario_correo" class="block text-sm font-medium text-gray-700">Correo electrónico</label>
                 <input type="email" id="usuario_correo" name="usuario_correo"
@@ -30,23 +31,3 @@
     </div>
 
 </main>
-
-<script>
-    function recover_account(e) {
-        e.preventDefault();
-
-        let data = new FormData(document.getElementById('form-recover-account'));
-        
-        fetch('/mail/recover_account', {
-            method: 'POST',
-            body: data
-        })
-        .then(Response => Response.json())
-        .then(data => {
-            alert(data.message);
-            if (data.success) {
-                window.location = '/page/login';
-            }
-        });
-    }
-</script>

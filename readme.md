@@ -58,6 +58,6 @@ El ORM implementado en el proyecto es una clase base para los modelos, facilitan
 
 ## Por Hacer
 - cambiar links y scripts externos
-- cambiar como funciona el fetch form (cambiar auth, carrito, y perfiles)
+- cambiar como funciona el fetch form (cambiar carrito, y perfiles)
 - ver historial de retiros
 - agregar sweetAlert
