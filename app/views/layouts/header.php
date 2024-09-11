@@ -26,23 +26,28 @@
             </div>
 
             <!-- Search form -->
-            <form id="search-form" class="hidden lg:flex gap-2 items-center grow max-w-[550px]" action="/page/products/" method="GET">
+            <form id="search-form" class="hidden lg:flex gap-2 items-center justify-center grow max-w-[550px]" action="/page/products/" method="GET">
                 <?php if (isset($_GET['search']) && !empty($_GET['search'])) : ?>
                     <a href="/page/products/"
-                        class="border border-gray-400 size-[35px] rounded flex items-center justify-center text-gray-600 bg-gray-50 duration-300 hover:bg-gray-100 hover:text-gray-700 focus:ring-1 focus:ring-violet-600 focus:ring-offset-2 focus:outline-none">
+                        class="btn btn-ghost btn-sm border border-gray-400/70">
                         <i class="fa-solid fa-arrows-rotate"></i>
                     </a>
                 <?php endif; ?>
-                <div class="relative grow">
-                    <div class="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
-                        <svg class="w-4 h-4 text-gray-500" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
-                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z" />
+                <label class="input input-sm input-bordered w-full max-w-[400px] min-h-none h-auto py-0.5 px-3 flex items-center gap-2 focus-within:outline-offset-0 focus-within:outline-1 focus-within:outline-violet-600">
+                    <input name="search" class="grow" placeholder="Buscar producto..." value="<?= isset($_GET['search']) && !empty($_GET['search']) ? $_GET['search'] : '' ?>" />
+                    <button type="submit" class="btn btn-sm btn-ghost btn-circle">
+                        <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            viewBox="0 0 16 16"
+                            fill="currentColor"
+                            class="h-4 w-4 opacity-70">
+                            <path
+                                fill-rule="evenodd"
+                                d="M9.965 11.026a5 5 0 1 1 1.06-1.06l2.755 2.754a.75.75 0 1 1-1.06 1.06l-2.755-2.754ZM10.5 7a3.5 3.5 0 1 1-7 0 3.5 3.5 0 0 1 7 0Z"
+                                clip-rule="evenodd" />
                         </svg>
-                    </div>
-                    <input type="text" name="search" placeholder="Buscar producto..." value="<?= isset($_GET['search']) && !empty($_GET['search']) ? $_GET['search'] : '' ?>"
-                        class="block w-full p-2 ps-10 text-sm text-gray-900 border border-gray-400 rounded-lg bg-gray-50 focus:ring-1 focus:ring-violet-600 focus:outline-none focus:border-violet-600" />
-                    <button type="submit" class="text-black absolute top-1/2 right-5 -translate-y-1/2 font-medium text-sm hover:text-violet-600">Search</button>
-                </div>
+                    </button>
+                </label>
             </form>
 
             <!-- Account buttons -->

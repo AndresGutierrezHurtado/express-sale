@@ -9,7 +9,7 @@
                 <p class="font-semibold text-gray-500"><?= $products['rows'] ?> Resultados</p>
             </div>
 
-            <div class="flex gap-1">
+            <div class="flex items-center lg:justify-end gap-1">
                 <p>ordenar por</p>
                 <select class="h-fit bg-transparent text-start" id="sort-select" onchange="window.location = this.value">
                     <option value="/page/products/<?= $this->buildQueryString([], ['sort']) ?>" <?= isset($_GET['sort']) && $_GET['sort'] == 'calificacion_promedio' ? 'selected' : '' ?>> destacado </option>
@@ -38,7 +38,7 @@
                 <!-- Filtrar por precio -->
                 <div class="flex flex-col gap-1">
                     <label class="block text-sm font-medium text-gray-700">Precio</label>
-                    <span class="flex gap-3">
+                    <span class="flex gap-3 tooltip w-fit" data-tip="Reinicia el filtro de precio">
                         <input type="radio" class="price-radio" name="precio" value="/page/products/<?= $this->buildQueryString([], ['min', 'max']) ?>" <?= !isset($_GET['min']) && !isset($_GET['max']) ? 'checked' : '' ?>>
                         <label for="filtro-precios-cualquiera">Cualquiera</label>
                     </span>
@@ -56,22 +56,16 @@
                     </span>
                     <form action="/page/products/" method="GET" class="flex flex-col gap-3 w-full my-2">
                         <?php foreach ($_GET as $key => $value) : ?>
+                            <?php if ($key == 'min' || $key == 'max') continue; ?>
                             <input type="hidden" name="<?= $key ?>" value="<?= $value ?>">
                         <?php endforeach; ?>
+
                         <div class="flex gap-3">
-                            <input type="number" name="min" class="border p-1 px-2 w-1/2 input-price-filter" required placeholder="Desde...">
-                            <input type="number" name="max" class="border p-1 px-2 w-1/2 input-price-filter" required placeholder="Hasta">
+                            <input type="number" name="min" min="0" class="input-price-filter input input-sm input-bordered w-1/2 rounded-sm" required placeholder="Desde...">
+                            <input type="number" name="max" max="10000000000" class="input-price-filter input input-sm input-bordered w-1/2 rounded-sm" required placeholder="Hasta...">
                         </div>
                         <div class="flex w-full gap-3">
-                            <!-- Botón de refrescar y submit -->
-                            <?php if (isset($_GET['max']) || isset($_GET['max'])) : ?>
-                                <a href="/page/products/<?= $this->buildQueryString([], ['min', 'max']) ?>" data-tip="Quita el valor mínimo y máximo de precios de los filtros" class="tooltip">
-                                    <div class="bg-violet-800 rounded-lg text-white font-bold p-1 px-3 duration-300 hover:bg-violet-600 w-full">
-                                        <i class="fa-solid fa-arrows-rotate"></i>
-                                    </div>
-                                </a>
-                            <?php endif; ?>
-                            <button class="bg-violet-800 rounded-lg text-white font-bold hidden p-1 px-3 duration-300 hover:bg-violet-600 w-full" id="btn-price-filter-submit"> Cambiar </button>
+                            <button class="bg-violet-600 rounded-lg text-white font-bold hidden p-1 px-3 duration-300 hover:bg-violet-700 w-full" id="btn-price-filter-submit"> Cambiar </button>
                         </div>
                     </form>
                 </div>
