@@ -2,7 +2,7 @@
 <script>
     function initMap() {
         // Coordenadas y opciones del mapa
-        var map = new google.maps.Map(document.getElementById('map'), {
+        var map = new google.maps.Map(document.getElementById('shipment-map'), {
             zoom: 10,
             center: {
                 lat: 0,
@@ -171,7 +171,7 @@
             <h2 class="text-xl font-semibold mb-2">Ruta de entrega</h2>
 
             <!-- Mapa -->
-            <div id="map" class="h-96"></div>
+            <div id="shipment-map" class="h-96"></div>
 
             <!-- Botón para abrir la ruta en Waze -->
             <div class="text-center mt-5 flex gap-4 justify-center items-center">

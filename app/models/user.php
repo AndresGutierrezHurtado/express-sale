@@ -319,9 +319,10 @@ class User extends Orm
 
         // Cantidad total de domicilios ehchos
         $sql = "
-        SELECT COALESCE(COUNT(pedido_id), 0) as cantidad_total_envios
+        SELECT COALESCE(COUNT(detalles_envios.pedido_id), 0) as cantidad_total_envios
         FROM detalles_envios 
-        WHERE trabajador_id = :trabajador_id
+        INNER JOIN pedidos ON detalles_envios.pedido_id = pedidos.pedido_id
+        WHERE trabajador_id = :trabajador_id AND pedido_estado = 'recibido'
         ";
 
         $stmt = $this->db->prepare($sql);
