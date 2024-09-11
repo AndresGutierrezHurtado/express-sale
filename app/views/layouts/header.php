@@ -133,13 +133,15 @@
                             </span>
                             Mi cuenta
                         </a>
-                        <a id="btn-logout-header"
+                        <form action="/user/logout" method="post" class="fetch-form" data-redirect="/">
+                            <button type="submit"
                             class="group relative flex w-full justify-center rounded-md border border-transparent bg-violet-600 px-4 py-2 text-sm font-medium text-white hover:bg-violet-700 focus:outline-none focus:ring-2 focus:ring-violet-500 focus:ring-offset-2 disabled:cursor-wait disabled:opacity-50 cursor-pointer">
                             <span class="absolute inset-y-0 left-0 flex items-center pl-3">
                                 <i class="fa-solid fa-right-from-bracket text-[18px] text-violet-500 duration-300 group-hover:text-violet-400"></i>
                             </span>
                             Cerrar sesión
-                        </a>
+                            </button>
+                        </form>
                     <?php else : ?>
                         <!-- Botón de iniciar sesión y registrarse -->
                         <a href="/page/register"
@@ -163,23 +165,3 @@
         </div>
     </nav>
 </header>
-
-<script>
-    // Botón cerrar sesión
-    if (document.getElementById('btn-logout-header')) {
-        document.getElementById('btn-logout-header').addEventListener('click', () => {
-            if (confirm('¿Estás seguro que quieres cerrar sesión?')) {
-                fetch('/user/log_out')
-                    .then(response => response.json())
-                    .then(data => {
-                        if (data.success) {
-                            alert(data.message);
-                            window.location.href = '/';
-                        } else {
-                            alert('hubo un problema.');
-                        }
-                    });
-            }
-        });
-    }
-</script>
