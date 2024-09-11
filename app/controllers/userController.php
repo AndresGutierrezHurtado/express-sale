@@ -119,21 +119,16 @@ class UserController extends Controller
 
     public function delete()
     {
-        $post_data = file_get_contents('php://input');
-        $post_data = json_decode($post_data, true);
-
-        $result = $this->userModel->deleteById($post_data['id']);
-
+        $result = $this->userModel->deleteById($_POST['usuario_id']);
+        if ($_POST['usuario_id'] == $_SESSION['usuario_id'] && $result['success']) {
+            session_destroy();
+        }
         echo json_encode($result);
     }
 
     public function withdraw()
     {
-        $data = $_POST;
-
-        $result = $this->withdrawModel->insert($data);
-
-        echo json_encode($result);
+        echo json_encode($this->withdrawModel->insert($_POST));
     }
 
     public function logout()
