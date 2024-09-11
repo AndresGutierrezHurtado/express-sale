@@ -1,0 +1,4 @@
+.tooltip {
+    --tooltip-text-color: oklch(var(--bc));
+    --tooltip-color: oklch(var(--b3));
+}
