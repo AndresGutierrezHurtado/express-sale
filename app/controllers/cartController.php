@@ -10,7 +10,7 @@ class cartController extends Controller
 
     public function update()
     {
-        echo json_encode($this->cartModel->add($_POST, $_POST['action'] ?? 'increase'));
+        echo json_encode($this->cartModel->add($_POST, $_POST['operation'] ?? 'increase'));
     }
 
     public function delete()

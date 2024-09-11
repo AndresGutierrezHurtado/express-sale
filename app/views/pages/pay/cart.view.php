@@ -31,18 +31,31 @@
                                     <span class="flex gap-3">
                                         <p>Cantidad: </p>
 
-                                        <button onclick="useFetch('/cart/update', 'POST', { 'producto_id': <?= $product['producto_id'] ?> })"
-                                            class="border border-gray-800 size-[30px] rounded-full flex items-center justify-center btn-increase">
-                                            <i class="fa-solid fa-arrow-up"></i>
-                                        </button>
+                                        <!-- Sumar cantidad -->
+                                        <form action="/cart/update" method="post" class="fetch-form">
+                                            <input type="hidden" name="producto_id" value="<?= $product['producto_id'] ?>">
+                                            <input type="hidden" name="operation" value="increase">
 
+                                            <button type="submit"
+                                                class="border border-gray-800 size-[30px] rounded-full flex items-center justify-center btn-increase">
+                                                <i class="fa-solid fa-arrow-up"></i>
+                                            </button>
+                                        </form>
+
+                                        <!-- Cantidad -->
                                         <input type="number" value="<?= $product['producto_cantidad']; ?>" placeholder="Cantidad" min="1" max="50" disabled
                                             class="w-[50px] border border-gray-800 px-2 p-[2px] rounded-lg mb-4">
 
-                                        <button onclick="useFetch('/cart/update', 'POST', { 'producto_id': <?= $product['producto_id'] ?>, 'action': 'decrease' })"
-                                            class="border border-gray-800 size-[30px] rounded-full flex items-center justify-center btn-decrease <?= $product['producto_cantidad'] == 1 ? 'cursor-no-drop' : '' ?>" <?= $product['producto_cantidad'] == 1 ? 'disabled' : '' ?>>
-                                            <i class="fa-solid fa-arrow-down"></i>
-                                        </button>
+                                        <!-- Restar cantidad -->
+                                        <form action="/cart/update" method="post" class="fetch-form">
+                                            <input type="hidden" name="producto_id" value="<?= $product['producto_id'] ?>">
+                                            <input type="hidden" name="operation" value="decrease">
+
+                                            <button type="submit"
+                                                class="border border-gray-800 size-[30px] rounded-full flex items-center justify-center btn-increase">
+                                                <i class="fa-solid fa-arrow-down"></i>
+                                            </button>
+                                        </form>
                                     </span>
                                 </div>
                             </div>
@@ -54,13 +67,17 @@
                             </span>
 
                             <!-- Quitar del carrito -->
-                            <button onclick="useFetch('/cart/delete', 'POST', { 'producto_id': <?= $product['producto_id'] ?> })"
-                                class="btn-delete group relative flex w-full justify-center rounded-md border border-transparent bg-red-600 px-4 py-2 text-sm font-medium text-white hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 disabled:cursor-wait disabled:opacity-50">
-                                <span class="absolute inset-y-0 left-0 flex items-center pl-3">
-                                    <i class="fa-solid fa-trash-can text-[17px] text-red-500 duration-300 group-hover:text-red-400"></i>
-                                </span>
-                                Quitar al carrito
-                            </button>
+                            <form action="/cart/delete" method="post" class="fetch-form">
+                                <input type="hidden" name="producto_id" value="<?= $product['producto_id'] ?>">
+
+                                <button type="submit"
+                                    class="btn-delete group relative flex w-full justify-center rounded-md border border-transparent bg-red-600 px-4 py-2 text-sm font-medium text-white hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 disabled:cursor-wait disabled:opacity-50">
+                                    <span class="absolute inset-y-0 left-0 flex items-center pl-3">
+                                        <i class="fa-solid fa-trash-can text-[17px] text-red-500 duration-300 group-hover:text-red-400"></i>
+                                    </span>
+                                    Quitar al carrito
+                                </button>
+                            </form>
                         </div>
                     </article>
 
@@ -69,7 +86,12 @@
 
             <?php if (count($products) > 1): ?>
                 <hr>
-                <button onclick="useFetch('/cart/empty', 'POST', {})" type="submit" class="w-full border-2 border-violet-600 text-violet-600 font-bold rounded-md p-1.5 px-3 duration-300 hover:bg-gray-200">Vaciar carrito</button>
+                <form action="/cart/empty" method="post" class="fetch-form">
+                    <button type="submit"
+                        class="w-full border-2 border-violet-600 text-violet-600 font-bold rounded-md p-1.5 px-3 duration-300 hover:bg-gray-200">
+                        Vaciar carrito
+                    </button>
+                </form>
             <?php endif; ?>
         </div>
 

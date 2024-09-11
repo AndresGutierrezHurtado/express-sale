@@ -20,11 +20,11 @@ class Cart{
         return $products;
     }
 
-    public function add($product, $action = 'increase'){
+    public function add($product, $operation = 'increase'){
         $found = false;
         foreach ($_SESSION['carrito'] as &$item) {
             if ($item['producto_id'] == $product['producto_id']) {
-                $item['producto_cantidad'] = $action == 'increase' ? $item['producto_cantidad'] + 1 : $item['producto_cantidad'] - 1 ;
+                $item['producto_cantidad'] = $operation == 'increase' ? $item['producto_cantidad'] + 1 : $item['producto_cantidad'] - 1 ;
                 $found = true;
                 break;
             }
