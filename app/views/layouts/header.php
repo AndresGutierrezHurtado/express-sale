@@ -63,10 +63,17 @@
                     </a>
                 <?php endif; ?>
 
+                <?php if (isset($_SESSION['usuario']['rol_id']) && $_SESSION['usuario']['rol_id'] == 2): ?>
+                    <a href="/page/stats/" class="flex gap-2 items-center">
+                        <i class="fa-solid fa-truck-ramp-box text-[15px]"></i>
+                        Vendedor
+                    </a>
+                <?php endif; ?>
+
                 <?php if (isset($_SESSION['usuario']['rol_id']) && $_SESSION['usuario']['rol_id'] == 3): ?>
-                    <a href="/page/shipments" class="flex gap-3 items-center">
+                    <a href="/page/stats/" class="flex gap-3 items-center">
                         <i class="fa-solid fa-truck text-[15px]"></i>
-                        Envíos
+                        Domiciliario
                     </a>
                 <?php endif; ?>
 

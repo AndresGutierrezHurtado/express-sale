@@ -5,23 +5,28 @@ forms.forEach(form => {
         event.preventDefault();
 
         const data = new FormData(form);
-
-        fetch(form.action, {
-            method: form.method,
-            body: data
-        })
-            .then(response => response.json())
-            .then(data => {
-                if (data.success) {
-                    alert(data.message);
-                    if (form.dataset.redirect !== undefined) {
-                        window.location.href = form.dataset.redirect;
-                    } else {
-                        window.location.reload();
-                    }
-                } else {
-                    alert('Error: ' + data.error);
-                }
-            });
+        
+        useFetch(form.action, form.method, data, form.dataset.redirect || undefined);
     })
 });
+
+
+function useFetch(action, method, data, redirect = undefined) {
+    fetch(action, {
+        method: method,
+        body: data
+    })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                alert(data.message);
+                if (redirect !== undefined) {
+                    window.location.href = redirect;
+                } else {
+                    window.location.reload();
+                }
+            } else {
+                alert('Error: ' + data.error);
+            }
+        });
+}

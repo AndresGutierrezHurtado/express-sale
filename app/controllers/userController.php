@@ -138,7 +138,7 @@ class UserController extends Controller
         echo json_encode($result);
     }
 
-    public function log_out()
+    public function logout()
     {
         session_destroy();
         echo json_encode(['success' => true, 'message' => 'Sesión cerrada.']);

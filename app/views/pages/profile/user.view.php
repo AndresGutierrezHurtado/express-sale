@@ -30,13 +30,6 @@
                     </span>
                     Perfil
                 </a>
-                <a href="/page/stats/?id=<?= $user['usuario_id'] ?>"
-                    class="group relative flex w-full justify-center rounded-md border border-transparent bg-violet-600 px-4 py-2 text-sm font-medium text-white hover:bg-violet-700 focus:outline-none focus:ring-2 focus:ring-violet-500 focus:ring-offset-2 disabled:cursor-wait disabled:opacity-50 cursor-pointer">
-                    <span class="absolute inset-y-0 left-0 flex items-center pl-3">
-                        <i class="fa-solid fa-wallet text-[18px] text-violet-500 duration-300 group-hover:text-violet-400"></i>
-                    </span>
-                    Panel <?= $user['rol_nombre'] ?>
-                </a>
             <?php endif; ?>
             <a id="btn-edit"
                 class="group relative flex w-full justify-center rounded-md border border-transparent bg-gray-100 px-4 py-2 text-sm font-medium text-black hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-gray-300 focus:ring-offset-2 disabled:cursor-wait disabled:opacity-50 cursor-pointer">
@@ -46,15 +39,14 @@
                 Editar
             </a>
             <?php if ($user['usuario_id'] == $_SESSION['usuario_id']) : ?>
-                <a id="btn-logout"
+                <button type="button" onclick="useFetch('/user/logout', 'post', {}, '/')"
                     class="group relative flex w-full justify-center rounded-md border border-transparent bg-violet-600 px-4 py-2 text-sm font-medium text-white hover:bg-violet-700 focus:outline-none focus:ring-2 focus:ring-violet-500 focus:ring-offset-2 disabled:cursor-wait disabled:opacity-50 cursor-pointer">
                     <span class="absolute inset-y-0 left-0 flex items-center pl-3">
                         <i class="fa-solid fa-right-from-bracket text-[18px] text-violet-500 duration-300 group-hover:text-violet-400"></i>
                     </span>
                     Cerrar sesión
-                </a>
+                </button>
             <?php endif; ?>
-
         </div>
 
         <!-- Contenedor de información -->
