@@ -15,9 +15,7 @@ class UserController extends Controller
 
     public function login()
     {
-        $result = $this->userModel->auth($_POST);
-
-        echo json_encode($result);
+        echo json_encode($this->userModel->auth($_POST));
     }
 
     public function google_login()
@@ -72,7 +70,7 @@ class UserController extends Controller
         }
     }
 
-    public function create()
+    public function register()
     {
         $_POST['usuario_contra'] = md5($_POST['usuario_contra']);
 
@@ -121,24 +119,19 @@ class UserController extends Controller
 
     public function delete()
     {
-        $post_data = file_get_contents('php://input');
-        $post_data = json_decode($post_data, true);
-
-        $result = $this->userModel->deleteById($post_data['id']);
-
+        $result = $this->userModel->deleteById($_POST['usuario_id']);
+        if ($_POST['usuario_id'] == $_SESSION['usuario_id'] && $result['success']) {
+            session_destroy();
+        }
         echo json_encode($result);
     }
 
     public function withdraw()
     {
-        $data = $_POST;
-
-        $result = $this->withdrawModel->insert($data);
-
-        echo json_encode($result);
+        echo json_encode($this->withdrawModel->insert($_POST));
     }
 
-    public function log_out()
+    public function logout()
     {
         session_destroy();
         echo json_encode(['success' => true, 'message' => 'Sesión cerrada.']);

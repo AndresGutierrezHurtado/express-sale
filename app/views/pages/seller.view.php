@@ -258,13 +258,17 @@
                         </span>
 
                         <!-- Agregar al carrito -->
-                        <button type="submit" data-producto-id="<?= $product['producto_id'] ?>" <?= isset($_SESSION['usuario_id']) ? "" : "onclick='login()' " ?>
-                            class="<?= isset($_SESSION['usuario_id']) ? "btn-add-cart" : "" ?> group relative flex w-full justify-center rounded-md border border-transparent bg-violet-600 px-4 py-2 text-sm font-medium text-white hover:bg-violet-700 focus:outline-none focus:ring-2 focus:ring-violet-500 focus:ring-offset-2 disabled:cursor-wait disabled:opacity-50">
-                            <span class="absolute inset-y-0 left-0 flex items-center pl-3">
-                                <i class="fa-solid fa-cart-plus text-[17px] text-violet-500 duration-300 group-hover:text-violet-400"></i>
-                            </span>
-                            Agregar al carrito
-                        </button>
+                        <form action="/cart/update" method="post" class="fetch-form w-full">
+                            <input type="hidden" name="producto_id" value="<?= $product['producto_id'] ?>">
+
+                            <button <?= isset($_SESSION['usuario_id']) ? "type='submit'" : "type='button' onclick='login()'" ?>
+                                class="group relative flex w-full justify-center rounded-md border border-transparent bg-violet-600 px-4 py-2 text-sm font-medium text-white hover:bg-violet-700 focus:outline-none focus:ring-2 focus:ring-violet-500 focus:ring-offset-2 disabled:cursor-wait disabled:opacity-50">
+                                <span class="absolute inset-y-0 left-0 flex items-center pl-3">
+                                    <i class="fa-solid fa-cart-plus text-[17px] text-violet-500 duration-300 group-hover:text-violet-400"></i>
+                                </span>
+                                Agregar al carrito
+                            </button>
+                        </form>
                     </div>
                 </article>
 
@@ -445,16 +449,8 @@
     </dialog>
 <?php endforeach; ?>
 
-<script src="/public/js/cart.js"></script>
-<script src="/public/js/fetch-form.js"></script>
 <script>
     let visible = false;
-
-    function login() {
-        if (confirm('Para realizar esta acción, debes iniciar sesión.')) {
-            window.location.href = '/page/login';
-        }
-    }
 
     function toggleComments() {
         document.getElementById('comment-box').classList.toggle('hidden');

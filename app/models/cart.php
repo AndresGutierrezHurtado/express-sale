@@ -20,11 +20,11 @@ class Cart{
         return $products;
     }
 
-    public function add($product, $action = 'increase'){
+    public function add($product, $operation = 'increase'){
         $found = false;
         foreach ($_SESSION['carrito'] as &$item) {
             if ($item['producto_id'] == $product['producto_id']) {
-                $item['producto_cantidad'] = $action == 'increase' ? $item['producto_cantidad'] + 1 : $item['producto_cantidad'] - 1 ;
+                $item['producto_cantidad'] = $operation == 'increase' ? $item['producto_cantidad'] + 1 : $item['producto_cantidad'] - 1 ;
                 $found = true;
                 break;
             }
@@ -38,9 +38,9 @@ class Cart{
         return ['success' => true, 'message' => 'La acción se realizó correctamente', 'cart' => $_SESSION['carrito']];
     }
 
-    public function remove($product){
+    public function remove($id){
         foreach ($_SESSION['carrito'] as $key => $item) {
-            if ($item['producto_id'] == $product['producto_id']) {
+            if ($item['producto_id'] == $id) {
                 array_splice($_SESSION['carrito'], $key, 1);
                 break;
             }

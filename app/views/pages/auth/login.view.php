@@ -1,4 +1,3 @@
-
 <!-- Fondo Morado -->
 <div class="fixed inset-0 overflow-hidden">
     <div class="absolute bg-violet-800 h-[120%] md:h-[140vh] w-[100%] left-[-50%] rounded-full top-1/2 transform -translate-y-1/2"></div>
@@ -19,12 +18,12 @@
             </div>
         </div>
 
-        <form id="login_form" method="post" class="space-y-6">
+        <form action="/user/login" method="post" data-redirect="/" class="fetch-form space-y-6">
             <!-- Formulario -->
             <div>
                 <label for="usuario_alias" class="block text-sm font-medium text-gray-700">Correo electrónico / Usuario</label>
                 <div class="mt-1">
-                    <input id="usuario_alias" name="usuario_alias" type="text" 
+                    <input id="usuario_alias" name="usuario" type="text" 
                     class="block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-violet-600 focus:outline-none sm:text-sm" required>
                 </div>
             </div>
@@ -36,7 +35,7 @@
                 </div>
             </div>
             <div class="flex items-center justify-between">
-                <div class="flex items-center">
+                <div class="flex items-center tooltip" data-tip="Opción no disponible">
                     <input id="remember_me" type="checkbox" class="h-4 w-4 rounded border-gray-300 text-violet-600 disabled:opacity-50" disabled>
                     <label for="remember_me" class="ml-2 block text-sm text-gray-400">Recuérdame</label>
                 </div>
@@ -75,4 +74,3 @@
         </span>
     </div>
 </main> 
-<script src="/public/js/login.js"></script>

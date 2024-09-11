@@ -84,14 +84,18 @@
                                     <td class="p-2"><?= $user['rol_nombre'] ?></td>
                                     <td class="p-2 flex flex-col gap-3 sm:flex-row justify-center">
                                         <a href="/page/profile/?id=<?= $user['usuario_id'] ?>">
-                                            <button class="p-[2px] sm:px-3 border-2 border-violet-800 text-violet-800 rounded-md font-bold duration-300 hover:bg-gray-200">
-                                                <i class="fa-solid fa-pen-to-square"></i>
+                                            <button class="group flex items-center justify-center rounded-md border border-transparent bg-gray-300 px-4 py-2 text-sm font-medium text-white hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-gray-200 focus:ring-offset-2 disabled:cursor-wait disabled:opacity-50 cursor-pointer">
+                                                <i class="fa-solid fa-pen-to-square text-[18px] text-gray-400 duration-300 group-hover:text-gray-500"></i>
                                             </button>
                                         </a>
-                                        <button id="btn-delete" onclick="if (confirm('¿Deseas eliminar este usuario?')) deleteElement(<?= $user['usuario_id'] ?>)"
-                                            class="p-[2px] sm:px-3 bg-violet-800 text-white rounded-md font-bold duration-300 hover:bg-violet-600">
-                                            <i class="fa-solid fa-trash-can"></i>
-                                        </button>
+
+                                        <form action="/user/delete" method="post" class="fetch-form">
+                                            <input type="hidden" name="usuario_id" value="<?= $user['usuario_id'] ?>">
+
+                                            <button type="submit" onclick="return confirm('¿Esta seguro de eliminar este usuario?')" class="relative group flex items-center justify-center rounded-md border border-transparent bg-violet-600 px-4 py-2 text-sm font-medium text-white hover:bg-violet-700 focus:outline-none focus:ring-2 focus:ring-violet-500 focus:ring-offset-2 disabled:cursor-wait disabled:opacity-50 cursor-pointer">
+                                                <i class="fa-solid fa-trash-can text-[18px] text-violet-400 duration-300 group-hover:text-violet-300"></i>
+                                            </button>
+                                        </form>
                                     </td>
                                 </tr>
                             <?php endforeach; ?>
@@ -139,22 +143,5 @@
     function toggleSortList() {
         document.getElementById('list-sort').classList.toggle('opacity-0');
         document.getElementById('list-sort').classList.toggle('opacity-100');
-    }
-
-    function deleteElement(idUsuario) {
-        fetch('/user/delete', {
-                method: 'POST',
-                body: JSON.stringify({
-                    'id': idUsuario
-                }),
-            })
-            .then(Response => Response.json())
-            .then(Data => {
-                alert(Data.message)
-                if (Data.success) {
-                    alert(Data.message)
-                    window.location.reload();
-                }
-            });
     }
 </script>

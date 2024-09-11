@@ -9,7 +9,7 @@
                 <p class="font-semibold text-gray-500"><?= $products['rows'] ?> Resultados</p>
             </div>
 
-            <div class="flex gap-1">
+            <div class="flex items-center lg:justify-end gap-1">
                 <p>ordenar por</p>
                 <select class="h-fit bg-transparent text-start" id="sort-select" onchange="window.location = this.value">
                     <option value="/page/products/<?= $this->buildQueryString([], ['sort']) ?>" <?= isset($_GET['sort']) && $_GET['sort'] == 'calificacion_promedio' ? 'selected' : '' ?>> destacado </option>
@@ -38,7 +38,7 @@
                 <!-- Filtrar por precio -->
                 <div class="flex flex-col gap-1">
                     <label class="block text-sm font-medium text-gray-700">Precio</label>
-                    <span class="flex gap-3">
+                    <span class="flex gap-3 tooltip w-fit" data-tip="Reinicia el filtro de precio">
                         <input type="radio" class="price-radio" name="precio" value="/page/products/<?= $this->buildQueryString([], ['min', 'max']) ?>" <?= !isset($_GET['min']) && !isset($_GET['max']) ? 'checked' : '' ?>>
                         <label for="filtro-precios-cualquiera">Cualquiera</label>
                     </span>
@@ -56,22 +56,16 @@
                     </span>
                     <form action="/page/products/" method="GET" class="flex flex-col gap-3 w-full my-2">
                         <?php foreach ($_GET as $key => $value) : ?>
+                            <?php if ($key == 'min' || $key == 'max') continue; ?>
                             <input type="hidden" name="<?= $key ?>" value="<?= $value ?>">
                         <?php endforeach; ?>
+
                         <div class="flex gap-3">
-                            <input type="number" name="min" class="border p-1 px-2 w-1/2 input-price-filter" required placeholder="Desde...">
-                            <input type="number" name="max" class="border p-1 px-2 w-1/2 input-price-filter" required placeholder="Hasta">
+                            <input type="number" name="min" min="0" class="input-price-filter input input-sm input-bordered w-1/2 rounded-sm" required placeholder="Desde...">
+                            <input type="number" name="max" max="10000000000" class="input-price-filter input input-sm input-bordered w-1/2 rounded-sm" required placeholder="Hasta...">
                         </div>
                         <div class="flex w-full gap-3">
-                            <!-- Botón de refrescar y submit -->
-                            <?php if (isset($_GET['max']) || isset($_GET['max'])) : ?>
-                                <a href="/page/products/<?= $this->buildQueryString([], ['min', 'max']) ?>" data-tip="Quita el valor mínimo y máximo de precios de los filtros" class="tooltip">
-                                    <div class="bg-violet-800 rounded-lg text-white font-bold p-1 px-3 duration-300 hover:bg-violet-600 w-full">
-                                        <i class="fa-solid fa-arrows-rotate"></i>
-                                    </div>
-                                </a>
-                            <?php endif; ?>
-                            <button class="bg-violet-800 rounded-lg text-white font-bold hidden p-1 px-3 duration-300 hover:bg-violet-600 w-full" id="btn-price-filter-submit"> Cambiar </button>
+                            <button class="bg-violet-600 rounded-lg text-white font-bold hidden p-1 px-3 duration-300 hover:bg-violet-700 w-full" id="btn-price-filter-submit"> Cambiar </button>
                         </div>
                     </form>
                 </div>
@@ -154,13 +148,17 @@
                             </span>
 
                             <!-- Agregar al carrito -->
-                            <button type="submit" data-producto-id="<?= $product['producto_id'] ?>" <?= isset($_SESSION['usuario_id']) ? "" : "onclick='login()' " ?>
-                                class="<?= isset($_SESSION['usuario_id']) ? "btn-add-cart" : "" ?> group relative flex w-full justify-center rounded-md border border-transparent bg-violet-600 px-4 py-2 text-sm font-medium text-white hover:bg-violet-700 focus:outline-none focus:ring-2 focus:ring-violet-500 focus:ring-offset-2 disabled:cursor-wait disabled:opacity-50">
-                                <span class="absolute inset-y-0 left-0 flex items-center pl-3">
-                                    <i class="fa-solid fa-cart-plus text-[17px] text-violet-500 duration-300 group-hover:text-violet-400"></i>
-                                </span>
-                                Agregar al carrito
-                            </button>
+                            <form action="/cart/update" method="post" class="fetch-form w-full">
+                                <input type="hidden" name="producto_id" value="<?= $product['producto_id'] ?>">
+
+                                <button <?= isset($_SESSION['usuario_id']) ? "type='submit'" : "type='button' onclick='login()'" ?>
+                                    class="group relative flex w-full justify-center rounded-md border border-transparent bg-violet-600 px-4 py-2 text-sm font-medium text-white hover:bg-violet-700 focus:outline-none focus:ring-2 focus:ring-violet-500 focus:ring-offset-2 disabled:cursor-wait disabled:opacity-50">
+                                    <span class="absolute inset-y-0 left-0 flex items-center pl-3">
+                                        <i class="fa-solid fa-cart-plus text-[17px] text-violet-500 duration-300 group-hover:text-violet-400"></i>
+                                    </span>
+                                    Agregar al carrito
+                                </button>
+                            </form>
                         </div>
                     </article>
 
@@ -242,8 +240,6 @@
     </dialog>
 <?php endforeach; ?>
 
-<script src="/public/js/fetch-form.js"></script>
-<script src="/public/js/cart.js"></script>
 <script>
     document.addEventListener('DOMContentLoaded', () => {
         // logica para rango de precios
@@ -266,10 +262,4 @@
         });
 
     });
-
-    function login() {
-        if (confirm("Tienes que iniciar sesión para calificar un producto. ¿Deseas iniciar sesión?")) {
-            window.location.href = '/page/login/';
-        }
-    }
 </script>

@@ -147,5 +147,3 @@
         <button class="cursor-auto">close</button>
     </form>
 </dialog>
-
-<script src="/public/js/fetch-form.js"></script>

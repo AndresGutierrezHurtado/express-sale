@@ -1,0 +1,8 @@
+.tooltip {
+    --tooltip-text-color: oklch(var(--bc));
+    --tooltip-color: oklch(var(--b3));
+
+    &::before {
+        font-weight: 500;
+    }
+}

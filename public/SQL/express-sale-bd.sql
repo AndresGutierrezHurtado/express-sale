@@ -248,7 +248,9 @@ ON DELETE CASCADE;
 ALTER TABLE `productos`
 ADD CONSTRAINT `fk_productos_usuarios` 
 FOREIGN KEY (`usuario_id`) 
-REFERENCES `usuarios`(`usuario_id`),
+REFERENCES `usuarios`(`usuario_id`)
+ON UPDATE CASCADE
+ON DELETE CASCADE,
 ADD CONSTRAINT `fk_productos_categorias` 
 FOREIGN KEY (`categoria_id`) 
 REFERENCES `categorias`(`categoria_id`)

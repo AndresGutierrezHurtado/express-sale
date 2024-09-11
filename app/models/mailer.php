@@ -10,9 +10,8 @@ use PHPMailer\PHPMailer\Exception;
 class Mailer
 {
 
-    public function send($to, $subject, $message)
+    public function send($to, $subject, $message, $isHTML = true)
     {
-
         try {
 
             $mail = new PHPMailer(true);
@@ -27,7 +26,7 @@ class Mailer
             $mail->setFrom('expresssale.exsl@gmail.com', 'Express Sale');
             $mail->addAddress($to);
             $mail->Subject = $subject;
-            $mail->isHTML(true);
+            $mail->isHTML($isHTML);
             $mail->Body = $message;
             $mail->CharSet = 'UTF-8';
 
