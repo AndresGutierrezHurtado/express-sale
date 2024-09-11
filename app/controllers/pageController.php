@@ -95,6 +95,9 @@ class PageController extends Controller
 
     public function cart()
     {
+        // MiddleWare
+        if (!isset($_SESSION['usuario_id'])) header("location: /");
+
         $products = $this->cartModel->getAll();
 
         $title = "Carrito";
