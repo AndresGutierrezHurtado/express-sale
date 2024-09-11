@@ -72,7 +72,7 @@ class UserController extends Controller
         }
     }
 
-    public function create()
+    public function register()
     {
         $_POST['usuario_contra'] = md5($_POST['usuario_contra']);
 

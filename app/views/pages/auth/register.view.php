@@ -18,7 +18,7 @@
             </div>
 
             <!-- Formulario -->
-            <form id="register_form" method="post" class="space-y-4">
+            <form action="/user/register" method="post" data-redirect="/page/login" class="fetch-form space-y-6">
                 <div>
                     <label for="usuario_nombre" class="block text-sm font-medium text-gray-700">Nombres</label>
                     <div class="mt-1">

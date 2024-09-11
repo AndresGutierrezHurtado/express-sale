@@ -9,11 +9,11 @@ class User extends Orm
 
     public function auth($data)
     {
-        $username = $data['usuario_alias'];
-        $sql = "SELECT * FROM $this->table WHERE usuario_alias = :username OR usuario_correo = :username";
+
+        $sql = "SELECT * FROM $this->table WHERE usuario_alias = :user OR usuario_correo = :user";
 
         $stmt = $this->db->prepare($sql);
-        $stmt->bindValue(':username', $username);
+        $stmt->bindValue(':user', $data['usuario']);
         $stmt->execute();
 
         $user = $stmt->fetch(PDO::FETCH_ASSOC);
@@ -26,7 +26,7 @@ class User extends Orm
                 $_SESSION["carrito"] = array();
                 $_SESSION["usuario_informacion"] = ['estado' => 'libre'];
 
-                return ['success' => true, 'message' => 'La inserción se realizó correctamente.'];
+                return ['success' => true, 'message' => 'La autenticación se realizó correctamente.'];
             } else {
                 return ['success' => false, 'message' => 'La contraseña no coincide.'];
             }

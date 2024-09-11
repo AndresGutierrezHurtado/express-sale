@@ -17,6 +17,7 @@ class PageController extends Controller
 
     public function login()
     {
+        if (isset($_SESSION['usuario_id'])) header('location: /');
 
         $auth_url = 'https://accounts.google.com/o/oauth2/auth?' . http_build_query([
             'client_id' => CLIENT_ID,
@@ -32,6 +33,7 @@ class PageController extends Controller
     }
     public function register()
     {
+        if (isset($_SESSION['usuario_id'])) header('location: /');
 
         $auth_url = 'https://accounts.google.com/o/oauth2/auth?' . http_build_query([
             'client_id' => CLIENT_ID,
@@ -245,19 +247,18 @@ class PageController extends Controller
 
     public function profile()
     {
+
         // MiddleWare
         $id = isset($_GET['id']) ? $_GET['id'] : $_SESSION['usuario_id'];
-        $isAdmin = $_SESSION["usuario"]['rol_id'] == 4 || $_SESSION['usuario_id'] == $id ? true : false;
-        if (!$isAdmin) {
-            header('location: /');
-            exit();
-        }
+        if (!isset($_SESSION['usuario_id']) || $id != $_SESSION['usuario_id'] && $_SESSION['usuario']['rol_id'] != 4) header("location: /");
 
         // User
-        $select_user = "usuarios.*, roles.*, trabajadores.trabajador_descripcion";
-        $inner_join_user = " INNER JOIN roles ON usuarios.rol_id = roles.rol_id
-        LEFT JOIN trabajadores ON usuarios.usuario_id = trabajadores.usuario_id ";
-        $user = $this->userModel->getById($id, $select_user, $inner_join_user);
+        $user = $this->userModel->getById(
+            $id,
+            "usuarios.*, roles.*, trabajadores.trabajador_descripcion",
+            "INNER JOIN roles ON usuarios.rol_id = roles.rol_id
+            LEFT JOIN trabajadores ON usuarios.usuario_id = trabajadores.usuario_id"
+        );
 
         // Orders
         $orders = $this->orderModel->getOrders("pedidos.usuario_id = $id");
@@ -272,10 +273,7 @@ class PageController extends Controller
     {
         // MiddleWare
         $id = isset($_GET['id']) ? $_GET['id'] : $_SESSION['usuario_id'];
-        if (!$_SESSION['usuario']['rol_id'] == 4 || !$_SESSION['usuario_id'] == $id) {
-            header('location: /');
-            exit();
-        }
+        if (!isset($_SESSION['usuario_id']) || $id != $_SESSION['usuario_id'] && $_SESSION['usuario']['rol_id'] != 4) header("location: /");
 
         // User
         $user = $this->userModel->getById($id, "*", "INNER JOIN roles ON usuarios.rol_id = roles.rol_id INNER JOIN trabajadores ON usuarios.usuario_id = trabajadores.usuario_id");
