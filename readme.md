@@ -58,5 +58,4 @@ El ORM implementado en el proyecto es una clase base para los modelos, facilitan
 
 ## Por Hacer
 - cambiar sidebar en stats
-- ver historial de retiros
 - agregar sweetAlert
