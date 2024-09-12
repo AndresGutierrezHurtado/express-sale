@@ -67,9 +67,9 @@
         <!-- Información de la compra -->
         <div>
             <h2 class="text-3xl font-bold mb-4">Productos</h2>
-            
             <div class="space-y-5 py-5">
                 <?php foreach($order['productos'] as $product): ?>
+                    <?php if($order['usuario_id'] != $_SESSION['usuario_id'] && $product['usuario_id'] != $_SESSION['usuario_id']) continue;  ?>
                     <article class="flex flex-col md:flex-row items-center justify-center p-5 border rounded-md gap-5">
                         <div class="w-[150px] flex-none">
                             <img src="<?= $product['producto_imagen_url'] ?>" alt="<?= $product['producto_nombre'] ?>" class="h-full w-full object-cover">

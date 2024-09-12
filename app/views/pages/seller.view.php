@@ -186,6 +186,8 @@
         <div class="w-full divide-y divide-gray-300">
             <?php foreach ($products['data'] as $product): ?>
 
+                <?php if ($product['producto_estado'] == 'privado') continue; ?>
+
                 <article class="w-full bg-white p-5 flex flex-col sm:flex-row gap-4 my-2">
                     <!-- Imagen -->
                     <a href="/page/product/?product=<?= $product['producto_id'] ?>" class="block w-full max-w-[230px] h-[240px] mx-auto">

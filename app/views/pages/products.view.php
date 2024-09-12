@@ -76,6 +76,8 @@
 
                 <?php foreach ($products['data'] as $product): ?>
 
+                    <?php if ($product['producto_estado'] == 'privado') continue; ?>
+
                     <article class="w-full bg-white p-5 rounded-lg shadow-lg flex flex-col sm:flex-row gap-4">
                         <!-- Imagen -->
                         <a href="/page/product/?product=<?= $product['producto_id'] ?>" class="block w-full max-w-[230px] h-[240px] mx-auto">

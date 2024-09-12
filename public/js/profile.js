@@ -15,7 +15,7 @@ if (editButton) {
 
             document.getElementById("btn-submit").classList.toggle("hidden");
             document
-                .getElementById("usuario_imagen")
+                .querySelector('input[type=file]')
                 .classList.toggle("hidden");
             document.querySelectorAll("[disabled]").forEach((input) => {
                 input.disabled = editable;

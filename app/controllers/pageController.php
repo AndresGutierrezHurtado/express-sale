@@ -148,7 +148,11 @@ class PageController extends Controller
     public function product()
     {
 
+        // Product
         $product = $this->productModel->getProduct($_GET['product']);
+
+        // MiddleWare
+        if ($product['producto_estado'] == 'privado') header("location: /");
 
         $title = $product['producto_nombre'];
         $content = __DIR__ . "/../views/pages/product.view.php";
