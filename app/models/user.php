@@ -28,10 +28,10 @@ class User extends Orm
 
                 return ['success' => true, 'message' => 'La autenticación se realizó correctamente.'];
             } else {
-                return ['success' => false, 'message' => 'La contraseña no coincide.'];
+                return ['success' => false, 'error' => 'La contraseña no coincide.'];
             }
         } else {
-            return ['success' => false, 'message' => 'No se encuentra el usuario/correo.'];
+            return ['success' => false, 'error' => 'No se encuentra el usuario/correo.'];
         }
     }
 
