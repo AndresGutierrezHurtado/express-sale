@@ -1,6 +1,6 @@
 <nav class="flex flex-col md:flex-row items-center justify-between gap-3">
     <h1 class="text-3xl font-bold tracking-tight w-fit">
-        Estadísticas de <?= $user['rol_nombre'] ?> <?= $user['usuario_nombre'] ?> <?= $user['usuario_apellido'] ?> 
+        Estadísticas de <?= $user['rol_nombre'] ?> <?= $user['usuario_nombre'] ?> <?= $user['usuario_apellido'] ?>
     </h1>
 
     <div class="flex gap-2 items-start w-full max-w-[400px]">
@@ -68,9 +68,9 @@
         <div class="stat-desc whitespace-normal"><?= 5 - $result['retiros_mes'] ?> retiros disponibles</div>
         <div class="divider"></div>
         <div class="space-y-2">
-            <p>Se actualiza cada 2 minutos aproximadamente</p>
-            <div class="<?= $user['trabajador_saldo'] < 10000 || $result['retiros_mes'] >= 5 ? 'tooltip tooltip-left' : '' ?>" <?= $result['retiros_mes'] >= 5 ? 'disabled data-tip="Ya no tienes retiros disponibles"' : ($user['trabajador_saldo'] > 10000 ? 'onclick="retirar_dinero.showModal()"' : 'data-tip="Debes tener al menos 10.000 COP" disabled') ?>>
-                <button class="btn btn-success text-white rounded-full px-10" <?= $result['retiros_mes'] >= 5 ? 'disabled data-tip="Ya no tienes retiros disponibles"' : ($user['trabajador_saldo'] > 10000 ? 'onclick="retirar_dinero.showModal()"' : 'data-tip="Debes tener al menos 10.000 COP" disabled') ?>>
+            <p><span class="font-bold text-violet-600 hover:underline cursor-pointer" onclick="withdrawal_history.showModal()">Ver historial de retiros</span>, <br> Se actualiza cada 2 minutos aproximadamente</p>
+            <div class="<?= $user['trabajador_saldo'] < 10000 || $result['retiros_mes'] >= 5 ? 'tooltip tooltip-left' : '' ?>" <?= $result['retiros_mes'] >= 5 ? 'disabled data-tip="Ya no tienes retiros disponibles"' : ($user['trabajador_saldo'] >= 10000 ? 'onclick="retirar_dinero.showModal()"' : 'data-tip="Debes tener al menos 10.000 COP"') ?>>
+                <button class="btn btn-success text-white rounded-full px-10" <?= $result['retiros_mes'] >= 5 || $user['trabajador_saldo'] < 10000 ? 'disabled' : '' ?>>
                     <i class="fa-solid fa-money-bill-wave"></i>
                     Retirar ahora
                 </button>
@@ -133,11 +133,9 @@
                         <?php foreach ($result['todos_los_pedidos'] as $order): ?>
                             <tr>
                                 <td>
+                                    <?php $total = 0 ?>
                                     <?php foreach ($order['productos'] as $product): ?>
-                                        <?php
-                                        $total = 0;
-                                        $total += $product['producto_precio'] * $product['producto_cantidad']
-                                        ?>
+                                        <?php $total += $product['producto_precio'] * $product['producto_cantidad'] ?>
                                         <div class="flex items-center gap-3">
                                             <div class="avatar">
                                                 <div class="mask mask-squircle h-12 w-12">
@@ -252,6 +250,46 @@
                 </button>
             </div>
         </form>
+    </div>
+    <form method="dialog" class="modal-backdrop">
+        <button>close</button>
+    </form>
+</dialog>
+
+<!-- withdrawal_history -->
+<dialog id="withdrawal_history" class="modal">
+    <div class="modal-box space-y-4">
+        <form method="dialog">
+            <button class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">✕</button>
+        </form>
+        <!-- Contenido modal -->
+        <h3 class="font-bold text-3xl tracking-tight">Historial de retiros</h3>
+        <div>
+            <table class="table min-w-full text-center border">
+                <thead>
+                    <tr class="text-[15px] text-base-content bg-base-300">
+                        <th>Fecha</th>
+                        <th>Valor</th>
+                        <th>Tipo</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php if (empty($result['withdraws'])): ?>
+                        <tr>
+                            <td colspan="3" class="font-bold text-center text-lg">No hay retiros</td>
+                        </tr>
+                    <?php endif ?>
+                    <?php foreach ($result['withdraws'] as $withdrawal): ?>
+                        <?php if (!$withdrawal['fecha']) continue; ?>
+                        <tr>
+                            <td><?= date('d-m-y H:i', strtotime($withdrawal['fecha'])) ?></td>
+                            <td class="<?= ($withdrawal['tipo'] == 'retiro' ? 'text-red-500' : 'text-green-500') ?> font-semibold"> <?= ($withdrawal['tipo'] == 'retiro' ? '-' : '+') . number_format($withdrawal['valor']) ?> COP</td>
+                            <td class="capitalize"><?= $withdrawal['tipo'] ?></td>
+                        </tr>
+                    <?php endforeach; ?>
+                </tbody>
+            </table>
+        </div>
     </div>
     <form method="dialog" class="modal-backdrop">
         <button>close</button>

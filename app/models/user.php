@@ -243,6 +243,50 @@ class User extends Orm
 
         $result['retiros_mes'] = $stmt->fetch(PDO::FETCH_ASSOC)['retiros_mes'];
 
+        // Todos los ingresos / retiros
+        $sql = "
+        SELECT retiros.retiro_valor as valor, retiros.retiro_fecha as fecha FROM retiros
+        WHERE trabajador_id = :trabajador_id
+        ";
+
+        $stmt = $this->db->prepare($sql);
+        $stmt->bindValue(':trabajador_id', $trabajadorId);
+        $stmt->execute();
+
+        foreach ($stmt->fetchAll(PDO::FETCH_ASSOC) as $withdraw) {
+            $result['withdraws'][] = array(
+                ...$withdraw,
+                'tipo' => 'retiro'
+            );
+        }
+
+        $sql = "
+        SELECT 
+        pedidos.pedido_id, pedidos.pedido_fecha as fecha,
+        COALESCE(SUM(IF(productos.usuario_id = :usuario_id, productos_pedidos.producto_precio * productos_pedidos.producto_cantidad, 0)), 0) AS valor
+        FROM pedidos
+        RIGHT JOIN productos_pedidos ON productos_pedidos.pedido_id = pedidos.pedido_id 
+        RIGHT JOIN productos ON productos_pedidos.producto_id = productos.producto_id 
+        WHERE productos.usuario_id = :usuario_id
+        GROUP BY pedidos.pedido_id
+        ";
+
+        $stmt = $this->db->prepare($sql);
+        $stmt->bindValue(':usuario_id', $vendedorId);
+        $stmt->execute();
+
+        foreach ($stmt->fetchAll(PDO::FETCH_ASSOC) as $order) {
+            $result['withdraws'][] = array(
+                ...$order,
+                'tipo' => 'ingreso'
+            );
+        }
+
+        // ordenar por fecha
+        usort($result['withdraws'], function ($a, $b) {
+            return strtotime($a['fecha']) - strtotime($b['fecha']);
+        });
+
         return $result;
     }
 
@@ -317,7 +361,7 @@ class User extends Orm
         $stmt->execute();
         $result['domicilios_mensuales'] = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-        // Cantidad total de domicilios ehchos
+        // Cantidad total de domicilios hechos
         $sql = "
         SELECT COALESCE(COUNT(detalles_envios.pedido_id), 0) as cantidad_total_envios
         FROM detalles_envios 
@@ -345,6 +389,50 @@ class User extends Orm
         $stmt->execute();
 
         $result['retiros_mes'] = $stmt->fetch(PDO::FETCH_ASSOC)['retiros_mes'];
+
+        // Todos los ingresos / retiros
+        $sql = "
+        SELECT retiros.retiro_valor as valor, retiros.retiro_fecha as fecha FROM retiros
+        WHERE trabajador_id = :trabajador_id
+        ";
+
+        $stmt = $this->db->prepare($sql);
+        $stmt->bindValue(':trabajador_id', $trabajadorId);
+        $stmt->execute();
+
+        $result['withdraws'] = [];
+
+        foreach ($stmt->fetchAll(PDO::FETCH_ASSOC) as $withdraw) {
+            $result['withdraws'][] = array(
+                ...$withdraw,
+                'tipo' => 'retiro'
+            );
+        }
+
+        $sql = "
+        SELECT 
+        pedidos.pedido_fecha as fecha,
+        COALESCE(SUM(detalles_envios.envio_valor), 0) as valor
+        FROM detalles_envios 
+        INNER JOIN pedidos ON detalles_envios.pedido_id = pedidos.pedido_id
+        WHERE trabajador_id = :trabajador_id AND pedido_estado = 'recibido'
+        ";
+
+        $stmt = $this->db->prepare($sql);
+        $stmt->bindValue(':trabajador_id', $trabajadorId);
+        $stmt->execute();
+
+        foreach ($stmt->fetchAll(PDO::FETCH_ASSOC) as $order) {
+            array_push($result['withdraws'], array(
+                ...$order,
+                'tipo' => 'ingreso'
+            ));
+        }
+
+        // ordenar por fecha
+        usort($result['withdraws'], function ($a, $b) {
+            return strtotime($a['fecha']) - strtotime($b['fecha']);
+        });
 
         return $result;
     }

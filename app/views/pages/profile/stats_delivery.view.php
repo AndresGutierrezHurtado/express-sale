@@ -35,16 +35,16 @@
     </article>
 
     <!-- Dinero disponible -->
-    <div class="flex flex-col gap-5">
-        <article class="w-full max-w-[500px] mx-auto h-fit p-10 flex flex-col items-center justify-center gap-1 card bg-base-100 stat text-center">
+    <div class="flex flex-col gap-5 w-full max-w-[450px]">
+        <article class="w-full mx-auto h-fit p-10 flex flex-col items-center justify-center gap-1 card bg-base-100 stat text-center">
             <div class="stat-title whitespace-normal">Saldo actual</div>
             <div class="stat-value whitespace-normal"><?= number_format($user['trabajador_saldo']) ?> COP</div>
             <div class="stat-desc whitespace-normal"><?= 5 - $result['retiros_mes'] ?> retiros disponibles</div>
             <div class="divider"></div>
             <div class="space-y-2">
-                <p>Se actualiza cada 2 minutos aproximadamente</p>
-                <div class="<?= $user['trabajador_saldo'] < 10000 || $result['retiros_mes'] >= 5 ? 'tooltip tooltip-left' : '' ?>" <?= $result['retiros_mes'] >= 5 ? 'disabled data-tip="Ya no tienes retiros disponibles"' : ($user['trabajador_saldo'] > 10000 ? 'onclick="retirar_dinero.showModal()"' : 'data-tip="Debes tener al menos 10.000 COP" disabled') ?>>
-                    <button class="btn btn-success text-white rounded-full px-10" <?= $result['retiros_mes'] >= 5 ? 'disabled data-tip="Ya no tienes retiros disponibles"' : ($user['trabajador_saldo'] > 10000 ? 'onclick="retirar_dinero.showModal()"' : 'data-tip="Debes tener al menos 10.000 COP" disabled') ?>>
+                <p><span class="font-bold text-violet-600 hover:underline cursor-pointer" onclick="withdrawal_history.showModal()">Ver historial de retiros</span>, <br> Se actualiza cada 2 minutos aproximadamente</p>
+                <div class="<?= $user['trabajador_saldo'] < 10000 || $result['retiros_mes'] >= 5 ? 'tooltip tooltip-left' : '' ?>" <?= $result['retiros_mes'] >= 5 ? 'disabled data-tip="Ya no tienes retiros disponibles"' : ($user['trabajador_saldo'] >= 10000 ? 'onclick="retirar_dinero.showModal()"' : 'data-tip="Debes tener al menos 10.000 COP"') ?>>
+                    <button class="btn btn-success text-white rounded-full px-10" <?= $result['retiros_mes'] >= 5 || $user['trabajador_saldo'] < 10000 ? 'disabled' : '' ?>>
                         <i class="fa-solid fa-money-bill-wave"></i>
                         Retirar ahora
                     </button>
@@ -66,6 +66,79 @@
         </nav>
     </div>
 </section>
+
+<dialog id="retirar_dinero" class="modal">
+    <div class="modal-box space-y-2">
+        <form method="dialog">
+            <button class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">✕</button>
+        </form>
+        <!-- Contenido modal -->
+        <h3 class="text-xl font-bold">Retira tu dinero:</h3>
+        <p class="leading-none text-gray-600">Esta es la sección donde podrás retirar tu dinero, <span class="font-semibold text-violet-600">debes tener en cuenta que tienes que ser mayor de 18 años, el valor mínimo es de 10.000.</span></p>
+
+        <form action="/user/withdraw" method="post" enctype="multipart/form-data" class="fetch-form space-y-5">
+            <input type="hidden" name="trabajador_id" value="<?= $user['trabajador_id'] ?>">
+            <label class="form-control w-full">
+                <div class="label">
+                    <span class="label-text font-medium text-gray-700">Valor a retirar:</span>
+                </div>
+                <input type="number"
+                    name="retiro_valor" id="retiro_valor" required
+                    placeholder="10,000 ~ <?= number_format($user['trabajador_saldo']) ?>" min="10000" max="<?= $user['trabajador_saldo'] ?>"
+                    class="input input-sm input-bordered w-full focus:outline-0 focus:border-violet-600 rounded py-1 h-auto">
+            </label>
+
+            <div class="my-3">
+                <button class="w-full bg-violet-600 font-bold duration-300 hover:bg-violet-800 text-white py-2 px-4 rounded-lg">
+                    Retirar
+                </button>
+            </div>
+        </form>
+    </div>
+    <form method="dialog" class="modal-backdrop">
+        <button>close</button>
+    </form>
+</dialog>
+
+<!-- withdrawal_history -->
+<dialog id="withdrawal_history" class="modal">
+    <div class="modal-box space-y-4">
+        <form method="dialog">
+            <button class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">✕</button>
+        </form>
+        <!-- Contenido modal -->
+        <h3 class="font-bold text-3xl tracking-tight">Historial de retiros</h3>
+        <div>
+            <table class="table min-w-full text-center border">
+                <thead>
+                    <tr class="text-[15px] text-base-content bg-base-300">
+                        <th>Fecha</th>
+                        <th>Valor</th>
+                        <th>Tipo</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php if (empty($result['withdraws'])): ?>
+                        <tr>
+                            <td colspan="3" class="font-bold text-center text-lg">No hay retiros</td>
+                        </tr>
+                    <?php endif ?>
+                    <?php foreach ($result['withdraws'] as $withdrawal): ?>
+                        <?php if (!$withdrawal['fecha']) continue; ?>
+                        <tr>
+                            <td><?= date('d-m-y H:i', strtotime($withdrawal['fecha'])) ?></td>
+                            <td class="<?= ($withdrawal['tipo'] == 'retiro' ? 'text-red-500' : 'text-green-500') ?> font-semibold"> <?= ($withdrawal['tipo'] == 'retiro' ? '-' : '+') . number_format($withdrawal['valor']) ?> COP</td>
+                            <td class="capitalize"><?= $withdrawal['tipo'] ?></td>
+                        </tr>
+                    <?php endforeach; ?>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <form method="dialog" class="modal-backdrop">
+        <button>close</button>
+    </form>
+</dialog>
 
 <script>
     document.addEventListener('DOMContentLoaded', function() {
