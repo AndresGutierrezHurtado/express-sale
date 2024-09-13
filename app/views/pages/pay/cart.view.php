@@ -1,4 +1,4 @@
-<main class="w-full">
+<main class="w-full flex-grow">
     <div class="w-full max-w-[1200px] mx-auto flex flex-col md:flex-row gap-10 py-10">
         <!-- Contenedor para el listado de productos -->
         <div class="w-full grow bg-white p-5 rounded-lg shadow-lg h-fit space-y-5">

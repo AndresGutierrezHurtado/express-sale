@@ -15,7 +15,7 @@
     <link rel="stylesheet" href="/public/css/styles.css">
 </head>
 
-<body class="w-full min-h-screen bg-gray-200">
+<body class="w-full min-h-screen bg-gray-200 flex flex-col">
 
     <!-- Header -->
     <?php require_once(__DIR__ . "/header.php") ?>
