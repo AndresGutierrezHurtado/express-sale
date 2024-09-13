@@ -92,7 +92,7 @@
                                         <form action="/user/delete" method="post" class="fetch-form">
                                             <input type="hidden" name="usuario_id" value="<?= $user['usuario_id'] ?>">
 
-                                            <button type="submit" onclick="return confirm('¿Esta seguro de eliminar este usuario?')" class="relative group flex items-center justify-center rounded-md border border-transparent bg-violet-600 px-4 py-2 text-sm font-medium text-white hover:bg-violet-700 focus:outline-none focus:ring-2 focus:ring-violet-500 focus:ring-offset-2 disabled:cursor-wait disabled:opacity-50 cursor-pointer">
+                                            <button type="submit" onclick="confirmAlert(event, '¿Esta seguro de eliminar este usuario?')" class="relative group flex items-center justify-center rounded-md border border-transparent bg-violet-600 px-4 py-2 text-sm font-medium text-white hover:bg-violet-700 focus:outline-none focus:ring-2 focus:ring-violet-500 focus:ring-offset-2 disabled:cursor-wait disabled:opacity-50 cursor-pointer">
                                                 <i class="fa-solid fa-trash-can text-[18px] text-violet-400 duration-300 group-hover:text-violet-300"></i>
                                             </button>
                                         </form>

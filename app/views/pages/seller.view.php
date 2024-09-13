@@ -131,7 +131,7 @@
                                                     <li onclick="seller_modal_<?= $calification['calificacion_id'] ?>.showModal()"><a class="text-center flex justify-center gap-2"> <i class="fa-solid fa-pen text-sm"></i>Editar</a></li>
                                                     <form class="fetch-form w-full text-red-500" action="/calification/delete" method="post">
                                                         <input type="hidden" name="calificacion_id" value="<?= $calification['calificacion_id'] ?>">
-                                                        <button type="submit" class="w-full" onclick="return confirm('¿Seguro que quieres eliminar este comentario?, esta acción es irreversible.')">
+                                                        <button type="submit" class="w-full" onclick="confirmAlert(event, '¿Seguro que quieres eliminar este comentario?, esta acción es irreversible.')">
                                                             <li>
                                                                 <a class="text-center flex justify-center gap-2">
                                                                     <i class="fa-solid fa-trash-can text-sm"></i>Eliminar
