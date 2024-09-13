@@ -16,6 +16,8 @@
 </head>
 
 <body class="w-full min-h-screen bg-gray-200 flex flex-col">
+    <!-- Loader -->
+    <?php require_once(__DIR__ . "/loader.php") ?>
 
     <!-- Header -->
     <?php require_once(__DIR__ . "/header.php") ?>

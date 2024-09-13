@@ -1,3 +1,13 @@
+document.addEventListener("DOMContentLoaded", function() {
+    var loader = document.getElementById("loader-container");
+
+    window.addEventListener("load", function() {
+        setTimeout(() =>{
+            loader.classList.add('hidden');
+        }, 600)
+    });
+});
+
 const forms = document.querySelectorAll(".fetch-form");
 
 forms.forEach((form) => {

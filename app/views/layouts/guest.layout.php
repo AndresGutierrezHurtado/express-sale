@@ -16,6 +16,8 @@
 </head>
 
 <body class="w-full min-h-screen flex flex-col items-center justify-center bg-gray-50">
+    <!-- Loader -->
+    <?php require_once(__DIR__ . "/loader.php") ?>
 
     <!-- Main -->
     <?php require_once($content); ?>

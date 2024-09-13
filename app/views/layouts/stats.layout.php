@@ -16,6 +16,8 @@
 </head>
 
 <body class="w-full min-h-screen bg-white flex flex-col">
+    <!-- Loader -->
+    <?php require_once(__DIR__ . "/loader.php") ?>
 
     <!-- view -->
     <?php require_once(__DIR__ . "/sidebar.php"); ?>
