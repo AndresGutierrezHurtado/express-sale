@@ -43,7 +43,7 @@
             <div class="divider"></div>
             <div class="space-y-2">
                 <p><span class="font-bold text-violet-600 hover:underline cursor-pointer" onclick="withdrawal_history.showModal()">Ver historial de retiros</span>, <br> Se actualiza cada 2 minutos aproximadamente</p>
-                <div class="<?= $user['trabajador_saldo'] < 10000 || $result['retiros_mes'] >= 5 ? 'tooltip tooltip-left' : '' ?>" <?= $result['retiros_mes'] >= 5 ? 'disabled data-tip="Ya no tienes retiros disponibles"' : ($user['trabajador_saldo'] >= 10000 ? 'onclick="retirar_dinero.showModal()"' : 'data-tip="Debes tener al menos 10.000 COP"') ?>>
+                <div class="<?= $user['trabajador_saldo'] < 10000 || $result['retiros_mes'] >= 5 ? 'tooltip tooltip-left' : '' ?>" <?= $result['retiros_mes'] >= 5 ? 'disabled data-tip="Ya no tienes retiros disponibles"' : ($user['trabajador_saldo'] >= 10000 ? 'onclick="retirar_dinero.show()"' : 'data-tip="Debes tener al menos 10.000 COP"') ?>>
                     <button class="btn btn-success text-white rounded-full px-10" <?= $result['retiros_mes'] >= 5 || $user['trabajador_saldo'] < 10000 ? 'disabled' : '' ?>>
                         <i class="fa-solid fa-money-bill-wave"></i>
                         Retirar ahora

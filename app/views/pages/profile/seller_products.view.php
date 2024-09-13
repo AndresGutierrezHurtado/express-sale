@@ -33,7 +33,7 @@
         <h1 class="text-xl tracking-tight font-bold ">Productos de <?= $user['usuario_alias'] ?></h1>
         <?php if ($_SESSION['usuario_id'] == $user['usuario_id']) : ?>
             <div class="flex gap-5 flex-none">
-                <button class="btn btn-success btn-sm text-white" onclick="new_product_modal.showModal()">
+                <button class="btn btn-success btn-sm text-white" onclick="new_product_modal.show()">
                     <i class="fa-solid fa-plus mr-2"></i>
                     <p>
                         <span class="hidden sm:inline">Añadir</span> nuevo producto

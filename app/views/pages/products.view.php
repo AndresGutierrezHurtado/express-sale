@@ -142,7 +142,7 @@
                                         </div>
                                     </div>
                                     <!-- Calificar producto -->
-                                    <button onclick="<?= isset($_SESSION['usuario_id']) ? "product_modal_" . $product['producto_id'] . ".showModal()" : "login()" ?>" data-tip="Agrega una calificación al producto"
+                                    <button onclick="<?= isset($_SESSION['usuario_id']) ? "product_modal_" . $product['producto_id'] . ".show()" : "login()" ?>" data-tip="Agrega una calificación al producto"
                                         class="size-[30px] bg-violet-600 text-white rounded-md duration-300 hover:bg-violet-800 focus:outline-none focus:ring-2 focus:ring-violet-500 focus:ring-offset-2 tooltip">
                                         <i class="fa-solid fa-plus"></i>
                                     </button>

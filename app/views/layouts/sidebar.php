@@ -48,7 +48,7 @@
             <div>
                 <?php if ($user['rol_id'] == 2): ?>
                     <li>
-                        <a class="tooltip tooltip-right text-left flex gap-2 items-center justify-center md:justify-start" onclick="new_product_modal.showModal()" data-tip="Crear un nuevo producto">
+                        <a class="tooltip tooltip-right text-left flex gap-2 items-center justify-center md:justify-start" onclick="new_product_modal.show()" data-tip="Crear un nuevo producto">
                             <i class="fa-solid fa-arrow-up-from-bracket"></i>
                             <p class="hidden md:block">Subir producto</p>
                         </a>
@@ -66,7 +66,7 @@
 </div>
 
 <!-- Nuevo producto modal -->
-<dialog id="new_product_modal" class="modal">
+<dialog id="new_product_modal" class="modal bg-black/40">
     <div class="modal-box">
         <h3 class="text-lg font-bold">Nuevo producto:</h3>
         <form id="new-product-form" action="/product/create" method="post" class="fetch-form flex flex-col gap-2 my-5">

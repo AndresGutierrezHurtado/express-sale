@@ -82,8 +82,9 @@
                         </span>
                     </div>
                 </div>
+                <!-- Calificar vendedor -->
                 <div class="flex gap-5 justify-between">
-                    <button onclick="<?= isset($_SESSION['usuario_id']) ? "seller_modal.showModal()" : "login()" ?>"
+                    <button onclick="<?= isset($_SESSION['usuario_id']) ? "seller_modal.show()" : "login()" ?>"
                         class="px-5 py-1 w-fit bg-violet-600 text-white font-bold rounded-lg duration-300 hover:bg-violet-400"> Calificar </button>
 
                     <button onclick="toggleComments()" class="text-violet-600 font-bold decoration-violet-600 hover:underline" id="btn-show-comments"> Ver comentarios </button>
@@ -128,7 +129,7 @@
                                             <ul tabindex="0" class="dropdown-content menu bg-base-100 rounded-box z-[1] w-52 p-2 shadow">
                                                 <!-- Opciones de eliminar, editar y reportar comentario -->
                                                 <?php if ($calification['usuario_id'] == $_SESSION['usuario_id'] || $_SESSION['usuario']['rol_id'] == 4): ?>
-                                                    <li onclick="seller_modal_<?= $calification['calificacion_id'] ?>.showModal()"><a class="text-center flex justify-center gap-2"> <i class="fa-solid fa-pen text-sm"></i>Editar</a></li>
+                                                    <li onclick="seller_modal_<?= $calification['calificacion_id'] ?>.show()"><a class="text-center flex justify-center gap-2"> <i class="fa-solid fa-pen text-sm"></i>Editar</a></li>
                                                     <form class="fetch-form w-full text-red-500" action="/calification/delete" method="post">
                                                         <input type="hidden" name="calificacion_id" value="<?= $calification['calificacion_id'] ?>">
                                                         <button type="submit" class="w-full" onclick="confirmAlert(event, '¿Seguro que quieres eliminar este comentario?, esta acción es irreversible.')">
@@ -252,7 +253,7 @@
                                     </div>
                                 </div>
                                 <!-- Calificar producto -->
-                                <button onclick="<?= isset($_SESSION['usuario_id']) ? "product_modal_" . $product['producto_id'] . ".showModal()" : "login()" ?>" data-tip="Agrega una calificación al producto"
+                                <button onclick="<?= isset($_SESSION['usuario_id']) ? "product_modal_" . $product['producto_id'] . ".show()" : "login()" ?>" data-tip="Agrega una calificación al producto"
                                     class="size-[30px] bg-violet-600 text-white rounded-md duration-300 hover:bg-violet-800 focus:outline-none focus:ring-2 focus:ring-violet-500 focus:ring-offset-2 tooltip">
                                     <i class="fa-solid fa-plus"></i>
                                 </button>
