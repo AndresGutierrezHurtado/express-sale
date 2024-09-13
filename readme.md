@@ -55,6 +55,3 @@ El ORM implementado en el proyecto es una clase base para los modelos, facilitan
 - **Mi Compra:** Información de compras y facturas de los usuarios.
 - **Entrega:** Gestión de pedidos para domiciliarios, con visualización de entregas pendientes y rutas.
 - **Panel de Control:** Panel para administradores con capacidades de búsqueda, clasificación y gestión de usuarios y productos.
-
-## Por Hacer
-- cambiar sidebar en stats
