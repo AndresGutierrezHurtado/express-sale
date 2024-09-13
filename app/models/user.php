@@ -412,11 +412,12 @@ class User extends Orm
 
         $sql = "
         SELECT 
-        pedidos.pedido_fecha as fecha,
+        detalles_envios.fecha_entrega as fecha,
         COALESCE(SUM(detalles_envios.envio_valor), 0) as valor
         FROM detalles_envios 
         INNER JOIN pedidos ON detalles_envios.pedido_id = pedidos.pedido_id
         WHERE trabajador_id = :trabajador_id AND pedido_estado = 'recibido'
+        GROUP BY pedidos.pedido_id
         ";
 
         $stmt = $this->db->prepare($sql);
