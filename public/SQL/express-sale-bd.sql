@@ -22,13 +22,13 @@ CREATE TABLE `recuperacion_cuentas` (
 -- Tabla de Usuarios
 CREATE TABLE `usuarios` (
     `usuario_id` INT PRIMARY KEY AUTO_INCREMENT,
-    `usuario_nombre` VARCHAR(100),
-    `usuario_apellido` VARCHAR(100),
-    `usuario_correo` VARCHAR(255) UNIQUE,
-    `usuario_alias` VARCHAR(50) UNIQUE,
-    `usuario_telefono` DECIMAL(10, 0),
+    `usuario_nombre` VARCHAR(100) NOT NULL,
+    `usuario_apellido` VARCHAR(100) NOT NULL,
+    `usuario_correo` VARCHAR(255) UNIQUE NOT NULL,
+    `usuario_alias` VARCHAR(50) UNIQUE NOT NULL,
+    `usuario_telefono` DECIMAL(10, 0) UNIQUE,
     `usuario_direccion` TEXT,
-    `usuario_contra` TEXT,
+    `usuario_contra` TEXT NOT NULL,
     `usuario_creacion` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     `usuario_actualizacion` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     `usuario_imagen_url` VARCHAR(255) DEFAULT '/public/images/users/default.jpg',
@@ -36,7 +36,7 @@ CREATE TABLE `usuarios` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 INSERT INTO `usuarios` (`usuario_id`, `usuario_nombre`, `usuario_apellido`, `usuario_correo`, `usuario_alias`, `usuario_direccion`, `usuario_telefono`, `usuario_contra`, `usuario_creacion`, `usuario_actualizacion`, `usuario_imagen_url`, `rol_id`) VALUES
-(1, 'Express', 'Sale', 'expresssale.exsl@gmail.com', 'Express_Sale', NULL, 3209202177, '81dc9bdb52d04dc20036dbd8313ed055', '2024-07-25 04:39:15', '2024-07-25 04:56:12', '/public/images/users/1.jpg', 4),
+(1, 'Express', 'Sale', 'expresssale.exsl@gmail.com', 'Express_Sale', NULL, NULL, '81dc9bdb52d04dc20036dbd8313ed055', '2024-07-25 04:39:15', '2024-07-25 04:56:12', '/public/images/users/1.jpg', 4),
 (2, 'Andrés', 'Gutiérrez Hurtado', 'andres52885241@gmail.com', 'Andres_Gutierrez', 'Dg. 68D Sur #70c-31, Bogotá, Colombia', 3209202177, '81dc9bdb52d04dc20036dbd8313ed055', '2024-07-25 04:47:10', '2024-07-25 04:47:10', '/public/images/users/2.jpg', 2),
 (3, 'David Fernando', 'Diaz Niausa', 'davidfernandodiazniausa@gmail.com', 'David_Diaz', 'Cra. 5i Este #89-23, Bogotá, Colombia', 3214109557, '81dc9bdb52d04dc20036dbd8313ed055', '2024-07-25 04:53:27', '2024-07-25 04:53:27', '/public/images/users/default.jpg', 2),
 (4, 'Jaider Harley', 'Rondon Herrera', 'rondonjaider@gmail.com', 'Jaider_Rondon', 'Cra. 5i Este #89-23, Bogotá, Colombia', 3112369205, '81dc9bdb52d04dc20036dbd8313ed055', '2024-07-25 04:54:25', '2024-07-25 04:54:25', '/public/images/users/default.jpg', 2),
@@ -66,10 +66,10 @@ INSERT INTO `trabajadores` (`usuario_id`) VALUES
 --
 -- Tabla de retiros
 CREATE TABLE `retiros` (
-    `retiro_id` INT PRIMARY KEY AUTO_INCREMENT,
-    `trabajador_id` INT,
-    `retiro_valor` DECIMAL(10, 2),
-    `retiro_fecha` TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    `retiro_id` INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
+    `trabajador_id` INT NOT NULL,
+    `retiro_valor` DECIMAL(10, 2) NOT NULL,
+    `retiro_fecha` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- ---------------------------------------------------------------
@@ -90,16 +90,16 @@ INSERT INTO `roles` (`rol_id`, `rol_nombre`) VALUES
 --
 -- Tabla de Productos
 CREATE TABLE `productos` (
-    `producto_id` INT PRIMARY KEY AUTO_INCREMENT,
-    `producto_nombre` VARCHAR(255),
-    `producto_descripcion` TEXT,
-    `producto_cantidad` INT,
-    `producto_precio` DECIMAL(10, 0),
+    `producto_id` INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
+    `producto_nombre` VARCHAR(255) NOT NULL,
+    `producto_descripcion` TEXT NOT NULL,
+    `producto_cantidad` INT NOT NULL,
+    `producto_precio` DECIMAL(10, 0) NOT NULL,
     `producto_imagen_url` VARCHAR(255) NOT NULL DEFAULT '/public/images/products/default.jpg',
-    `producto_estado` ENUM('privado', 'publico') DEFAULT 'publico',
-    `producto_fecha` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    `usuario_id` INT,
-    `categoria_id` INT
+    `producto_estado` ENUM('privado', 'publico') NOT NULL DEFAULT 'publico',
+    `producto_fecha` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    `usuario_id` INT NOT NULL,
+    `categoria_id` INT NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- Insertar datos en la tabla productos con la URL de la imagen
@@ -125,8 +125,8 @@ INSERT INTO `productos` (`producto_nombre`, `producto_descripcion`, `producto_fe
 --
 -- Tabla de Categorías
 CREATE TABLE `categorias` (
-    `categoria_id` INT PRIMARY KEY AUTO_INCREMENT,
-    `categoria_nombre` VARCHAR(255)
+    `categoria_id` INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
+    `categoria_nombre` VARCHAR(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 INSERT INTO `categorias` (`categoria_id`, `categoria_nombre`) VALUES
@@ -139,38 +139,38 @@ INSERT INTO `categorias` (`categoria_id`, `categoria_nombre`) VALUES
 --
 -- Tabla de Calificaciones
 CREATE TABLE `calificaciones` (
-    `calificacion_id` INT PRIMARY KEY AUTO_INCREMENT,
+    `calificacion_id` INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
     `calificacion_comentario` TEXT NOT NULL,
-    `calificacion_imagen_url` VARCHAR(255),
-    `calificacion_fecha` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    `calificacion_imagen_url` VARCHAR(255) NOT NULL,
+    `calificacion_fecha` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     `calificacion` INT NOT NULL,
-    `usuario_id` INT
+    `usuario_id` INT NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- ---------------------------------------------------------------
 --
 -- Tabla de Relación Calificaciones y Usuarios
 CREATE TABLE `calificaciones_usuarios` (
-    `calificacion_id` INT,
-    `usuario_id` INT
+    `calificacion_id` INT NOT NULL,
+    `usuario_id` INT NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- ---------------------------------------------------------------
 --
 -- Tabla de Relación Calificaciones y Productos
 CREATE TABLE `calificaciones_productos` (
-    `calificacion_id` INT,
-    `producto_id` INT
+    `calificacion_id` INT NOT NULL,
+    `producto_id` INT NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- ---------------------------------------------------------------
 --
 -- Tabla de archivos multimedia
 CREATE TABLE `multimedias` (
-    `multimedia_id` INT PRIMARY KEY AUTO_INCREMENT,
+    `multimedia_id` INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
     `multimedia_url` VARCHAR(255) NOT NULL,
     `multimedia_tipo` ENUM('imagen', 'video') NOT NULL,
-    `producto_id` INT
+    `producto_id` INT NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 INSERT INTO `multimedias` (`multimedia_url`, `multimedia_tipo`, `producto_id`) VALUES
@@ -182,10 +182,10 @@ INSERT INTO `multimedias` (`multimedia_url`, `multimedia_tipo`, `producto_id`) V
 --
 -- Tabla de Pedidos
 CREATE TABLE `pedidos` (
-    `pedido_id` INT PRIMARY KEY AUTO_INCREMENT,
-    `usuario_id` INT,
-    `pedido_fecha` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    `pedido_estado` ENUM('pendiente', 'enviando', 'entregado', 'recibido') DEFAULT 'pendiente'
+    `pedido_id` INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
+    `usuario_id` INT NOT NULL,
+    `pedido_fecha` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    `pedido_estado` ENUM('pendiente', 'enviando', 'entregado', 'recibido') NOT NULL DEFAULT 'pendiente'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- ---------------------------------------------------------------
@@ -198,7 +198,7 @@ CREATE TABLE `detalles_pagos` (
     `pago_valor` DECIMAL(10, 0) NOT NULL, -- TX_VALUE
     `comprador_nombre` VARCHAR(100), -- buyerFullName
     `comprador_correo` VARCHAR(255) NOT NULL, -- buyerEmail
-    `comprador_tipo_documento` ENUM('CC', 'CE', 'TI', 'PPN', 'NIT', 'SSN', 'EIN') DEFAULT 'CC' NOT NULL, -- payerDocumentType
+    `comprador_tipo_documento` ENUM('CC', 'CE', 'TI', 'PPN', 'NIT', 'SSN', 'EIN') NOT NULL DEFAULT 'CC', -- payerDocumentType
     `comprador_numero_documento` DECIMAL(10, 0) NOT NULL, -- payerDocument
     `comprador_telefono` DECIMAL(10, 0) -- payerPhone
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -222,10 +222,10 @@ CREATE TABLE `detalles_envios` (
 --
 -- Tabla de Relación Productos y Pedidos
 CREATE TABLE `productos_pedidos` (
-    `pedido_id` INT,
-    `producto_id` INT,
-    `producto_precio` DECIMAL(10, 0),
-    `producto_cantidad` INT
+    `pedido_id` INT NOT NULL,
+    `producto_id` INT NOT NULL,
+    `producto_precio` DECIMAL(10, 0) NOT NULL,
+    `producto_cantidad` INT NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- ---------------------------------------------------------------
