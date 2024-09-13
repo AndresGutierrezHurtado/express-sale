@@ -73,7 +73,7 @@
                                 <form action="/product/delete" method="post" class="fetch-form">
                                     <input type="hidden" name="producto_id" value="<?= $product['producto_id'] ?>">
 
-                                    <button type="submit" onclick="return confirm('¿Esta seguro de eliminar este producto?')" class="relative group flex items-center justify-center rounded-md border border-transparent bg-violet-600 px-4 py-2 text-sm font-medium text-white hover:bg-violet-700 focus:outline-none focus:ring-2 focus:ring-violet-500 focus:ring-offset-2 disabled:cursor-wait disabled:opacity-50 cursor-pointer">
+                                    <button type="submit" onclick="confirmAlert(event, '¿Estás seguro de eliminar este producto?')" class="relative group flex items-center justify-center rounded-md border border-transparent bg-violet-600 px-4 py-2 text-sm font-medium text-white hover:bg-violet-700 focus:outline-none focus:ring-2 focus:ring-violet-500 focus:ring-offset-2 disabled:cursor-wait disabled:opacity-50 cursor-pointer">
                                         <i class="fa-solid fa-trash-can text-[18px] text-violet-400 duration-300 group-hover:text-violet-300"></i>
                                     </button>
                                 </form>
@@ -87,17 +87,17 @@
         <div class="w-full bg-white p-3 flex gap-3 justify-center">
 
             <?php if ($products_page > 1): ?>
-                <a href="/page/profile/<?= $this->buildQueryString(['products_page' => $products_page - 1]) ?>" class="font-semibold bg-gray-200 h-[30px] px-3 flex items-center justify-center rounded-sm duration-300 hover:bg-gray-300"> anterior </a>
+                <a href="/page/seller_products/<?= $this->buildQueryString(['products_page' => $products_page - 1]) ?>" class="font-semibold bg-gray-200 h-[30px] px-3 flex items-center justify-center rounded-sm duration-300 hover:bg-gray-300"> anterior </a>
             <?php else: ?>
                 <a class="font-semibold bg-gray-200 h-[30px] px-3 flex items-center justify-center rounded-sm duration-300 hover:bg-gray-300 opacity-50 cursor-not-allowed"> anterior </a>
             <?php endif; ?>
 
             <?php for ($i = 1; $i <= $products['pages']; $i++): ?>
-                <a href="/page/profile/<?= $this->buildQueryString(['products_page' => $i]) ?>" class="font-semibold bg-gray-200 size-[30px] flex items-center justify-center rounded-sm duration-300 <?= $i == $products_page ? 'bg-gray-400 font-bold' : ' hover:bg-gray-300' ?>"> <?= $i ?> </a>
+                <a href="/page/seller_products/<?= $this->buildQueryString(['products_page' => $i]) ?>" class="font-semibold bg-gray-200 size-[30px] flex items-center justify-center rounded-sm duration-300 <?= $i == $products_page ? 'bg-gray-400 font-bold' : ' hover:bg-gray-300' ?>"> <?= $i ?> </a>
             <?php endfor; ?>
 
             <?php if ($products_page < $products['pages']): ?>
-                <a href="/page/profile/<?= $this->buildQueryString(['products_page' => $products_page + 1]) ?>" class="font-semibold bg-gray-200 h-[30px] px-3 flex items-center justify-center rounded-sm duration-300 hover:bg-gray-300"> siguiente </a>
+                <a href="/page/seller_products/<?= $this->buildQueryString(['products_page' => $products_page + 1]) ?>" class="font-semibold bg-gray-200 h-[30px] px-3 flex items-center justify-center rounded-sm duration-300 hover:bg-gray-300"> siguiente </a>
             <?php else: ?>
                 <a class="font-semibold bg-gray-200 h-[30px] px-3 flex items-center justify-center rounded-sm duration-300 hover:bg-gray-300 opacity-50 cursor-not-allowed"> siguiente </a>
             <?php endif; ?>

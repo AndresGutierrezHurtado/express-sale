@@ -15,7 +15,7 @@
         <div class="grow flex flex-col gap-2 p-0 max-w-[520px]">
             <h2 class="font-bold text-2xl mb-3 uppercase tracking-tight text-center"> ¡Queremos escucharte! </h2>
 
-            <div class="collapse collapse-ghost collapse-arrow">
+            <div class="collapse collapse-ghost collapse-arrow" id="footer_form">
                 <input type="checkbox" />
                 <div class="collapse-title text-xl font-medium">Haz clic para mostrar/ocultar</div>
                 <div class="collapse-content">
@@ -55,7 +55,7 @@
                                 <span class="label-text text-neutral-content font-bold after:content-['*'] after:ml-0.5 after:text-red-500">Mensaje</span>
                             </label>
                             <textarea name="correo_mensaje" placeholder="Ingresa tu consulta/mensaje." required
-                            class="textarea textarea-bordered text-neutral h-32 resize-none"></textarea>
+                                class="textarea textarea-bordered text-neutral h-32 resize-none"></textarea>
                         </div>
 
                         <div class="form-control">
