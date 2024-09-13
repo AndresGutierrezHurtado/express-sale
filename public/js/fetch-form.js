@@ -76,7 +76,7 @@ function confirmAlert(e, title = "") {
         if (result.isConfirmed) {
             // Se hace de esta manera porque si se hace con el .submit no funcionaría el addEventListener del fetch-form
             e.target
-                .closest("form")
+                .closest(".fetch-form")
                 .dispatchEvent(new Event("submit", { cancelable: true }));
         }
     });
