@@ -88,7 +88,7 @@
             </div>
 
             <!-- Login con Google -->
-            <a href="<?= $auth_url ?>" onclick="return confirm('Si te registras con Google tu cuenta será de CLIENTE, ¿estás seguro?')"
+            <a href="<?= $auth_url ?>" onclick="confirmAlert(event, 'Si te registras con Google tu cuenta será de CLIENTE, ¿estás seguro?')"
                 class="w-full bg-gray-50 border border-gray-300 py-1.5 px-4 rounded text-gray-500 font-semibold duration-300 hover:bg-gray-100 flex items-center justify-center">
                 <i class="fa-brands fa-google text-[20px] mr-2"></i>
                 <span>Ingresa con Google</span>
