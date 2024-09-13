@@ -253,6 +253,7 @@ class User extends Orm
         $stmt->bindValue(':trabajador_id', $trabajadorId);
         $stmt->execute();
 
+        $result['withdraws'] = array();
         foreach ($stmt->fetchAll(PDO::FETCH_ASSOC) as $withdraw) {
             $result['withdraws'][] = array(
                 ...$withdraw,
