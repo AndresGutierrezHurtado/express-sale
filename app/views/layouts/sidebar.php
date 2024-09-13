@@ -16,7 +16,8 @@
                     </figure>
                 </a>
             </div>
-            <div class="flex-grow flex flex-col gap-2 items-center justify-center">
+            <hr class="mb-2">
+            <div class="flex-grow flex flex-col gap-2 items-center">
                 <li class="w-full">
                     <a href="/" class="tooltip tooltip-right text-left flex gap-2 items-center justify-center md:justify-start" data-tip="Ir a inicio">
                         <i class="fa-solid fa-house"></i>
@@ -24,22 +25,22 @@
                     </a>
                 </li>
                 <li class="w-full">
-                    <a href="/page/stats/?id=<?= $user['usuario_id'] ?>" class="tooltip tooltip-right text-left flex gap-2 items-center justify-center md:justify-start <?= $current_page == "stats" ? "bg-gradient-to-r from-violet-600/80 from-10% to-white to-90% font-semibold" : "" ?>" data-tip="Ver estadísticas de la cuenta">
-                        <i class="fa-solid fa-user-gear"></i>
+                    <a href="/page/stats/?id=<?= $user['usuario_id'] ?>" class="tooltip tooltip-right text-left flex gap-2 items-center justify-center md:justify-start <?= $current_page == "stats" ? "bg-gradient-to-r from-violet-600/60 from-10% to-white to-90% font-semibold text-violet-900" : "" ?>" data-tip="Ver estadísticas de la cuenta">
+                        <i class="fa-solid fa-user-gear <?= $current_page == "stats" ? "bg-white/60" : '' ?> p-1 rounded"></i>
                         <p class="hidden md:block">Panel de <?= $user['rol_nombre'] ?></p>
                     </a>
                 </li>
                 <?php if ($user['rol_id'] == 2): ?>
                     <li class="w-full">
-                        <a href="/page/seller_products/?seller=<?= $user['usuario_id'] ?>" class="tooltip tooltip-right text-left flex gap-2 items-center justify-center md:justify-start <?= $current_page == "products" ? "bg-gradient-to-r from-violet-600/80 from-10% to-white to-90% font-semibold" : "" ?>" data-tip="Ver los productos del vendedor">
-                            <i class="fa-solid fa-boxes-stacked"></i>
+                        <a href="/page/seller_products/?seller=<?= $user['usuario_id'] ?>" class="tooltip tooltip-right text-left flex gap-2 items-center justify-center md:justify-start <?= $current_page == "products" ? "bg-gradient-to-r from-violet-600/60 from-10% to-white to-90% font-semibold text-violet-900" : "" ?>" data-tip="Ver los productos del vendedor">
+                            <i class="fa-solid fa-boxes-stacked <?= $current_page == "products" ? "bg-white/60" : '' ?> p-1 rounded"></i>
                             <p class="hidden md:block">Productos</p>
                         </a>
                     </li>
                 <?php elseif ($user['rol_id'] == 3): ?>
                     <li class="w-full">
-                        <a href="/page/shipments/" class="tooltip tooltip-right text-left flex gap-2 items-center justify-center md:justify-start <?= $current_page == "products" ? "bg-gradient-to-r from-violet-600/80 from-10% to-white to-90% font-semibold" : "" ?>" data-tip="Ver los productos del vendedor">
-                            <i class="fa-solid fa-truck"></i>
+                        <a href="/page/shipments/" class="tooltip tooltip-right text-left flex gap-2 items-center justify-center md:justify-start  <?= $current_page == "products" ? "bg-gradient-to-r from-violet-600/60 from-10% to-white to-90% font-semibold text-violet-900" : "" ?>" data-tip="Ver los productos del vendedor">
+                            <i class="fa-solid fa-truck <?= $current_page == "products" ? "bg-white/60" : "" ?> p-1.5 rounded"></i>
                             <p class="hidden md:block">Envíos</p>
                         </a>
                     </li>
@@ -54,12 +55,18 @@
                         </a>
                     </li>
                 <?php endif; ?>
-                <li>
-                    <a href="javascript:history.back()" class="flex ga-2 items-center justify-center md:justify-start">
-                        <i class="fa-solid fa-arrow-left"></i>
-                        <p class="hidden md:block">Volver</p>
-                    </a>
-                </li>
+                <hr>
+                <a href="/page/profile" class="w-full flex p-2 rounded hover:bg-gray-200 cursor-pointer gap-2 tooltip tooltip-right" data-tip="Ir al perfil">
+                    <div class="avatar">
+                        <div class="w-12 rounded-full aspect-square">
+                            <img src="<?= $_SESSION['usuario']['usuario_imagen_url'] ?>" />
+                        </div>
+                    </div>
+                    <div class="text-left">
+                        <h3 class="text-sm font-bold"><?= $_SESSION['usuario']['usuario_alias'] ?></h3>
+                        <p class="text-xs text-gray-800/80 font-medium"><?= $_SESSION['usuario']['rol_nombre'] ?></p>
+                    </div>
+                </a>
             </div>
         </ul>
     </div>
