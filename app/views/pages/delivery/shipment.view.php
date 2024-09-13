@@ -308,10 +308,12 @@
             .then(data => {
                 if (data.success) {
                     Swal.fire({
-                        icon: "succes",
+                        icon: "success",
                         title: "Envio terminado",
                         text: "El envio fue realizado correctamente, ahora espera a la confirmación del cliente para aumentar tu saldo.",
                         confirmButtonText: "Ok"
+                    }).then(() => {
+                        window.location = "/page/shipments";
                     });
                 } else {
                     Swal.fire({
