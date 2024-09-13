@@ -87,10 +87,7 @@ class ProductController extends Controller
 
     public function deleteMultimedia()
     {
-        $post_data = file_get_contents('php://input');
-        $post_data = json_decode($post_data, true);
-
-        $media = $this->multimediaModel->getById($post_data['id']);
+        $media = $this->multimediaModel->getById($_POST['id']);
 
         if ($media) {
             $filePath = $_SERVER['DOCUMENT_ROOT'] . $media['multimedia_url'];
@@ -99,7 +96,7 @@ class ProductController extends Controller
                 unlink($filePath);
             }
 
-            $result = $this->multimediaModel->deleteById($post_data['id']);
+            $result = $this->multimediaModel->deleteById($_POST['id']);
             echo json_encode($result);
         } else {
             // Manejar el caso donde el multimedia no se encontró
