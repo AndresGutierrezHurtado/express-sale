@@ -42,7 +42,12 @@
                             break;
                     }
 
-                    alert("Error obteniendo la ubicación. Código: " + error.code + ". Mensaje: " + errorMessage);
+                    Swal.fire({
+                        icon: "error",
+                        title: "Hubo un error",
+                        text: "Error obteniendo la ubicación. Código: " + error.code + ". Mensaje: " + errorMessage,
+                        footer: 'Si quieres notificar el error ve al <a href="/page/home/#footer_form" class="text-violet-600 hover:underline font-medium" >formulario de contacto</a>',
+                    });
 
                     callback({
                         // Bogotá
@@ -221,7 +226,12 @@
                 console.error("Error obteniendo la ubicación: " + error.message);
             });
         } else {
-            alert("La geolocalización no es soportada por este navegador.");
+            Swal.fire({
+                icon: "error",
+                title: "Hubo un error",
+                text: "La geolocalización no es soportada por este navegador.",
+                footer: 'Si quieres notificar el error ve al <a href="/page/home/#footer_form" class="text-violet-600 hover:underline font-medium" >formulario de contacto</a>',
+            });
         }
     });
 
@@ -248,7 +258,12 @@
                 console.error("Error obteniendo la ubicación: " + error.message);
             });
         } else {
-            alert("La geolocalización no es soportada por este navegador.");
+            Swal.fire({
+                icon: "error",
+                title: "Hubo un error",
+                text: "La geolocalización no es soportada por este navegador.",
+                footer: 'Si quieres notificar el error ve al <a href="/page/home/#footer_form" class="text-violet-600 hover:underline font-medium" >formulario de contacto</a>',
+            });
         }
     });
 
@@ -269,7 +284,12 @@
                 if (data.success) {
                     updateDelivery();
                 } else {
-                    alert('Error al terminar el envío: ' + data.error);
+                    Swal.fire({
+                        icon: "error",
+                        title: "Error",
+                        text: "Hubo un error al terminar el envío " + data.error,
+                        confirmButtonText: "Ok"
+                    });
                 }
             })
     });
@@ -287,10 +307,19 @@
             .then(response => response.json())
             .then(data => {
                 if (data.success) {
-                    alert('Envío terminado.');
-                    window.location.href = "/page/shipments";
+                    Swal.fire({
+                        icon: "succes",
+                        title: "Envio terminado",
+                        text: "El envio fue realizado correctamente, ahora espera a la confirmación del cliente para aumentar tu saldo.",
+                        confirmButtonText: "Ok"
+                    });
                 } else {
-                    alert('Error al terminar el envío: ' + data.error);
+                    Swal.fire({
+                        icon: "error",
+                        title: "Error",
+                        text: "Hubo un error al terminar el envío " + data.error,
+                        confirmButtonText: "Ok"
+                    });
                 }
             })
     }

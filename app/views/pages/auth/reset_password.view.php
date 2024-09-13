@@ -21,7 +21,7 @@
                         class="block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-violet-600 focus:outline-none sm:text-sm" required>
                 </div>
 
-                <button type="submit" onclick="return validarForm()" class="group relative flex w-full justify-center rounded-md border border-transparent bg-violet-600 px-4 py-2 text-sm font-medium text-white hover:bg-violet-700 focus:outline-none focus:ring-2 focus:ring-violet-500 focus:ring-offset-2 disabled:cursor-wait disabled:opacity-50">
+                <button type="submit" onclick="validarForm(event)" class="group relative flex w-full justify-center rounded-md border border-transparent bg-violet-600 px-4 py-2 text-sm font-medium text-white hover:bg-violet-700 focus:outline-none focus:ring-2 focus:ring-violet-500 focus:ring-offset-2 disabled:cursor-wait disabled:opacity-50">
                     <span class="absolute inset-y-0 left-0 flex items-center pl-3">
                         <i class="fa-solid fa-arrow-up-right-from-square text-[17px] text-violet-500 duration-300 group-hover:text-violet-400"></i>
                     </span>
@@ -33,13 +33,21 @@
 </main>
 
 <script>
-    function validarForm() {
+    function validarForm(e) {
+        e.preventDefault();
         // Verificar que las contraseñas coincidan
         if (document.getElementById('usuario_contra').value !== document.getElementById('usuario_contra_confirmacion').value) {
-            alert('Las contraseñas no coinciden.');
-            return false;
+            Swal.fire({
+                icon: "error",
+                title: "Hubo un error",
+                text: "Las contraseñas NO coinciden",
+            });
+        } else {
+            e.target
+                .closest("form")
+                .dispatchEvent(new Event("submit", {
+                    cancelable: true
+                }));
         }
-
-        return true;
     }
 </script>

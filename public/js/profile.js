@@ -22,10 +22,22 @@ if (editButton) {
             });
             editable = !editable;
         } else {
-            if (confirm("¿deseas cancelar?, perderás todos los cambios.")) {
-                editButton.innerHTML = "Editar";
-                window.location.reload();
-            }
+            Swal.fire({
+                icon: "warning",
+                title: "¿Estás seguro?",
+                text: "Perderás todos los cambios hechos.",
+                // Confirm Button
+                confirmButtonText: "Sí, continuar",
+                confirmButtonColor: "#3085d6",
+                // Cancel button
+                showCancelButton: true,
+                cancelButtonText: "Cancelar",
+                cancelButtonColor: "#d33",
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    window.location.reload();
+                }
+            });
         }
     });
 }

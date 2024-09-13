@@ -87,7 +87,7 @@
             <?php if (count($products) > 1): ?>
                 <hr>
                 <form action="/cart/empty" method="post" class="fetch-form">
-                    <button type="submit"
+                    <button type="submit" onclick="confirmAlert(event, '¿Estás seguro que quieres vaciar el carrito?');"
                         class="w-full border-2 border-violet-600 text-violet-600 font-bold rounded-md p-1.5 px-3 duration-300 hover:bg-gray-200">
                         Vaciar carrito
                     </button>
