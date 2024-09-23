@@ -18,7 +18,7 @@ class User extends Orm
 
         $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
-        if (COUNT($user) > 0) {
+        if ($user !== false) {
             if (md5($data["usuario_contra"]) === $user["usuario_contra"]) {
                 // Variables de sesión de usuarios
                 $_SESSION["usuario_id"] = $user["usuario_id"];

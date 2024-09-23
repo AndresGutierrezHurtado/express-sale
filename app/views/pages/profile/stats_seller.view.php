@@ -245,7 +245,7 @@
             </label>
 
             <div class="my-3">
-                <button class="w-full bg-violet-600 font-bold duration-300 hover:bg-violet-800 text-white py-2 px-4 rounded-lg">
+                <button type="submit" class="w-full bg-violet-600 font-bold duration-300 hover:bg-violet-800 text-white py-2 px-4 rounded-lg">
                     Retirar
                 </button>
             </div>
