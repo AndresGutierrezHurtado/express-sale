@@ -59,7 +59,7 @@
                         </div>
 
                         <div class="form-control">
-                            <button class="btn btn-outline text-lg mt-5" data-theme="dark">
+                            <button class="btn btn-outline text-lg mt-5" type="submit" data-theme="dark">
                                 Enviar
                             </button>
                         </div>

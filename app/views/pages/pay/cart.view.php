@@ -32,7 +32,7 @@
                                         <p>Cantidad: </p>
 
                                         <!-- Sumar cantidad -->
-                                        <form action="/cart/update" method="post" class="fetch-form">
+                                        <form action="/cart/update" method="post" class="fetch-form" data-short="true">
                                             <input type="hidden" name="producto_id" value="<?= $product['producto_id'] ?>">
                                             <input type="hidden" name="operation" value="increase">
 
@@ -47,7 +47,7 @@
                                             class="w-[50px] border border-gray-800 px-2 p-[2px] rounded-lg mb-4">
 
                                         <!-- Restar cantidad -->
-                                        <form action="/cart/update" method="post" class="fetch-form">
+                                        <form action="/cart/update" method="post" class="fetch-form" data-short="true">
                                             <input type="hidden" name="producto_id" value="<?= $product['producto_id'] ?>">
                                             <input type="hidden" name="operation" value="decrease">
 

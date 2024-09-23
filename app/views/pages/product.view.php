@@ -152,7 +152,7 @@
                 <div class="space-y-3">
                     <h4 class="text-lg font-semibold">Agrega tu comentario:</h4>
 
-                    <form action="/calification/rate" method="POST" enctype="multipart/form-data" class="space-y-3 fetch-form" <?= (!isset($_SESSION['usuario_id']) ? 'onsubmit="login(event)"' : '') ?>>
+                    <form action="/calification/rate" method="POST" enctype="multipart/form-data" data-short="true" class="space-y-3 fetch-form" <?= (!isset($_SESSION['usuario_id']) ? 'onsubmit="login(event)"' : '') ?>>
                         <input type="hidden" name="producto_id" value="<?= $product['producto_id'] ?>">
                         <input type="hidden" name="usuario_id" value="<?= (!isset($_SESSION['usuario_id']) ? '' : $_SESSION['usuario_id']) ?>">
                         <input type="hidden" name="tipo_objeto" value="producto">
@@ -176,7 +176,7 @@
                             </label>
                             <input type="text" placeholder="Escribe un comentario..." name="calificacion_comentario"
                                 class="w-full border-0 bg-transparent focus:outline-none placeholder:text-gray-400 text-lg">
-                            <button class="bg-violet-600 py-1 px-3 rounded-lg text-violet-400 hover:bg-violet-700 hover:text-violet-300 duration-300">
+                            <button type="submit" class="bg-violet-600 py-1 px-3 rounded-lg text-violet-400 hover:bg-violet-700 hover:text-violet-300 duration-300">
                                 <i class="fa-solid fa-paper-plane"></i>
                             </button>
                         </div>

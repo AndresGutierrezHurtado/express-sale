@@ -233,7 +233,7 @@
                     <input type="radio" name="calificacion" value="4" class="mask mask-star-2 bg-violet-600" />
                     <input type="radio" name="calificacion" value="5" class="mask mask-star-2 bg-violet-600" />
                 </div>
-                <button id="calificar-btn" class="w-full bg-violet-600 font-bold duration-300 hover:bg-violet-800 text-white py-2 px-4 rounded-lg">Calificar</button>
+                <button type="submit" class="w-full bg-violet-600 font-bold duration-300 hover:bg-violet-800 text-white py-2 px-4 rounded-lg">Calificar</button>
             </form>
         </div>
         <form method="dialog" class="modal-backdrop bg-black/50">

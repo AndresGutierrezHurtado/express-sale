@@ -6,16 +6,29 @@ forms.forEach((form) => {
 
         const data = new FormData(form);
 
+        const submitButton = form.querySelector("button[type=submit]");
+
         useFetch(
             form.action,
             form.method,
             data,
-            form.dataset.redirect || undefined
+            form.dataset.redirect || undefined,
+            {
+                button: submitButton || undefined,
+                originalButton: submitButton.cloneNode(true) || undefined,
+                short: form.dataset.short == "true" || false,
+            }
         );
     });
 });
 
-function useFetch(action, method, data, redirect = undefined) {
+function useFetch(
+    action,
+    method,
+    data,
+    redirect = undefined,
+    button = undefined
+) {
     if (data instanceof FormData == false) {
         if (typeof data == "string") data = JSON.parse(data);
 
@@ -28,12 +41,35 @@ function useFetch(action, method, data, redirect = undefined) {
         data = tmpdata;
     }
 
+    if (button) {
+        button.button.disabled = true;
+        button.button.setAttribute("disabled", true);
+        button.button.classList.add(
+            "flex",
+            "gap-2",
+            "items-center",
+            "justify-center",
+            "disabled:bg-gray-400",
+            "disabled:hover:bg-gray-600",
+            "disabled:text-white",
+        );
+        button.button.innerHTML = button.short
+            ? `<span class="loading loading-spinner loading-xs"></span>`
+            : `<span class="loading loading-spinner loading-xs"></span>
+            Cargando`;
+    }
+
     fetch(action, {
         method: method,
         body: data,
     })
         .then((response) => response.json())
         .then((data) => {
+            setTimeout(() => {
+                if (button) {
+                    button.button.replaceWith(button.originalButton);
+                }
+            }, 700);
             if (data.success) {
                 Swal.fire({
                     title: "Acción exitosa",

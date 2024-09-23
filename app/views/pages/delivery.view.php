@@ -58,7 +58,7 @@
                         </label>
                         <input type="text" placeholder="Escribe un comentario..." name="calificacion_comentario"
                             class="w-full border-0 bg-transparent focus:outline-none placeholder:text-gray-400 text-lg">
-                        <button class="bg-violet-600 py-1 px-3 rounded-lg text-violet-400 hover:bg-violet-700 hover:text-violet-300 duration-300">
+                        <button type="submit" class="bg-violet-600 py-1 px-3 rounded-lg text-violet-400 hover:bg-violet-700 hover:text-violet-300 duration-300">
                             <i class="fa-solid fa-paper-plane"></i>
                         </button>
                     </div>
@@ -190,7 +190,7 @@
                 <input type="radio" name="calificacion" value="4" class="mask mask-star-2 bg-violet-600" <?= $calification['calificacion'] == 4 ? 'checked' : '' ?> />
                 <input type="radio" name="calificacion" value="5" class="mask mask-star-2 bg-violet-600" <?= $calification['calificacion'] == 5 ? 'checked' : '' ?> />
             </div>
-            <button id="calificar-btn" class="w-full bg-violet-600 font-bold duration-300 hover:bg-violet-800 text-white py-2 px-4 rounded-lg">Calificar</button>
+            <button type="submit" class="w-full bg-violet-600 font-bold duration-300 hover:bg-violet-800 text-white py-2 px-4 rounded-lg">Calificar</button>
         </form>
     </div>
     <form method="dialog" class="modal-backdrop bg-black/50">
