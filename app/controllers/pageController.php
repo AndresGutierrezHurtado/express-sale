@@ -137,7 +137,7 @@ class PageController extends Controller
         $sort = isset($_GET['sort']) ? $_GET['sort'] : 'calificacion_promedio';
         $sortQuery = $sort == 'producto_precio' ? "$sort ASC " :  "$sort DESC";
 
-        $products = $this->productModel->paginate($page, 5, $select, $inner_join, "$search $categoria $minmax", $sortQuery, "productos.producto_id");
+        $products = $this->productModel->paginate($page, 5, $select, $inner_join, "$search $categoria $minmax AND productos.producto_estado = 'publico'", $sortQuery, "productos.producto_id");
 
         $title = "Productos";
         $content = __DIR__ . "/../views/pages/products.view.php";

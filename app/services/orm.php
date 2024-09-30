@@ -134,15 +134,19 @@ class Orm
             $offset = ($page - 1) * $limit;
 
             // Construir la consulta para contar las filas totales
-            $countSql = "SELECT COUNT(*) FROM {$this->table} {$inner_join}";
+            $countSql = "SELECT * FROM {$this->table} {$inner_join}";
 
             if ($where) {
                 $countSql .= " WHERE {$where}";
             }
 
+            if ($group_by) {
+                $countSql .= " GROUP BY {$group_by}";
+            }
+
             $countStmt = $this->db->prepare($countSql);
             $countStmt->execute();
-            $rows = $countStmt->fetchColumn();
+            $rows = count($countStmt->fetchAll(PDO::FETCH_ASSOC));
 
             // Construir la consulta principal con los datos seleccionados y limitación
             $sql = "SELECT {$select} FROM {$this->table} {$inner_join}";
