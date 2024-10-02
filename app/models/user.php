@@ -255,10 +255,8 @@ class User extends Orm
 
         $result['withdraws'] = array();
         foreach ($stmt->fetchAll(PDO::FETCH_ASSOC) as $withdraw) {
-            $result['withdraws'][] = array(
-                ...$withdraw,
-                'tipo' => 'retiro'
-            );
+            array_push($withdraw, ['tipo' => 'retiro']);
+            $result['withdraws'][] = $withdraw;
         }
 
         $sql = "
@@ -277,10 +275,8 @@ class User extends Orm
         $stmt->execute();
 
         foreach ($stmt->fetchAll(PDO::FETCH_ASSOC) as $order) {
-            $result['withdraws'][] = array(
-                ...$order,
-                'tipo' => 'ingreso'
-            );
+            array_push($order, ['tipo' => 'ingreso']);
+            $result['withdraws'][] = $order;
         }
 
         // ordenar por fecha
@@ -404,10 +400,8 @@ class User extends Orm
         $result['withdraws'] = [];
 
         foreach ($stmt->fetchAll(PDO::FETCH_ASSOC) as $withdraw) {
-            $result['withdraws'][] = array(
-                ...$withdraw,
-                'tipo' => 'retiro'
-            );
+            array_push($withdraw, ['tipo' => 'retiro']);
+            $result['withdraws'][] = $withdraw;
         }
 
         $sql = "
@@ -425,10 +419,8 @@ class User extends Orm
         $stmt->execute();
 
         foreach ($stmt->fetchAll(PDO::FETCH_ASSOC) as $order) {
-            array_push($result['withdraws'], array(
-                ...$order,
-                'tipo' => 'ingreso'
-            ));
+            array_push($order, ['tipo' => 'ingreso']);
+            $result['withdraws'][] = $order;
         }
 
         // ordenar por fecha
