@@ -1,4 +1,4 @@
-const { Sequelize } = require('sequelize');
+const { Sequelize } = require("sequelize");
 
 const conn = new Sequelize(
     process.env.DB_DATABASE,
@@ -6,7 +6,8 @@ const conn = new Sequelize(
     process.env.DB_PASSWORD,
     {
         host: process.env.DB_HOST,
-        dialect: 'mysql',
+        dialect: "mysql",
+        dialectModule: require("mysql2"),
     }
 );
 
@@ -20,4 +21,4 @@ async function testConnection() {
 
 testConnection();
 
-module.exports = conn
+module.exports = conn;

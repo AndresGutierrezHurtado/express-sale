@@ -1,65 +1,70 @@
 const router = require("express").Router();
-require("dotenv").config();
-const crypto = require("crypto");
 const jwt = require("jsonwebtoken");
+const crypto = require("crypto");
+const bcrypt = require("bcrypt");
 
 // Models
-const {
-    Order,
-    PaymentDetails,
-    ShippingDetails,
-    OrderProduct,
-    User,
-    Role,
-    Worker,
-    Recovery,
-    Product,
-    Media,
-    Category,
-    Rating,
-} = require("../models/relations");
+const models = require("../models/relations");
+
+// Create
+router.post("/users", async (req, res) => {
+    const user = await models.User.create({
+        usuario_id: crypto.randomUUID(),
+        usuario_nombre: req.body.usuario_nombre,
+        usuario_apellido: req.body.usuario_apellido,
+        usuario_correo: req.body.usuario_correo,
+        usuario_alias: req.body.usuario_alias,
+        usuario_contra: bcrypt.hashSync(req.body.usuario_contra, 10),
+        rol_id: req.body.rol_id,
+    });
+    res.json(user);
+});
 
 // Read
 router.get("/users", async (req, res) => {
-    const users = await User.findAll({
+    const users = await models.User.findAll({
         include: ["role", "worker"],
     });
     res.json(users);
 });
 
 router.get("/users/:id", async (req, res) => {
-    const user = await User.findByPk(req.params.id, {
+    const user = await models.User.findByPk(req.params.id, {
         include: [
             "role",
             "worker",
             {
-                model: Order,
+                model: models.Order,
                 as: "orders",
                 include: [
-                    { model: PaymentDetails, as: "paymentDetails" },
-                    { model: ShippingDetails, as: "shippingDetails" },
-                    { model: OrderProduct, as: "orderProducts" },
+                    { model: models.PaymentDetails, as: "paymentDetails" },
+                    { model: models.ShippingDetails, as: "shippingDetails" },
+                    { model: models.OrderProduct, as: "orderProducts" },
                 ],
             },
-            { model: Rating, as: "ratings", through: { attributes: [] } },
+            {
+                model: models.Rating,
+                as: "ratings",
+                through: { attributes: [] },
+            },
         ],
     });
     res.json(user);
 });
 
-// Create
-router.post("/users/:id", async (req, res) => {
-    const user = await User.create(req.body);
-    res.json(user);
-});
-
 // Update
 router.put("/users/:id", async (req, res) => {
-    const user = await User.update(req.body, {
+    const user = await models.User.update(
+        {
+            ...req.body,
+            usuario_contra: bcrypt.hashSync(req.body.usuario_contra, 10),
+        },
+        {
         where: {
             usuario_id: req.params.id,
         },
-    });
+        }
+    );
     res.json(user);
 });
 

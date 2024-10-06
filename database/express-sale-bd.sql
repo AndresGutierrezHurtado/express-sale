@@ -10,7 +10,7 @@ DROP TABLE IF EXISTS `usuarios`, `recuperacion_cuentas`, `trabajadores`, `roles`
 -- Tabla de recuperación de contraseñas
 CREATE TABLE `recuperacion_cuentas` (
     `recuperacion_id` INT PRIMARY KEY AUTO_INCREMENT,
-    `usuario_id` INT NOT NULL,
+    `usuario_id` VARCHAR(60) NOT NULL,
     `token` VARCHAR(255) NOT NULL,
     `email` VARCHAR(255) NOT NULL,
     `fecha_creacion` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
@@ -21,28 +21,29 @@ CREATE TABLE `recuperacion_cuentas` (
 --
 -- Tabla de Usuarios
 CREATE TABLE `usuarios` (
-    `usuario_id` INT PRIMARY KEY AUTO_INCREMENT,
+    `usuario_id` VARCHAR(60) PRIMARY KEY NOT NULL,
     `usuario_nombre` VARCHAR(100) NOT NULL,
     `usuario_apellido` VARCHAR(100) NOT NULL,
     `usuario_correo` VARCHAR(255) UNIQUE NOT NULL,
     `usuario_alias` VARCHAR(50) UNIQUE NOT NULL,
-    `usuario_telefono` DECIMAL(10, 0) UNIQUE,
+    `usuario_telefono` DECIMAL(10, 0),
     `usuario_direccion` TEXT,
     `usuario_contra` TEXT NOT NULL,
     `usuario_creacion` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     `usuario_actualizacion` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-    `usuario_imagen_url` VARCHAR(255) DEFAULT '/public/images/users/default.jpg',
+    `usuario_imagen_url` VARCHAR(255) DEFAULT '/images/users/default.jpg',
     `rol_id` INT DEFAULT 1
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
-INSERT INTO `usuarios` (`usuario_id`, `usuario_nombre`, `usuario_apellido`, `usuario_correo`, `usuario_alias`, `usuario_direccion`, `usuario_telefono`, `usuario_contra`, `usuario_creacion`, `usuario_actualizacion`, `usuario_imagen_url`, `rol_id`) VALUES
-(1, 'Express', 'Sale', 'expresssale.exsl@gmail.com', 'Express_Sale', NULL, NULL, '81dc9bdb52d04dc20036dbd8313ed055', '2024-07-25 04:39:15', '2024-07-25 04:56:12', '/public/images/users/1.jpg', 4),
-(2, 'Andrés', 'Gutiérrez Hurtado', 'andres52885241@gmail.com', 'Andres_Gutierrez', 'Dg. 68D Sur #70c-31, Bogotá, Colombia', 3209202177, '81dc9bdb52d04dc20036dbd8313ed055', '2024-07-25 04:47:10', '2024-07-25 04:47:10', '/public/images/users/2.jpg', 2),
-(3, 'David Fernando', 'Diaz Niausa', 'davidfernandodiazniausa@gmail.com', 'David_Diaz', 'Cra. 5i Este #89-23, Bogotá, Colombia', 3214109557, '81dc9bdb52d04dc20036dbd8313ed055', '2024-07-25 04:53:27', '2024-07-25 04:53:27', '/public/images/users/default.jpg', 2),
-(4, 'Jaider Harley', 'Rondon Herrera', 'rondonjaider@gmail.com', 'Jaider_Rondon', 'Cra. 5i Este #89-23, Bogotá, Colombia', 3112369205, '81dc9bdb52d04dc20036dbd8313ed055', '2024-07-25 04:54:25', '2024-07-25 04:54:25', '/public/images/users/default.jpg', 2),
-(5, 'Juan Sebastian', 'Bernal Gamboa', 'juansebastianbernalgamboa@gmail.com', 'Juan_Bernal', 'Cra. 5i Este #89-23, Bogotá, Colombia', 3053964455, '81dc9bdb52d04dc20036dbd8313ed055', '2024-07-25 04:55:02', '2024-07-25 04:55:02', '/public/images/users/default.jpg', 2),
-(6, 'Kevin Alejandro', 'Parra Cifuentes', 'luisparra5380@gmail.com', 'Kevin_Parra', 'Cra. 19b #62a Sur, Bogotá, Colombia', 3212376552, '81dc9bdb52d04dc20036dbd8313ed055', '2024-07-25 05:04:47', '2024-07-25 05:04:47', '/public/images/users/default.jpg', 1),
-(7, 'Samuel', 'Useche Chaparro', 'samuuseche01@gmail.com', 'Samuel_Useche', 'Cl. 68f Sur #71g-18, Bogotá, Colombia', 3107838443, '81dc9bdb52d04dc20036dbd8313ed055', '2024-07-25 05:05:19', '2024-07-25 05:05:19', '/public/images/users/default.jpg', 3);
+INSERT INTO `usuarios` (`usuario_id`, `usuario_nombre`, `usuario_apellido`, `usuario_correo`, `usuario_alias`, `usuario_telefono`, `usuario_direccion`, `usuario_contra`, `usuario_creacion`, `usuario_actualizacion`, `usuario_imagen_url`, `rol_id`) VALUES
+('34e0be88-c5f1-48d5-80a4-d12ae5316d8e', 'Jaider Harley', 'Rondon Herrera', 'rondonjaider@gmail.com', 'Jaider_Rondon', NULL, NULL, '$2b$10$9PhXBsd4qCg04HPwxivhTeyK1qO0e8dGXMVXmbED9BPOU5/X5BUHG', '2024-10-06 19:42:39', '2024-10-06 19:42:39', '/public/images/users/default.jpg', 2),
+('45299d86-2306-4577-86db-46203834db0a', 'Andres', 'Gutierrez Hurtado', 'andres52885241@gmail.com', 'Andres_Gutierrez', NULL, NULL, '$2b$10$0gRVvf5BF31mjyn9pH7x0uAtucYpHgSBdkI5mGSmbYeEPTjf6rxPS', '2024-10-06 19:41:30', '2024-10-06 19:41:30', '/public/images/users/default.jpg', 2),
+('78194f97-e0ba-4273-a84c-94d857384eee', 'David Fernando', 'Diaz Niausa', 'davidfernandodiazniausa@gmail.com', 'David_Diaz', NULL, NULL, '$2b$10$UWPMo32b33rTh97zeSAua.xsB0/BvJCxaPGJPXfsIBkkoeegVBYG2', '2024-10-06 19:42:06', '2024-10-06 19:42:06', '/public/images/users/default.jpg', 2),
+('a13c301b-1085-4990-b41d-fead70b1855c', 'Kevin Alejandro', 'Parra Cifuentes', 'luisparra5380@gmail.com', 'Kevin_Parra', NULL, NULL, '$2b$10$aEX33sH9CKse6vozeyuViuA.VWInIZpbptJBdEWrtaIWkbjjM5sm2', '2024-10-06 19:45:41', '2024-10-06 19:45:41', '/public/images/users/default.jpg', 1),
+('bd0ffb8a-19fc-4650-8a63-8eb030ce6606', 'Express', 'Sale', 'expresssale.exsl@gmail.com', 'Express_Sale', NULL, NULL, '$2b$10$Lvt6fhZf9/R4ZSpimhtije5tiEmW5NKOfKgFzDiMZQ7NmjLHIFXXK', '2024-10-06 19:39:09', '2024-10-06 19:39:09', '/public/images/users/default.jpg', 4),
+('c352d5f1-50fc-4380-8e43-a9a6f761b4f3', 'Luna Sofia', 'Pinzon Bejarano', 'lunasofiapinzonbejarano@gmail.com', 'Luna_Pinzon', NULL, NULL, '$2b$10$s2y/MEv4lIsawtxPbXRz5eqeWJ.LOr5Inl72YRlHEp045kX.ekY9C', '2024-10-06 19:46:51', '2024-10-06 19:46:51', '/public/images/users/default.jpg', 1),
+('d2153fdc-9085-4940-afdb-d9a775b201d2', 'Juan Sebastian', 'Bernal Gamboa', 'juansebastianbernalgamboa@gmail.com', 'Juan_Bernal', NULL, NULL, '$2b$10$14CvNCQUGK8/qt2iWzA/fel0vS9nocZqEWbP9dSFVTPvSVbAOZ4SS', '2024-10-06 19:43:08', '2024-10-06 19:43:08', '/public/images/users/default.jpg', 2),
+('e25b78d1-fe23-4663-bdcb-96e52c8875c5', 'Samuel', 'Useche Chaparro', 'samuuseche01@gmail.com', 'Samuel_Useche', NULL, NULL, '$2b$10$dRKgvx9gxu1kq8CvGkdK6.kQ9EV8gbDwUzg0MmcRF2J9z6Mt3lp5K', '2024-10-06 19:44:14', '2024-10-06 19:44:14', '/public/images/users/default.jpg', 3);
 
 -- ---------------------------------------------------------------
 --
@@ -52,16 +53,15 @@ CREATE TABLE `trabajadores` (
     `trabajador_descripcion` TEXT NOT NULL DEFAULT 'usuario nuevo.',
     `trabajador_numero_trabajos` INT NOT NULL DEFAULT 0,
     `trabajador_saldo` DECIMAL(10, 0) NOT NULL DEFAULT 0,
-    `usuario_id` INT NOT NULL
+    `usuario_id` VARCHAR(60) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
-INSERT INTO `trabajadores` (`usuario_id`) VALUES
-(2), -- Andrés Gutiérrez
-(3), -- David Diaz
-(4), -- Jaider Herrera
-(5), -- Juan Bernal
-(7); -- Samuel Useche
-
+INSERT INTO `trabajadores` (`trabajador_id`, `trabajador_descripcion`, `trabajador_numero_trabajos`, `trabajador_saldo`, `usuario_id`) VALUES
+(1, 'usuario nuevo.', 0, 0, '45299d86-2306-4577-86db-46203834db0a'),
+(2, 'usuario nuevo.', 0, 0, '78194f97-e0ba-4273-a84c-94d857384eee'),
+(3, 'usuario nuevo.', 0, 0, '34e0be88-c5f1-48d5-80a4-d12ae5316d8e'),
+(4, 'usuario nuevo.', 0, 0, 'd2153fdc-9085-4940-afdb-d9a775b201d2'),
+(5, 'usuario nuevo.', 0, 0, 'e25b78d1-fe23-4663-bdcb-96e52c8875c5');
 -- ---------------------------------------------------------------
 --
 -- Tabla de retiros
@@ -98,28 +98,9 @@ CREATE TABLE `productos` (
     `producto_imagen_url` VARCHAR(255) NOT NULL DEFAULT '/public/images/products/default.jpg',
     `producto_estado` ENUM('privado', 'publico') NOT NULL DEFAULT 'publico',
     `producto_fecha` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    `usuario_id` INT NOT NULL,
+    `usuario_id` VARCHAR(60) NOT NULL,
     `categoria_id` INT NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
--- Insertar datos en la tabla productos con la URL de la imagen
-INSERT INTO `productos` (`producto_nombre`, `producto_descripcion`, `producto_fecha`, `producto_imagen_url`, `producto_precio`, `producto_cantidad`, `categoria_id`, `usuario_id`) VALUES
--- Moda
-('Nike Air Jordan 1', 'Las icónicas zapatillas Nike Air Jordan 1 son un clásico atemporal en el mundo de la moda urbana, conocidas por su estilo y comodidad.', '2024-02-01', '/public/images/products/1.jpg', 289900.00, 15, 1, 3),
-('Cadena Cubana de Plata', 'Una cadena cubana de plata es un accesorio clásico y llamativo que puede complementar cualquier atuendo, ya sea casual o más elegante.', '2024-03-25', '/public/images/products/2.jpg', 24900.00, 9, 1, 3),
-('Casio G-Shock GA-2100', 'El reloj Casio G-Shock GA-2100 es conocido por su resistencia y estilo, con características como resistencia a golpes, al agua y un diseño moderno y elegante.', '2024-04-20', '/public/images/products/3.jpg', 224000.00, 10, 1, 3),
--- Tecnología
-('iPhone 13 Pro', 'El iPhone 13 Pro es el último modelo de Apple que combina un diseño elegante con un rendimiento potente y cámaras avanzadas para capturar imágenes impresionantes.', '2024-05-10', '/public/images/products/4.jpg', 2100000.00, 8, 3, 4),
-('Xbox Series X', 'La Xbox Series X ofrece potencia de próxima generación, velocidades de carga ultrarrápidas y una amplia biblioteca de juegos para una experiencia de juego inigualable.', '2024-05-05', '/public/images/products/5.jpg', 3599900.00, 13, 3, 4),
-('PlayStation 5', 'La PlayStation 5 es la consola de última generación de Sony, que ofrece gráficos impresionantes, carga ultrarrápida y una amplia variedad de juegos exclusivos.', '2024-04-15', '/public/images/products/6.jpg', 4599900.00, 12, 3, 4),
--- Comida
-('Galletas Oreo', 'Las deliciosas galletas Oreo, con su crujiente galleta y su cremoso relleno de vainilla, son un clásico de la merienda que gusta a niños y adultos por igual.', '2024-03-01', '/public/images/products/7.jpg', 26900.00, 40, 2, 5),
-('Nutella', 'La crema de avellanas Nutella, con su textura suave y su sabor dulce, es un imprescindible en el desayuno de millones de personas en todo el mundo.', '2024-02-10', '/public/images/products/8.jpg', 7000.00, 22, 2, 5),
-('KitKat', 'El delicioso chocolate KitKat, con sus característicos barquillos y su irresistible sabor, es el snack perfecto para disfrutar en cualquier momento del día.', '2024-03-20', '/public/images/products/9.jpg', 4000.00, 28, 2, 5),
--- Otros
-('Mancuernas Ajustables', 'Un par de mancuernas ajustables con diferentes pesos, perfectas para entrenamiento de fuerza en casa o en el gimnasio.', '2024-04-05', '/public/images/products/10.jpg', 89900.00, 8, 4, 2),
-('Megaplex | Creatine Power', 'Suplemento de proteína en polvo de alta calidad, ideal para la recuperación muscular y el crecimiento después del entrenamiento.', '2024-05-01', '/public/images/products/11.jpg', 59900.00, 10, 4, 2),
-('Rubik`s Cube', 'El clásico cubo de Rubik, con su diseño de colores vivos y su desafiante mecánica, es uno de los rompecabezas más populares y reconocidos del mundo.', '2024-02-15', '/public/images/products/12.jpg', 15000.00, 15, 4, 2);
 
 -- ---------------------------------------------------------------
 --
@@ -144,7 +125,7 @@ CREATE TABLE `calificaciones` (
     `calificacion_imagen_url` VARCHAR(255) NOT NULL,
     `calificacion_fecha` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     `calificacion` INT NOT NULL,
-    `usuario_id` INT NOT NULL
+    `usuario_id` VARCHAR(60) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- ---------------------------------------------------------------
@@ -152,7 +133,7 @@ CREATE TABLE `calificaciones` (
 -- Tabla de Relación Calificaciones y Usuarios
 CREATE TABLE `calificaciones_usuarios` (
     `calificacion_id` INT NOT NULL,
-    `usuario_id` INT NOT NULL
+    `usuario_id` VARCHAR(60) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- ---------------------------------------------------------------
@@ -173,17 +154,12 @@ CREATE TABLE `multimedias` (
     `producto_id` INT NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
-INSERT INTO `multimedias` (`multimedia_url`, `multimedia_tipo`, `producto_id`) VALUES
-('/public/images/products/media/1_0.20240728012919.jpg', 'imagen', 1),
-('/public/images/products/media/1_1.20240728012919.mp4', 'video', 1),
-('/public/images/products/media/1_2.20240728012919.jpg', 'imagen', 1);
-
 -- ---------------------------------------------------------------
 --
 -- Tabla de Pedidos
 CREATE TABLE `pedidos` (
     `pedido_id` INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
-    `usuario_id` INT NOT NULL,
+    `usuario_id` VARCHAR(60) NOT NULL,
     `pedido_fecha` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     `pedido_estado` ENUM('pendiente', 'enviando', 'entregado', 'recibido') NOT NULL DEFAULT 'pendiente'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
