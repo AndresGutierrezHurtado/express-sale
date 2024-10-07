@@ -1,3 +1,4 @@
+require("dotenv").config();
 const router = require("express").Router();
 const jwt = require("jsonwebtoken");
 const crypto = require("crypto");
@@ -60,9 +61,9 @@ router.put("/users/:id", async (req, res) => {
             usuario_contra: bcrypt.hashSync(req.body.usuario_contra, 10),
         },
         {
-        where: {
-            usuario_id: req.params.id,
-        },
+            where: {
+                usuario_id: req.params.id,
+            },
         }
     );
     res.json(user);
@@ -70,7 +71,7 @@ router.put("/users/:id", async (req, res) => {
 
 // Delete
 router.delete("/users/:id", async (req, res) => {
-    const user = await User.destroy({
+    const user = await models.User.destroy({
         where: {
             usuario_id: req.params.id,
         },
@@ -79,10 +80,10 @@ router.delete("/users/:id", async (req, res) => {
 });
 
 // Auth
-router.post("/auth", async (req, res) => {
+router.post("/user/auth", async (req, res) => {
     const { usuario_correo, usuario_contra } = req.body;
 
-    const user = await User.findOne({
+    const user = await models.User.findOne({
         where: { usuario_correo: usuario_correo },
     });
 
@@ -92,12 +93,7 @@ router.post("/auth", async (req, res) => {
             .json({ success: false, message: "Usuario no encontrado" });
     }
 
-    const hashedPassword = crypto
-        .createHash("md5")
-        .update(usuario_contra)
-        .digest("hex");
-
-    if (user.usuario_contra !== hashedPassword) {
+    if (!bcrypt.compareSync(usuario_contra, user.usuario_contra)) {
         return res
             .status(401)
             .json({ success: false, message: "Contraseña incorrecta" });
@@ -107,7 +103,14 @@ router.post("/auth", async (req, res) => {
         expiresIn: "1h",
     });
 
-    res.status(200).json({ success: true, token });
+    res.status(200)
+        .cookie("token", token, { httpOnly: true })
+        .json({ success: true, token });
+});
+
+// Logout
+router.get("/user/logout", (req, res) => {
+    res.status(200).clearCookie("token").json({ success: true });
 });
 
 module.exports = router;

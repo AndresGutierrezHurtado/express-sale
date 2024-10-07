@@ -5,7 +5,7 @@ const User = conn.define(
     "User",
     {
         usuario_id: {
-            type: DataTypes.INTEGER,
+            type: DataTypes.STRING(60),
             primaryKey: true,
             autoIncrement: true,
         },
@@ -102,7 +102,7 @@ const Worker = conn.define(
             defaultValue: 0,
         },
         usuario_id: {
-            type: DataTypes.INTEGER,
+            type: DataTypes.STRING(60),
             allowNull: false,
         },
     },
@@ -121,7 +121,7 @@ const Recovery = conn.define(
             autoIncrement: true,
         },
         usuario_id: {
-            type: DataTypes.INTEGER,
+            type: DataTypes.STRING(60),
             allowNull: false,
         },
         token: {
