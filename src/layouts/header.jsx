@@ -5,8 +5,38 @@ import { MdOutlineShoppingBag as ShoppingBag } from "react-icons/md";
 // Contexts
 import { useAuthContext } from "../context/authContext";
 
+// Hooks
+import { useGetData } from "../hooks/useFetchData";
+import Swal from "sweetalert2";
+
 export default function Header() {
     const { userSession } = useAuthContext();
+
+    const handleLogout = () => {
+        Swal.fire({
+            title: "¿Estás seguro?",
+            text: "Dale a continuar si quieres cerrar sesión",
+            icon: "warning",
+            showCancelButton: true,
+            cancelButtonText: "Cancelar",
+            confirmButtonText: "Continuar",
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+        })
+            .then(async result => {
+                if (result.isConfirmed) {
+                    const response = await useGetData("/api/user/logout");
+                    if (response.success) {
+                        Swal.fire({
+                            icon: "info",
+                            title: "Sesión cerrada",
+                            text: response.message
+                        });
+                    }
+                }
+            })
+    }
+
     return (
         <div className="drawer">
             <input id="my-drawer-3" type="checkbox" className="drawer-toggle" />
@@ -72,7 +102,7 @@ export default function Header() {
                                                 <li>
                                                     <Link to="/user/profile">Perfil</Link>
                                                 </li>
-                                                <li>
+                                                <li onClick={handleLogout}>
                                                     <a>Cerrar sesión</a>
                                                 </li>
                                             </>

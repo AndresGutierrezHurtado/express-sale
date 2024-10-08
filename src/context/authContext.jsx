@@ -16,7 +16,7 @@ export function AuthProvider({ children }) {
 
     useEffect(() => {
         getData();
-    }, [window.location.href]);
+    }, [window.location.href, window.location, window.location.pathname]);
 
     return (
         <AuthContext.Provider value={{ userSession }}>

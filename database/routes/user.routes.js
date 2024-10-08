@@ -162,7 +162,7 @@ router.get("/user/session", async (req, res) => {
 
 // Logout
 router.get("/user/logout", (req, res) => {
-    res.status(200).clearCookie("authToken").json({ success: true });
+    res.status(200).clearCookie("authToken").json({ success: true, message: "Sesión cerrada correctamente" });
 });
 
 module.exports = router;
