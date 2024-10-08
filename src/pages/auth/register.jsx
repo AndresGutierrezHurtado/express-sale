@@ -1,19 +1,27 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+
+// Icons
 import { TbLogin2 as LoginIcon } from "react-icons/tb";
 import { FaArrowUpFromBracket as RegisterIcon } from "react-icons/fa6";
+
+// Hooks
 import { useValidateform } from "../../hooks/useValidateForm";
+import { usePostData } from "../../hooks/useFetchData";
 
 export default function Register() {
-    const handleSubmit = (event) => {
+    const navigate = useNavigate();
+
+    const handleSubmit = async (event) => {
         event.preventDefault();
 
         let data = Object.fromEntries(new FormData(event.target));
+        const validation = useValidateform(data, "register-form");
 
-        const response = useValidateform(data, "register-form");
-
-        if (response.success) {
-            data = response.data;
+        if (validation.success) {
+            await usePostData("/api/users", data);
+            event.target.reset();
+            navigate("/login");
         }
     };
 

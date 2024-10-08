@@ -35,16 +35,6 @@ CREATE TABLE `usuarios` (
     `rol_id` INT DEFAULT 1
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
-INSERT INTO `usuarios` (`usuario_id`, `usuario_nombre`, `usuario_apellido`, `usuario_correo`, `usuario_alias`, `usuario_telefono`, `usuario_direccion`, `usuario_contra`, `usuario_creacion`, `usuario_actualizacion`, `usuario_imagen_url`, `rol_id`) VALUES
-('34e0be88-c5f1-48d5-80a4-d12ae5316d8e', 'Jaider Harley', 'Rondon Herrera', 'rondonjaider@gmail.com', 'Jaider_Rondon', NULL, NULL, '$2b$10$9PhXBsd4qCg04HPwxivhTeyK1qO0e8dGXMVXmbED9BPOU5/X5BUHG', '2024-10-06 19:42:39', '2024-10-06 19:42:39', '/public/images/users/default.jpg', 2),
-('45299d86-2306-4577-86db-46203834db0a', 'Andres', 'Gutierrez Hurtado', 'andres52885241@gmail.com', 'Andres_Gutierrez', NULL, NULL, '$2b$10$0gRVvf5BF31mjyn9pH7x0uAtucYpHgSBdkI5mGSmbYeEPTjf6rxPS', '2024-10-06 19:41:30', '2024-10-06 19:41:30', '/public/images/users/default.jpg', 2),
-('78194f97-e0ba-4273-a84c-94d857384eee', 'David Fernando', 'Diaz Niausa', 'davidfernandodiazniausa@gmail.com', 'David_Diaz', NULL, NULL, '$2b$10$UWPMo32b33rTh97zeSAua.xsB0/BvJCxaPGJPXfsIBkkoeegVBYG2', '2024-10-06 19:42:06', '2024-10-06 19:42:06', '/public/images/users/default.jpg', 2),
-('a13c301b-1085-4990-b41d-fead70b1855c', 'Kevin Alejandro', 'Parra Cifuentes', 'luisparra5380@gmail.com', 'Kevin_Parra', NULL, NULL, '$2b$10$aEX33sH9CKse6vozeyuViuA.VWInIZpbptJBdEWrtaIWkbjjM5sm2', '2024-10-06 19:45:41', '2024-10-06 19:45:41', '/public/images/users/default.jpg', 1),
-('bd0ffb8a-19fc-4650-8a63-8eb030ce6606', 'Express', 'Sale', 'expresssale.exsl@gmail.com', 'Express_Sale', NULL, NULL, '$2b$10$Lvt6fhZf9/R4ZSpimhtije5tiEmW5NKOfKgFzDiMZQ7NmjLHIFXXK', '2024-10-06 19:39:09', '2024-10-06 19:39:09', '/public/images/users/default.jpg', 4),
-('c352d5f1-50fc-4380-8e43-a9a6f761b4f3', 'Luna Sofia', 'Pinzon Bejarano', 'lunasofiapinzonbejarano@gmail.com', 'Luna_Pinzon', NULL, NULL, '$2b$10$s2y/MEv4lIsawtxPbXRz5eqeWJ.LOr5Inl72YRlHEp045kX.ekY9C', '2024-10-06 19:46:51', '2024-10-06 19:46:51', '/public/images/users/default.jpg', 1),
-('d2153fdc-9085-4940-afdb-d9a775b201d2', 'Juan Sebastian', 'Bernal Gamboa', 'juansebastianbernalgamboa@gmail.com', 'Juan_Bernal', NULL, NULL, '$2b$10$14CvNCQUGK8/qt2iWzA/fel0vS9nocZqEWbP9dSFVTPvSVbAOZ4SS', '2024-10-06 19:43:08', '2024-10-06 19:43:08', '/public/images/users/default.jpg', 2),
-('e25b78d1-fe23-4663-bdcb-96e52c8875c5', 'Samuel', 'Useche Chaparro', 'samuuseche01@gmail.com', 'Samuel_Useche', NULL, NULL, '$2b$10$dRKgvx9gxu1kq8CvGkdK6.kQ9EV8gbDwUzg0MmcRF2J9z6Mt3lp5K', '2024-10-06 19:44:14', '2024-10-06 19:44:14', '/public/images/users/default.jpg', 3);
-
 -- ---------------------------------------------------------------
 --
 -- Tabla de Trabajadores
@@ -56,12 +46,6 @@ CREATE TABLE `trabajadores` (
     `usuario_id` VARCHAR(60) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
-INSERT INTO `trabajadores` (`trabajador_id`, `trabajador_descripcion`, `trabajador_numero_trabajos`, `trabajador_saldo`, `usuario_id`) VALUES
-(1, 'usuario nuevo.', 0, 0, '45299d86-2306-4577-86db-46203834db0a'),
-(2, 'usuario nuevo.', 0, 0, '78194f97-e0ba-4273-a84c-94d857384eee'),
-(3, 'usuario nuevo.', 0, 0, '34e0be88-c5f1-48d5-80a4-d12ae5316d8e'),
-(4, 'usuario nuevo.', 0, 0, 'd2153fdc-9085-4940-afdb-d9a775b201d2'),
-(5, 'usuario nuevo.', 0, 0, 'e25b78d1-fe23-4663-bdcb-96e52c8875c5');
 -- ---------------------------------------------------------------
 --
 -- Tabla de retiros
