@@ -17,7 +17,6 @@ app.use((req, res, next) => {
     req.session = { user: null };
 
     const token = req.cookies.authToken;
-    console.log(token)
     if (!token) return next();
 
     try {

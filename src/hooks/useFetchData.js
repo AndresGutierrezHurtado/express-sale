@@ -2,7 +2,10 @@ import Swal from "sweetalert2";
 
 export const useGetData = async (endpoint) => {
     try {
-        const response = await fetch(`${import.meta.env.VITE_API_URL}${endpoint}`)
+        const response = await fetch(`${import.meta.env.VITE_API_URL}${endpoint}`, {
+            method: "GET",
+            credentials: "include"
+        })
         const result = await response.json();
         return result;
 
@@ -25,6 +28,7 @@ export const usePostData = async (endpoint, data) => {
                 "Content-Type": "application/json",
             },
             body: JSON.stringify(data),
+            credentials: "include"
         });
         const result = await response.json();
 
@@ -62,6 +66,7 @@ export const usePutData = async (endpoint, data) => {
                 "Content-Type": "application/json",
             },
             body: JSON.stringify(data),
+            credentials: "include"
         });
         const result = await response.json();
 
@@ -95,6 +100,7 @@ export const useDeleteData = async (endpoint) => {
     try {
         const response = await fetch(`${import.meta.env.VITE_API_URL}${endpoint}`, {
             method: "DELETE",
+            credentials: "include"
         });
         const result = await response.json();
         return result;
