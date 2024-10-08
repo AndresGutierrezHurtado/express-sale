@@ -1,14 +1,13 @@
-import { createElement } from "react";
 import { toast } from "react-toastify";
 import {
     email,
-    integer,
     minLength,
     nonEmpty,
     object,
     parse,
     pipe,
     string,
+    trim,
 } from "valibot";
 
 export const useValidateform = (data = {}, form = "") => {
@@ -47,7 +46,8 @@ export const useValidateform = (data = {}, form = "") => {
                 usuario_alias: pipe(
                     nonEmpty("Alias requerido"),
                     string("Alias requerido"),
-                    minLength(10, "El alias debe tener al menos 10 caracteres")
+                    trim("El usuario no debe tener espacios"),
+                    minLength(10, "El usuario debe tener al menos 10 caracteres")
                 ),
                 usuario_correo: pipe(
                     nonEmpty("Correo requerido"),
@@ -81,6 +81,9 @@ export const useValidateform = (data = {}, form = "") => {
                 .querySelector(".label-error")
                 .remove();
             input.classList.remove("input-error");
+            input.classList.remove("select-error");
+            input.classList.remove("focus:input-error");
+            input.classList.remove("focus:select-error");
         });
 
         return { success: true, data: parse(schema, data) };
@@ -104,6 +107,9 @@ export const useValidateform = (data = {}, form = "") => {
                 .querySelectorAll(`[name="${issue.path[0].key}"]`)
                 .forEach((input) => {
                     input.classList.add("input-error");
+                    input.classList.add("select-error");
+                    input.classList.add("focus:input-error");
+                    input.classList.add("focus:select-error");
 
                     const errorLabel = document.createElement("label");
                     errorLabel.className = "label-error text-red-500";

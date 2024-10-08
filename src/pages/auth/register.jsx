@@ -51,13 +51,15 @@ export default function Register() {
                 <div className="card bg-base-100 w-full max-w-[500px] shrink-0 shadow-2xl">
                     <form className="card-body" onSubmit={handleSubmit}>
                         <div className="form-control text-center">
-                            <figure className="size-[120px] mx-auto">
-                                <img
-                                    src="/logo.png"
-                                    alt="logo express sale"
-                                    className="object-contain w-full h-full"
-                                />
-                            </figure>
+                            <Link to="/">
+                                <figure className="size-[120px] mx-auto">
+                                    <img
+                                        src="/logo.png"
+                                        alt="logo express sale"
+                                        className="object-contain w-full h-full"
+                                    />
+                                </figure>
+                            </Link>
                             <h2 className="text-2xl font-bold">Regístrate</h2>
                             <p>
                                 Crea una nueva cuenta para ser parte de nuestra

@@ -1,5 +1,5 @@
 import React from "react";
-import { Link, Navigate, useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 // Icons
 import { TbLogin2 as LoginIcon } from "react-icons/tb";
@@ -53,13 +53,15 @@ export default function Login() {
                 <div className="card bg-base-100 w-full max-w-[500px] shrink-0 shadow-2xl">
                     <form className="card-body" onSubmit={handleSubmit}>
                         <div className="form-control text-center">
-                            <figure className="size-[120px] mx-auto">
-                                <img
-                                    src="/logo.png"
-                                    alt="logo express sale"
-                                    className="object-contain w-full h-full"
-                                />
-                            </figure>
+                            <Link to="/">
+                                <figure className="size-[120px] mx-auto">
+                                    <img
+                                        src="/logo.png"
+                                        alt="logo express sale"
+                                        className="object-contain w-full h-full"
+                                    />
+                                </figure>
+                            </Link>
                             <h2 className="text-2xl font-bold">
                                 Inicia sesión
                             </h2>
