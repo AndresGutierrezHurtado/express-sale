@@ -11,9 +11,10 @@ app.use(cors());
 app.use(cookieParser());
 
 app.use((req, res, next) => {
-    const token = req.cookies.token;
-
     req.session = { user: null };
+    
+    const token = req.cookies.token;
+    if (!token) return next();
 
     try {
         const data = jwt.verify(token, process.env.JWT_SECRET);

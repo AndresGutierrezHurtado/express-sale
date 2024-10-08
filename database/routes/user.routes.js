@@ -100,7 +100,7 @@ router.delete("/users/:id", async (req, res) => {
 });
 
 // Auth
-router.post("/users/auth", async (req, res) => {
+router.post("/user/auth", async (req, res) => {
     const { usuario_correo, usuario_contra } = req.body;
 
     const user = await models.User.findOne({
@@ -119,21 +119,28 @@ router.post("/users/auth", async (req, res) => {
             .json({ success: false, message: "Contraseña incorrecta" });
     }
 
-    const token = jwt.sign({ ...user }, process.env.JWT_SECRET, {
+    const token = jwt.sign({ id: user.usuario_id }, process.env.JWT_SECRET, {
         expiresIn: "1h",
     });
 
-    res.status(200)
-        .cookie("token", token, { httpOnly: true })
-        .json({
-            success: true,
-            message: "Autenticado correctamente.",
-            data: {token},
-        });
+    res.status(200).cookie("token", token, { httpOnly: true }).json({
+        success: true,
+        message: "Autenticado correctamente.",
+        data: { token },
+    });
+});
+
+// Verify
+router.get("/user/session", (req, res) => {
+    if (req.session.user) {
+        res.status(200).json({ success: true, data: req.session.user });
+    } else {
+        res.status(401).json({ success: false, message: "No autorizado" });
+    }
 });
 
 // Logout
-router.get("/users/logout", (req, res) => {
+router.get("/user/logout", (req, res) => {
     res.status(200).clearCookie("token").json({ success: true });
 });
 

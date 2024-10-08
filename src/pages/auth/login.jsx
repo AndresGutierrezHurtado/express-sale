@@ -19,9 +19,11 @@ export default function Login() {
         const validation = useValidateform(data, "login-form");
 
         if (validation.success) {
-            await usePostData("/api/users/auth", data);
-            event.target.reset();
-            navigate("/");
+            const response = await usePostData("/api/user/auth", data);
+            if (response.success) {
+                event.target.reset();
+                navigate("/");
+            }
         }
     };
 
