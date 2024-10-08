@@ -1,25 +1,26 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 
-// Hooks
-import { useFetchData } from "./hooks/useFetchData";
+// Layouts
+import AppLayout from "./layouts/appLayout";
+import GuestLayout from "./layouts/guestLayout";
+import Home from "./pages/home";
+import Login from "./pages/auth/login";
+import Register from "./pages/auth/register";
 
 export default function App() {
-    const [users, setUsers] = useState([]);
-    const [products, setProducts] = useState([]);
-    const [orders, setOrders] = useState([]);
-
-    useEffect(() => {
-        (async () => {
-            setUsers(await useFetchData("/api/users"));
-            setProducts(await useFetchData("/api/products"));
-            setOrders(await useFetchData("/api/orders"));
-        })();
-    }, []);
-    console.log(users, products, orders);
-
     return (
-        <div className="text-3xl font-bold">
-            <h1>Express Sale</h1>
-        </div>
+        <BrowserRouter>
+            <Routes>
+                <Route path="/" element={<AppLayout />}>
+                    <Route index element={<Home />} />
+                </Route>
+                <Route path="/" element={<GuestLayout />}>
+                    <Route path="login" element={<Login />} />
+                    <Route path="register" element={<Register />} />
+                </Route>
+                <Route path="*" element={<h1>Not found</h1>} />
+            </Routes>
+        </BrowserRouter>
     );
 }
