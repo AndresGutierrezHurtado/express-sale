@@ -79,7 +79,7 @@ CREATE TABLE `productos` (
     `producto_descripcion` TEXT NOT NULL,
     `producto_cantidad` INT NOT NULL,
     `producto_precio` DECIMAL(10, 0) NOT NULL,
-    `producto_imagen_url` VARCHAR(255) NOT NULL DEFAULT '/public/images/products/default.jpg',
+    `producto_imagen_url` VARCHAR(255) NOT NULL DEFAULT '/images/products/default.jpg',
     `producto_estado` ENUM('privado', 'publico') NOT NULL DEFAULT 'publico',
     `producto_fecha` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     `usuario_id` VARCHAR(60) NOT NULL,

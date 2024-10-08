@@ -10,9 +10,8 @@ export function AuthProvider({ children }) {
     const getData = async () => {
         const user = await useGetData("/api/user/session");
         if (user.success) {
-            setUserSession(user);
+            setUserSession(user.data);
         }
-        console.log(user);
     };
 
     useEffect(() => {

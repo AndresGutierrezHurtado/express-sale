@@ -131,9 +131,30 @@ router.post("/user/auth", async (req, res) => {
 });
 
 // Verify
-router.get("/user/session", (req, res) => {
+router.get("/user/session", async (req, res) => {
     if (req.session.user) {
-        res.status(200).json({ success: true, data: req.session.user });
+        const userSession = await models.User.findByPk(req.session.user.id, {
+            include: [
+                "role",
+                "worker",
+                {
+                    model: models.Order,
+                    as: "orders",
+                    include: [
+                        { model: models.PaymentDetails, as: "paymentDetails" },
+                        { model: models.ShippingDetails, as: "shippingDetails" },
+                        { model: models.OrderProduct, as: "orderProducts" },
+                    ],
+                },
+                {
+                    model: models.Rating,
+                    as: "ratings",
+                    through: { attributes: [] },
+                },
+            ],
+        });
+
+        res.status(200).json({ success: true, data: userSession });
     } else {
         res.status(401).json({ success: false, message: "No autorizado" });
     }

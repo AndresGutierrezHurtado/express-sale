@@ -2,7 +2,11 @@ import { Link } from "react-router-dom";
 import { IoSearch as Search, IoMenu as Menu } from "react-icons/io5";
 import { MdOutlineShoppingBag as ShoppingBag } from "react-icons/md";
 
+// Contexts
+import { useAuthContext } from "../context/authContext";
+
 export default function Header() {
+    const { userSession } = useAuthContext();
     return (
         <div className="drawer">
             <input id="my-drawer-3" type="checkbox" className="drawer-toggle" />
@@ -54,7 +58,7 @@ export default function Header() {
                                     <div className="w-10 rounded-full">
                                         <img
                                             alt="Tailwind CSS Navbar component"
-                                            src="https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.webp"
+                                            src={userSession ? userSession.usuario_imagen_url : "/images/users/default.jpg"}
                                         />
                                     </div>
                                 </div>
@@ -62,18 +66,29 @@ export default function Header() {
                                     tabIndex="0"
                                     className="menu menu-sm dropdown-content bg-base-100 rounded-box z-[1] mt-3 w-52 p-2 shadow"
                                 >
-                                    <li>
-                                        <Link to="/login">Iniciar sesión</Link>
-                                    </li>
-                                    <li>
-                                        <Link to="/register">Registrarse</Link>
-                                    </li>
-                                    <li>
-                                        <Link to="/user/profile">Perfil</Link>
-                                    </li>
-                                    <li>
-                                        <a>Cerrar sesión</a>
-                                    </li>
+                                    {
+                                        userSession ? (
+                                            <>
+                                                <li>
+                                                    <Link to="/user/profile">Perfil</Link>
+                                                </li>
+                                                <li>
+                                                    <a>Cerrar sesión</a>
+                                                </li>
+                                            </>
+
+                                        ) : (
+                                            <>
+                                                <li>
+                                                    <Link to="/login">Iniciar sesión</Link>
+                                                </li>
+                                                <li>
+                                                    <Link to="/register">Registrarse</Link>
+                                                </li>
+                                            </>
+
+                                        )
+                                    }
                                 </ul>
                             </div>
                             <button className="btn btn-ghost btn-circle">
