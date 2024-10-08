@@ -2,14 +2,20 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { TbLogin2 as LoginIcon } from "react-icons/tb";
 import { FaArrowUpFromBracket as RegisterIcon } from "react-icons/fa6";
+import { useValidateform } from "../../hooks/useValidateForm";
 
 export default function Login() {
-
     const handleSubmit = (event) => {
         event.preventDefault();
 
-        const data = Object.fromEntries(new FormData(event.target));
-    }
+        let data = Object.fromEntries(new FormData(event.target));
+
+        const response = useValidateform(data, "login-form");
+
+        if (response.success) {
+            data = response.data;
+        }
+    };
 
     return (
         <section className="hero bg-base-100 min-h-screen w-full">
@@ -47,7 +53,10 @@ export default function Login() {
                             <h2 className="text-2xl font-bold">
                                 Inicia sesión
                             </h2>
-                            <p>Ingresa tus credenciales para poder acceder a todas las funcionalidades.</p>
+                            <p>
+                                Ingresa tus credenciales para poder acceder a
+                                todas las funcionalidades.
+                            </p>
                         </div>
                         <div className="form-control">
                             <label className="label">
@@ -73,15 +82,15 @@ export default function Login() {
                                 className="input focus:input-primary input-bordered focus:outline-0"
                                 name="usuario_contra"
                             />
-                            <label className="label">
-                                <span className="label-text-alt">
-                                    ¿Olvidaste tu contraseña?,{" "}
-                                    <Link to="/reset-password" className="link">
-                                        Click Aquí
-                                    </Link>
-                                </span>
-                            </label>
                         </div>
+                        <label className="label">
+                            <span className="label-text-alt">
+                                ¿Olvidaste tu contraseña?,{" "}
+                                <Link to="/reset-password" className="link">
+                                    Click Aquí
+                                </Link>
+                            </span>
+                        </label>
                         <div className="form-control mt-2">
                             <button className="btn btn-primary group relative text-purple-300 hover:bg-purple-800 hover:text-purple-100">
                                 <span className="absolute left-3 top-1/2 transform -translate-y-1/2 text-purple-300 group-hover:text-purple-100">

@@ -2,15 +2,20 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { TbLogin2 as LoginIcon } from "react-icons/tb";
 import { FaArrowUpFromBracket as RegisterIcon } from "react-icons/fa6";
+import { useValidateform } from "../../hooks/useValidateForm";
 
 export default function Register() {
-
     const handleSubmit = (event) => {
         event.preventDefault();
 
-        const data = Object.fromEntries(new FormData(event.target));
+        let data = Object.fromEntries(new FormData(event.target));
 
-    }
+        const response = useValidateform(data, "register-form");
+
+        if (response.success) {
+            data = response.data;
+        }
+    };
 
     return (
         <section className="hero bg-base-100 min-h-screen w-full">
