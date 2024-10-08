@@ -123,7 +123,7 @@ router.post("/user/auth", async (req, res) => {
         expiresIn: "1h",
     });
 
-    res.status(200).cookie("token", token, { httpOnly: true }).json({
+    res.status(200).cookie("authToken", token, { httpOnly: true }).json({
         success: true,
         message: "Autenticado correctamente.",
         data: { token },
@@ -141,7 +141,7 @@ router.get("/user/session", (req, res) => {
 
 // Logout
 router.get("/user/logout", (req, res) => {
-    res.status(200).clearCookie("token").json({ success: true });
+    res.status(200).clearCookie("authToken").json({ success: true });
 });
 
 module.exports = router;
