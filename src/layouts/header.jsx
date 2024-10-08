@@ -12,7 +12,7 @@ export default function Header() {
                     <div className="navbar">
                         <div className="flex-none lg:hidden">
                             <label
-                                for="my-drawer-3"
+                                htmlFor="my-drawer-3"
                                 aria-label="open sidebar"
                                 className="btn btn-square btn-ghost"
                             >
@@ -47,7 +47,7 @@ export default function Header() {
                             </button>
                             <div className="dropdown dropdown-end">
                                 <div
-                                    tabindex="0"
+                                    tabIndex="0"
                                     role="button"
                                     className="btn btn-ghost btn-circle avatar"
                                 >
@@ -59,7 +59,7 @@ export default function Header() {
                                     </div>
                                 </div>
                                 <ul
-                                    tabindex="0"
+                                    tabIndex="0"
                                     className="menu menu-sm dropdown-content bg-base-100 rounded-box z-[1] mt-3 w-52 p-2 shadow"
                                 >
                                     <li>
