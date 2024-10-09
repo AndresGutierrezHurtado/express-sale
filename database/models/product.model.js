@@ -27,7 +27,7 @@ const Product = conn.define(
         },
         producto_imagen_url: {
             type: DataTypes.STRING(255),
-            defaultValue: "/public/images/products/default.jpg",
+            defaultValue: "/images/products/default.jpg",
         },
         producto_estado: {
             type: DataTypes.ENUM("privado", "publico"),

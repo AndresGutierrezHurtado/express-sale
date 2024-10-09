@@ -49,7 +49,7 @@ const User = conn.define(
         },
         usuario_imagen_url: {
             type: DataTypes.STRING(255),
-            defaultValue: "/public/images/users/default.jpg",
+            defaultValue: "/images/users/default.jpg",
         },
         rol_id: {
             type: DataTypes.INTEGER,
