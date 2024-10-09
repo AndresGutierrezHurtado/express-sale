@@ -35,6 +35,17 @@ CREATE TABLE `usuarios` (
     `rol_id` INT DEFAULT 1
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
+INSERT INTO `usuarios` (`usuario_id`, `usuario_nombre`, `usuario_apellido`, `usuario_correo`, `usuario_alias`, `usuario_telefono`, `usuario_direccion`, `usuario_contra`, `usuario_creacion`, `usuario_actualizacion`, `usuario_imagen_url`, `rol_id`) VALUES
+('0c0c2f13-dc1b-441a-9d63-29ff2ee0e28b', 'Kevin Alejandro', 'Parra Cifuentes', 'luisparra5380@gmail.com', 'Kevin_Parra', NULL, NULL, '$2b$10$jTgbEuDRXCmyufG.P1tp0.GHXCMdpfjFKmLpi0xWX/tGYROxel9J2', '2024-10-09 19:39:04', '2024-10-09 19:39:04', '/public/images/users/default.jpg', 1),
+('0f942718-af96-4474-82e2-62f3c92ff321', 'Express', 'Sale', 'expresssale.exsl@gmail.com', 'Express_Sale', NULL, NULL, '$2b$10$fmyU.b4VO/eFhr6MKyuUhOj3lkFGg1fG7BE4rwzBQzz8uWHrGneny', '2024-10-09 19:38:21', '2024-10-09 19:38:21', '/public/images/users/default.jpg', 4),
+('83c44447-d4fc-46e4-a8e1-5b4c0c1aa44d', 'Juan Sebastian', 'Bernal Gamboa', 'juansebastianbernalgamboa@gmail.com', 'Juan_Bernal', NULL, NULL, '$2b$10$zh/hKBWs9Po45VleG.oosuq3rjly0iYimojTK9VujVfLDsZ9qxsB6', '2024-10-09 19:38:57', '2024-10-09 19:38:57', '/public/images/users/default.jpg', 2),
+('971426df-a3b5-45d4-98b7-e24b7ac5e2de', 'Wendy Alejandra', 'Navarro Arias', 'nwendy798@gmail.com', 'Wendy_Navarro', NULL, NULL, '$2b$10$NQZHjhQ4IgqJJgmY8TB3guqCI3Moi160CkdMEX6Tu0tpJ7PuPQ1gO', '2024-10-09 19:41:00', '2024-10-09 19:41:00', '/public/images/users/default.jpg', 1),
+('98a6ce1f-550f-4f70-8756-0031a950d848', 'Andrés', 'Gutiérrez Hurtado', 'andres52885241@gmail.com', 'Andres_Gutierrez', NULL, NULL, '$2b$10$0uRWEFjgKkeDTewwC1lx..ujMZQK0N3nHeQnyTB0.0B7w9jxGzOEG', '2024-10-09 19:38:42', '2024-10-09 19:38:42', '/public/images/users/default.jpg', 2),
+('99dee5c0-58cc-4ddc-82f7-3c7deff24acc', 'Luna Sofia', 'Pinzon Bejarano', 'lunasofiapinzonbejarano@gmail.com', 'Luna_Pinzon', NULL, NULL, '$2b$10$yCgOdXZHX.xIYQG4AJHA9exrZnshhqLPNtDzqClnDqYNnGLHBSpZK', '2024-10-09 19:41:35', '2024-10-09 19:41:35', '/public/images/users/default.jpg', 1),
+('adb0552e-0299-4690-a321-370c6cfe9779', 'David Fernando', 'Diaz Niausa', 'davidfernandodiazniausa@gmail.com', 'David_Diaz', NULL, NULL, '$2b$10$8mITiuC7w4AdY/9wd/GdD.YFhIi0fMFWSZNQI9S3jfntU/3udx4Iu', '2024-10-09 19:38:46', '2024-10-09 19:38:46', '/public/images/users/default.jpg', 2),
+('d40fc373-15ed-44c8-8a4e-172743226503', 'Jaider Harley', 'Rondon Herrera', 'rondonjaider@gmail.com', 'Jaider_Rondon', NULL, NULL, '$2b$10$04lNySsMLXGcaIalJRzP3OVMoI85KPnRjc41KhmnUM8Sws3IjvbRq', '2024-10-09 19:38:51', '2024-10-09 19:38:51', '/public/images/users/default.jpg', 2),
+('e56759f4-e104-43eb-a14a-38a1d15b17b0', 'Samuel', 'Useche Chaparro', 'samuuseche01@gmail.com', 'Samuel_Useche', NULL, NULL, '$2b$10$gqb2UBPtDN3tSzGeTI8tJ.K.5OeklkCPV3NVjgol5/ZSucALD.pBe', '2024-10-09 19:39:11', '2024-10-09 19:39:11', '/public/images/users/default.jpg', 3);
+
 -- ---------------------------------------------------------------
 --
 -- Tabla de Trabajadores
@@ -45,6 +56,13 @@ CREATE TABLE `trabajadores` (
     `trabajador_saldo` DECIMAL(10, 0) NOT NULL DEFAULT 0,
     `usuario_id` VARCHAR(60) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+INSERT INTO `trabajadores` (`trabajador_id`, `trabajador_descripcion`, `trabajador_numero_trabajos`, `trabajador_saldo`, `usuario_id`) VALUES
+(1, 'usuario nuevo.', 0, 0, '98a6ce1f-550f-4f70-8756-0031a950d848'), -- Andres Gutierrez
+(2, 'usuario nuevo.', 0, 0, 'adb0552e-0299-4690-a321-370c6cfe9779'), -- David Fernando Diaz
+(3, 'usuario nuevo.', 0, 0, 'd40fc373-15ed-44c8-8a4e-172743226503'), -- Jaider Harley
+(4, 'usuario nuevo.', 0, 0, '83c44447-d4fc-46e4-a8e1-5b4c0c1aa44d'), -- Juan Sebastian
+(5, 'usuario nuevo.', 0, 0, 'e56759f4-e104-43eb-a14a-38a1d15b17b0'); -- Samuel Useche
 
 -- ---------------------------------------------------------------
 --
