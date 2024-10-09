@@ -4,9 +4,12 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 // Layouts
 import AppLayout from "./layouts/appLayout";
 import GuestLayout from "./layouts/guestLayout";
-import Home from "./pages/home";
+
+// Pages
 import Login from "./pages/auth/login";
 import Register from "./pages/auth/register";
+import Home from "./pages/home";
+import Products from "./pages/products";
 
 // Contexts
 import { AuthProvider } from "./context/authContext";
@@ -18,6 +21,7 @@ export default function App() {
                 <Routes>
                     <Route path="/" element={<AppLayout />}>
                         <Route index element={<Home />} />
+                        <Route path="/products" element={<Products />} />
                     </Route>
                     <Route path="/" element={<GuestLayout />}>
                         <Route path="login" element={<Login />} />
