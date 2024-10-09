@@ -2,8 +2,7 @@ import React from "react";
 import { Link, useNavigate } from "react-router-dom";
 
 // Icons
-import { TbLogin2 as LoginIcon } from "react-icons/tb";
-import { FaArrowUpFromBracket as RegisterIcon } from "react-icons/fa6";
+import { LoginIcon, RegisterIcon } from "../../components/icons";
 
 // Hooks
 import { useValidateform } from "../../hooks/useValidateForm";

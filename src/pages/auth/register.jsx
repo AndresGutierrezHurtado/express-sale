@@ -2,8 +2,7 @@ import React from "react";
 import { Link, useNavigate } from "react-router-dom";
 
 // Icons
-import { TbLogin2 as LoginIcon } from "react-icons/tb";
-import { FaArrowUpFromBracket as RegisterIcon } from "react-icons/fa6";
+import { LoginIcon, RegisterIcon } from "../../components/icons";
 
 // Hooks
 import { useValidateform } from "../../hooks/useValidateForm";
@@ -19,9 +18,11 @@ export default function Register() {
         const validation = useValidateform(data, "register-form");
 
         if (validation.success) {
-            await usePostData("/api/users", data);
-            event.target.reset();
-            navigate("/login");
+            const response = await usePostData("/api/users", data);
+            if (response.success) {
+                event.target.reset();
+                navigate("/login");
+            }
         }
     };
 
