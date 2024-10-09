@@ -1,136 +1,148 @@
-import { Link } from "react-router-dom";
-import { IoSearch as Search, IoMenu as Menu } from "react-icons/io5";
-import { MdOutlineShoppingBag as ShoppingBag } from "react-icons/md";
+import { Link, useLocation } from "react-router-dom";
 
 // Contexts
 import { useAuthContext } from "../context/authContext";
 
-// Hooks
-import { useGetData } from "../hooks/useFetchData";
-import Swal from "sweetalert2";
+// Icons
+import { MenuIcon, SearchIcon, ShoppingBagIcon } from "../components/icons";
 
 export default function Header() {
-    const { userSession } = useAuthContext();
+    const { pathname, hash } = useLocation();
+    const { userSession, handleLogout } = useAuthContext();
 
-    const handleLogout = () => {
-        Swal.fire({
-            title: "¿Estás seguro?",
-            text: "Dale a continuar si quieres cerrar sesión",
-            icon: "warning",
-            showCancelButton: true,
-            cancelButtonText: "Cancelar",
-            confirmButtonText: "Continuar",
-            confirmButtonColor: "#3085d6",
-            cancelButtonColor: "#d33",
-        })
-            .then(async result => {
-                if (result.isConfirmed) {
-                    const response = await useGetData("/api/user/logout");
-                    if (response.success) {
-                        Swal.fire({
-                            icon: "info",
-                            title: "Sesión cerrada",
-                            text: response.message
-                        });
-                    }
-                }
-            })
-    }
+    document.addEventListener("scroll", () => {
+        if (window.scrollY > 0)
+            document.querySelector(".navbar").classList.add("bg-black/10");
+        else document.querySelector(".navbar").classList.remove("bg-black/10");
+    });
 
     return (
-        <div className="drawer">
-            <input id="my-drawer-3" type="checkbox" className="drawer-toggle" />
+        <div className="drawer sticky top-0">
+            <input
+                id="drawer-toggle"
+                type="checkbox"
+                className="drawer-toggle"
+            />
             <div className="drawer-content flex flex-col">
                 {/* Navbar */}
-                <div className="w-full max-w-[1200px] mx-auto bg-base-100">
-                    <div className="navbar">
-                        <div className="flex-none lg:hidden">
-                            <label
-                                htmlFor="my-drawer-3"
-                                aria-label="open sidebar"
-                                className="btn btn-square btn-ghost"
-                            >
-                                <Menu size={23} />
-                            </label>
-                        </div>
-                        <div className="navbar-start">
-                            <Link to="/" className="btn btn-ghost text-xl">
-                                <img
-                                    src="/logo.png"
-                                    alt="logo express sale"
-                                    className="object-contain w-full h-full"
-                                />
-                            </Link>
-                        </div>
-                        <div className="navbar-center hidden lg:flex text-purple-700">
-                            <ul className="menu menu-horizontal px-1 text-[1.05rem]">
-                                <li>
-                                    <Link to="/">Inicio</Link>
-                                </li>
-                                <li>
-                                    <Link to="/products">Productos</Link>
-                                </li>
-                                <li>
-                                    <Link to="/#contact">Contacto</Link>
-                                </li>
-                            </ul>
-                        </div>
-                        <div className="navbar-end gap-2 [&_svg]:text-purple-700">
-                            <button className="btn btn-ghost btn-circle">
-                                <Search size={25} />
-                            </button>
-                            <div className="dropdown dropdown-end">
-                                <div
-                                    tabIndex="0"
-                                    role="button"
-                                    className="btn btn-ghost btn-circle avatar"
+                <div className="w-full px-3">
+                    <div className="w-full max-w-[1200px] mx-auto py-3">
+                        <div className="navbar rounded-full backdrop-blur-sm duration-300 py-[2px] px-7 min-h-[50px]">
+                            <div className="flex-none lg:hidden">
+                                <label
+                                    htmlFor="drawer-toggle"
+                                    aria-label="open sidebar"
+                                    className="btn btn-square btn-ghost"
                                 >
-                                    <div className="w-10 rounded-full">
-                                        <img
-                                            alt="Tailwind CSS Navbar component"
-                                            src={userSession ? userSession.usuario_imagen_url : "/images/users/default.jpg"}
-                                        />
+                                    <MenuIcon size={23} />
+                                </label>
+                            </div>
+                            <div className="navbar-start">
+                                <Link
+                                    to="/"
+                                    className="btn btn-sm h-auto min-h-auto btn-ghost p-1 text-xl"
+                                >
+                                    <img
+                                        src="/logo.png"
+                                        alt="logo express sale"
+                                        className="object-contain w-full h-[35px]"
+                                    />
+                                </Link>
+                            </div>
+                            <div className="navbar-center hidden lg:flex text-purple-700">
+                                <ul className="flex items-center gap-5 px-1 text-[1.05rem]">
+                                    <li
+                                        className={`font-medium duration-300 ${
+                                            pathname + hash === "/"
+                                                ? "border-b-2 border-purple-700"
+                                                : "hover:scale-[1.1]"
+                                        }`}
+                                    >
+                                        <Link to="/">Inicio</Link>
+                                    </li>
+                                    <li
+                                        className={`font-medium duration-300 ${
+                                            pathname + hash === "/products"
+                                                ? "border-b-2 border-purple-700"
+                                                : "hover:scale-[1.1]"
+                                        }`}
+                                    >
+                                        <Link to="/products">Productos</Link>
+                                    </li>
+                                    <li
+                                        className={`font-medium duration-300 ${
+                                            pathname + hash === "/#contact"
+                                                ? "border-b-2 border-purple-700"
+                                                : "hover:scale-[1.1]"
+                                        }`}
+                                    >
+                                        <Link to="/#contact">Contacto</Link>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div className="navbar-end [&_svg]:text-purple-700">
+                                <button className="btn btn-ghost btn-circle">
+                                    <SearchIcon size={23} />
+                                </button>
+                                <div className="dropdown dropdown-end">
+                                    <div
+                                        tabIndex="0"
+                                        role="button"
+                                        className="btn btn-ghost btn-circle avatar"
+                                    >
+                                        <div className="w-8 rounded-full">
+                                            <img
+                                                alt="Tailwind CSS Navbar component"
+                                                src={
+                                                    userSession
+                                                        ? userSession.usuario_imagen_url
+                                                        : "/images/users/default.jpg"
+                                                }
+                                            />
+                                        </div>
                                     </div>
-                                </div>
-                                <ul
-                                    tabIndex="0"
-                                    className="menu menu-sm dropdown-content bg-base-100 rounded-box z-[1] mt-3 w-52 p-2 shadow"
-                                >
-                                    {
-                                        userSession ? (
+                                    <ul
+                                        tabIndex="0"
+                                        className="menu menu-sm dropdown-content bg-base-100 rounded-box z-[1] mt-3 w-52 p-2 shadow"
+                                    >
+                                        {userSession ? (
                                             <>
                                                 <li>
-                                                    <Link to="/user/profile">Perfil</Link>
+                                                    <Link to="/user/profile">
+                                                        Perfil
+                                                    </Link>
                                                 </li>
                                                 <li onClick={handleLogout}>
                                                     <a>Cerrar sesión</a>
                                                 </li>
                                             </>
-
                                         ) : (
                                             <>
                                                 <li>
-                                                    <Link to="/login">Iniciar sesión</Link>
+                                                    <Link to="/login">
+                                                        Iniciar sesión
+                                                    </Link>
                                                 </li>
                                                 <li>
-                                                    <Link to="/register">Registrarse</Link>
+                                                    <Link to="/register">
+                                                        Registrarse
+                                                    </Link>
                                                 </li>
                                             </>
-
-                                        )
-                                    }
-                                </ul>
+                                        )}
+                                    </ul>
+                                </div>
+                                <button className="btn btn-ghost btn-circle">
+                                    <ShoppingBagIcon size={25} />
+                                </button>
                             </div>
-                            <button className="btn btn-ghost btn-circle">
-                                <ShoppingBag size={27} />
-                            </button>
                         </div>
                     </div>
                 </div>
             </div>
             <div className="drawer-side">
                 <label
-                    htmlFor="my-drawer-3"
+                    htmlFor="drawer-toggle"
                     aria-label="close sidebar"
                     className="drawer-overlay"
                 ></label>
