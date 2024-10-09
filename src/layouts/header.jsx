@@ -94,7 +94,7 @@ export default function Header() {
                                             <img
                                                 alt="Tailwind CSS Navbar component"
                                                 src={
-                                                    userSession
+                                                    userSession.logged
                                                         ? userSession.usuario_imagen_url
                                                         : "/images/users/default.jpg"
                                                 }
@@ -105,10 +105,10 @@ export default function Header() {
                                         tabIndex="0"
                                         className="menu menu-sm dropdown-content bg-base-100 rounded-box z-[1] mt-3 w-52 p-2 shadow"
                                     >
-                                        {userSession ? (
+                                        {userSession.logged == true ? (
                                             <>
                                                 <li>
-                                                    <Link to="/user/profile">
+                                                    <Link to="/profile/user/">
                                                         Perfil
                                                     </Link>
                                                 </li>
