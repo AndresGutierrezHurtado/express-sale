@@ -9,20 +9,36 @@ const models = require("../models/relations");
 
 // Create
 router.post("/users", async (req, res) => {
-    const user = await models.User.create({
-        usuario_id: crypto.randomUUID(),
-        usuario_nombre: req.body.usuario_nombre,
-        usuario_apellido: req.body.usuario_apellido,
-        usuario_correo: req.body.usuario_correo,
-        usuario_alias: req.body.usuario_alias,
-        usuario_contra: bcrypt.hashSync(req.body.usuario_contra, 10),
-        rol_id: req.body.rol_id,
-    });
-    res.json({
-        success: true,
-        message: "Usuario creado correctamente.",
-        data: user,
-    });
+    try {
+        const user = await models.User.create({
+            usuario_id: crypto.randomUUID(),
+            usuario_nombre: req.body.usuario_nombre,
+            usuario_apellido: req.body.usuario_apellido,
+            usuario_correo: req.body.usuario_correo,
+            usuario_alias: req.body.usuario_alias,
+            usuario_contra: bcrypt.hashSync(req.body.usuario_contra, 10),
+            rol_id: req.body.rol_id,
+        });
+        res.status(200).json({
+            success: true,
+            message: "Usuario creado correctamente.",
+            data: user,
+        });
+    } catch (error) {
+        // verificar si es que el correo/usuario ya existe
+
+        if (error.name === "SequelizeUniqueConstraintError") {
+            return res.status(500).json({
+                success: false,
+                message: "El correo/alias ya existe.",
+            });
+        } else {
+            res.status(500).json({
+                success: false,
+                message: error.message,
+            });
+        }
+    }
 });
 
 // Read
@@ -30,7 +46,7 @@ router.get("/users", async (req, res) => {
     const users = await models.User.findAll({
         include: ["role", "worker"],
     });
-    res.json({
+    res.status(200).json({
         success: true,
         message: "Usuarios obtenidos correctamente.",
         data: users,
@@ -58,7 +74,7 @@ router.get("/users/:id", async (req, res) => {
             },
         ],
     });
-    res.json({
+    res.status(200).json({
         success: true,
         message: "Usuario obtenido correctamente.",
         data: user,
@@ -67,22 +83,29 @@ router.get("/users/:id", async (req, res) => {
 
 // Update
 router.put("/users/:id", async (req, res) => {
-    const user = await models.User.update(
-        {
-            ...req.body,
-            usuario_contra: bcrypt.hashSync(req.body.usuario_contra, 10),
-        },
-        {
-            where: {
-                usuario_id: req.params.id,
+    try {
+        const user = await models.User.update(
+            {
+                ...req.body,
+                usuario_contra: bcrypt.hashSync(req.body.usuario_contra, 10),
             },
-        }
-    );
-    res.json({
-        success: true,
-        message: "Usuario actualizado correctamente.",
-        data: user,
-    });
+            {
+                where: {
+                    usuario_id: req.params.id,
+                },
+            }
+        );
+        res.status(200).json({
+            success: true,
+            message: "Usuario actualizado correctamente.",
+            data: user,
+        });
+    } catch (error) {
+        res.status(500).json({
+            success: false,
+            message: error,
+        });
+    }
 });
 
 // Delete
@@ -92,7 +115,7 @@ router.delete("/users/:id", async (req, res) => {
             usuario_id: req.params.id,
         },
     });
-    res.json({
+    res.status(200).json({
         success: true,
         message: "Usuario eliminado correctamente.",
         data: user,
@@ -142,7 +165,10 @@ router.get("/user/session", async (req, res) => {
                     as: "orders",
                     include: [
                         { model: models.PaymentDetails, as: "paymentDetails" },
-                        { model: models.ShippingDetails, as: "shippingDetails" },
+                        {
+                            model: models.ShippingDetails,
+                            as: "shippingDetails",
+                        },
                         { model: models.OrderProduct, as: "orderProducts" },
                     ],
                 },
@@ -162,7 +188,9 @@ router.get("/user/session", async (req, res) => {
 
 // Logout
 router.get("/user/logout", (req, res) => {
-    res.status(200).clearCookie("authToken").json({ success: true, message: "Sesión cerrada correctamente" });
+    res.status(200)
+        .clearCookie("authToken")
+        .json({ success: true, message: "Sesión cerrada correctamente" });
 });
 
 module.exports = router;

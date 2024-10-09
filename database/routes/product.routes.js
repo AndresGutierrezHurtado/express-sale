@@ -1,68 +1,83 @@
 const router = require("express").Router();
 
 // Models
-const {
-    Order,
-    PaymentDetails,
-    ShippingDetails,
-    OrderProduct,
-    User,
-    Role,
-    Worker,
-    Recovery,
-    Product,
-    Media,
-    Category,
-    Rating,
-} = require("../models/relations");
+const models = require("../models/relations");
 
 // read
 router.get("/products", async (req, res) => {
-    const products = await Product.findAll({
+    const products = await models.Product.findAll({
         include: [
             "category",
-            { model: User, as: "user", include: ["worker"] },
-            { model: Rating, as: "ratings", through: { attributes: [] } },
+            { model: models.User, as: "user", include: ["worker"] },
+            {
+                model: models.Rating,
+                as: "ratings",
+                through: { attributes: [] },
+            },
         ],
     });
-    res.json(products);
+    res.status(200).json({
+        success: true,
+        message: "Productos obtenidos correctamente",
+        data: products,
+    });
 });
 
 router.get("/products/:id", async (req, res) => {
-    const product = await Product.findByPk(req.params.id, {
+    const product = await models.Product.findByPk(req.params.id, {
         include: [
             "category",
-            { model: User, as: "user", include: ["worker"] },
-            { model: Rating, as: "ratings", through: { attributes: [] } },
+            { model: models.User, as: "user", include: ["worker"] },
+            {
+                model: models.Rating,
+                as: "ratings",
+                through: { attributes: [] },
+            },
         ],
     });
-    res.json(product);
+    res.status(200).json({
+        success: true,
+        message: "Producto obtenido correctamente",
+        data: product,
+    });
 });
 
 // create
 router.post("/products/:id", async (req, res) => {
-    const product = await Product.create(req.body);
-    res.json(product);
+    const product = await models.Product.create(req.body);
+    res.stauts(200).json({
+        success: true,
+        message: "Producto creado correctamente",
+        data: product,
+    });
 });
 
 // update
 router.put("/products/:id", async (req, res) => {
-    const product = await Product.update(req.body, {
+    const product = await models.Product.update(req.body, {
         where: {
             producto_id: req.params.id,
         },
     });
-    res.json(product);
+    res.status(200).json({
+        success: true,
+        message: "Producto actualizado correctamente",
+        data: product,
+    });
 });
 
 // delete
 router.delete("/products/:id", async (req, res) => {
-    const product = await Product.destroy({
+    const product = await models.Product.destroy({
         where: {
             producto_id: req.params.id,
         },
     });
-    res.json(product);
+    res.status(200).json({
+        success: true,
+        message: "Producto eliminado correctamente",
+        data: product,
+    });
 });
 
 module.exports = router;

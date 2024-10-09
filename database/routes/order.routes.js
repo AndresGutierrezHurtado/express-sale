@@ -1,55 +1,58 @@
 const router = require("express").Router();
 
 // Models
-const {
-    Order,
-    PaymentDetails,
-    ShippingDetails,
-    OrderProduct,
-    User,
-    Role,
-    Worker,
-    Recovery,
-    Product,
-    Media,
-    Category,
-    Rating,
-} = require("../models/relations");
+const models = require("../models/relations");
 
 // read
 router.get("/orders", async (req, res) => {
-    const orders = await Order.findAll({
+    const orders = await models.Order.findAll({
         include: [
-            { model: PaymentDetails, as: "paymentDetails" },
-            { model: User, as: "user" },
+            { model: models.PaymentDetails, as: "paymentDetails" },
+            { model: models.User, as: "user" },
             {
-                model: ShippingDetails,
+                model: models.ShippingDetails,
                 as: "shippingDetails",
-                include: { model: Worker, as: "worker", include: {model: User, as: "user"} },
+                include: {
+                    model: models.Worker,
+                    as: "worker",
+                    include: { model: User, as: "user" },
+                },
             },
-            { model: OrderProduct, as: "orderProducts" },
+            { model: models.OrderProduct, as: "orderProducts" },
         ],
     });
 
-    res.json(orders);
+    res.status(200).json({
+        success: true,
+        message: "Pedidos obtenidos correctamente.",
+        data: orders,
+    });
 });
 
 router.get("/orders/:id", async (req, res) => {
-    const orders = await Order.findOne({
-        where: {pedido_id: req.params.id},
+    const orders = await models.Order.findOne({
+        where: { pedido_id: req.params.id },
         include: [
-            { model: PaymentDetails, as: "paymentDetails" },
-            { model: User, as: "user" },
+            { model: models.PaymentDetails, as: "paymentDetails" },
+            { model: models.User, as: "user" },
             {
-                model: ShippingDetails,
+                model: models.ShippingDetails,
                 as: "shippingDetails",
-                include: { model: Worker, as: "worker", include: {model: User, as: "user"} },
+                include: {
+                    model: models.Worker,
+                    as: "worker",
+                    include: { model: models.User, as: "user" },
+                },
             },
-            { model: OrderProduct, as: "orderProducts" },
+            { model: models.OrderProduct, as: "orderProducts" },
         ],
     });
 
-    res.json(orders);
+    res.status(200).json({
+        success: true,
+        message: "Pedidos obtenidos correctamente.",
+        data: orders,
+    });
 });
 
 module.exports = router;
