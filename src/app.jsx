@@ -10,9 +10,12 @@ import Login from "./pages/auth/login";
 import Register from "./pages/auth/register";
 import Home from "./pages/home";
 import Products from "./pages/products";
+import UserProfile from "./pages/profile/user";
 
 // Contexts
 import { AuthProvider } from "./context/authContext";
+
+// MiddleWare
 import AuthMiddleware from "./middleWares/authMiddleWare";
 
 export default function App() {
@@ -25,7 +28,7 @@ export default function App() {
                         <Route path="/products" element={<Products />} />
                         <Route path="/product/:id" element={<h1>adfsadfas</h1>} />
                         <Route element={<AuthMiddleware />} >
-                            <Route path="/profile/user/:id?" element={<h1>hola mundo</h1>} />
+                            <Route path="/profile/user/:id?" element={<UserProfile />} />
                             <Route path="/profile/product/:id?" element={<h1>hola mundo</h1>} />
                         </Route>
                     </Route>
