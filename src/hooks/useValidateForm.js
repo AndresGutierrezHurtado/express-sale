@@ -1,11 +1,15 @@
 import { toast } from "react-toastify";
 import {
     email,
+    empty,
     minLength,
     nonEmpty,
+    nullable,
     object,
+    optional,
     parse,
     pipe,
+    regex,
     string,
     trim,
 } from "valibot";
@@ -46,8 +50,14 @@ export const useValidateform = (data = {}, form = "") => {
                 usuario_alias: pipe(
                     nonEmpty("Alias requerido"),
                     string("Alias requerido"),
-                    trim("El usuario no debe tener espacios"),
-                    minLength(10, "El usuario debe tener al menos 10 caracteres")
+                    regex(
+                        /^[a-zA-Z0-9-_]+$/,
+                        "El nickname solo puede contener letras, números, guiones y guiones bajos."
+                    ),
+                    minLength(
+                        10,
+                        "El usuario debe tener al menos 10 caracteres"
+                    )
                 ),
                 usuario_correo: pipe(
                     nonEmpty("Correo requerido"),
@@ -69,6 +79,45 @@ export const useValidateform = (data = {}, form = "") => {
                 ),
             });
             break;
+        case "user-edit-modal-form":
+            schema = object({
+                usuario_nombre: pipe(
+                    nonEmpty("Nombre requerido"),
+                    string("Nombre requerido"),
+                    minLength(3, "El nombre debe tener al menos 3 caracteres")
+                ),
+                usuario_apellido: pipe(
+                    nonEmpty("Apellido requerido"),
+                    string("Apellido requerido"),
+                    minLength(3, "El apellido debe tener al menos 3 caracteres")
+                ),
+                usuario_alias: pipe(
+                    nonEmpty("Alias requerido"),
+                    string("Alias requerido"),
+                    regex(
+                        /^[a-zA-Z0-9-_]+$/,
+                        "El nickname solo puede contener letras, números, guiones y guiones bajos."
+                    ),
+                    minLength(
+                        10,
+                        "El usuario debe tener al menos 10 caracteres"
+                    )
+                ),
+                usuario_direccion: pipe(string("La dirección no es valida")),
+                usuario_telefono: pipe(
+                    string("El teléfono no es valido"),
+                    regex(/^[0-9]*$/, "El teléfono solo puede contener números"),
+                    regex(/^(?:\d{0}|\d{10})$/, "El telefono debe tener 10 digitos")
+                ),
+                trabajador_descripcion: pipe(
+                    string("La descripción no es valida"),
+                    minLength(
+                        3,
+                        "La descripción debe tener al menos 3 caracteres"
+                    )
+                ),
+            });
+            break;
         default:
             return { success: false };
             break;
@@ -78,8 +127,8 @@ export const useValidateform = (data = {}, form = "") => {
         document.querySelectorAll(`.input-error`).forEach((input) => {
             input
                 .closest(".form-control")
-                .querySelector(".label-error")
-                .remove();
+                .querySelectorAll(".label-error")
+                .forEach((element) => element.remove());
             input.classList.remove("input-error");
             input.classList.remove("select-error");
             input.classList.remove("focus:input-error");

@@ -68,7 +68,7 @@ export function AuthProvider({ children }) {
 
     return (
         <AuthContext.Provider
-            value={{ userSession, handleLogout, authMiddlewareAlert }}
+            value={{ userSession, handleLogout, authMiddlewareAlert, getData }}
         >
             {children}
         </AuthContext.Provider>

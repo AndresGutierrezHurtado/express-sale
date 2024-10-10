@@ -1,6 +1,31 @@
+// Icons
 import { RegisterIcon } from "../icons";
 
+// Hooks
+import { useValidateform } from "../../hooks/useValidateForm";
+import { usePutData } from "../../hooks/useFetchData";
+
+// Contexts
+import { useAuthContext } from "../../context/authContext";
+
 export default function UserEditModal({ user }) {
+    const handleUpdateUserSubmit = (event) => {
+        event.preventDefault();
+        const { getData } = useAuthContext();
+
+        const data = Object.fromEntries(new FormData(event.target));
+        const validation = useValidateform(data, "user-edit-modal-form");
+
+        if (validation.success) {
+            // const response = usePutData("/api/user", data);
+            // if (response.success) {
+            //     getData();
+            //     event.target.reset();
+            //     document.getElementById("user-edit-modal").close();
+            // }
+        }
+    };
+
     return (
         <dialog id="user-edit-modal" className="modal">
             <div className="modal-box w-full max-w-[800px]">
@@ -12,7 +37,7 @@ export default function UserEditModal({ user }) {
                 <h3 className="text-lg font-bold">Editar perfil:</h3>
                 <p className="py-4">Cambia la información de tu perfil.</p>
                 <form
-                    action=""
+                    onSubmit={handleUpdateUserSubmit}
                     className="space-y-3 [&_input:focus]:input-primary [&_input:focus]:outline-0"
                 >
                     <label className="form-control w-full">
@@ -24,6 +49,7 @@ export default function UserEditModal({ user }) {
                         <input
                             type="file"
                             className="file-input file-input-primary file-input-bordered w-full"
+                            name="usuario_imagen"
                         />
                     </label>
                     <label className="form-control w-full">
@@ -36,6 +62,7 @@ export default function UserEditModal({ user }) {
                             placeholder="Ingresa tus nombre"
                             className="input input-bordered w-full"
                             defaultValue={user.usuario_nombre}
+                            name="usuario_nombre"
                         />
                     </label>
                     <label className="form-control w-full">
@@ -48,6 +75,7 @@ export default function UserEditModal({ user }) {
                             placeholder="Ingresa tus apellidos"
                             className="input input-bordered w-full"
                             defaultValue={user.usuario_apellido}
+                            name="usuario_apellido"
                         />
                     </label>
                     <label className="form-control w-full">
@@ -73,6 +101,7 @@ export default function UserEditModal({ user }) {
                             placeholder="Ingresa tu usuario, debe ser unico"
                             className="input input-bordered w-full"
                             defaultValue={user.usuario_alias}
+                            name="usuario_alias"
                         />
                     </label>
                     <label className="form-control w-full">
@@ -85,6 +114,7 @@ export default function UserEditModal({ user }) {
                             placeholder="Ingresa tu telefono principal de contacto"
                             className="input input-bordered w-full"
                             defaultValue={user.usuario_telefono}
+                            name="usuario_telefono"
                         />
                     </label>
                     <label className="form-control w-full">
@@ -97,6 +127,7 @@ export default function UserEditModal({ user }) {
                             placeholder="Ingresa la dirección precisa de tu vivienda/oficina"
                             className="input input-bordered w-full"
                             defaultValue={user.usuario_direccion}
+                            name="usuario_direccion"
                         />
                     </label>
                     {user.worker && (
@@ -112,6 +143,7 @@ export default function UserEditModal({ user }) {
                                 defaultValue={
                                     user.worker.trabajador_descripcion
                                 }
+                                name="trabajador_descripcion"
                             ></textarea>
                         </label>
                     )}
