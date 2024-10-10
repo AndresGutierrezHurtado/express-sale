@@ -6,7 +6,15 @@ import Footer from "./footer";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
+// Contexts
+import { useAuthContext } from "../context/authContext";
+import Loading from "../components/loading";
+
 export default function AppLayout() {
+    const { loading } = useAuthContext();
+
+    if (loading) return <Loading />;
+
     return (
         <>
             <div className="flex flex-col min-h-screen">

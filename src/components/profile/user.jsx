@@ -15,11 +15,9 @@ import UserEditModal from "./userEditModal";
 
 export default function IndexUserProfile() {
     const { id } = useParams();
-    const { userSession, loading } = useAuthContext();
+    const { userSession } = useAuthContext();
 
     const user = userSession && (id ? useGetData(`/api/users/${id}`) : userSession);
-
-    if (loading) return (<div>Cargando...</div>);
 
     return (
         <>
@@ -113,8 +111,8 @@ export default function IndexUserProfile() {
                                     className="tooltip tooltip-bottom flex badge badge-sm gap-1 h-auto py-1 px-5 duration-300 hover:scale-[1.06]"
                                 >
                                     <BoxesStackedIcon size={14} />
-                                    {user.orders && user.orders.length} Pedidos
-                                    hechos
+                                    {user.orders && user.orders.length} compras
+                                    hechas
                                 </div>
                             </span>
                         </article>
