@@ -92,7 +92,7 @@ INSERT INTO `roles` (`rol_id`, `rol_nombre`) VALUES
 --
 -- Tabla de Productos
 CREATE TABLE `productos` (
-    `producto_id` INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
+    `producto_id` VARCHAR(60) NOT NULL PRIMARY KEY,
     `producto_nombre` VARCHAR(255) NOT NULL,
     `producto_descripcion` TEXT NOT NULL,
     `producto_cantidad` INT NOT NULL,
@@ -103,6 +103,20 @@ CREATE TABLE `productos` (
     `usuario_id` VARCHAR(60) NOT NULL,
     `categoria_id` INT NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+INSERT INTO `productos` (`producto_id`, `producto_nombre`, `producto_descripcion`, `producto_cantidad`, `producto_precio`, `producto_imagen_url`, `producto_estado`, `producto_fecha`, `usuario_id`, `categoria_id`) VALUES
+('26b93a99-6158-4887-89a6-fb9b2c66adb3', 'Galletas Oreo', 'Las deliciosas galletas Oreo, con su crujiente galleta y su cremoso relleno de vainilla, son un clásico de la merienda que gusta a niños y adultos por igual.', 40, 26900, '/images/products/default.jpg', '', '2024-10-10 21:50:00', '83c44447-d4fc-46e4-a8e1-5b4c0c1aa44d', 2),
+('30771db0-257f-4989-ab46-432eb0cabda1', 'Xbox Series X', 'La Xbox Series X ofrece potencia de próxima generación, velocidades de carga ultrarrápidas y una amplia biblioteca de juegos para una experiencia de juego inigualable.', 13, 3599900, '/images/products/default.jpg', '', '2024-10-10 21:49:47', 'd40fc373-15ed-44c8-8a4e-172743226503', 3),
+('8cd437aa-44b3-4dd0-9a7c-fbe9502e8cc7', 'Nutella', 'La crema de avellanas Nutella, con su textura suave y su sabor dulce, es un imprescindible en el desayuno de millones de personas en todo el mundo.', 22, 7000, '/images/products/default.jpg', '', '2024-10-10 21:50:04', '83c44447-d4fc-46e4-a8e1-5b4c0c1aa44d', 2),
+('9380bba6-a1e6-4425-8d3a-406987b802b0', 'Rubik`s Cube', 'El clásico cubo de Rubik, con su diseño de colores vivos y su desafiante mecánica, es uno de los rompecabezas más populares y reconocidos del mundo.', 15, 15000, '/images/products/default.jpg', '', '2024-10-10 21:50:32', '98a6ce1f-550f-4f70-8756-0031a950d848', 4),
+('acf7e031-5d1f-48cf-98e0-f6c770d03c44', 'Megaplex | Creatine Power', 'Suplemento de proteína en polvo de alta calidad, ideal para la recuperación muscular y el crecimiento después del entrenamiento.', 10, 59900, '/images/products/default.jpg', '', '2024-10-10 21:50:19', '98a6ce1f-550f-4f70-8756-0031a950d848', 4),
+('b8f7eea2-2a9e-4714-80bf-9d8fd1c9434c', 'KitKat', 'El delicioso chocolate KitKat, con sus característicos barquillos y su irresistible sabor, es el snack perfecto para disfrutar en cualquier momento del día.', 28, 4000, '/images/products/default.jpg', '', '2024-10-10 21:50:09', '83c44447-d4fc-46e4-a8e1-5b4c0c1aa44d', 2),
+('d22cf268-45aa-49db-8f50-e3ce1b0ac95b', 'Nike Air Jordan 1', 'Las icónicas zapatillas Nike Air Jordan 1 son un clásico atemporal en el mundo de la moda urbana, conocidas por su estilo y comodidad.', 15, 289900, '/images/products/default.jpg', '', '2024-10-10 21:49:11', 'adb0552e-0299-4690-a321-370c6cfe9779', 1),
+('e11ebbcf-41ab-4bf2-9f58-6e5474259beb', 'Casio G-Shock GA-2100', 'El reloj Casio G-Shock GA-2100 es conocido por su resistencia y estilo, con características como resistencia a golpes, al agua y un diseño moderno y elegante.', 10, 224000, '/images/products/default.jpg', '', '2024-10-10 21:49:24', 'adb0552e-0299-4690-a321-370c6cfe9779', 1),
+('e1d0c3d2-5033-4466-be89-1fa8ea6ece9c', 'PlayStation 5', 'La PlayStation 5 es la consola de última generación de Sony, que ofrece gráficos impresionantes, carga ultrarrápida y una amplia variedad de juegos exclusivos.', 12, 4599900, '/images/products/default.jpg', '', '2024-10-10 21:49:52', 'd40fc373-15ed-44c8-8a4e-172743226503', 3),
+('efd069de-c549-4e8e-98c2-974a9b35c490', 'Cadena Cubana de Plata', 'Una cadena cubana de plata es un accesorio clásico y llamativo que puede complementar cualquier atuendo, ya sea casual o más elegante.', 9, 24900, '/images/products/default.jpg', '', '2024-10-10 21:49:18', 'adb0552e-0299-4690-a321-370c6cfe9779', 1),
+('f47f236b-7d84-41b9-8008-5f3287fb4e03', 'Mancuernas Ajustables', 'Un par de mancuernas ajustables con diferentes pesos, perfectas para entrenamiento de fuerza en casa o en el gimnasio.', 8, 89900, '/images/products/default.jpg', '', '2024-10-10 21:50:13', '98a6ce1f-550f-4f70-8756-0031a950d848', 4),
+('fe99280b-b5e3-4190-b4b2-2d4bb82ae192', 'iPhone 13 Pro', 'El iPhone 13 Pro es el último modelo de Apple que combina un diseño elegante con un rendimiento potente y cámaras avanzadas para capturar imágenes impresionantes.', 8, 2100000, '/images/products/default.jpg', '', '2024-10-10 21:49:28', 'd40fc373-15ed-44c8-8a4e-172743226503', 3);
 
 -- ---------------------------------------------------------------
 --
@@ -143,7 +157,7 @@ CREATE TABLE `calificaciones_usuarios` (
 -- Tabla de Relación Calificaciones y Productos
 CREATE TABLE `calificaciones_productos` (
     `calificacion_id` INT NOT NULL,
-    `producto_id` INT NOT NULL
+    `producto_id` VARCHAR(60) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- ---------------------------------------------------------------
@@ -153,7 +167,7 @@ CREATE TABLE `multimedias` (
     `multimedia_id` INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
     `multimedia_url` VARCHAR(255) NOT NULL,
     `multimedia_tipo` ENUM('imagen', 'video') NOT NULL,
-    `producto_id` INT NOT NULL
+    `producto_id` VARCHAR(60) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- ---------------------------------------------------------------
@@ -201,7 +215,7 @@ CREATE TABLE `detalles_envios` (
 -- Tabla de Relación Productos y Pedidos
 CREATE TABLE `productos_pedidos` (
     `pedido_id` INT NOT NULL,
-    `producto_id` INT NOT NULL,
+    `producto_id` VARCHAR(60) NOT NULL,
     `producto_precio` DECIMAL(10, 0) NOT NULL,
     `producto_cantidad` INT NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;

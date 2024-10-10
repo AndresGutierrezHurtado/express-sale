@@ -73,6 +73,10 @@ router.get("/users/:id", async (req, res) => {
                 as: "ratings",
                 through: { attributes: [] },
             },
+            {
+                model: models.Product,
+                as: "products"
+            }
         ],
     });
     res.status(200).json({
