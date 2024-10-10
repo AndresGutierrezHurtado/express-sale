@@ -6,6 +6,7 @@ const bcrypt = require("bcrypt");
 
 // Models
 const models = require("../models/relations");
+const conn = require("../config/connection");
 
 // Create
 router.post("/users", async (req, res) => {
@@ -83,28 +84,52 @@ router.get("/users/:id", async (req, res) => {
 
 // Update
 router.put("/users/:id", async (req, res) => {
+    // validation
+    let userData = req.body.user;
+    let workerData = req.body.worker;
+
+    if (userData && userData.usuario_contra) {
+        userData.usuario_contra = bcrypt.hashSync(userData.usuario_contra, 10);
+    }
+
+    const t = await conn.transaction();
     try {
-        const user = await models.User.update(
-            {
-                ...req.body,
-                usuario_contra: bcrypt.hashSync(req.body.usuario_contra, 10),
-            },
-            {
-                where: {
-                    usuario_id: req.params.id,
-                },
-            }
-        );
+        const whereClause = { usuario_id: req.params.id };
+
+        // data updating
+        if (userData) {
+            const user = await models.User.update(userData, {
+                where: whereClause,
+            });
+        }
+        if (workerData) {
+            const worker = await models.Worker.update(workerData, {
+                where: whereClause,
+            });
+        }
+
+        await t.commit();
         res.status(200).json({
             success: true,
             message: "Usuario actualizado correctamente.",
-            data: user,
         });
     } catch (error) {
-        res.status(500).json({
-            success: false,
-            message: error,
-        });
+        await t.rollback();
+        if (error.name == "SequelizeUniqueConstraintError") {
+            console.log(error.errors);
+            res.status(500).json({
+                success: false,
+                message:
+                    "El campo " +
+                    error.errors[0].value +
+                    " ya lo tiene otro usuario.",
+            });
+        } else {
+            res.status(500).json({
+                success: false,
+                message: error.message,
+            });
+        }
     }
 });
 

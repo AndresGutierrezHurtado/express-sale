@@ -29,7 +29,7 @@ export default function IndexUserProfile() {
                     </h3>
                     <div className="flex gap-5">
                         <div className="avatar relative">
-                            <div onClick={()=>document.getElementById('user-edit-modal').showModal()} className="bg-white absolute bottom-[7%] right-[7%] p-[2px] border-0 w-8 rounded-full aspect-square cursor-pointer hover:scale-110 duration-300">
+                            <div onClick={()=>document.getElementById('user-edit-modal').show()} className="bg-white absolute bottom-[7%] right-[7%] p-[2px] border-0 w-8 rounded-full aspect-square cursor-pointer hover:scale-110 duration-300">
                                 <div className="w-full h-full bg-purple-700 rounded-full [&_svg]:fill-white flex items-center justify-center">
                                     <HiPencil
                                         style={{

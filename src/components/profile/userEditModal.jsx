@@ -13,11 +13,26 @@ export default function UserEditModal({ user }) {
         const validation = useValidateform(data, "user-edit-modal-form");
 
         if (validation.success) {
-            // const response = usePutData("/api/user", data);
-            // if (response.success) {
-            //     event.target.reset();
-            //     document.getElementById("user-edit-modal").close();
-            // }
+            const response = usePutData(`/api/users/${user.usuario_id}`, {
+                user: {
+                    usuario_nombre: data.usuario_nombre,
+                    usuario_apellido: data.usuario_apellido,
+                    usuario_alias: data.usuario_alias,
+                    usuario_telefono: data.usuario_telefono
+                        ? data.usuario_telefono
+                        : null,
+                    usuario_direccion: data.usuario_direccion
+                        ? data.usuario_direccion
+                        : null,
+                },
+                worker: {
+                    trabajador_descripcion: data.trabajador_descripcion,
+                },
+            });
+
+            if (response.success) {
+                document.getElementById("user-edit-modal").close();
+            }
         }
     };
 
@@ -152,7 +167,7 @@ export default function UserEditModal({ user }) {
                     </div>
                 </form>
             </div>
-            <form method="dialog" className="modal-backdrop">
+            <form method="dialog" className="modal-backdrop bg-black/50">
                 <button>close</button>
             </form>
         </dialog>
