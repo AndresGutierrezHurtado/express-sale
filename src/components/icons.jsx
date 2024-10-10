@@ -1,7 +1,8 @@
 import { IoSearch, IoMenu } from "react-icons/io5";
-import { MdOutlineShoppingBag } from "react-icons/md";
+import { MdOutlineShoppingBag, MdOutlineEmail } from "react-icons/md";
 import { TbLogin2 } from "react-icons/tb";
-import { FaArrowUpFromBracket, FaArrowRight } from "react-icons/fa6";
+import { FaArrowUpFromBracket, FaArrowRight, FaBoxesStacked } from "react-icons/fa6";
+import { FaUser, FaPhoneAlt, FaRegStar } from "react-icons/fa";
 import { HiPencil } from "react-icons/hi";
 
 export const SearchIcon = ({ size = 20, ...props }) => (
@@ -26,8 +27,18 @@ export const RegisterIcon = ({ size = 20, ...props }) => (
 
 export const ArrowRight = ({ size = 20, ...props }) => (
     <FaArrowRight size={size} {...props} />
-)
+);
 
 export const PencilIcon = ({ size = 20, ...props }) => {
-    <HiPencil size={size} {...props} />
-}
+    <HiPencil size={size} {...props} />;
+};
+
+export const EmailIcon = (props) => <MdOutlineEmail {...props} />;
+
+export const UserIcon = (props) => <FaUser {...props} />;
+
+export const PhoneIcon = (props) => <FaPhoneAlt {...props} />;
+
+export const StarIcon = (props) => <FaRegStar {...props} />;
+
+export const BoxesStackedIcon = (props) => <FaBoxesStacked {...props} />;
