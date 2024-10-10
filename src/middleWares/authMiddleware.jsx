@@ -2,14 +2,14 @@ import { Outlet } from "react-router-dom";
 import { useAuthContext } from "../context/authContext";
 
 export default function AuthMiddleware({ type = "auth" }) {
-    const { userSession, authMiddlewareAlert } = useAuthContext();
+    const { userSession, loading, authMiddlewareAlert } = useAuthContext();
 
     if (type == "guest") {
-        if (userSession.logged == true) {
+        if (!loading && userSession) {
             authMiddlewareAlert("Ya iniciaste sesión");
         }
     } else {
-        if (userSession.logged == false) {
+        if (!loading && !userSession) {
             authMiddlewareAlert("Si deseas autenticarte, presiona el botón de continuar");
         }
     }

@@ -9,17 +9,53 @@ const AuthContext = createContext();
 export const useAuthContext = () => useContext(AuthContext);
 
 export function AuthProvider({ children }) {
-    const [userSession, setUserSession] = useState({ logged: "loading" });
-    const navigate = useNavigate();
+    const [userSession, setUserSession] = useState(null);
+    const [loading, setLoading] = useState(true);
     const location = useLocation();
+    const navigate = useNavigate();
 
     const getData = async () => {
         const user = await useGetData("/api/user/session");
-        if (user.success) {
-            setUserSession({ logged: true, ...user.data });
-        } else {
-            setUserSession({ logged: false });
+        if (user) {
+            setLoading(false);
+            
+            if (user.success) {
+                setUserSession(user.data);
+            } else {
+                setUserSession(null);
+            }
         }
+    }
+
+    useEffect(() => {
+        getData();
+    }, [location, loading]);
+
+    const handleLogout = () => {
+        Swal.fire({
+            icon: "warning",
+            title: "¿Estás seguro?",
+            text: "Dale a continuar si quieres cerrar sesión",
+            showCancelButton: true,
+            cancelButtonText: "Cancelar",
+            confirmButtonText: "Continuar",
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+        }).then(async (result) => {
+            if (result.isConfirmed) {
+                await useGetData("/api/user/logout").then(response => {
+                    if (response.success) {
+                        setLoading(true);
+                        navigate("/")
+                        Swal.fire({
+                            icon: "info",
+                            title: "Sesión cerrada",
+                            text: response.message,
+                        });
+                    }
+                });
+            }
+        });
     };
 
     const authMiddlewareAlert = message => {
@@ -36,39 +72,9 @@ export function AuthProvider({ children }) {
         });
     };
 
-    useEffect(() => {
-        getData();
-    }, [location]);
-
-    const handleLogout = () => {
-        Swal.fire({
-            icon: "warning",
-            title: "¿Estás seguro?",
-            text: "Dale a continuar si quieres cerrar sesión",
-            showCancelButton: true,
-            cancelButtonText: "Cancelar",
-            confirmButtonText: "Continuar",
-            confirmButtonColor: "#3085d6",
-            cancelButtonColor: "#d33",
-        }).then(async (result) => {
-            if (result.isConfirmed) {
-                const response = await useGetData("/api/user/logout");
-                if (response.success) {
-                    getData();
-                    navigate("/");
-                    Swal.fire({
-                        icon: "info",
-                        title: "Sesión cerrada",
-                        text: response.message,
-                    });
-                }
-            }
-        });
-    };
-
     return (
         <AuthContext.Provider
-            value={{ userSession, handleLogout, authMiddlewareAlert, getData }}
+            value={{ userSession, loading, setLoading, handleLogout, authMiddlewareAlert }}
         >
             {children}
         </AuthContext.Provider>

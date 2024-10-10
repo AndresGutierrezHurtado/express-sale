@@ -8,7 +8,7 @@ import { MenuIcon, SearchIcon, ShoppingBagIcon } from "../components/icons";
 
 export default function Header() {
     const { pathname, hash } = useLocation();
-    const { userSession, handleLogout } = useAuthContext();
+    const { userSession, loading, handleLogout } = useAuthContext();
 
     document.addEventListener("scroll", () => {
         if (window.scrollY > 0)
@@ -94,7 +94,7 @@ export default function Header() {
                                             <img
                                                 alt="Tailwind CSS Navbar component"
                                                 src={
-                                                    userSession.logged
+                                                    !loading && userSession
                                                         ? userSession.usuario_imagen_url
                                                         : "/images/users/default.jpg"
                                                 }
@@ -105,7 +105,7 @@ export default function Header() {
                                         tabIndex="0"
                                         className="menu menu-sm dropdown-content bg-base-100 rounded-box z-[1] mt-3 w-52 p-2 shadow"
                                     >
-                                        {userSession.logged == true ? (
+                                        {!loading && userSession ? (
                                             <>
                                                 <li>
                                                     <Link to="/profile/user/">

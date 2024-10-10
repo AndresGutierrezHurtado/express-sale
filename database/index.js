@@ -23,7 +23,7 @@ app.use((req, res, next) => {
         const data = jwt.verify(token, process.env.JWT_SECRET);
         req.session.user = data;
     } catch (error) {
-        console.log(error);
+        console.error(error);
     }
 
     next();
@@ -41,5 +41,5 @@ app.use("/api", orderRoutes);
 // Start server
 const port = process.env.PORT;
 app.listen(port, () => {
-    console.log(`Server listening on port ${port}`);
+    console.info(`Server listening on port ${port}`);
 });

@@ -16,7 +16,7 @@ import UserProfile from "./pages/profile/user";
 import { AuthProvider } from "./context/authContext";
 
 // MiddleWare
-import AuthMiddleware from "./middleWares/authMiddleWare";
+import AuthMiddleware from "./middleWares/authMiddleware";
 
 export default function App() {
     return (

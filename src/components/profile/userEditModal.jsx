@@ -4,16 +4,19 @@ import { RegisterIcon } from "../icons";
 // Hooks
 import { useValidateform } from "../../hooks/useValidateForm";
 import { usePutData } from "../../hooks/useFetchData";
+import { useAuthContext } from "../../context/authContext";
 
 export default function UserEditModal({ user }) {
-    const handleUpdateUserSubmit = (event) => {
+    const { setLoading } = useAuthContext();
+
+    const handleUpdateUserSubmit = async (event) => {
         event.preventDefault();
 
         const data = Object.fromEntries(new FormData(event.target));
         const validation = useValidateform(data, "user-edit-modal-form");
 
         if (validation.success) {
-            const response = usePutData(`/api/users/${user.usuario_id}`, {
+            const response = await usePutData(`/api/users/${user.usuario_id}`, {
                 user: {
                     usuario_nombre: data.usuario_nombre,
                     usuario_apellido: data.usuario_apellido,
@@ -29,10 +32,7 @@ export default function UserEditModal({ user }) {
                     trabajador_descripcion: data.trabajador_descripcion,
                 },
             });
-
-            if (response.success) {
-                document.getElementById("user-edit-modal").close();
-            }
+            if (response.success) setLoading(true);
         }
     };
 

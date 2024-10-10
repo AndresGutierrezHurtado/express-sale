@@ -116,7 +116,7 @@ router.put("/users/:id", async (req, res) => {
     } catch (error) {
         await t.rollback();
         if (error.name == "SequelizeUniqueConstraintError") {
-            console.log(error.errors);
+            console.error(error.errors);
             res.status(500).json({
                 success: false,
                 message:

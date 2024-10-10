@@ -15,9 +15,12 @@ import UserEditModal from "./userEditModal";
 
 export default function IndexUserProfile() {
     const { id } = useParams();
-    const { userSession } = useAuthContext();
+    const { userSession, loading } = useAuthContext();
 
-    const user = id ? useGetData(`/api/users/${id}`) : userSession;
+    const user = userSession && (id ? useGetData(`/api/users/${id}`) : userSession);
+
+    if (loading) return (<div>Cargando...</div>);
+
     return (
         <>
             <section className="w-full px-3">
@@ -29,7 +32,7 @@ export default function IndexUserProfile() {
                     </h3>
                     <div className="flex gap-5">
                         <div className="avatar relative">
-                            <div onClick={()=>document.getElementById('user-edit-modal').show()} className="bg-white absolute bottom-[7%] right-[7%] p-[2px] border-0 w-8 rounded-full aspect-square cursor-pointer hover:scale-110 duration-300">
+                            <div onClick={() => document.getElementById('user-edit-modal').show()} className="bg-white absolute bottom-[7%] right-[7%] p-[2px] border-0 w-8 rounded-full aspect-square cursor-pointer hover:scale-110 duration-300">
                                 <div className="w-full h-full bg-purple-700 rounded-full [&_svg]:fill-white flex items-center justify-center">
                                     <HiPencil
                                         style={{
