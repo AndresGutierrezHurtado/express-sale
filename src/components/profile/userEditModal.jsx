@@ -5,13 +5,9 @@ import { RegisterIcon } from "../icons";
 import { useValidateform } from "../../hooks/useValidateForm";
 import { usePutData } from "../../hooks/useFetchData";
 
-// Contexts
-import { useAuthContext } from "../../context/authContext";
-
 export default function UserEditModal({ user }) {
     const handleUpdateUserSubmit = (event) => {
         event.preventDefault();
-        const { getData } = useAuthContext();
 
         const data = Object.fromEntries(new FormData(event.target));
         const validation = useValidateform(data, "user-edit-modal-form");
@@ -19,7 +15,6 @@ export default function UserEditModal({ user }) {
         if (validation.success) {
             // const response = usePutData("/api/user", data);
             // if (response.success) {
-            //     getData();
             //     event.target.reset();
             //     document.getElementById("user-edit-modal").close();
             // }
