@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 
 // Components
 import Loading from "../loading";
-import Product from "./product";
+import Product from "../product";
 
 // Hooks
 import { useGetData } from "../../hooks/useFetchData";
@@ -26,18 +26,18 @@ export default function ProductsContent() {
     const ProductsList =
         products &&
         products.map((product) => {
-            return <Product product={product} />;
+            return <Product product={product} key={product.producto_id} />;
         });
 
     if (loading) return <Loading />;
 
     return (
         <>
-            <section className="w-full">
+            <section className="w-full px-3">
                 <div className="w-full max-w-[1200px] mx-auto pt-10">
-                    <div className="w-full flex items-center justify-between">
+                    <div className="w-full flex flex-col md:flex-row gap-2 items-center justify-between">
                         <div>
-                            <h1 className="text-4xl font-extrabold">
+                            <h1 className="text-2xl md:text-4xl font-extrabold">
                                 Todos los productos
                             </h1>
                             <p className="text-lg text-gray-600/90 font-medium">
@@ -63,18 +63,18 @@ export default function ProductsContent() {
             </section>
             <section className="w-full">
                 <div className="w-full max-w-[1200px] mx-auto py-10">
-                    <div className="flex gap-10">
+                    <div className="flex flex-col md:flex-row items-center md:items-start gap-10">
                         <div className="card bg-base-100 shadow-xl w-full max-w-[350px] h-fit">
                             <div className="card-body gap-0">
                                 <h2 className="text-2xl font-bold">Filtros:</h2>
                                 <form className="space-y-4">
-                                    <label class="form-control w-full">
-                                        <div class="label">
-                                            <span class="label-text font-semibold">
+                                    <label className="form-control w-full">
+                                        <div className="label">
+                                            <span className="label-text font-semibold">
                                                 Categorias:
                                             </span>
                                         </div>
-                                        <select class="select select-bordered w-full max-w-xs focus:outline-0 focus:select-primary">
+                                        <select className="select select-bordered w-full max-w-xs focus:outline-0 focus:select-primary">
                                             <option>Todos</option>
                                             <option>Moda</option>
                                             <option>Tecnologia</option>
@@ -83,8 +83,8 @@ export default function ProductsContent() {
                                         </select>
                                     </label>
                                     <div className="form-control w-full">
-                                        <div class="label">
-                                            <span class="label-text font-semibold">
+                                        <div className="label">
+                                            <span className="label-text font-semibold">
                                                 Precios:
                                             </span>
                                         </div>
@@ -92,7 +92,7 @@ export default function ProductsContent() {
                                             <input
                                                 type="radio"
                                                 name="product-price"
-                                                class="radio radio-primary radio-xs"
+                                                className="radio radio-primary radio-xs"
                                             />
                                             <span>Hasta $45.000</span>
                                         </label>
@@ -100,7 +100,7 @@ export default function ProductsContent() {
                                             <input
                                                 type="radio"
                                                 name="product-price"
-                                                class="radio radio-primary radio-xs"
+                                                className="radio radio-primary radio-xs"
                                             />
                                             <span>$65.000 - $100.000</span>
                                         </label>
@@ -108,16 +108,16 @@ export default function ProductsContent() {
                                             <input
                                                 type="radio"
                                                 name="product-price"
-                                                class="radio radio-primary radio-xs"
+                                                className="radio radio-primary radio-xs"
                                             />
                                             <span>Más de $100.000</span>
                                         </label>
                                     </div>
                                     <div className="form-group">
                                         <div className="flex gap-2 items-end">
-                                            <label class="form-control w-full">
-                                                <div class="label">
-                                                    <span class="label-text text-sm font-semibold">
+                                            <label className="form-control w-full">
+                                                <div className="label">
+                                                    <span className="label-text text-sm font-semibold">
                                                         Precio mínimo:
                                                     </span>
                                                 </div>
@@ -129,9 +129,9 @@ export default function ProductsContent() {
                                         </div>
 
                                         <div className="flex gap-2 items-end">
-                                            <label class="form-control w-full">
-                                                <div class="label">
-                                                    <span class="label-text text-sm font-semibold">
+                                            <label className="form-control w-full">
+                                                <div className="label">
+                                                    <span className="label-text text-sm font-semibold">
                                                         Precio máximo:
                                                     </span>
                                                 </div>
