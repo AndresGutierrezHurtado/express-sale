@@ -26,13 +26,16 @@ router.post("/products", async (req, res) => {
         res.status(404).json({
             success: false,
             message: error.message,
-        })
+        });
     }
 });
 
 // read
 router.get("/products", async (req, res) => {
-    const products = await models.Product.findAll({
+    const products = await models.Product.findAndCountAll({
+        where: { producto_estado: "publico" },
+        limit: 5,
+        offset: req.query.page ? (req.query.page - 1) * 5 : 0,
         include: [
             "category",
             { model: models.User, as: "user", include: ["worker"] },
@@ -42,6 +45,7 @@ router.get("/products", async (req, res) => {
                 through: { attributes: [] },
             },
         ],
+        order: [["producto_id", "ASC"]],
     });
     res.status(200).json({
         success: true,
