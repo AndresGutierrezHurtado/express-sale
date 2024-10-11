@@ -17,7 +17,7 @@ export default function Header() {
     });
 
     return (
-        <div className="drawer sticky top-0">
+        <div className="drawer sticky top-0 z-50">
             <input
                 id="drawer-toggle"
                 type="checkbox"

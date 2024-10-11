@@ -1,7 +1,7 @@
 import { IoSearch, IoMenu } from "react-icons/io5";
 import { MdOutlineShoppingBag, MdOutlineEmail } from "react-icons/md";
 import { TbLogin2 } from "react-icons/tb";
-import { FaArrowUpFromBracket, FaArrowRight, FaBoxesStacked } from "react-icons/fa6";
+import { FaArrowUpFromBracket, FaArrowRight, FaBoxesStacked, FaPlus, FaCartShopping, FaCartPlus } from "react-icons/fa6";
 import { FaUser, FaPhoneAlt, FaRegStar } from "react-icons/fa";
 import { HiPencil } from "react-icons/hi";
 
@@ -29,9 +29,7 @@ export const ArrowRight = ({ size = 20, ...props }) => (
     <FaArrowRight size={size} {...props} />
 );
 
-export const PencilIcon = ({ size = 20, ...props }) => {
-    <HiPencil size={size} {...props} />;
-};
+export const PencilIcon = (props) => <HiPencil {...props} />;
 
 export const EmailIcon = (props) => <MdOutlineEmail {...props} />;
 
@@ -42,3 +40,9 @@ export const PhoneIcon = (props) => <FaPhoneAlt {...props} />;
 export const StarIcon = (props) => <FaRegStar {...props} />;
 
 export const BoxesStackedIcon = (props) => <FaBoxesStacked {...props} />;
+
+export const CartIcon = (props) => <FaCartShopping {...props} />;
+
+export const CartAddIcon = (props) => <FaCartPlus {...props} />;
+
+export const PlusIcon = (props) => <FaPlus {...props} />;
