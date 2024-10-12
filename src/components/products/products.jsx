@@ -34,7 +34,7 @@ export default function ProductsContent() {
             return <Product product={product} key={product.producto_id} />;
         });
 
-    if (loading) return <Loading />;
+    if (loading) return <div>Cargando...</div>;
 
     return (
         <>

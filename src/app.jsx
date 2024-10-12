@@ -11,6 +11,9 @@ import Register from "./pages/auth/register";
 import Home from "./pages/home";
 import Products from "./pages/products";
 import UserProfile from "./pages/profile/user";
+import ProductProfile from "./pages/profile/product";
+import Product from "./pages/product";
+import Worker from "./pages/worker";
 
 // Contexts
 import { AuthProvider } from "./context/authContext";
@@ -26,10 +29,11 @@ export default function App() {
                     <Route path="/" element={<AppLayout />}>
                         <Route index element={<Home />} />
                         <Route path="/products" element={<Products />} />
-                        <Route path="/product/:id" element={<h1>adfsadfas</h1>} />
+                        <Route path="/product/:id" element={<Product />} />
+                        <Route path="/worker/:id" element={<Worker />} />
                         <Route element={<AuthMiddleware />} >
                             <Route path="/profile/user/:id?" element={<UserProfile />} />
-                            <Route path="/profile/product/:id?" element={<h1>hola mundo</h1>} />
+                            <Route path="/profile/product/:id" element={<ProductProfile />} />
                         </Route>
                     </Route>
                     <Route path="/" element={<GuestLayout />}>
