@@ -9,7 +9,7 @@ export default function Product({ product }) {
 
     return (
         <>
-            <article className="flex flex-col md:flex-row items-center md:items-start gap-5 bg-white p-5 rounded-xl shadow-lg border border-black/10">
+            <article className="flex flex-col md:flex-row gap-5 bg-white p-5 rounded-xl shadow-lg border border-black/10">
                 <figure className="w-full max-w-[240px] aspect-square rounded-lg overflow-hidden bg-white">
                     <img
                         src={product.producto_imagen_url}
@@ -75,7 +75,7 @@ export default function Product({ product }) {
                 </div>
             </article>
 
-            <dialog id={`product-modal-${product.producto_id}`} className="modal my-0_!important">
+            <dialog id={`product-modal-${product.producto_id}`} className="modal" style={{ marginTop: "0px" }}>
                 <div className="modal-box rounded-lg">
                     <div className="modal-action m-0">
                         <form method="dialog">

@@ -7,10 +7,12 @@ const cookieParser = require("cookie-parser");
 
 // Config
 app.use(express.json());
-app.use(cors({
-    origin: process.env.VITE_URL,
-    credentials: true
-}));
+app.use(
+    cors({
+        origin: process.env.VITE_URL,
+        credentials: true,
+    })
+);
 app.use(cookieParser());
 
 app.use((req, res, next) => {
