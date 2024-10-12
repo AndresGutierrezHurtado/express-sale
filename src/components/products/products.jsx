@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 
 // Components
 import Loading from "../loading";
-import Product from "./product";
+import Product from "../product";
 
 // Hooks
 import { useGetData } from "../../hooks/useFetchData";
@@ -39,11 +39,11 @@ export default function ProductsContent() {
 
     return (
         <>
-            <section className="w-full">
+            <section className="w-full px-3">
                 <div className="w-full max-w-[1200px] mx-auto pt-10">
-                    <div className="w-full flex items-center justify-between">
+                    <div className="w-full flex flex-col md:flex-row gap-2 items-center justify-between">
                         <div>
-                            <h1 className="text-4xl font-extrabold">
+                            <h1 className="text-2xl md:text-4xl font-extrabold">
                                 Todos los productos
                             </h1>
                             <p className="text-lg text-gray-600/90 font-medium">
@@ -69,7 +69,7 @@ export default function ProductsContent() {
             </section>
             <section className="w-full">
                 <div className="w-full max-w-[1200px] mx-auto py-10">
-                    <div className="flex gap-10">
+                    <div className="flex flex-col md:flex-row items-center md:items-start gap-10">
                         <div className="card bg-base-100 shadow-xl w-full max-w-[350px] h-fit">
                             <div className="card-body gap-0">
                                 <h2 className="text-2xl font-bold">Filtros:</h2>
