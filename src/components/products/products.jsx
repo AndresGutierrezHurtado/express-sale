@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Link, useLocation, useSearchParams } from "react-router-dom";
+import { useLocation, useSearchParams } from "react-router-dom";
 
 // Components
 import Product from "../product";
@@ -34,13 +34,9 @@ export default function ProductsContent() {
             return <Product product={product} key={product.producto_id} />;
         });
 
-    const updateParam = (key, value, remove) => {
+    const updateParam = (key, value) => {
         const newSearchParams = new URLSearchParams(searchParams);
-        if (remove) {
-            newSearchParams.delete(remove);
-        } else {
-            newSearchParams.set(key, value);
-        }
+        newSearchParams.set(key, value);
         setSearchParams(newSearchParams);
     };
 
@@ -70,19 +66,29 @@ export default function ProductsContent() {
                                     }
                                 >
                                     <option value="">Destacados</option>
-                                    <option value="producto_precio:asc">Menor precio</option>
-                                    <option value="producto_precio:desc">Mayor precio</option>
-                                    <option value="producto_fecha:desc">Nuevos</option>
+                                    <option value="producto_precio:asc">
+                                        Menor precio
+                                    </option>
+                                    <option value="producto_precio:desc">
+                                        Mayor precio
+                                    </option>
+                                    <option value="producto_fecha:desc">
+                                        Nuevos
+                                    </option>
                                 </select>
                             </span>
                         </div>
                     </div>
                 </div>
             </section>
-            <section className="w-full">
+            <section className="w-full px-3">
                 <div className="w-full max-w-[1200px] mx-auto py-10">
                     <div className="flex flex-col md:flex-row items-center md:items-start gap-10">
-                        <ProductsFilters updateParam={updateParam} searchParams={searchParams} />
+                        <ProductsFilters
+                            updateParam={updateParam}
+                            searchParams={searchParams}
+                            setSearchParams={setSearchParams}
+                        />
                         <div className="space-y-8 w-full">
                             {ProductsList}
                             <div className="w-full bg-white rounded-lg border border-black/10 py-2 px-5 shadow-lg flex items-center justify-between">

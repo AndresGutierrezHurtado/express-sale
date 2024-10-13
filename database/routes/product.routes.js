@@ -106,7 +106,9 @@ router.get("/products", async (req, res) => {
         },
         order: [
             [
-                req.query.sort ? req.query.sort.split(":")[0] : conn.literal("`calificacion_promedio`"),
+                req.query.sort
+                    ? req.query.sort.split(":")[0]
+                    : conn.literal("`calificacion_promedio`"),
                 req.query.sort ? req.query.sort.split(":")[1] : "DESC",
             ],
         ],

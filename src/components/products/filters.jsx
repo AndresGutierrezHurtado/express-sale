@@ -1,4 +1,15 @@
-export default function ProductsFilters({ searchParams, updateParam }) {
+export default function ProductsFilters({
+    searchParams,
+    setSearchParams,
+    updateParam,
+}) {
+    const updatePriceRange = (min, max) => {
+        const newSearchParams = new URLSearchParams(searchParams);
+        newSearchParams.set("min", min);
+        newSearchParams.set("max", max);
+        setSearchParams(newSearchParams);
+    };
+
     return (
         <div className="card bg-base-100 shadow-xl w-full max-w-[350px] h-fit">
             <div className="card-body gap-0">
@@ -15,6 +26,11 @@ export default function ProductsFilters({ searchParams, updateParam }) {
                                 updateParam("category", event.target.value)
                             }
                             className="select select-bordered rounded w-full focus:outline-0 focus:select-primary"
+                            defaultValue={
+                                (searchParams &&
+                                    searchParams.get("category")) ||
+                                ""
+                            }
                         >
                             <option value="">Todos</option>
                             <option value="1">Moda</option>
@@ -35,9 +51,13 @@ export default function ProductsFilters({ searchParams, updateParam }) {
                                 name="product-price"
                                 className="radio radio-primary radio-xs"
                                 onChange={() => {
-                                    updateParam("min", 0);
-                                    updateParam("max", 45000);
+                                    updatePriceRange(0, 45000);
                                 }}
+                                checked={
+                                    searchParams &&
+                                    (searchParams.get("min") || 0) == 0 &&
+                                    searchParams.get("max") == 45000
+                                }
                             />
                             <span>Hasta $45.000</span>
                         </label>
@@ -47,11 +67,15 @@ export default function ProductsFilters({ searchParams, updateParam }) {
                                 name="product-price"
                                 className="radio radio-primary radio-xs"
                                 onChange={() => {
-                                    updateParam("min", 45000);
-                                    updateParam("max", 100000);
+                                    updatePriceRange(45000, 100000);
                                 }}
+                                checked={
+                                    searchParams &&
+                                    searchParams.get("min") == 45000 &&
+                                    searchParams.get("max") == 100000
+                                }
                             />
-                            <span>$65.000 - $100.000</span>
+                            <span>$45.000 - $100.000</span>
                         </label>
                         <label className="flex items-center gap-2">
                             <input
@@ -59,9 +83,13 @@ export default function ProductsFilters({ searchParams, updateParam }) {
                                 name="product-price"
                                 className="radio radio-primary radio-xs"
                                 onChange={() => {
-                                    updateParam("min", 100000);
-                                    updateParam("max", "");
+                                    updatePriceRange(100000, "");
                                 }}
+                                checked={
+                                    searchParams &&
+                                    searchParams.get("min") == 100000 &&
+                                    (searchParams.get("max") || "") == ""
+                                }
                             />
                             <span>Más de $100.000</span>
                         </label>
@@ -82,7 +110,6 @@ export default function ProductsFilters({ searchParams, updateParam }) {
                                     onChange={(event) =>
                                         updateParam("min", event.target.value)
                                     }
-                                    defaultValue={searchParams.get("min") || ""}
                                 />
                             </label>
                         </div>
@@ -102,7 +129,6 @@ export default function ProductsFilters({ searchParams, updateParam }) {
                                     onChange={(event) =>
                                         updateParam("max", event.target.value)
                                     }
-                                    defaultValue={searchParams.get("max") || ""}
                                 />
                             </label>
                         </div>
