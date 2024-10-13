@@ -3,10 +3,10 @@ const router = require("express").Router();
 const jwt = require("jsonwebtoken");
 const crypto = require("crypto");
 const bcrypt = require("bcrypt");
+const conn = require("../config/connection");
 
 // Models
 const models = require("../models/relations");
-const conn = require("../config/connection");
 
 // Create
 router.post("/users", async (req, res) => {
@@ -46,6 +46,19 @@ router.post("/users", async (req, res) => {
 router.get("/users", async (req, res) => {
     const users = await models.User.findAll({
         include: ["role", "worker"],
+        attributes: {
+            include: [
+                [
+                    conn.literal(`(
+                        SELECT COALESCE(ROUND(AVG(calificaciones.calificacion), 2),0)
+                        FROM calificaciones
+                        INNER JOIN calificaciones_usuarios ON calificaciones.calificacion_id = calificaciones_usuarios.calificacion_id
+                        WHERE calificaciones_usuarios.usuario_id = User.usuario_id
+                    )`),
+                    "calificacion_promedio",
+                ]
+            ]
+        }
     });
     res.status(200).json({
         success: true,
@@ -56,6 +69,19 @@ router.get("/users", async (req, res) => {
 
 router.get("/users/:id", async (req, res) => {
     const user = await models.User.findByPk(req.params.id, {
+        attributes: {
+            include: [
+                [
+                    conn.literal(`(
+                        SELECT COALESCE(ROUND(AVG(calificaciones.calificacion), 2),0)
+                        FROM calificaciones
+                        INNER JOIN calificaciones_usuarios ON calificaciones.calificacion_id = calificaciones_usuarios.calificacion_id
+                        WHERE calificaciones_usuarios.usuario_id = User.usuario_id
+                    )`),
+                    "calificacion_promedio",
+                ]
+            ]
+        },
         include: [
             "role",
             "worker",

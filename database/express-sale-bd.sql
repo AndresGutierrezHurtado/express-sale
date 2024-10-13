@@ -136,9 +136,9 @@ INSERT INTO `categorias` (`categoria_id`, `categoria_nombre`) VALUES
 --
 -- Tabla de Calificaciones
 CREATE TABLE `calificaciones` (
-    `calificacion_id` INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
+    `calificacion_id` VARCHAR(60) NOT NULL PRIMARY KEY,
     `calificacion_comentario` TEXT NOT NULL,
-    `calificacion_imagen_url` VARCHAR(255) NOT NULL,
+    `calificacion_imagen_url` VARCHAR(255),
     `calificacion_fecha` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     `calificacion` INT NOT NULL,
     `usuario_id` VARCHAR(60) NOT NULL
@@ -148,7 +148,7 @@ CREATE TABLE `calificaciones` (
 --
 -- Tabla de Relación Calificaciones y Usuarios
 CREATE TABLE `calificaciones_usuarios` (
-    `calificacion_id` INT NOT NULL,
+    `calificacion_id` VARCHAR(60) NOT NULL,
     `usuario_id` VARCHAR(60) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
@@ -156,7 +156,7 @@ CREATE TABLE `calificaciones_usuarios` (
 --
 -- Tabla de Relación Calificaciones y Productos
 CREATE TABLE `calificaciones_productos` (
-    `calificacion_id` INT NOT NULL,
+    `calificacion_id` VARCHAR(60) NOT NULL,
     `producto_id` VARCHAR(60) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 

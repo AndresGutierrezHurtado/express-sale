@@ -7,7 +7,7 @@ const {
 } = require("./order.model");
 const { User, Role, Worker, Recovery } = require("./user.model");
 const { Product, Media, Category } = require("./product.model");
-const { Rating } = require("./rating.model");
+const { Rating, ProductsCalifications, UsersCalifications } = require("./rating.model");
 
 // ------ USER ASSOCIATIONS ----- //
 
@@ -73,13 +73,13 @@ Order.belongsTo(User, {
 
 // User to Rating: Many-to-Many
 User.belongsToMany(Rating, {
-    through: "calificaciones_usuarios",
+    through: UsersCalifications,
     foreignKey: "usuario_id",
     otherKey: "calificacion_id",
     as: "ratings",
 });
 Rating.belongsToMany(User, {
-    through: "calificaciones_usuarios",
+    through: UsersCalifications,
     foreignKey: "calificacion_id",
     otherKey: "usuario_id",
     as: "users",
@@ -113,13 +113,13 @@ Media.belongsTo(Product, {
 
 // Product to Rating: Many-to-Many
 Product.belongsToMany(Rating, {
-    through: "calificaciones_productos",
+    through: ProductsCalifications,
     foreignKey: "producto_id",
     otherKey: "calificacion_id",
     as: "ratings",
 });
 Rating.belongsToMany(Product, {
-    through: "calificaciones_productos",
+    through: ProductsCalifications,
     foreignKey: "calificacion_id",
     otherKey: "producto_id",
     as: "products",
@@ -188,4 +188,6 @@ module.exports = {
     Media,
     Category,
     Rating,
+    UsersCalifications,
+    ProductsCalifications,
 };

@@ -1,5 +1,6 @@
 const router = require("express").Router();
 const crypto = require("crypto");
+const conn = require("../config/connection");
 
 // Models
 const models = require("../models/relations");
@@ -45,8 +46,22 @@ router.get("/products", async (req, res) => {
                 through: { attributes: [] },
             },
         ],
+        attributes: {
+            include: [
+                [
+                    conn.literal(`(
+                        SELECT COALESCE(ROUND(AVG(calificaciones.calificacion), 2), 0)
+                        FROM calificaciones
+                        INNER JOIN calificaciones_productos ON calificaciones.calificacion_id = calificaciones_productos.calificacion_id
+                        WHERE calificaciones_productos.producto_id = Product.producto_id
+                    )`),
+                    "calificacion_promedio",
+                ],
+            ],
+        },
         order: [["producto_id", "ASC"]],
     });
+
     res.status(200).json({
         success: true,
         message: "Productos obtenidos correctamente",
@@ -56,6 +71,19 @@ router.get("/products", async (req, res) => {
 
 router.get("/products/:id", async (req, res) => {
     const product = await models.Product.findByPk(req.params.id, {
+        attributes: {
+            include: [
+                [
+                    conn.literal(`(
+                        SELECT COALESCE(ROUND(AVG(calificaciones.calificacion), 2),0)
+                        FROM calificaciones
+                        INNER JOIN calificaciones_productos ON calificaciones.calificacion_id = calificaciones_productos.calificacion_id
+                        WHERE calificaciones_productos.producto_id = Product.producto_id
+                    )`),
+                    "calificacion_promedio",
+                ],
+            ],
+        },
         include: [
             "category",
             { model: models.User, as: "user", include: ["worker"] },

@@ -35,10 +35,12 @@ app.use((req, res, next) => {
 const userRoutes = require("./routes/user.routes");
 const productRoutes = require("./routes/product.routes");
 const orderRoutes = require("./routes/order.routes");
+const ratingRoutes = require("./routes/rating.routes");
 
 app.use("/api", userRoutes);
 app.use("/api", productRoutes);
 app.use("/api", orderRoutes);
+app.use("/api", ratingRoutes);
 
 // Start server
 const port = process.env.PORT;
