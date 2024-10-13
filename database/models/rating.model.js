@@ -5,9 +5,8 @@ const Rating = conn.define(
     "Rating",
     {
         calificacion_id: {
-            type: DataTypes.INTEGER,
+            type: DataTypes.STRING(60),
             primaryKey: true,
-            autoIncrement: true,
         },
         calificacion_comentario: {
             type: DataTypes.TEXT,
@@ -26,7 +25,7 @@ const Rating = conn.define(
             allowNull: false,
         },
         usuario_id: {
-            type: DataTypes.INTEGER,
+            type: DataTypes.STRING(60),
             allowNull: false,
         },
     },
@@ -40,10 +39,10 @@ const ProductsCalifications = conn.define(
     "productsCalifications",
     {
         calificacion_id: {
-            type: DataTypes.INTEGER,
+            type: DataTypes.STRING(60),
         },
         producto_id: {
-            type: DataTypes.INTEGER,
+            type: DataTypes.STRING(60),
         },
     },
     {
@@ -56,10 +55,10 @@ const UsersCalifications = conn.define(
     "usersCalifications",
     {
         calificacion_id: {
-            type: DataTypes.INTEGER,
+            type: DataTypes.STRING(60),
         },
         usuario_id: {
-            type: DataTypes.INTEGER,
+            type: DataTypes.STRING(60),
         },
     },
     {

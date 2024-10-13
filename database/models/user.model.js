@@ -7,7 +7,6 @@ const User = conn.define(
         usuario_id: {
             type: DataTypes.STRING(60),
             primaryKey: true,
-            autoIncrement: true,
         },
         usuario_nombre: {
             type: DataTypes.STRING(100),
@@ -85,9 +84,8 @@ const Worker = conn.define(
     "Worker",
     {
         trabajador_id: {
-            type: DataTypes.INTEGER,
+            type: DataTypes.STRING(60),
             primaryKey: true,
-            autoIncrement: true,
         },
         trabajador_descripcion: {
             type: DataTypes.TEXT,
@@ -116,9 +114,8 @@ const Recovery = conn.define(
     "Recovery",
     {
         recuperacion_id: {
-            type: DataTypes.INTEGER,
+            type: DataTypes.STRING(60),
             primaryKey: true,
-            autoIncrement: true,
         },
         usuario_id: {
             type: DataTypes.STRING(60),

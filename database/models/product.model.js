@@ -7,7 +7,6 @@ const Product = conn.define(
         producto_id: {
             type: DataTypes.STRING(60),
             primaryKey: true,
-            autoIncrement: true,
         },
         producto_nombre: {
             type: DataTypes.STRING(255),
@@ -56,9 +55,8 @@ const Media = conn.define(
     "Media",
     {
         multimedia_id: {
-            type: DataTypes.INTEGER,
+            type: DataTypes.STRING(60),
             primaryKey: true,
-            autoIncrement: true,
         },
         multimedia_url: {
             type: DataTypes.STRING(255),

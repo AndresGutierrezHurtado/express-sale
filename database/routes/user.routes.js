@@ -10,6 +10,7 @@ const models = require("../models/relations");
 
 // Create
 router.post("/users", async (req, res) => {
+    const t = await conn.transaction();
     try {
         const user = await models.User.create({
             usuario_id: crypto.randomUUID(),
@@ -20,14 +21,24 @@ router.post("/users", async (req, res) => {
             usuario_contra: bcrypt.hashSync(req.body.usuario_contra, 10),
             rol_id: req.body.rol_id,
         });
+
+        if (user.rol_id == 2 || user.rol_id == 3) {
+            const worker = await models.Worker.create({
+                trabajador_id: crypto.randomUUID(),
+                usuario_id: user.usuario_id,
+            });
+        }
+
+        await t.commit();
         res.status(200).json({
             success: true,
             message: "Usuario creado correctamente.",
             data: user,
         });
     } catch (error) {
-        // verificar si es que el correo/usuario ya existe
+        t.rollback();
 
+        // verificar si es que el correo/usuario ya existe
         if (error.name === "SequelizeUniqueConstraintError") {
             return res.status(500).json({
                 success: false,
@@ -56,9 +67,9 @@ router.get("/users", async (req, res) => {
                         WHERE calificaciones_usuarios.usuario_id = User.usuario_id
                     )`),
                     "calificacion_promedio",
-                ]
-            ]
-        }
+                ],
+            ],
+        },
     });
     res.status(200).json({
         success: true,
@@ -79,8 +90,8 @@ router.get("/users/:id", async (req, res) => {
                         WHERE calificaciones_usuarios.usuario_id = User.usuario_id
                     )`),
                     "calificacion_promedio",
-                ]
-            ]
+                ],
+            ],
         },
         include: [
             "role",
@@ -101,8 +112,21 @@ router.get("/users/:id", async (req, res) => {
             },
             {
                 model: models.Product,
-                as: "products"
-            }
+                as: "products",
+                attributes: {
+                    include: [
+                        [
+                            conn.literal(`(
+                                SELECT COALESCE(ROUND(AVG(calificaciones.calificacion), 2), 0)
+                                FROM calificaciones
+                                INNER JOIN calificaciones_productos ON calificaciones.calificacion_id = calificaciones_productos.calificacion_id
+                                WHERE calificaciones_productos.producto_id = products.producto_id
+                            )`),
+                            "calificacion_promedio",
+                        ],
+                    ],
+                }
+            },
         ],
     });
     res.status(200).json({

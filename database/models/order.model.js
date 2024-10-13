@@ -5,24 +5,20 @@ const conn = require("../config/connection");
 const Order = conn.define(
     "Order",
     {
-        pedidoId: {
-            type: DataTypes.INTEGER,
+        pedido_id: {
+            type: DataTypes.STRING(60),
             primaryKey: true,
-            autoIncrement: true,
-            field: "pedido_id", // Nombre en la tabla
         },
-        usuarioId: {
-            type: DataTypes.INTEGER,
+        usuario_id: {
+            type: DataTypes.STRING(60),
             allowNull: false,
-            field: "usuario_id",
         },
-        pedidoFecha: {
+        pedido_fecha: {
             type: DataTypes.DATE,
             allowNull: false,
             defaultValue: DataTypes.NOW,
-            field: "pedido_fecha",
         },
-        pedidoEstado: {
+        pedido_estado: {
             type: DataTypes.ENUM(
                 "pendiente",
                 "enviando",
@@ -31,7 +27,6 @@ const Order = conn.define(
             ),
             allowNull: false,
             defaultValue: "pendiente",
-            field: "pedido_estado",
         },
     },
     {
@@ -44,50 +39,41 @@ const Order = conn.define(
 const PaymentDetails = conn.define(
     "PaymentDetails",
     {
-        pagoId: {
-            type: DataTypes.INTEGER,
+        pago_id: {
+            type: DataTypes.STRING(60),
             primaryKey: true,
-            autoIncrement: true,
-            field: "pago_id",
         },
-        pedidoId: {
+        pedido_id: {
+            type: DataTypes.STRING(60),
+            allowNull: false,
+        },
+        pago_metodo: {
             type: DataTypes.INTEGER,
             allowNull: false,
-            field: "pedido_id",
         },
-        pagoMetodo: {
-            type: DataTypes.INTEGER,
-            allowNull: false,
-            field: "pago_metodo",
-        },
-        pagoValor: {
+        pago_valor: {
             type: DataTypes.DECIMAL(10, 0),
             allowNull: false,
-            field: "pago_valor",
         },
-        compradorNombre: {
+        comprador_nombre: {
             type: DataTypes.STRING(100),
-            field: "comprador_nombre",
+            allowNull: false,
         },
-        compradorCorreo: {
+        comprador_correo: {
             type: DataTypes.STRING(255),
             allowNull: false,
-            field: "comprador_correo",
         },
-        compradorTipoDocumento: {
+        comprador_tipo_documento: {
             type: DataTypes.ENUM("CC", "CE", "TI", "PPN", "NIT", "SSN", "EIN"),
             allowNull: false,
             defaultValue: "CC",
-            field: "comprador_tipo_documento",
         },
-        compradorNumeroDocumento: {
+        comprador_numero_documento: {
             type: DataTypes.DECIMAL(10, 0),
             allowNull: false,
-            field: "comprador_numero_documento",
         },
-        compradorTelefono: {
+        comprador_telefono: {
             type: DataTypes.DECIMAL(10, 0),
-            field: "comprador_telefono",
         },
     },
     {
@@ -100,49 +86,39 @@ const PaymentDetails = conn.define(
 const ShippingDetails = conn.define(
     "ShippingDetails",
     {
-        envioId: {
-            type: DataTypes.INTEGER,
+        envio_id: {
+            type: DataTypes.STRING(60),
             primaryKey: true,
-            autoIncrement: true,
-            field: "envio_id",
         },
-        pedidoId: {
-            type: DataTypes.INTEGER,
+        pedido_id: {
+            type: DataTypes.STRING(60),
             allowNull: false,
-            field: "pedido_id",
         },
-        trabajadorId: {
-            type: DataTypes.INTEGER,
-            field: "trabajador_id",
+        trabajador_id: {
+            type: DataTypes.STRING(60),
         },
-        envioDireccion: {
+        envio_direccion: {
             type: DataTypes.TEXT,
             allowNull: false,
-            field: "envio_direccion",
         },
-        envioCoordenadas: {
+        envio_coordenadas: {
             type: DataTypes.STRING(100),
-            field: "envio_coordenadas",
         },
-        fechaInicio: {
+        fecha_inicio: {
             type: DataTypes.DATE,
             allowNull: false,
             defaultValue: DataTypes.NOW,
-            field: "fecha_inicio",
         },
-        fechaEntrega: {
+        fecha_entrega: {
             type: DataTypes.DATE,
             allowNull: false,
             defaultValue: DataTypes.NOW,
-            field: "fecha_entrega",
         },
-        envioValor: {
+        envio_valor: {
             type: DataTypes.DECIMAL(10, 0),
-            field: "envio_valor",
         },
-        envioMensaje: {
+        envio_mensaje: {
             type: DataTypes.TEXT,
-            field: "envio_mensaje",
         },
     },
     {
@@ -155,27 +131,23 @@ const ShippingDetails = conn.define(
 const OrderProduct = conn.define(
     "OrderProduct",
     {
-        pedidoId: {
-            type: DataTypes.INTEGER,
+        pedido_id: {
+            type: DataTypes.STRING(60),
             allowNull: false,
-            field: "pedido_id",
-            primaryKey: true, // Si es parte de la clave primaria compuesta
+            primaryKey: true,
         },
-        productoId: {
-            type: DataTypes.INTEGER,
+        producto_id: {
+            type: DataTypes.STRING(60),
             allowNull: false,
-            field: "producto_id",
-            primaryKey: true, // Clave primaria compuesta
+            primaryKey: true,
         },
-        productoPrecio: {
+        producto_precio: {
             type: DataTypes.DECIMAL(10, 0),
             allowNull: false,
-            field: "producto_precio",
         },
-        productoCantidad: {
+        producto_cantidad: {
             type: DataTypes.INTEGER,
             allowNull: false,
-            field: "producto_cantidad",
         },
     },
     {
