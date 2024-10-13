@@ -64,15 +64,15 @@ CREATE TABLE `usuarios` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 INSERT INTO `usuarios` (`usuario_id`, `usuario_nombre`, `usuario_apellido`, `usuario_correo`, `usuario_alias`, `usuario_telefono`, `usuario_direccion`, `usuario_contra`, `usuario_creacion`, `usuario_actualizacion`, `usuario_imagen_url`, `rol_id`) VALUES
-('0cb61e19-b59f-4d7e-83e6-ec4de605b3ee', 'Luna Sofia', 'Pinzon Bejarano', 'lunasofiapinzonbejarano@gmail.com', 'Luna_Pinzon', NULL, NULL, '$2b$10$S.JDNRieZVv4rlHwlLn3Zu7ZpUzndPX1PMpTx1u3K.dPs.o/AueS2', '2024-10-13 04:26:19', '2024-10-13 04:26:19', '/images/users/default.jpg', 1),
-('1997e4d2-fa0d-4cdd-b7a1-f970570a813e', 'Andrés', 'Gutiérrez Hurtado', 'andres52885241@gmail.com', 'Andres_Gutierrez', NULL, NULL, '$2b$10$vUyIp4.Q/zyaY4dk8zIjMOZHOx95Dim5.vw5UkQyj6s/svSp.lJz6', '2024-10-13 04:23:50', '2024-10-13 04:23:50', '/images/users/default.jpg', 2),
-('1dc76732-83ea-4a78-afb8-e759959ee5c3', 'David Fernando', 'Diaz Niausa', 'davidfernandodiazniausa@gmail.com', 'David_Diaz', NULL, NULL, '$2b$10$aI.MNWRc/emwb1dWd3jqGOPNjPxARrXhYII9EUXwR7rUanIhXExCS', '2024-10-13 04:23:54', '2024-10-13 04:23:54', '/images/users/default.jpg', 2),
-('2078ad6a-1373-4940-90a0-bf4bf1228e73', 'Samuel', 'Useche Chaparro', 'samuuseche01@gmail.com', 'Samuel_Useche', NULL, NULL, '$2b$10$O//N4inaMudrjbiltmiw7OoU9g/yjy2DgNcIGeQ/RQC.uLhtFgBmS', '2024-10-13 04:24:10', '2024-10-13 04:24:10', '/images/users/default.jpg', 3),
-('764ca4c3-b387-4be5-ab11-8d39db2e99af', 'Kevin Alejandro', 'Parra Cifuentes', 'luisparra5380@gmail.com', 'Kevin_Parra', NULL, NULL, '$2b$10$k9sHNG2zPisDiPb3zBB/oul6ItwYcoCyC03sxsikuAP9C6wNmJjm.', '2024-10-13 04:24:19', '2024-10-13 04:24:19', '/images/users/default.jpg', 1),
-('7d7aa315-f996-4316-8af4-86fe4786ce4b', 'Wendy Alejandra', 'Navarro Arias', 'nwendy798@gmail.com', 'Wendy_Navarro', NULL, NULL, '$2b$10$it5E9E7rK3If5eVrHOY4j.NQ/JgZc/lLEqgdU5rw7gN89uHr9S9oe', '2024-10-13 04:26:37', '2024-10-13 04:26:37', '/images/users/default.jpg', 1),
-('a30cd113-2e9a-4e8b-87f2-7cb7e27ff27f', 'Express', 'Sale', 'expresssale.exsl@gmail.com', 'Express_Sale', NULL, NULL, '$2b$10$2j.VhSsZPDhHIKMmsTClUebOF5eCtqYQa489F3KZ8b1QSBk5smz9.', '2024-10-13 04:23:43', '2024-10-13 04:23:43', '/images/users/default.jpg', 4),
-('b015e026-c217-4c39-962e-4d477c3640c9', 'Juan Sebastian', 'Bernal Gamboa', 'juansebastianbernalgamboa@gmail.com', 'Juan_Bernal', NULL, NULL, '$2b$10$iSCZm1CfLtmStf08rhmV3.AV6iuA6y9Mgc8Uwjde146NioTVzttRK', '2024-10-13 04:24:02', '2024-10-13 04:24:02', '/images/users/default.jpg', 2),
-('e7864790-7e10-4af8-af5f-67b1af7cc1f6', 'Jaider Harley', 'Rondon Herrera', 'rondonjaider@gmail.com', 'Jaider_Rondon', NULL, NULL, '$2b$10$RPHmXXFLXKNmSOxybRH4susHNTjBWFA5kX/qdV1L3x1qD/bjPs08.', '2024-10-13 04:23:57', '2024-10-13 04:23:57', '/images/users/default.jpg', 2);
+('0cb61e19-b59f-4d7e-83e6-ec4de605b3ee', 'Luna Sofia', 'Pinzon Bejarano', 'lunasofiapinzonbejarano@gmail.com', 'Luna_Pinzon', NULL, NULL, '$2a$10$kxkYAIQa/o5iJHy6Mn1C3.9jRVvnCF0UZnqJgRxL0LCy6NAJa.B7G', '2024-10-13 04:26:19', '2024-10-13 04:26:19', '/images/users/default.jpg', 1),
+('1997e4d2-fa0d-4cdd-b7a1-f970570a813e', 'Andrés', 'Gutiérrez Hurtado', 'andres52885241@gmail.com', 'Andres_Gutierrez', NULL, NULL, '$2a$10$mwjk.9LQkXn0Q/OtdB5k6uZU6Diaw07lzT.75hx9O/1bbDwwEzYIW', '2024-10-13 04:23:50', '2024-10-13 04:23:50', '/images/users/1997e4d2-fa0d-4cdd-b7a1-f970570a813e.jpg', 2),
+('1dc76732-83ea-4a78-afb8-e759959ee5c3', 'David Fernando', 'Diaz Niausa', 'davidfernandodiazniausa@gmail.com', 'David_Diaz', NULL, NULL, '$2a$10$aNvO8Br.5mKKqpzNAuoO4umUP0ZRB..dFtttiA3n7DObEN/x1cW/y', '2024-10-13 04:23:54', '2024-10-13 04:23:54', '/images/users/1dc76732-83ea-4a78-afb8-e759959ee5c3.jpg', 2),
+('2078ad6a-1373-4940-90a0-bf4bf1228e73', 'Samuel', 'Useche Chaparro', 'samuuseche01@gmail.com', 'Samuel_Useche', NULL, NULL, '$2a$10$XWDYW/hzBQuStDg4WTyUn.N2lH3VloZVx2.U4raQ.FkCfWQsmt3N.', '2024-10-13 04:24:10', '2024-10-13 04:24:10', '/images/users/default.jpg', 3),
+('764ca4c3-b387-4be5-ab11-8d39db2e99af', 'Kevin Alejandro', 'Parra Cifuentes', 'luisparra5380@gmail.com', 'Kevin_Parra', NULL, NULL, '$2a$10$wRvGOuETCvUYQvJx9K/2t.LwY4DG6/l5SE6UX7vTDQavIvahS1EO6', '2024-10-13 04:24:19', '2024-10-13 04:24:19', '/images/users/default.jpg', 1),
+('7d7aa315-f996-4316-8af4-86fe4786ce4b', 'Wendy Alejandra', 'Navarro Arias', 'nwendy798@gmail.com', 'Wendy_Navarro', NULL, NULL, '$2a$10$z1yVOAC4MEPVxGl4WjQQmeX078Rq7eJEfE9UOyYSVLj79FlsYSBlq', '2024-10-13 04:26:37', '2024-10-13 04:26:37', '/images/users/default.jpg', 1),
+('a30cd113-2e9a-4e8b-87f2-7cb7e27ff27f', 'Express', 'Sale', 'expresssale.exsl@gmail.com', 'Express_Sale', NULL, NULL, '$2a$10$LLVuZDAM7c5rwvuDdbqIJumcy1tIAbWCNFO4DxB6KLCYaqqQ7wbKW', '2024-10-13 04:23:43', '2024-10-13 04:23:43', '/images/users/a30cd113-2e9a-4e8b-87f2-7cb7e27ff27f.jpg', 4),
+('b015e026-c217-4c39-962e-4d477c3640c9', 'Juan Sebastian', 'Bernal Gamboa', 'juansebastianbernalgamboa@gmail.com', 'Juan_Bernal', NULL, NULL, '$2a$10$g0iPipqxpIAsbFdHXEW3femJivexGekXSXrc2EHICLfdipOZVsP7G', '2024-10-13 04:24:02', '2024-10-13 04:24:02', '/images/users/b015e026-c217-4c39-962e-4d477c3640c9.jpg', 2),
+('e7864790-7e10-4af8-af5f-67b1af7cc1f6', 'Jaider Harley', 'Rondon Herrera', 'rondonjaider@gmail.com', 'Jaider_Rondon', NULL, NULL, '$2a$10$QjOD1CqPAYG/eyzzy2neneB50f78LmQqqirNg.Sv4gfTL1efYEpBO', '2024-10-13 04:23:57', '2024-10-13 04:23:57', '/images/users/e7864790-7e10-4af8-af5f-67b1af7cc1f6.jpg', 2);
 
 -- ---------------------------------------------------------------
 --
@@ -86,11 +86,11 @@ CREATE TABLE `trabajadores` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 INSERT INTO `trabajadores` (`trabajador_id`, `trabajador_descripcion`, `trabajador_numero_trabajos`, `trabajador_saldo`, `usuario_id`) VALUES
-('0b89b820-4c52-4ebd-aa4f-18262eac02db', 'usuario nuevo.', 0, 0, 'b015e026-c217-4c39-962e-4d477c3640c9'),
-('285dd857-d030-4f90-a193-5383500b0963', 'usuario nuevo.', 0, 0, 'e7864790-7e10-4af8-af5f-67b1af7cc1f6'),
-('3439d1be-f5ee-4a34-98e7-accec2eb1729', 'usuario nuevo.', 0, 0, '1997e4d2-fa0d-4cdd-b7a1-f970570a813e'),
-('4859698d-85f6-4e33-a668-c10a7d2a5a2d', 'usuario nuevo.', 0, 0, '2078ad6a-1373-4940-90a0-bf4bf1228e73'),
-('5a5c533d-55f8-469e-b3a3-724deba8c0ad', 'usuario nuevo.', 0, 0, '1dc76732-83ea-4a78-afb8-e759959ee5c3');
+('3439d1be-f5ee-4a34-98e7-accec2eb1729', 'usuario nuevo.', 0, 0, '1997e4d2-fa0d-4cdd-b7a1-f970570a813e'), -- Andrés Gutiérrez
+('5a5c533d-55f8-469e-b3a3-724deba8c0ad', 'usuario nuevo.', 0, 0, '1dc76732-83ea-4a78-afb8-e759959ee5c3'), -- David Fernando Diaz
+('285dd857-d030-4f90-a193-5383500b0963', 'usuario nuevo.', 0, 0, 'e7864790-7e10-4af8-af5f-67b1af7cc1f6'), -- Jaider Rondon
+('0b89b820-4c52-4ebd-aa4f-18262eac02db', 'usuario nuevo.', 0, 0, 'b015e026-c217-4c39-962e-4d477c3640c9'), -- Juan Bernal
+('4859698d-85f6-4e33-a668-c10a7d2a5a2d', 'usuario nuevo.', 0, 0, '2078ad6a-1373-4940-90a0-bf4bf1228e73'); -- Samuel Useche
 
 -- ---------------------------------------------------------------
 --

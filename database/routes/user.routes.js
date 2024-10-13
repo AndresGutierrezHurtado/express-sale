@@ -217,7 +217,7 @@ router.post("/user/auth", async (req, res) => {
 
     if (!bcrypt.compareSync(usuario_contra, user.usuario_contra)) {
         return res
-            .status(401)
+            .status(200)
             .json({ success: false, message: "Contraseña incorrecta" });
     }
 
@@ -261,7 +261,7 @@ router.get("/user/session", async (req, res) => {
 
         res.status(200).json({ success: true, data: userSession });
     } else {
-        res.status(401).json({ success: false, message: "No autorizado" });
+        res.status(200).json({ success: false, message: "No autorizado" });
     }
 });
 

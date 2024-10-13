@@ -5,6 +5,9 @@ import Swal from "sweetalert2";
 // Hooks
 import { useGetData } from "../hooks/useFetchData";
 
+// Components
+import Loading from "../components/loading";
+
 const AuthContext = createContext();
 export const useAuthContext = () => useContext(AuthContext);
 
@@ -71,6 +74,8 @@ export function AuthProvider({ children }) {
             navigate("/")
         });
     };
+
+    if (loading) return <Loading />;
 
     return (
         <AuthContext.Provider

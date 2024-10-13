@@ -11,6 +11,7 @@ export default function Header() {
     const { userSession, handleLogout } = useAuthContext();
 
     document.addEventListener("scroll", () => {
+        if (document.querySelector(".navbar") === null) return;
         if (window.scrollY > 0)
             document.querySelector(".navbar").classList.add("bg-black/10");
         else document.querySelector(".navbar").classList.remove("bg-black/10");
@@ -27,7 +28,7 @@ export default function Header() {
                 {/* Navbar */}
                 <div className="w-full px-3">
                     <div className="w-full max-w-[1200px] mx-auto py-3">
-                        <div className="navbar rounded-full backdrop-blur-sm duration-300 py-[2px] px-7 min-h-[50px]">
+                        <div className="navbar rounded-full backdrop-blur-sm duration-300 py-[2px] px-3 md:px-7 min-h-[50px]">
                             <div className="flex-none lg:hidden">
                                 <label
                                     htmlFor="drawer-toggle"
