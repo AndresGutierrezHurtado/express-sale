@@ -1,12 +1,13 @@
 import { useEffect, useState } from "react";
+import { Link, useLocation, useSearchParams } from "react-router-dom";
 
 // Components
-import Loading from "../loading";
 import Product from "../product";
+import ProductsFilters from "./filters";
+import Pagination from "../pagination";
 
 // Hooks
 import { useGetData } from "../../hooks/useFetchData";
-import { Link, useLocation, useSearchParams } from "react-router-dom";
 
 export default function ProductsContent() {
     const [products, setProducts] = useState(null);
@@ -15,9 +16,8 @@ export default function ProductsContent() {
     const location = useLocation();
 
     const getProducts = async () => {
-        const response = await useGetData(
-            `/api/products?page=${searchParams.get("page") || 1}`
-        );
+        const getParams = searchParams.toString();
+        const response = await useGetData(`/api/products?${getParams}`);
         if (response) {
             setLoading(false);
             setProducts(response.data);
@@ -33,6 +33,16 @@ export default function ProductsContent() {
         products.rows.map((product) => {
             return <Product product={product} key={product.producto_id} />;
         });
+
+    const updateParam = (key, value, remove) => {
+        const newSearchParams = new URLSearchParams(searchParams);
+        if (remove) {
+            newSearchParams.delete(remove);
+        } else {
+            newSearchParams.set(key, value);
+        }
+        setSearchParams(newSearchParams);
+    };
 
     if (loading) return <div>Cargando...</div>;
 
@@ -53,13 +63,16 @@ export default function ProductsContent() {
                             Ordenar por:
                             <span>
                                 <select
-                                    name=""
+                                    name="sort"
                                     className="select select-sm select-ghost focus:outline-0 focus:border-0"
+                                    onChange={(event) =>
+                                        updateParam("sort", event.target.value)
+                                    }
                                 >
                                     <option value="">Destacados</option>
-                                    <option value="">Menor precio</option>
-                                    <option value="">Mayor precio</option>
-                                    <option value="">Nuevos</option>
+                                    <option value="producto_precio:asc">Menor precio</option>
+                                    <option value="producto_precio:desc">Mayor precio</option>
+                                    <option value="producto_fecha:desc">Nuevos</option>
                                 </select>
                             </span>
                         </div>
@@ -69,164 +82,15 @@ export default function ProductsContent() {
             <section className="w-full">
                 <div className="w-full max-w-[1200px] mx-auto py-10">
                     <div className="flex flex-col md:flex-row items-center md:items-start gap-10">
-                        <div className="card bg-base-100 shadow-xl w-full max-w-[350px] h-fit">
-                            <div className="card-body gap-0">
-                                <h2 className="text-2xl font-bold">Filtros:</h2>
-                                <form className="space-y-4">
-                                    <label className="form-control w-full">
-                                        <div className="label">
-                                            <span className="label-text font-semibold">
-                                                Categorias:
-                                            </span>
-                                        </div>
-                                        <select className="select select-bordered rounded w-full focus:outline-0 focus:select-primary">
-                                            <option>Todos</option>
-                                            <option>Moda</option>
-                                            <option>Tecnologia</option>
-                                            <option>Comida</option>
-                                            <option>Otros</option>
-                                        </select>
-                                    </label>
-                                    <div className="form-control w-full">
-                                        <div className="label">
-                                            <span className="label-text font-semibold">
-                                                Precios:
-                                            </span>
-                                        </div>
-                                        <label className="flex items-center gap-2">
-                                            <input
-                                                type="radio"
-                                                name="product-price"
-                                                className="radio radio-primary radio-xs"
-                                            />
-                                            <span>Hasta $45.000</span>
-                                        </label>
-                                        <label className="flex items-center gap-2">
-                                            <input
-                                                type="radio"
-                                                name="product-price"
-                                                className="radio radio-primary radio-xs"
-                                            />
-                                            <span>$65.000 - $100.000</span>
-                                        </label>
-                                        <label className="flex items-center gap-2">
-                                            <input
-                                                type="radio"
-                                                name="product-price"
-                                                className="radio radio-primary radio-xs"
-                                            />
-                                            <span>Más de $100.000</span>
-                                        </label>
-                                    </div>
-                                    <div className="form-group">
-                                        <div className="flex gap-2 items-end">
-                                            <label className="form-control w-full">
-                                                <div className="label">
-                                                    <span className="label-text text-sm font-semibold">
-                                                        Precio mínimo:
-                                                    </span>
-                                                </div>
-                                                <input
-                                                    placeholder="$0.00"
-                                                    type="number"
-                                                    min="0"
-                                                    className="input input-bordered input-sm rounded grow focus:outline-0 focus:input-primary"
-                                                />
-                                            </label>
-                                            <button
-                                                className="btn btn-primary btn-sm rounded"
-                                                type="button"
-                                            >
-                                                ir
-                                            </button>
-                                        </div>
-
-                                        <div className="flex gap-2 items-end">
-                                            <label className="form-control w-full">
-                                                <div className="label">
-                                                    <span className="label-text text-sm font-semibold">
-                                                        Precio máximo:
-                                                    </span>
-                                                </div>
-                                                <input
-                                                    placeholder="$1'000.000"
-                                                    type="number"
-                                                    min="0"
-                                                    className="input input-bordered input-sm rounded grow focus:outline-0 focus:input-primary"
-                                                />
-                                            </label>
-                                            <button
-                                                className="btn btn-primary btn-sm rounded"
-                                                type="button"
-                                            >
-                                                ir
-                                            </button>
-                                        </div>
-                                    </div>
-                                </form>
-                            </div>
-                        </div>
+                        <ProductsFilters updateParam={updateParam} searchParams={searchParams} />
                         <div className="space-y-8 w-full">
                             {ProductsList}
                             <div className="w-full bg-white rounded-lg border border-black/10 py-2 px-5 shadow-lg flex items-center justify-between">
-                                <p className="text-sm font-bold text-gray-600/90">
-                                    Viendo{" "}
-                                    {((searchParams.get("page") || 1) - 1) * 5 +
-                                        1}{" "}
-                                    -{" "}
-                                    {((searchParams.get("page") || 1) - 1) * 5 +
-                                        products.rows.length}{" "}
-                                    de {products.count} resultados
-                                </p>
-                                <div className="flex gap-2">
-                                    <Link
-                                        to={`/products?page=${
-                                            (parseInt(
-                                                searchParams.get("page")
-                                            ) || 1) > 1
-                                                ? (searchParams.get("page") ||
-                                                      1) - 1
-                                                : 1
-                                        }`}
-                                    >
-                                        <button
-                                            className="btn btn-sm"
-                                            disabled={
-                                                (parseInt(
-                                                    searchParams.get("page")
-                                                ) || 1) <= 1
-                                            }
-                                        >
-                                            prev
-                                        </button>
-                                    </Link>
-                                    <Link
-                                        to={`/products?page=${
-                                            (parseInt(
-                                                searchParams.get("page")
-                                            ) || 1) +
-                                                1 >
-                                            Math.ceil(products.count / 5)
-                                                ? searchParams.get("page") || 1
-                                                : (parseInt(
-                                                      searchParams.get("page")
-                                                  ) || 1) + 1
-                                        }`}
-                                    >
-                                        <button
-                                            className="btn btn-sm"
-                                            disabled={
-                                                (parseInt(
-                                                    searchParams.get("page")
-                                                ) || 1) +
-                                                    1 >
-                                                Math.ceil(products.count / 5)
-                                            }
-                                        >
-                                            next
-                                        </button>
-                                    </Link>
-                                </div>
+                                <Pagination
+                                    data={products}
+                                    updateParam={updateParam}
+                                    searchParams={searchParams}
+                                />
                             </div>
                         </div>
                     </div>

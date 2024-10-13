@@ -55,7 +55,7 @@ export default function Product({ product }) {
                                             size={16}
                                             className="mr-0.5"
                                         />{" "}
-                                        5.0
+                                        {product.calificacion_promedio}
                                     </p>
                                     <p className="flex items-center text-[12px] text-gray-600">
                                         ({product.ratings.length}{" "}

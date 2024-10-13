@@ -1,6 +1,7 @@
 const router = require("express").Router();
 const crypto = require("crypto");
 const conn = require("../config/connection");
+const Op = require("sequelize").Op;
 
 // Models
 const models = require("../models/relations");
@@ -33,19 +34,63 @@ router.post("/products", async (req, res) => {
 
 // read
 router.get("/products", async (req, res) => {
+    let where = {
+        [Op.and]: [
+            {
+                producto_estado: "publico",
+            },
+            {
+                [Op.or]: [
+                    {
+                        producto_nombre: {
+                            [Op.like]: `%${req.query.search || ""}%`,
+                        },
+                    },
+                    {
+                        producto_descripcion: {
+                            [Op.like]: `%${req.query.search || ""}%`,
+                        },
+                    },
+                ],
+            },
+            {
+                producto_precio: {
+                    [Op.gte]: req.query.min || 0,
+                },
+            },
+            {
+                producto_precio: {
+                    [Op.lte]: req.query.max || 9999999999,
+                },
+            },
+            {
+                categoria_id: {
+                    [Op.in]: req.query.category
+                        ? [req.query.category]
+                        : [1, 2, 3, 4],
+                },
+            },
+        ],
+    };
+
     const products = await models.Product.findAndCountAll({
-        where: { producto_estado: "publico" },
+        where: where,
         limit: 5,
         offset: req.query.page ? (req.query.page - 1) * 5 : 0,
         include: [
             "category",
-            { model: models.User, as: "user", include: ["worker"] },
+            {
+                model: models.User,
+                as: "user",
+                include: ["worker"],
+            },
             {
                 model: models.Rating,
                 as: "ratings",
                 through: { attributes: [] },
             },
         ],
+
         attributes: {
             include: [
                 [
@@ -59,7 +104,12 @@ router.get("/products", async (req, res) => {
                 ],
             ],
         },
-        order: [["producto_id", "ASC"]],
+        order: [
+            [
+                req.query.sort ? req.query.sort.split(":")[0] : conn.literal("`calificacion_promedio`"),
+                req.query.sort ? req.query.sort.split(":")[1] : "DESC",
+            ],
+        ],
     });
 
     res.status(200).json({
