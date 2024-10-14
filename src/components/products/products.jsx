@@ -8,6 +8,7 @@ import Pagination from "../pagination";
 
 // Hooks
 import { useGetData } from "../../hooks/useFetchData";
+import ContentLoading from "../contentLoading";
 
 export default function ProductsContent() {
     const [products, setProducts] = useState(null);
@@ -40,7 +41,7 @@ export default function ProductsContent() {
         setSearchParams(newSearchParams);
     };
 
-    if (loading) return <div>Cargando...</div>;
+    if (loading) return <ContentLoading />;
 
     return (
         <>

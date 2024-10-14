@@ -6,7 +6,7 @@ import Swal from "sweetalert2";
 import { useGetData } from "../hooks/useFetchData";
 
 // Components
-import Loading from "../components/loading";
+import Loading from "../components/pageLoading";
 
 const AuthContext = createContext();
 export const useAuthContext = () => useContext(AuthContext);
