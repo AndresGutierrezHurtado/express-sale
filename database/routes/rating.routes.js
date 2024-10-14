@@ -11,9 +11,9 @@ router.post("/ratings/users/:id", async (req, res) => {
         const rating = await models.Rating.create({
             calificacion_id: crypto.randomUUID(),
             calificacion_comentario: req.body.calificacion_comentario,
-            calificacion_imagen_url: req.body.calificacion_imagen_url,
+            calificacion_imagen_url: req.body.calificacion_imagen_url || "",
             calificacion: req.body.calificacion,
-            usuario_id: req.body.usuario_id,
+            usuario_id: req.session.user.id,
         });
 
         const userRatings = await models.UsersCalifications.create({
@@ -42,9 +42,9 @@ router.post("/ratings/products/:id", async (req, res) => {
         const rating = await models.Rating.create({
             calificacion_id: crypto.randomUUID(),
             calificacion_comentario: req.body.calificacion_comentario,
-            calificacion_imagen_url: req.body.calificacion_imagen_url,
+            calificacion_imagen_url: req.body.calificacion_imagen_url || "",
             calificacion: req.body.calificacion,
-            usuario_id: req.body.usuario_id,
+            usuario_id: req.session.user.id,
         });
 
         const productRatings = await models.ProductsCalifications.create({

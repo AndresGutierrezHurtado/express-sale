@@ -1,17 +1,14 @@
 import { toast } from "react-toastify";
 import {
     email,
-    empty,
+    length,
     minLength,
     nonEmpty,
-    nullable,
     object,
-    optional,
     parse,
     pipe,
     regex,
     string,
-    trim,
 } from "valibot";
 
 export const useValidateform = (data = {}, form = "") => {
@@ -106,8 +103,14 @@ export const useValidateform = (data = {}, form = "") => {
                 usuario_direccion: pipe(string("La dirección no es valida")),
                 usuario_telefono: pipe(
                     string("El teléfono no es valido"),
-                    regex(/^[0-9]*$/, "El teléfono solo puede contener números"),
-                    regex(/^(?:\d{0}|\d{10})$/, "El telefono debe tener 10 digitos")
+                    regex(
+                        /^[0-9]*$/,
+                        "El teléfono solo puede contener números"
+                    ),
+                    regex(
+                        /^(?:\d{0}|\d{10})$/,
+                        "El telefono debe tener 10 digitos"
+                    )
                 ),
                 trabajador_descripcion: pipe(
                     string("La descripción no es valida"),
@@ -115,6 +118,28 @@ export const useValidateform = (data = {}, form = "") => {
                         3,
                         "La descripción debe tener al menos 3 caracteres"
                     )
+                ),
+            });
+            break;
+        case "rate-product-form":
+            schema = object({
+                producto_id: pipe(
+                    nonEmpty("Proyecto requerido"),
+                    string("Proyecto requerido"),
+                    minLength(1, "El proyecto es requerido")
+                ),
+                calificacion_comentario: pipe(
+                    nonEmpty("La descripción es requerida"),
+                    string("La descripción no es valida"),
+                    minLength(
+                        10,
+                        "La descripción debe tener al menos 10 caracteres"
+                    )
+                ),
+                calificacion: pipe(
+                    nonEmpty("La descripción es requerida"),
+                    string("La descripción no es valida"),
+                    length(1, "Debes ingresar una calificación válida")
                 ),
             });
             break;
@@ -130,9 +155,11 @@ export const useValidateform = (data = {}, form = "") => {
                 .querySelectorAll(".label-error")
                 .forEach((element) => element.remove());
             input.classList.remove("input-error");
-            input.classList.remove("select-error");
             input.classList.remove("focus:input-error");
+            input.classList.remove("select-error");
             input.classList.remove("focus:select-error");
+            input.classList.remove("textarea-error");
+            input.classList.remove("focus:textarea-error");
         });
 
         return { success: true, data: parse(schema, data) };
@@ -156,9 +183,11 @@ export const useValidateform = (data = {}, form = "") => {
                 .querySelectorAll(`[name="${issue.path[0].key}"]`)
                 .forEach((input) => {
                     input.classList.add("input-error");
-                    input.classList.add("select-error");
                     input.classList.add("focus:input-error");
+                    input.classList.add("select-error");
                     input.classList.add("focus:select-error");
+                    input.classList.add("textarea-error");
+                    input.classList.add("focus:textarea-error");
 
                     const errorLabel = document.createElement("label");
                     errorLabel.className = "label-error text-red-500";

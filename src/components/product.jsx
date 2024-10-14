@@ -2,10 +2,31 @@ import { Link } from "react-router-dom";
 
 // Icons
 import { UserIcon, StarIcon, PlusIcon, CartAddIcon } from "./icons";
+
+// Contexts
 import { useAuthContext } from "../context/authContext";
 
+// Hooks
+import { useValidateform } from "../hooks/useValidateForm";
+import { usePostData } from "../hooks/useFetchData";
+
 export default function Product({ product }) {
-    const { userSession } = useAuthContext();
+    const { userSession, authMiddlewareAlert } = useAuthContext();
+
+    const handleRatingSubmit = (event) => {
+        event.preventDefault();
+
+        const data = Object.fromEntries(new FormData(event.target));
+        const validation = useValidateform(data, "rate-product-form");
+
+        if (validation.success) {
+            const response = usePostData(`/api/ratings/products/${product.producto_id}`, data);
+
+            if (response.success) {
+                event.target.reset();
+            }
+        }
+    };
 
     return (
         <>
@@ -70,13 +91,17 @@ export default function Product({ product }) {
                                     </p>
                                 </div>
                                 <button
-                                    onClick={() =>
-                                        document
-                                            .getElementById(
-                                                `product-modal-${product.producto_id}`
-                                            )
-                                            .show()
-                                    }
+                                    onClick={() => {
+                                        if (userSession) {
+                                            document
+                                                .getElementById(
+                                                    `product-modal-${product.producto_id}`
+                                                )
+                                                .show();
+                                        } else {
+                                            authMiddlewareAlert();
+                                        }
+                                    }}
                                     data-tip="Agregar una calificación"
                                     className="tooltip tooltip-left btn btn-sm min-h-none h-auto py-3 btn-primary group relative text-purple-300 hover:bg-purple-800 hover:text-purple-100 min-w-none w-fit"
                                 >
@@ -94,6 +119,7 @@ export default function Product({ product }) {
                 </div>
             </article>
 
+            {/* Modal producto */}
             <dialog
                 id={`product-modal-${product.producto_id}`}
                 className="modal"
@@ -113,25 +139,14 @@ export default function Product({ product }) {
                     </p>
 
                     <form
-                        action="/calification/rate"
-                        method="post"
                         encType="multipart/form-data"
                         className="fetch-form space-y-2"
+                        onSubmit={handleRatingSubmit}
                     >
-                        <input
-                            type="hidden"
-                            name="usuario_id"
-                            defaultValue={userSession && userSession.usuario_id}
-                        />
                         <input
                             type="hidden"
                             name="producto_id"
                             defaultValue={product.producto_id}
-                        />
-                        <input
-                            type="hidden"
-                            name="tipo_objeto"
-                            defaultValue="producto"
                         />
 
                         <label className="form-control w-full">
