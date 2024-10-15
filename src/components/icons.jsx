@@ -4,6 +4,7 @@ import { TbLogin2 } from "react-icons/tb";
 import { FaArrowUpFromBracket, FaArrowRight, FaBoxesStacked, FaPlus, FaCartShopping, FaCartPlus } from "react-icons/fa6";
 import { FaUser, FaPhoneAlt, FaRegStar } from "react-icons/fa";
 import { HiPencil } from "react-icons/hi";
+import { IoMdEye } from "react-icons/io";
 
 export const SearchIcon = ({ size = 20, ...props }) => (
     <IoSearch size={size} {...props} />
@@ -46,3 +47,5 @@ export const CartIcon = (props) => <FaCartShopping {...props} />;
 export const CartAddIcon = (props) => <FaCartPlus {...props} />;
 
 export const PlusIcon = (props) => <FaPlus {...props} />;
+
+export const EyeIcon = (props) => <IoMdEye {...props} />;

@@ -6,7 +6,8 @@ import { useGetData } from "../hooks/useFetchData";
 
 // Components
 import ContentLoading from "../components/contentLoading";
-import { StarIcon } from "../components/icons";
+import { EyeIcon, PlusIcon, StarIcon, UserIcon } from "../components/icons";
+import RateModal from "../components/rateModal";
 
 export default function Worker() {
     const [seller, setSeller] = useState(null);
@@ -26,6 +27,7 @@ export default function Worker() {
     if (!seller) return <ContentLoading />;
 
     return (
+        <>
         <section className="w-full px-3">
             <div className="w-full max-w-[1200px] mx-auto py-10">
                 <div className="flex flex-col md:flex-row gap-2">
@@ -61,75 +63,150 @@ export default function Worker() {
                                 </div>
                                 <div className="flex flex-col gap-4">
                                     <div className="grow flex items-center justify-center gap-5">
-                                        <div className="flex flex-col items-center justify-center w-fit text-gray-500">
-                                            <StarIcon size={50} />
-                                            <h2 className="font-semibold text-xl text-center">
+                                        <div className="flex flex-col items-center justify-center w-fit text-gray-600 space-y-1">
+                                            <h2 className="font-semibold text-4xl text-center">
                                                 {seller.calificacion_promedio}
                                             </h2>
+                                            <span className="flex gap-1">
+                                                <StarIcon size={15} />
+                                                <StarIcon size={15} />
+                                                <StarIcon size={15} />
+                                                <StarIcon size={15} />
+                                                <StarIcon size={15} />
+                                            </span>
+                                            <p className="text-sm flex gap-1 items-center">
+                                                {seller.ratings.length}
+                                                <UserIcon size={12} />
+                                            </p>
                                         </div>
-                                        <div>
-                                            <p>
-                                                1:{" "}
-                                                {
-                                                    seller.ratings.filter(
-                                                        (rating) =>
-                                                            rating.calificacion ===
-                                                            1
-                                                    ).length
-                                                }
-                                            </p>
-                                            <p>
-                                                2:{" "}
-                                                {
-                                                    seller.ratings.filter(
-                                                        (rating) =>
-                                                            rating.calificacion ===
-                                                            2
-                                                    ).length
-                                                }
-                                            </p>
-                                            <p>
-                                                3:{" "}
-                                                {
-                                                    seller.ratings.filter(
-                                                        (rating) =>
-                                                            rating.calificacion ===
-                                                            3
-                                                    ).length
-                                                }
-                                            </p>
-                                            <p>
-                                                4:{" "}
-                                                {
-                                                    seller.ratings.filter(
-                                                        (rating) =>
-                                                            rating.calificacion ===
-                                                            4
-                                                    ).length
-                                                }
-                                            </p>
-                                            <p>
-                                                5:{" "}
-                                                {
-                                                    seller.ratings.filter(
-                                                        (rating) =>
-                                                            rating.calificacion ===
-                                                            5
-                                                    ).length
-                                                }
-                                            </p>
+                                        <div className="w-full">
+                                            <div className="w-full flex items-center gap-2">
+                                                <p>5</p>
+                                                <div className="w-full h-[7px] bg-gray-300/90 rounded-full overflow-hidden">
+                                                    <div
+                                                        style={{
+                                                            width: `${
+                                                                (seller.ratings.filter(
+                                                                    (rating) =>
+                                                                        rating.calificacion ==
+                                                                        5
+                                                                ).length /
+                                                                    seller
+                                                                        .ratings
+                                                                        .length) *
+                                                                    100 || 0
+                                                            }%`,
+                                                        }}
+                                                        className="bg-purple-700 h-full rounded-full"
+                                                    ></div>
+                                                </div>
+                                            </div>
+                                            <div className="w-full flex items-center gap-2">
+                                                <p>4</p>
+                                                <div className="w-full h-[7px] bg-gray-300/90 rounded-full overflow-hidden">
+                                                    <div
+                                                        style={{
+                                                            width: `${
+                                                                (seller.ratings.filter(
+                                                                    (rating) =>
+                                                                        rating.calificacion ==
+                                                                        4
+                                                                ).length /
+                                                                    seller
+                                                                        .ratings
+                                                                        .length) *
+                                                                    100
+                                                            }%`,
+                                                        }}
+                                                        className="bg-purple-700 h-full rounded-full"
+                                                    ></div>
+                                                </div>
+                                            </div>
+                                            <div className="w-full flex items-center gap-2">
+                                                <p>3</p>
+                                                <div className="w-full h-[7px] bg-gray-300/90 rounded-full overflow-hidden">
+                                                    <div
+                                                        style={{
+                                                            width: `${
+                                                                (seller.ratings.filter(
+                                                                    (rating) =>
+                                                                        rating.calificacion ==
+                                                                        3
+                                                                ).length /
+                                                                    seller
+                                                                        .ratings
+                                                                        .length) *
+                                                                    100 || 0
+                                                            }%`,
+                                                        }}
+                                                        className="bg-purple-700 h-full rounded-full"
+                                                    ></div>
+                                                </div>
+                                            </div>
+                                            <div className="w-full flex items-center gap-2">
+                                                <p>2</p>
+                                                <div className="w-full h-[7px] bg-gray-300/90 rounded-full overflow-hidden">
+                                                    <div
+                                                        style={{
+                                                            width: `${
+                                                                (seller.ratings.filter(
+                                                                    (rating) =>
+                                                                        rating.calificacion ==
+                                                                        2
+                                                                ).length /
+                                                                    seller
+                                                                        .ratings
+                                                                        .length) *
+                                                                    100 || 0
+                                                            }%`,
+                                                        }}
+                                                        className="bg-purple-700 h-full rounded-full"
+                                                    ></div>
+                                                </div>
+                                            </div>
+                                            <div className="w-full flex items-center gap-2">
+                                                <p>1</p>
+                                                <div className="w-full h-[7px] bg-gray-300/90 rounded-full overflow-hidden">
+                                                    <div
+                                                        style={{
+                                                            width: `${
+                                                                (seller.ratings.filter(
+                                                                    (rating) =>
+                                                                        rating.calificacion ==
+                                                                        1
+                                                                ).length /
+                                                                    seller
+                                                                        .ratings
+                                                                        .length) *
+                                                                    100 || 0
+                                                            }%`,
+                                                        }}
+                                                        className="bg-purple-700 h-full rounded-full"
+                                                    ></div>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
                                     <div className="flex gap-2">
-                                        <button className="btn btn-sm min-h-none h-auto py-3 px-8 btn-primary group relative text-purple-300 hover:bg-purple-800 hover:text-purple-100">
+                                        <button
+                                            onClick={() => {
+                                                document
+                                                    .getElementById(
+                                                        "user-modal-" +
+                                                            seller.usuario_id
+                                                    )
+                                                    .showModal();
+                                            }}
+                                            className="btn btn-sm min-h-none h-auto py-3 px-9 btn-primary group relative text-purple-300 hover:bg-purple-800 hover:text-purple-100"
+                                        >
                                             <span className="absolute left-3 top-1/2 transform -translate-y-1/2 text-purple-300 group-hover:text-purple-100">
-                                                +
+                                                <PlusIcon size={15} />
                                             </span>
                                             Calificar
                                         </button>
-                                        <button className="btn btn-sm min-h-none h-auto py-3 btn-primary group relative text-purple-300 hover:bg-purple-800 hover:text-purple-100 grow">
+                                        <button className="btn btn-sm min-h-none h-auto py-3 px-9 btn-primary group relative text-purple-300 hover:bg-purple-800 hover:text-purple-100 grow">
                                             <span className="absolute left-3 top-1/2 transform -translate-y-1/2 text-purple-300 group-hover:text-purple-100">
-                                                +
+                                                <EyeIcon size={20} />
                                             </span>
                                             Ver calificaciones
                                         </button>
@@ -148,5 +225,7 @@ export default function Worker() {
                 </div>
             </div>
         </section>
+        <RateModal id={seller.usuario_id} type="user" />
+        </>
     );
 }

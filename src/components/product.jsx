@@ -1,4 +1,6 @@
 import { Link } from "react-router-dom";
+// Components
+import RateModal from "./rateModal";
 
 // Icons
 import { UserIcon, StarIcon, PlusIcon, CartAddIcon } from "./icons";
@@ -6,27 +8,8 @@ import { UserIcon, StarIcon, PlusIcon, CartAddIcon } from "./icons";
 // Contexts
 import { useAuthContext } from "../context/authContext";
 
-// Hooks
-import { useValidateform } from "../hooks/useValidateForm";
-import { usePostData } from "../hooks/useFetchData";
-
 export default function Product({ product }) {
     const { userSession, authMiddlewareAlert } = useAuthContext();
-
-    const handleRatingSubmit = (event) => {
-        event.preventDefault();
-
-        const data = Object.fromEntries(new FormData(event.target));
-        const validation = useValidateform(data, "rate-product-form");
-
-        if (validation.success) {
-            const response = usePostData(`/api/ratings/products/${product.producto_id}`, data);
-
-            if (response.success) {
-                event.target.reset();
-            }
-        }
-    };
 
     return (
         <>
@@ -120,108 +103,7 @@ export default function Product({ product }) {
             </article>
 
             {/* Modal producto */}
-            <dialog
-                id={`product-modal-${product.producto_id}`}
-                className="modal"
-                style={{ marginTop: "0px" }}
-            >
-                <div className="modal-box rounded-lg">
-                    <div className="modal-action m-0">
-                        <form method="dialog">
-                            <button className="btn btn-sm btn-circle btn-ghost absolute right-3 top-3">
-                                ✕
-                            </button>
-                        </form>
-                    </div>
-                    <h3 className="text-xl font-bold">Calificar producto:</h3>
-                    <p>
-                        Ten en cuenta la calidad del producto y tiempo de envío.
-                    </p>
-
-                    <form
-                        encType="multipart/form-data"
-                        className="fetch-form space-y-2"
-                        onSubmit={handleRatingSubmit}
-                    >
-                        <input
-                            type="hidden"
-                            name="producto_id"
-                            defaultValue={product.producto_id}
-                        />
-
-                        <label className="form-control w-full">
-                            <div className="label">
-                                <span className="label-text font-medium text-gray-700">
-                                    Mensaje:
-                                </span>
-                            </div>
-                            <textarea
-                                placeholder="Ingresa un comentario sobre el producto."
-                                id="calificacion_comentario"
-                                name="calificacion_comentario"
-                                className="textarea textarea-bordered h-24 resize-none focus:outline-0 focus:border-violet-600 rounded"
-                            ></textarea>
-                        </label>
-
-                        <label className="form-control w-full">
-                            <div className="label">
-                                <span className="label-text font-medium text-gray-700">
-                                    Imagen:
-                                </span>
-                            </div>
-                            <input
-                                type="file"
-                                name="calificacion_imagen"
-                                id="calificacion_imagen"
-                                className="w-full text-sm text-slate-500 hover:file:bg-violet-100 file:duration-300 file:cursor-pointer file:bg-violet-50 file:text-violet-700 file:font-semibold file:rounded-xl file:border-0 file:p-1 file:px-3"
-                            />
-                        </label>
-
-                        <div className="rating flex justify-center gap-2 py-3">
-                            <input
-                                type="radio"
-                                name="calificacion"
-                                value="1"
-                                className="mask mask-star-2 bg-violet-600"
-                                defaultChecked
-                            />
-                            <input
-                                type="radio"
-                                name="calificacion"
-                                value="2"
-                                className="mask mask-star-2 bg-violet-600"
-                            />
-                            <input
-                                type="radio"
-                                name="calificacion"
-                                value="3"
-                                className="mask mask-star-2 bg-violet-600"
-                            />
-                            <input
-                                type="radio"
-                                name="calificacion"
-                                value="4"
-                                className="mask mask-star-2 bg-violet-600"
-                            />
-                            <input
-                                type="radio"
-                                name="calificacion"
-                                value="5"
-                                className="mask mask-star-2 bg-violet-600"
-                            />
-                        </div>
-                        <button
-                            type="submit"
-                            className="w-full bg-violet-600 font-bold duration-300 hover:bg-violet-800 text-white py-2 px-4 rounded-lg"
-                        >
-                            Calificar
-                        </button>
-                    </form>
-                </div>
-                <form method="dialog" className="modal-backdrop bg-black/50">
-                    <button className="cursor-auto">close</button>
-                </form>
-            </dialog>
+            <RateModal id={product.producto_id} type="product" />
         </>
     );
 }

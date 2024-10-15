@@ -121,13 +121,8 @@ export const useValidateform = (data = {}, form = "") => {
                 ),
             });
             break;
-        case "rate-product-form":
+        case "rate-form":
             schema = object({
-                producto_id: pipe(
-                    nonEmpty("Proyecto requerido"),
-                    string("Proyecto requerido"),
-                    minLength(1, "El proyecto es requerido")
-                ),
                 calificacion_comentario: pipe(
                     nonEmpty("La descripción es requerida"),
                     string("La descripción no es valida"),
