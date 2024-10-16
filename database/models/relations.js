@@ -85,6 +85,18 @@ Rating.belongsToMany(User, {
     as: "users",
 });
 
+// User to Rating: one-to-Many
+User.hasMany(Rating, {
+    foreignKey: "usuario_id",
+    as: "califications",
+    onDelete: "CASCADE",
+    onUpdate: "CASCADE",
+});
+Rating.belongsTo(User, {
+    foreignKey: "usuario_id",
+    as: "calificator",
+});
+
 // ------ PRODUCT ASSOCIATIONS ----- //
 
 // Product to Category: One-to-Many

@@ -1,6 +1,7 @@
 const router = require("express").Router();
-
+const crypto = require("crypto");
 const conn = require("../config/connection");
+
 // Models
 const models = require("../models/relations");
 
