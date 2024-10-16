@@ -15,7 +15,7 @@ export default function Worker() {
 
     const getSeller = async () => {
         const user = await useGetData(`/api/users/${id}`);
-        if (user) {
+        if (user.success) {
             setSeller(user.data);
         }
     };

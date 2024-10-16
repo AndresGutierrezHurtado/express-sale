@@ -65,7 +65,7 @@ export default function IndexUserProfile() {
                                 {user.worker && (
                                     <>
                                         <Link
-                                            to={`/worker/${user.worker.trabajador_id}`}
+                                            to={`/worker/${user.usuario_id}`}
                                         >
                                             <div
                                                 data-tip={`Perfil de ${user.role.rol_nombre}`}
