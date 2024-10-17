@@ -40,6 +40,7 @@ export default function Home() {
                     </div>
                 </div>
             </section>
+
             <section className="w-full px-3">
                 <div className="w-full max-w-[1200px] mx-auto py-10">
                     <div className="space-y-4">

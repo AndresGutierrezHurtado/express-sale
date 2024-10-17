@@ -6,7 +6,7 @@ import { useValidateform } from "@hooks/useValidateForm";
 import { usePutData } from "@hooks/useFetchData";
 import { useAuthContext } from "@contexts/authContext";
 
-export default function UserEditModal({ user }) {
+export function UserEditModal({ user }) {
     const { setLoading } = useAuthContext();
 
     const handleUpdateUserSubmit = async (event) => {
