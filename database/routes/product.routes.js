@@ -75,8 +75,9 @@ router.get("/products", async (req, res) => {
 
     const products = await models.Product.findAndCountAll({
         where: where,
-        limit: 5,
+        limit: parseInt(req.query.limit || 5),
         offset: req.query.page ? (req.query.page - 1) * 5 : 0,
+        distinct: true,
         include: [
             "category",
             {
@@ -114,6 +115,7 @@ router.get("/products", async (req, res) => {
         ],
     });
 
+    console.log(products);
     res.status(200).json({
         success: true,
         message: "Productos obtenidos correctamente",

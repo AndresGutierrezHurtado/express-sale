@@ -36,18 +36,16 @@ export default function Product({ product }) {
                                 )}
                             </p>
                         </div>
-                        <p
-                            data-tip="Ir al perfil del vendedor"
+                        <Link
+                            to={`/worker/${product.user.usuario_id}`}
                             className="text-gray-500/80 font-semibold italic text-sm hover:underline tooltip tooltip-bottom"
+                            data-tip="Ir al perfil del vendedor"
                         >
-                            Publicado por{" "}
-                            <Link to={`/worker/${product.user.usuario_id}`}>
-                                @{product.user.usuario_alias}
-                            </Link>
-                        </p>
+                            @publicado por {product.user.usuario_alias}
+                        </Link>
                     </div>
 
-                    <p className="grow text-pretty">
+                    <p className="grow text-pretty line-clamp-3">
                         {product.producto_descripcion}
                     </p>
 

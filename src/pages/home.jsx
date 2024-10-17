@@ -1,10 +1,37 @@
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 
 // Components
 import { CategoryCard } from "@components/categoryCard.jsx";
 import { ArrowRight } from "@components/icons.jsx";
+import { VerticalProductCard } from "@components/verticalProductcard";
+import ContentLoading from "@components/contentLoading.jsx";
+
+// Hooks
+import { useGetData } from "@hooks/useFetchData.js";
 
 export default function Home() {
+    const [products, setProducts] = useState(null);
+
+    useEffect(() => {
+        async function getProducts() {
+            const response = await useGetData(`/api/products?limit=7`);
+            if (response.success) {
+                setProducts(response.data);
+            }
+        }
+
+        getProducts();
+    }, []);
+
+    const ProductsList =
+        products &&
+        products.rows.map((product) => (
+            <VerticalProductCard product={product} key={product.producto_id} />
+        ));
+
+    if (!products) return <ContentLoading />;
+
     return (
         <>
             <section className="w-full px-3">
@@ -52,19 +79,48 @@ export default function Home() {
                             <CategoryCard
                                 name="Moda"
                                 image="/images/categories/moda.png"
+                                link="/products?category=1"
                             />
                             <CategoryCard
                                 name="Comida"
                                 image="/images/categories/comida.png"
+                                link="/products?category=2"
                             />
                             <CategoryCard
                                 name="tecnologia"
                                 image="/images/categories/tecnologia.png"
+                                link="/products?category=3"
                             />
                             <CategoryCard
                                 name="otros"
                                 image="/images/categories/otros.png"
+                                link="/products?category=4"
                             />
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section className="w-full px-3">
+                <div className="w-full max-w-[1200px] mx-auto py-10">
+                    <div className="space-y-4">
+                        <h2 className="text-4xl font-bold capitalize">
+                            Los productos{" "}
+                            <span className="text-purple-700">
+                                más Destacados
+                            </span>
+                        </h2>
+                        <div className="flex gap-10 w-full overflow-x-scroll py-5">
+                            {ProductsList}
+                        </div>
+                        <div className="flex w-full justify-center">
+                            <Link
+                                to="/products"
+                                className="btn btn-sm btn-primary rounded-full h-auto min-h-auto py-3 px-10"
+                            >
+                                Ver todos los productos
+                                <ArrowRight />
+                            </Link>
                         </div>
                     </div>
                 </div>

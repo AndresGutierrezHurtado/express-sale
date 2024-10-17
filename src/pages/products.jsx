@@ -3,7 +3,7 @@ import { useLocation, useSearchParams } from "react-router-dom";
 
 // Components
 import ProductsFilters from "../components/filters.jsx";
-import Product from "@components/product.jsx";
+import Product from "@components/productCard.jsx";
 import ContentLoading from "@components/contentLoading.jsx";
 import Pagination from "@components/pagination.jsx";
 
