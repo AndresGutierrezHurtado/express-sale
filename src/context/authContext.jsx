@@ -64,7 +64,7 @@ export function AuthProvider({ children }) {
     const authMiddlewareAlert = message => {
         Swal.fire({
             icon: "error",
-            title: "No tienes acceso a esta página",
+            title: "No tienes acceso a esta página/acción",
             text: message,
             cancelButtonText: "Cancelar",
             confirmButtonText: "Continuar",
