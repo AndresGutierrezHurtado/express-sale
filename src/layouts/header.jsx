@@ -1,7 +1,7 @@
 import { Link, useLocation } from "react-router-dom";
 
 // Contexts
-import { useAuthContext } from "../context/authContext";
+import { useAuthContext } from "@contexts/authContext";
 
 // Icons
 import { MenuIcon, SearchIcon, ShoppingBagIcon } from "../components/icons";

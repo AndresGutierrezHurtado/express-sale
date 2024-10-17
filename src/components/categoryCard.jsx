@@ -1,4 +1,4 @@
-export default function CategoryCard({ name, image }) {
+export function CategoryCard({ name, image }) {
     return (
         <div className="card bg-base-100 w-full shadow-xl">
             <div className="card-body items-center text-center">

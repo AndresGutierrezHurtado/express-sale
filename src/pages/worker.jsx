@@ -2,12 +2,12 @@ import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 
 // Hooks
-import { useGetData } from "../hooks/useFetchData";
+import { useGetData } from "@hooks/useFetchData";
 
 // Components
-import ContentLoading from "../components/contentLoading";
-import { EyeIcon, PlusIcon, StarIcon, UserIcon } from "../components/icons";
-import RateModal from "../components/rateModal";
+import ContentLoading from "@components/contentLoading";
+import { EyeIcon, PlusIcon, StarIcon, UserIcon } from "@components/icons";
+import RateModal from "@components/rateModal";
 
 export default function Worker() {
     const [seller, setSeller] = useState(null);

@@ -2,9 +2,9 @@
 import { RegisterIcon } from "../icons";
 
 // Hooks
-import { useValidateform } from "../../hooks/useValidateForm";
-import { usePutData } from "../../hooks/useFetchData";
-import { useAuthContext } from "../../context/authContext";
+import { useValidateform } from "@hooks/useValidateForm";
+import { usePutData } from "@hooks/useFetchData";
+import { useAuthContext } from "@contexts/authContext";
 
 export default function UserEditModal({ user }) {
     const { setLoading } = useAuthContext();

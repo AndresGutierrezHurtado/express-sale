@@ -1,6 +1,6 @@
 import { Link, useParams } from "react-router-dom";
-import { useGetData } from "../../hooks/useFetchData";
-import { useAuthContext } from "../../context/authContext";
+import { useGetData } from "@hooks/useFetchData";
+import { useAuthContext } from "@contexts/authContext";
 
 // Icons
 import { HiPencil } from "react-icons/hi";

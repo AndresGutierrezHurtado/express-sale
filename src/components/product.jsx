@@ -6,7 +6,7 @@ import RateModal from "./rateModal";
 import { UserIcon, StarIcon, PlusIcon, CartAddIcon } from "./icons";
 
 // Contexts
-import { useAuthContext } from "../context/authContext";
+import { useAuthContext } from "@contexts/authContext";
 
 export default function Product({ product }) {
     const { userSession, authMiddlewareAlert } = useAuthContext();

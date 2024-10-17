@@ -2,24 +2,24 @@ import React from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 // Layouts
-import AppLayout from "./layouts/appLayout";
-import GuestLayout from "./layouts/guestLayout";
+import AppLayout from "@layouts/appLayout";
+import GuestLayout from "@layouts/guestLayout";
 
 // Pages
-import Login from "./pages/auth/login";
-import Register from "./pages/auth/register";
-import Home from "./pages/home";
-import Products from "./pages/products";
-import UserProfile from "./pages/profile/user";
-import ProductProfile from "./pages/profile/product";
-import Product from "./pages/product";
-import Worker from "./pages/worker";
+import Login from "@pages/auth/login";
+import Register from "@pages/auth/register";
+import Home from "@pages/home";
+import Products from "@pages/products";
+import UserProfile from "@pages/profile/user";
+import ProductProfile from "@pages/profile/product";
+import Product from "@pages/product";
+import Worker from "@pages/worker";
 
 // Contexts
-import { AuthProvider } from "./context/authContext";
+import { AuthProvider } from "@contexts/authContext";
 
 // MiddleWare
-import AuthMiddleware from "./middleWares/authMiddleware";
+import AuthMiddleware from "@middlewares/authMiddleware";
 
 export default function App() {
     return (

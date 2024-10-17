@@ -1,7 +1,7 @@
 // Hooks
 import { usePostData } from "../hooks/useFetchData";
 import { useValidateform } from "../hooks/useValidateForm";
-import { useAuthContext } from "../context/authContext";
+import { useAuthContext } from "@contexts/authContext";
 
 export default function RateModal({ id, type }) {
     const { setLoading } = useAuthContext();

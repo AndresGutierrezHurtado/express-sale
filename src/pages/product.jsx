@@ -1,6 +1,8 @@
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
-import { useGetData } from "../hooks/useFetchData";
+
+// Hooks
+import { useGetData } from "@hooks/useFetchData";
 
 export default function Product() {
     const [product, setProduct] = useState(null);

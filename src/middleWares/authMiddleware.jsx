@@ -1,5 +1,5 @@
 import { Outlet } from "react-router-dom";
-import { useAuthContext } from "../context/authContext";
+import { useAuthContext } from "@contexts/authContext";
 
 export default function AuthMiddleware({ type = "auth" }) {
     const { userSession, loading, authMiddlewareAlert } = useAuthContext();
