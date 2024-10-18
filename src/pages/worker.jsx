@@ -5,10 +5,11 @@ import { useParams } from "react-router-dom";
 import { useGetData } from "@hooks/useFetchData";
 
 // Components
-import ContentLoading from "@components/contentLoading.jsx";
 import { EyeIcon, PlusIcon, StarIcon, UserIcon } from "@components/icons.jsx";
-import RateModal from "@components/rateModal.jsx";
 import { Calification } from "@components/calification.jsx";
+import Product from "@components/productCard.jsx";
+import ContentLoading from "@components/contentLoading.jsx";
+import RateModal from "@components/rateModal.jsx";
 
 export default function Worker() {
     const [seller, setSeller] = useState(null);
@@ -34,7 +35,7 @@ export default function Worker() {
         <>
             <section className="w-full px-3">
                 <div className="w-full max-w-[1200px] mx-auto py-10">
-                    <div className="flex flex-col md:flex-row gap-2">
+                    <div className="flex flex-col md:flex-row gap-10">
                         <div className="w-full max-w-[500px] space-y-5">
                             <article className="card bg-base-100 shadow-xl border">
                                 <div className="card-body flex flex-col gap-4">
@@ -243,16 +244,27 @@ export default function Worker() {
                                         )}
                                         {seller.ratings.map((rating) => {
                                             return (
-                                                <Calification rating={rating} key={rating.calificacion_id} setLoading={setLoading} />
+                                                <Calification
+                                                    rating={rating}
+                                                    key={rating.calificacion_id}
+                                                    setLoading={setLoading}
+                                                />
                                             );
                                         })}
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        <div>
-                            <h2></h2>
-                            <div></div>
+                        <div className="space-y-4">
+                            <h2 className="font-bold text-4xl">Productos: </h2>
+                            <div className="space-y-8">
+                                {seller.products.map((product) => (
+                                    <Product
+                                        key={product.producto_id}
+                                        product={product}
+                                    />
+                                ))}
+                            </div>
                         </div>
                     </div>
                 </div>
