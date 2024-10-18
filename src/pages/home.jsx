@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 
 // Components
 import { CategoryCard } from "@components/categoryCard.jsx";
-import { ArrowRight } from "@components/icons.jsx";
+import { ArrowRight, RegisterIcon } from "@components/icons.jsx";
 import { VerticalProductCard } from "@components/verticalProductcard";
 import ContentLoading from "@components/contentLoading.jsx";
 
@@ -122,6 +122,132 @@ export default function Home() {
                                 <ArrowRight />
                             </Link>
                         </div>
+                    </div>
+                </div>
+            </section>
+
+            <section className="w-full px-3">
+                <div className="w-full max-w-[1200px] mx-auto py-10">
+                    <div className="flex flex-col items-center justify-center gap-4 text-center">
+                        <figure className="w-64 aspect-square drop-shadow-[0_15px_35px_rgb(126_34_206)]">
+                            <img
+                                src="/logo.png"
+                                alt="Logo Express Sale"
+                                className="object-contain h-full w-full"
+                            />
+                        </figure>
+                        <div className="space-y-2">
+                            <h2 className="text-4xl font-bold capitalize">
+                                ¿Quiénes{" "}
+                                <span className="text-purple-700">Somos?</span>
+                            </h2>
+                            <div className="text-xl max-w-4xl space-y-2">
+                                <p className="text-balance">
+                                    Express Sale ha sido creado por cuatro
+                                    aprendices SENA:{" "}
+                                    <span className="font-bold text-purple-700 italic">
+                                        Andrés Gutiérrez, Juan Sebastián Bernal,
+                                        Jaider Harley Rondón y David Fernando
+                                        Díaz.
+                                    </span>{" "}
+                                    Juntos, han planeado y desarrollado esta
+                                    herramienta para facilitar la gestión de
+                                    inventarios, la venta de productos y la
+                                    conexión entre comerciantes y clientes,
+                                    ofreciendo una plataforma moderna y
+                                    accesible para todos.
+                                </p>
+                                <p className="text-balance">
+                                    En Express Sale, nuestra misión es{" "}
+                                    <span className="font-bold text-purple-700">
+                                        llevar las tiendas de barrio al mundo
+                                        digital
+                                    </span>
+                                    , ayudándolas a expandir su alcance y
+                                    competir en el mercado actual.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section className="w-full px-3">
+                <div className="w-full max-w-[1200px] mx-auto py-10">
+                    <div className="space-y-5">
+                        <h2 className="text-4xl font-bold capitalize">
+                            ¡Queremos{" "}
+                            <span className="text-purple-700">Escucharte!</span>
+                        </h2>
+                        <article className="card bg-gray-300/30 shadow-xl rounded-xl border backdrop-blur-sm">
+                            <div className="card-body">
+                                <p className="text-xl">
+                                    Si quieres contarnos tu opinión o tienes
+                                    alguna queja sobre nuestro sistema de
+                                    información puedes enviarnoslo por aquí:
+                                </p>
+                                <form>
+                                    <div className="form-group flex flex-col md:flex-row gap-5 w-full">
+                                        <div className="form-control w-full">
+                                            <label className="label">
+                                                <span className="label-text font-medium after:content-['*'] after:ml-0.5 after:text-red-500">
+                                                    Correo Electrónico:
+                                                </span>
+                                            </label>
+                                            <input
+                                                placeholder="ejemplo@gmail.com"
+                                                className="input focus:input-primary input-bordered focus:outline-0"
+                                                name="usuario_correo"
+                                            />
+                                        </div>
+                                        <div className="form-control w-full">
+                                            <label className="label">
+                                                <span className="label-text font-medium after:content-['*'] after:ml-0.5 after:text-red-500">
+                                                    Nombre Completo:
+                                                </span>
+                                            </label>
+                                            <input
+                                                placeholder="Ingresa tus nombres y apellidos acá"
+                                                className="input focus:input-primary input-bordered focus:outline-0"
+                                                name="usuario_nombre"
+                                            />
+                                        </div>
+                                    </div>
+                                    <div className="form-control w-full">
+                                        <label className="label">
+                                            <span className="label-text font-medium after:content-['*'] after:ml-0.5 after:text-red-500">
+                                                Asunto:
+                                            </span>
+                                        </label>
+                                        <input
+                                            placeholder="Ingresa tus nombres y apellidos acá"
+                                            className="input focus:input-primary input-bordered focus:outline-0"
+                                            name="correo_asunto"
+                                        />
+                                    </div>
+                                    <div className="form-control w-full">
+                                        <label className="label">
+                                            <span className="label-text font-medium after:content-['*'] after:ml-0.5 after:text-red-500">
+                                                Asunto:
+                                            </span>
+                                        </label>
+                                        <textarea
+                                            placeholder="Ingresa tu mensaje/opinión aquí"
+                                            className="textarea textarea-bordered focus:textarea-primary focus:outline-0 resize-none h-32"
+                                            name="correo_mensaje"
+                                        ></textarea>
+                                    </div>
+                                    <div className="form-control w-full mt-5">
+                                        <button className="btn btn-sm min-h-none h-auto py-3 btn-primary group relative text-purple-300 hover:bg-purple-800 hover:text-purple-100 w-full">
+                                            <span className="absolute left-3 top-1/2 transform -translate-y-1/2 text-purple-300 group-hover:text-purple-100">
+                                                <RegisterIcon size={17} />
+                                            </span>
+                                            Enviar mensaje
+                                        </button>
+                                    </div>
+                                </form>
+                            </div>
+                        </article>
                     </div>
                 </div>
             </section>
