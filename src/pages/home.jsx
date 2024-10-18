@@ -8,7 +8,8 @@ import { VerticalProductCard } from "@components/verticalProductcard";
 import ContentLoading from "@components/contentLoading.jsx";
 
 // Hooks
-import { useGetData } from "@hooks/useFetchData.js";
+import { useGetData, usePostData } from "@hooks/useFetchData.js";
+import { useValidateform } from "@hooks/useValidateForm.js";
 
 export default function Home() {
     const [products, setProducts] = useState(null);
@@ -29,6 +30,18 @@ export default function Home() {
         products.rows.map((product) => (
             <VerticalProductCard product={product} key={product.producto_id} />
         ));
+
+    const handleContactFormSubmit = (event) => {
+        event.preventDefault();
+
+        const data = Object.fromEntries(new FormData(event.target));
+        console.log(data)
+        const validation = useValidateform(data, "contact-form");
+
+        // if (validation.success) {
+        //     usePostData("/email", data);
+        // }
+    };
 
     if (!products) return <ContentLoading />;
 
@@ -186,7 +199,7 @@ export default function Home() {
                                     alguna queja sobre nuestro sistema de
                                     información puedes enviarnoslo por aquí:
                                 </p>
-                                <form>
+                                <form onSubmit={handleContactFormSubmit}>
                                     <div className="form-group flex flex-col md:flex-row gap-5 w-full">
                                         <div className="form-control w-full">
                                             <label className="label">

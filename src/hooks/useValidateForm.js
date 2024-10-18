@@ -76,6 +76,30 @@ export const useValidateform = (data = {}, form = "") => {
                 ),
             });
             break;
+        case "contact-form":
+            schema = object({
+                usuario_nombre: pipe(
+                    nonEmpty("Nombre requerido"),
+                    string("Nombre requerido"),
+                    minLength(3, "El nombre es requerido")
+                ),
+                usuario_correo: pipe(
+                    nonEmpty("Correo requerido"),
+                    string("Correo requerido"),
+                    email("El correo debe ser válido")
+                ),
+                correo_asunto: pipe(
+                    nonEmpty("Nombre requerido"),
+                    string("Nombre requerido"),
+                    minLength(10, "El nombre es requerido")
+                ),
+                correo_mensaje: pipe(
+                    nonEmpty("Nombre requerido"),
+                    string("Nombre requerido"),
+                    minLength(15, "El nombre es requerido")
+                ),
+            });
+            break;
         case "user-edit-modal-form":
             schema = object({
                 usuario_nombre: pipe(
