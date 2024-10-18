@@ -5,16 +5,20 @@ import { useParams } from "react-router-dom";
 import { useGetData } from "@hooks/useFetchData";
 
 // Components
-import ContentLoading from "@components/contentLoading";
-import { EyeIcon, PlusIcon, StarIcon, UserIcon } from "@components/icons";
-import RateModal from "@components/rateModal";
+import ContentLoading from "@components/contentLoading.jsx";
+import { EyeIcon, PlusIcon, StarIcon, UserIcon } from "@components/icons.jsx";
+import RateModal from "@components/rateModal.jsx";
+import { Calification } from "@components/calification.jsx";
 
 export default function Worker() {
     const [seller, setSeller] = useState(null);
+    const [loading, setLoading] = useState(true);
     const { id } = useParams();
 
     const getSeller = async () => {
+        if (!loading) return null;
         const user = await useGetData(`/api/users/${id}`);
+        setLoading(false);
         if (user.success) {
             setSeller(user.data);
         }
@@ -22,7 +26,7 @@ export default function Worker() {
 
     useEffect(() => {
         getSeller();
-    }, []);
+    }, [loading]);
 
     if (!seller) return <ContentLoading />;
 
@@ -228,78 +232,18 @@ export default function Worker() {
                             </article>
                             <div className="card bg-base-100 shadow-xl border">
                                 <div className="card-body space-y-5">
-                                    <h2 className="text-3xl font-extrabold text-gray-800">Comentarios:</h2>
+                                    <h2 className="text-3xl font-extrabold text-gray-800">
+                                        Comentarios:
+                                    </h2>
                                     <div className="space-y-4">
+                                        {seller.ratings.length < 1 && (
+                                            <h2 className="text-lg font-semibold">
+                                                No hay calificaciones...
+                                            </h2>
+                                        )}
                                         {seller.ratings.map((rating) => {
                                             return (
-                                                <article
-                                                    key={rating.calificacion_id}
-                                                    className="flex flex-col"
-                                                >
-                                                    <div>
-                                                        <div className="flex justify-between items-center w-full">
-                                                            <div className="flex gap-2 items-center">
-                                                                <figure className="w-10 aspect-square rounded-full overflow-hidden">
-                                                                    <img
-                                                                        src={
-                                                                            rating
-                                                                                .calificator
-                                                                                .usuario_imagen_url
-                                                                        }
-                                                                        alt={`Imagen del calificador ${rating.calificator.usuario_alias}`}
-                                                                        className="object-cover h-full w-full"
-                                                                    />
-                                                                </figure>
-                                                                <div className="flex flex-col gap-1">
-                                                                    <h4 className="font-medium">
-                                                                        {
-                                                                            rating
-                                                                                .calificator
-                                                                                .usuario_alias
-                                                                        }
-                                                                    </h4>
-                                                                    <span className="flex gap-1">
-                                                                        <StarIcon
-                                                                            size={
-                                                                                13
-                                                                            }
-                                                                        />
-                                                                        <StarIcon
-                                                                            size={
-                                                                                13
-                                                                            }
-                                                                        />
-                                                                        <StarIcon
-                                                                            size={
-                                                                                13
-                                                                            }
-                                                                        />
-                                                                        <StarIcon
-                                                                            size={
-                                                                                13
-                                                                            }
-                                                                        />
-                                                                        <StarIcon
-                                                                            size={
-                                                                                13
-                                                                            }
-                                                                        />
-                                                                    </span>
-                                                                </div>
-                                                            </div>
-                                                            <div className="btn btn-circle btn-ghost btn-sm">
-                                                                :
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div className="grow">
-                                                        <p>
-                                                            {
-                                                                rating.calificacion_comentario
-                                                            }
-                                                        </p>
-                                                    </div>
-                                                </article>
+                                                <Calification rating={rating} key={rating.calificacion_id} setLoading={setLoading} />
                                             );
                                         })}
                                     </div>

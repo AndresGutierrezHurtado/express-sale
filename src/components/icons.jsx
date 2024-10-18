@@ -1,9 +1,24 @@
 import { IoSearch, IoMenu } from "react-icons/io5";
 import { MdOutlineShoppingBag, MdOutlineEmail } from "react-icons/md";
 import { TbLogin2 } from "react-icons/tb";
-import { FaArrowUpFromBracket, FaArrowRight, FaBoxesStacked, FaPlus, FaCartShopping, FaCartPlus } from "react-icons/fa6";
-import { FaUser, FaPhoneAlt, FaRegStar, FaStarHalf, FaStar } from "react-icons/fa";
-import { HiPencil } from "react-icons/hi";
+import {
+    FaArrowUpFromBracket,
+    FaArrowRight,
+    FaBoxesStacked,
+    FaPlus,
+    FaCartShopping,
+    FaCartPlus,
+    FaFlag,
+} from "react-icons/fa6";
+import {
+    FaUser,
+    FaPhoneAlt,
+    FaRegStar,
+    FaStarHalf,
+    FaStar,
+    FaRegTrashAlt,
+} from "react-icons/fa";
+import { HiPencil, HiDotsVertical } from "react-icons/hi";
 import { IoMdEye } from "react-icons/io";
 
 export const SearchIcon = ({ size = 20, ...props }) => (
@@ -42,7 +57,7 @@ export const StarIcon = (props) => <FaStar {...props} />;
 
 export const RegStarIcon = (props) => <FaRegStar {...props} />;
 
-export const HalfStarIcon  = (props) => <FaStarHalf {...props} />;
+export const HalfStarIcon = (props) => <FaStarHalf {...props} />;
 
 export const BoxesStackedIcon = (props) => <FaBoxesStacked {...props} />;
 
@@ -53,3 +68,9 @@ export const CartAddIcon = (props) => <FaCartPlus {...props} />;
 export const PlusIcon = (props) => <FaPlus {...props} />;
 
 export const EyeIcon = (props) => <IoMdEye {...props} />;
+
+export const DotsIcon = (props) => <HiDotsVertical {...props} />;
+
+export const FlagIcon = (props) => <FaFlag {...props} />;
+
+export const TrashIcon = (props) => <FaRegTrashAlt {...props} />;

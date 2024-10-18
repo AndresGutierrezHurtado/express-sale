@@ -67,4 +67,51 @@ router.post("/ratings/products/:id", async (req, res) => {
     }
 });
 
+// Update
+router.put("/ratings/:id", async (req, res) => {
+    try {
+        const rating = await models.Rating.update(
+            {
+                calificacion_comentario: req.body.calificacion_comentario,
+                calificacion_imagen_url: req.body.calificacion_imagen_url || "",
+                calificacion: req.body.calificacion,
+            },
+            {
+                where: { calificacion_id: req.params.id },
+            }
+        );
+
+        res.status(200).json({
+            success: true,
+            message: "Calificación creada correctamente.",
+            data: rating,
+        });
+    } catch (error) {
+        res.status(404).json({
+            success: false,
+            message: error.message,
+        });
+    }
+});
+
+// Delete
+router.delete("/ratings/:id", async (req, res) => {
+    try {
+        const rating = await models.Rating.destroy({
+            where: { calificacion_id: req.params.id },
+        });
+
+        res.status(200).json({
+            success: true,
+            message: "Calificación creada correctamente.",
+            data: rating,
+        });
+    } catch (error) {
+        res.status(404).json({
+            success: false,
+            message: error.message,
+        });
+    }
+});
+
 module.exports = router;

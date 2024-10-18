@@ -109,13 +109,19 @@ router.get("/users/:id", async (req, res) => {
                 model: models.Rating,
                 as: "ratings",
                 through: { attributes: [] },
-                include: [
-                    {model: models.User, as: "calificator"}
-                ]
+                include: [{ model: models.User, as: "calificator" }],
             },
             {
                 model: models.Product,
                 as: "products",
+                include: [
+                    "category",
+                    {
+                        model: models.Rating,
+                        as: "ratings",
+                        through: { attributes: [] },
+                    },
+                ],
                 attributes: {
                     include: [
                         [
@@ -128,7 +134,7 @@ router.get("/users/:id", async (req, res) => {
                             "calificacion_promedio",
                         ],
                     ],
-                }
+                },
             },
         ],
     });
