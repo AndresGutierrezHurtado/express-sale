@@ -9,6 +9,7 @@ import {
     FaCartShopping,
     FaCartPlus,
     FaFlag,
+    FaShop,
 } from "react-icons/fa6";
 import {
     FaUser,
@@ -17,6 +18,7 @@ import {
     FaStarHalf,
     FaStar,
     FaRegTrashAlt,
+    FaHome,
 } from "react-icons/fa";
 import { HiPencil, HiDotsVertical } from "react-icons/hi";
 import { IoMdEye } from "react-icons/io";
@@ -74,3 +76,7 @@ export const DotsIcon = (props) => <HiDotsVertical {...props} />;
 export const FlagIcon = (props) => <FaFlag {...props} />;
 
 export const TrashIcon = (props) => <FaRegTrashAlt {...props} />;
+
+export const HomeIcon = (props) => <FaHome {...props} />;
+
+export const ShopIcon = (props) => <FaShop {...props} />;

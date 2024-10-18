@@ -67,7 +67,7 @@ export default function Worker() {
                                         </div>
                                     </div>
                                     <div className="flex flex-col gap-4">
-                                        <div className="grow flex items-center justify-center gap-5">
+                                        <div className="grow flex flex-col sm:flex-row items-center justify-center gap-5">
                                             <div className="flex flex-col items-center justify-center w-fit text-gray-600 space-y-1">
                                                 <h2 className="font-semibold text-4xl text-center">
                                                     {
@@ -204,7 +204,7 @@ export default function Worker() {
                                                 </div>
                                             </div>
                                         </div>
-                                        <div className="flex gap-2">
+                                        <div className="flex flex-col md:flex-row gap-2">
                                             <button
                                                 onClick={() => {
                                                     document

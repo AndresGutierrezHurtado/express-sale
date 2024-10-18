@@ -4,7 +4,7 @@ import { Link, useLocation } from "react-router-dom";
 import { useAuthContext } from "@contexts/authContext";
 
 // Icons
-import { MenuIcon, SearchIcon, ShoppingBagIcon } from "../components/icons";
+import { EmailIcon, HomeIcon, MenuIcon, SearchIcon, ShopIcon, ShoppingBagIcon } from "@components/icons";
 
 export default function Header() {
     const { pathname, hash } = useLocation();
@@ -53,29 +53,26 @@ export default function Header() {
                             <div className="navbar-center hidden lg:flex text-purple-700">
                                 <ul className="flex items-center gap-5 px-1 text-[1.05rem]">
                                     <li
-                                        className={`font-medium duration-300 ${
-                                            pathname + hash === "/"
-                                                ? "border-b-2 border-purple-700"
-                                                : "hover:scale-[1.1]"
-                                        }`}
+                                        className={`font-medium duration-300 ${pathname + hash === "/"
+                                            ? "border-b-2 border-purple-700"
+                                            : "hover:scale-[1.1]"
+                                            }`}
                                     >
                                         <Link to="/">Inicio</Link>
                                     </li>
                                     <li
-                                        className={`font-medium duration-300 ${
-                                            pathname + hash === "/products"
-                                                ? "border-b-2 border-purple-700"
-                                                : "hover:scale-[1.1]"
-                                        }`}
+                                        className={`font-medium duration-300 ${pathname + hash === "/products"
+                                            ? "border-b-2 border-purple-700"
+                                            : "hover:scale-[1.1]"
+                                            }`}
                                     >
                                         <Link to="/products">Productos</Link>
                                     </li>
                                     <li
-                                        className={`font-medium duration-300 ${
-                                            pathname + hash === "/#contact"
-                                                ? "border-b-2 border-purple-700"
-                                                : "hover:scale-[1.1]"
-                                        }`}
+                                        className={`font-medium duration-300 ${pathname + hash === "/#contact"
+                                            ? "border-b-2 border-purple-700"
+                                            : "hover:scale-[1.1]"
+                                            }`}
                                     >
                                         <Link to="/#contact">Contacto</Link>
                                     </li>
@@ -147,17 +144,39 @@ export default function Header() {
                     aria-label="close sidebar"
                     className="drawer-overlay"
                 ></label>
-                <ul className="menu bg-base-200 min-h-full w-80 p-4">
+                <ul className="menu bg-base-200 min-h-full w-80 p-4 flex flex-col">
                     {/* Sidebar content here */}
-                    <li>
-                        <Link to="/">Inicio</Link>
-                    </li>
-                    <li>
-                        <Link to="/products">Productos</Link>
-                    </li>
-                    <li>
-                        <Link to="/#contact">Contacto</Link>
-                    </li>
+                    <div className="grow">
+                        <li>
+                            <Link to="/">
+                                <HomeIcon />
+                                Inicio
+                            </Link>
+                        </li>
+                        <li>
+                            <Link to="/products">
+                                <ShopIcon />
+                                Productos
+                            </Link>
+                        </li>
+                        <li>
+                            <Link to="/#contact">
+                                <EmailIcon />
+                                Contacto
+                            </Link>
+                        </li>
+                    </div>
+                    <label htmlFor="drawer-toggle">
+
+                        <li>
+                            <a>
+                                <span>
+                                    ✕
+                                </span>
+                                Cerrar
+                            </a>
+                        </li>
+                    </label>
                 </ul>
             </div>
         </div>

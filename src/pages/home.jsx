@@ -35,7 +35,6 @@ export default function Home() {
         event.preventDefault();
 
         const data = Object.fromEntries(new FormData(event.target));
-        console.log(data)
         const validation = useValidateform(data, "contact-form");
 
         // if (validation.success) {

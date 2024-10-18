@@ -10,7 +10,7 @@ import {
 } from "@components/icons.jsx";
 import { UserEditModal } from "@components/profile/userEditModal.jsx";
 
-import { useAuthContext } from "@contexts/authcontext.jsx";
+import { useAuthContext } from "@contexts/authContext.jsx";
 
 import { useGetData } from "@hooks/useFetchData.js";
 export default function UserProfile() {
@@ -29,8 +29,8 @@ export default function UserProfile() {
                             ? "Mi perfil"
                             : "Perfil de usuario"}
                     </h3>
-                    <div className="flex gap-5">
-                        <div className="avatar relative">
+                    <div className="flex flex-col md:flex-row gap-5">
+                        <div className="avatar relative mx-auto md:m-0">
                             <div
                                 onClick={() =>
                                     document
@@ -64,7 +64,7 @@ export default function UserProfile() {
                                     ? user.worker.trabajador_descripcion
                                     : ""}
                             </p>
-                            <span className="flex items-center gap-4 [&_svg]:fill-gray-600 text-gray-600">
+                            <span className="flex flex-wrap items-center gap-4 [&_svg]:fill-gray-600 text-gray-600 w-full overflow-hidden">
                                 {user.worker && (
                                     <>
                                         <Link to={`/worker/${user.usuario_id}`}>

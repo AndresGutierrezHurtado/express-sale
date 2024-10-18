@@ -115,7 +115,6 @@ router.get("/products", async (req, res) => {
         ],
     });
 
-    console.log(products);
     res.status(200).json({
         success: true,
         message: "Productos obtenidos correctamente",
