@@ -2,9 +2,10 @@
   "name": "express-sale-react",
   "private": true,
   "version": "0.0.0",
+  "type": "module",
   "scripts": {
     "dev": "vite",
-    "server": "nodemon ./database/index.js",
+    "server": "nodemon ./server/index.js",
     "build": "vite build",
     "lint": "eslint .",
     "preview": "vite preview"
