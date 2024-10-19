@@ -12,18 +12,7 @@ import { useGetData, usePostData } from "@hooks/useFetchData.js";
 import { useValidateform } from "@hooks/useValidateForm.js";
 
 export default function Home() {
-    const [products, setProducts] = useState(null);
-
-    useEffect(() => {
-        async function getProducts() {
-            const response = await useGetData(`/api/products?limit=7`);
-            if (response.success) {
-                setProducts(response.data);
-            }
-        }
-
-        getProducts();
-    }, []);
+    const { loading , data: products } = useGetData("/products");
 
     const ProductsList =
         products &&

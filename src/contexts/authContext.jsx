@@ -12,27 +12,8 @@ const AuthContext = createContext();
 export const useAuthContext = () => useContext(AuthContext);
 
 export function AuthProvider({ children }) {
-    const [userSession, setUserSession] = useState(null);
-    const [loading, setLoading] = useState(true);
-    const location = useLocation();
+    const { loading, data: userSession, reload } = useGetData("/user/session");
     const navigate = useNavigate();
-
-    const getData = async () => {
-        const user = await useGetData("/api/user/session");
-        if (user) {
-            setLoading(false);
-            
-            if (user.success) {
-                setUserSession(user.data);
-            } else {
-                setUserSession(null);
-            }
-        }
-    }
-
-    useEffect(() => {
-        getData();
-    }, [location, loading]);
 
     const handleLogout = () => {
         Swal.fire({
@@ -46,10 +27,10 @@ export function AuthProvider({ children }) {
             cancelButtonColor: "#d33",
         }).then(async (result) => {
             if (result.isConfirmed) {
-                await useGetData("/api/user/logout").then(response => {
+                await useGetData("/user/logout").then((response) => {
                     if (response.success) {
-                        setLoading(true);
-                        navigate("/")
+                        reload();
+                        navigate("/");
                         Swal.fire({
                             icon: "info",
                             title: "Sesión cerrada",
@@ -61,7 +42,7 @@ export function AuthProvider({ children }) {
         });
     };
 
-    const authMiddlewareAlert = message => {
+    const authMiddlewareAlert = (message) => {
         Swal.fire({
             icon: "error",
             title: "No tienes acceso a esta página/acción",
@@ -70,8 +51,8 @@ export function AuthProvider({ children }) {
             confirmButtonText: "Continuar",
             confirmButtonColor: "#3085d6",
             cancelButtonColor: "#d33",
-        }).then(result => {
-            navigate("/")
+        }).then((result) => {
+            navigate("/");
         });
     };
 
@@ -79,7 +60,13 @@ export function AuthProvider({ children }) {
 
     return (
         <AuthContext.Provider
-            value={{ userSession, loading, setLoading, handleLogout, authMiddlewareAlert }}
+            value={{
+                userSession,
+                loading,
+                reload,
+                handleLogout,
+                authMiddlewareAlert,
+            }}
         >
             {children}
         </AuthContext.Provider>

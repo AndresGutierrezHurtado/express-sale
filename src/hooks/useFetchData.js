@@ -1,142 +1,151 @@
 import Swal from "sweetalert2";
+import { useState, useEffect } from "react";
 
-export const useGetData = async (endpoint) => {
+// Convertir useQuery en una función regular
+const queryApi = async (endpoint, options, showSuccessMessage = false) => {
     try {
         const response = await fetch(
             `${import.meta.env.VITE_API_URL}${endpoint}`,
-            {
+            options
+        );
+        const result = await response.json();
+
+        if (result.success && showSuccessMessage) {
+            Swal.fire({
+                icon: "success",
+                title: "Acción exitosa",
+                text: result.message,
+            });
+        } else if (!result.success && showSuccessMessage) {
+            Swal.fire({
+                icon: "error",
+                title: "Acción fallida",
+                text: result.message,
+            });
+        }
+
+        return result;
+    } catch (error) {
+        console.error("Error al realizar la petición:", error);
+        Swal.fire({
+            icon: "error",
+            title: "Error",
+            text: "Hubo un error en la petición",
+        });
+        return undefined;
+    }
+};
+
+// Hooks personalizados para las llamadas a la API
+export const useGetData = (endpoint) => {
+    const [data, setData] = useState(null);
+    const [loading, setLoading] = useState(true);
+    const [trigger, setTrigger] = useState(0);
+
+    useEffect(() => {
+        const fetchData = async () => {
+            const result = await queryApi(endpoint, {
                 method: "GET",
-                credentials: "include",
-            }
-        );
-        const result = await response.json();
-        return result;
-    } catch (error) {
-        console.error("Error al realizar la petición:", error);
-        Swal.fire({
-            icon: "error",
-            title: "Error",
-            text: "Hubo un error en la petición",
-        });
-        return undefined;
-    }
-};
-
-export const usePostData = async (endpoint, data) => {
-    try {
-        const response = await fetch(
-            `${import.meta.env.VITE_API_URL}${endpoint}`,
-            {
-                method: "POST",
                 headers: {
                     "Content-Type": "application/json",
                 },
-                body: JSON.stringify(data),
                 credentials: "include",
+            });
+            if (result) {
+                setData(result.data);
             }
-        );
-        const result = await response.json();
+            setLoading(false);
+        };
+        fetchData();
+    }, [endpoint, trigger]);
 
-        if (result.success) {
-            Swal.fire({
-                icon: "success",
-                title: "Acción exitosa",
-                text: result.message,
-            });
-        } else {
-            Swal.fire({
-                icon: "error",
-                title: "Acción fallida",
-                text: result.message,
-            });
-        }
+    const reload = () => setTrigger((prev) => prev + 1);
 
-        return result;
-    } catch (error) {
-        console.error("Error al realizar la petición:", error);
-        Swal.fire({
-            icon: "error",
-            title: "Error",
-            text: "Hubo un error en la petición",
-        });
-        return undefined;
-    }
+    return { data, loading, reload };
 };
 
-export const usePutData = async (endpoint, data) => {
-    try {
-        const response = await fetch(
-            `${import.meta.env.VITE_API_URL}${endpoint}`,
-            {
-                method: "PUT",
-                headers: {
-                    "Content-Type": "application/json",
+export const usePutData = (endpoint, requestData) => {
+    const [data, setData] = useState(null);
+    const [loading, setLoading] = useState(true);
+
+    useEffect(() => {
+        const fetchData = async () => {
+            const result = await queryApi(
+                endpoint,
+                {
+                    method: "PUT",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify(requestData),
+                    credentials: "include",
                 },
-                body: JSON.stringify(data),
-                credentials: "include",
+                true
+            );
+            if (result) {
+                setData(result.data);
             }
-        );
-        const result = await response.json();
+            setLoading(false);
+        };
+        fetchData();
+    }, [endpoint, requestData]);
 
-        if (result.success) {
-            Swal.fire({
-                icon: "success",
-                title: "Acción exitosa",
-                text: result.message,
-            });
-        } else {
-            Swal.fire({
-                icon: "error",
-                title: "Acción fallida",
-                text: result.message,
-            });
-        }
-
-        return result;
-    } catch (error) {
-        console.error("Error al realizar la petición:", error);
-        Swal.fire({
-            icon: "error",
-            title: "Error",
-            text: "Hubo un error en la petición",
-        });
-        return undefined;
-    }
+    return { data, loading };
 };
 
-export const useDeleteData = async (endpoint) => {
-    try {
-        const response = await fetch(
-            `${import.meta.env.VITE_API_URL}${endpoint}`,
-            {
-                method: "DELETE",
-                credentials: "include",
+export const usePostData = (endpoint, requestData) => {
+    const [data, setData] = useState(null);
+    const [loading, setLoading] = useState(true);
+
+    useEffect(() => {
+        const fetchData = async () => {
+            const result = await queryApi(
+                endpoint,
+                {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify(requestData),
+                    credentials: "include",
+                },
+                true
+            );
+            if (result) {
+                setData(result.data);
             }
-        );
-        const result = await response.json();
+            setLoading(false);
+        };
+        fetchData();
+    }, [endpoint, requestData]);
 
-        if (result.success) {
-            Swal.fire({
-                icon: "success",
-                title: "Acción exitosa",
-                text: result.message,
-            });
-        } else {
-            Swal.fire({
-                icon: "error",
-                title: "Acción fallida",
-                text: result.message,
-            });
-        }
+    return { data, loading };
+};
 
-        return result;
-    } catch (error) {
-        console.error("Error al realizar la petición:", error);
-        Swal.fire({
-            icon: "error",
-            title: "Error",
-            text: "Hubo un error en la petición",
-        });
-        return undefined;
-    }
+export const useDeleteData = (endpoint) => {
+    const [data, setData] = useState(null);
+    const [loading, setLoading] = useState(true);
+
+    useEffect(() => {
+        const fetchData = async () => {
+            const result = await queryApi(
+                endpoint,
+                {
+                    method: "DELETE",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    credentials: "include",
+                },
+                true
+            );
+            if (result) {
+                setData(result.data);
+            }
+            setLoading(false);
+        };
+        fetchData();
+    }, [endpoint]);
+
+    return { data, loading };
 };
