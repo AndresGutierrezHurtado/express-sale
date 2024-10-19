@@ -126,6 +126,24 @@ export default class UserController {
         }
     };
 
+    static logoutUser = (req, res) => {
+        try {
+            res.status(200)
+                .clearCookie("authToken")
+                .json({
+                    success: true,
+                    message: "Sesión cerrada correctamente",
+                    data: null,
+                });
+        } catch (error) {
+            res.status(500).json({
+                success: false,
+                message: error.message,
+                data: null,
+            });
+        }
+    };
+
     static updateUser = async (req, res) => {
         // validation
         let userData = req.body.user;
