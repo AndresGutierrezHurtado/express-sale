@@ -5,6 +5,7 @@ import "dotenv/config";
 // Routes
 import userRoutes from "./routes/user.routes.js";
 import productRoutes from "./routes/product.routes.js";
+import ratingRoutes from "./routes/rating.routes.js";
 
 // Config
 const app = express();
@@ -14,6 +15,7 @@ app.use(cors());
 // Routes
 app.use("/api", userRoutes);
 app.use("/api", productRoutes);
+app.use("/api", ratingRoutes);
 
 app.listen(process.env.PORT, () =>
     console.log(`Server listening on port http://localhost:${process.env.PORT}/`)
