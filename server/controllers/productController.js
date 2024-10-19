@@ -1,6 +1,7 @@
 import * as models from "../models/relations.js";
 import sequelize from "../config/database.js";
 import { Op } from "sequelize";
+import crypto from "crypto";
 
 export default class ProductController {
     static createProduct = async (req, res) => {

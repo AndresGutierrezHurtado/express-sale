@@ -1,7 +1,7 @@
 import * as models from "../models/relations.js";
 import sequelize from "../config/database.js";
 import { Op } from "sequelize";
-
+import crypto from "crypto";
 export default class OrderController {
     static createOrder = (req, res) => {
         const t = sequelize.transaction();

@@ -1,5 +1,8 @@
 import * as models from "../models/relations.js";
 import sequelize from "../config/database.js";
+import bcrypt from "bcrypt";
+import jwt from "jsonwebtoken";
+import crypto from "crypto";
 
 export default class UserController {
     static createUser = async (req, res) => {
@@ -45,6 +48,81 @@ export default class UserController {
                     message: error.message,
                 });
             }
+        }
+    };
+
+    static authUser = async (req, res) => {
+        try {
+            const { usuario_correo, usuario_contra } = req.body;
+
+            const user = await models.User.findOne({
+                where: { usuario_correo: usuario_correo },
+            });
+
+            if (!user) {
+                return res
+                    .status(401)
+                    .json({ success: false, message: "Usuario no encontrado" });
+            }
+
+            if (!bcrypt.compareSync(usuario_contra, user.usuario_contra)) {
+                return res
+                    .status(200)
+                    .json({ success: false, message: "Contraseña incorrecta" });
+            }
+
+            const token = jwt.sign(
+                { id: user.usuario_id },
+                process.env.JWT_SECRET,
+                {
+                    expiresIn: "1h",
+                }
+            );
+
+            res.status(200)
+                .cookie("authToken", token, { httpOnly: true })
+                .json({
+                    success: true,
+                    message: "Autenticado correctamente.",
+                    data: { token },
+                });
+        } catch (error) {
+            res.status(500).json({
+                success: false,
+                message: error.message,
+                data: null,
+            });
+        }
+    };
+
+    static verifyUserSession = async (req, res) => {
+        try {
+            if (!req.session.user) {
+                res.status(200).json({
+                    success: false,
+                    message: "No autorizado",
+                    data: null,
+                });
+            }
+
+            const userSession = await models.User.findByPk(
+                req.session.user.id,
+                {
+                    include: ["role", "worker"],
+                }
+            );
+
+            res.status(200).json({
+                success: true,
+                message: "El usuario esta autenticado",
+                data: userSession,
+            });
+        } catch (error) {
+            res.status(500).json({
+                success: false,
+                message: error.message,
+                data: null,
+            });
         }
     };
 

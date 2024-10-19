@@ -14,10 +14,10 @@ app.use(express.json());
 app.use(cors());
 
 // Routes
-app.use("/api", userRoutes);
-app.use("/api", productRoutes);
-app.use("/api", ratingRoutes);
-app.use("/api", orderRoutes);
+app.use("/api/v2", userRoutes);
+app.use("/api/v2", productRoutes);
+app.use("/api/v2", ratingRoutes);
+app.use("/api/v2", orderRoutes);
 
 app.listen(process.env.PORT, () =>
     console.log(`Server listening on port http://localhost:${process.env.PORT}/`)
