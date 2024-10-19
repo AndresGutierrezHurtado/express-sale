@@ -103,6 +103,7 @@ export default class UserController {
                     message: "No autorizado",
                     data: null,
                 });
+                return;
             }
 
             const userSession = await models.User.findByPk(
