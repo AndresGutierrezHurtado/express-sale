@@ -4,10 +4,8 @@ import { RegisterIcon } from "../icons";
 // Hooks
 import { useValidateform } from "@hooks/useValidateForm";
 import { usePutData } from "@hooks/useFetchData";
-import { useAuthContext } from "@contexts/authContext";
 
-export function UserEditModal({ user }) {
-    const { setLoading } = useAuthContext();
+export function UserEditModal({ user, reload }) {
 
     const handleUpdateUserSubmit = async (event) => {
         event.preventDefault();
@@ -16,7 +14,7 @@ export function UserEditModal({ user }) {
         const validation = useValidateform(data, "user-edit-modal-form");
 
         if (validation.success) {
-            const response = await usePutData(`/api/users/${user.usuario_id}`, {
+            const response = await usePutData(`/users/${user.usuario_id}`, {
                 user: {
                     usuario_nombre: data.usuario_nombre,
                     usuario_apellido: data.usuario_apellido,
@@ -32,7 +30,7 @@ export function UserEditModal({ user }) {
                     trabajador_descripcion: data.trabajador_descripcion,
                 },
             });
-            if (response.success) setLoading(true);
+            if (response.success) reload();
         }
     };
 

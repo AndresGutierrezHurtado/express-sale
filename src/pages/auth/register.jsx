@@ -18,7 +18,7 @@ export default function Register() {
         const validation = useValidateform(data, "register-form");
 
         if (validation.success) {
-            const response = await usePostData("/api/users", data);
+            const response = await usePostData("/users", data);
             if (response.success) {
                 event.target.reset();
                 navigate("/login");

@@ -5,7 +5,7 @@ import crypto from "crypto";
 
 export default class RatingController {
     static createUserRating = async (req, res) => {
-        const t = await conn.transaction();
+        const t = await sequelize.transaction();
         try {
             const rating = await models.Rating.create({
                 calificacion_id: crypto.randomUUID(),
@@ -36,7 +36,7 @@ export default class RatingController {
     };
 
     static createProductRating = async (req, res) => {
-        const t = await conn.transaction();
+        const t = await sequelize.transaction();
         try {
             const rating = await models.Rating.create({
                 calificacion_id: crypto.randomUUID(),

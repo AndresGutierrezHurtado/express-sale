@@ -15,6 +15,6 @@ userRoutes.get("/users/:id/ratings", UserController.getUserRatings);
 // Auth
 userRoutes.post("/user/auth", UserController.authUser);
 userRoutes.get("/user/session", UserController.verifyUserSession);
-userRoutes.get("/user/logout", UserController.logoutUser);
+userRoutes.post("/user/logout", UserController.logoutUser);
 
 export default userRoutes;

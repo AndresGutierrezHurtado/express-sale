@@ -18,7 +18,7 @@ export default function Login() {
         const validation = useValidateform(data, "login-form");
 
         if (validation.success) {
-            const response = await usePostData("/api/user/auth", data);
+            const response = await usePostData("/user/auth", data);
             if (response.success) {
                 event.target.reset();
                 navigate("/");

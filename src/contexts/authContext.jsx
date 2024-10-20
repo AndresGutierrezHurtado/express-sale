@@ -3,7 +3,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
 
 // Hooks
-import { useGetData } from "../hooks/useFetchData";
+import { useGetData, usePostData } from "../hooks/useFetchData";
 
 // Components
 import Loading from "../components/pageLoading";
@@ -27,17 +27,16 @@ export function AuthProvider({ children }) {
             cancelButtonColor: "#d33",
         }).then(async (result) => {
             if (result.isConfirmed) {
-                await useGetData("/user/logout").then((response) => {
-                    if (response.success) {
-                        reload();
-                        navigate("/");
-                        Swal.fire({
-                            icon: "info",
-                            title: "Sesión cerrada",
-                            text: response.message,
-                        });
-                    }
-                });
+                const response = await usePostData("/user/logout", {});
+                if (response.success) {
+                    reload();
+                    navigate("/");
+                    Swal.fire({
+                        icon: "info",
+                        title: "Sesión cerrada",
+                        text: response.message,
+                    });
+                }
             }
         });
     };
