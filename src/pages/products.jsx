@@ -12,7 +12,7 @@ import { useGetData } from "@hooks/useFetchData.js";
 
 export default function Products() {
     const [searchParams, setSearchParams] = useSearchParams();
-    const { loading, data: products } = useGetData("/products");
+    const { loading, data: products } = useGetData(`/products?${searchParams.toString()}`);
 
     const ProductsList =
         products &&
