@@ -12,25 +12,17 @@ import ContentLoading from "@components/contentLoading.jsx";
 import RateModal from "@components/rateModal.jsx";
 
 export default function Worker() {
-    const [seller, setSeller] = useState(null);
-    const [loading, setLoading] = useState(true);
     const { id } = useParams();
+    const { loading: loadingSeller, data: seller, reload: reloadSeller } = useGetData(`/users/${id}`);
+    const { loading: loadingProducts, data: products, reload: reloadProducts } = useGetData(
+        `/users/${id}/products`
+    );
+    const { loading: loadingRatings, data: ratings, reload: reloadRatings } = useGetData(
+        `/users/${id}/ratings`
+    );
 
-    const getSeller = async () => {
-        if (!loading) return null;
-        const user = await useGetData(`/api/users/${id}`);
-        setLoading(false);
-        if (user.success) {
-            setSeller(user.data);
-        }
-    };
-
-    useEffect(() => {
-        getSeller();
-    }, [loading]);
-
-    if (!seller) return <ContentLoading />;
-
+    if (loadingSeller || loadingProducts || loadingRatings)
+        return <ContentLoading />;
     return (
         <>
             <section className="w-full px-3">
@@ -82,7 +74,7 @@ export default function Worker() {
                                                     <StarIcon size={15} />
                                                 </span>
                                                 <p className="text-sm flex gap-1 items-center">
-                                                    {seller.ratings.length}
+                                                    {ratings.length}
                                                     <UserIcon size={12} />
                                                 </p>
                                             </div>
@@ -93,16 +85,14 @@ export default function Worker() {
                                                         <div
                                                             style={{
                                                                 width: `${
-                                                                    (seller.ratings.filter(
+                                                                    (ratings.filter(
                                                                         (
                                                                             rating
                                                                         ) =>
                                                                             rating.calificacion ==
                                                                             5
                                                                     ).length /
-                                                                        seller
-                                                                            .ratings
-                                                                            .length) *
+                                                                        ratings.length) *
                                                                         100 || 0
                                                                 }%`,
                                                             }}
@@ -116,16 +106,14 @@ export default function Worker() {
                                                         <div
                                                             style={{
                                                                 width: `${
-                                                                    (seller.ratings.filter(
+                                                                    (ratings.filter(
                                                                         (
                                                                             rating
                                                                         ) =>
                                                                             rating.calificacion ==
                                                                             4
                                                                     ).length /
-                                                                        seller
-                                                                            .ratings
-                                                                            .length) *
+                                                                        ratings.length) *
                                                                     100
                                                                 }%`,
                                                             }}
@@ -139,16 +127,14 @@ export default function Worker() {
                                                         <div
                                                             style={{
                                                                 width: `${
-                                                                    (seller.ratings.filter(
+                                                                    (ratings.filter(
                                                                         (
                                                                             rating
                                                                         ) =>
                                                                             rating.calificacion ==
                                                                             3
                                                                     ).length /
-                                                                        seller
-                                                                            .ratings
-                                                                            .length) *
+                                                                        ratings.length) *
                                                                         100 || 0
                                                                 }%`,
                                                             }}
@@ -162,16 +148,14 @@ export default function Worker() {
                                                         <div
                                                             style={{
                                                                 width: `${
-                                                                    (seller.ratings.filter(
+                                                                    (ratings.filter(
                                                                         (
                                                                             rating
                                                                         ) =>
                                                                             rating.calificacion ==
                                                                             2
                                                                     ).length /
-                                                                        seller
-                                                                            .ratings
-                                                                            .length) *
+                                                                        ratings.length) *
                                                                         100 || 0
                                                                 }%`,
                                                             }}
@@ -185,16 +169,14 @@ export default function Worker() {
                                                         <div
                                                             style={{
                                                                 width: `${
-                                                                    (seller.ratings.filter(
+                                                                    (ratings.filter(
                                                                         (
                                                                             rating
                                                                         ) =>
                                                                             rating.calificacion ==
                                                                             1
                                                                     ).length /
-                                                                        seller
-                                                                            .ratings
-                                                                            .length) *
+                                                                        ratings.length) *
                                                                         100 || 0
                                                                 }%`,
                                                             }}
@@ -237,17 +219,17 @@ export default function Worker() {
                                         Comentarios:
                                     </h2>
                                     <div className="space-y-4">
-                                        {seller.ratings.length < 1 && (
+                                        {ratings.length < 1 && (
                                             <h2 className="text-lg font-semibold">
                                                 No hay calificaciones...
                                             </h2>
                                         )}
-                                        {seller.ratings.map((rating) => {
+                                        {ratings.map((rating) => {
                                             return (
                                                 <Calification
                                                     rating={rating}
                                                     key={rating.calificacion_id}
-                                                    setLoading={setLoading}
+                                                    reload={reloadRatings}
                                                 />
                                             );
                                         })}
@@ -258,7 +240,7 @@ export default function Worker() {
                         <div className="space-y-4">
                             <h2 className="font-bold text-4xl">Productos: </h2>
                             <div className="space-y-8">
-                                {seller.products.map((product) => (
+                                {products.map((product) => (
                                     <Product
                                         key={product.producto_id}
                                         product={product}

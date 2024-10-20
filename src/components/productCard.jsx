@@ -7,9 +7,15 @@ import { UserIcon, StarIcon, PlusIcon, CartAddIcon } from "./icons";
 
 // Contexts
 import { useAuthContext } from "@contexts/authContext";
+import { useGetData } from "../hooks/useFetchData";
 
 export default function Product({ product }) {
     const { userSession, authMiddlewareAlert } = useAuthContext();
+    const { loading, data: ratings } = useGetData(
+        `/products/${product.producto_id}/ratings`
+    );
+
+    if (loading) return <div>Cargando...</div>;
 
     return (
         <>
@@ -69,7 +75,7 @@ export default function Product({ product }) {
                                         {product.calificacion_promedio}
                                     </p>
                                     <p className="flex items-center text-[12px] text-gray-600">
-                                        ({product.ratings.length}{" "}
+                                        ({ratings.length}{" "}
                                         <UserIcon size={12} className="ml-1" />)
                                     </p>
                                 </div>

@@ -3,26 +3,16 @@ import { Link, useParams } from "react-router-dom";
 
 // Hooks
 import { useGetData } from "@hooks/useFetchData";
-import { CartAddIcon } from "../components/icons";
+
+// Components
+import { CartAddIcon } from "@components/icons.jsx";
+import ContentLoading from "@components/contentLoading.jsx";
 
 export default function Product() {
-    const [product, setProduct] = useState(null);
     const { id } = useParams();
+    const { loading: loadingProduct, data: product, reload: reloadProduct } = useGetData(`/products/${id}`);
 
-    console.log(product);
-
-    const getProduct = async () => {
-        const product = await useGetData(`/api/products/${id}`);
-        if (product) {
-            setProduct(product.data);
-        }
-    };
-
-    useEffect(() => {
-        getProduct();
-    }, []);
-
-    if (!product) return <div>Cargando...</div>;
+    if (loadingProduct) return <ContentLoading />;
     return (
         <>
             <section className="w-full px-3">

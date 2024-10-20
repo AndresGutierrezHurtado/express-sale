@@ -14,7 +14,7 @@ import { useAuthContext } from "../contexts/authContext.jsx";
 import { useDeleteData, usePutData } from "../hooks/useFetchData.js";
 import { useValidateform } from "../hooks/useValidateForm.js";
 
-export function Calification({ rating, setLoading }) {
+export function Calification({ rating, reload }) {
     const { userSession } = useAuthContext();
 
     const handleReport = () => {
@@ -54,7 +54,7 @@ export function Calification({ rating, setLoading }) {
         }).then(async (result) => {
             if (result.isConfirmed) {
                 const response = await useDeleteData(`/api/ratings/${id}`);
-                setLoading(true);
+                reload();
             }
         });
     };
@@ -70,7 +70,7 @@ export function Calification({ rating, setLoading }) {
                 `/api/ratings/${rating.calificacion_id}`,
                 data
             );
-            if (response.success) setLoading(true);
+            if (response.success) reload();
         }
     };
     return (
