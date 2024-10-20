@@ -151,6 +151,15 @@ export default class ProductController {
                             )`),
                             "calificacion_promedio",
                         ],
+                        [
+                            sequelize.literal(`(
+                                SELECT COALESCE(COUNT(*), 0)
+                                FROM calificaciones
+                                INNER JOIN calificaciones_productos ON calificaciones.calificacion_id = calificaciones_productos.calificacion_id
+                                WHERE calificaciones_productos.producto_id = Product.producto_id
+                            )`),
+                            "calificacion_cantidad",
+                        ],
                     ],
                 },
                 order: [

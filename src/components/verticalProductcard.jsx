@@ -4,12 +4,12 @@ import { Link } from "react-router-dom";
 import RateModal from "./rateModal";
 
 // Icons
-import { StarIcon, PlusIcon, CartAddIcon } from "./icons";
+import { StarIcon, PlusIcon, CartAddIcon, UserIcon } from "./icons";
 
 // Contexts
 import { useAuthContext } from "@contexts/authContext";
 
-export function VerticalProductCard({ product }) {
+export function VerticalProductCard({ product, reloadProducts }) {
     const { userSession, authMiddlewareAlert } = useAuthContext();
 
     return (
@@ -30,12 +30,19 @@ export function VerticalProductCard({ product }) {
                             <h3 className="text-2xl font-bold tracking-tight truncate grow w-full">
                                 {product.producto_nombre}
                             </h3>
-                            <p className="flex">
-                                <StarIcon />
-                                {Number.parseFloat(
-                                    product.calificacion_promedio
-                                ).toFixed(1)}
-                            </p>
+                            <div className="flex flex-col items-end">
+                                <p className="flex text-lg items-center leading-none">
+                                    <StarIcon />
+                                    {Number.parseFloat(
+                                        product.calificacion_promedio
+                                    ).toFixed(1)}
+                                </p>
+                                <span className="flex items-center text-gray-600 text-sm">
+                                    ({parseInt(product.calificacion_cantidad)}
+                                    <UserIcon size={11} />
+                                    )
+                                </span>
+                            </div>
                         </div>
                         <Link
                             to={`/worker/${product.user.usuario_id}`}
@@ -80,7 +87,7 @@ export function VerticalProductCard({ product }) {
             </div>
 
             {/* Modal producto */}
-            <RateModal id={product.producto_id} type="product" />
+            <RateModal id={product.producto_id} reloadProducts={reloadProducts} type="product" />
         </>
     );
 }

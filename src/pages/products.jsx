@@ -12,12 +12,12 @@ import { useGetData } from "@hooks/useFetchData.js";
 
 export default function Products() {
     const [searchParams, setSearchParams] = useSearchParams();
-    const { loading, data: products } = useGetData(`/products?${searchParams.toString()}`);
+    const { loading: loadingProducts, data: products, reload: reloadProducts } = useGetData(`/products?${searchParams.toString()}`);
 
     const ProductsList =
         products &&
         products.rows.map((product) => {
-            return <Product product={product} key={product.producto_id} />;
+            return <Product product={product} reloadProducts={reloadProducts} key={product.producto_id} />;
         });
 
     const updateParam = (key, value) => {
@@ -26,7 +26,7 @@ export default function Products() {
         setSearchParams(newSearchParams);
     };
 
-    if (loading) return <ContentLoading />;
+    if (loadingProducts) return <ContentLoading />;
 
     return (
         <>

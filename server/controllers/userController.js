@@ -129,13 +129,11 @@ export default class UserController {
 
     static logoutUser = (req, res) => {
         try {
-            res.status(200)
-                .clearCookie("authToken")
-                .json({
-                    success: true,
-                    message: "Sesión cerrada correctamente",
-                    data: null,
-                });
+            res.status(200).clearCookie("authToken").json({
+                success: true,
+                message: "Sesión cerrada correctamente",
+                data: null,
+            });
         } catch (error) {
             res.status(500).json({
                 success: false,
@@ -252,6 +250,15 @@ export default class UserController {
                             )`),
                             "calificacion_promedio",
                         ],
+                        [
+                            sequelize.literal(`(
+                                SELECT COALESCE(COUNT(*) ,0)
+                                FROM calificaciones
+                                INNER JOIN calificaciones_usuarios ON calificaciones.calificacion_id = calificaciones_usuarios.calificacion_id
+                                WHERE calificaciones_usuarios.usuario_id = User.usuario_id
+                            )`),
+                            "calificacion_cantidad",
+                        ],
                     ],
                 },
                 include: ["role", "worker"],
@@ -284,6 +291,15 @@ export default class UserController {
                                 WHERE calificaciones_productos.producto_id = Product.producto_id
                             )`),
                             "calificacion_promedio",
+                        ],
+                        [
+                            sequelize.literal(`(
+                                SELECT COALESCE(COUNT(*), 0)
+                                FROM calificaciones
+                                INNER JOIN calificaciones_productos ON calificaciones.calificacion_id = calificaciones_productos.calificacion_id
+                                WHERE calificaciones_productos.producto_id = Product.producto_id
+                            )`),
+                            "calificacion_cantidad",
                         ],
                     ],
                 },

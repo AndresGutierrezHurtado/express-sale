@@ -12,12 +12,12 @@ import { useGetData, usePostData } from "@hooks/useFetchData.js";
 import { useValidateform } from "@hooks/useValidateForm.js";
 
 export default function Home() {
-    const { loading , data: products } = useGetData("/products");
+    const { loading: loadingProducts , data: products, reload: reloadProducts } = useGetData("/products");
 
     const ProductsList =
         products &&
         products.rows.map((product) => (
-            <VerticalProductCard product={product} key={product.producto_id} />
+            <VerticalProductCard product={product} reloadProducts={reloadProducts} key={product.producto_id} />
         ));
 
     const handleContactFormSubmit = (event) => {
@@ -31,7 +31,7 @@ export default function Home() {
         // }
     };
 
-    if (!products) return <ContentLoading />;
+    if (loadingProducts) return <ContentLoading />;
 
     return (
         <>
