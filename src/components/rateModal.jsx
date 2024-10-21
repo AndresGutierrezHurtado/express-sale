@@ -3,7 +3,7 @@ import { usePostData } from "../hooks/useFetchData";
 import { useValidateform } from "../hooks/useValidateForm";
 import { useAuthContext } from "@contexts/authContext";
 
-export default function RateModal({ id, type, reloadProducts }) {
+export default function RateModal({ id, type, reload }) {
     const handleRatingSubmit = async (event) => {
         event.preventDefault();
 
@@ -18,9 +18,8 @@ export default function RateModal({ id, type, reloadProducts }) {
             const response = await usePostData(endpoint, data);
 
             if (response.success) {
-                event.target.reset();
                 event.target.closest("dialog").close();
-                reloadProducts();
+                reload();
             }
         }
     };

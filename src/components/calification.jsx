@@ -70,7 +70,10 @@ export function Calification({ rating, reload }) {
                 `/ratings/${rating.calificacion_id}`,
                 data
             );
-            if (response.success) reload();
+            if (response.success) {
+                event.target.closest("dialog").close();
+                reload();
+            }
         }
     };
     return (

@@ -87,7 +87,7 @@ export function VerticalProductCard({ product, reloadProducts }) {
             </div>
 
             {/* Modal producto */}
-            <RateModal id={product.producto_id} reloadProducts={reloadProducts} type="product" />
+            <RateModal id={product.producto_id} reload={reloadProducts} type="product" />
         </>
     );
 }

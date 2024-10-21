@@ -21,6 +21,12 @@ export default function Worker() {
         `/users/${id}/ratings`
     );
 
+    const reload = () => {
+        reloadSeller();
+        reloadProducts();
+        reloadRatings();
+    }
+
     if (loadingSeller || loadingProducts || loadingRatings)
         return <ContentLoading />;
     return (
@@ -229,7 +235,7 @@ export default function Worker() {
                                                 <Calification
                                                     rating={rating}
                                                     key={rating.calificacion_id}
-                                                    reload={reloadRatings}
+                                                    reload={reload}
                                                 />
                                             );
                                         })}
@@ -244,6 +250,7 @@ export default function Worker() {
                                     <Product
                                         key={product.producto_id}
                                         product={product}
+                                        reloadProducts={reload}
                                     />
                                 ))}
                             </div>
@@ -251,7 +258,7 @@ export default function Worker() {
                     </div>
                 </div>
             </section>
-            <RateModal id={seller.usuario_id} type="user" />
+            <RateModal id={seller.usuario_id} reload={reload} type="user" />
         </>
     );
 }
