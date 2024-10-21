@@ -1,7 +1,7 @@
-const { DataTypes } = require("sequelize");
-const conn = require("../config/connection");
+import { DataTypes } from "sequelize";
+import sequelize from "../config/database.js";
 
-const Rating = conn.define(
+const Rating = sequelize.define(
     "Rating",
     {
         calificacion_id: {
@@ -35,7 +35,7 @@ const Rating = conn.define(
     }
 );
 
-const ProductsCalifications = conn.define(
+const ProductsCalifications = sequelize.define(
     "productsCalifications",
     {
         calificacion_id: {
@@ -51,7 +51,7 @@ const ProductsCalifications = conn.define(
     }
 );
 
-const UsersCalifications = conn.define(
+const UsersCalifications = sequelize.define(
     "usersCalifications",
     {
         calificacion_id: {
@@ -67,4 +67,4 @@ const UsersCalifications = conn.define(
     }
 );
 
-module.exports = { Rating, ProductsCalifications, UsersCalifications };
+export { Rating, ProductsCalifications, UsersCalifications };

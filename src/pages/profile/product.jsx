@@ -9,7 +9,7 @@ export default function ProductProfile() {
     console.log(product);
 
     const getProduct = async () => {
-        const product = await useGetData(`/api/products/${id}`);
+        const product = await useGetData(`/products/${id}`);
         if (product) {
             setProduct(product.data);
         }

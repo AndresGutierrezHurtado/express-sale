@@ -9,16 +9,32 @@ import {
     BoxesStackedIcon,
 } from "@components/icons.jsx";
 import { UserEditModal } from "@components/profile/userEditModal.jsx";
+import ContentLoading from "@components/contentLoading.jsx";
 
 import { useAuthContext } from "@contexts/authContext.jsx";
 
 import { useGetData } from "@hooks/useFetchData.js";
 export default function UserProfile() {
     const { id } = useParams();
-    const { userSession } = useAuthContext();
+    const { userSession, loading } = useAuthContext();
 
-    const user =
-        userSession && (id ? useGetData(`/api/users/${id}`) : userSession);
+    const {
+        loading: loadingUser,
+        data: user,
+        reload: reloadUser,
+    } = !loading && useGetData(`/users/${id || userSession.usuario_id}`);
+    const {
+        loading: loadingRatings,
+        data: ratings,
+        reload: reloadRatings,
+    } = useGetData(`/users/${id || userSession.usuario_id}/ratings`);
+    const {
+        loading: loadingOrders,
+        data: orders,
+        reload: reloadOrders,
+    } = useGetData(`/users/${id || userSession.usuario_id}/orders`);
+
+    if ((loadingUser, loadingRatings, loadingOrders)) return <ContentLoading />;
 
     return (
         <>
@@ -81,7 +97,7 @@ export default function UserProfile() {
                                             className="tooltip tooltip-bottom flex badge badge-sm gap-1 h-auto py-1 px-5 duration-300 hover:scale-[1.06]"
                                         >
                                             <StarIcon size={12} />
-                                            {user.ratings.length} Calificaciones
+                                            {ratings.length} Calificaciones
                                         </div>
                                     </>
                                 )}
@@ -112,15 +128,14 @@ export default function UserProfile() {
                                     className="tooltip tooltip-bottom flex badge badge-sm gap-1 h-auto py-1 px-5 duration-300 hover:scale-[1.06]"
                                 >
                                     <BoxesStackedIcon size={14} />
-                                    {user.orders && user.orders.length} compras
-                                    hechas
+                                    {orders && orders.length} compras hechas
                                 </div>
                             </span>
                         </article>
                     </div>
                 </div>
             </section>
-            <UserEditModal user={user} />
+            <UserEditModal user={user} reload={reloadUser} />
         </>
     );
 }

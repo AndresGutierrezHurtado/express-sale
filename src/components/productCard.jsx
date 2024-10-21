@@ -7,8 +7,9 @@ import { UserIcon, StarIcon, PlusIcon, CartAddIcon } from "./icons";
 
 // Contexts
 import { useAuthContext } from "@contexts/authContext";
+import { useGetData } from "../hooks/useFetchData";
 
-export default function Product({ product }) {
+export default function Product({ product, reloadProducts }) {
     const { userSession, authMiddlewareAlert } = useAuthContext();
 
     return (
@@ -69,7 +70,7 @@ export default function Product({ product }) {
                                         {product.calificacion_promedio}
                                     </p>
                                     <p className="flex items-center text-[12px] text-gray-600">
-                                        ({product.ratings.length}{" "}
+                                        ({product.calificacion_cantidad}{" "}
                                         <UserIcon size={12} className="ml-1" />)
                                     </p>
                                 </div>
@@ -103,7 +104,7 @@ export default function Product({ product }) {
             </article>
 
             {/* Modal producto */}
-            <RateModal id={product.producto_id} type="product" />
+            <RateModal id={product.producto_id} reload={reloadProducts} type="product" />
         </>
     );
 }

@@ -1,8 +1,8 @@
-const { DataTypes } = require("sequelize");
-const conn = require("../config/connection");
+import { DataTypes } from "sequelize";
+import sequelize from "../config/database.js";
 
 // Modelo para la tabla Pedidos (Order)
-const Order = conn.define(
+const Order = sequelize.define(
     "Order",
     {
         pedido_id: {
@@ -36,7 +36,7 @@ const Order = conn.define(
 );
 
 // Modelo para la tabla Detalles de Pagos (PaymentDetails)
-const PaymentDetails = conn.define(
+const PaymentDetails = sequelize.define(
     "PaymentDetails",
     {
         pago_id: {
@@ -83,7 +83,7 @@ const PaymentDetails = conn.define(
 );
 
 // Modelo para la tabla Detalles de Envíos (ShippingDetails)
-const ShippingDetails = conn.define(
+const ShippingDetails = sequelize.define(
     "ShippingDetails",
     {
         envio_id: {
@@ -128,7 +128,7 @@ const ShippingDetails = conn.define(
 );
 
 // Modelo para la tabla Productos y Pedidos (OrderProduct)
-const OrderProduct = conn.define(
+const OrderProduct = sequelize.define(
     "OrderProduct",
     {
         pedido_id: {
@@ -156,4 +156,4 @@ const OrderProduct = conn.define(
     }
 );
 
-module.exports = { Order, PaymentDetails, ShippingDetails, OrderProduct };
+export { Order, PaymentDetails, ShippingDetails, OrderProduct };

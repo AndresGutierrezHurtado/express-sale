@@ -145,7 +145,6 @@ CREATE TABLE `calificaciones` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 INSERT INTO `calificaciones` (`calificacion_id`, `calificacion_comentario`, `calificacion_imagen_url`, `calificacion_fecha`, `calificacion`, `usuario_id`) VALUES
-('51d31b57-dba6-478a-8745-8a835125508b', 'El mejor vendedor', '', '2024-10-13 04:40:38', 5, '0cb61e19-b59f-4d7e-83e6-ec4de605b3ee'),
 ('f5a063d8-17c0-4362-b883-4fb41399fc42', 'Me pido uno de esos', '', '2024-10-13 04:41:41', 5, '0cb61e19-b59f-4d7e-83e6-ec4de605b3ee');
 
 -- ---------------------------------------------------------------
@@ -155,9 +154,6 @@ CREATE TABLE `calificaciones_usuarios` (
     `calificacion_id` VARCHAR(60) NOT NULL,
     `usuario_id` VARCHAR(60) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
-INSERT INTO `calificaciones_usuarios` (`calificacion_id`, `usuario_id`) VALUES
-('51d31b57-dba6-478a-8745-8a835125508b', '1997e4d2-fa0d-4cdd-b7a1-f970570a813e');
 
 -- ---------------------------------------------------------------
 --

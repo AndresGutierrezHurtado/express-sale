@@ -3,8 +3,7 @@ import { usePostData } from "../hooks/useFetchData";
 import { useValidateform } from "../hooks/useValidateForm";
 import { useAuthContext } from "@contexts/authContext";
 
-export default function RateModal({ id, type }) {
-    const { setLoading } = useAuthContext();
+export default function RateModal({ id, type, reload }) {
     const handleRatingSubmit = async (event) => {
         event.preventDefault();
 
@@ -14,14 +13,13 @@ export default function RateModal({ id, type }) {
         if (validation.success) {
             const endpoint =
                 type === "product"
-                    ? `/api/ratings/products/${id}`
-                    : `/api/ratings/users/${id}`;
+                    ? `/ratings/products/${id}`
+                    : `/ratings/users/${id}`;
             const response = await usePostData(endpoint, data);
 
             if (response.success) {
-                event.target.reset();
                 event.target.closest("dialog").close();
-                setLoading(true);
+                reload();
             }
         }
     };

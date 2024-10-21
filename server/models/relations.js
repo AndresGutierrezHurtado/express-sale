@@ -1,13 +1,17 @@
 // Models
-const {
+import { User, Role, Worker, Recovery } from "./user.model.js";
+import { Product, Media, Category } from "./product.model.js";
+import {
     Order,
     PaymentDetails,
     ShippingDetails,
     OrderProduct,
-} = require("./order.model");
-const { User, Role, Worker, Recovery } = require("./user.model");
-const { Product, Media, Category } = require("./product.model");
-const { Rating, ProductsCalifications, UsersCalifications } = require("./rating.model");
+} from "./order.model.js";
+import {
+    Rating,
+    ProductsCalifications,
+    UsersCalifications,
+} from "./rating.model.js";
 
 // ------ USER ASSOCIATIONS ----- //
 
@@ -187,7 +191,7 @@ ShippingDetails.belongsTo(Worker, {
     as: "worker",
 });
 
-module.exports = {
+export {
     Order,
     PaymentDetails,
     ShippingDetails,

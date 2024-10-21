@@ -14,7 +14,7 @@ import { useAuthContext } from "../contexts/authContext.jsx";
 import { useDeleteData, usePutData } from "../hooks/useFetchData.js";
 import { useValidateform } from "../hooks/useValidateForm.js";
 
-export function Calification({ rating, setLoading }) {
+export function Calification({ rating, reload }) {
     const { userSession } = useAuthContext();
 
     const handleReport = () => {
@@ -53,8 +53,8 @@ export function Calification({ rating, setLoading }) {
             cancelButtonColor: "#d33",
         }).then(async (result) => {
             if (result.isConfirmed) {
-                const response = await useDeleteData(`/api/ratings/${id}`);
-                setLoading(true);
+                const response = await useDeleteData(`/ratings/${id}`);
+                reload();
             }
         });
     };
@@ -67,10 +67,13 @@ export function Calification({ rating, setLoading }) {
 
         if (validation.success) {
             const response = await usePutData(
-                `/api/ratings/${rating.calificacion_id}`,
+                `/ratings/${rating.calificacion_id}`,
                 data
             );
-            if (response.success) setLoading(true);
+            if (response.success) {
+                event.target.closest("dialog").close();
+                reload();
+            }
         }
     };
     return (

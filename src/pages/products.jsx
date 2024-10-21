@@ -11,29 +11,13 @@ import Pagination from "@components/pagination.jsx";
 import { useGetData } from "@hooks/useFetchData.js";
 
 export default function Products() {
-    const [products, setProducts] = useState(null);
-    const [loading, setLoading] = useState(true);
     const [searchParams, setSearchParams] = useSearchParams();
-    const location = useLocation();
-
-    const getProducts = async () => {
-        const getParams = searchParams.toString();
-        const response = await useGetData(`/api/products?${getParams}`);
-
-        if (response.success) {
-            setLoading(false);
-            setProducts(response.data);
-        }
-    };
-
-    useEffect(() => {
-        getProducts();
-    }, [location]);
+    const { loading: loadingProducts, data: products, reload: reloadProducts } = useGetData(`/products?${searchParams.toString()}`);
 
     const ProductsList =
         products &&
         products.rows.map((product) => {
-            return <Product product={product} key={product.producto_id} />;
+            return <Product product={product} reloadProducts={reloadProducts} key={product.producto_id} />;
         });
 
     const updateParam = (key, value) => {
@@ -42,7 +26,7 @@ export default function Products() {
         setSearchParams(newSearchParams);
     };
 
-    if (loading) return <ContentLoading />;
+    if (loadingProducts) return <ContentLoading />;
 
     return (
         <>

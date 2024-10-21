@@ -1,7 +1,7 @@
-const { DataTypes } = require("sequelize");
-const conn = require("../config/connection");
+import { DataTypes } from "sequelize";
+import sequelize from "../config/database.js";
 
-const Product = conn.define(
+const Product = sequelize.define(
     "Product",
     {
         producto_id: {
@@ -51,7 +51,7 @@ const Product = conn.define(
     }
 );
 
-const Media = conn.define(
+const Media = sequelize.define(
     "Media",
     {
         multimedia_id: {
@@ -77,7 +77,7 @@ const Media = conn.define(
     }
 );
 
-const Category = conn.define(
+const Category = sequelize.define(
     "Category",
     {
         categoria_id: {
@@ -96,4 +96,4 @@ const Category = conn.define(
     }
 );
 
-module.exports = { Product, Media, Category };
+export { Product, Media, Category };

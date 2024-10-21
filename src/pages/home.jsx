@@ -12,23 +12,12 @@ import { useGetData, usePostData } from "@hooks/useFetchData.js";
 import { useValidateform } from "@hooks/useValidateForm.js";
 
 export default function Home() {
-    const [products, setProducts] = useState(null);
-
-    useEffect(() => {
-        async function getProducts() {
-            const response = await useGetData(`/api/products?limit=7`);
-            if (response.success) {
-                setProducts(response.data);
-            }
-        }
-
-        getProducts();
-    }, []);
+    const { loading: loadingProducts , data: products, reload: reloadProducts } = useGetData("/products");
 
     const ProductsList =
         products &&
         products.rows.map((product) => (
-            <VerticalProductCard product={product} key={product.producto_id} />
+            <VerticalProductCard product={product} reloadProducts={reloadProducts} key={product.producto_id} />
         ));
 
     const handleContactFormSubmit = (event) => {
@@ -42,7 +31,7 @@ export default function Home() {
         // }
     };
 
-    if (!products) return <ContentLoading />;
+    if (loadingProducts) return <ContentLoading />;
 
     return (
         <>
@@ -87,25 +76,25 @@ export default function Home() {
                             Buscar por{" "}
                             <span className="text-purple-700">categoría</span>
                         </h2>
-                        <div className="grid grid-cols-[repeat(auto-fill,minmax(250px,1fr))] gap-5">
+                        <div className="grid grid-cols-[repeat(auto-fill,minmax(250px,1fr))] gap-8">
                             <CategoryCard
                                 name="Moda"
-                                image="/images/categories/moda.png"
+                                image="/images/categories/moda.jpg"
                                 link="/products?category=1"
                             />
                             <CategoryCard
                                 name="Comida"
-                                image="/images/categories/comida.png"
+                                image="/images/categories/comida.jpg"
                                 link="/products?category=2"
                             />
                             <CategoryCard
-                                name="tecnologia"
-                                image="/images/categories/tecnologia.png"
+                                name="Tecnología"
+                                image="/images/categories/tecnologia.jpg"
                                 link="/products?category=3"
                             />
                             <CategoryCard
-                                name="otros"
-                                image="/images/categories/otros.png"
+                                name="Otros"
+                                image="/images/categories/otros.jpg"
                                 link="/products?category=4"
                             />
                         </div>

@@ -1,7 +1,7 @@
-const { DataTypes } = require("sequelize");
-const conn = require("../config/connection");
+import { DataTypes } from "sequelize";
+import sequelize from "../config/database.js";
 
-const User = conn.define(
+export const User = sequelize.define(
     "User",
     {
         usuario_id: {
@@ -61,7 +61,7 @@ const User = conn.define(
     }
 );
 
-const Role = conn.define(
+export const Role = sequelize.define(
     "Role",
     {
         rol_id: {
@@ -80,7 +80,7 @@ const Role = conn.define(
     }
 );
 
-const Worker = conn.define(
+export const Worker = sequelize.define(
     "Worker",
     {
         trabajador_id: {
@@ -110,7 +110,7 @@ const Worker = conn.define(
     }
 );
 
-const Recovery = conn.define(
+export const Recovery = sequelize.define(
     "Recovery",
     {
         recuperacion_id: {
@@ -143,5 +143,3 @@ const Recovery = conn.define(
         timestamps: false,
     }
 );
-
-module.exports = { User, Role, Worker, Recovery };
