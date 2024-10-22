@@ -22,6 +22,7 @@ import {
 } from "react-icons/fa";
 import { HiPencil, HiDotsVertical } from "react-icons/hi";
 import { IoMdEye } from "react-icons/io";
+import { ImStatsBars } from "react-icons/im";
 
 export const SearchIcon = ({ size = 20, ...props }) => (
     <IoSearch size={size} {...props} />
@@ -80,3 +81,5 @@ export const TrashIcon = (props) => <FaRegTrashAlt {...props} />;
 export const HomeIcon = (props) => <FaHome {...props} />;
 
 export const ShopIcon = (props) => <FaShop {...props} />;
+
+export const StatsIcon = (props) => <ImStatsBars {...props} />;

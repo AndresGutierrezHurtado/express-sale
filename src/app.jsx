@@ -34,6 +34,9 @@ export default function App() {
                         <Route element={<AuthMiddleware />} >
                             <Route path="/profile/user/:id?" element={<UserProfile />} />
                             <Route path="/profile/product/:id" element={<ProductProfile />} />
+                            <Route path="/worker/products/:id" element={<div>Productos</div>} />
+                            <Route path="/worker/stats/:id" element={<div>Estadisticas</div>} />
+                            <Route path="/worker/routes/:id" element={<div>Envios</div>} />
                         </Route>
                     </Route>
                     <Route path="/" element={<GuestLayout />}>

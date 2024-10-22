@@ -1,5 +1,6 @@
 import { useParams, Link } from "react-router-dom";
 
+// Components
 import {
     PencilIcon,
     UserIcon,
@@ -7,13 +8,17 @@ import {
     EmailIcon,
     PhoneIcon,
     BoxesStackedIcon,
+    StatsIcon,
 } from "@components/icons.jsx";
 import { UserEditModal } from "@components/profile/userEditModal.jsx";
 import ContentLoading from "@components/contentLoading.jsx";
 
+// Contexts
 import { useAuthContext } from "@contexts/authContext.jsx";
 
+// Hooks
 import { useGetData } from "@hooks/useFetchData.js";
+
 export default function UserProfile() {
     const { id } = useParams();
     const { userSession, loading } = useAuthContext();
@@ -60,11 +65,11 @@ export default function UserProfile() {
                                 </div>
                             </div>
 
-                            <div className="w-[170px] rounded-full">
+                            <div className="w-[230px] rounded-full">
                                 <img src={user.usuario_imagen_url} />
                             </div>
                         </div>
-                        <article className="flex flex-col justify-between gap-1 h-[initial]">
+                        <article className="flex flex-col justify-between gap-2 h-[initial]">
                             <div>
                                 <h3 className="text-3xl font-bold">
                                     {user.usuario_nombre}{" "}
@@ -131,10 +136,69 @@ export default function UserProfile() {
                                     {orders && orders.length} compras hechas
                                 </div>
                             </span>
+                            <div className="flex flex-col sm:flex-row gap-4 items-center py-1">
+                                {userSession.rol_id !== 1 && (
+                                    <>
+                                        <Link
+                                            to={`/worker/products/${user.usuario_id}`}
+                                            className="btn btn-sm min-h-none h-auto py-2.5 px-10 btn-primary group relative text-purple-300 hover:bg-purple-800 hover:text-purple-100"
+                                        >
+                                            <span className="absolute left-3 top-1/2 transform -translate-y-1/2 text-purple-300 group-hover:text-purple-100">
+                                                <BoxesStackedIcon size={14} />
+                                            </span>
+                                            Productos
+                                        </Link>
+                                        <Link
+                                            to={`/worker/stats/${user.usuario_id}`}
+                                            className="btn btn-sm min-h-none h-auto py-2.5 px-10 relative bg-gray-200 hover:bg-gray-200 text-gray-500 hover:text-gray-600"
+                                        >
+                                            <span className="absolute left-3 top-1/2 transform -translate-y-1/2">
+                                                <StatsIcon size={15} />
+                                            </span>
+                                            Estadísticas
+                                        </Link>
+                                    </>
+                                )}
+                            </div>
                         </article>
                     </div>
                 </div>
             </section>
+            {/* <section className="w-full px-3">
+                <div className="w-full max-w-[1200px] mx-auto py-10">
+                    <div className="space-y-5">
+                        <h3 className="text-4xl font-extrabold">
+                            {user.usuario_id == userSession.usuario_id
+                                ? "Mis compras"
+                                : "Compras del usuario"}
+                        </h3>
+                        <div className=" shadow-lg rounded-lg border bg-white overflow-hidden divide-y divide-gray-200 px-5 py-3 ">
+                                <table className="table">
+                                    <thead>
+                                        <tr>
+                                            <th className="text-center">Fecha</th>
+                                            <th className="text-center">Productos</th>
+                                            <th className="text-center">Precio</th>
+                                            <th className="text-center">Acciones</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {orders.map((order) => (
+                                            <tr key={order.order_id}>
+                                                <td className="text-center">
+                                                    {order.pedido_id}
+                                                </td>
+                                                <td className="text-center">
+                                                    {order.pedido_fecha}
+                                                </td>
+                                            </tr>
+                                        ))}
+                                    </tbody>
+                                </table>
+                        </div>
+                    </div>
+                </div>
+            </section> */}
             <UserEditModal user={user} reload={reloadUser} />
         </>
     );
