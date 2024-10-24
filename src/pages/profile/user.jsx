@@ -137,8 +137,8 @@ export default function UserProfile() {
                                 </div>
                             </span>
                             <div className="flex flex-col sm:flex-row gap-4 items-center py-1">
-                                {userSession.rol_id !== 1 && (
-                                    <>
+                                {
+                                    userSession.rol_id == 2 && (
                                         <Link
                                             to={`/worker/products/${user.usuario_id}`}
                                             className="btn btn-sm min-h-none h-auto py-2.5 px-10 btn-primary group relative text-purple-300 hover:bg-purple-800 hover:text-purple-100"
@@ -148,16 +148,44 @@ export default function UserProfile() {
                                             </span>
                                             Productos
                                         </Link>
+                                    )
+                                }
+                                {
+                                    userSession.rol_id == 3 && (
                                         <Link
-                                            to={`/worker/stats/${user.usuario_id}`}
-                                            className="btn btn-sm min-h-none h-auto py-2.5 px-10 relative bg-gray-200 hover:bg-gray-200 text-gray-500 hover:text-gray-600"
+                                            to={`/worker/routes/${user.usuario_id}`}
+                                            className="btn btn-sm min-h-none h-auto py-2.5 px-10 btn-primary group relative text-purple-300 hover:bg-purple-800 hover:text-purple-100"
                                         >
-                                            <span className="absolute left-3 top-1/2 transform -translate-y-1/2">
-                                                <StatsIcon size={15} />
+                                            <span className="absolute left-3 top-1/2 transform -translate-y-1/2 text-purple-300 group-hover:text-purple-100">
+                                                +
                                             </span>
-                                            Estadísticas
+                                            Rutas
                                         </Link>
-                                    </>
+                                    )
+                                }
+                                {
+                                    userSession.rol_id == 4 && (
+                                        <Link
+                                            to={`/admin/users`}
+                                            className="btn btn-sm min-h-none h-auto py-2.5 px-10 btn-primary group relative text-purple-300 hover:bg-purple-800 hover:text-purple-100"
+                                        >
+                                            <span className="absolute left-3 top-1/2 transform -translate-y-1/2 text-purple-300 group-hover:text-purple-100">
+                                                +
+                                            </span>
+                                            Administrador
+                                        </Link>
+                                    )
+                                }
+                                {userSession.rol_id !== 4 && userSession.rol_id !== 1 && (
+                                    <Link
+                                        to={`/worker/stats/${user.usuario_id}`}
+                                        className="btn btn-sm min-h-none h-auto py-2.5 px-10 relative bg-gray-200 hover:bg-gray-200 text-gray-500 hover:text-gray-600"
+                                    >
+                                        <span className="absolute left-3 top-1/2 transform -translate-y-1/2">
+                                            <StatsIcon size={15} />
+                                        </span>
+                                        Estadísticas
+                                    </Link>
                                 )}
                             </div>
                         </article>
