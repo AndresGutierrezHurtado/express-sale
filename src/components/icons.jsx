@@ -19,6 +19,7 @@ import {
     FaStar,
     FaRegTrashAlt,
     FaHome,
+    FaSortAmountDown,
 } from "react-icons/fa";
 import { HiPencil, HiDotsVertical } from "react-icons/hi";
 import { IoMdEye } from "react-icons/io";
@@ -83,3 +84,5 @@ export const HomeIcon = (props) => <FaHome {...props} />;
 export const ShopIcon = (props) => <FaShop {...props} />;
 
 export const StatsIcon = (props) => <ImStatsBars {...props} />;
+
+export const SortIcon = (props) => <FaSortAmountDown {...props} />;

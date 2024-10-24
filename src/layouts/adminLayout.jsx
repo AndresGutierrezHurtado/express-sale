@@ -1,116 +1,129 @@
 import React from "react";
-import { Link, Outlet, useNavigate } from "react-router-dom";
+import { Link, Outlet, useLocation, useNavigate } from "react-router-dom";
 
 // Contexts
 import { useAuthContext } from "@contexts/authContext.jsx";
 
+// Components
+import { SearchIcon, SortIcon } from "@components/icons";
+
 export default function AdminLayout() {
     const navigate = useNavigate();
+    const location = useLocation();
     const { userSession, handleLogout } = useAuthContext();
     if (userSession.rol_id !== 4) navigate("/");
     return (
         <>
-            <div className="drawer drawer-open">
-                <input
-                    id="my-drawer"
-                    type="checkbox"
-                    className="drawer-toggle"
-                    defaultChecked
-                />
-                <div className="drawer-side">
-                    <label
-                        htmlFor="my-drawer"
-                        aria-label="close sidebar"
-                        className="drawer-overlay"
-                    ></label>
-                    <ul className="menu bg-base-200 text-base-content min-h-full w-80 p-4">
-                        <li>
-                            <Link to="/users/admin">Usuarios</Link>
-                        </li>
-                        <li>
-                            <Link to="/users/products">Productos</Link>
-                        </li>
-                    </ul>
-                </div>
-                <main className="drawer-content">
-                    <header className="p-3" data-theme="dark">
-                        <nav className="flex justify-between items-center w-full">
-                            <div className="flex gap-4">
+            <main className="drawer-content flex flex-col h-screen">
+                <header
+                    className="p-3 bg-slate-900 flex flex-col items-center gap-5 p-6 "
+                    data-theme="dark"
+                >
+                    <nav className="flex justify-between items-center w-full">
+                        <div className="flex gap-4">
+                            <button className="btn btn-circle btn-sm btn-ghost">
+                                <SortIcon />
+                            </button>
+                            <form className="flex gap-2">
+                                <input
+                                    name="search"
+                                    className="input input-bordered input-sm rounded-full"
+                                    data-theme="light"
+                                    placeholder={`Buscar ${
+                                        location.pathname.endsWith("users")
+                                            ? "usuarios"
+                                            : "productos"
+                                    }...`}
+                                />
                                 <button className="btn btn-circle btn-sm btn-ghost">
-                                    O
+                                    <SearchIcon />
                                 </button>
-                                <form action="" className="flex gap-2">
-                                    <input
-                                        name=""
-                                        className="input input-bordered input-sm rounded-full"
-                                        data-theme="light"
-                                    />
-                                    <button className="btn btn-circle btn-sm btn-ghost">
-                                        O
-                                    </button>
-                                </form>
-                            </div>
-                            <div>
-                                <div className="dropdown dropdown-end">
-                                    <div
-                                        tabIndex="0"
-                                        role="button"
-                                        className="btn btn-ghost btn-circle avatar"
-                                    >
-                                        <div className="w-8 rounded-full">
-                                            <img
-                                                alt="Tailwind CSS Navbar component"
-                                                src={
-                                                    userSession
-                                                        ? userSession.usuario_imagen_url
-                                                        : "/images/users/default.jpg"
-                                                }
-                                            />
-                                        </div>
+                            </form>
+                        </div>
+                        <div>
+                            <div className="dropdown dropdown-end">
+                                <div
+                                    tabIndex="0"
+                                    role="button"
+                                    className="btn btn-ghost btn-circle avatar"
+                                >
+                                    <div className="w-8 rounded-full">
+                                        <img
+                                            alt="Tailwind CSS Navbar component"
+                                            src={
+                                                userSession
+                                                    ? userSession.usuario_imagen_url
+                                                    : "/images/users/default.jpg"
+                                            }
+                                        />
                                     </div>
-                                    <ul
-                                        tabIndex="0"
-                                        className="menu menu-sm dropdown-content bg-base-100 rounded-box z-[1] mt-3 w-52 p-2 shadow"
-                                        data-theme="light"
-                                    >
-                                        {userSession ? (
-                                            <>
-                                                <li>
-                                                    <Link to="/profile/user/">
-                                                        Perfil
-                                                    </Link>
-                                                </li>
-                                                <li onClick={handleLogout}>
-                                                    <a>Cerrar sesión</a>
-                                                </li>
-                                            </>
-                                        ) : (
-                                            <>
-                                                <li>
-                                                    <Link to="/login">
-                                                        Iniciar sesión
-                                                    </Link>
-                                                </li>
-                                                <li>
-                                                    <Link to="/register">
-                                                        Registrarse
-                                                    </Link>
-                                                </li>
-                                            </>
-                                        )}
-                                    </ul>
                                 </div>
+                                <ul
+                                    tabIndex="0"
+                                    className="menu menu-sm dropdown-content bg-base-100 rounded-box z-[1] mt-3 w-52 p-2 shadow"
+                                    data-theme="light"
+                                >
+                                    {userSession ? (
+                                        <>
+                                            <li>
+                                                <Link to="/profile/user/">
+                                                    Perfil
+                                                </Link>
+                                            </li>
+                                            <li onClick={handleLogout}>
+                                                <a>Cerrar sesión</a>
+                                            </li>
+                                        </>
+                                    ) : (
+                                        <>
+                                            <li>
+                                                <Link to="/login">
+                                                    Iniciar sesión
+                                                </Link>
+                                            </li>
+                                            <li>
+                                                <Link to="/register">
+                                                    Registrarse
+                                                </Link>
+                                            </li>
+                                        </>
+                                    )}
+                                </ul>
                             </div>
-                        </nav>
-                    </header>
-                    <p></p>
-                    <div>
-                        <table></table>
-                        <nav></nav>
-                    </div>
-                    <footer></footer>
-                </main>
-            </div>
+                        </div>
+                    </nav>
+                    <Link
+                        to="/"
+                        className="tooltip tooltip-bottom"
+                        data-tip="Ir al inicio"
+                    >
+                        <figure className="w-[100px] aspect-square rounded-full overflow-hidden ">
+                            <img
+                                src="/images/logo.jpg"
+                                alt="Logo de Express Sale"
+                                className="object-cover h-full w-full"
+                            />
+                        </figure>
+                    </Link>
+                    <h2 className="text-4xl font-extrabold tracking-tight">
+                        Tabla de{" "}
+                        {location.pathname.endsWith("users")
+                            ? "usuarios"
+                            : "productos"}
+                    </h2>
+                </header>
+                <div className="grow">
+                    <Outlet />
+                </div>
+                <footer
+                    className="p-3 bg-slate-900 flex flex-col items-center gap-5 p-3 "
+                    data-theme="dark"
+                >
+                    <h1 className="text-2xl font-extrabold">
+                        &copy; Express Sale, 2024
+                    </h1>
+                </footer>
+            </main>
         </>
     );
 }
