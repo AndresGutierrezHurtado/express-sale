@@ -2,11 +2,16 @@ import React from "react";
 import { Link, useNavigate } from "react-router-dom";
 
 // Icons
-import { LoginIcon, RegisterIcon } from "../../components/icons";
+import {
+    GoogleIcon,
+    FacebookIcon,
+    LoginIcon,
+    RegisterIcon,
+} from "@components/icons";
 
 // Hooks
-import { useValidateform } from "../../hooks/useValidateForm";
-import { usePostData } from "../../hooks/useFetchData";
+import { useValidateform } from "@hooks/useValidateForm";
+import { usePostData } from "@hooks/useFetchData";
 
 export default function Login() {
     const navigate = useNavigate();
@@ -25,6 +30,10 @@ export default function Login() {
             }
         }
     };
+
+    const handleFacebookLogin = () => {};
+
+    const handleGoogleLogin = () => {};
 
     return (
         <section className="hero bg-base-100 min-h-screen w-full">
@@ -108,6 +117,25 @@ export default function Login() {
                                     <LoginIcon size={20} />
                                 </span>
                                 Iniciar sesión
+                            </button>
+                        </div>
+                        <div className="divider">OR</div>
+                        <div className="form-control gap-4">
+                            <button
+                                onClick={handleGoogleLogin}
+                                type="button"
+                                className="btn bg-gray-300 hover:bg-gray-200 text-gray-600 hover:text-gray-700"
+                            >
+                                <GoogleIcon size={15} />
+                                Continua con Google
+                            </button>
+                            <button
+                                onClick={handleFacebookLogin}
+                                type="button"
+                                className="btn bg-blue-700 hover:bg-blue-800 text-blue-300 hover:text-blue-200"
+                            >
+                                <FacebookIcon size={15} />
+                                Continua con Facebook
                             </button>
                         </div>
                     </form>

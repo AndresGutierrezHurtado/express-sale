@@ -10,6 +10,7 @@ import {
     FaCartPlus,
     FaFlag,
     FaShop,
+    FaFacebook,
 } from "react-icons/fa6";
 import {
     FaUser,
@@ -24,6 +25,7 @@ import {
 import { HiPencil, HiDotsVertical } from "react-icons/hi";
 import { IoMdEye } from "react-icons/io";
 import { ImStatsBars } from "react-icons/im";
+import { BsGoogle } from "react-icons/bs";
 
 export const SearchIcon = ({ size = 20, ...props }) => (
     <IoSearch size={size} {...props} />
@@ -86,3 +88,7 @@ export const ShopIcon = (props) => <FaShop {...props} />;
 export const StatsIcon = (props) => <ImStatsBars {...props} />;
 
 export const SortIcon = (props) => <FaSortAmountDown {...props} />;
+
+export const GoogleIcon = (props) => <BsGoogle {...props} />;
+
+export const FacebookIcon = (props) => <FaFacebook {...props} />;
