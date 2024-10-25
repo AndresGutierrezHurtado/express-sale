@@ -219,8 +219,17 @@ export default class UserController {
 
     static getUsers = async (req, res) => {
         try {
-            const users = await models.User.findAll({
+            const users = await models.User.findAndCountAll({
+                limit: parseInt(req.query.limit || 5),
+                offset: req.query.page ? (req.query.page - 1) * 5 : 0,
                 include: ["role", "worker"],
+                distinct: true,
+                order: [
+                    [
+                        req.query.sort ? req.query.sort.split(":")[0] : "usuario_creacion",
+                        req.query.sort ? req.query.sort.split(":")[1] : "ASC",
+                    ],
+                ],
             });
             res.status(200).json({
                 success: true,

@@ -69,12 +69,15 @@ export default function UserProfile() {
                                 <img src={user.usuario_imagen_url} />
                             </div>
                         </div>
-                        <article className="flex flex-col justify-between gap-2 h-[initial]">
-                            <div>
-                                <h3 className="text-3xl font-bold">
-                                    {user.usuario_nombre}{" "}
-                                    {user.usuario_apellido}
-                                </h3>
+                        <article className="flex flex-col justify-between gap-2 h-[initial] w-full">
+                            <div className="w-full">
+                                <div className="flex justify-between items-center w-full">
+                                    <h3 className="text-3xl font-bold">
+                                        {user.usuario_nombre}{" "}
+                                        {user.usuario_apellido}
+                                    </h3>
+                                    <p className="text-sm text-gray-600">Cuenta creada en el {new Date(user.usuario_creacion).toLocaleDateString()}</p>
+                                </div>
                                 <p className="text-lg italic text-gray-600">
                                     @{user.usuario_alias} (
                                     {user.role ? user.role.rol_nombre : ""})
@@ -137,56 +140,51 @@ export default function UserProfile() {
                                 </div>
                             </span>
                             <div className="flex flex-col sm:flex-row gap-4 items-center py-1">
-                                {
-                                    userSession.rol_id == 2 && (
-                                        <Link
-                                            to={`/worker/products/${user.usuario_id}`}
-                                            className="btn btn-sm min-h-none h-auto py-2.5 px-10 btn-primary group relative text-purple-300 hover:bg-purple-800 hover:text-purple-100"
-                                        >
-                                            <span className="absolute left-3 top-1/2 transform -translate-y-1/2 text-purple-300 group-hover:text-purple-100">
-                                                <BoxesStackedIcon size={14} />
-                                            </span>
-                                            Productos
-                                        </Link>
-                                    )
-                                }
-                                {
-                                    userSession.rol_id == 3 && (
-                                        <Link
-                                            to={`/worker/routes/${user.usuario_id}`}
-                                            className="btn btn-sm min-h-none h-auto py-2.5 px-10 btn-primary group relative text-purple-300 hover:bg-purple-800 hover:text-purple-100"
-                                        >
-                                            <span className="absolute left-3 top-1/2 transform -translate-y-1/2 text-purple-300 group-hover:text-purple-100">
-                                                +
-                                            </span>
-                                            Rutas
-                                        </Link>
-                                    )
-                                }
-                                {
-                                    userSession.rol_id == 4 && (
-                                        <Link
-                                            to={`/admin/users`}
-                                            className="btn btn-sm min-h-none h-auto py-2.5 px-10 btn-primary group relative text-purple-300 hover:bg-purple-800 hover:text-purple-100"
-                                        >
-                                            <span className="absolute left-3 top-1/2 transform -translate-y-1/2 text-purple-300 group-hover:text-purple-100">
-                                                +
-                                            </span>
-                                            Administrador
-                                        </Link>
-                                    )
-                                }
-                                {userSession.rol_id !== 4 && userSession.rol_id !== 1 && (
+                                {userSession.rol_id == 2 && (
                                     <Link
-                                        to={`/worker/stats/${user.usuario_id}`}
-                                        className="btn btn-sm min-h-none h-auto py-2.5 px-10 relative bg-gray-200 hover:bg-gray-200 text-gray-500 hover:text-gray-600"
+                                        to={`/worker/products/${user.usuario_id}`}
+                                        className="btn btn-sm min-h-none h-auto py-2.5 px-10 btn-primary group relative text-purple-300 hover:bg-purple-800 hover:text-purple-100"
                                     >
-                                        <span className="absolute left-3 top-1/2 transform -translate-y-1/2">
-                                            <StatsIcon size={15} />
+                                        <span className="absolute left-3 top-1/2 transform -translate-y-1/2 text-purple-300 group-hover:text-purple-100">
+                                            <BoxesStackedIcon size={14} />
                                         </span>
-                                        Estadísticas
+                                        Productos
                                     </Link>
                                 )}
+                                {userSession.rol_id == 3 && (
+                                    <Link
+                                        to={`/worker/routes/${user.usuario_id}`}
+                                        className="btn btn-sm min-h-none h-auto py-2.5 px-10 btn-primary group relative text-purple-300 hover:bg-purple-800 hover:text-purple-100"
+                                    >
+                                        <span className="absolute left-3 top-1/2 transform -translate-y-1/2 text-purple-300 group-hover:text-purple-100">
+                                            +
+                                        </span>
+                                        Rutas
+                                    </Link>
+                                )}
+                                {userSession.rol_id == 4 && (
+                                    <Link
+                                        to={`/admin/users`}
+                                        className="btn btn-sm min-h-none h-auto py-2.5 px-10 btn-primary group relative text-purple-300 hover:bg-purple-800 hover:text-purple-100"
+                                    >
+                                        <span className="absolute left-3 top-1/2 transform -translate-y-1/2 text-purple-300 group-hover:text-purple-100">
+                                            +
+                                        </span>
+                                        Administrador
+                                    </Link>
+                                )}
+                                {userSession.rol_id !== 4 &&
+                                    userSession.rol_id !== 1 && (
+                                        <Link
+                                            to={`/worker/stats/${user.usuario_id}`}
+                                            className="btn btn-sm min-h-none h-auto py-2.5 px-10 relative bg-gray-200 hover:bg-gray-200 text-gray-500 hover:text-gray-600"
+                                        >
+                                            <span className="absolute left-3 top-1/2 transform -translate-y-1/2">
+                                                <StatsIcon size={15} />
+                                            </span>
+                                            Estadísticas
+                                        </Link>
+                                    )}
                             </div>
                         </article>
                     </div>

@@ -1,5 +1,11 @@
 import React from "react";
-import { Link, Outlet, useLocation, useNavigate } from "react-router-dom";
+import {
+    Link,
+    Outlet,
+    useLocation,
+    useNavigate,
+    useSearchParams,
+} from "react-router-dom";
 
 // Contexts
 import { useAuthContext } from "@contexts/authContext.jsx";
@@ -11,6 +17,14 @@ export default function AdminLayout() {
     const navigate = useNavigate();
     const location = useLocation();
     const { userSession, handleLogout } = useAuthContext();
+    const [searchParams, setSearchParams] = useSearchParams();
+
+    const updateParam = (key, value) => {
+        const newSearchParams = new URLSearchParams(searchParams);
+        newSearchParams.set(key, value);
+        setSearchParams(newSearchParams);
+    };
+
     if (userSession.rol_id !== 4) navigate("/");
     return (
         <>
@@ -21,9 +35,54 @@ export default function AdminLayout() {
                 >
                     <nav className="flex justify-between items-center w-full">
                         <div className="flex gap-4">
-                            <button className="btn btn-circle btn-sm btn-ghost">
-                                <SortIcon />
-                            </button>
+                            <div className="dropdown">
+                                <button
+                                    tabIndex="0"
+                                    role="button"
+                                    className="btn btn-circle btn-sm btn-ghost"
+                                >
+                                    <SortIcon />
+                                </button>
+                                <ul
+                                    tabIndex="0"
+                                    className="dropdown-content menu bg-base-100 rounded-box z-[1] w-52 p-2 shadow"
+                                    data-theme="light"
+                                >
+                                    {location.pathname.endsWith("users") ? (
+                                        <>
+                                            <li>
+                                                <a onClick={() => {
+                                                    updateParam("sort", "usuario_id:asc")
+                                                }}>Id</a>
+                                            </li>
+                                            <li>
+                                                <a onClick={() => {
+                                                    updateParam("sort", "usuario_nombre:asc")
+                                                }}>Nombre</a>
+                                            </li>
+                                            <li>
+                                                <a onClick={() => {
+                                                    updateParam("sort", "usuario_alias:asc")
+                                                }}>Usuario</a>
+                                            </li>
+                                            <li>
+                                                <a onClick={() => {
+                                                    updateParam("sort", "rol_id:asc")
+                                                }}>Rol</a>
+                                            </li>
+                                        </>
+                                    ) : (
+                                        <>
+                                            <li>
+                                                <a>Id</a>
+                                            </li>
+                                            <li>
+                                                <a>Nombre</a>
+                                            </li>
+                                        </>
+                                    )}
+                                </ul>
+                            </div>
                             <form className="flex gap-2">
                                 <input
                                     name="search"
@@ -97,7 +156,7 @@ export default function AdminLayout() {
                         className="tooltip tooltip-bottom"
                         data-tip="Ir al inicio"
                     >
-                        <figure className="w-[100px] aspect-square rounded-full overflow-hidden ">
+                        <figure className="w-[150px] aspect-square rounded-full overflow-hidden ">
                             <img
                                 src="/images/logo.jpg"
                                 alt="Logo de Express Sale"

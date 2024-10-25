@@ -137,10 +137,10 @@ export const useValidateform = (data = {}, form = "") => {
                     )
                 ),
                 trabajador_descripcion: pipe(
-                    string("La descripción no es valida"),
-                    minLength(
-                        3,
-                        "La descripción debe tener al menos 3 caracteres"
+                    regex(
+                        /^$|^.{3,}$/,
+                        "La descripción debe tener al menos 3 caracteres",
+
                     )
                 ),
             });
