@@ -1,15 +1,5 @@
 import { toast } from "react-toastify";
-import {
-    email,
-    length,
-    minLength,
-    nonEmpty,
-    object,
-    parse,
-    pipe,
-    regex,
-    string,
-} from "valibot";
+import { email, length, minLength, nonEmpty, object, parse, pipe, regex, string } from "valibot";
 
 export const useValidateform = (data = {}, form = "") => {
     let schema;
@@ -25,10 +15,7 @@ export const useValidateform = (data = {}, form = "") => {
                 usuario_contra: pipe(
                     nonEmpty("Contraseña requerida"),
                     string("Contraseña requerida"),
-                    minLength(
-                        6,
-                        "La contraseña debe tener al menos 6 caracteres"
-                    )
+                    minLength(6, "La contraseña debe tener al menos 6 caracteres")
                 ),
             });
             break;
@@ -51,10 +38,7 @@ export const useValidateform = (data = {}, form = "") => {
                         /^[a-zA-Z0-9-_]+$/,
                         "El nickname solo puede contener letras, números, guiones y guiones bajos."
                     ),
-                    minLength(
-                        10,
-                        "El usuario debe tener al menos 10 caracteres"
-                    )
+                    minLength(10, "El usuario debe tener al menos 10 caracteres")
                 ),
                 usuario_correo: pipe(
                     nonEmpty("Correo requerido"),
@@ -64,10 +48,7 @@ export const useValidateform = (data = {}, form = "") => {
                 usuario_contra: pipe(
                     nonEmpty("Contraseña requerida"),
                     string("Contraseña requerida"),
-                    minLength(
-                        6,
-                        "La contraseña debe tener al menos 6 caracteres"
-                    )
+                    minLength(6, "La contraseña debe tener al menos 6 caracteres")
                 ),
                 rol_id: pipe(
                     nonEmpty("Rol requerido"),
@@ -119,29 +100,16 @@ export const useValidateform = (data = {}, form = "") => {
                         /^[a-zA-Z0-9-_]+$/,
                         "El nickname solo puede contener letras, números, guiones y guiones bajos."
                     ),
-                    minLength(
-                        10,
-                        "El usuario debe tener al menos 10 caracteres"
-                    )
+                    minLength(10, "El usuario debe tener al menos 10 caracteres")
                 ),
                 usuario_direccion: pipe(string("La dirección no es valida")),
                 usuario_telefono: pipe(
                     string("El teléfono no es valido"),
-                    regex(
-                        /^[0-9]*$/,
-                        "El teléfono solo puede contener números"
-                    ),
-                    regex(
-                        /^(?:\d{0}|\d{10})$/,
-                        "El telefono debe tener 10 digitos"
-                    )
+                    regex(/^[0-9]*$/, "El teléfono solo puede contener números"),
+                    regex(/^(?:\d{0}|\d{10})$/, "El telefono debe tener 10 digitos")
                 ),
                 trabajador_descripcion: pipe(
-                    regex(
-                        /^$|^.{3,}$/,
-                        "La descripción debe tener al menos 3 caracteres",
-
-                    )
+                    regex(/^$|^.{3,}$/, "La descripción debe tener al menos 3 caracteres")
                 ),
             });
             break;
@@ -150,15 +118,32 @@ export const useValidateform = (data = {}, form = "") => {
                 calificacion_comentario: pipe(
                     nonEmpty("La descripción es requerida"),
                     string("La descripción no es valida"),
-                    minLength(
-                        10,
-                        "La descripción debe tener al menos 10 caracteres"
-                    )
+                    minLength(10, "La descripción debe tener al menos 10 caracteres")
                 ),
                 calificacion: pipe(
                     nonEmpty("La descripción es requerida"),
                     string("La descripción no es valida"),
                     length(1, "Debes ingresar una calificación válida")
+                ),
+            });
+            break;
+        case "update-product-form":
+            schema = object({
+                producto_nombre: pipe(
+                    nonEmpty("El nombre es requerido"),
+                    string("El nombre no es valido"),
+                    minLength(3, "El nombre debe tener al menos 3 caracteres")
+                ),
+                producto_precio: pipe(
+                    nonEmpty("El precio es requerido"),
+                    string("El precio no es valido"),
+                    minLength(3, "El precio debe tener al menos 3 digitos"),
+                    regex(/^[0-9]*$/, "El precio debe tener solo números")
+                ),
+                producto_descripcion: pipe(
+                    nonEmpty("La descripción es requerida"),
+                    string("La descripción no es valida"),
+                    minLength(10, "La descripción debe tener al menos 10 caracteres")
                 ),
             });
             break;
@@ -198,21 +183,19 @@ export const useValidateform = (data = {}, form = "") => {
                 pauseOnHover: false,
             });
 
-            document
-                .querySelectorAll(`[name="${issue.path[0].key}"]`)
-                .forEach((input) => {
-                    input.classList.add("input-error");
-                    input.classList.add("focus:input-error");
-                    input.classList.add("select-error");
-                    input.classList.add("focus:select-error");
-                    input.classList.add("textarea-error");
-                    input.classList.add("focus:textarea-error");
+            document.querySelectorAll(`[name="${issue.path[0].key}"]`).forEach((input) => {
+                input.classList.add("input-error");
+                input.classList.add("focus:input-error");
+                input.classList.add("select-error");
+                input.classList.add("focus:select-error");
+                input.classList.add("textarea-error");
+                input.classList.add("focus:textarea-error");
 
-                    const errorLabel = document.createElement("label");
-                    errorLabel.className = "label-error text-red-500";
-                    errorLabel.textContent = issue.message;
-                    input.closest(".form-control").appendChild(errorLabel);
-                });
+                const errorLabel = document.createElement("label");
+                errorLabel.className = "label-error text-red-500";
+                errorLabel.textContent = issue.message;
+                input.closest(".form-control").appendChild(errorLabel);
+            });
         });
 
         return { success: false, errors: fieldErrors };

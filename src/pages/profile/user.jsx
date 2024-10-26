@@ -35,7 +35,7 @@ export default function UserProfile() {
         reload: reloadOrders,
     } = useGetData(`/users/${id || userSession.usuario_id}/orders`);
 
-    if ((loadingUser, loadingRatings, loadingOrders)) return <ContentLoading />;
+    if (loadingUser || loadingOrders) return <ContentLoading />;
 
     return (
         <>
