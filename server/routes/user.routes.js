@@ -2,7 +2,10 @@ import { Router } from "express";
 import UserController from "../controllers/userController.js";
 
 import passport from "passport";
-import GoogleStrategy from "passport-google-oauth20";
+import { Strategy as GoogleStrategy } from "passport-google-oauth20";
+import { Strategy as FacebookStrategy } from "passport-facebook";
+
+import * as models from "../models/relations.js";
 
 passport.use(
     new GoogleStrategy(
@@ -12,7 +15,7 @@ passport.use(
             callbackURL: "/user/auth/google/callback",
         },
         function (accessToken, refreshToken, profile, cb) {
-            User.findOrCreate(
+            models.User.findOrCreate(
                 {
                     usuario_id: profile.id,
                     usuario_correo: profile.email,
@@ -26,6 +29,7 @@ passport.use(
         }
     )
 );
+
 passport.use(
     new FacebookStrategy(
         {

@@ -1,11 +1,5 @@
 import React from "react";
-import {
-    Link,
-    Outlet,
-    useLocation,
-    useNavigate,
-    useSearchParams,
-} from "react-router-dom";
+import { Link, Outlet, useLocation, useNavigate, useSearchParams } from "react-router-dom";
 
 // Contexts
 import { useAuthContext } from "@contexts/authContext.jsx";
@@ -51,33 +45,97 @@ export default function AdminLayout() {
                                     {location.pathname.endsWith("users") ? (
                                         <>
                                             <li>
-                                                <a onClick={() => {
-                                                    updateParam("sort", "usuario_id:asc")
-                                                }}>Id</a>
+                                                <a
+                                                    onClick={() => {
+                                                        updateParam("sort", "usuario_creacion:asc");
+                                                    }}
+                                                >
+                                                    Fecha
+                                                </a>
                                             </li>
                                             <li>
-                                                <a onClick={() => {
-                                                    updateParam("sort", "usuario_nombre:asc")
-                                                }}>Nombre</a>
+                                                <a
+                                                    onClick={() => {
+                                                        updateParam("sort", "usuario_id:asc");
+                                                    }}
+                                                >
+                                                    Id
+                                                </a>
                                             </li>
                                             <li>
-                                                <a onClick={() => {
-                                                    updateParam("sort", "usuario_alias:asc")
-                                                }}>Usuario</a>
+                                                <a
+                                                    onClick={() => {
+                                                        updateParam("sort", "usuario_nombre:asc");
+                                                    }}
+                                                >
+                                                    Nombre
+                                                </a>
                                             </li>
                                             <li>
-                                                <a onClick={() => {
-                                                    updateParam("sort", "rol_id:asc")
-                                                }}>Rol</a>
+                                                <a
+                                                    onClick={() => {
+                                                        updateParam("sort", "usuario_alias:asc");
+                                                    }}
+                                                >
+                                                    Usuario
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a
+                                                    onClick={() => {
+                                                        updateParam("sort", "rol_id:asc");
+                                                    }}
+                                                >
+                                                    Rol
+                                                </a>
                                             </li>
                                         </>
                                     ) : (
                                         <>
                                             <li>
-                                                <a>Id</a>
+                                                <a
+                                                    onClick={() => {
+                                                        updateParam("sort", "producto_id:asc");
+                                                    }}
+                                                >
+                                                    Id
+                                                </a>
                                             </li>
                                             <li>
-                                                <a>Nombre</a>
+                                                <a
+                                                    onClick={() => {
+                                                        updateParam("sort", "producto_nombre:asc");
+                                                    }}
+                                                >
+                                                    Nombre
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a
+                                                    onClick={() => {
+                                                        updateParam("sort", "producto_nombre:asc");
+                                                    }}
+                                                >
+                                                    Categoria
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a
+                                                    onClick={() => {
+                                                        updateParam("sort", "producto_precio:asc");
+                                                    }}
+                                                >
+                                                    Precio: menor a mayor
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a
+                                                    onClick={() => {
+                                                        updateParam("sort", "producto_precio:desc");
+                                                    }}
+                                                >
+                                                    Precio: mayor a menor
+                                                </a>
                                             </li>
                                         </>
                                     )}
@@ -125,9 +183,7 @@ export default function AdminLayout() {
                                     {userSession ? (
                                         <>
                                             <li>
-                                                <Link to="/profile/user/">
-                                                    Perfil
-                                                </Link>
+                                                <Link to="/profile/user/">Perfil</Link>
                                             </li>
                                             <li onClick={handleLogout}>
                                                 <a>Cerrar sesión</a>
@@ -136,14 +192,10 @@ export default function AdminLayout() {
                                     ) : (
                                         <>
                                             <li>
-                                                <Link to="/login">
-                                                    Iniciar sesión
-                                                </Link>
+                                                <Link to="/login">Iniciar sesión</Link>
                                             </li>
                                             <li>
-                                                <Link to="/register">
-                                                    Registrarse
-                                                </Link>
+                                                <Link to="/register">Registrarse</Link>
                                             </li>
                                         </>
                                     )}
@@ -151,11 +203,7 @@ export default function AdminLayout() {
                             </div>
                         </div>
                     </nav>
-                    <Link
-                        to="/"
-                        className="tooltip tooltip-bottom"
-                        data-tip="Ir al inicio"
-                    >
+                    <Link to="/" className="tooltip tooltip-bottom" data-tip="Ir al inicio">
                         <figure className="w-[150px] aspect-square rounded-full overflow-hidden ">
                             <img
                                 src="/images/logo.jpg"
@@ -165,10 +213,7 @@ export default function AdminLayout() {
                         </figure>
                     </Link>
                     <h2 className="text-4xl font-extrabold tracking-tight">
-                        Tabla de{" "}
-                        {location.pathname.endsWith("users")
-                            ? "usuarios"
-                            : "productos"}
+                        Tabla de {location.pathname.endsWith("users") ? "usuarios" : "productos"}
                     </h2>
                 </header>
                 <div className="grow">
@@ -178,9 +223,7 @@ export default function AdminLayout() {
                     className="p-3 bg-slate-900 flex flex-col items-center gap-5 p-3 "
                     data-theme="dark"
                 >
-                    <h1 className="text-2xl font-extrabold">
-                        &copy; Express Sale, 2024
-                    </h1>
+                    <h1 className="text-2xl font-extrabold">&copy; Express Sale, 2024</h1>
                 </footer>
             </main>
         </>

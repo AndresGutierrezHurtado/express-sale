@@ -20,17 +20,17 @@ export default function UsersAdmin() {
     const [searchParams, setSearchParams] = useSearchParams();
     const { userSession } = useAuthContext();
 
-    const {
-        data: users,
-        loading: usersLoading,
-        reload: reloadUsers,
-    } = useGetData(`/users?${searchParams.toString()}`);
-
     const updateParam = (key, value) => {
         const newSearchParams = new URLSearchParams(searchParams);
         newSearchParams.set(key, value);
         setSearchParams(newSearchParams);
     };
+
+    const {
+        data: users,
+        loading: usersLoading,
+        reload: reloadUsers,
+    } = useGetData(`/users?${searchParams.toString()}`);
 
     const handleDeleteUser = (id, nombre) => {
         if (id == userSession.usuario_id) {
@@ -119,11 +119,13 @@ export default function UsersAdmin() {
                         ))}
                     </tbody>
                 </table>
-                <Pagination
-                    data={users}
-                    updateParam={updateParam}
-                    searchParams={searchParams}
-                />
+                <nav className="flex flex-col md:flex-row justify-between">
+                    <Pagination
+                        data={users}
+                        updateParam={updateParam}
+                        searchParams={searchParams}
+                    />
+                </nav>
             </div>
         </article>
     );
