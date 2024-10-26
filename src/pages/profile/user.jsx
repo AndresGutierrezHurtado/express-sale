@@ -28,11 +28,7 @@ export default function UserProfile() {
         data: user,
         reload: reloadUser,
     } = !loading && useGetData(`/users/${id || userSession.usuario_id}`);
-    const {
-        loading: loadingRatings,
-        data: ratings,
-        reload: reloadRatings,
-    } = useGetData(`/users/${id || userSession.usuario_id}/ratings`);
+
     const {
         loading: loadingOrders,
         data: orders,
@@ -53,11 +49,7 @@ export default function UserProfile() {
                     <div className="flex flex-col md:flex-row gap-5">
                         <div className="avatar relative mx-auto md:m-0">
                             <div
-                                onClick={() =>
-                                    document
-                                        .getElementById("user-edit-modal")
-                                        .show()
-                                }
+                                onClick={() => document.getElementById("user-edit-modal").show()}
                                 className="bg-white absolute bottom-[7%] right-[7%] p-[2px] border-0 w-8 rounded-full aspect-square cursor-pointer hover:scale-110 duration-300"
                             >
                                 <div className="w-full h-full bg-purple-700 rounded-full [&_svg]:fill-white flex items-center justify-center">
@@ -73,20 +65,19 @@ export default function UserProfile() {
                             <div className="w-full">
                                 <div className="flex justify-between items-center w-full">
                                     <h3 className="text-3xl font-bold">
-                                        {user.usuario_nombre}{" "}
-                                        {user.usuario_apellido}
+                                        {user.usuario_nombre} {user.usuario_apellido}
                                     </h3>
-                                    <p className="text-sm text-gray-600">Cuenta creada en el {new Date(user.usuario_creacion).toLocaleDateString()}</p>
+                                    <p className="text-sm text-gray-600">
+                                        Cuenta creada en el{" "}
+                                        {new Date(user.usuario_creacion).toLocaleDateString()}
+                                    </p>
                                 </div>
                                 <p className="text-lg italic text-gray-600">
-                                    @{user.usuario_alias} (
-                                    {user.role ? user.role.rol_nombre : ""})
+                                    @{user.usuario_alias} ({user.role ? user.role.rol_nombre : ""})
                                 </p>
                             </div>
                             <p className="text-lg grow">
-                                {user.worker
-                                    ? user.worker.trabajador_descripcion
-                                    : ""}
+                                {user.worker ? user.worker.trabajador_descripcion : ""}
                             </p>
                             <span className="flex flex-wrap items-center gap-4 [&_svg]:fill-gray-600 text-gray-600 w-full overflow-hidden">
                                 {user.worker && (
@@ -105,15 +96,12 @@ export default function UserProfile() {
                                             className="tooltip tooltip-bottom flex badge badge-sm gap-1 h-auto py-1 px-5 duration-300 hover:scale-[1.06]"
                                         >
                                             <StarIcon size={12} />
-                                            {ratings.length} Calificaciones
+                                            {user.calificacion_cantidad} Calificaciones
                                         </div>
                                     </>
                                 )}
 
-                                <Link
-                                    to={`mailto:${user.usuario_correo}`}
-                                    target="_blank"
-                                >
+                                <Link to={`mailto:${user.usuario_correo}`} target="_blank">
                                     <div
                                         data-tip="Correo electronico de contacto"
                                         className="tooltip tooltip-bottom flex badge badge-sm gap-1 h-auto py-1 px-5 duration-300 hover:scale-[1.06]"
@@ -173,18 +161,17 @@ export default function UserProfile() {
                                         Administrador
                                     </Link>
                                 )}
-                                {userSession.rol_id !== 4 &&
-                                    userSession.rol_id !== 1 && (
-                                        <Link
-                                            to={`/worker/stats/${user.usuario_id}`}
-                                            className="btn btn-sm min-h-none h-auto py-2.5 px-10 relative bg-gray-200 hover:bg-gray-200 text-gray-500 hover:text-gray-600"
-                                        >
-                                            <span className="absolute left-3 top-1/2 transform -translate-y-1/2">
-                                                <StatsIcon size={15} />
-                                            </span>
-                                            Estadísticas
-                                        </Link>
-                                    )}
+                                {userSession.rol_id !== 4 && userSession.rol_id !== 1 && (
+                                    <Link
+                                        to={`/worker/stats/${user.usuario_id}`}
+                                        className="btn btn-sm min-h-none h-auto py-2.5 px-10 relative bg-gray-200 hover:bg-gray-200 text-gray-500 hover:text-gray-600"
+                                    >
+                                        <span className="absolute left-3 top-1/2 transform -translate-y-1/2">
+                                            <StatsIcon size={15} />
+                                        </span>
+                                        Estadísticas
+                                    </Link>
+                                )}
                             </div>
                         </article>
                     </div>
