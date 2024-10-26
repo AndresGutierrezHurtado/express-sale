@@ -212,9 +212,25 @@ export default function AdminLayout() {
                             />
                         </figure>
                     </Link>
-                    <h2 className="text-4xl font-extrabold tracking-tight">
-                        Tabla de {location.pathname.endsWith("users") ? "usuarios" : "productos"}
-                    </h2>
+                    <div className="flex items-center">
+                        <h2 className="text-4xl font-extrabold tracking-tight">Tabla de</h2>
+                        <select
+                            onClick={(event) => {
+                                navigate(`/admin${event.target.value}`);
+                            }}
+                            defaultValue={
+                                location.pathname.endsWith("users") ? "/users" : "/products"
+                            }
+                            className="select select-ghost text-4xl font-extrabold tracking-tight focus:border-0 focus:outline-none focus:bg-transparent"
+                        >
+                            <option className="text-base text-black" value="/users">
+                                Usuarios
+                            </option>
+                            <option className="text-base text-black" value="/products">
+                                Productos
+                            </option>
+                        </select>
+                    </div>
                 </header>
                 <div className="grow">
                     <Outlet />
