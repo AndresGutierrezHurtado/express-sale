@@ -1,8 +1,11 @@
-import * as models from "../models/relations.js";
-import sequelize from "../config/database.js";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import crypto from "crypto";
+import passport from "passport";
+
+// Config
+import * as models from "../models/relations.js";
+import sequelize from "../config/database.js";
 
 export default class UserController {
     static createUser = async (req, res) => {
@@ -94,6 +97,20 @@ export default class UserController {
             });
         }
     };
+
+    static authGoogleUser = async (req, res) =>
+        passport.authenticate("google", {
+            scope: ["email", "profile", "openid"],
+        });
+
+    static googleCallback = async (req, res) => {
+        passport.authenticate("google", {
+            successRedirect: process.env.VITE_URL + "/",
+            failureRedirect: process.env.VITE_URL + "/login",
+        });
+    };
+
+    static authFacebookUser = async (req, res) => {};
 
     static verifyUserSession = async (req, res) => {
         try {
@@ -226,7 +243,9 @@ export default class UserController {
                 distinct: true,
                 order: [
                     [
-                        req.query.sort ? req.query.sort.split(":")[0] : "usuario_creacion",
+                        req.query.sort
+                            ? req.query.sort.split(":")[0]
+                            : "usuario_creacion",
                         req.query.sort ? req.query.sort.split(":")[1] : "ASC",
                     ],
                 ],
