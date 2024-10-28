@@ -2,12 +2,14 @@ import { useState, useEffect } from "react";
 import { Link, useParams } from "react-router-dom";
 
 // Hooks
-import { useGetData } from "@hooks/useFetchData";
+import { useGetData, usePostData } from "@hooks/useFetchData.js";
+import { useValidateform } from "@hooks/useValidateForm.js";
 
 // Components
 import { CartAddIcon, StarIcon, UserIcon, ClipIcon, PaperPlaneIcon } from "@components/icons.jsx";
 import ContentLoading from "@components/contentLoading.jsx";
 import { Calification } from "@components/calification";
+
 
 export default function Product() {
     const { id } = useParams();
@@ -22,6 +24,23 @@ export default function Product() {
         data: ratings,
         reload: reloadRatings,
     } = useGetData(`/products/${id}/ratings`);
+
+    const handleRatingSubmit = async (event) => {
+        event.preventDefault();
+
+        const data = Object.fromEntries(new FormData(event.target));
+        console.log(data)
+        const validation = useValidateform(data, "rate-form");
+
+        if (validation.success) {
+            const response = await usePostData(`/ratings/products/${id}`, data);
+            if (response.success) {
+                event.target.reset();
+                reloadProduct();
+                reloadRatings();
+            }
+        }
+    };
 
     if (loadingProduct || loadingRatings) return <ContentLoading />;
     return (
@@ -145,101 +164,81 @@ export default function Product() {
                                                 <StarIcon size={15} />
                                                 <StarIcon size={15} />
                                             </span>
-                                            <p className="text-sm flex gap-1 items-center">
+                                            <p className="text-sm flex gap-1 items-center grow-0">
                                                 {ratings.length}
                                                 <UserIcon size={12} />
                                             </p>
                                         </div>
                                         <div className="w-full">
-                                            <div className="w-full flex items-center gap-2">
-                                                <p>5</p>
-                                                <div className="w-full h-[7px] bg-gray-300/90 rounded-full overflow-hidden">
-                                                    <div
-                                                        style={{
-                                                            width: `${
-                                                                (ratings.filter(
-                                                                    (rating) =>
-                                                                        rating.calificacion == 5
-                                                                ).length /
-                                                                    ratings.length) *
-                                                                    100 || 0
-                                                            }%`,
-                                                        }}
-                                                        className="bg-purple-700 h-full rounded-full"
-                                                    ></div>
-                                                </div>
+                                            <div className="flex items-center gap-2">
+                                                5
+                                                <progress
+                                                    className="progress progress-primary w-full"
+                                                    value={
+                                                        (ratings.filter(
+                                                            (rating) => rating.calificacion == 5
+                                                        ).length /
+                                                            ratings.length) *
+                                                        100
+                                                    }
+                                                    max="100"
+                                                ></progress>
                                             </div>
-                                            <div className="w-full flex items-center gap-2">
-                                                <p>4</p>
-                                                <div className="w-full h-[7px] bg-gray-300/90 rounded-full overflow-hidden">
-                                                    <div
-                                                        style={{
-                                                            width: `${
-                                                                (ratings.filter(
-                                                                    (rating) =>
-                                                                        rating.calificacion == 4
-                                                                ).length /
-                                                                    ratings.length) *
-                                                                    100 || 0
-                                                            }%`,
-                                                        }}
-                                                        className="bg-purple-700 h-full rounded-full"
-                                                    ></div>
-                                                </div>
+                                            <div className="flex items-center gap-2">
+                                                4
+                                                <progress
+                                                    className="progress progress-primary w-full"
+                                                    value={
+                                                        (ratings.filter(
+                                                            (rating) => rating.calificacion == 4
+                                                        ).length /
+                                                            ratings.length) *
+                                                        100
+                                                    }
+                                                    max="100"
+                                                ></progress>
                                             </div>
-                                            <div className="w-full flex items-center gap-2">
-                                                <p>3</p>
-                                                <div className="w-full h-[7px] bg-gray-300/90 rounded-full overflow-hidden">
-                                                    <div
-                                                        style={{
-                                                            width: `${
-                                                                (ratings.filter(
-                                                                    (rating) =>
-                                                                        rating.calificacion == 3
-                                                                ).length /
-                                                                    ratings.length) *
-                                                                    100 || 0
-                                                            }%`,
-                                                        }}
-                                                        className="bg-purple-700 h-full rounded-full"
-                                                    ></div>
-                                                </div>
+                                            <div className="flex items-center gap-2">
+                                                3
+                                                <progress
+                                                    className="progress progress-primary w-full"
+                                                    value={
+                                                        (ratings.filter(
+                                                            (rating) => rating.calificacion == 3
+                                                        ).length /
+                                                            ratings.length) *
+                                                        100
+                                                    }
+                                                    max="100"
+                                                ></progress>
                                             </div>
-                                            <div className="w-full flex items-center gap-2">
-                                                <p>2</p>
-                                                <div className="w-full h-[7px] bg-gray-300/90 rounded-full overflow-hidden">
-                                                    <div
-                                                        style={{
-                                                            width: `${
-                                                                (ratings.filter(
-                                                                    (rating) =>
-                                                                        rating.calificacion == 2
-                                                                ).length /
-                                                                    ratings.length) *
-                                                                    100 || 0
-                                                            }%`,
-                                                        }}
-                                                        className="bg-purple-700 h-full rounded-full"
-                                                    ></div>
-                                                </div>
+                                            <div className="flex items-center gap-2">
+                                                2
+                                                <progress
+                                                    className="progress progress-primary w-full"
+                                                    value={
+                                                        (ratings.filter(
+                                                            (rating) => rating.calificacion == 2
+                                                        ).length /
+                                                            ratings.length) *
+                                                        100
+                                                    }
+                                                    max="100"
+                                                ></progress>
                                             </div>
-                                            <div className="w-full flex items-center gap-2">
-                                                <p>1</p>
-                                                <div className="w-full h-[7px] bg-gray-300/90 rounded-full overflow-hidden">
-                                                    <div
-                                                        style={{
-                                                            width: `${
-                                                                (ratings.filter(
-                                                                    (rating) =>
-                                                                        rating.calificacion == 1
-                                                                ).length /
-                                                                    ratings.length) *
-                                                                    100 || 0
-                                                            }%`,
-                                                        }}
-                                                        className="bg-purple-700 h-full rounded-full"
-                                                    ></div>
-                                                </div>
+                                            <div className="flex items-center gap-2">
+                                                1
+                                                <progress
+                                                    className="progress progress-primary w-full"
+                                                    value={
+                                                        (ratings.filter(
+                                                            (rating) => rating.calificacion == 1
+                                                        ).length /
+                                                            ratings.length) *
+                                                        100
+                                                    }
+                                                    max="100"
+                                                ></progress>
                                             </div>
                                         </div>
                                     </article>
@@ -253,7 +252,7 @@ export default function Product() {
                                                 a la imagen de referencia
                                             </p>
                                         </div>
-                                        <form>
+                                        <form onSubmit={handleRatingSubmit}>
                                             <div className="rating flex justify-center gap-2 py-3">
                                                 <input
                                                     type="radio"
@@ -288,31 +287,37 @@ export default function Product() {
                                                 />
                                             </div>
 
-                                            <label className="flex items-center gap-2 py-1.5 px-4 rounded-full bg-gray-200">
-                                                <label className="cursor-pointer hover:bg-gray-400 p-2 rounded-full">
+                                            <div className="form-control">
+                                                <label
+                                                    htmlFor="rating"
+                                                    className="flex items-center gap-2 py-1.5 px-3 rounded-full bg-gray-200"
+                                                >
+                                                    <label className="cursor-pointer hover:bg-gray-400 p-2 rounded-full">
+                                                        <input
+                                                            type="file"
+                                                            className="hidden"
+                                                            name="calificacion_imagen"
+                                                        />
+                                                        <ClipIcon
+                                                            size={20}
+                                                            className="rotate-[-45deg]"
+                                                        />
+                                                    </label>
                                                     <input
-                                                        type="file"
-                                                        className="hidden"
-                                                        name="file"
+                                                        name="calificacion_comentario"
+                                                        id="rating"
+                                                        placeholder="Agrega el comentario sobre el producto"
+                                                        className="grow bg-transparent border-0 focus:outline-0"
                                                     />
-                                                    <ClipIcon
-                                                        size={20}
-                                                        className="rotate-[-45deg]"
-                                                    />
+                                                    <button className="btn btn-sm btn-primary rounded-full">
+                                                        <PaperPlaneIcon />
+                                                    </button>
                                                 </label>
-                                                <input
-                                                    name="rating"
-                                                    placeholder="Agrega el comentario sobre el producto"
-                                                    className="grow bg-transparent border-0 focus:outline-0"
-                                                />
-                                                <button className="btn btn-sm btn-primary rounded-full">
-                                                    <PaperPlaneIcon />
-                                                </button>
-                                            </label>
+                                            </div>
                                         </form>
                                     </div>
                                 </section>
-                                <section className="w-full md:w-1/2">
+                                <section className="w-full md:w-1/2 space-y-4">
                                     {ratings.length === 0 && (
                                         <h2 className="text-xl font-medium tracking-tight">
                                             No hay comentarios...
@@ -320,7 +325,14 @@ export default function Product() {
                                     )}
                                     {ratings.map((rating) => {
                                         return (
-                                            <Calification key={rating.rating_id} rating={rating} />
+                                            <Calification
+                                                key={rating.calificacion_id}
+                                                rating={rating}
+                                                reload={() => {
+                                                    reloadProduct();
+                                                    reloadRatings();
+                                                }}
+                                            />
                                         );
                                     })}
                                 </section>

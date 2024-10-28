@@ -116,13 +116,13 @@ export const useValidateform = (data = {}, form = "") => {
         case "rate-form":
             schema = object({
                 calificacion_comentario: pipe(
-                    nonEmpty("La descripción es requerida"),
-                    string("La descripción no es valida"),
-                    minLength(10, "La descripción debe tener al menos 10 caracteres")
+                    nonEmpty("El comentario es requerido"),
+                    string("El comentario no es válido"),
+                    minLength(10, "El comentario debe tener al menos 10 caracteres")
                 ),
                 calificacion: pipe(
-                    nonEmpty("La descripción es requerida"),
-                    string("La descripción no es valida"),
+                    nonEmpty("La calificación es requerida"),
+                    string("La calificación no es valida"),
                     length(1, "Debes ingresar una calificación válida")
                 ),
             });

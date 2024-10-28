@@ -35,7 +35,7 @@ export default function Products() {
                     <div className="w-full flex flex-col md:flex-row gap-2 items-center justify-between">
                         <div>
                             <h1 className="text-2xl md:text-4xl font-extrabold">
-                                Todos los productos
+                                {searchParams.get("search") || "Todos los productos"}
                             </h1>
                             <p className="text-lg text-gray-600/90 font-medium">
                                 {products.count} resultados
