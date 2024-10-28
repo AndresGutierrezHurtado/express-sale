@@ -5,7 +5,7 @@ import { Link, Outlet, useLocation, useNavigate, useSearchParams } from "react-r
 import { useAuthContext } from "@contexts/authContext.jsx";
 
 // Components
-import { SearchIcon, SortIcon } from "@components/icons";
+import { SearchIcon, SortIcon, SortDownIcon } from "@components/icons.jsx";
 
 export default function AdminLayout() {
     const navigate = useNavigate();
@@ -162,11 +162,11 @@ export default function AdminLayout() {
                                 <div
                                     tabIndex="0"
                                     role="button"
-                                    className="btn btn-ghost btn-circle avatar"
+                                    className="btn btn-ghost rounded-full w-16 aspect-square min-h-none h-auto avatar p-1"
                                 >
-                                    <div className="w-8 rounded-full">
+                                    <div className="w-full aspect-square rounded-full">
                                         <img
-                                            alt="Tailwind CSS Navbar component"
+                                            alt={`Imagen de ${userSession.usuario_alias}`}
                                             src={
                                                 userSession
                                                     ? userSession.usuario_imagen_url
@@ -212,24 +212,26 @@ export default function AdminLayout() {
                             />
                         </figure>
                     </Link>
-                    <div className="flex items-center">
+                    <div className="flex items-center gap-2">
                         <h2 className="text-4xl font-extrabold tracking-tight">Tabla de</h2>
-                        <select
-                            onClick={(event) => {
-                                navigate(`/admin${event.target.value}`);
-                            }}
-                            defaultValue={
-                                location.pathname.endsWith("users") ? "/users" : "/products"
-                            }
-                            className="select select-ghost text-4xl font-extrabold tracking-tight focus:border-0 focus:outline-none focus:bg-transparent"
-                        >
-                            <option className="text-base text-black" value="/users">
-                                Usuarios
-                            </option>
-                            <option className="text-base text-black" value="/products">
-                                Productos
-                            </option>
-                        </select>
+                        <div class="dropdown dropdown-hover">
+                            <div tabindex="0" role="button" class="text-4xl font-extrabold tracking-tight flex items-center gap-1">
+                                {location.pathname.endsWith("users") ? "usuarios" : "productos"}
+                                <SortDownIcon size={20} />
+                            </div>
+                            <ul
+                                tabindex="0"
+                                class="dropdown-content menu bg-base-100 rounded-box z-[1] w-52 p-2 shadow"
+                                data-theme="light"
+                            >
+                                <li>
+                                    <Link to="/admin/users"> Usuarios </Link>
+                                </li>
+                                <li>
+                                    <Link to="/admin/products"> Productos </Link>
+                                </li>
+                            </ul>
+                        </div>
                     </div>
                 </header>
                 <div className="grow">

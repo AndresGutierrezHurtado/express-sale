@@ -12,6 +12,7 @@ import {
     FaShop,
     FaFacebook,
     FaPaperclip,
+    FaSortDown,
 } from "react-icons/fa6";
 import {
     FaUser,
@@ -98,3 +99,5 @@ export const FacebookIcon = (props) => <FaFacebook {...props} />;
 export const ClipIcon = (props) => <FaPaperclip {...props} />;
 
 export const PaperPlaneIcon = (props) => <FaTelegramPlane {...props} />;
+
+export const SortDownIcon = (props) => <FaSortDown {...props} />;

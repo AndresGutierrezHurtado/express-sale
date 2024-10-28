@@ -6,6 +6,7 @@ import passport from "passport";
 // Config
 import * as models from "../models/relations.js";
 import sequelize from "../config/database.js";
+import { Op } from "sequelize";
 
 export default class UserController {
     static createUser = async (req, res) => {
@@ -63,32 +64,22 @@ export default class UserController {
             });
 
             if (!user) {
-                return res
-                    .status(401)
-                    .json({ success: false, message: "Usuario no encontrado" });
+                return res.status(401).json({ success: false, message: "Usuario no encontrado" });
             }
 
             if (!bcrypt.compareSync(usuario_contra, user.usuario_contra)) {
-                return res
-                    .status(200)
-                    .json({ success: false, message: "Contraseña incorrecta" });
+                return res.status(200).json({ success: false, message: "Contraseña incorrecta" });
             }
 
-            const token = jwt.sign(
-                { id: user.usuario_id },
-                process.env.JWT_SECRET,
-                {
-                    expiresIn: "1h",
-                }
-            );
+            const token = jwt.sign({ id: user.usuario_id }, process.env.JWT_SECRET, {
+                expiresIn: "1h",
+            });
 
-            res.status(200)
-                .cookie("authToken", token, { httpOnly: true })
-                .json({
-                    success: true,
-                    message: "Autenticado correctamente.",
-                    data: { token },
-                });
+            res.status(200).cookie("authToken", token, { httpOnly: true }).json({
+                success: true,
+                message: "Autenticado correctamente.",
+                data: { token },
+            });
         } catch (error) {
             res.status(500).json({
                 success: false,
@@ -123,12 +114,9 @@ export default class UserController {
                 return;
             }
 
-            const userSession = await models.User.findByPk(
-                req.session.user.id,
-                {
-                    include: ["role", "worker"],
-                }
-            );
+            const userSession = await models.User.findByPk(req.session.user.id, {
+                include: ["role", "worker"],
+            });
 
             res.status(200).json({
                 success: true,
@@ -166,10 +154,7 @@ export default class UserController {
         let workerData = req.body.worker;
 
         if (userData && userData.usuario_contra) {
-            userData.usuario_contra = bcrypt.hashSync(
-                userData.usuario_contra,
-                10
-            );
+            userData.usuario_contra = bcrypt.hashSync(userData.usuario_contra, 10);
         }
 
         try {
@@ -199,10 +184,7 @@ export default class UserController {
                 console.error(error.errors);
                 res.status(500).json({
                     success: false,
-                    message:
-                        "El campo " +
-                        error.errors[0].value +
-                        " ya lo tiene otro usuario.",
+                    message: "El campo " + error.errors[0].value + " ya lo tiene otro usuario.",
                 });
             } else {
                 res.status(500).json({
@@ -237,15 +219,42 @@ export default class UserController {
     static getUsers = async (req, res) => {
         try {
             const users = await models.User.findAndCountAll({
+                where: {
+                    [Op.or]: [
+                        {
+                            usuario_alias: {
+                                [Op.like]: `%${req.query.search || ""}%`,
+                            }
+                        },
+                        {
+                            usuario_correo: {
+                                [Op.like]: `%${req.query.search || ""}%`,
+                            }
+                        },
+                        {
+                            usuario_nombre: {
+                                [Op.like]: `%${req.query.search || ""}%`,
+                            }
+                        },
+                        {
+                            usuario_apellido: {
+                                [Op.like]: `%${req.query.search || ""}%`,
+                            }
+                        },
+                        {
+                            usuario_id: {
+                                [Op.like]: `%${req.query.search || ""}%`,
+                            }
+                        }
+                    ],
+                },
                 limit: parseInt(req.query.limit || 5),
                 offset: req.query.page ? (req.query.page - 1) * 5 : 0,
                 include: ["role", "worker"],
                 distinct: true,
                 order: [
                     [
-                        req.query.sort
-                            ? req.query.sort.split(":")[0]
-                            : "usuario_creacion",
+                        req.query.sort ? req.query.sort.split(":")[0] : "usuario_creacion",
                         req.query.sort ? req.query.sort.split(":")[1] : "ASC",
                     ],
                 ],
