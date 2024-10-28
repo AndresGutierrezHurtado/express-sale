@@ -5,7 +5,7 @@ import { Link, useParams } from "react-router-dom";
 import { useGetData } from "@hooks/useFetchData";
 
 // Components
-import { CartAddIcon, StarIcon, UserIcon } from "@components/icons.jsx";
+import { CartAddIcon, StarIcon, UserIcon, ClipIcon, PaperPlaneIcon } from "@components/icons.jsx";
 import ContentLoading from "@components/contentLoading.jsx";
 import { Calification } from "@components/calification";
 
@@ -27,8 +27,8 @@ export default function Product() {
     return (
         <>
             <section className="w-full px-3">
-                <div className="w-full max-w-[1200px] mx-auto py-10">
-                    <div className="flex flex-col border bg-white rounded-lg divide-y">
+                <div className="w-full max-w-[1200px] mx-auto py-5">
+                    <div className="flex flex-col border bg-white rounded-lg divide-y shadow-xl">
                         <span className="breadcrumbs text-sm capitalize px-5">
                             <ul>
                                 <li>
@@ -44,26 +44,27 @@ export default function Product() {
                                 </li>
                             </ul>
                         </span>
-                        <div className="flex gap-10 p-5 w-full">
-                            <div className="flex flex-none">
-                                <figure className="w-[320px] flex-none aspect-square border">
+                        <div className="flex flex-col md:flex-row gap-10 p-8 py-7 w-full">
+                            <div className="flex flex-col md:flex-row flex-none">
+                                <figure className="w-full max-w-[320px] flex-none aspect-square border">
                                     <img
                                         src={product.producto_imagen_url}
                                         alt={`Imagen del producto ${product.producto_nombre}`}
                                         className="object-contain h-full w-full"
                                     />
                                 </figure>
-                                <div className="h-[initial] p-1 border max-w-[100px] flex-none">
+                                <div className="h-[initial] max-h-[100px] md:max-h-none p-1 border w-full md:max-w-[100px] flex-none">
                                     <img
                                         src={product.producto_imagen_url}
                                         alt={`Imagen del producto ${product.producto_nombre}`}
                                         className="border border-purple-700"
                                     />
                                     {product.media.forEach((media) => {
-                                        if (media.media_type === "image") {
+                                        if (media.multimedia_tipo === "imagen") {
                                             return (
                                                 <img
-                                                    src={media.media_url}
+                                                    key={media.multimedia_id}
+                                                    src={media.multimedia_url}
                                                     alt={`Imagen del producto ${product.producto_nombre}`}
                                                     className="object-contain h-full w-full"
                                                 />
@@ -71,7 +72,7 @@ export default function Product() {
                                         } else {
                                             return (
                                                 <video
-                                                    src={media.media_url}
+                                                    src={media.multimedia_url}
                                                     alt={`Video del producto ${product.producto_nombre}`}
                                                     className="object-contain h-full w-full"
                                                 />
@@ -83,13 +84,14 @@ export default function Product() {
                             <article className="w-full flex flex-col h-[initial]">
                                 <div className="w-full">
                                     <div className="flex justify-between items-center w-full">
-                                        <h2 className="text-4xl md:text-3xl font-bold leading-none">
+                                        <h2 className="text-2xl md:text-4xl font-bold leading-none">
                                             {product.producto_nombre}
                                         </h2>
-                                        <p className="text-gray-600/90 font-medium">
-                                            {new Intl.DateTimeFormat("es-CO").format(
-                                                new Date(product.producto_fecha)
-                                            )}
+                                        <p
+                                            className="text-gray-600/90 font-medium hover:underline cursor-pointer tooltip tooltip-left"
+                                            data-tip="Ver calificaciones"
+                                        >
+                                            {product.calificacion_cantidad} comentarios
                                         </p>
                                     </div>
                                     {product.user && (
@@ -106,16 +108,10 @@ export default function Product() {
                                 <div className="space-y-3">
                                     <span className="flex justify-between items-center">
                                         <p>{product.producto_cantidad} Disponibles</p>
-                                        <div className="flex items-center gap-2">
-                                            <p className="flex items-center">
-                                                {product.calificacion_promedio}
-                                                <StarIcon />
-                                            </p>
-                                            <span className="flex items-center">
-                                                ({parseInt(product.calificacion_cantidad)}
-                                                <UserIcon />)
-                                            </span>
-                                        </div>
+                                        <p className="flex items-center">
+                                            {product.calificacion_promedio}
+                                            <StarIcon />
+                                        </p>
                                     </span>
 
                                     <button className="btn btn-sm min-h-none h-auto py-3 btn-primary group relative text-purple-300 hover:bg-purple-800 hover:text-purple-100 w-full">
@@ -131,12 +127,12 @@ export default function Product() {
                 </div>
             </section>
             <section className="w-full px-3">
-                <div className="w-full max-w-[1200px] mx-auto py-10">
+                <div className="w-full max-w-[1200px] mx-auto py-5">
                     <article className="card bg-white shadow-xl border">
                         <div className="card-body">
                             <h2 className="text-3xl font-extrabold tracking-tight">Comentarios:</h2>
                             <div className="flex flex-col md:flex-row gap-10">
-                                <section className="w-full md:w-1/2">
+                                <section className="w-full md:w-1/2 space-y-5">
                                     <article className="w-full flex gap-10">
                                         <div className="flex flex-col items-center justify-center w-fit text-gray-600 gap-1">
                                             <h2 className="font-semibold text-4xl text-center">
@@ -184,7 +180,7 @@ export default function Product() {
                                                                         rating.calificacion == 4
                                                                 ).length /
                                                                     ratings.length) *
-                                                                100
+                                                                    100 || 0
                                                             }%`,
                                                         }}
                                                         className="bg-purple-700 h-full rounded-full"
@@ -247,22 +243,70 @@ export default function Product() {
                                             </div>
                                         </div>
                                     </article>
-                                    <div>
-                                        <h2 className="text-xl font-medium tracking-tight">
-                                            Agrega tu calificacion
-                                        </h2>
+                                    <div className="space-y-2">
+                                        <div>
+                                            <h2 className="text-xl font-medium tracking-tight">
+                                                Agrega tu calificacion:
+                                            </h2>
+                                            <p>
+                                                Ten en cuenta la calidad del producto y su fidelidad
+                                                a la imagen de referencia
+                                            </p>
+                                        </div>
                                         <form>
-                                            <label>
-                                                <label>
-                                                    <input type="file" name="" id="" />
-                                                </label>
+                                            <div className="rating flex justify-center gap-2 py-3">
                                                 <input
                                                     type="radio"
+                                                    name="calificacion"
+                                                    value="1"
+                                                    className="mask mask-star-2 bg-violet-600"
+                                                    defaultChecked
+                                                />
+                                                <input
+                                                    type="radio"
+                                                    name="calificacion"
+                                                    value="2"
+                                                    className="mask mask-star-2 bg-violet-600"
+                                                />
+                                                <input
+                                                    type="radio"
+                                                    name="calificacion"
+                                                    value="3"
+                                                    className="mask mask-star-2 bg-violet-600"
+                                                />
+                                                <input
+                                                    type="radio"
+                                                    name="calificacion"
+                                                    value="4"
+                                                    className="mask mask-star-2 bg-violet-600"
+                                                />
+                                                <input
+                                                    type="radio"
+                                                    name="calificacion"
+                                                    value="5"
+                                                    className="mask mask-star-2 bg-violet-600"
+                                                />
+                                            </div>
+
+                                            <label className="flex items-center gap-2 py-1.5 px-4 rounded-full bg-gray-200">
+                                                <label className="cursor-pointer hover:bg-gray-400 p-2 rounded-full">
+                                                    <input
+                                                        type="file"
+                                                        className="hidden"
+                                                        name="file"
+                                                    />
+                                                    <ClipIcon
+                                                        size={20}
+                                                        className="rotate-[-45deg]"
+                                                    />
+                                                </label>
+                                                <input
                                                     name="rating"
                                                     placeholder="Agrega el comentario sobre el producto"
+                                                    className="grow bg-transparent border-0 focus:outline-0"
                                                 />
-                                                <button>
-                                                    enviar
+                                                <button className="btn btn-sm btn-primary rounded-full">
+                                                    <PaperPlaneIcon />
                                                 </button>
                                             </label>
                                         </form>

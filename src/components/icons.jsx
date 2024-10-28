@@ -11,6 +11,7 @@ import {
     FaFlag,
     FaShop,
     FaFacebook,
+    FaPaperclip,
 } from "react-icons/fa6";
 import {
     FaUser,
@@ -21,6 +22,7 @@ import {
     FaRegTrashAlt,
     FaHome,
     FaSortAmountDown,
+    FaTelegramPlane,
 } from "react-icons/fa";
 import { HiPencil, HiDotsVertical } from "react-icons/hi";
 import { IoMdEye } from "react-icons/io";
@@ -92,3 +94,7 @@ export const SortIcon = (props) => <FaSortAmountDown {...props} />;
 export const GoogleIcon = (props) => <BsGoogle {...props} />;
 
 export const FacebookIcon = (props) => <FaFacebook {...props} />;
+
+export const ClipIcon = (props) => <FaPaperclip {...props} />;
+
+export const PaperPlaneIcon = (props) => <FaTelegramPlane {...props} />;
