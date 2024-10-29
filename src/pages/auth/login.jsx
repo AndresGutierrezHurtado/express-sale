@@ -126,7 +126,7 @@ export default function Login() {
                                 Continua con Google
                             </Link>
                             <button
-                                onClick={handleFacebookLogin}
+                                onClick={() => {}}
                                 type="button"
                                 className="btn bg-blue-700 hover:bg-blue-800 text-blue-300 hover:text-blue-200"
                             >

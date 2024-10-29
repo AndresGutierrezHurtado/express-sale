@@ -89,9 +89,6 @@ export default class UserController {
         }
     };
 
-    static authGoogleUser = async (req, res) =>
-        passport.authenticate("google", { scope: ["profile"] });
-
     static verifyUserSession = async (req, res) => {
         try {
             if (!req.session.user) {

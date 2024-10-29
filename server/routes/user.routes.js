@@ -12,20 +12,29 @@ passport.use(
             clientID: process.env.GOOGLE_CLIENT_ID,
             clientSecret: process.env.GOOGLE_CLIENT_SECRET,
             callbackURL: process.env.VITE_API_URL + process.env.GOOGLE_REDIRECT_URI,
+            scope: ["profile", "email"],
         },
         function (accessToken, refreshToken, profile, cb) {
-            console.log(accessToken, refreshToken, profile, cb);
-            // models.User.findOrCreate(
-            //     {
-            //         usuario_id: profile.id,
-            //         usuario_correo: profile.email,
-            //         rol_id: 1,
-            //         usuario_alias: profile.displayName,
-            //     },
-            //     function (err, user) {
-            //         return cb(err, user);
-            //     }
-            // );
+            let user = models.User.findOne({ where: { usuario_correo: profile._json.email } });
+
+            if (user) return cb(null, user);
+
+            // Create new user
+            let newUser = models.User.create({
+                usuario_id: crypto.randomUUID(),
+                usuario_nombre: profile._json.given_name,
+                usuario_apellido: profile._json.family_name,
+                usuario_correo: profile._json.email,
+                usuario_alias:
+                    profile._json.given_name.split(" ")[0] +
+                    "_" +
+                    profile._json.family_name.split(" ")[0],
+                usuario_contra: profile._json.sub,
+                usuario_imagen_url: profile._json.picture,
+                rol_id: 1,
+            });
+
+            return cb(null, newUser);
         }
     )
 );
@@ -47,13 +56,16 @@ userRoutes.post("/user/auth", UserController.authUser);
 userRoutes.post("/user/logout", UserController.logoutUser);
 
 // Google Auth
-userRoutes.get("/user/auth/google", passport.authenticate("google", { scope: ["profile"] }));
+userRoutes.get(
+    "/user/auth/google",
+    passport.authenticate("google", { scope: ["profile", "email"] })
+);
 userRoutes.get(
     "/user/auth/google/callback",
-    passport.authenticate("google", { failureRedirect: "/login" }),
-    function (req, res) {
-        res.redirect("/");
-    }
+    passport.authenticate("google", {
+        successRedirect: `${process.env.VITE_URL}/login`,
+        failureRedirect: `${process.env.VITE_URL}/login?error=true`,
+    })
 );
 
 export default userRoutes;
