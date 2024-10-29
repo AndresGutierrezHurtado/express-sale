@@ -69,24 +69,15 @@ export default class UserController {
                 return res.status(200).json({ success: false, message: "Contraseña incorrecta" });
             }
 
-            //express-session
+            // express-session
             req.session.usuario_id = user.usuario_id;
             req.session.user = user;
-            req.session.save((err) => {
-                if (err) {
-                    return res.status(500).json({
-                        success: false,
-                        message: err.message,
-                        data: null,
-                    });
-                } else {
-                    res.status(200).json({
-                        success: true,
-                        message: "El usuario esta autenticado",
-                        data: user,
-                    });
-                }
-            })
+
+            res.status(200).json({
+                success: true,
+                message: "El usuario esta autenticado",
+                data: user,
+            });
         } catch (error) {
             res.status(500).json({
                 success: false,
@@ -98,19 +89,25 @@ export default class UserController {
 
     static verifyUserSession = async (req, res) => {
         if (!req.session.usuario_id) {
-            return res.status(200).json({ success: false, message: "Sesión no verificada", data: null });
+            return res
+                .status(200)
+                .json({ success: false, message: "Sesión no verificada", data: null });
         }
 
         res.status(200).json({
             success: true,
             message: "Sesión verificada correctamente",
-            data: req.session.usuario_id,
+            data: req.session.user,
         });
     };
 
     static logoutUser = (req, res) => {
         req.session.destroy();
-        res.status(200).json({ success: true, message: "Sesión cerrada correctamente", data: null });
+        res.status(200).json({
+            success: true,
+            message: "Sesión cerrada correctamente",
+            data: null,
+        });
     };
 
     static updateUser = async (req, res) => {

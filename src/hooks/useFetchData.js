@@ -5,10 +5,7 @@ import { useLocation } from "react-router-dom";
 // Convertir useQuery en una función regular
 const queryApi = async (endpoint, options, showSuccessMessage = false) => {
     try {
-        const response = await fetch(
-            `${import.meta.env.VITE_API_URL}${endpoint}`,
-            options
-        );
+        const response = await fetch(`${import.meta.env.VITE_API_URL}${endpoint}`, options);
         const result = await response.json();
 
         if (result.success && showSuccessMessage) {
@@ -51,6 +48,7 @@ export const useGetData = (endpoint) => {
                 headers: {
                     "Content-Type": "application/json",
                 },
+                credentials: "include",
             });
             if (result) {
                 setData(result.data);
@@ -74,6 +72,7 @@ export const usePutData = async (endpoint, data) => {
                 "Content-Type": "application/json",
             },
             body: JSON.stringify(data),
+            credentials: "include",
         },
         true
     );
@@ -88,6 +87,7 @@ export const usePostData = async (endpoint, data) => {
                 "Content-Type": "application/json",
             },
             body: JSON.stringify(data),
+            credentials: "include",
         },
         true
     );
@@ -101,6 +101,7 @@ export const useDeleteData = async (endpoint) => {
             headers: {
                 "Content-Type": "application/json",
             },
+            credentials: "include",
         },
         true
     );

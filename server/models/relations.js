@@ -101,18 +101,6 @@ Rating.belongsTo(User, {
     as: "calificator",
 });
 
-// User to Session: One-to-Many
-User.hasMany(Session, {
-    foreignKey: "usuario_id",
-    as: "sessions",
-    onDelete: "CASCADE",
-    onUpdate: "CASCADE",
-});
-Session.belongsTo(User, {
-    foreignKey: "usuario_id",
-    as: "user",
-});
-
 // ------ PRODUCT ASSOCIATIONS ----- //
 
 // Product to Category: One-to-Many
@@ -218,4 +206,5 @@ export {
     Rating,
     UsersCalifications,
     ProductsCalifications,
+    Session,
 };

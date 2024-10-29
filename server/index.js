@@ -20,27 +20,34 @@ const sessionStore = new SequelizeSessionStore({
     db: conn,
     table: "Session",
 });
-conn.sync();
 
 const app = express();
 app.use(express.json());
-app.use(cors());
+app.use(cors({
+    origin: process.env.VITE_URL,
+    credentials: true,
+}));
 app.use(
     session({
         secret: process.env.JWT_SECRET,
-        resave: true,
-        saveUninitialized: true,
+        resave: false,
+        saveUninitialized: false,
         store: sessionStore,
         cookie: {
-            maxAge: 60000,
+            maxAge: 1000 * 60 * 60 * 24,
             secure: false,
+            httpOnly: true,
+            sameSite: "lax",
         },
     })
 );
 app.use(async (req, res, next) => {
+    console.log(req.session);
     if (req.session.usuario_id) {
-        console.log("Usuario logueado");
-        req.session.user = await models.User.findByPk(req.session.usuario_id);
+        const user = await models.User.findByPk(req.session.usuario_id);
+        if (user) {
+            req.session.user = user;
+        }
     }
     next();
 });

@@ -147,23 +147,21 @@ export const Recovery = sequelize.define(
 export const Session = sequelize.define(
     "Session",
     {
-        sesion_id: {
+        sid: {
             type: DataTypes.STRING(60),
             primaryKey: true,
         },
-        usuario_id: {
-            type: DataTypes.STRING(60),
+        expires: {
+            type: DataTypes.DATE,
             allowNull: false,
         },
-        sesion_expiracion: {
-            type: DataTypes.DATE,
-        },
-        sesion_token: {
+        data: {
             type: DataTypes.TEXT,
+            allowNull: false,
         },
     },
     {
         tableName: "sesiones",
-        timestamps: false,
+        timestamps: true,
     }
 );

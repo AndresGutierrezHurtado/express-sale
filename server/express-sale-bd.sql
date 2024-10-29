@@ -3,17 +3,18 @@ CREATE DATABASE `express-sale-bd`;
 USE `express-sale-bd`;
 
 
-DROP TABLE IF EXISTS `usuarios`, `recuperacion_cuentas`, `trabajadores`, `roles`, `productos`, `categorias`, `calificaciones`, `calificaciones_usuarios`, `calificaciones_productos`, `multimedias`, `pedidos`, `detalles_pagos`, `detalles_envios`, `productos_pedidos`;
+DROP TABLE IF EXISTS `usuarios`, `recuperacion_cuentas`, `trabajadores`, `roles`, `productos`, `categorias`, `calificaciones`, `calificaciones_usuarios`, `calificaciones_productos`, `multimedias`, `pedidos`, `detalles_pagos`, `detalles_envios`, `productos_pedidos`, `sesiones`;
 
 -- ---------------------------------------------------------------
 --
 -- Tabla de sesiones
 CREATE TABLE `sesiones` (
-    `sesion_id` VARCHAR(60) PRIMARY KEY,
-    `usuario_id` VARCHAR(60) NOT NULL,
-    `sesion_expiracion` TIMESTAMP NOT NULL,
-    `sesion_token` TEXT NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+  `sid` VARCHAR(36) NOT NULL,
+  `expires` DATETIME DEFAULT NULL,
+  `data` TEXT DEFAULT NULL,
+  `createdAt` DATETIME NOT NULL,
+  `updatedAt` DATETIME NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- ---------------------------------------------------------------
 --
@@ -352,12 +353,5 @@ ALTER TABLE `retiros`
 ADD CONSTRAINT `fk_retiros_usuarios` 
 FOREIGN KEY (`trabajador_id`) 
 REFERENCES `trabajadores`(`trabajador_id`)
-ON UPDATE CASCADE
-ON DELETE CASCADE;
-
-ALTER TABLE `sesiones`
-ADD CONSTRAINT `fk_sesiones_usuarios` 
-FOREIGN KEY (`usuario_id`) 
-REFERENCES `usuarios`(`usuario_id`)
 ON UPDATE CASCADE
 ON DELETE CASCADE;
