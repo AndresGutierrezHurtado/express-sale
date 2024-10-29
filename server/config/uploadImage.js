@@ -13,7 +13,7 @@ import { v2 as cloudinary } from "cloudinary";
             public_id: "shoes",
         })
         .catch((error) => {
-            console.log(error);
+            console.error(error);
         });
 
     const optimizeUrl = cloudinary.url("shoes", {

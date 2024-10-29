@@ -6,6 +6,19 @@ import { Strategy as GoogleStrategy } from "passport-google-oauth20";
 
 import * as models from "../models/relations.js";
 
+passport.serializeUser((user, done) => {
+    done(null, user.usuario_id);
+});
+
+passport.deserializeUser(async (id, done) => {
+    try {
+        const user = await models.User.findOne({ where: { usuario_id: id } });
+        done(null, user);
+    } catch (error) {
+        done(error, null);
+    }
+});
+
 passport.use(
     new GoogleStrategy(
         {
@@ -14,8 +27,8 @@ passport.use(
             callbackURL: process.env.VITE_API_URL + process.env.GOOGLE_REDIRECT_URI,
             scope: ["profile", "email"],
         },
-        function (accessToken, refreshToken, profile, cb) {
-            let user = models.User.findOne({ where: { usuario_correo: profile._json.email } });
+        async function (accessToken, refreshToken, profile, cb) {
+            let user = await models.User.findOne({ where: { usuario_correo: profile._json.email } });
 
             if (user) return cb(null, user);
 
@@ -60,12 +73,18 @@ userRoutes.get(
     "/user/auth/google",
     passport.authenticate("google", { scope: ["profile", "email"] })
 );
+
 userRoutes.get(
     "/user/auth/google/callback",
     passport.authenticate("google", {
-        successRedirect: `${process.env.VITE_URL}/login`,
         failureRedirect: `${process.env.VITE_URL}/login?error=true`,
-    })
+    }),
+    (req, res) => {
+        req.session.usuario_id = req.user.usuario_id;
+        req.session.user = req.user;
+        res.redirect(process.env.VITE_URL);
+    }
 );
+
 
 export default userRoutes;

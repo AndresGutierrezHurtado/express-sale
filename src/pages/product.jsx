@@ -29,7 +29,6 @@ export default function Product() {
         event.preventDefault();
 
         const data = Object.fromEntries(new FormData(event.target));
-        console.log(data)
         const validation = useValidateform(data, "rate-form");
 
         if (validation.success) {

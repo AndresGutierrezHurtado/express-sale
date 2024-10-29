@@ -42,7 +42,6 @@ app.use(
     })
 );
 app.use(async (req, res, next) => {
-    console.log(req.session);
     if (req.session.usuario_id) {
         const user = await models.User.findByPk(req.session.usuario_id);
         if (user) {

@@ -55,7 +55,6 @@ export function AuthProvider({ children }) {
         });
     };
 
-    console.log(loading, userSession);
     if (loading) return <Loading />;
 
     return (
