@@ -90,18 +90,7 @@ export default class UserController {
     };
 
     static authGoogleUser = async (req, res) =>
-        passport.authenticate("google", {
-            scope: ["email", "profile", "openid"],
-        });
-
-    static googleCallback = async (req, res) => {
-        passport.authenticate("google", {
-            successRedirect: process.env.VITE_URL + "/",
-            failureRedirect: process.env.VITE_URL + "/login",
-        });
-    };
-
-    static authFacebookUser = async (req, res) => {};
+        passport.authenticate("google", { scope: ["profile"] });
 
     static verifyUserSession = async (req, res) => {
         try {
@@ -224,28 +213,28 @@ export default class UserController {
                         {
                             usuario_alias: {
                                 [Op.like]: `%${req.query.search || ""}%`,
-                            }
+                            },
                         },
                         {
                             usuario_correo: {
                                 [Op.like]: `%${req.query.search || ""}%`,
-                            }
+                            },
                         },
                         {
                             usuario_nombre: {
                                 [Op.like]: `%${req.query.search || ""}%`,
-                            }
+                            },
                         },
                         {
                             usuario_apellido: {
                                 [Op.like]: `%${req.query.search || ""}%`,
-                            }
+                            },
                         },
                         {
                             usuario_id: {
                                 [Op.like]: `%${req.query.search || ""}%`,
-                            }
-                        }
+                            },
+                        },
                     ],
                 },
                 limit: parseInt(req.query.limit || 5),

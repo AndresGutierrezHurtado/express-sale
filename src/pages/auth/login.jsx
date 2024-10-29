@@ -31,10 +31,6 @@ export default function Login() {
         }
     };
 
-    const handleFacebookLogin = () => {};
-
-    const handleGoogleLogin = () => {};
-
     return (
         <section className="hero bg-base-100 min-h-screen w-full">
             <div className="fixed inset-0 overflow-hidden">
@@ -121,14 +117,14 @@ export default function Login() {
                         </div>
                         <div className="divider">OR</div>
                         <div className="form-control gap-4">
-                            <button
-                                onClick={handleGoogleLogin}
+                            <Link 
+                                to={import.meta.env.VITE_API_URL + "/user/auth/google"}
                                 type="button"
                                 className="btn bg-gray-300 hover:bg-gray-200 text-gray-600 hover:text-gray-700"
                             >
                                 <GoogleIcon size={15} />
                                 Continua con Google
-                            </button>
+                            </Link>
                             <button
                                 onClick={handleFacebookLogin}
                                 type="button"
