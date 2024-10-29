@@ -1,5 +1,5 @@
 // Models
-import { User, Role, Worker, Recovery } from "./user.model.js";
+import { User, Role, Worker, Recovery, Session } from "./user.model.js";
 import { Product, Media, Category } from "./product.model.js";
 import {
     Order,
@@ -99,6 +99,18 @@ User.hasMany(Rating, {
 Rating.belongsTo(User, {
     foreignKey: "usuario_id",
     as: "calificator",
+});
+
+// User to Session: One-to-Many
+User.hasMany(Session, {
+    foreignKey: "usuario_id",
+    as: "sessions",
+    onDelete: "CASCADE",
+    onUpdate: "CASCADE",
+});
+Session.belongsTo(User, {
+    foreignKey: "usuario_id",
+    as: "user",
 });
 
 // ------ PRODUCT ASSOCIATIONS ----- //

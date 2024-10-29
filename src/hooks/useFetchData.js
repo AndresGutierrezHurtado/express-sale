@@ -51,7 +51,6 @@ export const useGetData = (endpoint) => {
                 headers: {
                     "Content-Type": "application/json",
                 },
-                credentials: "include",
             });
             if (result) {
                 setData(result.data);
@@ -75,7 +74,6 @@ export const usePutData = async (endpoint, data) => {
                 "Content-Type": "application/json",
             },
             body: JSON.stringify(data),
-            credentials: "include",
         },
         true
     );
@@ -90,7 +88,6 @@ export const usePostData = async (endpoint, data) => {
                 "Content-Type": "application/json",
             },
             body: JSON.stringify(data),
-            credentials: "include",
         },
         true
     );
@@ -104,7 +101,6 @@ export const useDeleteData = async (endpoint) => {
             headers: {
                 "Content-Type": "application/json",
             },
-            credentials: "include",
         },
         true
     );

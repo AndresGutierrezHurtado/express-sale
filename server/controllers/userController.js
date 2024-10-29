@@ -1,7 +1,5 @@
 import bcrypt from "bcrypt";
-import jwt from "jsonwebtoken";
 import crypto from "crypto";
-import passport from "passport";
 
 // Config
 import * as models from "../models/relations.js";
@@ -71,15 +69,24 @@ export default class UserController {
                 return res.status(200).json({ success: false, message: "Contraseña incorrecta" });
             }
 
-            const token = jwt.sign({ id: user.usuario_id }, process.env.JWT_SECRET, {
-                expiresIn: "1h",
-            });
-
-            res.status(200).cookie("authToken", token, { httpOnly: true }).json({
-                success: true,
-                message: "Autenticado correctamente.",
-                data: { token },
-            });
+            //express-session
+            req.session.usuario_id = user.usuario_id;
+            req.session.user = user;
+            req.session.save((err) => {
+                if (err) {
+                    return res.status(500).json({
+                        success: false,
+                        message: err.message,
+                        data: null,
+                    });
+                } else {
+                    res.status(200).json({
+                        success: true,
+                        message: "El usuario esta autenticado",
+                        data: user,
+                    });
+                }
+            })
         } catch (error) {
             res.status(500).json({
                 success: false,
@@ -90,48 +97,20 @@ export default class UserController {
     };
 
     static verifyUserSession = async (req, res) => {
-        try {
-            if (!req.session.user) {
-                res.status(200).json({
-                    success: false,
-                    message: "No autorizado",
-                    data: null,
-                });
-                return;
-            }
-
-            const userSession = await models.User.findByPk(req.session.user.id, {
-                include: ["role", "worker"],
-            });
-
-            res.status(200).json({
-                success: true,
-                message: "El usuario esta autenticado",
-                data: userSession,
-            });
-        } catch (error) {
-            res.status(500).json({
-                success: false,
-                message: error.message,
-                data: null,
-            });
+        if (!req.session.usuario_id) {
+            return res.status(200).json({ success: false, message: "Sesión no verificada", data: null });
         }
+
+        res.status(200).json({
+            success: true,
+            message: "Sesión verificada correctamente",
+            data: req.session.usuario_id,
+        });
     };
 
     static logoutUser = (req, res) => {
-        try {
-            res.status(200).clearCookie("authToken").json({
-                success: true,
-                message: "Sesión cerrada correctamente",
-                data: null,
-            });
-        } catch (error) {
-            res.status(500).json({
-                success: false,
-                message: error.message,
-                data: null,
-            });
-        }
+        req.session.destroy();
+        res.status(200).json({ success: true, message: "Sesión cerrada correctamente", data: null });
     };
 
     static updateUser = async (req, res) => {
