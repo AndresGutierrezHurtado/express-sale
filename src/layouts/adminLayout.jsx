@@ -24,8 +24,7 @@ export default function AdminLayout() {
         <>
             <main className="drawer-content flex flex-col h-screen">
                 <header
-                    className="p-3 bg-slate-900 flex flex-col items-center gap-5 p-6 "
-                    data-theme="dark"
+                    className="p-3 bg-slate-900 flex flex-col items-center gap-5 p-6 text-white"
                 >
                     <nav className="flex justify-between items-center w-full">
                         <div className="flex gap-4">
@@ -40,7 +39,6 @@ export default function AdminLayout() {
                                 <ul
                                     tabIndex="0"
                                     className="dropdown-content menu bg-base-100 rounded-box z-[1] w-52 p-2 shadow"
-                                    data-theme="light"
                                 >
                                     {location.pathname.endsWith("users") ? (
                                         <>
@@ -145,7 +143,7 @@ export default function AdminLayout() {
                                 <input
                                     name="search"
                                     className="input input-bordered input-sm rounded-full"
-                                    data-theme="light"
+                                    
                                     placeholder={`Buscar ${
                                         location.pathname.endsWith("users")
                                             ? "usuarios"
@@ -178,7 +176,6 @@ export default function AdminLayout() {
                                 <ul
                                     tabIndex="0"
                                     className="menu menu-sm dropdown-content bg-base-100 rounded-box z-[1] mt-3 w-52 p-2 shadow"
-                                    data-theme="light"
                                 >
                                     {userSession ? (
                                         <>
@@ -215,14 +212,17 @@ export default function AdminLayout() {
                     <div className="flex items-center gap-2">
                         <h2 className="text-4xl font-extrabold tracking-tight">Tabla de</h2>
                         <div class="dropdown dropdown-hover">
-                            <div tabindex="0" role="button" class="text-4xl font-extrabold tracking-tight flex items-center gap-1">
+                            <div
+                                tabindex="0"
+                                role="button"
+                                class="text-4xl font-extrabold tracking-tight flex items-center gap-1"
+                            >
                                 {location.pathname.endsWith("users") ? "usuarios" : "productos"}
                                 <SortDownIcon size={20} />
                             </div>
                             <ul
                                 tabindex="0"
-                                class="dropdown-content menu bg-base-100 rounded-box z-[1] w-52 p-2 shadow"
-                                data-theme="light"
+                                class="dropdown-content menu bg-base-100 rounded-box z-[1] w-52 p-2 shadow text-black"
                             >
                                 <li>
                                     <Link to="/admin/users"> Usuarios </Link>
@@ -238,8 +238,7 @@ export default function AdminLayout() {
                     <Outlet />
                 </div>
                 <footer
-                    className="p-3 bg-slate-900 flex flex-col items-center gap-5 p-3 "
-                    data-theme="dark"
+                    className="p-3 bg-slate-900 flex flex-col items-center gap-5 p-3 text-white"
                 >
                     <h1 className="text-2xl font-extrabold">&copy; Express Sale, 2024</h1>
                 </footer>
