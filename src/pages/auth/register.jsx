@@ -1,8 +1,14 @@
 import React from "react";
 import { Link, useNavigate } from "react-router-dom";
 
-// Icons
-import { LoginIcon, RegisterIcon } from "../../components/icons";
+// Components
+import {
+    LoginIcon,
+    RegisterIcon,
+    GitHubIcon,
+    GoogleIcon,
+    FacebookIcon,
+} from "../../components/icons";
 
 // Hooks
 import { useValidateform } from "../../hooks/useValidateForm";
@@ -33,17 +39,11 @@ export default function Register() {
             </div>
             <div className="hero-content flex-col lg:flex-row-reverse lg:[&>*]:w-1/2 [&>*]:w-full max-w-[1200px] w-full px-3 gap-10">
                 <div className="text-center lg:text-right text-base-100 space-y-2">
-                    <h1 className="text-3xl lg:text-4xl font-bold">
-                        ¿Ya tienes una cuenta?
-                    </h1>
+                    <h1 className="text-3xl lg:text-4xl font-bold">¿Ya tienes una cuenta?</h1>
                     <p className="pb-5">
-                        Si ya tienes una cuenta puedes iniciar sesión en el
-                        siguiente botón.
+                        Si ya tienes una cuenta puedes iniciar sesión en el siguiente botón.
                     </p>
-                    <Link
-                        to="/login"
-                        className="btn btn-ghost border border-white"
-                    >
+                    <Link to="/login" className="btn btn-ghost border border-white">
                         <LoginIcon />
                         Inicia sesión
                     </Link>
@@ -62,10 +62,7 @@ export default function Register() {
                                 </figure>
                             </Link>
                             <h2 className="text-2xl font-bold">Regístrate</h2>
-                            <p>
-                                Crea una nueva cuenta para ser parte de nuestra
-                                comunidad.
-                            </p>
+                            <p>Crea una nueva cuenta para ser parte de nuestra comunidad.</p>
                         </div>
                         <div className="form-control">
                             <label className="label">
@@ -151,6 +148,33 @@ export default function Register() {
                                 </span>
                                 Regístrate
                             </button>
+                        </div>
+                        <div className="divider">OR</div>
+                        <div className="form-control gap-4">
+                            <Link
+                                to={import.meta.env.VITE_API_URL + "/user/auth/google"}
+                                type="button"
+                                className="btn bg-gray-300 hover:bg-gray-200 text-gray-600 hover:text-gray-700"
+                            >
+                                <GoogleIcon size={15} />
+                                Continua con Google
+                            </Link>
+                            <Link
+                                to={import.meta.env.VITE_API_URL + "/user/auth/facebook"}
+                                type="button"
+                                className="btn bg-blue-700 hover:bg-blue-800 text-blue-300 hover:text-blue-200"
+                            >
+                                <FacebookIcon size={15} />
+                                Continua con Facebook
+                            </Link>
+                            <Link
+                                to={import.meta.env.VITE_API_URL + "/user/auth/github"}
+                                type="button"
+                                className="btn bg-gray-700 hover:bg-gray-800 text-gray-300 hover:text-gray-200"
+                            >
+                                <GitHubIcon size={16} />
+                                Continua con GitHub
+                            </Link>
                         </div>
                     </form>
                 </div>
