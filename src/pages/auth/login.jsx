@@ -125,14 +125,14 @@ export default function Login() {
                                 <GoogleIcon size={15} />
                                 Continua con Google
                             </Link>
-                            <button
-                                onClick={() => {}}
+                            <Link
+                                to={import.meta.env.VITE_API_URL + "/user/auth/facebook"}
                                 type="button"
                                 className="btn bg-blue-700 hover:bg-blue-800 text-blue-300 hover:text-blue-200"
                             >
                                 <FacebookIcon size={15} />
                                 Continua con Facebook
-                            </button>
+                            </Link>
                         </div>
                     </form>
                 </div>

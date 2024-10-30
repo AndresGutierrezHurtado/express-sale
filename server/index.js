@@ -10,6 +10,7 @@ import userRoutes from "./routes/user.routes.js";
 import productRoutes from "./routes/product.routes.js";
 import ratingRoutes from "./routes/rating.routes.js";
 import orderRoutes from "./routes/order.routes.js";
+import authRoutes from "./routes/auth.routes.js";
 
 // Models
 import * as models from "./models/relations.js";
@@ -56,6 +57,7 @@ app.use("/api/v2", userRoutes);
 app.use("/api/v2", productRoutes);
 app.use("/api/v2", ratingRoutes);
 app.use("/api/v2", orderRoutes);
+app.use("/api/v2", authRoutes);
 
 app.listen(process.env.PORT, () =>
     console.log(`Server listening on port http://localhost:${process.env.PORT}/`)
