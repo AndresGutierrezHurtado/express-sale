@@ -7,6 +7,7 @@ import {
     FacebookIcon,
     LoginIcon,
     RegisterIcon,
+    GitHubIcon,
 } from "@components/icons";
 
 // Hooks
@@ -132,6 +133,14 @@ export default function Login() {
                             >
                                 <FacebookIcon size={15} />
                                 Continua con Facebook
+                            </Link>
+                            <Link
+                                to={import.meta.env.VITE_API_URL + "/user/auth/github"}
+                                type="button"
+                                className="btn bg-gray-700 hover:bg-gray-800 text-gray-300 hover:text-gray-200"
+                            >
+                                <GitHubIcon size={16} />
+                                Continua con GitHub
                             </Link>
                         </div>
                     </form>

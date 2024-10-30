@@ -3,6 +3,7 @@ import { Router } from "express";
 import passport from "passport";
 import { Strategy as GoogleStrategy } from "passport-google-oauth20";
 import { Strategy as FacebookStrategy } from "passport-facebook";
+import { Strategy as GitHubStrategy } from "passport-github2";
 
 import * as models from "../models/relations.js";
 
@@ -93,6 +94,37 @@ passport.use(
     )
 );
 
+passport.use(
+    new GitHubStrategy(
+        {
+            clientID: process.env.GITHUB_CLIENT_ID,
+            clientSecret: process.env.GITHUB_CLIENT_SECRET,
+            callbackURL: process.env.VITE_API_URL + process.env.GITHUB_REDIRECT_URI,
+        },
+        async function (accessToken, refreshToken, profile, cb) {
+            let user = await models.User.findOne({
+                where: { usuario_correo: profile._json.email },
+            });
+
+            if (user) return cb(null, user);
+
+            // Create new user
+            let newUser = models.User.create({
+                usuario_id: crypto.randomUUID(),
+                usuario_nombre: profile._json.name.split(" ")[0],
+                usuario_apellido: profile._json.name.split(" ")[1],
+                usuario_correo: profile._json.email,
+                usuario_alias: profile._json.login,
+                usuario_contra: profile._json.id,
+                usuario_imagen_url: profile._json.avatar_url,
+                rol_id: 1,
+            });
+
+            return cb(null, newUser);
+        }
+    )
+);
+
 const authRoutes = Router();
 
 // Google Auth
@@ -127,6 +159,19 @@ authRoutes.get(
         failureRedirect: `${process.env.VITE_URL}/login?error=true`,
     }),
     (req, res) => {
+        req.session.usuario_id = req.user.usuario_id;
+        req.session.user = req.user;
+        res.redirect(process.env.VITE_URL);
+    }
+);
+
+// Github Auth
+authRoutes.get("/user/auth/github", passport.authenticate("github", { scope: ["user:email"] }));
+
+authRoutes.get(
+    "/user/auth/github/callback",
+    passport.authenticate("github", { failureRedirect: `${process.env.VITE_URL}/login?error=true` }),
+    function (req, res) {
         req.session.usuario_id = req.user.usuario_id;
         req.session.user = req.user;
         res.redirect(process.env.VITE_URL);

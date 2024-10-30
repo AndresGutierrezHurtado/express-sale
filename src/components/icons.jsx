@@ -24,6 +24,7 @@ import {
     FaHome,
     FaSortAmountDown,
     FaTelegramPlane,
+    FaGithub,
 } from "react-icons/fa";
 import { HiPencil, HiDotsVertical } from "react-icons/hi";
 import { IoMdEye } from "react-icons/io";
@@ -95,6 +96,8 @@ export const SortIcon = (props) => <FaSortAmountDown {...props} />;
 export const GoogleIcon = (props) => <BsGoogle {...props} />;
 
 export const FacebookIcon = (props) => <FaFacebook {...props} />;
+
+export const GitHubIcon = (props) => <FaGithub {...props} />
 
 export const ClipIcon = (props) => <FaPaperclip {...props} />;
 
