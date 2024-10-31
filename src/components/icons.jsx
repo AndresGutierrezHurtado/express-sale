@@ -13,6 +13,7 @@ import {
     FaFacebook,
     FaPaperclip,
     FaSortDown,
+    FaArrowLeft,
 } from "react-icons/fa6";
 import {
     FaUser,
@@ -31,29 +32,19 @@ import { IoMdEye } from "react-icons/io";
 import { ImStatsBars } from "react-icons/im";
 import { BsGoogle } from "react-icons/bs";
 
-export const SearchIcon = ({ size = 20, ...props }) => (
-    <IoSearch size={size} {...props} />
-);
+export const SearchIcon = (props) => <IoSearch {...props} />;
 
-export const MenuIcon = ({ size = 20, ...props }) => (
-    <IoMenu size={size} {...props} />
-);
+export const MenuIcon = (props) => <IoMenu {...props} />;
 
-export const ShoppingBagIcon = ({ size = 20, ...props }) => (
-    <MdOutlineShoppingBag size={size} {...props} />
-);
+export const ShoppingBagIcon = (props) => <MdOutlineShoppingBag {...props} />;
 
-export const LoginIcon = ({ size = 20, ...props }) => (
-    <TbLogin2 size={size} {...props} />
-);
+export const LoginIcon = (props) => <TbLogin2 {...props} />;
 
-export const RegisterIcon = ({ size = 20, ...props }) => (
-    <FaArrowUpFromBracket size={size} {...props} />
-);
+export const RegisterIcon = (props) => <FaArrowUpFromBracket {...props} />;
 
-export const ArrowRight = ({ size = 20, ...props }) => (
-    <FaArrowRight size={size} {...props} />
-);
+export const ArrowRightIcon = (props) => <FaArrowRight {...props} />;
+
+export const ArrowLeftIcon = (props) => <FaArrowLeft {...props} />;
 
 export const PencilIcon = (props) => <HiPencil {...props} />;
 
@@ -97,7 +88,7 @@ export const GoogleIcon = (props) => <BsGoogle {...props} />;
 
 export const FacebookIcon = (props) => <FaFacebook {...props} />;
 
-export const GitHubIcon = (props) => <FaGithub {...props} />
+export const GitHubIcon = (props) => <FaGithub {...props} />;
 
 export const ClipIcon = (props) => <FaPaperclip {...props} />;
 
