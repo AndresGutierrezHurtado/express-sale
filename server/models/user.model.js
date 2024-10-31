@@ -48,7 +48,7 @@ export const User = sequelize.define(
         },
         usuario_imagen_url: {
             type: DataTypes.STRING(255),
-            defaultValue: "/images/users/default.jpg",
+            defaultValue: "/images/default.jpg",
         },
         rol_id: {
             type: DataTypes.INTEGER,

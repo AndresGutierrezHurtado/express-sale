@@ -26,7 +26,7 @@ const Product = sequelize.define(
         },
         producto_imagen_url: {
             type: DataTypes.STRING(255),
-            defaultValue: "/images/products/default.jpg",
+            defaultValue: "/images/default.jpg",
         },
         producto_estado: {
             type: DataTypes.ENUM("privado", "publico"),

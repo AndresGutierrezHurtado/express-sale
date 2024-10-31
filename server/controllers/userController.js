@@ -6,6 +6,8 @@ import * as models from "../models/relations.js";
 import sequelize from "../config/database.js";
 import { Op } from "sequelize";
 
+import { uploadFile } from "../config/uploadImage.js";
+
 export default class UserController {
     static createUser = async (req, res) => {
         try {
@@ -124,6 +126,18 @@ export default class UserController {
 
             // data updating
             if (userData) {
+                if (req.body.usuario_imagen) {
+                    const response = await uploadFile(req.body.usuario_imagen, req.body.usuario_id, "/users");
+                    if (response.success) {
+                        userData = { ...userData, usuario_imagen_url: response.data.secure_url };
+                    } else {
+                        return res.status(500).json({
+                            success: false,
+                            message: response.message,
+                            data: null,
+                        })
+                    }
+                }
                 const user = await models.User.update(userData, {
                     where: { usuario_id: req.params.id },
                 });

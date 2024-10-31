@@ -168,7 +168,7 @@ export default function AdminLayout() {
                                             src={
                                                 userSession
                                                     ? userSession.usuario_imagen_url
-                                                    : "/images/users/default.jpg"
+                                                    : "/images/default.jpg"
                                             }
                                         />
                                     </div>

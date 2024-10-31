@@ -4,9 +4,9 @@ import { RegisterIcon } from "../icons";
 // Hooks
 import { useValidateform } from "@hooks/useValidateForm";
 import { usePutData } from "@hooks/useFetchData";
+import { useConvertImage } from "@hooks/useConvertImage";
 
 export function UserEditModal({ user, reload }) {
-
     const handleUpdateUserSubmit = async (event) => {
         event.preventDefault();
 
@@ -19,16 +19,14 @@ export function UserEditModal({ user, reload }) {
                     usuario_nombre: data.usuario_nombre,
                     usuario_apellido: data.usuario_apellido,
                     usuario_alias: data.usuario_alias,
-                    usuario_telefono: data.usuario_telefono
-                        ? data.usuario_telefono
-                        : null,
-                    usuario_direccion: data.usuario_direccion
-                        ? data.usuario_direccion
-                        : null,
+                    usuario_telefono: data.usuario_telefono ? data.usuario_telefono : null,
+                    usuario_direccion: data.usuario_direccion ? data.usuario_direccion : null,
                 },
                 worker: {
                     trabajador_descripcion: data.trabajador_descripcion,
                 },
+                usuario_imagen: await useConvertImage(data.usuario_imagen),
+                usuario_id: user.usuario_id,
             });
             if (response.success) reload();
         }
@@ -114,9 +112,7 @@ export function UserEditModal({ user, reload }) {
                     </label>
                     <label className="form-control w-full">
                         <div className="label">
-                            <span className="label-text font-semibold">
-                                Telefono:
-                            </span>
+                            <span className="label-text font-semibold">Telefono:</span>
                         </div>
                         <input
                             placeholder="Ingresa tu telefono principal de contacto"
@@ -127,9 +123,7 @@ export function UserEditModal({ user, reload }) {
                     </label>
                     <label className="form-control w-full">
                         <div className="label">
-                            <span className="label-text font-semibold">
-                                Dirección:
-                            </span>
+                            <span className="label-text font-semibold">Dirección:</span>
                         </div>
                         <input
                             placeholder="Ingresa la dirección precisa de tu vivienda/oficina"
@@ -148,9 +142,7 @@ export function UserEditModal({ user, reload }) {
                             <textarea
                                 className="textarea textarea-bordered resize-none h-24 w-full"
                                 placeholder="Bio"
-                                defaultValue={
-                                    user.worker.trabajador_descripcion
-                                }
+                                defaultValue={user.worker.trabajador_descripcion}
                                 name="trabajador_descripcion"
                             ></textarea>
                         </label>

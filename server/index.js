@@ -23,7 +23,7 @@ const sessionStore = new SequelizeSessionStore({
 });
 
 const app = express();
-app.use(express.json());
+app.use(express.json({ limit: "10mb" }));
 app.use(cors({
     origin: process.env.VITE_URL,
     credentials: true,
