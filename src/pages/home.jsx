@@ -1,9 +1,8 @@
-import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 
 // Components
 import { CategoryCard } from "@components/categoryCard.jsx";
-import { ArrowRight, RegisterIcon } from "@components/icons.jsx";
+import { ArrowRightIcon, RegisterIcon } from "@components/icons.jsx";
 import { VerticalProductCard } from "@components/verticalProductcard";
 import ContentLoading from "@components/contentLoading.jsx";
 
@@ -62,7 +61,7 @@ export default function Home() {
                                 className="btn btn-sm btn-primary rounded-full h-auto min-h-auto py-3 px-10"
                             >
                                 Ver productos
-                                <ArrowRight />
+                                <ArrowRightIcon />
                             </Link>
                         </div>
                     </div>
