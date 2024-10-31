@@ -5,6 +5,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import AppLayout from "@layouts/appLayout.jsx";
 import GuestLayout from "@layouts/guestLayout.jsx";
 import AdminLayout from "@layouts/adminLayout.jsx";
+import WorkerLayout from "@layouts/workerLayout.jsx";
 
 // Pages
 import Login from "@pages/auth/login.jsx";
@@ -29,30 +30,35 @@ export default function App() {
         <BrowserRouter>
             <AuthProvider>
                 <Routes>
-                    <Route path="/" element={<AppLayout />}>
-                        <Route index element={<Home />} />
-                        <Route path="/products" element={<Products />} />
-                        <Route path="/product/:id" element={<Product />} />
-                        <Route path="/worker/:id" element={<Worker />} />
-                        <Route element={<AuthMiddleware />} >
+                    {/* Auth needed routes */}
+                    <Route element={<AuthMiddleware />}>
+                        <Route path="/" element={<AppLayout />}>
                             <Route path="/profile/user/:id?" element={<UserProfile />} />
                             <Route path="/profile/product/:id" element={<ProductProfile />} />
+                        </Route>
+                        <Route path="/" element={<AdminLayout />}>
+                            <Route path="/admin/products" element={<ProductsAdmin />} />
+                            <Route path="/admin/users" element={<UsersAdmin />} />
+                        </Route>
+                        <Route path="/" element={<WorkerLayout />}>
                             <Route path="/worker/products/:id" element={<div>Productos</div>} />
                             <Route path="/worker/stats/:id" element={<div>Estadisticas</div>} />
                             <Route path="/worker/routes/:id" element={<div>Envios</div>} />
                         </Route>
                     </Route>
+                    {/* must not be auth */}
                     <Route path="/" element={<GuestLayout />}>
-                        <Route element={<AuthMiddleware type="guest" />} >
+                        <Route element={<AuthMiddleware type="guest" />}>
                             <Route path="login" element={<Login />} />
                             <Route path="register" element={<Register />} />
                         </Route>
                     </Route>
-                    <Route path="/" element={<AdminLayout />}>
-                        <Route element={<AuthMiddleware />} >
-                            <Route path="/admin/products" element={<ProductsAdmin />} />
-                            <Route path="/admin/users" element={<UsersAdmin />} />
-                        </Route>
+                    {/* Auth not needed routes */}
+                    <Route path="/" element={<AppLayout />}>
+                        <Route index element={<Home />} />
+                        <Route path="/products" element={<Products />} />
+                        <Route path="/product/:id" element={<Product />} />
+                        <Route path="/worker/:id" element={<Worker />} />
                     </Route>
                     <Route path="*" element={<h1>Not found</h1>} />
                 </Routes>
