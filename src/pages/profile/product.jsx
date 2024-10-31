@@ -4,6 +4,7 @@ import { useParams, Link } from "react-router-dom";
 // Hooks
 import { useGetData, usePutData } from "@hooks/useFetchData.js";
 import { useValidateform } from "@hooks/useValidateForm.js";
+import { useConvertImage } from "@hooks/useConvertImage.js";
 
 // Components
 import ContentLoading from "@components/contentLoading.jsx";
@@ -17,16 +18,23 @@ export default function ProductProfile() {
         reload: reloadProduct,
     } = useGetData(`/products/${id}`);
 
-    const handleUpdateProductSubmit = (event) => {
+    const handleUpdateProductSubmit = async (event) => {
         event.preventDefault();
 
         const data = Object.fromEntries(new FormData(event.target));
         const validation = useValidateform(data, "update-product-form");
 
-        // if (validation.success) {
-        //     const response = usePutData(`/products/${product.producto_id}`, data);
-        //     if (response.success) reloadProduct();
-        // }
+        if (validation.success) {
+            const response = await usePutData(`/products/${product.producto_id}`, {
+                product: {
+                    producto_nombre: data.producto_nombre,
+                    producto_precio: data.producto_precio,
+                    producto_descripcion: data.producto_descripcion,
+                },
+                producto_imagen: data.producto_imagen.size > 0 ? await useConvertImage(data.producto_imagen) : null,
+            });
+            if (response.success) reloadProduct();
+        }
     };
 
     if (loadingProduct) return <ContentLoading />;
@@ -119,7 +127,7 @@ export default function ProductProfile() {
                                             type="file"
                                             className="file-input file-input-bordered file-input-sm w-full focus:input-primary focus:outline-0 rounded"
                                             accept=".jpg, .jpeg, .png"
-                                            name="producto_imagen_url"
+                                            name="producto_imagen"
                                         />
                                     </div>
                                     <div className="form-control">

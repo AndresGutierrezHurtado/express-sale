@@ -45,14 +45,13 @@ export function AuthProvider({ children }) {
         Swal.fire({
             icon: "error",
             title: "No tienes acceso a esta página/acción",
-            text: message,
+            text: message || "No tienes acceso a esta página/acción",
             cancelButtonText: "Cancelar",
             confirmButtonText: "Continuar",
             confirmButtonColor: "#3085d6",
             cancelButtonColor: "#d33",
-        }).then((result) => {
-            navigate("/");
         });
+        navigate("/");
     };
 
     if (loading) return <Loading />;

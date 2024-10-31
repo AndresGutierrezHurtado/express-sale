@@ -127,7 +127,7 @@ export default class UserController {
             // data updating
             if (userData) {
                 if (req.body.usuario_imagen) {
-                    const response = await uploadFile(req.body.usuario_imagen, req.body.usuario_id, "/users");
+                    const response = await uploadFile(req.body.usuario_imagen, req.params.id, "/users");
                     if (response.success) {
                         userData = { ...userData, usuario_imagen_url: response.data.secure_url };
                     } else {

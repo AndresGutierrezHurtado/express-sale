@@ -3,6 +3,8 @@ import sequelize from "../config/database.js";
 import { Op } from "sequelize";
 import crypto from "crypto";
 
+import { uploadFile } from "../config/uploadImage.js";
+
 export default class ProductController {
     static createProduct = async (req, res) => {
         try {
@@ -29,23 +31,26 @@ export default class ProductController {
         }
     };
 
-    static updateProudct = async (req, res) => {
+    static updateProduct = async (req, res) => {
         try {
-            const product = await models.Product.update(
-                {
-                    producto_nombre: req.body.producto_nombre,
-                    producto_descripcion: req.body.producto_descripcion,
-                    producto_cantidad: req.body.producto_cantidad,
-                    producto_precio: req.body.producto_precio,
-                    producto_estado: req.body.producto_estado,
-                    categoria_id: req.body.categoria_id,
+            const productData = req.body.product;
+            if (req.body.producto_imagen) {
+                const response = await uploadFile(
+                    req.body.producto_imagen,
+                    req.params.id,
+                    "/products"
+                );
+                if (response.success) productData.producto_imagen_url = response.data.secure_url || response.data.url;
+                else
+                    return res
+                        .status(500)
+                        .json({ success: false, message: response.message || "Error al subir la imagen", data: null });
+            }
+            const product = await models.Product.update(productData, {
+                where: {
+                    producto_id: req.params.id,
                 },
-                {
-                    where: {
-                        producto_id: req.params.id,
-                    },
-                }
-            );
+            });
             res.status(200).json({
                 success: true,
                 message: "Producto actualizado correctamente",
@@ -57,12 +62,6 @@ export default class ProductController {
                 message: error.message,
             });
         }
-    };
-
-    static updateProductImage = async (image) => {
-        // sharp image
-        // save image in cdn
-        // save image url in database
     };
 
     static deleteProduct = async (req, res) => {
@@ -97,16 +96,12 @@ export default class ProductController {
                             [Op.or]: [
                                 {
                                     producto_nombre: {
-                                        [Op.like]: `%${
-                                            req.query.search || ""
-                                        }%`,
+                                        [Op.like]: `%${req.query.search || ""}%`,
                                     },
                                 },
                                 {
                                     producto_descripcion: {
-                                        [Op.like]: `%${
-                                            req.query.search || ""
-                                        }%`,
+                                        [Op.like]: `%${req.query.search || ""}%`,
                                     },
                                 },
                             ],
@@ -123,9 +118,7 @@ export default class ProductController {
                         },
                         {
                             categoria_id: {
-                                [Op.in]: req.query.category
-                                    ? [req.query.category]
-                                    : [1, 2, 3, 4],
+                                [Op.in]: req.query.category ? [req.query.category] : [1, 2, 3, 4],
                             },
                         },
                     ],

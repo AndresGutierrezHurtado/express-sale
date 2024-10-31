@@ -211,18 +211,18 @@ export default function AdminLayout() {
                     </Link>
                     <div className="flex items-center gap-2">
                         <h2 className="text-4xl font-extrabold tracking-tight">Tabla de</h2>
-                        <div class="dropdown dropdown-hover">
+                        <div className="dropdown dropdown-hover">
                             <div
-                                tabindex="0"
+                                tabIndex="0"
                                 role="button"
-                                class="text-4xl font-extrabold tracking-tight flex items-center gap-1"
+                                className="text-4xl font-extrabold tracking-tight flex items-center gap-1"
                             >
                                 {location.pathname.endsWith("users") ? "usuarios" : "productos"}
                                 <SortDownIcon size={20} />
                             </div>
                             <ul
-                                tabindex="0"
-                                class="dropdown-content menu bg-base-100 rounded-box z-[1] w-52 p-2 shadow text-black"
+                                tabIndex="0"
+                                className="dropdown-content menu bg-base-100 rounded-box z-[1] w-52 p-2 shadow text-black"
                             >
                                 <li>
                                     <Link to="/admin/users"> Usuarios </Link>
