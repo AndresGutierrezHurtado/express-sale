@@ -1,5 +1,6 @@
 import React from "react";
 import { Link, Outlet, useLocation, useNavigate, useSearchParams } from "react-router-dom";
+import { ToastContainer } from "react-toastify";
 
 // Contexts
 import { useAuthContext } from "@contexts/authContext.jsx";
@@ -243,6 +244,7 @@ export default function AdminLayout() {
                     <h1 className="text-2xl font-extrabold">&copy; Express Sale, 2024</h1>
                 </footer>
             </main>
+            <ToastContainer />
         </>
     );
 }

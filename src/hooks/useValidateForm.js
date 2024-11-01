@@ -145,10 +145,62 @@ export const useValidateform = (data = {}, form = "") => {
                     string("La descripción no es valida"),
                     minLength(10, "La descripción debe tener al menos 10 caracteres")
                 ),
+                producto_cantidad: pipe(
+                    nonEmpty("La cantidad es requerida"),
+                    string("La cantidad no es valida"),
+                    minLength(1, "La cantidad debe tener al menos 1 caracter"),
+                    regex(/^[0-9]*$/, "La cantidad debe tener solo números")
+                ),
+                producto_estado: pipe(
+                    nonEmpty("El estado es requerido"),
+                    string("El estado no es valido")
+                ),
+                categoria_id: pipe(
+                    nonEmpty("La categoría es requerida"),
+                    string("La categoría no es valida"),
+                    minLength(1, "La categoría debe tener al menos 1 caracter"),
+                    regex(/^[0-9]*$/, "La categoría debe tener solo números")
+                ),
+            });
+            break;
+        case "create-product-form":
+            schema = object({
+                producto_nombre: pipe(
+                    nonEmpty("El nombre es requerido"),
+                    string("El nombre no es valido"),
+                    minLength(3, "El nombre debe tener al menos 3 caracteres")
+                ),
+                producto_precio: pipe(
+                    nonEmpty("El precio es requerido"),
+                    string("El precio no es valido"),
+                    minLength(3, "El precio debe tener al menos 3 digitos"),
+                    regex(/^[0-9]*$/, "El precio debe tener solo números")
+                ),
+                producto_descripcion: pipe(
+                    nonEmpty("La descripción es requerida"),
+                    string("La descripción no es valida"),
+                    minLength(10, "La descripción debe tener al menos 10 caracteres")
+                ),
+                producto_cantidad: pipe(
+                    nonEmpty("La cantidad es requerida"),
+                    string("La cantidad no es valida"),
+                    minLength(1, "La cantidad debe tener al menos 1 caracter"),
+                    regex(/^[0-9]*$/, "La cantidad debe tener solo números")
+                ),
+                producto_estado: pipe(
+                    nonEmpty("El estado es requerido"),
+                    string("El estado no es valido")
+                ),
+                categoria_id: pipe(
+                    nonEmpty("La categoría es requerida"),
+                    string("La categoría no es valida"),
+                    minLength(1, "La categoría debe tener al menos 1 caracter"),
+                    regex(/^[0-9]*$/, "La categoría debe tener solo números")
+                ),
             });
             break;
         default:
-            return { success: false };
+            return { success: false, message: "Formulario no encontrado", data: null };
             break;
     }
 
@@ -166,7 +218,7 @@ export const useValidateform = (data = {}, form = "") => {
             input.classList.remove("focus:textarea-error");
         });
 
-        return { success: true, data: parse(schema, data) };
+        return { success: true, message: "Formulario valido", data: parse(schema, data) };
     } catch (error) {
         let fieldErrors = [];
 
@@ -198,6 +250,6 @@ export const useValidateform = (data = {}, form = "") => {
             });
         });
 
-        return { success: false, errors: fieldErrors };
+        return { success: false, message: "Formulario no valido", errors: fieldErrors };
     }
 };

@@ -2,22 +2,53 @@ import * as models from "../models/relations.js";
 import sequelize from "../config/database.js";
 import { Op } from "sequelize";
 import crypto from "crypto";
-
 import { uploadFile } from "../config/uploadImage.js";
 
 export default class ProductController {
     static createProduct = async (req, res) => {
         try {
-            const product = await models.Product.create({
+            let productData = {
                 producto_id: crypto.randomUUID(),
-                producto_nombre: req.body.producto_nombre,
-                producto_descripcion: req.body.producto_descripcion,
-                producto_cantidad: req.body.producto_cantidad,
-                producto_precio: req.body.producto_precio,
-                producto_estado: req.body.producto_estado,
-                usuario_id: req.body.usuario_id,
-                categoria_id: req.body.categoria_id,
-            });
+                usuario_id: req.session.usuario_id,
+                ...req.body.product,
+            };
+            const product = await models.Product.create(productData);
+
+            if (req.body.producto_imagen) {
+                const response = await uploadFile(
+                    req.body.producto_imagen,
+                    product.producto_id,
+                    "/products"
+                );
+
+                if (!response.success)
+                    return res.status(500).json({
+                        success: false,
+                        message: response.message || "Error al subir a la nube la imagen",
+                        data: null,
+                    });
+
+                const responseUpdate = await models.Product.update(
+                    {
+                        producto_imagen_url: response.data.secure_url || response.data.url,
+                    },
+                    {
+                        where: {
+                            producto_id: product.producto_id,
+                        },
+                    }
+                );
+
+                console.log(responseUpdate);
+                if (responseUpdate[0] < 1) {
+                    return res.status(500).json({
+                        success: false,
+                        message: responseUpdate.message || "Error al guardar en la nube la imagen",
+                        data: null,
+                    });
+                }
+            }
+
             res.status(200).json({
                 success: true,
                 message: "Producto creado correctamente",
@@ -33,18 +64,21 @@ export default class ProductController {
 
     static updateProduct = async (req, res) => {
         try {
-            const productData = req.body.product;
+            let productData = req.body.product;
             if (req.body.producto_imagen) {
                 const response = await uploadFile(
                     req.body.producto_imagen,
                     req.params.id,
                     "/products"
                 );
-                if (response.success) productData.producto_imagen_url = response.data.secure_url || response.data.url;
+                if (response.success)
+                    productData.producto_imagen_url = response.data.secure_url || response.data.url;
                 else
-                    return res
-                        .status(500)
-                        .json({ success: false, message: response.message || "Error al subir la imagen", data: null });
+                    return res.status(500).json({
+                        success: false,
+                        message: response.message || "Error al subir la imagen",
+                        data: null,
+                    });
             }
             const product = await models.Product.update(productData, {
                 where: {
