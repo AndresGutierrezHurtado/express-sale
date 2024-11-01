@@ -292,8 +292,11 @@ export default class UserController {
 
     static getUserProducts = async (req, res) => {
         try {
-            const products = await models.Product.findAll({
+            const products = await models.Product.findAndCountAll({
+                limit: parseInt(req.query.limit || 5),
+                offset: req.query.page ? (req.query.page - 1) * 5 : 0,
                 where: { usuario_id: req.params.id },
+                include: ["category"],
                 attributes: {
                     include: [
                         [

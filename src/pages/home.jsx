@@ -119,7 +119,7 @@ export default function Home() {
                                 className="btn btn-sm btn-primary rounded-full h-auto min-h-auto py-3 px-10"
                             >
                                 Ver todos los productos
-                                <ArrowRight />
+                                <ArrowRightIcon />
                             </Link>
                         </div>
                     </div>

@@ -141,7 +141,7 @@ export default function UserProfile() {
                                 )}
                                 {userSession.rol_id == 3 && (
                                     <Link
-                                        to={`/worker/routes/${user.usuario_id}`}
+                                        to={`/worker/deliveries/${user.usuario_id}`}
                                         className="btn btn-sm min-h-none h-auto py-2.5 px-10 btn-primary group relative text-purple-300 hover:bg-purple-800 hover:text-purple-100"
                                     >
                                         <span className="absolute left-3 top-1/2 transform -translate-y-1/2 text-purple-300 group-hover:text-purple-100">

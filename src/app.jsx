@@ -18,6 +18,9 @@ import Product from "@pages/product.jsx";
 import Worker from "@pages/worker.jsx";
 import UsersAdmin from "@pages/admin/users.jsx";
 import ProductsAdmin from "@pages/admin/products.jsx";
+import WorkerDeliveries from "@pages/profile/worker/deliveries.jsx";
+import WorkerProducts from "@pages/profile/worker/products.jsx";
+import WorkerStats from "@pages/profile/worker/stats.jsx";
 
 // Contexts
 import { AuthProvider } from "@contexts/authContext.jsx";
@@ -41,9 +44,9 @@ export default function App() {
                             <Route path="/admin/users" element={<UsersAdmin />} />
                         </Route>
                         <Route path="/" element={<WorkerLayout />}>
-                            <Route path="/worker/products/:id" element={<div>Productos</div>} />
-                            <Route path="/worker/stats/:id" element={<div>Estadisticas</div>} />
-                            <Route path="/worker/routes/:id" element={<div>Envios</div>} />
+                            <Route path="/worker/products/:id" element={<WorkerProducts />} />
+                            <Route path="/worker/stats/:id" element={<WorkerStats />} />
+                            <Route path="/worker/deliveries/:id" element={<WorkerDeliveries />} />
                         </Route>
                     </Route>
                     {/* must not be auth */}
