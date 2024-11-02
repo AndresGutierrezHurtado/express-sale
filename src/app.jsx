@@ -21,6 +21,7 @@ import ProductsAdmin from "@pages/admin/products.jsx";
 import WorkerDeliveries from "@pages/profile/worker/deliveries.jsx";
 import WorkerProducts from "@pages/profile/worker/products.jsx";
 import WorkerStats from "@pages/profile/worker/stats.jsx";
+import Cart from "@pages/pay/cart.jsx";
 
 // Contexts
 import { AuthProvider } from "@contexts/authContext.jsx";
@@ -38,6 +39,7 @@ export default function App() {
                         <Route path="/" element={<AppLayout />}>
                             <Route path="/profile/user/:id?" element={<UserProfile />} />
                             <Route path="/profile/product/:id" element={<ProductProfile />} />
+                            <Route path="/cart" element={<Cart />} />
                         </Route>
                         <Route path="/" element={<AdminLayout />}>
                             <Route path="/admin/products" element={<ProductsAdmin />} />
