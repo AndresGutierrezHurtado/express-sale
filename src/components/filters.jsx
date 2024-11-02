@@ -11,7 +11,7 @@ export default function ProductsFilters({
     };
 
     return (
-        <div className="card bg-base-100 shadow-xl w-full max-w-[350px] h-fit">
+        <div className="card bg-base-100 shadow-xl w-full max-w-[350px] h-fit border">
             <div className="card-body gap-0">
                 <h2 className="text-2xl font-bold">Filtros:</h2>
                 <form className="space-y-4">

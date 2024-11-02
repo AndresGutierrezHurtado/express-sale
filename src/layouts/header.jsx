@@ -101,7 +101,7 @@ export default function Header() {
                                         >
                                             <div className="w-8 rounded-full">
                                                 <img
-                                                    alt="Tailwind CSS Navbar component"
+                                                    alt={`Imagen del usuario ${userSession?.usuario_alias}`}
                                                     src={
                                                         userSession
                                                             ? userSession.usuario_imagen_url
@@ -135,9 +135,9 @@ export default function Header() {
                                             )}
                                         </ul>
                                     </div>
-                                    <button className="btn btn-ghost btn-circle">
+                                    <Link to="/cart" className="btn btn-ghost btn-circle">
                                         <ShoppingBagIcon size={25} />
-                                    </button>
+                                    </Link>
                                 </div>
                             </div>
                         </section>

@@ -26,6 +26,7 @@ import {
     FaSortAmountDown,
     FaTelegramPlane,
     FaGithub,
+    FaMinus,
 } from "react-icons/fa";
 import { HiPencil, HiDotsVertical } from "react-icons/hi";
 import { IoMdEye } from "react-icons/io";
@@ -67,6 +68,8 @@ export const CartIcon = (props) => <FaCartShopping {...props} />;
 export const CartAddIcon = (props) => <FaCartPlus {...props} />;
 
 export const PlusIcon = (props) => <FaPlus {...props} />;
+
+export const MinusIcon = (props) => <FaMinus {...props} />;
 
 export const EyeIcon = (props) => <IoMdEye {...props} />;
 
