@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useSearchParams } from "react-router-dom";
 
 // Hooks
 import { useGetData } from "@hooks/useFetchData";
@@ -10,25 +10,40 @@ import { Calification } from "@components/calification.jsx";
 import Product from "@components/productCard.jsx";
 import ContentLoading from "@components/contentLoading.jsx";
 import RateModal from "@components/rateModal.jsx";
+import Pagination from "@components/pagination.jsx";
 
 export default function Worker() {
     const { id } = useParams();
-    const { loading: loadingSeller, data: seller, reload: reloadSeller } = useGetData(`/users/${id}`);
-    const { loading: loadingProducts, data: products, reload: reloadProducts } = useGetData(
-        `/users/${id}/products`
-    );
-    const { loading: loadingRatings, data: ratings, reload: reloadRatings } = useGetData(
-        `/users/${id}/ratings`
-    );
+    const [searchParams, setSearchParams] = useSearchParams();
+    const {
+        loading: loadingSeller,
+        data: seller,
+        reload: reloadSeller,
+    } = useGetData(`/users/${id}`);
+    const {
+        loading: loadingProducts,
+        data: products,
+        reload: reloadProducts,
+    } = useGetData(`/users/${id}/products`);
+    const {
+        loading: loadingRatings,
+        data: ratings,
+        reload: reloadRatings,
+    } = useGetData(`/users/${id}/ratings`);
 
     const reload = () => {
         reloadSeller();
         reloadProducts();
         reloadRatings();
-    }
+    };
 
-    if (loadingSeller || loadingProducts || loadingRatings)
-        return <ContentLoading />;
+    const updateParam = (key, value) => {
+        const newSearchParams = new URLSearchParams(searchParams);
+        newSearchParams.set(key, value);
+        setSearchParams(newSearchParams);
+    };
+
+    if (loadingSeller || loadingProducts || loadingRatings) return <ContentLoading />;
     return (
         <>
             <section className="w-full px-3">
@@ -57,10 +72,7 @@ export default function Worker() {
                                                 </p>
                                             </div>
                                             <p className="text-pretty text-lg grow">
-                                                {
-                                                    seller.worker
-                                                        .trabajador_descripcion
-                                                }
+                                                {seller.worker.trabajador_descripcion}
                                             </p>
                                         </div>
                                     </div>
@@ -68,9 +80,7 @@ export default function Worker() {
                                         <div className="grow flex flex-col sm:flex-row items-center justify-center gap-5">
                                             <div className="flex flex-col items-center justify-center w-fit text-gray-600 space-y-1">
                                                 <h2 className="font-semibold text-4xl text-center">
-                                                    {
-                                                        seller.calificacion_promedio
-                                                    }
+                                                    {seller.calificacion_promedio}
                                                 </h2>
                                                 <span className="flex gap-1">
                                                     <StarIcon size={15} />
@@ -92,11 +102,8 @@ export default function Worker() {
                                                             style={{
                                                                 width: `${
                                                                     (ratings.filter(
-                                                                        (
-                                                                            rating
-                                                                        ) =>
-                                                                            rating.calificacion ==
-                                                                            5
+                                                                        (rating) =>
+                                                                            rating.calificacion == 5
                                                                     ).length /
                                                                         ratings.length) *
                                                                         100 || 0
@@ -113,11 +120,8 @@ export default function Worker() {
                                                             style={{
                                                                 width: `${
                                                                     (ratings.filter(
-                                                                        (
-                                                                            rating
-                                                                        ) =>
-                                                                            rating.calificacion ==
-                                                                            4
+                                                                        (rating) =>
+                                                                            rating.calificacion == 4
                                                                     ).length /
                                                                         ratings.length) *
                                                                     100
@@ -134,11 +138,8 @@ export default function Worker() {
                                                             style={{
                                                                 width: `${
                                                                     (ratings.filter(
-                                                                        (
-                                                                            rating
-                                                                        ) =>
-                                                                            rating.calificacion ==
-                                                                            3
+                                                                        (rating) =>
+                                                                            rating.calificacion == 3
                                                                     ).length /
                                                                         ratings.length) *
                                                                         100 || 0
@@ -155,11 +156,8 @@ export default function Worker() {
                                                             style={{
                                                                 width: `${
                                                                     (ratings.filter(
-                                                                        (
-                                                                            rating
-                                                                        ) =>
-                                                                            rating.calificacion ==
-                                                                            2
+                                                                        (rating) =>
+                                                                            rating.calificacion == 2
                                                                     ).length /
                                                                         ratings.length) *
                                                                         100 || 0
@@ -176,11 +174,8 @@ export default function Worker() {
                                                             style={{
                                                                 width: `${
                                                                     (ratings.filter(
-                                                                        (
-                                                                            rating
-                                                                        ) =>
-                                                                            rating.calificacion ==
-                                                                            1
+                                                                        (rating) =>
+                                                                            rating.calificacion == 1
                                                                     ).length /
                                                                         ratings.length) *
                                                                         100 || 0
@@ -197,8 +192,7 @@ export default function Worker() {
                                                 onClick={() => {
                                                     document
                                                         .getElementById(
-                                                            "user-modal-" +
-                                                                seller.usuario_id
+                                                            "user-modal-" + seller.usuario_id
                                                         )
                                                         .showModal();
                                                 }}
@@ -246,7 +240,7 @@ export default function Worker() {
                         <div className="space-y-4">
                             <h2 className="font-bold text-4xl">Productos: </h2>
                             <div className="space-y-8">
-                                {products.map((product) => (
+                                {products.rows.map((product) => (
                                     <Product
                                         key={product.producto_id}
                                         product={product}
@@ -254,6 +248,13 @@ export default function Worker() {
                                     />
                                 ))}
                             </div>
+                            <span className="flex justify-between items-center w-full">
+                                <Pagination
+                                    data={products}
+                                    updateParam={updateParam}
+                                    searchParams={searchParams}
+                                />
+                            </span>
                         </div>
                     </div>
                 </div>
