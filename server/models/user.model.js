@@ -165,3 +165,30 @@ export const Session = sequelize.define(
         timestamps: true,
     }
 );
+
+export const Cart = sequelize.define(
+    "Cart",
+    {
+        carrito_id: {
+            type: DataTypes.STRING(60),
+            primaryKey: true,
+        },
+        usuario_id: {
+            type: DataTypes.STRING(60),
+            allowNull: false,
+        },
+        producto_id: {
+            type: DataTypes.STRING(60),
+            allowNull: false,
+        },
+        producto_cantidad: {
+            type: DataTypes.INTEGER,
+            allowNull: false,
+            defaultValue: 1,
+        },
+    },
+    {
+        tableName: "carritos",
+        timestamps: false,
+    }
+);

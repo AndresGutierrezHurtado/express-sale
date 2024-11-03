@@ -1,17 +1,8 @@
 // Models
-import { User, Role, Worker, Recovery, Session } from "./user.model.js";
+import { User, Role, Worker, Recovery, Session, Cart } from "./user.model.js";
 import { Product, Media, Category } from "./product.model.js";
-import {
-    Order,
-    PaymentDetails,
-    ShippingDetails,
-    OrderProduct,
-} from "./order.model.js";
-import {
-    Rating,
-    ProductsCalifications,
-    UsersCalifications,
-} from "./rating.model.js";
+import { Order, PaymentDetails, ShippingDetails, OrderProduct } from "./order.model.js";
+import { Rating, ProductsCalifications, UsersCalifications } from "./rating.model.js";
 
 // ------ USER ASSOCIATIONS ----- //
 
@@ -89,7 +80,7 @@ Rating.belongsToMany(User, {
     as: "users",
 });
 
-// User to Rating: one-to-Many
+// User to Rating: One-to-Many
 User.hasMany(Rating, {
     foreignKey: "usuario_id",
     as: "califications",
@@ -99,6 +90,30 @@ User.hasMany(Rating, {
 Rating.belongsTo(User, {
     foreignKey: "usuario_id",
     as: "calificator",
+});
+
+// User to Cart: One-to-Many
+User.hasMany(Cart, {
+    foreignKey: "usuario_id",
+    as: "carts",
+    onDelete: "CASCADE",
+    onUpdate: "CASCADE",
+});
+Cart.belongsTo(User, {
+    foreignKey: "usuario_id",
+    as: "user",
+});
+
+// Product to Cart: One-to-Many
+Product.hasMany(Cart, {
+    foreignKey: "producto_id",
+    as: "carts",
+    onDelete: "CASCADE",
+    onUpdate: "CASCADE",
+});
+Cart.belongsTo(Product, {
+    foreignKey: "producto_id",
+    as: "product",
 });
 
 // ------ PRODUCT ASSOCIATIONS ----- //
@@ -207,4 +222,5 @@ export {
     UsersCalifications,
     ProductsCalifications,
     Session,
+    Cart,
 };

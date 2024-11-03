@@ -12,6 +12,12 @@ userRoutes.get("/users/:id/products", UserController.getUserProducts);
 userRoutes.get("/users/:id/orders", UserController.getUserOrders);
 userRoutes.get("/users/:id/ratings", UserController.getUserRatings);
 
+// Cart
+userRoutes.get("/users/:id/carts", UserController.getUserCart);
+userRoutes.post("/carts", UserController.createUserCart);
+userRoutes.put("/carts/:id", UserController.updateUserCart);
+userRoutes.delete("/carts/:id", UserController.deleteUserCart);
+
 // Auth
 userRoutes.get("/user/session", UserController.verifyUserSession);
 userRoutes.post("/user/auth", UserController.authUser);

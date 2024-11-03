@@ -4,7 +4,7 @@ import crypto from "crypto";
 // Config
 import * as models from "../models/relations.js";
 import sequelize from "../config/database.js";
-import { Op } from "sequelize";
+import { Op, where } from "sequelize";
 
 import { uploadFile } from "../config/uploadImage.js";
 
@@ -127,7 +127,11 @@ export default class UserController {
             // data updating
             if (userData) {
                 if (req.body.usuario_imagen) {
-                    const response = await uploadFile(req.body.usuario_imagen, req.params.id, "/users");
+                    const response = await uploadFile(
+                        req.body.usuario_imagen,
+                        req.params.id,
+                        "/users"
+                    );
                     if (response.success) {
                         userData = { ...userData, usuario_imagen_url: response.data.secure_url };
                     } else {
@@ -135,7 +139,7 @@ export default class UserController {
                             success: false,
                             message: response.message,
                             data: null,
-                        })
+                        });
                     }
                 }
                 const user = await models.User.update(userData, {
@@ -383,6 +387,94 @@ export default class UserController {
                 success: true,
                 message: "Calificaciones obtenidas correctamente.",
                 data: ratings,
+            });
+        } catch (error) {
+            res.status(500).json({
+                success: false,
+                message: error.message,
+                data: null,
+            });
+        }
+    };
+
+    static getUserCart = async (req, res) => {
+        try {
+            const cart = await models.Cart.findAll({
+                where: { usuario_id: req.params.id },
+                include: [{ model: models.Product, as: "product" }],
+            });
+
+            res.status(200).json({
+                success: true,
+                message: "Carrito obtenido correctamente.",
+                data: cart,
+            });
+        } catch (error) {
+            res.status(500).json({
+                success: false,
+                message: error.message,
+                data: null,
+            });
+        }
+    };
+
+    static createUserCart = async (req, res) => {
+        try {
+            const cart = await models.Cart.create({
+                carrito_id: crypto.randomUUID(),
+                usuario_id: req.params.id,
+                producto_id: req.body.producto_id,
+            });
+
+            res.status(200).json({
+                success: true,
+                message: "Carrito creado correctamente.",
+                data: cart,
+            });
+        } catch (error) {
+            res.status(500).json({
+                success: false,
+                message: error.message,
+                data: null,
+            });
+        }
+    };
+
+    static updateUserCart = async (req, res) => {
+        try {
+            const cart = await models.Cart.update(
+                {
+                    cantidad: req.body.cantidad,
+                },
+                {
+                    where: { carrito_id: req.params.id },
+                }
+            );
+
+            res.status(200).json({
+                success: true,
+                message: "Carrito actualizado correctamente.",
+                data: cart,
+            });
+        } catch (error) {
+            res.status(500).json({
+                success: false,
+                message: error.message,
+                data: null,
+            });
+        }
+    };
+
+    static deleteUserCart = async (req, res) => {
+        try {
+            const cart = await models.Cart.destroy({
+                where: { carrito_id: req.params.id },
+            });
+
+            res.status(200).json({
+                success: true,
+                message: "Carrito eliminado correctamente.",
+                data: cart,
             });
         } catch (error) {
             res.status(500).json({

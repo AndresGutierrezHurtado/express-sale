@@ -189,6 +189,16 @@ CREATE TABLE `multimedias` (
 
 -- ---------------------------------------------------------------
 --
+-- Tabla de carritos
+CREATE TABLE `carritos` (
+    `carrito_id` VARCHAR(60) NOT NULL PRIMARY KEY,
+    `usuario_id` VARCHAR(60) NOT NULL,
+    `producto_id` VARCHAR(60) NOT NULL,
+    `producto_cantidad` INT NOT NULL DEFAULT 1
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- ---------------------------------------------------------------
+--
 -- Tabla de Pedidos
 CREATE TABLE `pedidos` (
     `pedido_id` VARCHAR(60) NOT NULL PRIMARY KEY,
@@ -353,5 +363,17 @@ ALTER TABLE `retiros`
 ADD CONSTRAINT `fk_retiros_usuarios` 
 FOREIGN KEY (`trabajador_id`) 
 REFERENCES `trabajadores`(`trabajador_id`)
+ON UPDATE CASCADE
+ON DELETE CASCADE;
+
+ALTER TABLE `carritos`
+ADD CONSTRAINT `fk_carritos_usuarios` 
+FOREIGN KEY (`usuario_id`) 
+REFERENCES `usuarios`(`usuario_id`)
+ON UPDATE CASCADE
+ON DELETE CASCADE,
+ADD CONSTRAINT `fk_carritos_productos` 
+FOREIGN KEY (`producto_id`) 
+REFERENCES `productos`(`producto_id`)
 ON UPDATE CASCADE
 ON DELETE CASCADE;
