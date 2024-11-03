@@ -7,10 +7,16 @@ import { UserIcon, StarIcon, PlusIcon, CartAddIcon } from "./icons";
 
 // Contexts
 import { useAuthContext } from "@contexts/authContext";
-import { useGetData } from "../hooks/useFetchData";
+import { usePostData } from "../hooks/useFetchData";
 
 export default function Product({ product, reloadProducts }) {
     const { userSession, authMiddlewareAlert } = useAuthContext();
+
+    const handleCartAdd = async () => {
+        const response = await usePostData("/carts", {
+            producto_id: product.producto_id,
+        })
+    }
 
     return (
         <>
@@ -48,25 +54,17 @@ export default function Product({ product, reloadProducts }) {
                         )}
                     </div>
 
-                    <p className="grow text-pretty line-clamp-3">
-                        {product.producto_descripcion}
-                    </p>
+                    <p className="grow text-pretty line-clamp-3">{product.producto_descripcion}</p>
 
                     <div className="space-y-2">
                         <div className="w-full flex items-center justify-between">
                             <p className="text-xl lg:text-2xl font-bold">
-                                {parseInt(
-                                    product.producto_precio
-                                ).toLocaleString("es-CO")}{" "}
-                                COP
+                                {parseInt(product.producto_precio).toLocaleString("es-CO")} COP
                             </p>
                             <div className="flex items-center gap-2">
                                 <div className="gap-0 [&>*]:leading-none flex flex-col justify-center items-end gap-[2px]">
                                     <p className="flex items-center text-lg">
-                                        <StarIcon
-                                            size={16}
-                                            className="mr-0.5"
-                                        />{" "}
+                                        <StarIcon size={16} className="mr-0.5" />{" "}
                                         {product.calificacion_promedio}
                                     </p>
                                     <p className="flex items-center text-[12px] text-gray-600">
@@ -93,7 +91,11 @@ export default function Product({ product, reloadProducts }) {
                                 </button>
                             </div>
                         </div>
-                        <button className="btn btn-sm min-h-none h-auto py-3 btn-primary group relative text-purple-300 hover:bg-purple-800 hover:text-purple-100 w-full">
+                        <button
+                            className="btn btn-sm min-h-none h-auto py-3 btn-primary group relative text-purple-300 hover:bg-purple-800 hover:text-purple-100 w-full"
+                            onClick={handleCartAdd}
+                            data-id={product.producto_id}
+                        >
                             <span className="absolute left-3 top-1/2 transform -translate-y-1/2 text-purple-300 group-hover:text-purple-100">
                                 <CartAddIcon size={17} />
                             </span>
