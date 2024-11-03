@@ -3,35 +3,64 @@ import { GoogleMap, Marker, useJsApiLoader } from "@react-google-maps/api";
 
 import { useGetUserLocation } from "../hooks/useMaps";
 
+const libraries = ["places"];
+
 export function FormMap() {
     const API_KEY = import.meta.env.VITE_GOOGLE_MAPS_KEY;
     const { userLocation, setUserLocation } = useGetUserLocation();
     const [address, setAddress] = useState("");
     const [error, setError] = useState(null);
+    const autocompleteRef = useRef(null);
 
     const { isLoaded } = useJsApiLoader({
         googleMapsApiKey: API_KEY,
+        libraries,
     });
 
-    const codeAddress = (e) => {
-        setAddress(e.target.value);
-        const geocoder = new window.google.maps.Geocoder();
+    useEffect(() => {
+        if (isLoaded && !autocompleteRef.current) {
+            autocompleteRef.current = new window.google.maps.places.Autocomplete(
+                document.getElementById("autocomplete"),
+                { types: ["address"] }
+            );
 
-        geocoder.geocode({ address: address }, (results, status) => {
+            autocompleteRef.current.addListener("place_changed", () => {
+                const place = autocompleteRef.current.getPlace();
+                if (place.geometry) {
+                    setUserLocation({
+                        lat: place.geometry.location.lat(),
+                        lng: place.geometry.location.lng(),
+                    });
+                    setAddress(place.formatted_address || "");
+                    setError(null);
+                } else {
+                    setError("Dirección no encontrada");
+                }
+            });
+        }
+    }, [isLoaded]);
+
+    const onMapClick = (event) => {
+        const lat = event.latLng.lat();
+        const lng = event.latLng.lng();
+        setUserLocation({ lat, lng });
+
+        const geocoder = new window.google.maps.Geocoder();
+        geocoder.geocode({ location: { lat, lng } }, (results, status) => {
             if (status === "OK" && results[0]) {
-                setUserLocation({
-                    lat: results[0].geometry.location.lat(),
-                    lng: results[0].geometry.location.lng(),
-                });
-                console.log(userLocation);
+                setAddress(results[0].formatted_address);
                 setError(null);
             } else {
-                setError("Dirección no encontrada");
+                setError("No se pudo obtener la dirección de esta ubicación");
             }
         });
     };
 
     if (!isLoaded) return <div className="w-full h-[200px] rounded skeleton"></div>;
+
+    if (!userLocation) {
+        return <div className="text-red-500">Ubicación del usuario no disponible</div>;
+    }
 
     return (
         <div className="form-group space-y-4">
@@ -42,11 +71,12 @@ export function FormMap() {
                     </span>
                 </label>
                 <input
+                    id="autocomplete"
                     name="buyerAddress"
                     placeholder="Ingresa tu direccion"
                     className="input input-bordered input-sm focus:outline-0 focus:input-primary"
                     value={address}
-                    onChange={codeAddress}
+                    onChange={(e) => setAddress(e.target.value)}
                 />
                 {error && (
                     <label className="label">
@@ -64,8 +94,11 @@ export function FormMap() {
                         mapTypeControl: false,
                         fullscreenControl: false,
                     }}
+                    onClick={onMapClick}
                 >
-                    <Marker position={userLocation} title="Tu ubicación" />
+                    {userLocation && (
+                        <Marker position={userLocation} title="Lugar de entrega." />
+                    )}
                 </Map>
             </div>
         </div>
@@ -76,9 +109,10 @@ export function Map({ children, ...props }) {
     return (
         <GoogleMap
             mapContainerStyle={{ width: "100%", height: "100%" }}
-            center={{ lat: -3.745, lng: -38.523 }}
-            zoom={10}
-            {...props}
+            center={props.center}
+            zoom={props.zoom}
+            onClick={props.onClick}
+            options={props.options}
         >
             {children}
         </GoogleMap>
