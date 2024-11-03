@@ -420,16 +420,39 @@ export default class UserController {
 
     static createUserCart = async (req, res) => {
         try {
-            const cart = await models.Cart.create({
+            const cart = await models.Cart.findOne({
+                where: {
+                    producto_id: req.body.producto_id,
+                    usuario_id: req.session.usuario_id,
+                },
+            });
+
+            if (cart) {
+                await models.Cart.update(
+                    {
+                        producto_cantidad: cart.producto_cantidad + 1,
+                    },
+                    {
+                        where: { carrito_id: cart.carrito_id },
+                    }
+                );
+                return res.status(200).json({
+                    success: true,
+                    message: "Carrito actualizado correctamente.",
+                    data: cart,
+                });
+            }
+
+            const newCart = await models.Cart.create({
                 carrito_id: crypto.randomUUID(),
-                usuario_id: req.params.id,
+                usuario_id: req.session.usuario_id,
                 producto_id: req.body.producto_id,
             });
 
             res.status(200).json({
                 success: true,
                 message: "Carrito creado correctamente.",
-                data: cart,
+                data: newCart,
             });
         } catch (error) {
             res.status(500).json({
@@ -444,7 +467,7 @@ export default class UserController {
         try {
             const cart = await models.Cart.update(
                 {
-                    cantidad: req.body.cantidad,
+                    producto_cantidad: req.body.producto_cantidad,
                 },
                 {
                     where: { carrito_id: req.params.id },
@@ -474,6 +497,25 @@ export default class UserController {
             res.status(200).json({
                 success: true,
                 message: "Carrito eliminado correctamente.",
+                data: cart,
+            });
+        } catch (error) {
+            res.status(500).json({
+                success: false,
+                message: error.message,
+                data: null,
+            });
+        }
+    };
+
+    static emptyUserCart = async (req, res) => {
+        try {
+            const cart = await models.Cart.destroy({
+                where: { usuario_id: req.session.usuario_id },
+            });
+            res.status(200).json({
+                success: true,
+                message: "Carrito vaciado correctamente.",
                 data: cart,
             });
         } catch (error) {

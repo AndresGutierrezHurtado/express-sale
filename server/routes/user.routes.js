@@ -17,6 +17,7 @@ userRoutes.get("/users/:id/carts", UserController.getUserCart);
 userRoutes.post("/carts", UserController.createUserCart);
 userRoutes.put("/carts/:id", UserController.updateUserCart);
 userRoutes.delete("/carts/:id", UserController.deleteUserCart);
+userRoutes.delete("/users/:id/carts/empty", UserController.emptyUserCart);
 
 // Auth
 userRoutes.get("/user/session", UserController.verifyUserSession);
