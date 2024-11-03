@@ -22,6 +22,7 @@ import WorkerDeliveries from "@pages/profile/worker/deliveries.jsx";
 import WorkerProducts from "@pages/profile/worker/products.jsx";
 import WorkerStats from "@pages/profile/worker/stats.jsx";
 import Cart from "@pages/pay/cart.jsx";
+import PayForm from "@pages/pay/payForm";
 
 // Contexts
 import { AuthProvider } from "@contexts/authContext.jsx";
@@ -49,6 +50,9 @@ export default function App() {
                             <Route path="/worker/products/:id" element={<WorkerProducts />} />
                             <Route path="/worker/stats/:id" element={<WorkerStats />} />
                             <Route path="/worker/deliveries/:id" element={<WorkerDeliveries />} />
+                        </Route>
+                        <Route path="/" element={<GuestLayout />}>
+                            <Route path="/payform" element={<PayForm />} />
                         </Route>
                     </Route>
                     {/* must not be auth */}

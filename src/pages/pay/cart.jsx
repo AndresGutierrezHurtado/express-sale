@@ -200,9 +200,9 @@ export default function Cart() {
                                         <p>{parseInt(subTotal * 1.19).toLocaleString("es-CO")}</p>
                                     </div>
                                     <div className="form-control pt-5">
-                                        <button className="btn btn-primary btn-sm w-full">
+                                        <Link to="/payform" className="btn btn-primary btn-sm w-full">
                                             Pagar
-                                        </button>
+                                        </Link>
                                         <button
                                             onClick={handleEmptyCart}
                                             className="btn btn-sm w-full"
