@@ -72,7 +72,7 @@ export function FormMap() {
                 </label>
                 <input
                     id="autocomplete"
-                    name="buyerAddress"
+                    name="shippingAddress"
                     placeholder="Ingresa tu direccion"
                     className="input input-bordered input-sm focus:outline-0 focus:input-primary"
                     value={address}

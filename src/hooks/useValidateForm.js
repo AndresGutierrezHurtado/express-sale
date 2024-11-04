@@ -199,6 +199,41 @@ export const useValidateform = (data = {}, form = "") => {
                 ),
             });
             break;
+        case "pay-form":
+            schema = object({
+                amount: pipe(
+                    nonEmpty("La cantidad es requerida"),
+                    string("La cantidad no es valida"),
+                    minLength(1, "La cantidad debe tener al menos 1 caracter"),
+                    regex(/^[0-9]*$/, "La cantidad debe tener solo números")
+                ),
+                buyerEmail: pipe(
+                    nonEmpty("El correo es requerido"),
+                    string("El correo no es valido"),
+                    email("El correo no es valido")
+                ),
+                buyerFullName: pipe(
+                    nonEmpty("El nombre es requerido"),
+                    string("El nombre no es valido"),
+                    minLength(3, "El nombre debe tener al menos 3 caracteres")
+                ),
+                payerDocument: pipe(
+                    nonEmpty("El documento es requerido"),
+                    string("El documento no es valido"),
+                    minLength(3, "El documento debe tener al menos 3 caracteres")
+                ),
+                payerPhone: pipe(
+                    nonEmpty("El telefono es requerido"),
+                    string("El telefono no es valido"),
+                    minLength(3, "El telefono debe tener al menos 3 caracteres")
+                ),
+                shippingAddress: pipe(
+                    nonEmpty("La dirección es requerida"),
+                    string("La dirección no es valida"),
+                    minLength(3, "La dirección debe tener al menos 3 caracteres")
+                ),
+            });
+            break;
         default:
             return { success: false, message: "Formulario no encontrado", data: null };
             break;
