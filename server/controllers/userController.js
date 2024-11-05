@@ -353,7 +353,11 @@ export default class UserController {
                             include: { model: models.User, as: "user" },
                         },
                     },
-                    { model: models.OrderProduct, as: "orderProducts" },
+                    {
+                        model: models.OrderProduct,
+                        as: "orderProducts",
+                        include: { model: models.Product, as: "product" },
+                    },
                 ],
             });
             res.status(200).json({

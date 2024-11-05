@@ -194,6 +194,18 @@ OrderProduct.belongsTo(Order, {
     as: "order",
 });
 
+// OrderProduct to Product: Many-to-One
+OrderProduct.belongsTo(Product, {
+    foreignKey: "producto_id",
+    as: "product",
+});
+Product.hasMany(OrderProduct, {
+    foreignKey: "producto_id",
+    as: "orderProducts",
+    onDelete: "CASCADE",
+    onUpdate: "CASCADE",
+});
+
 // Worker to ShippingDetails: One-to-Many
 Worker.hasMany(ShippingDetails, {
     foreignKey: "trabajador_id",
