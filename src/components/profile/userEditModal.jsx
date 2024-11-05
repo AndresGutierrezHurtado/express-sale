@@ -25,7 +25,7 @@ export function UserEditModal({ user, reload }) {
                 worker: {
                     trabajador_descripcion: data.trabajador_descripcion,
                 },
-                usuario_imagen: await useConvertImage(data.usuario_imagen),
+                usuario_imagen: data.usuario_imagen.size > 0 ? await useConvertImage(data.usuario_imagen) : null,
             });
             if (response.success) reload();
         }

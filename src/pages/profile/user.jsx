@@ -67,13 +67,17 @@ export default function UserProfile() {
                         </div>
                         <article className="flex flex-col justify-between gap-2 h-[initial] w-full">
                             <div className="w-full">
-                                <div className="flex justify-between items-center w-full">
-                                    <h3 className="text-3xl font-bold">
+                                <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center w-full">
+                                    <h3 className="text-2xl md:text-3xl font-bold">
                                         {user.usuario_nombre} {user.usuario_apellido}
                                     </h3>
                                     <p className="text-sm text-gray-600">
                                         Cuenta creada en el{" "}
-                                        {new Date(user.usuario_creacion).toLocaleDateString()}
+                                        {new Date(user.usuario_creacion).toLocaleDateString()}{" "}
+                                        <span className="hidden lg:inline">
+                                            a las{" "}
+                                            {new Date(user.usuario_creacion).toLocaleTimeString()}
+                                        </span>
                                     </p>
                                 </div>
                                 <p className="text-lg italic text-gray-600">
@@ -190,7 +194,7 @@ export default function UserProfile() {
                                 : "Compras del usuario"}
                         </h3>
 
-                        <div className="flex flex-wrap gap-5">
+                        <div className="flex flex-wrap gap-5 [&>div]:cursor-pointer">
                             <div
                                 onClick={() => setOrdersType(null)}
                                 className={`badge badge-lg ${!ordersType && "badge-primary"}`}
@@ -232,6 +236,9 @@ export default function UserProfile() {
                         </div>
 
                         <div className="grid grid-cols-[repeat(auto-fit,minmax(300px,1fr))] gap-5">
+                            {orders.length == 0 && (
+                                <h2 className="text-xl font-semibold tracking-tight">No hay pedidos...</h2>
+                            )}
                             {ordersType
                                 ? orders
                                       .filter((order) => order.pedido_estado == ordersType)
