@@ -2,6 +2,7 @@ import * as models from "../models/relations.js";
 import sequelize from "../config/database.js";
 import { Op } from "sequelize";
 import crypto from "crypto";
+import UserController from "./userController.js";
 
 export default class OrderController {
     static createOrder = (req, res) => {
@@ -62,6 +63,8 @@ export default class OrderController {
     static payuCallback = async (req, res) => {
         const t = await sequelize.transaction();
         const extraInfo = { ...JSON.parse(req.query.extra1), ...JSON.parse(req.query.extra2) };
+
+        console.log(req.query.referenceCode)
         try {
             if (req.query.polResponseCode !== "1" || req.query.lapResponseCode !== "APPROVED") {
                 throw new Error("No se pudo realizar el pago");
@@ -82,6 +85,7 @@ export default class OrderController {
                 comprador_tipo_documento: extraInfo.payerDocumentType,
                 comprador_numero_documento: extraInfo.payerDocument,
                 comprador_telefono: extraInfo.payerPhone,
+                payu_referencia: req.query.referenceCode,
             });
 
             const shippingDetails = await models.ShippingDetails.create({
@@ -89,7 +93,6 @@ export default class OrderController {
                 pedido_id: order.pedido_id,
                 envio_direccion: extraInfo.shippingAddress,
                 envio_coordenadas: extraInfo.shippingCoordinates,
-                envio_metodo: req.query.polShippingMethod,
                 envio_valor: 7500,
                 envio_mensaje: extraInfo.payerMessage,
             });
@@ -104,11 +107,15 @@ export default class OrderController {
                     pedido_id: order.pedido_id,
                     producto_id: cart.producto_id,
                     producto_cantidad: cart.producto_cantidad,
-                    producto_precio: cart.product.producto_precio,w
+                    producto_precio: cart.product.producto_precio,
                 };
             });
 
             const orderProducts = await models.OrderProduct.bulkCreate(cart, { transaction: t });
+
+            const emptyCart = await models.Cart.destroy({
+                where: { usuario_id: req.session.usuario_id },
+            });
 
             await t.commit();
             res.redirect(`${process.env.VITE_URL}/order/${order.pedido_id}`);

@@ -212,13 +212,14 @@ CREATE TABLE `pedidos` (
 CREATE TABLE `detalles_pagos` (
     `pago_id` VARCHAR(60) PRIMARY KEY,
     `pedido_id` VARCHAR(60) NOT NULL,
+    `payu_referencia` VARCHAR(255) NOT NULL, -- transactionId
     `pago_metodo` INT NOT NULL, -- polPaymentMethodType
     `pago_valor` DECIMAL(10, 0) NOT NULL, -- TX_VALUE
-    `comprador_nombre` VARCHAR(100), -- buyerFullName
+    `comprador_nombre` VARCHAR(100) NOT NULL, -- buyerFullName
     `comprador_correo` VARCHAR(255) NOT NULL, -- buyerEmail
     `comprador_tipo_documento` ENUM('CC', 'CE', 'TI', 'PPN', 'NIT', 'SSN', 'EIN') NOT NULL DEFAULT 'CC', -- payerDocumentType
     `comprador_numero_documento` DECIMAL(10, 0) NOT NULL, -- payerDocument
-    `comprador_telefono` DECIMAL(10, 0) -- payerPhone
+    `comprador_telefono` DECIMAL(10, 0) NOT NULL -- payerPhone
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- ---------------------------------------------------------------

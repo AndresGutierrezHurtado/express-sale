@@ -74,7 +74,12 @@ const PaymentDetails = sequelize.define(
         },
         comprador_telefono: {
             type: DataTypes.DECIMAL(10, 0),
+            allowNull: false,
         },
+        payu_referencia: {
+            type: DataTypes.STRING(255),
+            allowNull: false,
+        }
     },
     {
         tableName: "detalles_pagos",
