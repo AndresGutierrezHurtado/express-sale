@@ -14,6 +14,7 @@ import {
     FaPaperclip,
     FaSortDown,
     FaArrowLeft,
+    FaCircleCheck,
 } from "react-icons/fa6";
 import {
     FaUser,
@@ -27,6 +28,7 @@ import {
     FaTelegramPlane,
     FaGithub,
     FaMinus,
+    FaReceipt,
 } from "react-icons/fa";
 import { HiPencil, HiDotsVertical } from "react-icons/hi";
 import { IoMdEye } from "react-icons/io";
@@ -98,3 +100,7 @@ export const ClipIcon = (props) => <FaPaperclip {...props} />;
 export const PaperPlaneIcon = (props) => <FaTelegramPlane {...props} />;
 
 export const SortDownIcon = (props) => <FaSortDown {...props} />;
+
+export const CircleCheckIcon = (props) => <FaCircleCheck {...props} />;
+
+export const ReceiptIcon = (props) => <FaReceipt {...props} />;
