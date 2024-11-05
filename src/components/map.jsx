@@ -90,7 +90,7 @@ export function FormMap() {
 
     return (
         <div className="form-group space-y-4">
-            <AddressInput address={address} setAddress={setAddress} error={error} />
+            <AddressInput address={address} setAddress={setAddress} error={error} coords={userLocation} />
             <div className="w-full h-[200px] rounded overflow-hidden">
                 <Map
                     center={userLocation}
@@ -110,7 +110,7 @@ export function FormMap() {
 }
 
 // Componente Input para Dirección
-function AddressInput({ address, setAddress, error }) {
+function AddressInput({ address, setAddress, error, coords }) {
     return (
         <div className="form-control">
             <label className="label">
@@ -126,6 +126,7 @@ function AddressInput({ address, setAddress, error }) {
                 value={address}
                 onChange={(e) => setAddress(e.target.value)}
             />
+            <input type="hidden" name="shippingCoordinates" value={JSON.stringify(coords)} />
             {error && (
                 <label className="label">
                     <span className="label-text-alt text-red-500">{error}</span>
