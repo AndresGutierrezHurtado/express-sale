@@ -232,6 +232,11 @@ export const useValidateform = (data = {}, form = "") => {
                     string("La dirección no es valida"),
                     minLength(3, "La dirección debe tener al menos 3 caracteres")
                 ),
+                payerMessage: pipe(
+                    nonEmpty("El mensaje es requerido"),
+                    string("El mensaje no es valido"),
+                    minLength(3, "El mensaje debe tener al menos 3 caracteres")
+                )
             });
             break;
         default:

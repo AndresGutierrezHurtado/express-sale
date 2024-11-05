@@ -176,6 +176,19 @@ export default function PayForm() {
                                 <FormMap />
 
                                 <div className="form-control">
+                                    <label className="label">
+                                        <span className="label-text font-semibold after:content-['*'] after:ml-1 after:text-red-500">
+                                            Mensaje para el domiciliario:
+                                        </span>
+                                    </label>
+                                    <textarea
+                                        name="payerMessage"
+                                        placeholder="Ingresa tu mensaje para el domiciliario"
+                                        className="textarea textarea-bordered textarea-sm focus:outline-0 focus:textarea-primary resize-none h-32"
+                                    />
+                                </div>
+
+                                <div className="form-control">
                                     <button
                                         type="submit"
                                         className="btn btn-primary btn-sm w-full mx-auto relative"
