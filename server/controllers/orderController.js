@@ -31,15 +31,20 @@ export default class OrderController {
 
     static updateOrder = (req, res) => {};
 
-    static getOrder = (req, res) => {
+    static getOrder = async (req, res) => {
         try {
-            const order = models.Order.findByPk(req.params.id, {
+            const order = await models.Order.findByPk(req.params.id, {
                 include: [
-                    { model: models.OrderProduct, as: "orderProducts" },
+                    {
+                        model: models.OrderProduct,
+                        as: "orderProducts",
+                        include: { model: models.Product, as: "product" },
+                    },
                     { model: models.ShippingDetails, as: "shippingDetails" },
                     { model: models.PaymentDetails, as: "paymentDetails" },
                 ],
             });
+
             res.status(200).json({
                 success: false,
                 message: "Orden encontrada correctamente",
@@ -95,13 +100,13 @@ export default class OrderController {
             });
 
             const cart = carts.map((cart) => {
-                return{
+                return {
                     pedido_id: order.pedido_id,
                     producto_id: cart.producto_id,
                     producto_cantidad: cart.producto_cantidad,
-                    producto_precio: cart.product.producto_precio,
-                }
-            })
+                    producto_precio: cart.product.producto_precio,w
+                };
+            });
 
             const orderProducts = await models.OrderProduct.bulkCreate(cart, { transaction: t });
 
