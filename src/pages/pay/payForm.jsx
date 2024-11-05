@@ -70,7 +70,7 @@ export default function PayForm() {
                                 Formulario de pago:
                             </h2>
                             <p>
-                                Llena la siguiente información obligatoria para proceder con el pago
+                                Llena la siguiente información obligatoria según la persona que pagará, para proceder con el pago
                                 de tu pedido mediante{" "}
                                 <a
                                     href="https://colombia.payu.com/"
@@ -78,7 +78,7 @@ export default function PayForm() {
                                     className="text-primary font-semibold underline"
                                 >
                                     Payu
-                                </a>
+                                </a>.
                             </p>
                             <form
                                 onSubmit={handleSubmit}
@@ -217,12 +217,25 @@ export default function PayForm() {
                                     </label>
                                     <textarea
                                         name="payerMessage"
-                                        placeholder="Ingresa tu mensaje para el domiciliario"
-                                        className="textarea textarea-bordered textarea-sm focus:outline-0 focus:textarea-primary resize-none h-32"
+                                        placeholder="Ingresa tu mensaje para el domiciliario, ej: Conunto, Torre, Apartamento, Numero de hogar, Descripcion..."
+                                        className="textarea textarea-bordered textarea-sm focus:outline-0 focus:textarea-primary resize-none h-32 leading-[1.4]"
                                     />
                                 </div>
-
                                 <div className="form-control">
+                                    <label className="label flex-col gap-1 [&>*]:text-gray-600 [&>*]:font-medium">
+                                        <span className="label-text text-sm leading-none">
+                                            Debes tener en cuenta que a la hora de realizar el pago
+                                            no se guardará hasta que la transacción se complete
+                                            correctamente.
+                                        </span>
+                                        <span className="label-text text-sm leading-none">
+                                            Además al recibir la alerta de que ya se pagó,{" "}
+                                            <span className="text-purple-700 font-bold">
+                                                deberas darle al botón de regresar al sitio de la
+                                                tienda.{" "}
+                                            </span>
+                                        </span>
+                                    </label>
                                     <button
                                         type="submit"
                                         className="btn btn-primary btn-sm w-full mx-auto relative"
