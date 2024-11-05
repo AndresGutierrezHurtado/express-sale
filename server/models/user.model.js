@@ -91,10 +91,6 @@ export const Worker = sequelize.define(
             type: DataTypes.TEXT,
             defaultValue: "usuario nuevo.",
         },
-        trabajador_numero_trabajos: {
-            type: DataTypes.INTEGER,
-            defaultValue: 0,
-        },
         trabajador_saldo: {
             type: DataTypes.DECIMAL(10, 0),
             defaultValue: 0,

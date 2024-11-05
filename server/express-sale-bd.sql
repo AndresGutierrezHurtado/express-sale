@@ -91,17 +91,16 @@ INSERT INTO `usuarios` (`usuario_id`, `usuario_nombre`, `usuario_apellido`, `usu
 CREATE TABLE `trabajadores` (
     `trabajador_id` VARCHAR(60) PRIMARY KEY,
     `trabajador_descripcion` TEXT NOT NULL DEFAULT 'usuario nuevo.',
-    `trabajador_numero_trabajos` INT NOT NULL DEFAULT 0,
     `trabajador_saldo` DECIMAL(10, 0) NOT NULL DEFAULT 0,
     `usuario_id` VARCHAR(60) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
-INSERT INTO `trabajadores` (`trabajador_id`, `trabajador_descripcion`, `trabajador_numero_trabajos`, `trabajador_saldo`, `usuario_id`) VALUES
-('3439d1be-f5ee-4a34-98e7-accec2eb1729', 'usuario nuevo.', 0, 0, '1997e4d2-fa0d-4cdd-b7a1-f970570a813e'), -- Andrés Gutiérrez
-('5a5c533d-55f8-469e-b3a3-724deba8c0ad', 'usuario nuevo.', 0, 0, '1dc76732-83ea-4a78-afb8-e759959ee5c3'), -- David Fernando Diaz
-('285dd857-d030-4f90-a193-5383500b0963', 'usuario nuevo.', 0, 0, 'e7864790-7e10-4af8-af5f-67b1af7cc1f6'), -- Jaider Rondon
-('0b89b820-4c52-4ebd-aa4f-18262eac02db', 'usuario nuevo.', 0, 0, 'b015e026-c217-4c39-962e-4d477c3640c9'), -- Juan Bernal
-('4859698d-85f6-4e33-a668-c10a7d2a5a2d', 'usuario nuevo.', 0, 0, '2078ad6a-1373-4940-90a0-bf4bf1228e73'); -- Samuel Useche
+INSERT INTO `trabajadores` (`trabajador_id`, `trabajador_descripcion`, `trabajador_saldo`, `usuario_id`) VALUES
+('3439d1be-f5ee-4a34-98e7-accec2eb1729', 'usuario nuevo.', 0, '1997e4d2-fa0d-4cdd-b7a1-f970570a813e'), -- Andrés Gutiérrez
+('5a5c533d-55f8-469e-b3a3-724deba8c0ad', 'usuario nuevo.', 0, '1dc76732-83ea-4a78-afb8-e759959ee5c3'), -- David Fernando Diaz
+('285dd857-d030-4f90-a193-5383500b0963', 'usuario nuevo.', 0, 'e7864790-7e10-4af8-af5f-67b1af7cc1f6'), -- Jaider Rondon
+('0b89b820-4c52-4ebd-aa4f-18262eac02db', 'usuario nuevo.', 0, 'b015e026-c217-4c39-962e-4d477c3640c9'), -- Juan Bernal
+('4859698d-85f6-4e33-a668-c10a7d2a5a2d', 'usuario nuevo.', 0, '2078ad6a-1373-4940-90a0-bf4bf1228e73'); -- Samuel Useche
 
 -- ---------------------------------------------------------------
 --
