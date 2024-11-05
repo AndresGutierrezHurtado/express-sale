@@ -7,4 +7,6 @@ orderRoutes.post("/orders", OrderController.createOrder);
 orderRoutes.get("/orders/:id", OrderController.getOrder);
 orderRoutes.put("/orders/:id", OrderController.updateOrder);
 
+orderRoutes.get("/payu/callback", OrderController.payuCallback);
+
 export default orderRoutes;
