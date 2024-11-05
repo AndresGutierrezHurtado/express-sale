@@ -48,7 +48,7 @@ const PaymentDetails = sequelize.define(
             allowNull: false,
         },
         pago_metodo: {
-            type: DataTypes.INTEGER,
+            type: DataTypes.STRING(100),
             allowNull: false,
         },
         pago_valor: {

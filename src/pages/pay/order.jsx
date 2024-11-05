@@ -42,25 +42,7 @@ export default function Order() {
                                     <h2 className="text-xl font-bold">Compra:</h2>
                                     <div className="flex gap-2">
                                         <span className="font-medium">Método de pago:</span>
-                                        <p>
-                                            {order.paymentDetails.pago_metodo === 2
-                                                ? "Tarjetas de Crédito"
-                                                : order.paymentDetails.pago_metodo === 4
-                                                ? "Transferencias bancarias PSE"
-                                                : order.paymentDetails.pago_metodo === 5
-                                                ? "Débitos ACH"
-                                                : order.paymentDetails.pago_metodo === 6
-                                                ? "Tarjetas débito"
-                                                : order.paymentDetails.pago_metodo === 7
-                                                ? "Efectivo"
-                                                : order.paymentDetails.pago_metodo === 8
-                                                ? "Referencia de pago"
-                                                : order.paymentDetails.pago_metodo === 10
-                                                ? "Pago en bancos"
-                                                : order.paymentDetails.pago_metodo === 14
-                                                ? "Transferencias bancarias SPEI"
-                                                : "Código no reconocido"}
-                                        </p>
+                                        <p>{order.paymentDetails.pago_metodo}</p>
                                     </div>
 
                                     <div className="flex gap-2">

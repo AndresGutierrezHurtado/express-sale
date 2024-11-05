@@ -5,31 +5,6 @@ import crypto from "crypto";
 import UserController from "./userController.js";
 
 export default class OrderController {
-    static createOrder = (req, res) => {
-        const t = sequelize.transaction();
-        try {
-            const order = models.Order.create({
-                pedido_id: crypto.randomUUID(),
-                usuario_id: req.session.user.id,
-            });
-
-            t.commit();
-
-            res.status(200).json({
-                success: true,
-                message: "Orden creada correctamente",
-                data: order,
-            });
-        } catch (error) {
-            t.rollback();
-            res.status(500).json({
-                success: false,
-                message: error.message,
-                data: null,
-            });
-        }
-    };
-
     static updateOrder = (req, res) => {};
 
     static getOrder = async (req, res) => {
@@ -64,9 +39,38 @@ export default class OrderController {
         const t = await sequelize.transaction();
         const extraInfo = { ...JSON.parse(req.query.extra1), ...JSON.parse(req.query.extra2) };
 
-        console.log(req.query.referenceCode)
         try {
-            if (req.query.polResponseCode !== "1" || req.query.lapResponseCode !== "APPROVED") {
+            const payuResponse = await fetch(process.env.VITE_PAYU_TRANSACTION_REQUEST_URI, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    Accept: "application/json",
+                },
+                body: JSON.stringify({
+                    test: process.env.VITE_PAYU_TEST_MODE == 1 ? true : false,
+                    language: "en",
+                    command: "ORDER_DETAIL_BY_REFERENCE_CODE",
+                    merchant: {
+                        apiLogin: process.env.VITE_PAYU_API_LOGIN,
+                        apiKey: process.env.VITE_PAYU_API_KEY,
+                    },
+                    details: {
+                        referenceCode: req.query.referenceCode,
+                    },
+                }),
+            })
+                .then((res) => res.json())
+                .then((data) => {
+                    if (data.code !== "SUCCESS") {
+                        throw new Error(data.error);
+                    }
+                    return data.result.payload[0];
+                });
+
+            const transactionDetailedInfo =
+                payuResponse.transactions[payuResponse.transactions.length - 1];
+
+            if (transactionDetailedInfo.transactionResponse.state !== "APPROVED") {
                 throw new Error("No se pudo realizar el pago");
             }
 
@@ -78,14 +82,14 @@ export default class OrderController {
             const paymentDetails = await models.PaymentDetails.create({
                 pago_id: crypto.randomUUID(),
                 pedido_id: order.pedido_id,
-                pago_metodo: req.query.polPaymentMethodType,
-                pago_valor: req.query.TX_VALUE,
-                comprador_nombre: extraInfo.payerFullname,
-                comprador_correo: req.query.buyerEmail,
-                comprador_tipo_documento: extraInfo.payerDocumentType,
-                comprador_numero_documento: extraInfo.payerDocument,
-                comprador_telefono: extraInfo.payerPhone,
-                payu_referencia: req.query.referenceCode,
+                pago_metodo: transactionDetailedInfo.paymentMethod,
+                pago_valor: transactionDetailedInfo.additionalValues.PM_PAYER_TOTAL_AMOUNT.value,
+                comprador_nombre: transactionDetailedInfo.payer.fullName,
+                comprador_correo: transactionDetailedInfo.payer.emailAddress,
+                comprador_tipo_documento: transactionDetailedInfo.payer.dniType,
+                comprador_numero_documento: transactionDetailedInfo.payer.dniNumber,
+                comprador_telefono: transactionDetailedInfo.extraParameters.PAYER_TELEPHONE,
+                payu_referencia: payuResponse.referenceCode,
             });
 
             const shippingDetails = await models.ShippingDetails.create({
@@ -102,7 +106,7 @@ export default class OrderController {
                 include: [{ model: models.Product, as: "product" }],
             });
 
-            const cart = carts.map((cart) => {
+            const cartItems = carts.map((cart) => {
                 return {
                     pedido_id: order.pedido_id,
                     producto_id: cart.producto_id,
@@ -111,7 +115,9 @@ export default class OrderController {
                 };
             });
 
-            const orderProducts = await models.OrderProduct.bulkCreate(cart, { transaction: t });
+            const orderProducts = await models.OrderProduct.bulkCreate(cartItems, {
+                transaction: t,
+            });
 
             const emptyCart = await models.Cart.destroy({
                 where: { usuario_id: req.session.usuario_id },
