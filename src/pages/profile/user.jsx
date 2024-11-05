@@ -9,6 +9,7 @@ import {
     PhoneIcon,
     BoxesStackedIcon,
     StatsIcon,
+    EyeIcon,
 } from "@components/icons.jsx";
 import { UserEditModal } from "@components/profile/userEditModal.jsx";
 import ContentLoading from "@components/contentLoading.jsx";
@@ -35,6 +36,7 @@ export default function UserProfile() {
         reload: reloadOrders,
     } = useGetData(`/users/${id || userSession.usuario_id}/orders`);
 
+    console.log(orders);
     if (loadingUser || loadingOrders) return <ContentLoading />;
 
     return (
@@ -177,7 +179,7 @@ export default function UserProfile() {
                     </div>
                 </div>
             </section>
-            {/* <section className="w-full px-3">
+            <section className="w-full px-3">
                 <div className="w-full max-w-[1200px] mx-auto py-10">
                     <div className="space-y-5">
                         <h3 className="text-4xl font-extrabold">
@@ -185,33 +187,67 @@ export default function UserProfile() {
                                 ? "Mis compras"
                                 : "Compras del usuario"}
                         </h3>
-                        <div className=" shadow-lg rounded-lg border bg-white overflow-hidden divide-y divide-gray-200 px-5 py-3 ">
-                                <table className="table">
-                                    <thead>
-                                        <tr>
-                                            <th className="text-center">Fecha</th>
-                                            <th className="text-center">Productos</th>
-                                            <th className="text-center">Precio</th>
-                                            <th className="text-center">Acciones</th>
+                        <div className=" shadow-lg rounded-lg border bg-white overflow-hidden divide-y divide-gray-200 p-5 ">
+                            <table className="table border">
+                                <thead className="bg-gray-200">
+                                    <tr>
+                                        <th>Fecha</th>
+                                        <th>Productos</th>
+                                        <th>Precio</th>
+                                        <th>Acciones</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {orders.map((order) => (
+                                        <tr key={order.pedido_id}>
+                                            <td>
+                                                {new Date(order.pedido_fecha).toLocaleString(
+                                                    "es-CO"
+                                                )}
+                                            </td>
+                                            <td>
+                                                <div className="flex flex-col gap-1 items-start">
+                                                    {order.orderProducts.map((product) => (
+                                                        <div
+                                                            key={product.producto_id}
+                                                            className="tooltip tooltip-bottom"
+                                                            data-tip="Ir al perfil del producto"
+                                                        >
+                                                            <Link
+                                                                to={`/products/${product.product.producto_id}`}
+                                                                className="link link-hover"
+                                                            >
+                                                                {product.product.producto_nombre}
+                                                            </Link>
+                                                        </div>
+                                                    ))}
+                                                </div>
+                                            </td>
+                                            <td>
+                                                {parseInt(
+                                                    order.paymentDetails.pago_valor
+                                                ).toLocaleString("es-CO")}{" "}
+                                                COP
+                                            </td>
+                                            <td>
+                                                <Link
+                                                    to={`/order/${order.pedido_id}`}
+                                                    className="tooltip tooltip-left"
+                                                    data-tip="Ver detalles del pedido"
+                                                >
+                                                    <button className="btn btn-sm bg-purple-700 hover:bg-purple-800 text-purple-400 hover:text-purple-300">
+                                                        <EyeIcon size={20} />
+                                                    </button>
+                                                </Link>
+                                            </td>
                                         </tr>
-                                    </thead>
-                                    <tbody>
-                                        {orders.map((order) => (
-                                            <tr key={order.order_id}>
-                                                <td className="text-center">
-                                                    {order.pedido_id}
-                                                </td>
-                                                <td className="text-center">
-                                                    {order.pedido_fecha}
-                                                </td>
-                                            </tr>
-                                        ))}
-                                    </tbody>
-                                </table>
+                                    ))}
+                                </tbody>
+                            </table>
                         </div>
                     </div>
                 </div>
-            </section> */}
+            </section>
             <UserEditModal user={user} reload={reloadUser} />
         </>
     );
