@@ -1,3 +1,4 @@
+import React, { useState } from "react";
 import { useParams, Link } from "react-router-dom";
 
 // Components
@@ -12,6 +13,7 @@ import {
     EyeIcon,
 } from "@components/icons.jsx";
 import { UserEditModal } from "@components/profile/userEditModal.jsx";
+import { Order } from "@components/order.jsx";
 import ContentLoading from "@components/contentLoading.jsx";
 
 // Contexts
@@ -23,6 +25,7 @@ import { useGetData } from "@hooks/useFetchData.js";
 export default function UserProfile() {
     const { id } = useParams();
     const { userSession, loading } = useAuthContext();
+    const [ordersType, setOrdersType] = useState(null);
 
     const {
         loading: loadingUser,
@@ -36,7 +39,6 @@ export default function UserProfile() {
         reload: reloadOrders,
     } = useGetData(`/users/${id || userSession.usuario_id}/orders`);
 
-    console.log(orders);
     if (loadingUser || loadingOrders) return <ContentLoading />;
 
     return (
@@ -182,68 +184,63 @@ export default function UserProfile() {
             <section className="w-full px-3">
                 <div className="w-full max-w-[1200px] mx-auto py-10">
                     <div className="space-y-5">
-                        <h3 className="text-4xl font-extrabold">
+                        <h3 className="text-4xl font-extrabold tracking-tight">
                             {user.usuario_id == userSession.usuario_id
                                 ? "Mis compras"
                                 : "Compras del usuario"}
                         </h3>
-                        <div className=" shadow-lg rounded-lg border bg-white overflow-hidden divide-y divide-gray-200 p-5 ">
-                            <table className="table border">
-                                <thead className="bg-gray-200">
-                                    <tr>
-                                        <th>Fecha</th>
-                                        <th>Productos</th>
-                                        <th>Precio</th>
-                                        <th>Acciones</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    {orders.map((order) => (
-                                        <tr key={order.pedido_id}>
-                                            <td>
-                                                {new Date(order.pedido_fecha).toLocaleString(
-                                                    "es-CO"
-                                                )}
-                                            </td>
-                                            <td>
-                                                <div className="flex flex-col gap-1 items-start">
-                                                    {order.orderProducts.map((product) => (
-                                                        <div
-                                                            key={product.producto_id}
-                                                            className="tooltip tooltip-bottom"
-                                                            data-tip="Ir al perfil del producto"
-                                                        >
-                                                            <Link
-                                                                to={`/products/${product.product.producto_id}`}
-                                                                className="link link-hover"
-                                                            >
-                                                                {product.product.producto_nombre}
-                                                            </Link>
-                                                        </div>
-                                                    ))}
-                                                </div>
-                                            </td>
-                                            <td>
-                                                {parseInt(
-                                                    order.paymentDetails.pago_valor
-                                                ).toLocaleString("es-CO")}{" "}
-                                                COP
-                                            </td>
-                                            <td>
-                                                <Link
-                                                    to={`/order/${order.pedido_id}`}
-                                                    className="tooltip tooltip-left"
-                                                    data-tip="Ver detalles del pedido"
-                                                >
-                                                    <button className="btn btn-sm bg-purple-700 hover:bg-purple-800 text-purple-400 hover:text-purple-300">
-                                                        <EyeIcon size={20} />
-                                                    </button>
-                                                </Link>
-                                            </td>
-                                        </tr>
-                                    ))}
-                                </tbody>
-                            </table>
+
+                        <div className="flex flex-wrap gap-5">
+                            <div
+                                onClick={() => setOrdersType(null)}
+                                className={`badge badge-lg ${!ordersType && "badge-primary"}`}
+                            >
+                                Todas
+                            </div>
+                            <div
+                                onClick={() => setOrdersType("pendiente")}
+                                className={`badge badge-lg ${
+                                    ordersType == "pendiente" && "badge-primary"
+                                }`}
+                            >
+                                Pendientes
+                            </div>
+                            <div
+                                onClick={() => setOrdersType("enviando")}
+                                className={`badge badge-lg ${
+                                    ordersType == "enviando" && "badge-primary"
+                                }`}
+                            >
+                                Enviando
+                            </div>
+                            <div
+                                onClick={() => setOrdersType("entregando")}
+                                className={`badge badge-lg ${
+                                    ordersType == "entregando" && "badge-primary"
+                                }`}
+                            >
+                                Entregadas
+                            </div>
+                            <div
+                                onClick={() => setOrdersType("recibido")}
+                                className={`badge badge-lg ${
+                                    ordersType == "recibido" && "badge-primary"
+                                }`}
+                            >
+                                Recibidas
+                            </div>
+                        </div>
+
+                        <div className="grid grid-cols-[repeat(auto-fit,minmax(300px,1fr))] gap-5">
+                            {ordersType
+                                ? orders
+                                      .filter((order) => order.pedido_estado == ordersType)
+                                      .map((order) => {
+                                          return <Order order={order} key={order.pedido_id} />;
+                                      })
+                                : orders.map((order) => {
+                                      return <Order order={order} key={order.pedido_id} />;
+                                  })}
                         </div>
                     </div>
                 </div>
