@@ -27,14 +27,36 @@ export default function PayForm() {
         const validation = useValidateform(data, "pay-form");
 
         if (validation.success) {
+            document.getElementsByName("extra1")[0].value = JSON.stringify({
+                payerFullname: document.getElementsByName("buyerFullName")[0]?.value,
+                payerDocumentType: document.getElementsByName("payerDocumentType")[0]?.value,
+                payerDocument: document.getElementsByName("payerDocument")[0]?.value,
+                payerPhone: document.getElementsByName("payerPhone")[0]?.value,
+                payerMessage: document.getElementsByName("payerMessage")[0]?.value,
+            });
+
+            document.getElementsByName("extra2")[0].value = JSON.stringify({
+                shippingAddress: document.getElementsByName("shippingAddress")[0]?.value,
+                shippingCoordinates: document.getElementsByName("shippingCoordinates")[0]?.value,
+            });
+
             event.target.submit();
         }
     };
 
     // PayU config
-    const amount = carts && carts.reduce((total, cart) => total + cart.producto_cantidad * cart.product.producto_precio, 0);
+    const amount =
+        carts &&
+        carts.reduce(
+            (total, cart) => total + cart.producto_cantidad * cart.product.producto_precio,
+            0
+        );
     const referenceCode = `compra-${userSession.usuario_id}-${Date.now()}`;
-    const signature = MD5(`${import.meta.env.VITE_PAYU_API_KEY}~${import.meta.env.VITE_PAYU_MERCHANT_ID}~${referenceCode}~${amount}~COP`).toString();
+    const signature = MD5(
+        `${import.meta.env.VITE_PAYU_API_KEY}~${
+            import.meta.env.VITE_PAYU_MERCHANT_ID
+        }~${referenceCode}~${amount}~COP`
+    ).toString();
 
     if (loadingCarts) return <ContentLoading />;
 
@@ -74,25 +96,37 @@ export default function PayForm() {
                                     type="hidden"
                                     value={import.meta.env.VITE_PAYU_ACCOUNT_ID}
                                 />
-                                <input name="description" type="hidden" value={`Compra de ${carts.length} productos`} />
-                                <input name="referenceCode" type="hidden" value={`${referenceCode}`} />
+                                <input
+                                    name="description"
+                                    type="hidden"
+                                    value={`Compra de ${carts.length} productos`}
+                                />
+                                <input
+                                    name="referenceCode"
+                                    type="hidden"
+                                    value={`${referenceCode}`}
+                                />
                                 <input name="amount" type="hidden" value={amount} />
                                 <input name="tax" type="hidden" value="0" />
                                 <input name="taxReturnBase" type="hidden" value="0" />
                                 <input name="currency" type="hidden" value="COP" />
                                 <input name="shippingCity" type="hidden" value="Bogotá" />
                                 <input name="shippingCountry" type="hidden" value="CO" />
+                                <input name="signature" type="hidden" value={signature} />
                                 <input
-                                    name="signature"
+                                    name="test"
                                     type="hidden"
-                                    value={signature}
+                                    value={import.meta.env.VITE_PAYU_TEST_MODE}
                                 />
-                                <input name="test" type="hidden" value={import.meta.env.VITE_PAYU_TEST_MODE} />
                                 <input
                                     name="responseUrl"
                                     type="hidden"
-                                    value={`${import.meta.env.VITE_URL}/pay/callback`}
+                                    value={`${import.meta.env.VITE_API_URL}/payu/callback`}
                                 />
+                                <input name="extra1" type="hidden" value="" />
+                                <input name="extra2" type="hidden" value="" />
+
+                                {/* Visible fields */}
                                 <div className="form-control">
                                     <label className="label">
                                         <span className="label-text font-semibold after:content-['*'] after:ml-1 after:text-red-500">
