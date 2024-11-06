@@ -24,6 +24,7 @@ import WorkerStats from "@pages/profile/worker/stats.jsx";
 import Cart from "@pages/pay/cart.jsx";
 import PayForm from "@pages/pay/payForm.jsx";
 import Order from "@pages/pay/order.jsx";
+import Delivery from "@pages/profile/worker/delivery.jsx";
 
 // Contexts
 import { AuthProvider } from "@contexts/authContext.jsx";
@@ -55,6 +56,7 @@ export default function App() {
                         <Route path="/" element={<GuestLayout />}>
                             <Route path="/payform" element={<PayForm />} />
                             <Route path="/order/:id" element={<Order />} />
+                            <Route path="/delivery/:id" element={<Delivery />} />
                         </Route>
                     </Route>
                     {/* must not be auth */}
