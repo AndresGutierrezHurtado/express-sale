@@ -10,6 +10,8 @@ import { CartAddIcon, StarIcon, UserIcon, ClipIcon, PaperPlaneIcon } from "@comp
 import ContentLoading from "@components/contentLoading.jsx";
 import { Calification } from "@components/calification";
 
+// Contexts
+import { useAuthContext } from "@contexts/authContext.jsx";
 
 export default function Product() {
     const { id } = useParams();
@@ -25,8 +27,14 @@ export default function Product() {
         reload: reloadRatings,
     } = useGetData(`/products/${id}/ratings`);
 
+    const { userSession, authMiddlewareAlert } = useAuthContext();
+
     const handleRatingSubmit = async (event) => {
         event.preventDefault();
+        if (!userSession) {
+            authMiddlewareAlert("Para calificar, debes iniciar sesión");
+            return;
+        }
 
         const data = Object.fromEntries(new FormData(event.target));
         const validation = useValidateform(data, "rate-form");
