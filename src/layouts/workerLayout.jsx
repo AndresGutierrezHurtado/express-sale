@@ -39,7 +39,7 @@ export default function WorkerLayout() {
                                 Menu de {user.usuario_nombre}
                             </h2>
                         </div>
-                        <div className="grow">
+                        <div className="grow space-y-2">
                             <li>
                                 <Link to={`/worker/stats/${id}`}>
                                     <StatsIcon />

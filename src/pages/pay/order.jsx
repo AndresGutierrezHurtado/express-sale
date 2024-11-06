@@ -9,7 +9,6 @@ import { useGenerateReceipt } from "@hooks/useGenerateReceipt";
 import ContentLoading from "@components/contentLoading.jsx";
 import { EyeIcon, CircleCheckIcon, ArrowLeftIcon, ReceiptIcon } from "@components/icons.jsx";
 
-
 // Contexts
 import { useAuthContext } from "@contexts/authContext.jsx";
 
@@ -21,7 +20,7 @@ export default function Order() {
     if (orderLoading) return <ContentLoading />;
     return (
         <>
-            <div className="w-full min-h-screen flex items-center justify-center">
+            <div className="w-full min-h-screen flex items-center justify-center py-10">
                 <div className="card bg-white border border-gray-100 shadow-lg rounded-lg w-full max-w-2xl">
                     <div className="card-body space-y-4">
                         <h2 className="text-4xl font-extrabold tracking-tight">
@@ -68,7 +67,10 @@ export default function Order() {
                                 </article>
                             </div>
 
-                            <button onClick={() => useGenerateReceipt(order, userSession)} className="btn w-full btn-sm relative">
+                            <button
+                                onClick={() => useGenerateReceipt(order, userSession)}
+                                className="btn w-full btn-sm relative"
+                            >
                                 <span className="absolute left-3 top-1/2 -translate-y-1/2">
                                     <ReceiptIcon size={17} />
                                 </span>
@@ -138,12 +140,14 @@ export default function Order() {
                         </div>
                         <hr />
                         <div className="flex flex-col gap-2">
-                            <button className="btn w-full btn-sm btn-success text-white relative">
-                                <span className="absolute left-3 top-1/2 -translate-y-1/2">
-                                    <CircleCheckIcon size={17} />
-                                </span>
-                                Marcar como recibido
-                            </button>
+                            {order.pedido_estado == "entregado" && (
+                                <button className="btn w-full btn-sm btn-success text-white relative">
+                                    <span className="absolute left-3 top-1/2 -translate-y-1/2">
+                                        <CircleCheckIcon size={17} />
+                                    </span>
+                                    Marcar como recibido
+                                </button>
+                            )}
                             <Link to={`/profile/user/${order.usuario_id}`}>
                                 <button className="btn w-full btn-sm relative">
                                     <span className="absolute left-3 top-1/2 -translate-y-1/2">

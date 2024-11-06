@@ -276,14 +276,56 @@ export default class UserController {
                             )`),
                             "calificacion_cantidad",
                         ],
+                        [
+                            sequelize.literal(`(
+                                SELECT COALESCE(COUNT(*) ,0)
+                                FROM detalles_envios
+                                INNER JOIN trabajadores ON User.usuario_id = trabajadores.usuario_id
+                                WHERE trabajadores.trabajador_id = detalles_envios.trabajador_id
+                            )`),
+                            "envios_cantidad",
+                        ],
+                        [
+                            sequelize.literal(`(
+                                SELECT COALESCE(COUNT(*) ,0)
+                                FROM productos_pedidos
+                                INNER JOIN productos ON productos_pedidos.producto_id = productos.producto_id
+                                WHERE productos.usuario_id = User.usuario_id
+                            )`),
+                            "ventas_cantidad",
+                        ],
                     ],
                 },
                 include: ["role", "worker"],
             });
+
+            const yearSales = await sequelize.query(
+                `
+                    SELECT MONTH(pedidos.pedido_fecha) AS mes, YEAR(pedidos.pedido_fecha) AS anio, COUNT(*) AS total_productos, SUM(detalles_pagos.pago_valor) AS dinero_ventas
+                    FROM productos_pedidos
+                    INNER JOIN productos ON productos_pedidos.producto_id = productos.producto_id
+                    INNER JOIN pedidos ON pedidos.pedido_id = productos_pedidos.pedido_id
+                    INNER JOIN detalles_pagos ON pedidos.pedido_id = detalles_pagos.pedido_id
+                    WHERE productos.usuario_id = "${req.params.id}"
+                    GROUP BY MONTH(pedidos.pedido_fecha)
+                    ORDER BY mes;
+                `
+            );
+
+            const result = user.worker
+                ? {
+                      ...user.toJSON(),
+                      worker: {
+                          ...user.worker.toJSON(),
+                          ventas_mensuales: yearSales[0],
+                      },
+                  }
+                : user.toJSON();
+
             res.status(200).json({
                 success: true,
                 message: "Usuario obtenido correctamente.",
-                data: user,
+                data: result,
             });
         } catch (error) {
             res.status(500).json({
