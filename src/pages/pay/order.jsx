@@ -3,14 +3,20 @@ import { Link, useParams } from "react-router-dom";
 
 // Hooks
 import { useGetData } from "@hooks/useFetchData.js";
+import { useGenerateReceipt } from "@hooks/useGenerateReceipt";
 
 // Components
 import ContentLoading from "@components/contentLoading.jsx";
 import { EyeIcon, CircleCheckIcon, ArrowLeftIcon, ReceiptIcon } from "@components/icons.jsx";
 
+
+// Contexts
+import { useAuthContext } from "@contexts/authContext.jsx";
+
 export default function Order() {
     const { id } = useParams();
     const { data: order, loading: orderLoading } = useGetData(`/orders/${id}`);
+    const { userSession } = useAuthContext();
 
     if (orderLoading) return <ContentLoading />;
     return (
@@ -62,7 +68,7 @@ export default function Order() {
                                 </article>
                             </div>
 
-                            <button className="btn w-full btn-sm relative">
+                            <button onClick={() => useGenerateReceipt(order, userSession)} className="btn w-full btn-sm relative">
                                 <span className="absolute left-3 top-1/2 -translate-y-1/2">
                                     <ReceiptIcon size={17} />
                                 </span>
