@@ -5,36 +5,6 @@ import crypto from "crypto";
 import UserController from "./userController.js";
 
 export default class OrderController {
-    static updateOrder = (req, res) => {};
-
-    static getOrder = async (req, res) => {
-        try {
-            const order = await models.Order.findByPk(req.params.id, {
-                include: [
-                    {
-                        model: models.OrderProduct,
-                        as: "orderProducts",
-                        include: { model: models.Product, as: "product" },
-                    },
-                    { model: models.ShippingDetails, as: "shippingDetails" },
-                    { model: models.PaymentDetails, as: "paymentDetails" },
-                ],
-            });
-
-            res.status(200).json({
-                success: false,
-                message: "Orden encontrada correctamente",
-                data: order,
-            });
-        } catch (error) {
-            res.status(500).json({
-                success: false,
-                message: error.message,
-                data: null,
-            });
-        }
-    };
-
     static payuCallback = async (req, res) => {
         const t = await sequelize.transaction();
         const extraInfo = { ...JSON.parse(req.query.extra1), ...JSON.parse(req.query.extra2) };
@@ -127,6 +97,99 @@ export default class OrderController {
             res.redirect(`${process.env.VITE_URL}/order/${order.pedido_id}`);
         } catch (error) {
             await t.rollback();
+            res.status(500).json({
+                success: false,
+                message: error.message,
+                data: null,
+            });
+        }
+    };
+
+    static updateOrder = async (req, res) => {
+        const t = await sequelize.transaction();
+        try {
+            if (req.body.order) {
+                await models.Order.update(req.body.order, {
+                    where: { pedido_id: req.params.id },
+                    transaction: t,
+                });
+            }
+
+            if (req.body.shippingDetails) {
+                await models.ShippingDetails.update(req.body.shippingDetails, {
+                    where: { pedido_id: req.params.id },
+                    transaction: t,
+                });
+            }
+
+            await t.commit();
+            res.status(200).json({
+                success: true,
+                message: "Orden actualizada correctamente",
+                data: null,
+            });
+        } catch (error) {
+            await t.rollback();
+            res.status(500).json({
+                success: false,
+                message: error.message,
+                data: null,
+            });
+        }
+    };
+
+    static getOrder = async (req, res) => {
+        try {
+            const order = await models.Order.findByPk(req.params.id, {
+                include: [
+                    {
+                        model: models.OrderProduct,
+                        as: "orderProducts",
+                        include: { model: models.Product, as: "product" },
+                    },
+                    { model: models.ShippingDetails, as: "shippingDetails" },
+                    { model: models.PaymentDetails, as: "paymentDetails" },
+                ],
+            });
+
+            res.status(200).json({
+                success: false,
+                message: "Orden encontrada correctamente",
+                data: order,
+            });
+        } catch (error) {
+            res.status(500).json({
+                success: false,
+                message: error.message,
+                data: null,
+            });
+        }
+    };
+
+    static getOrders = async (req, res) => {
+        const whereClause = {};
+        if (req.query.pedido_estado) whereClause.pedido_estado = req.query.pedido_estado;
+        try {
+            const order = await models.Order.findAll({
+                where: whereClause,
+                include: [
+                    { model: models.User, as: "user" },
+                    {
+                        model: models.OrderProduct,
+                        as: "orderProducts",
+                        include: { model: models.Product, as: "product" },
+                    },
+                    { model: models.ShippingDetails, as: "shippingDetails" },
+                    { model: models.PaymentDetails, as: "paymentDetails" },
+                ],
+            });
+
+            res.status(200).json({
+                success: false,
+                message: "Orden encontrada correctamente",
+                data: order,
+            });
+        } catch (error) {
             res.status(500).json({
                 success: false,
                 message: error.message,

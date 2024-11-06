@@ -24,10 +24,12 @@ const sessionStore = new SequelizeSessionStore({
 
 const app = express();
 app.use(express.json({ limit: "10mb" }));
-app.use(cors({
-    origin: process.env.VITE_URL,
-    credentials: true,
-}));
+app.use(
+    cors({
+        origin: process.env.VITE_URL,
+        credentials: true,
+    })
+);
 app.use(
     session({
         secret: process.env.JWT_SECRET,
@@ -44,7 +46,9 @@ app.use(
 );
 app.use(async (req, res, next) => {
     if (req.session.usuario_id) {
-        const user = await models.User.findByPk(req.session.usuario_id);
+        const user = await models.User.findByPk(req.session.usuario_id, {
+            include: ["worker", "role"],
+        });
         if (user) {
             req.session.user = user;
         }

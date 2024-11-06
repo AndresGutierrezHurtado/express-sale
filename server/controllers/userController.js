@@ -175,12 +175,6 @@ export default class UserController {
         }
     };
 
-    static updateUserImage = async (userId, image) => {
-        // sharp image
-        // Save image in a cdn
-        // update image in database
-    };
-
     static deleteUser = async (req, res) => {
         try {
             await models.User.destroy({ where: { usuario_id: req.params.id } });
