@@ -47,6 +47,20 @@ app.use(
 app.use(async (req, res, next) => {
     if (req.session.usuario_id) {
         const user = await models.User.findByPk(req.session.usuario_id, {
+            attributes: {
+                include: [
+                    [
+                        conn.literal(`(
+                            SELECT pedidos.pedido_id
+                            FROM pedidos
+                            INNER JOIN detalles_envios ON detalles_envios.pedido_id = pedidos.pedido_id
+                            INNER JOIN trabajadores ON detalles_envios.trabajador_id = trabajadores.trabajador_id
+                            WHERE trabajadores.usuario_id = "${req.session.usuario_id}" AND pedidos.pedido_estado = "enviando"
+                            )`),
+                        "domiciliario_domicilio",
+                    ],
+                ],
+            },
             include: ["worker", "role"],
         });
         if (user) {

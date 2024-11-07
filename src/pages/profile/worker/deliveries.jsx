@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Swal from "sweetalert2";
 import { useNavigate } from "react-router-dom";
 
@@ -16,6 +16,17 @@ export default function WorkerDeliveries() {
     const navigate = useNavigate();
     const { data: orders, loading: loadingOrders } = useGetData(`/orders?pedido_estado=pendiente`);
     const { userSession } = useAuthContext();
+
+    useEffect(() => {
+        if (userSession.domiciliario_domicilio) {
+            Swal.fire({
+                icon: "info",
+                title: "Domicilio asignado",
+                text: "No puedes realizar pedidos si ya tienes un domicilio asignado",
+            });
+            navigate(`/delivery/${userSession.domiciliario_domicilio}`);
+        }
+    });
 
     const handleSelectOrder = (event) => {
         Swal.fire({
