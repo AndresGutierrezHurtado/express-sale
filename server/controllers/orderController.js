@@ -145,10 +145,15 @@ export default class OrderController {
                     {
                         model: models.OrderProduct,
                         as: "orderProducts",
-                        include: { model: models.Product, as: "product" },
+                        include: {
+                            model: models.Product,
+                            as: "product",
+                            include: { model: models.User, as: "user" },
+                        },
                     },
                     { model: models.ShippingDetails, as: "shippingDetails" },
                     { model: models.PaymentDetails, as: "paymentDetails" },
+                    { model: models.User, as: "user" },
                 ],
             });
 

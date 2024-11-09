@@ -15,6 +15,7 @@ import {
     FaSortDown,
     FaArrowLeft,
     FaCircleCheck,
+    FaWaze,
 } from "react-icons/fa6";
 import {
     FaUser,
@@ -34,6 +35,7 @@ import { HiPencil, HiDotsVertical } from "react-icons/hi";
 import { IoMdEye } from "react-icons/io";
 import { ImStatsBars } from "react-icons/im";
 import { BsGoogle } from "react-icons/bs";
+import { SiGooglemaps } from "react-icons/si";
 
 export const SearchIcon = (props) => <IoSearch {...props} />;
 
@@ -104,3 +106,7 @@ export const SortDownIcon = (props) => <FaSortDown {...props} />;
 export const CircleCheckIcon = (props) => <FaCircleCheck {...props} />;
 
 export const ReceiptIcon = (props) => <FaReceipt {...props} />;
+
+export const GoogleMapsIcon = (props) => <SiGooglemaps {...props} />;
+
+export const WazeIcon = (props) => <FaWaze {...props} />;
