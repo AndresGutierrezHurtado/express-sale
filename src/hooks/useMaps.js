@@ -73,50 +73,74 @@ export const useReverseGeocode = (lat, lng, inputName) => {
     }
 };
 
-// Hook para hallar la distancia entre dos ubicaciones
-export const useDistanceMatrix = (origin, destination) => {
-    const [distance, setDistance] = useState(null);
-    const [duration, setDuration] = useState(null);
+export const useGeocode = (address, isLoaded) => {
+    const [location, setLocation] = useState(null);
+    const geocoder = !isLoaded ? null : new window.google.maps.Geocoder();
 
     useEffect(() => {
-        const service = new window.google.maps.DistanceMatrixService();
-        service
-            .getDistanceMatrix({
-                origins: [origin],
-                destinations: [destination],
-                travelMode: "DRIVING",
-            })
-            .then((response) => {
-                if (response.rows[0].elements[0].status === "OK") {
-                    setDistance(response.rows[0].elements[0].distance.text);
-                    setDuration(response.rows[0].elements[0].duration.text);
+        if (!geocoder || !address) return;
+
+        const geocodeAddress = () => {
+            geocoder.geocode({ address }, (results, status) => {
+                if (status === "OK" && results[0]) {
+                    const { lat, lng } = results[0].geometry.location;
+                    setLocation({ lat: lat(), lng: lng() });
+                } else {
+                    console.error(`Geocode failed for ${address}: ${status}`);
                 }
             });
-    }, [origin, destination]);
+        };
 
-    return { distance, duration };
+        geocodeAddress();
+
+    }, [address, isLoaded]);
+
+    return location;
 };
 
 // Hook para hallar el camino mas corto iniciando por la ubicacion del usuario y devuelve los archivos en orden junto a la distancia total
-export const useShortestPath = (waypoints) => {
-    const [shortestPath, setShortestPath] = useState(null);
-
-    const { userLocation } = useGetUserLocation();
+export const useShortestPath = (waypoints, isLoaded, userLocation) => {
+    const [shortestPath, setShortestPath] = useState({ loaded: false, route: [], distance: 0 });
+    const geocodedWaypoints = waypoints.map((address) => useGeocode(address, isLoaded));
 
     useEffect(() => {
-        const service = new window.google.maps.DistanceMatrixService();
-        service
-            .getDistanceMatrix({
-                origins: [userLocation],
-                destinations: waypoints,
-                travelMode: "DRIVING",
-            })
-            .then((response) => {
-                if (response.rows[0].elements[0].status === "OK") {
-                    setShortestPath(response.rows[0].elements);
-                }
-            });
-    }, [waypoints, userLocation]);
+        if (!userLocation || !geocodedWaypoints[0] || !isLoaded ) return;
 
-    return { shortestPath };
+        const directionsService = new window.google.maps.DirectionsService();
+
+        directionsService.route(
+            {
+                origin: userLocation,
+                waypoints: geocodedWaypoints.map((waypoint) => ({ location: waypoint })),
+                destination: geocodedWaypoints[geocodedWaypoints.length - 1],
+                travelMode: window.google.maps.TravelMode.DRIVING,
+                optimizeWaypoints: true,
+                unitSystem: window.google.maps.UnitSystem.METRIC,
+            },
+            (result, status) => {
+                if (status === "OK") {
+                    const route = result.routes[0];
+                    let totalDistance = 0;
+
+                    route.legs.forEach((leg) => {
+                        totalDistance += leg.distance.value;
+                    });
+
+                    setShortestPath({
+                        loaded: true,
+                        route: route.legs.map((leg) => ({
+                            address: leg.end_address,
+                            lat: leg.end_location.lat(),
+                            lng: leg.end_location.lng(),
+                        })),
+                        distance: totalDistance / 1000,
+                    });
+                } else {
+                    console.error("Error calculating route: ", status);
+                }
+            }
+        );
+    }, [userLocation, waypoints, isLoaded]);
+
+    return shortestPath;
 };

@@ -7,6 +7,7 @@ import { useGetData } from "@hooks/useFetchData";
 // Components
 import ContentLoading from "@components/contentLoading.jsx";
 import { GoogleMapsIcon, WazeIcon, CircleCheckIcon } from "@components/icons.jsx";
+import { DeliveryRouteMap } from "@components/map";
 
 export default function Delivery() {
     const { id } = useParams();
@@ -14,42 +15,12 @@ export default function Delivery() {
 
     if (orderLoading) return <ContentLoading />;
 
-    const {
-        pedido_id,
-        pedido_fecha,
-        pedido_estado,
-        orderProducts,
-        shippingDetails,
-        paymentDetails,
-    } = order;
+    const { orderProducts, shippingDetails, paymentDetails } = order;
 
     const totalAmount = orderProducts.reduce(
         (total, item) => total + item.producto_precio * item.producto_cantidad,
         0
     );
-
-    // GETDISTANCE =>    var origin1 = new google.maps.LatLng(55.930385, -3.118425);
-    // var origin2 = 'Greenwich, England';
-    // var destinationA = 'Stockholm, Sweden';
-    // var destinationB = new google.maps.LatLng(50.087692, 14.421150);
-
-    // var service = new google.maps.DistanceMatrixService();
-    // service.getDistanceMatrix(
-    //   {
-    //     origins: [origin1, origin2],
-    //     destinations: [destinationA, destinationB],
-    //     travelMode: 'DRIVING',
-    //     transitOptions: TransitOptions,
-    //     drivingOptions: DrivingOptions,
-    //     unitSystem: UnitSystem,
-    //     avoidHighways: Boolean,
-    //     avoidTolls: Boolean,
-    //   }, callback);
-
-    // function callback(response, status) {
-    //   // See Parsing the Results for
-    //   // the basics of a callback function.
-    // }
 
     return (
         <section className="w-full px-3">
@@ -110,19 +81,11 @@ export default function Delivery() {
 
                         <hr />
                         {/* Mapa */}
-                        <div className="space-y-5">
-                            <></>
-                            <div className="flex flex-col gap-3 items-center justify-center">
-                                <button className="btn btn-sm w-full max-w-lg">
-                                    <GoogleMapsIcon size={18} />
-                                    Ver ruta en Google Maps
-                                </button>
-                                <button className="btn btn-sm w-full max-w-lg">
-                                    <WazeIcon size={19} />
-                                    Ver ruta en Waze
-                                </button>
-                            </div>
-                        </div>
+                        <DeliveryRouteMap
+                            addresses={orderProducts.map(
+                                (item) => item.product.user.usuario_direccion
+                            )}
+                        />
                         <hr />
                         <div className="flex items-center justify-center">
                             <button className="btn btn-sm btn-success text-white w-full max-w-lg">

@@ -1,11 +1,18 @@
 import React, { useEffect, useRef, useState } from "react";
 import { GoogleMap, MarkerF as Marker } from "@react-google-maps/api";
+
+// Hooks
 import {
     useAddressAutocomplete,
     useGetUserLocation,
     useMapsApiLoader,
     useReverseGeocode,
-} from "../hooks/useMaps";
+    useShortestPath,
+} from "@hooks/useMaps";
+
+// Components
+import { GoogleMapsIcon, WazeIcon } from "./icons.jsx";
+import { Link } from "react-router-dom";
 
 // Componente de Mapa para Formulario de Pago
 export function FormMap() {
@@ -22,7 +29,7 @@ export function FormMap() {
         const lng = event.latLng.lng();
         setLocation({ lat, lng });
         useReverseGeocode(lat, lng, "shippingAddress");
-        setZoom((prev) => prev >= 19 ? prev : prev + 2);
+        setZoom((prev) => (prev >= 19 ? prev : prev + 2));
     };
 
     useEffect(() => {
@@ -67,9 +74,13 @@ export function FormMap() {
                         fullscreenControl: false,
                     }}
                     onClick={handleMapClick}
-                    onLoad={(map) => mapRef.current = map}
+                    onLoad={(map) => (mapRef.current = map)}
                 >
-                    <Marker position={location} title="Tu ubicación" animation={google.maps.Animation.DROP} />
+                    <Marker
+                        position={location}
+                        title="Tu ubicación"
+                        animation={google.maps.Animation.DROP}
+                    />
                 </GoogleMap>
             </div>
         </div>
@@ -77,27 +88,73 @@ export function FormMap() {
 }
 
 // Ejemplo de otro componente de mapa para la vista de rutas de domiciliarios
-export function DeliveryRouteMap() {
-    const { userLocation } = useGetUserLocation();
-    const { isLoaded } = useJsApiLoader({
-        googleMapsApiKey: API_KEY,
-        libraries,
-    });
+export function DeliveryRouteMap({ addresses }) {
+    const userLocation = useGetUserLocation();
+    const isLoaded = useMapsApiLoader();
 
-    if (!isLoaded) return <div className="w-full h-[200px] rounded skeleton"></div>;
+    const { loaded, route, distance } = useShortestPath(addresses, isLoaded, userLocation);
+
+    if (!isLoaded || !loaded) {
+        return (
+            <div className="space-y-5">
+                <div className="w-full h-[400px] rounded skeleton flex items-center justify-center text-xl font-bold">
+                    {" "}
+                    Cargando ruta...
+                </div>
+
+                <div className="flex flex-col gap-3 items-center justify-center">
+                    <div className="skeleton h-6 w-full max-w-lg"></div>
+                    <div className="skeleton h-6 w-full max-w-lg"></div>
+                </div>
+            </div>
+        );
+    }
 
     return (
-        <div className="w-full h-[400px] rounded overflow-hidden">
-            <GoogleMap
-                mapContainerClassName="w-full h-full"
-                center={userLocation}
-                zoom={10}
-                options={{
-                    streetViewControl: false,
-                    mapTypeControl: false,
-                    fullscreenControl: false,
-                }}
-            ></GoogleMap>
+        <div className="space-y-5">
+            <div className="w-full h-[400px] rounded overflow-hidden">
+                <GoogleMap
+                    mapContainerClassName="w-full h-full"
+                    center={userLocation}
+                    zoom={10}
+                    options={{
+                        streetViewControl: false,
+                        mapTypeControl: false,
+                        fullscreenControl: false,
+                    }}
+                >
+                    {route.map((point, index) => (
+                        <Marker
+                            key={index}
+                            position={{ lat: point.lat, lng: point.lng }}
+                            title={addresses[index]}
+                            animation={google.maps.Animation.DROP}
+                        />
+                    ))}
+                </GoogleMap>
+            </div>
+            <div className="flex flex-col gap-3 items-center justify-center">
+                <Link
+                    target="_blank"
+                    to={`https://www.google.com/maps/dir/${userLocation.lat},${
+                        userLocation.lng
+                    }/${route.map((point) => point.lat + "," + point.lng).join("/")}`}
+                    className="btn btn-sm w-full max-w-lg"
+                >
+                    <GoogleMapsIcon size={18} />
+                    Ver ruta en Google Maps
+                </Link>
+                <Link
+                    target="_blank"
+                    to={`https://waze.com/ul?ll=${route
+                        .map((point) => point.lat + "," + point.lng)
+                        .join("/")}`}
+                    className="btn btn-sm w-full max-w-lg"
+                >
+                    <WazeIcon size={19} />
+                    Ver ruta en Waze
+                </Link>
+            </div>
         </div>
     );
 }
