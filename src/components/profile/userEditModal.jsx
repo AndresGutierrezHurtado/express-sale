@@ -1,12 +1,18 @@
-// Icons
+// Components
+import ContentLoading from "../contentLoading.jsx";
 import { RegisterIcon } from "../icons";
 
 // Hooks
 import { useValidateform } from "@hooks/useValidateForm";
 import { usePutData } from "@hooks/useFetchData";
 import { useConvertImage } from "@hooks/useConvertImage";
+import { useMapsApiLoader, useAddressAutocomplete } from "@hooks/useMaps";
 
 export function UserEditModal({ user, reload }) {
+    const isLoaded = useMapsApiLoader();
+
+    if (isLoaded) useAddressAutocomplete("usuario_direccion");
+
     const handleUpdateUserSubmit = async (event) => {
         event.preventDefault();
 

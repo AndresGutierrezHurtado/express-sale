@@ -1,143 +1,83 @@
-import React, { useState, useEffect, useRef } from "react";
-import { GoogleMap, Marker, useJsApiLoader } from "@react-google-maps/api";
-import { useGetUserLocation } from "../hooks/useMaps";
-
-const libraries = ["places"];
-const API_KEY = import.meta.env.VITE_GOOGLE_MAPS_KEY;
-
-// Componente de Mapa General
-export function Map({ center, zoom, onClick, children, options }) {
-    return (
-        <GoogleMap
-            mapContainerStyle={{ width: "100%", height: "100%" }}
-            center={center}
-            zoom={zoom}
-            onClick={onClick}
-            options={options}
-        >
-            {children}
-        </GoogleMap>
-    );
-}
-
-// Hook para configurar Autocomplete en un input
-function useAddressAutocomplete(setLocation, setAddress, setError) {
-    const autocompleteRef = useRef(null);
-    const [trigger, setTrigger] = useState(0);
-    
-    useEffect(() => {
-        if (window.google && window.google.maps.places && !autocompleteRef.current) {
-            autocompleteRef.current = new window.google.maps.places.Autocomplete(
-                document.getElementById("autocomplete"),
-                { types: ["address"] }
-            );
-            autocompleteRef.current.addListener("place_changed", () => {
-                const place = autocompleteRef.current.getPlace();
-                if (place.geometry) {
-                    setLocation({
-                        lat: place.geometry.location.lat(),
-                        lng: place.geometry.location.lng(),
-                    });
-                    setAddress(place.formatted_address || "");
-                    setError(null);
-                } else {
-                    setError("Dirección no encontrada");
-                }
-            });
-        } else {
-            setTimeout(() => setTrigger(trigger + 1), 1000);
-        }
-    }, [trigger]);
-}
-
-// Función de geocodificación inversa para convertir coordenadas en dirección
-function reverseGeocode(lat, lng, setAddress, setError) {
-    const geocoder = new window.google.maps.Geocoder();
-    geocoder.geocode({ location: { lat, lng } }, (results, status) => {
-        if (status === "OK" && results[0]) {
-            setAddress(results[0].formatted_address);
-            setError(null);
-        } else {
-            setError("No se pudo obtener la dirección de esta ubicación");
-        }
-    });
-}
+import React, { useEffect, useRef, useState } from "react";
+import { GoogleMap, MarkerF as Marker } from "@react-google-maps/api";
+import {
+    useAddressAutocomplete,
+    useGetUserLocation,
+    useMapsApiLoader,
+    useReverseGeocode,
+} from "../hooks/useMaps";
 
 // Componente de Mapa para Formulario de Pago
 export function FormMap() {
-    const { userLocation, setUserLocation } = useGetUserLocation();
-    const [address, setAddress] = useState("");
-    const [error, setError] = useState(null);
-    const { isLoaded } = useJsApiLoader({
-        googleMapsApiKey: API_KEY,
-        libraries,
-    });
+    const userLocation = useGetUserLocation();
+    const isLoaded = useMapsApiLoader();
+    if (isLoaded) useAddressAutocomplete("shippingAddress");
 
-    useAddressAutocomplete(setUserLocation, setAddress, setError);
+    const [location, setLocation] = useState(userLocation);
+    const [zoom, setZoom] = useState(9);
+    const mapRef = useRef(null);
 
-    const onMapClick = (event) => {
+    const handleMapClick = (event) => {
         const lat = event.latLng.lat();
         const lng = event.latLng.lng();
-        setUserLocation({ lat, lng });
-        reverseGeocode(lat, lng, setAddress, setError);
+        setLocation({ lat, lng });
+        useReverseGeocode(lat, lng, "shippingAddress");
+        setZoom((prev) => prev >= 19 ? prev : prev + 2);
     };
+
+    useEffect(() => {
+        setLocation(userLocation);
+        useReverseGeocode(userLocation.lat, userLocation.lng, "shippingAddress");
+    }, [userLocation]);
+
+    useEffect(() => {
+        if (mapRef.current && location) {
+            mapRef.current.panTo(location);
+        }
+    }, [location]);
+
+    if (!location) return <div className="text-red-500">Ubicación del usuario no disponible</div>;
 
     if (!isLoaded) return <div className="w-full h-[200px] rounded skeleton"></div>;
 
-    if (!userLocation) {
-        return <div className="text-red-500">Ubicación del usuario no disponible</div>;
-    }
-
     return (
         <div className="form-group space-y-4">
-            <AddressInput address={address} setAddress={setAddress} error={error} coords={userLocation} />
+            <div className="form-control">
+                <label className="label">
+                    <span className="label-text font-semibold after:content-['*'] after:ml-1 after:text-red-500">
+                        Dirección:
+                    </span>
+                </label>
+                <input
+                    id="autocomplete"
+                    name="shippingAddress"
+                    placeholder="Ingresa tu direccion"
+                    className="input input-bordered input-sm focus:outline-0 focus:input-primary"
+                />
+                <input type="hidden" name="shippingCoordinates" value={JSON.stringify(location)} />
+            </div>
             <div className="w-full h-[200px] rounded overflow-hidden">
-                <Map
-                    center={userLocation}
-                    zoom={15}
+                <GoogleMap
+                    mapContainerClassName="w-full h-full"
+                    center={location}
+                    zoom={zoom}
                     options={{
                         streetViewControl: false,
                         mapTypeControl: false,
                         fullscreenControl: false,
                     }}
-                    onClick={onMapClick}
+                    onClick={handleMapClick}
+                    onLoad={(map) => mapRef.current = map}
                 >
-                    <Marker position={userLocation} title="Lugar de entrega" />
-                </Map>
+                    <Marker position={location} title="Tu ubicación" animation={google.maps.Animation.DROP} />
+                </GoogleMap>
             </div>
         </div>
     );
 }
 
-// Componente Input para Dirección
-function AddressInput({ address, setAddress, error, coords }) {
-    return (
-        <div className="form-control">
-            <label className="label">
-                <span className="label-text font-semibold after:content-['*'] after:ml-1 after:text-red-500">
-                    Dirección:
-                </span>
-            </label>
-            <input
-                id="autocomplete"
-                name="shippingAddress"
-                placeholder="Ingresa tu direccion"
-                className="input input-bordered input-sm focus:outline-0 focus:input-primary"
-                value={address}
-                onChange={(e) => setAddress(e.target.value)}
-            />
-            <input type="hidden" name="shippingCoordinates" value={JSON.stringify(coords)} />
-            {error && (
-                <label className="label">
-                    <span className="label-text-alt text-red-500">{error}</span>
-                </label>
-            )}
-        </div>
-    );
-}
-
-// Ejemplo de otro componente de mapa para la vista de rutas de vendedores
-export function VendorRouteMap({ routeCoordinates }) {
+// Ejemplo de otro componente de mapa para la vista de rutas de domiciliarios
+export function DeliveryRouteMap() {
     const { userLocation } = useGetUserLocation();
     const { isLoaded } = useJsApiLoader({
         googleMapsApiKey: API_KEY,
@@ -148,7 +88,8 @@ export function VendorRouteMap({ routeCoordinates }) {
 
     return (
         <div className="w-full h-[400px] rounded overflow-hidden">
-            <Map
+            <GoogleMap
+                mapContainerClassName="w-full h-full"
                 center={userLocation}
                 zoom={10}
                 options={{
@@ -156,11 +97,7 @@ export function VendorRouteMap({ routeCoordinates }) {
                     mapTypeControl: false,
                     fullscreenControl: false,
                 }}
-            >
-                {routeCoordinates.map((position, index) => (
-                    <Marker key={index} position={position} title={`Punto ${index + 1}`} />
-                ))}
-            </Map>
+            ></GoogleMap>
         </div>
     );
 }
