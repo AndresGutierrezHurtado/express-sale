@@ -85,6 +85,7 @@ export default function Delivery() {
                             addresses={orderProducts.map(
                                 (item) => item.product.user.usuario_direccion
                             )}
+                            destination={shippingDetails.envio_coordenadas}
                         />
                         <hr />
                         <div className="flex items-center justify-center">

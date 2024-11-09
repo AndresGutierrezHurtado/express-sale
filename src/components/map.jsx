@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
-import { GoogleMap, MarkerF as Marker } from "@react-google-maps/api";
+import { GoogleMap, MarkerF as Marker, DirectionsRenderer } from "@react-google-maps/api";
 
 // Hooks
 import {
@@ -88,13 +88,20 @@ export function FormMap() {
 }
 
 // Ejemplo de otro componente de mapa para la vista de rutas de domiciliarios
-export function DeliveryRouteMap({ addresses }) {
+export function DeliveryRouteMap({ addresses, destination }) {
     const userLocation = useGetUserLocation();
     const isLoaded = useMapsApiLoader();
 
-    const { loaded, route, distance } = useShortestPath(addresses, isLoaded, userLocation);
+    const { loaded, route, response } = useShortestPath(
+        addresses,
+        JSON.parse(destination),
+        isLoaded,
+        userLocation
+    );
 
-    if (!isLoaded || !loaded) {
+    if (loaded) console.log(response);
+
+    if (!isLoaded || !loaded)
         return (
             <div className="space-y-5">
                 <div className="w-full h-[400px] rounded skeleton flex items-center justify-center text-xl font-bold">
@@ -108,7 +115,6 @@ export function DeliveryRouteMap({ addresses }) {
                 </div>
             </div>
         );
-    }
 
     return (
         <div className="space-y-5">
@@ -123,14 +129,8 @@ export function DeliveryRouteMap({ addresses }) {
                         fullscreenControl: false,
                     }}
                 >
-                    {route.map((point, index) => (
-                        <Marker
-                            key={index}
-                            position={{ lat: point.lat, lng: point.lng }}
-                            title={addresses[index]}
-                            animation={google.maps.Animation.DROP}
-                        />
-                    ))}
+                    <Marker />
+                    <DirectionsRenderer directions={response} />
                 </GoogleMap>
             </div>
             <div className="flex flex-col gap-3 items-center justify-center">
@@ -138,7 +138,9 @@ export function DeliveryRouteMap({ addresses }) {
                     target="_blank"
                     to={`https://www.google.com/maps/dir/${userLocation.lat},${
                         userLocation.lng
-                    }/${route.map((point) => point.lat + "," + point.lng).join("/")}`}
+                    }/${route.map((point) => point.lat + "," + point.lng).join("/")}/${
+                        destination.lat
+                    },${destination.lng}`}
                     className="btn btn-sm w-full max-w-lg"
                 >
                     <GoogleMapsIcon size={18} />
@@ -148,7 +150,7 @@ export function DeliveryRouteMap({ addresses }) {
                     target="_blank"
                     to={`https://waze.com/ul?ll=${route
                         .map((point) => point.lat + "," + point.lng)
-                        .join("/")}`}
+                        .join("/")}/${destination.lat},${destination.lng}`}
                     className="btn btn-sm w-full max-w-lg"
                 >
                     <WazeIcon size={19} />

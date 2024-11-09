@@ -99,8 +99,8 @@ export const useGeocode = (address, isLoaded) => {
 };
 
 // Hook para hallar el camino mas corto iniciando por la ubicacion del usuario y devuelve los archivos en orden junto a la distancia total
-export const useShortestPath = (waypoints, isLoaded, userLocation) => {
-    const [shortestPath, setShortestPath] = useState({ loaded: false, route: [], distance: 0 });
+export const useShortestPath = (waypoints, destination, isLoaded, userLocation) => {
+    const [shortestPath, setShortestPath] = useState({ loaded: false, route: [], distance: 0, response: [] });
     const geocodedWaypoints = waypoints.map((address) => useGeocode(address, isLoaded));
 
     useEffect(() => {
@@ -112,7 +112,7 @@ export const useShortestPath = (waypoints, isLoaded, userLocation) => {
             {
                 origin: userLocation,
                 waypoints: geocodedWaypoints.map((waypoint) => ({ location: waypoint })),
-                destination: geocodedWaypoints[geocodedWaypoints.length - 1],
+                destination: destination,
                 travelMode: window.google.maps.TravelMode.DRIVING,
                 optimizeWaypoints: true,
                 unitSystem: window.google.maps.UnitSystem.METRIC,
@@ -134,6 +134,7 @@ export const useShortestPath = (waypoints, isLoaded, userLocation) => {
                             lng: leg.end_location.lng(),
                         })),
                         distance: totalDistance / 1000,
+                        response: result,
                     });
                 } else {
                     console.error("Error calculating route: ", status);

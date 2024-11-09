@@ -22,7 +22,7 @@ export default function OrderCard({ order }) {
         (OrderProduct) => OrderProduct.product.user.usuario_direccion
     );
 
-    const { loaded, route, distance } = useShortestPath(addresses, isLoaded, userLocation);
+    const { loaded, route, distance } = useShortestPath(addresses, order.shippingDetails.envio_coordenadas, isLoaded, userLocation);
 
     const handleSelectOrder = (event) => {
         Swal.fire({
