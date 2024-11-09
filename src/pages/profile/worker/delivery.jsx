@@ -1,17 +1,52 @@
 import React from "react";
+import Swal from "sweetalert2";
 
 // Hooks
-import { useParams } from "react-router-dom";
-import { useGetData } from "@hooks/useFetchData";
+import { useNavigate, useParams } from "react-router-dom";
+import { useGetData, usePutData } from "@hooks/useFetchData";
 
 // Components
 import ContentLoading from "@components/contentLoading.jsx";
 import { GoogleMapsIcon, WazeIcon, CircleCheckIcon } from "@components/icons.jsx";
 import { DeliveryRouteMap } from "@components/map";
 
+// Contexts
+import { useAuthContext } from "@contexts/authContext.jsx";
+
 export default function Delivery() {
+    const navigate = useNavigate();
     const { id } = useParams();
+    const { userSession } = useAuthContext();
     const { data: order, loading: orderLoading } = useGetData(`/orders/${id}`);
+
+    const handleSubmit = () => {
+        Swal.fire({
+            icon: "info",
+            title: "Marcar como terminado",
+            text: "Dale a continuar si quieres marcar el pedido como terminado, no se te guardará el dinero hasta que el usuario lo marque como recibido",
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            cancelButtonText: "Cancelar",
+            confirmButtonText: "Continuar",
+        }).then(async (result) => {
+            if (result.isConfirmed) {
+                const response = await usePutData(`/orders/${id}`, {
+                    order: {
+                        pedido_estado: "entregado",
+                    },
+                    worker: {
+                        trabajador_saldo:
+                            parseInt(userSession.worker.trabajador_saldo) +
+                            parseInt(order.shippingDetails.envio_valor),
+                    },
+                });
+                if (response.success) {
+                    navigate("/profile/user");
+                }
+            }
+        });
+    };
 
     if (orderLoading) return <ContentLoading />;
 
@@ -64,7 +99,7 @@ export default function Delivery() {
                                     {orderProducts.map((item, index) => (
                                         <div key={item.producto_id}>
                                             <p>
-                                                {index + 1}.{item.product.user.usuario_nombre}{" "}
+                                                {index + 1}. {item.product.user.usuario_nombre}{" "}
                                                 {item.product.user.usuario_apellido}{" "}
                                                 <span className="text-sm text-gray-600">
                                                     (
@@ -75,6 +110,14 @@ export default function Delivery() {
                                             </p>
                                         </div>
                                     ))}
+                                    <div>
+                                        <p>
+                                            {orderProducts.length + 1}. Destino{" "}
+                                            <span className="text-sm text-gray-600">
+                                                ({shippingDetails.envio_direccion})
+                                            </span>
+                                        </p>
+                                    </div>
                                 </div>
                             </article>
                         </div>
@@ -89,7 +132,10 @@ export default function Delivery() {
                         />
                         <hr />
                         <div className="flex items-center justify-center">
-                            <button className="btn btn-sm btn-success text-white w-full max-w-lg">
+                            <button
+                                onClick={handleSubmit}
+                                className="btn btn-sm btn-success text-white w-full max-w-lg"
+                            >
                                 <CircleCheckIcon />
                                 Marcar como terminado
                             </button>

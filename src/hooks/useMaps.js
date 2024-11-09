@@ -32,7 +32,7 @@ export const useGetUserLocation = () => {
                 return { lat, lng };
             },
             (error) => {
-                console.log(error.message);
+                console.error(error.message);
                 return location;
             }
         );

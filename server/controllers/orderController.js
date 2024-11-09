@@ -122,6 +122,13 @@ export default class OrderController {
                 });
             }
 
+            if (req.body.worker) {
+                await models.Worker.update(req.body.worker, {
+                    where: { usuario_id: req.session.user.usuario_id },
+                    transaction: t,
+                })
+            }
+
             await t.commit();
             res.status(200).json({
                 success: true,

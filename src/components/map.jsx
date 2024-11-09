@@ -99,8 +99,6 @@ export function DeliveryRouteMap({ addresses, destination }) {
         userLocation
     );
 
-    if (loaded) console.log(response);
-
     if (!isLoaded || !loaded)
         return (
             <div className="space-y-5">

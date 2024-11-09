@@ -39,7 +39,6 @@ export default class ProductController {
                     }
                 );
 
-                console.log(responseUpdate);
                 if (responseUpdate[0] < 1) {
                     return res.status(500).json({
                         success: false,
