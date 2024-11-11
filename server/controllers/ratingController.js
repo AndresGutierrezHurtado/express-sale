@@ -12,7 +12,7 @@ export default class RatingController {
                 calificacion_comentario: req.body.calificacion_comentario,
                 calificacion_imagen_url: req.body.calificacion_imagen_url || "",
                 calificacion: req.body.calificacion,
-                usuario_id: req.session.user.id,
+                usuario_id: req.session.user.usuario_id,
             });
 
             const userRatings = await models.UsersCalifications.create({
@@ -43,7 +43,7 @@ export default class RatingController {
                 calificacion_comentario: req.body.calificacion_comentario,
                 calificacion_imagen_url: req.body.calificacion_imagen_url || "",
                 calificacion: req.body.calificacion,
-                usuario_id: req.session.user.id,
+                usuario_id: req.session.user.usuario_id,
             });
 
             const productRatings = await models.ProductsCalifications.create({
