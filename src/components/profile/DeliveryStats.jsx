@@ -10,13 +10,16 @@ export default function DeliveryStats({ user }) {
 
     const yearSales = [];
     for (let i = 1; i <= 12; i++) {
-        let infoMes = user.worker.envios_mensuales.find((el) => el.mes == i && el.anio == (year ? year : new Date().getFullYear())) || null;
+        let infoMes =
+            user.worker.envios_mensuales.find(
+                (el) => el.mes == i && el.anio == (year ? year : new Date().getFullYear())
+            ) || null;
         yearSales.push({
             month: i,
             monthToText: new Date(0, i - 1).toLocaleString("es", { month: "long" }),
             money: infoMes ? parseInt(infoMes.dinero_envios) : 0,
             sales: infoMes ? infoMes.total_envios : 0,
-            year: infoMes ? infoMes.anio : year,
+            year: infoMes ? infoMes.anio : parseInt(year),
         });
     }
 
