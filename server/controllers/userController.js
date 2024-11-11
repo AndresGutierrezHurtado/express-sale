@@ -295,7 +295,7 @@ export default class UserController {
 
             const yearDeliveries = await sequelize.query(
                 `
-                    SELECT MONTH(pedidos.pedido_fecha) AS mes, YEAR(pedidos.pedido_fecha) AS anio, COUNT(*) AS total_envios, SUM(detalles_envios.envio_valor) AS dinero_ventas
+                    SELECT MONTH(pedidos.pedido_fecha) AS mes, YEAR(pedidos.pedido_fecha) AS anio, COUNT(*) AS total_envios, SUM(detalles_envios.envio_valor) AS dinero_envios
                     FROM detalles_envios
                     INNER JOIN pedidos ON detalles_envios.pedido_id = pedidos.pedido_id
                     INNER JOIN trabajadores ON trabajadores.trabajador_id = detalles_envios.trabajador_id
@@ -304,7 +304,6 @@ export default class UserController {
                     ORDER BY mes;
                 `
             );
-            console.log(yearDeliveries);
 
             const yearSales = await sequelize.query(
                 `
