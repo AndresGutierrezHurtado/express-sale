@@ -1,28 +1,54 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+
+// Components
+import { TruckIcon, BillIcon, StarIcon, UserIcon } from "@components/icons.jsx";
+import { DeliveryGraphic } from "@components/profile/graphic.jsx";
 
 export default function DeliveryStats({ user }) {
+    const [graphicData, setGraphicData] = useState("all");
+    const [year, setYear] = useState("2024");
+
+    const yearSales = [];
+    for (let i = 1; i <= 12; i++) {
+        let infoMes = user.worker.envios_mensuales.find((el) => el.mes == i && el.anio == (year ? year : new Date().getFullYear())) || null;
+        yearSales.push({
+            month: i,
+            monthToText: new Date(0, i - 1).toLocaleString("es", { month: "long" }),
+            money: infoMes ? parseInt(infoMes.dinero_envios) : 0,
+            sales: infoMes ? infoMes.total_envios : 0,
+            year: infoMes ? infoMes.anio : year,
+        });
+    }
+
     return (
-        <main className="h-full w-full p-10">
+        <main className="h-full w-full p-10 space-y-10">
             <div className="flex flex-col md:flex-row gap-10">
-                <div className="card bg-white border shadow border-gray-100">
-                    <div className="card-body gap-10">
-                        <article>
+                <div className="card bg-white border shadow-lg border-gray-100 w-full max-w-[750px]">
+                    <div className="card-body gap-5">
+                        <article className="space-y-2">
                             <h2 className="text-4xl font-extrabold tracking-tight ">
                                 Estadísticas de {user.usuario_nombre.split(" ")[0]}{" "}
                                 {user.usuario_apellido.split(" ")[0]}:{" "}
                             </h2>
-                            <div className="flex gap-5">
-                                <p>
+                            <div className="flex items-center gap-5">
+                                <p className="leading-tight text-sm">
                                     Selecciona el año para ver las estadísticas de envios de cada
                                     mes.
                                 </p>
                                 <select
-                                    defaultValue={"0"}
+                                    value={graphicData}
+                                    onChange={(event) => setGraphicData(event.target.value)}
                                     className="select select-bordered select-sm w=full focus:outline-0 focus:select-primary"
                                 >
-                                    <option value="0" disabled>
-                                        Año
-                                    </option>
+                                    <option value="all">Todo</option>
+                                    <option value="money">Dinero recaudado</option>
+                                    <option value="sales">Numero de envios</option>
+                                </select>
+                                <select
+                                    value={year}
+                                    onChange={(event) => setYear(event.target.value)}
+                                    className="select select-bordered select-sm w=full focus:outline-0 focus:select-primary"
+                                >
                                     <option value={new Date().getFullYear()}>
                                         {new Date().getFullYear()}
                                     </option>
@@ -39,23 +65,103 @@ export default function DeliveryStats({ user }) {
                             </div>
                         </article>
                         <article>
-                            <canvas className="skeleton h-[300px] w-full"></canvas>
-                            <div className="flex">
-                                <div className="w-full">Numero Ventas</div>
-                                <div className="w-full">Dinero Ventas</div>
+                            <DeliveryGraphic data={yearSales} graphicData={graphicData} />
+                            <div className="flex [&>*]:grow text-center">
+                                <div className="stats bg-transparent">
+                                    <div className="stat">
+                                        <div className="stat-title">
+                                            Numero de envíos realizados
+                                        </div>
+                                        <div className="stat-value">10</div>
+                                        <div className="stat-desc">21% more than last month</div>
+                                    </div>
+                                </div>
+                                <div className="stats bg-transparent">
+                                    <div className="stat ">
+                                        <div className="stat-title">Dinero en envíos</div>
+                                        <div className="stat-value">89,400</div>
+                                        <div className="stat-desc">21% more than last month</div>
+                                    </div>
+                                </div>
                             </div>
                         </article>
                     </div>
                 </div>
-                <div>
-                    <h2>retirar</h2>
-                    <button>Retirar</button>
+                <div className="space-y-10">
+                    <div className="card bg-white border shadow-lg border-gray-100">
+                        <div className="card-body gap-5">
+                            <div>
+                                <h2 className="text-3xl font-extrabold tracking-tight">
+                                    Retirar dinero
+                                </h2>
+                                <p>
+                                    Deberas ingresar la cantidad que necesitaras y ya la tendras en
+                                    tu cuenta
+                                </p>
+                            </div>
+                            <button className="btn btn-sm w-full">Retirar</button>
+                        </div>
+                    </div>
+                    <div className="flex flex-wrap gap-5">
+                        <article className="min-w-[170px] w-fit p-4 flex flex-row items-center gap-4 card bg-base-100 stat text-center shadow-lg">
+                            <div>
+                                <UserIcon size={40} />
+                            </div>
+                            <div className="flex-grow">
+                                <div className="stat-value text-xl">
+                                    {user.calificacion_cantidad}
+                                </div>
+                                <div className="text-gray-500 leading-none">Calificaciones</div>
+                            </div>
+                        </article>
+                        <article className="min-w-[170px] w-fit p-4 flex flex-row items-center gap-4 card bg-base-100 stat text-center shadow-lg">
+                            <div>
+                                <StarIcon size={40} />
+                            </div>
+                            <div className="flex-grow">
+                                <div className="stat-value text-xl">
+                                    {user.calificacion_promedio}
+                                </div>
+                                <div className="text-gray-500 leading-none">
+                                    Calificacion promedio
+                                </div>
+                            </div>
+                        </article>
+                        <article className="min-w-[170px] w-fit p-4 flex flex-row items-center gap-4 card bg-base-100 stat text-center shadow-lg">
+                            <div>
+                                <TruckIcon size={40} />
+                            </div>
+                            <div className="flex-grow">
+                                <div className="stat-value text-xl">
+                                    {user.worker.envios_mensuales.reduce(
+                                        (total, envio) => total + parseInt(envio.total_envios),
+                                        0
+                                    )}
+                                </div>
+                                <div className="text-gray-500 leading-none">
+                                    Domicilios realizados
+                                </div>
+                            </div>
+                        </article>
+                        <article className="min-w-[170px] w-fit p-4 flex flex-row items-center gap-4 card bg-base-100 stat text-center shadow-lg">
+                            <div>
+                                <BillIcon size={40} />
+                            </div>
+                            <div className="flex-grow">
+                                <div className="stat-value text-xl">
+                                    {user.worker.envios_mensuales
+                                        .reduce(
+                                            (total, envio) => total + parseInt(envio.dinero_envios),
+                                            0
+                                        )
+                                        .toLocaleString("es-CO")}{" "}
+                                    COP
+                                </div>
+                                <div className="text-gray-500 leading-none">Dinero hecho</div>
+                            </div>
+                        </article>
+                    </div>
                 </div>
-            </div>
-            <div>
-                <div className="card"></div>
-                <div className="card"></div>
-                <div className="card"></div>
             </div>
         </main>
     );
