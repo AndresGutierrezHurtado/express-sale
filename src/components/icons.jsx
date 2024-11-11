@@ -16,6 +16,7 @@ import {
     FaArrowLeft,
     FaCircleCheck,
     FaWaze,
+    FaMoneyBills,
 } from "react-icons/fa6";
 import {
     FaUser,
@@ -30,6 +31,7 @@ import {
     FaGithub,
     FaMinus,
     FaReceipt,
+    FaTruckLoading,
 } from "react-icons/fa";
 import { HiPencil, HiDotsVertical } from "react-icons/hi";
 import { IoMdEye } from "react-icons/io";
@@ -110,3 +112,7 @@ export const ReceiptIcon = (props) => <FaReceipt {...props} />;
 export const GoogleMapsIcon = (props) => <SiGooglemaps {...props} />;
 
 export const WazeIcon = (props) => <FaWaze {...props} />;
+
+export const TruckIcon = (props) => <FaTruckLoading {...props} />;
+
+export const BillIcon = (props) => <FaMoneyBills {...props} />;
