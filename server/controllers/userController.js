@@ -293,6 +293,19 @@ export default class UserController {
                 include: ["role", "worker"],
             });
 
+            const yearDeliveries = await sequelize.query(
+                `
+                    SELECT MONTH(pedidos.pedido_fecha) AS mes, YEAR(pedidos.pedido_fecha) AS anio, COUNT(*) AS total_envios, SUM(detalles_envios.envio_valor) AS dinero_ventas
+                    FROM detalles_envios
+                    INNER JOIN pedidos ON detalles_envios.pedido_id = pedidos.pedido_id
+                    INNER JOIN trabajadores ON trabajadores.trabajador_id = detalles_envios.trabajador_id
+                    WHERE detalles_envios.trabajador_id = "${req.session.user.worker.trabajador_id}"
+                    GROUP BY MONTH(pedidos.pedido_fecha)
+                    ORDER BY mes;
+                `
+            );
+            console.log(yearDeliveries);
+
             const yearSales = await sequelize.query(
                 `
                     SELECT MONTH(pedidos.pedido_fecha) AS mes, YEAR(pedidos.pedido_fecha) AS anio, COUNT(*) AS total_productos, SUM(detalles_pagos.pago_valor) AS dinero_ventas
@@ -312,6 +325,7 @@ export default class UserController {
                       worker: {
                           ...user.worker.toJSON(),
                           ventas_mensuales: yearSales[0],
+                          envios_mensuales: yearDeliveries[0],
                       },
                   }
                 : user.toJSON();
@@ -322,6 +336,7 @@ export default class UserController {
                 data: result,
             });
         } catch (error) {
+            console.log(error);
             res.status(500).json({
                 success: false,
                 message: error.message,

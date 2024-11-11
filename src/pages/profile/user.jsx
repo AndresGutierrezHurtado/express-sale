@@ -218,9 +218,9 @@ export default function UserProfile() {
                                 Enviando
                             </div>
                             <div
-                                onClick={() => setOrdersType("entregando")}
+                                onClick={() => setOrdersType("entregado")}
                                 className={`badge badge-lg ${
-                                    ordersType == "entregando" && "badge-primary"
+                                    ordersType == "entregado" && "badge-primary"
                                 }`}
                             >
                                 Entregadas

@@ -3,12 +3,11 @@ import Swal from "sweetalert2";
 import { useNavigate } from "react-router-dom";
 
 // Hooks
-import { useGetData, usePutData } from "@hooks/useFetchData.js";
+import { useGetData } from "@hooks/useFetchData.js";
 
 // Components
 import ContentLoading from "@components/contentLoading.jsx";
 import OrderCard from "@components/orderCard";
-import { CircleCheckIcon } from "@components/icons.jsx";
 
 // Contexts
 import { useAuthContext } from "@contexts/authContext.jsx";
