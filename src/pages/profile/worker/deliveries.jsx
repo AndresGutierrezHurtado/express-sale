@@ -36,6 +36,11 @@ export default function WorkerDeliveries() {
                     <h2 className="text-center text-2xl sm:text-4xl font-extrabold tracking-tight">
                         Pedidos
                     </h2>
+                    {orders.length == 0 && (
+                        <p className="text-center text-xl font-semibold">
+                            No tienes ningun pedido pendiente...
+                        </p>
+                    )}
                     <div className="grid grid-cols-[repeat(auto-fill,minmax(300px,1fr))] gap-5">
                         {orders.map((order) => (
                             <OrderCard key={order.pedido_id} order={order} />

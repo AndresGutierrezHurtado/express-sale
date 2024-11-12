@@ -23,7 +23,7 @@ export function DeliveryGraphic({ data, graphicData }) {
                 label: "Dinero recaudado",
                 data: data.map((el) => el.money),
                 backgroundColor: "rgba(53, 162, 235, 0.5)",
-                borderColor: "rgba(53, 162, 235, 1)",
+                borderColor: "rgba(126, 34, 206, 1)",
             },
             {
                 label: "Numero de envios",
@@ -66,7 +66,7 @@ export function SellerGraphic({ data, graphicData }) {
                 label: "Dinero recaudado",
                 data: data.map((el) => el.money),
                 backgroundColor: "rgba(53, 162, 235, 0.5)",
-                borderColor: "rgba(53, 162, 235, 1)",
+                borderColor: "rgba(126, 34, 206, 1)",
             },
             {
                 label: "Numero de productos vendidos",
@@ -98,5 +98,5 @@ export function SellerGraphic({ data, graphicData }) {
         },
     };
 
-    return <Line data={chartData} options={chartOptions} />;
+    return <Line data={chartData} options={chartOptions} className="min-h-[400px]" />;
 }

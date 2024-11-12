@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 // Components
 import { TruckIcon, BillIcon, StarIcon, UserIcon } from "@components/icons.jsx";
 import { DeliveryGraphic } from "@components/profile/graphic.jsx";
+import Withdraw from "./withdraw";
 
 export default function DeliveryStats({ user }) {
     const [graphicData, setGraphicData] = useState("all");
@@ -91,20 +92,7 @@ export default function DeliveryStats({ user }) {
                     </div>
                 </div>
                 <div className="space-y-10">
-                    <div className="card bg-white border shadow-lg border-gray-100">
-                        <div className="card-body gap-5">
-                            <div>
-                                <h2 className="text-3xl font-extrabold tracking-tight">
-                                    Retirar dinero
-                                </h2>
-                                <p>
-                                    Deberas ingresar la cantidad que necesitaras y ya la tendras en
-                                    tu cuenta
-                                </p>
-                            </div>
-                            <button className="btn btn-sm w-full">Retirar</button>
-                        </div>
-                    </div>
+                    <Withdraw />
                     <div className="flex flex-wrap gap-5">
                         <article className="min-w-[170px] w-fit p-4 flex flex-row items-center gap-4 card bg-base-100 stat text-center shadow-lg">
                             <div>
