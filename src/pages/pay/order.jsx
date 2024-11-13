@@ -62,7 +62,17 @@ export default function Order() {
 
                                     <div className="flex gap-2">
                                         <span className="font-medium">Repartidor:</span>
-                                        <p>{order.shippingDetails.trabajador_id || "Pendiente"}</p>
+                                        {order.shippingDetails.trabajador_id ? (
+                                            <Link
+                                                to={`/worker/${order.shippingDetails.worker.user.usuario_id}`}
+                                                className="hover"
+                                            >
+                                                {`${order.shippingDetails.worker.user.usuario_nombre} ${order.shippingDetails.worker.user.usuario_apellido}` ||
+                                                    "Pendiente"}
+                                            </Link>
+                                        ) : (
+                                            <p>Pendiente</p>
+                                        )}
                                     </div>
                                 </article>
                             </div>

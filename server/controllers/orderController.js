@@ -3,6 +3,7 @@ import sequelize from "../config/database.js";
 import { Op } from "sequelize";
 import crypto from "crypto";
 import UserController from "./userController.js";
+import { includes } from "valibot";
 
 export default class OrderController {
     static payuCallback = async (req, res) => {
@@ -126,7 +127,7 @@ export default class OrderController {
                 await models.Worker.update(req.body.worker, {
                     where: { usuario_id: req.session.user.usuario_id },
                     transaction: t,
-                })
+                });
             }
 
             await t.commit();
@@ -158,7 +159,15 @@ export default class OrderController {
                             include: { model: models.User, as: "user" },
                         },
                     },
-                    { model: models.ShippingDetails, as: "shippingDetails" },
+                    {
+                        model: models.ShippingDetails,
+                        as: "shippingDetails",
+                        include: {
+                            model: models.Worker,
+                            as: "worker",
+                            include: { model: models.User, as: "user" },
+                        },
+                    },
                     { model: models.PaymentDetails, as: "paymentDetails" },
                     { model: models.User, as: "user" },
                 ],
