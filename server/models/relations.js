@@ -1,5 +1,5 @@
 // Models
-import { User, Role, Worker, Recovery, Session, Cart } from "./user.model.js";
+import { User, Role, Worker, Recovery, Session, Cart, Withdrawal } from "./user.model.js";
 import { Product, Media, Category } from "./product.model.js";
 import { Order, PaymentDetails, ShippingDetails, OrderProduct } from "./order.model.js";
 import { Rating, ProductsCalifications, UsersCalifications } from "./rating.model.js";
@@ -90,6 +90,18 @@ User.hasMany(Rating, {
 Rating.belongsTo(User, {
     foreignKey: "usuario_id",
     as: "calificator",
+});
+
+// Worker to Withdraw: One-to-Many
+Worker.hasMany(Withdrawal, {
+    foreignKey: "trabajador_id",
+    as: "withdrawals",
+    onDelete: "CASCADE",
+    onUpdate: "CASCADE",
+});
+Withdrawal.belongsTo(Worker, {
+    foreignKey: "trabajador_id",
+    as: "worker",
 });
 
 // User to Cart: One-to-Many
@@ -235,4 +247,5 @@ export {
     ProductsCalifications,
     Session,
     Cart,
+    Withdrawal,
 };

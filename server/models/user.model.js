@@ -188,3 +188,29 @@ export const Cart = sequelize.define(
         timestamps: false,
     }
 );
+
+export const Withdrawal = sequelize.define(
+    "Withdrawal",
+    {
+        retiro_id: {
+            type: DataTypes.STRING(60),
+            primaryKey: true,
+        },
+        trabajador_id: {
+            type: DataTypes.STRING(60),
+            allowNull: false,
+        },
+        retiro_valor: {
+            type: DataTypes.DECIMAL(10, 0),
+            allowNull: false,
+        },
+        retiro_fecha: {
+            type: DataTypes.DATE,
+            defaultValue: DataTypes.NOW,
+        },
+    },
+    {
+        tableName: "retiros",
+        timestamps: false,
+    }
+);

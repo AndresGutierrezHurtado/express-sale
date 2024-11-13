@@ -12,6 +12,10 @@ userRoutes.get("/users/:id/products", UserController.getUserProducts);
 userRoutes.get("/users/:id/orders", UserController.getUserOrders);
 userRoutes.get("/users/:id/ratings", UserController.getUserRatings);
 
+// Withdrawals
+userRoutes.get("/users/:id/withdrawals", UserController.getUserWithdrawals);
+userRoutes.post("/withdrawals", UserController.createUserWithdrawal);
+
 // Cart
 userRoutes.get("/users/:id/carts", UserController.getUserCart);
 userRoutes.post("/carts", UserController.createUserCart);

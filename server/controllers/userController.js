@@ -580,4 +580,44 @@ export default class UserController {
             });
         }
     };
+
+    static getUserWithdrawals = async (req, res) => {
+        try {
+            const withdrawals = await models.Withdrawal.findAll({
+                where: { usuario_id: req.params.id },
+            });
+            res.status(200).json({
+                success: true,
+                message: "Retiros obtenidos correctamente.",
+                data: withdrawals,
+            });
+        } catch (error) {
+            res.status(500).json({
+                success: false,
+                message: error.message,
+                data: null,
+            });
+        }
+    };
+
+    static createUserWithdrawal = async (req, res) => {
+        try {
+            const withdrawal = await models.Withdrawal.create({
+                retiro_id: crypto.randomUUID(),
+                trabajador_id: req.session.user.worker.trabajador_id,
+                retiro_valor: req.body.retiro_valor,
+            });
+            res.status(200).json({
+                success: true,
+                message: "Retiro creado correctamente.",
+                data: withdrawal,
+            });
+        } catch (error) {
+            res.status(500).json({
+                success: false,
+                message: error.message,
+                data: null,
+            });
+        }
+    };
 }
