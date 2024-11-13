@@ -281,12 +281,30 @@ export default class UserController {
                         ],
                         [
                             sequelize.literal(`(
+                                SELECT COALESCE(SUM(detalles_envios.envio_valor) ,0)
+                                FROM detalles_envios
+                                INNER JOIN trabajadores ON User.usuario_id = trabajadores.usuario_id
+                                WHERE trabajadores.trabajador_id = detalles_envios.trabajador_id
+                            )`),
+                            "envios_dinero",
+                        ],
+                        [
+                            sequelize.literal(`(
                                 SELECT COALESCE(COUNT(*) ,0)
                                 FROM productos_pedidos
                                 INNER JOIN productos ON productos_pedidos.producto_id = productos.producto_id
                                 WHERE productos.usuario_id = User.usuario_id
                             )`),
                             "ventas_cantidad",
+                        ],
+                        [
+                            sequelize.literal(`(
+                                SELECT COALESCE(SUM(productos_pedidos.producto_precio * productos_pedidos.producto_cantidad) ,0)
+                                FROM productos_pedidos
+                                INNER JOIN productos ON productos_pedidos.producto_id = productos.producto_id
+                                WHERE productos.usuario_id = User.usuario_id
+                            )`),
+                            "ventas_dinero",
                         ],
                     ],
                 },
@@ -307,7 +325,7 @@ export default class UserController {
 
             const yearSales = await sequelize.query(
                 `
-                    SELECT MONTH(pedidos.pedido_fecha) AS mes, YEAR(pedidos.pedido_fecha) AS anio, COUNT(*) AS total_productos, SUM(detalles_pagos.pago_valor) AS dinero_ventas
+                    SELECT MONTH(pedidos.pedido_fecha) AS mes, YEAR(pedidos.pedido_fecha) AS anio, SUM(productos_pedidos.producto_cantidad) AS total_productos, SUM(productos_pedidos.producto_precio * productos_pedidos.producto_cantidad) AS dinero_ventas
                     FROM productos_pedidos
                     INNER JOIN productos ON productos_pedidos.producto_id = productos.producto_id
                     INNER JOIN pedidos ON pedidos.pedido_id = productos_pedidos.pedido_id
@@ -583,15 +601,53 @@ export default class UserController {
 
     static getUserWithdrawals = async (req, res) => {
         try {
-            const withdrawals = await models.Withdrawal.findAll({
-                where: { usuario_id: req.params.id },
+            const user = await models.User.findByPk(req.params.id, {
+                include: ["worker"],
             });
+
+            const deliveryShippings = await models.ShippingDetails.findAll({
+                where: { trabajador_id: user.worker.trabajador_id },
+            });
+
+            const sellerSales = await models.OrderProduct.findAll({
+                include: [
+                    { model: models.Product, as: "product", where: { usuario_id: req.params.id } },
+                    { model: models.Order, as: "order" },
+                ],
+            });
+
+            const withdrawalsDb = await models.Withdrawal.findAll({
+                where: { trabajador_id: user.worker.trabajador_id },
+            });
+
+            const withdrawals = withdrawalsDb.map((withdrawal) => ({
+                id: withdrawal.retiro_id,
+                valor: withdrawal.retiro_valor,
+                fecha: withdrawal.retiro_fecha,
+                tipo: "retiro",
+            }));
+
+            const deliveryEarnings = deliveryShippings.map((shipping) => ({
+                id: shipping.envio_id,
+                valor: shipping.envio_valor,
+                fecha: shipping.fecha_inicio,
+                tipo: "ingreso",
+            }));
+
+            const sellerEarnings = sellerSales.map((sale) => ({
+                id: crypto.randomUUID(),
+                valor: sale.producto_precio * sale.producto_cantidad,
+                fecha: sale.order.pedido_fecha,
+                tipo: "ingreso",
+            }));
+
             res.status(200).json({
                 success: true,
                 message: "Retiros obtenidos correctamente.",
-                data: withdrawals,
+                data: [...deliveryEarnings, ...withdrawals, ...sellerEarnings],
             });
         } catch (error) {
+            console.error(error);
             res.status(500).json({
                 success: false,
                 message: error.message,

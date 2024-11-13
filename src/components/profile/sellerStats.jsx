@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 
 import { SellerGraphic } from "./graphic";
+import Withdraw from "./withdraw";
 
 export default function SellerStats({ user }) {
     const [graphicData, setGraphicData] = useState("all");
@@ -107,6 +108,7 @@ export default function SellerStats({ user }) {
                         </article>
                     </div>
                 </div>
+                <Withdraw user={user} />
             </div>
         </main>
     );

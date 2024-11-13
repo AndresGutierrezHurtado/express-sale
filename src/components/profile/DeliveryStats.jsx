@@ -123,7 +123,7 @@ export default function DeliveryStats({ user }) {
                     </div>
                 </div>
                 <div className="space-y-10">
-                    <Withdraw />
+                    <Withdraw user={user} />
                     <div className="flex flex-wrap gap-5">
                         <article className="min-w-[170px] w-fit p-4 flex flex-row items-center gap-4 card bg-base-100 stat text-center shadow-lg">
                             <div>
@@ -155,10 +155,7 @@ export default function DeliveryStats({ user }) {
                             </div>
                             <div className="flex-grow">
                                 <div className="stat-value text-xl">
-                                    {user.worker.envios_mensuales.reduce(
-                                        (total, envio) => total + parseInt(envio.total_envios),
-                                        0
-                                    )}
+                                    {user.envios_cantidad}
                                 </div>
                                 <div className="text-gray-500 leading-none">
                                     Domicilios realizados
@@ -171,13 +168,7 @@ export default function DeliveryStats({ user }) {
                             </div>
                             <div className="flex-grow">
                                 <div className="stat-value text-xl">
-                                    {user.worker.envios_mensuales
-                                        .reduce(
-                                            (total, envio) => total + parseInt(envio.dinero_envios),
-                                            0
-                                        )
-                                        .toLocaleString("es-CO")}{" "}
-                                    COP
+                                    {parseInt(user.envios_dinero).toLocaleString("es-CO")} COP
                                 </div>
                                 <div className="text-gray-500 leading-none">Dinero hecho</div>
                             </div>

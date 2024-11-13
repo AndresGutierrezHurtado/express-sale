@@ -1,15 +1,25 @@
 import React from "react";
 
+// Components
+import ContentLoading from "../contentLoading.jsx";
 import { BillIcon } from "../icons.jsx";
 
-export default function Withdraw() {
+// Hooks
+import { useGetData } from "@hooks/useFetchData";
+
+export default function Withdraw({ user }) {
+    const { data: withdrawals, loading: withdrawalsLoading } = useGetData(
+        `/users/${user.usuario_id}/withdrawals`
+    );
+
+    if (withdrawalsLoading) return <ContentLoading />;
     return (
         <>
             <article className="card bg-white border shadow-lg border-gray-100 w-full max-w-lg mx-auto">
                 <div className="card-body gap-5">
                     <div className="text-center">
                         <p className="text-gray-600">Saldo actual</p>
-                        <div className="text-5xl font-extrabold">1000 COP</div>
+                        <div className="text-5xl font-extrabold">{parseInt(user.worker.trabajador_saldo).toLocaleString("es-CO")} COP</div>
                         <div className="text-sm text-gray-600">5 retiros disponibles</div>
                         <div className="divider"></div>
                         <div className="space-y-2">
@@ -49,16 +59,25 @@ export default function Withdraw() {
                         <thead className="bg-gray-200">
                             <tr>
                                 <th>Fecha</th>
-                                <th>Monto</th>
                                 <th>Tipo</th>
+                                <th>Monto</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td>2023-01-01, 10:00 PM</td>
-                                <td>500 COP</td>
-                                <td>Ingreso</td>
-                            </tr>
+                            {withdrawals.length === 0 && (
+                                <tr>
+                                    <td colSpan="3" className="text-center">
+                                        No hay retiros registrados
+                                    </td>
+                                </tr>
+                            )}
+                            {withdrawals.map((withdrawal) => (
+                                <tr key={withdrawal.id} className={`font-semibold ${withdrawal.tipo == "ingreso" ? "text-green-600" : "text-red-600"}`}>
+                                    <td>{withdrawal.fecha}</td>
+                                    <td>{withdrawal.tipo}</td>
+                                    <td>{withdrawal.tipo == "ingreso" ? "+" : "-"} {parseInt(withdrawal.valor).toLocaleString("es-CO")}</td>
+                                </tr>
+                            ))}
                         </tbody>
                     </table>
                 </div>

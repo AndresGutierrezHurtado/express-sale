@@ -221,7 +221,7 @@ Product.hasMany(OrderProduct, {
 // Worker to ShippingDetails: One-to-Many
 Worker.hasMany(ShippingDetails, {
     foreignKey: "trabajador_id",
-    as: "shipping",
+    as: "shippings",
     onDelete: "CASCADE",
     onUpdate: "CASCADE",
 });
