@@ -7,6 +7,7 @@ import Withdraw from "./withdraw";
 
 export default function DeliveryStats({ user }) {
     const [graphicData, setGraphicData] = useState("all");
+    const [currentMonth, setCurrentMonth] = useState(null);
     const [year, setYear] = useState("2024");
 
     const yearSales = [];
@@ -69,22 +70,52 @@ export default function DeliveryStats({ user }) {
                             </div>
                         </article>
                         <article>
-                            <DeliveryGraphic data={yearSales} graphicData={graphicData} />
+                            <DeliveryGraphic
+                                data={yearSales}
+                                graphicData={graphicData}
+                                setCurrentMonth={setCurrentMonth}
+                            />
                             <div className="flex [&>*]:grow text-center">
                                 <div className="stats bg-transparent">
                                     <div className="stat">
                                         <div className="stat-title">
                                             Numero de envíos realizados
                                         </div>
-                                        <div className="stat-value">10</div>
-                                        <div className="stat-desc">21% more than last month</div>
+                                        {currentMonth ? (
+                                            <>
+                                                <div className="stat-value">{currentMonth.sales}</div>
+                                                <div className="stat-desc">
+                                                En el mes {currentMonth.monthToText} del año {currentMonth.year}
+                                                </div>
+                                            </>
+                                        ) : (
+                                            <>
+                                                <div className="stat-value">Pendiente</div>
+                                                <div className="stat-desc">
+                                                    Dale clic a un mes para ver su valor
+                                                </div>
+                                            </>
+                                        )}
                                     </div>
                                 </div>
                                 <div className="stats bg-transparent">
                                     <div className="stat ">
                                         <div className="stat-title">Dinero en envíos</div>
-                                        <div className="stat-value">89,400</div>
-                                        <div className="stat-desc">21% more than last month</div>
+                                        {currentMonth ? (
+                                            <>
+                                                <div className="stat-value">{currentMonth.money.toLocaleString("es-CO")} COP</div>
+                                                <div className="stat-desc">
+                                                    En el mes {currentMonth.monthToText} del año {currentMonth.year}
+                                                </div>
+                                            </>
+                                        ) : (
+                                            <>
+                                                <div className="stat-value">Pendiente</div>
+                                                <div className="stat-desc">
+                                                    Dale clic a un mes para ver suvalor
+                                                </div>
+                                            </>
+                                        )}
                                     </div>
                                 </div>
                             </div>

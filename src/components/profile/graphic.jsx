@@ -15,7 +15,7 @@ import {
 // Registra los componentes de chart.js
 ChartJS.register(LineElement, CategoryScale, LinearScale, PointElement, Title, Tooltip, Legend);
 
-export function DeliveryGraphic({ data, graphicData }) {
+export function DeliveryGraphic({ data, setCurrentMonth, graphicData }) {
     const chartData = {
         labels: data.map((el) => el.monthToText),
         datasets: [
@@ -53,12 +53,16 @@ export function DeliveryGraphic({ data, graphicData }) {
                 beginAtZero: true,
             },
         },
+        onClick: (event, elements) => {
+            if (elements.length == 0) return;
+            setCurrentMonth(data[elements[0].index]);
+        },
     };
 
     return <Line data={chartData} options={chartOptions} />;
 }
 
-export function SellerGraphic({ data, graphicData }) {
+export function SellerGraphic({ data, setCurrentMonth, graphicData }) {
     const chartData = {
         labels: data.map((el) => el.monthToText),
         datasets: [
@@ -95,6 +99,10 @@ export function SellerGraphic({ data, graphicData }) {
             y: {
                 beginAtZero: true,
             },
+        },
+        onClick: (event, elements) => {
+            if (elements.length == 0) return;
+            setCurrentMonth(data[elements[0].index]);
         },
     };
 
