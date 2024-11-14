@@ -33,7 +33,7 @@ export default class OrderController {
                 .then((res) => res.json())
                 .then((data) => {
                     if (data.code !== "SUCCESS") {
-                        throw new Error(data.error);
+                        throw new Error(data.error || JSON.stringify(data));
                     }
                     return data.result.payload[0];
                 });
@@ -88,6 +88,37 @@ export default class OrderController {
 
             const orderProducts = await models.OrderProduct.bulkCreate(cartItems, {
                 transaction: t,
+            });
+
+            orderProducts.map(async (orderProduct) => {
+                const product = await models.Product.findByPk(orderProduct.producto_id);
+
+                // Update product quantity
+                await models.Product.update(
+                    {
+                        producto_cantidad: {
+                            [Op.subtract]: orderProduct.producto_cantidad,
+                        },
+                    },
+                    {
+                        where: { producto_id: orderProduct.producto_id },
+                        transaction: t,
+                    }
+                );
+
+                // Update worker balance
+                await models.Worker.update(
+                    {
+                        trabajador_saldo: {
+                            [Op.increment]:
+                                orderProduct.producto_precio * orderProduct.producto_cantidad,
+                        },
+                    },
+                    {
+                        where: { usuario_id: product.usuario_id },
+                        transaction: t,
+                    }
+                );
             });
 
             const emptyCart = await models.Cart.destroy({
