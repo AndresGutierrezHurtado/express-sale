@@ -1,25 +1,43 @@
 import React from "react";
+import Swal from "sweetalert2";
 
 // Components
 import ContentLoading from "../contentLoading.jsx";
 import { BillIcon } from "../icons.jsx";
 
 // Hooks
-import { useGetData } from "@hooks/useFetchData";
+import { useGetData } from "@hooks/useFetchData.js";
+import { useValidateform } from "@hooks/useValidateForm.js";
 
 export default function Withdraw({ user }) {
     const { data: withdrawals, loading: withdrawalsLoading } = useGetData(
         `/users/${user.usuario_id}/withdrawals`
     );
 
+    const handleWithdraw = (event) => {
+        event.preventDefault();
+
+        const data = Object.fromEntries(new FormData(event.target));
+        const validation = useValidateform(data, "withdraw-modal-form", {
+            trabajador_saldo: user.worker.trabajador_saldo,
+        });
+
+        console.log(validation);
+        // if (validation.success) {
+        //     usePostData(`/withdrawals`, data);
+        // }
+    };
+
     if (withdrawalsLoading) return <ContentLoading />;
     return (
         <>
-            <article className="card bg-white border shadow-lg border-gray-100 w-full max-w-lg mx-auto">
+            <article className="card bg-white border shadow-lg border-gray-100 w-full max-w-lg mx-auto h-fit">
                 <div className="card-body gap-5">
                     <div className="text-center">
                         <p className="text-gray-600">Saldo actual</p>
-                        <div className="text-5xl font-extrabold">{parseInt(user.worker.trabajador_saldo).toLocaleString("es-CO")} COP</div>
+                        <div className="text-5xl font-extrabold">
+                            {parseInt(user.worker.trabajador_saldo).toLocaleString("es-CO")} COP
+                        </div>
                         <div className="text-sm text-gray-600">5 retiros disponibles</div>
                         <div className="divider"></div>
                         <div className="space-y-2">
@@ -37,7 +55,13 @@ export default function Withdraw({ user }) {
                             <div>
                                 <button
                                     onClick={() =>
-                                        document.getElementById("withdraw-modal").showModal()
+                                        user.worker.trabajador_saldo > 10000
+                                            ? document.getElementById("withdraw-modal").showModal()
+                                            : Swal.fire({
+                                                  icon: "error",
+                                                  title: "Error",
+                                                  text: "El monto mínimo para retirar es de 10.000 COP",
+                                              })
                                     }
                                     className="btn btn-success text-white rounded-full px-10"
                                 >
@@ -72,10 +96,20 @@ export default function Withdraw({ user }) {
                                 </tr>
                             )}
                             {withdrawals.map((withdrawal) => (
-                                <tr key={withdrawal.id} className={`font-semibold ${withdrawal.tipo == "ingreso" ? "text-green-600" : "text-red-600"}`}>
+                                <tr
+                                    key={withdrawal.id}
+                                    className={`font-semibold ${
+                                        withdrawal.tipo == "ingreso"
+                                            ? "text-green-600"
+                                            : "text-red-600"
+                                    }`}
+                                >
                                     <td>{withdrawal.fecha}</td>
                                     <td>{withdrawal.tipo}</td>
-                                    <td>{withdrawal.tipo == "ingreso" ? "+" : "-"} {parseInt(withdrawal.valor).toLocaleString("es-CO")}</td>
+                                    <td>
+                                        {withdrawal.tipo == "ingreso" ? "+" : "-"}{" "}
+                                        {parseInt(withdrawal.valor).toLocaleString("es-CO")}
+                                    </td>
                                 </tr>
                             ))}
                         </tbody>
@@ -96,7 +130,7 @@ export default function Withdraw({ user }) {
                             cuenta
                         </p>
                     </div>
-                    <form>
+                    <form onSubmit={handleWithdraw}>
                         <div className="form-control">
                             <label className="label">
                                 <span className="label-text font-semibold after:content-['*'] after:text-red-500 after:ml-0.5">
@@ -104,13 +138,13 @@ export default function Withdraw({ user }) {
                                 </span>
                             </label>
                             <input
-                                type="number"
-                                placeholder={`Monto a retirar (min: 10.000, max: 10.000.000)`}
+                                placeholder={`Monto a retirar (min: 10.000, max: ${user.worker.trabajador_saldo})`}
                                 className="input input-bordered focus:outline-0 focus:input-primary"
+                                name="retiro_valor"
                             />
                         </div>
                         <div className="modal-action">
-                            <button type="button" className="btn btn-primary w-full btn-sm">
+                            <button type="submit" className="btn btn-primary w-full btn-sm">
                                 Retirar
                             </button>
                         </div>

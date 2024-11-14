@@ -1,7 +1,19 @@
 import { toast } from "react-toastify";
-import { email, length, minLength, nonEmpty, object, parse, pipe, regex, string } from "valibot";
+import {
+    email,
+    length,
+    maxValue,
+    minLength,
+    minValue,
+    nonEmpty,
+    object,
+    parse,
+    pipe,
+    regex,
+    string,
+} from "valibot";
 
-export const useValidateform = (data = {}, form = "") => {
+export const useValidateform = (data = {}, form = "", extra = null) => {
     let schema;
 
     switch (form) {
@@ -236,7 +248,18 @@ export const useValidateform = (data = {}, form = "") => {
                     nonEmpty("El mensaje es requerido"),
                     string("El mensaje no es valido"),
                     minLength(3, "El mensaje debe tener al menos 3 caracteres")
-                )
+                ),
+            });
+            break;
+        case "withdraw-modal-form":
+            schema = object({
+                retiro_valor: pipe(
+                    nonEmpty("El valor es requerido"),
+                    string("El valor no es valido"),
+                    regex(/^[0-9]*$/, "El valor debe tener solo números"),
+                    minValue(10000, "El valor debe ser mayor a 10,000"),
+                    maxValue(extra.trabajador_saldo, `El valor debe ser menor a tu saldo: ${extra.trabajador_saldo}`)
+                ),
             });
             break;
         default:
