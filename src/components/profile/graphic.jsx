@@ -26,7 +26,7 @@ export function DeliveryGraphic({ data, setCurrentMonth, graphicData }) {
                 borderColor: "rgba(126, 34, 206, 1)",
             },
             {
-                label: "Numero de envios",
+                label: "Número de envíos",
                 data: data.map((el) => el.sales),
                 backgroundColor: "rgba(255, 99, 132, 0.5)",
                 borderColor: "rgba(255, 99, 132, 1)",
@@ -73,7 +73,7 @@ export function SellerGraphic({ data, setCurrentMonth, graphicData }) {
                 borderColor: "rgba(126, 34, 206, 1)",
             },
             {
-                label: "Numero de productos vendidos",
+                label: "Número de productos vendidos",
                 data: data.map((el) => el.sales),
                 backgroundColor: "rgba(255, 99, 132, 0.5)",
                 borderColor: "rgba(255, 99, 132, 1)",

@@ -45,7 +45,7 @@ export default function SellerStats({ user }) {
                                 >
                                     <option value="all">Todo</option>
                                     <option value="money">Dinero recaudado</option>
-                                    <option value="sales">Numero de ventas</option>
+                                    <option value="sales">Número de ventas</option>
                                 </select>
                                 <select
                                     value={year}
@@ -77,7 +77,7 @@ export default function SellerStats({ user }) {
                                 <div className="stats bg-transparent">
                                     <div className="stat">
                                         <div className="stat-title">
-                                            Numero de ventas realizadas
+                                            Número de ventas realizadas
                                         </div>
                                         <div className="stat-value">
                                             {currentMonth ? currentMonth.sales : "Pendiente"}
@@ -91,7 +91,7 @@ export default function SellerStats({ user }) {
                                 </div>
                                 <div className="stats bg-transparent">
                                     <div className="stat ">
-                                        <div className="stat-title">Dinero en envíos</div>
+                                        <div className="stat-title">Dinero en ventas</div>
                                         <div className="stat-value">
                                             {currentMonth
                                                 ? currentMonth.money.toLocaleString("es-CO")

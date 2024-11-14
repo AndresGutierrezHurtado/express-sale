@@ -47,7 +47,7 @@ export default function DeliveryStats({ user }) {
                                 >
                                     <option value="all">Todo</option>
                                     <option value="money">Dinero recaudado</option>
-                                    <option value="sales">Numero de envios</option>
+                                    <option value="sales">Número de envíos</option>
                                 </select>
                                 <select
                                     value={year}
@@ -79,7 +79,7 @@ export default function DeliveryStats({ user }) {
                                 <div className="stats bg-transparent">
                                     <div className="stat">
                                         <div className="stat-title">
-                                            Numero de envíos realizados
+                                            Número de envíos realizados
                                         </div>
                                         {currentMonth ? (
                                             <>

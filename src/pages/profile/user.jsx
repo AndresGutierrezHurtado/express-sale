@@ -120,7 +120,7 @@ export default function UserProfile() {
                                 </Link>
                                 {user.usuario_telefono && (
                                     <div
-                                        data-tip="Numero de contacto"
+                                        data-tip="Número de contacto"
                                         className="tooltip tooltip-bottom flex badge badge-sm gap-1 h-auto py-1 px-5 duration-300 hover:scale-[1.06]"
                                     >
                                         <PhoneIcon size={14} />

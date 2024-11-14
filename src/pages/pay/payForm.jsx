@@ -158,7 +158,7 @@ export default function PayForm() {
                                 <div className="form-control">
                                     <label className="label">
                                         <span className="label-text font-semibold after:content-['*'] after:ml-1 after:text-red-500">
-                                            Numero Telefónico:
+                                            Número Telefónico:
                                         </span>
                                     </label>
                                     <input
@@ -217,7 +217,7 @@ export default function PayForm() {
                                     </label>
                                     <textarea
                                         name="payerMessage"
-                                        placeholder="Ingresa tu mensaje para el domiciliario, ej: Conunto, Torre, Apartamento, Numero de hogar, Descripcion..."
+                                        placeholder="Ingresa tu mensaje para el domiciliario, ej: Conunto, Torre, Apartamento, Número de hogar, Descripcion..."
                                         className="textarea textarea-bordered textarea-sm focus:outline-0 focus:textarea-primary resize-none h-32 leading-[1.4]"
                                     />
                                 </div>
