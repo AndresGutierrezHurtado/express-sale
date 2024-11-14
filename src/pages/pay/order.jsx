@@ -1,8 +1,9 @@
 import React from "react";
 import { Link, useParams } from "react-router-dom";
+import Swal from "sweetalert2";
 
 // Hooks
-import { useGetData } from "@hooks/useFetchData.js";
+import { useGetData, usePutData } from "@hooks/useFetchData.js";
 import { useGenerateReceipt } from "@hooks/useGenerateReceipt";
 
 // Components
@@ -14,8 +15,37 @@ import { useAuthContext } from "@contexts/authContext.jsx";
 
 export default function Order() {
     const { id } = useParams();
-    const { data: order, loading: orderLoading } = useGetData(`/orders/${id}`);
+    const { data: order, loading: orderLoading, reload: reloadOrder } = useGetData(`/orders/${id}`);
     const { userSession } = useAuthContext();
+
+    const handleMarkAsReceived = () => {
+        Swal.fire({
+            icon: "info",
+            title: "Marcar como recibido",
+            text: "Dale a continuar si quieres marcar el pedido como recibido",
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            cancelButtonText: "Cancelar",
+            confirmButtonText: "Continuar",
+        }).then(async (result) => {
+            if (result.isConfirmed) {
+                const response = await usePutData(`/orders/${id}`, {
+                    order: {
+                        pedido_estado: "recibido",
+                    },
+                    worker: {
+                        trabajador_saldo: parseInt(
+                            order.shippingDetails.worker.trabajador_saldo + order.shippingDetails.envio_valor
+                        ),
+                    },
+                });
+                if (response.success) {
+                    reloadOrder();
+                }
+            }
+        });
+    };
 
     if (orderLoading) return <ContentLoading />;
     return (
@@ -151,7 +181,10 @@ export default function Order() {
                         <hr />
                         <div className="flex flex-col gap-2">
                             {order.pedido_estado == "entregado" && (
-                                <button className="btn w-full btn-sm btn-success text-white relative">
+                                <button
+                                    onClick={handleMarkAsReceived}
+                                    className="btn w-full btn-sm btn-success text-white relative"
+                                >
                                     <span className="absolute left-3 top-1/2 -translate-y-1/2">
                                         <CircleCheckIcon size={17} />
                                     </span>
