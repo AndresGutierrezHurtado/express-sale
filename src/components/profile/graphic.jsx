@@ -57,6 +57,11 @@ export function DeliveryGraphic({ data, setCurrentMonth, graphicData }) {
             if (elements.length == 0) return;
             setCurrentMonth(data[elements[0].index]);
         },
+        interaction: {
+            mode: "nearest",
+            axis: "x",
+            intersect: false,
+        },
     };
 
     return <Line data={chartData} options={chartOptions} />;
@@ -103,6 +108,11 @@ export function SellerGraphic({ data, setCurrentMonth, graphicData }) {
         onClick: (event, elements) => {
             if (elements.length == 0) return;
             setCurrentMonth(data[elements[0].index]);
+        },
+        interaction: {
+            mode: "nearest",
+            axis: "x",
+            intersect: false,
         },
     };
 

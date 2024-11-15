@@ -94,7 +94,7 @@ export default function SellerStats({ user, reloadUser }) {
                                         <div className="stat-title">Dinero en ventas</div>
                                         <div className="stat-value">
                                             {currentMonth
-                                                ? currentMonth.money.toLocaleString("es-CO")
+                                                ? `${currentMonth.money.toLocaleString("es-CO")} COP`
                                                 : "Pendiente"}
                                         </div>
                                         <div className="stat-desc">
