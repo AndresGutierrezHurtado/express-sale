@@ -258,7 +258,7 @@ export const useValidateform = (data = {}, form = "", extra = null) => {
                     string("El valor no es valido"),
                     regex(/^[0-9]*$/, "El valor debe tener solo números"),
                     minValue(10000, "El valor debe ser mayor a 10,000"),
-                    maxValue(extra.trabajador_saldo, `El valor debe ser menor a tu saldo: ${extra.trabajador_saldo}`)
+                    maxValue(parseInt(extra.trabajador_saldo), `El valor debe ser menor a tu saldo: ${parseInt(extra.trabajador_saldo).toLocaleString("es-CO")} COP`)
                 ),
             });
             break;

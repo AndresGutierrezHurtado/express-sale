@@ -90,7 +90,7 @@ export default class OrderController {
                 transaction: t,
             });
 
-            orderProducts.map(async (orderProduct) => {
+            const orderProductPromises = orderProducts.map(async (orderProduct) => {
                 const product = await models.Product.findByPk(orderProduct.producto_id);
 
                 // Update product quantity
@@ -121,8 +121,12 @@ export default class OrderController {
                 );
             });
 
+            // Espera a que todas las operaciones se completen
+            await Promise.all(orderProductPromises);
+
             const emptyCart = await models.Cart.destroy({
                 where: { usuario_id: req.session.usuario_id },
+                transaction: t,
             });
 
             await t.commit();

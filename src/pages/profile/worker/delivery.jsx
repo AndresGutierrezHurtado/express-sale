@@ -42,7 +42,7 @@ export default function Delivery() {
                     },
                 });
                 if (response.success) {
-                    navigate("/profile/user");
+                    navigate(`/worker/stats/${userSession.usuario_id}`);
                 }
             }
         });

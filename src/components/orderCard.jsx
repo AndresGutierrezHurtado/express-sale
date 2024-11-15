@@ -53,7 +53,7 @@ export default function OrderCard({ order }) {
         });
     };
 
-    if (!loaded) return <div className="skeleton w-full max-w-xl rounded"></div>;
+    if (!loaded) return <div className="skeleton w-full h-[250px] max-w-xl rounded-2xl"></div>;
     return (
         <div
             key={order.pedido_id}
