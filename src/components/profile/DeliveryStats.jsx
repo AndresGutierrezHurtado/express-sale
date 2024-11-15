@@ -5,7 +5,7 @@ import { TruckIcon, BillIcon, StarIcon, UserIcon } from "@components/icons.jsx";
 import { DeliveryGraphic } from "@components/profile/graphic.jsx";
 import Withdraw from "./withdraw";
 
-export default function DeliveryStats({ user }) {
+export default function DeliveryStats({ user, reloadUser }) {
     const [graphicData, setGraphicData] = useState("all");
     const [currentMonth, setCurrentMonth] = useState(null);
     const [year, setYear] = useState("2024");
@@ -123,7 +123,7 @@ export default function DeliveryStats({ user }) {
                     </div>
                 </div>
                 <div className="space-y-10">
-                    <Withdraw user={user} />
+                    <Withdraw user={user} reloadUser={reloadUser} />
                     <div className="flex flex-wrap gap-5">
                         <article className="min-w-[170px] w-fit p-4 flex flex-row items-center gap-4 card bg-base-100 stat text-center shadow-lg">
                             <div>

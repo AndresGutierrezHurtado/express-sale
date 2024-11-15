@@ -663,6 +663,17 @@ export default class UserController {
                 trabajador_id: req.session.user.worker.trabajador_id,
                 retiro_valor: req.body.retiro_valor,
             });
+
+            await models.Worker.update(
+                {
+                    trabajador_saldo:
+                        req.session.user.worker.trabajador_saldo - req.body.retiro_valor,
+                },
+                {
+                    where: { trabajador_id: req.session.user.worker.trabajador_id },
+                }
+            );
+
             res.status(200).json({
                 success: true,
                 message: "Retiro creado correctamente.",

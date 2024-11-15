@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import { SellerGraphic } from "./graphic";
 import Withdraw from "./withdraw";
 
-export default function SellerStats({ user }) {
+export default function SellerStats({ user, reloadUser }) {
     const [graphicData, setGraphicData] = useState("all");
     const [currentMonth, setCurrentMonth] = useState(null);
     const [year, setYear] = useState("2024");
@@ -108,7 +108,7 @@ export default function SellerStats({ user }) {
                         </article>
                     </div>
                 </div>
-                <Withdraw user={user} />
+                <Withdraw user={user} reloadUser={reloadUser} />
             </div>
         </main>
     );

@@ -6,15 +6,15 @@ import ContentLoading from "../contentLoading.jsx";
 import { BillIcon } from "../icons.jsx";
 
 // Hooks
-import { useGetData } from "@hooks/useFetchData.js";
+import { useGetData, usePostData } from "@hooks/useFetchData.js";
 import { useValidateform } from "@hooks/useValidateForm.js";
 
-export default function Withdraw({ user }) {
+export default function Withdraw({ user, reloadUser }) {
     const { data: withdrawals, loading: withdrawalsLoading } = useGetData(
         `/users/${user.usuario_id}/withdrawals`
     );
 
-    const handleWithdraw = (event) => {
+    const handleWithdraw = async (event) => {
         event.preventDefault();
 
         const data = Object.fromEntries(new FormData(event.target));
@@ -22,13 +22,30 @@ export default function Withdraw({ user }) {
             trabajador_saldo: user.worker.trabajador_saldo,
         });
 
-        console.log(validation);
-        // if (validation.success) {
-        //     usePostData(`/withdrawals`, data);
-        // }
+        if (validation.success) {
+            const response = await usePostData(`/withdrawals`, data);
+
+            if (response.success) {
+                event.target.reset();
+                document.getElementById("withdraw-modal").close();
+                reloadUser();
+            }
+        }
     };
 
     if (withdrawalsLoading) return <ContentLoading />;
+
+    user.worker.retiros_restantes =
+        5 -
+        withdrawals.reduce(
+            (total, withdrawal) =>
+                new Date(withdrawal.fecha).getMonth() === new Date().getMonth() &&
+                withdrawal.tipo === "retiro"
+                    ? total + 1
+                    : total,
+            0
+        );
+
     return (
         <>
             <article className="card bg-white border shadow-lg border-gray-100 w-full max-w-lg mx-auto h-fit">
@@ -38,7 +55,9 @@ export default function Withdraw({ user }) {
                         <div className="text-5xl font-extrabold">
                             {parseInt(user.worker.trabajador_saldo).toLocaleString("es-CO")} COP
                         </div>
-                        <div className="text-sm text-gray-600">5 retiros disponibles</div>
+                        <div className="text-sm text-gray-600">
+                            {user.worker.retiros_restantes} retiros disponibles
+                        </div>
                         <div className="divider"></div>
                         <div className="space-y-2">
                             <p>
@@ -54,6 +73,7 @@ export default function Withdraw({ user }) {
                             </p>
                             <div>
                                 <button
+                                    disabled={user.worker.retiros_restantes === 0}
                                     onClick={() =>
                                         user.worker.trabajador_saldo > 10000
                                             ? document.getElementById("withdraw-modal").showModal()
@@ -104,8 +124,8 @@ export default function Withdraw({ user }) {
                                             : "text-red-600"
                                     }`}
                                 >
-                                    <td>{withdrawal.fecha}</td>
-                                    <td>{withdrawal.tipo}</td>
+                                    <td>{new Date(withdrawal.fecha).toLocaleString("es-CO")}</td>
+                                    <td className="capitalize">{withdrawal.tipo}</td>
                                     <td>
                                         {withdrawal.tipo == "ingreso" ? "+" : "-"}{" "}
                                         {parseInt(withdrawal.valor).toLocaleString("es-CO")}
@@ -138,7 +158,9 @@ export default function Withdraw({ user }) {
                                 </span>
                             </label>
                             <input
-                                placeholder={`Monto a retirar (min: 10.000, max: ${user.worker.trabajador_saldo})`}
+                                placeholder={`Monto a retirar (min: 10.000, max: ${parseInt(
+                                    user.worker.trabajador_saldo
+                                ).toLocaleString("es-CO")})`}
                                 className="input input-bordered focus:outline-0 focus:input-primary"
                                 name="retiro_valor"
                             />
