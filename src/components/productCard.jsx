@@ -93,7 +93,14 @@ export default function Product({ product, reloadProducts }) {
                         </div>
                         <button
                             className="btn btn-sm min-h-none h-auto py-3 btn-primary group relative text-purple-300 hover:bg-purple-800 hover:text-purple-100 w-full"
-                            onClick={handleCartAdd}
+                            
+                            onClick={() => {
+                                if (userSession) {
+                                    handleCartAdd();
+                                } else {
+                                    authMiddlewareAlert();
+                                }
+                            }}
                             data-id={product.producto_id}
                         >
                             <span className="absolute left-3 top-1/2 transform -translate-y-1/2 text-purple-300 group-hover:text-purple-100">

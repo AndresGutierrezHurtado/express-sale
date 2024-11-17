@@ -18,8 +18,8 @@ export function VerticalProductCard({ product, reloadProducts }) {
     const handleCartAdd = async () => {
         const response = await usePostData("/carts", {
             producto_id: product.producto_id,
-        })
-    }
+        });
+    };
 
     return (
         <>
@@ -42,14 +42,11 @@ export function VerticalProductCard({ product, reloadProducts }) {
                             <div className="flex flex-col items-end">
                                 <p className="flex text-lg items-center leading-none">
                                     <StarIcon />
-                                    {Number.parseFloat(
-                                        product.calificacion_promedio
-                                    ).toFixed(1)}
+                                    {Number.parseFloat(product.calificacion_promedio).toFixed(1)}
                                 </p>
                                 <span className="flex items-center text-gray-600 text-sm">
                                     ({parseInt(product.calificacion_cantidad)}
-                                    <UserIcon size={11} />
-                                    )
+                                    <UserIcon size={11} />)
                                 </span>
                             </div>
                         </div>
@@ -61,9 +58,7 @@ export function VerticalProductCard({ product, reloadProducts }) {
                             @publicado por {product.user.usuario_alias}
                         </Link>
                     </div>
-                    <p className="line-clamp-3">
-                        {product.producto_descripcion}
-                    </p>
+                    <p className="line-clamp-3">{product.producto_descripcion}</p>
                     <div className="w-full flex items-center justify-between">
                         <p className="text-sm font-medium text-gray-700">
                             {product.producto_cantidad} disponibles
@@ -72,9 +67,7 @@ export function VerticalProductCard({ product, reloadProducts }) {
                             onClick={() => {
                                 if (userSession) {
                                     document
-                                        .getElementById(
-                                            `product-modal-${product.producto_id}`
-                                        )
+                                        .getElementById(`product-modal-${product.producto_id}`)
                                         .show();
                                 } else {
                                     authMiddlewareAlert();
@@ -86,7 +79,16 @@ export function VerticalProductCard({ product, reloadProducts }) {
                             <PlusIcon />
                         </button>
                     </div>
-                    <button onClick={handleCartAdd} className="btn btn-sm min-h-none h-auto py-3 btn-primary group relative text-purple-300 hover:bg-purple-800 hover:text-purple-100 w-full">
+                    <button
+                        onClick={() => {
+                            if (userSession) {
+                                handleCartAdd();
+                            } else {
+                                authMiddlewareAlert();
+                            }
+                        }}
+                        className="btn btn-sm min-h-none h-auto py-3 btn-primary group relative text-purple-300 hover:bg-purple-800 hover:text-purple-100 w-full"
+                    >
                         <span className="absolute left-3 top-1/2 transform -translate-y-1/2 text-purple-300 group-hover:text-purple-100">
                             <CartAddIcon size={17} />
                         </span>
