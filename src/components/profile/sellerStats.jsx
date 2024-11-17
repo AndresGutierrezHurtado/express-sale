@@ -142,7 +142,7 @@ export default function SellerStats({ user, reloadUser }) {
                             </article>
                         </div>
                     </div>
-                    <div>
+                    <div className="space-y-10">
                         <section className="flex flex-wrap gap-5">
                             <article className="min-w-[170px] w-fit p-4 flex flex-row items-center gap-4 card bg-base-100 stat text-center shadow-lg">
                                 <div>
@@ -193,6 +193,41 @@ export default function SellerStats({ user, reloadUser }) {
                                     <div className="text-gray-500 leading-none">Dinero hecho</div>
                                 </div>
                             </article>
+                        </section>
+
+                        <section className="space-y-5">
+                            <h2 className="text-3xl font-extrabold">Pedidos pendientes:</h2>
+                            {pendingOrders.length === 0 && (
+                                <p className="text-center font-bold text-2xl text-gray-500">
+                                    No tienes ningun pedido pendiente...
+                                </p>
+                            )}
+                            <table className="table border w-full">
+                                <thead className="bg-gray-200"> 
+                                    <tr>
+                                        <th className="text-left">Pedido</th>
+                                        <th className="text-left">Fecha</th>
+                                        <th className="text-left">Productos</th>
+                                        <th className="text-left">Estado</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {pendingOrders.map((order) => (
+                                        <tr key={order.pedido_id}>
+                                            <td>{order.pedido_id.split("-")[1]}</td>
+                                            <td>{new Date(order.pedido_fecha).toLocaleString("es-CO")}</td>
+                                            <td>
+                                                {order.orderProducts.map((product) => (
+                                                    <p key={product.producto_id}>
+                                                        - {product.product.producto_nombre}
+                                                    </p>
+                                                ))}
+                                            </td>
+                                            <td>{order.pedido_estado}</td>
+                                        </tr>
+                                    ))}
+                                </tbody>
+                            </table>
                         </section>
                     </div>
                 </div>
