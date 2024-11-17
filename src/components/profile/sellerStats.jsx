@@ -1,14 +1,22 @@
 import React, { useState } from "react";
 
+// Components
+import ContentLoading from "../contentLoading";
 import { SellerGraphic } from "./graphic";
 import Withdraw from "./withdraw";
 import { BillIcon, BoxesStackedIcon, StarIcon, UserIcon } from "../icons";
+
+// Hooks
+import { useGetData } from "@hooks/useFetchData";
 
 export default function SellerStats({ user, reloadUser }) {
     const [graphicData, setGraphicData] = useState("all");
     const [currentMonth, setCurrentMonth] = useState(null);
     const [year, setYear] = useState("2024");
 
+    const { data: pendingOrders, loading: pendingOrdersLoading, reload: reloadPendingOrders } = useGetData(`/orders?pedido_estado=pendiente&usuario_id=${user.usuario_id}`);
+
+    console.log(pendingOrders);
     const yearSales = [];
     for (let i = 1; i <= 12; i++) {
         let infoMes =
@@ -24,6 +32,7 @@ export default function SellerStats({ user, reloadUser }) {
         });
     }
 
+    if (pendingOrdersLoading) return <ContentLoading />;
     return (
         <main className="h-full w-full p-10 space-y-10">
             <div className="flex flex-col md:flex-row gap-10">

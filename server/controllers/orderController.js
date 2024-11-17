@@ -239,7 +239,11 @@ export default class OrderController {
 
     static getOrders = async (req, res) => {
         const whereClause = {};
+        
+        const whereOrderProductClause = {};
         if (req.query.pedido_estado) whereClause.pedido_estado = req.query.pedido_estado;
+        if (req.query.usuario_id) whereOrderProductClause.usuario_id = req.query.usuario_id;
+
         try {
             const order = await models.Order.findAll({
                 where: whereClause,
@@ -252,6 +256,7 @@ export default class OrderController {
                             model: models.Product,
                             as: "product",
                             include: { model: models.User, as: "user" },
+                            where: whereOrderProductClause
                         },
                     },
                     { model: models.ShippingDetails, as: "shippingDetails" },
@@ -265,6 +270,7 @@ export default class OrderController {
                 data: order,
             });
         } catch (error) {
+            console.log(error);
             res.status(500).json({
                 success: false,
                 message: error.message,
