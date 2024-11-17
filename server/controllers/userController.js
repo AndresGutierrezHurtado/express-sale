@@ -336,6 +336,18 @@ export default class UserController {
                 `
             );
 
+            const MostSelledProducts = await sequelize.query(
+                `
+                    SELECT productos.producto_id, productos.producto_imagen_url, productos.producto_nombre, SUM(productos_pedidos.producto_cantidad) AS total_ventas
+                    FROM productos_pedidos
+                    INNER JOIN productos ON productos_pedidos.producto_id = productos.producto_id
+                    WHERE productos.usuario_id = "${req.params.id}"
+                    GROUP BY productos.producto_id
+                    ORDER BY total_ventas DESC
+                    LIMIT 5;
+                `
+            )
+
             const result = user.worker
                 ? {
                       ...user.toJSON(),
@@ -343,6 +355,7 @@ export default class UserController {
                           ...user.worker.toJSON(),
                           ventas_mensuales: yearSales[0],
                           envios_mensuales: yearDeliveries[0],
+                          most_selled_products: MostSelledProducts[0],
                       },
                   }
                 : user.toJSON();
