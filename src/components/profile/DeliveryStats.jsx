@@ -26,7 +26,7 @@ export default function DeliveryStats({ user, reloadUser }) {
     }
 
     return (
-        <main className="h-full w-full p-10 space-y-10">
+        <main className="h-full w-full p-10 space-y-10 overflow-y-scroll">
             <div className="flex flex-col md:flex-row gap-10">
                 <div className="card bg-white border shadow-lg border-gray-100 w-full max-w-[750px]">
                     <div className="card-body gap-5">

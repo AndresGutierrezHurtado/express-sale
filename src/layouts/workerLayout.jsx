@@ -18,7 +18,7 @@ export default function WorkerLayout() {
         <>
             <div className="drawer drawer-open">
                 <input id="my-drawer-2" type="checkbox" className="drawer-toggle" defaultChecked />
-                <div className="drawer-content bg-gray-200 p-4 pl-0">
+                <div className="drawer-content bg-gray-200 p-4 pl-0 h-screen overflow-y-hidden">
                     <main className="w-full h-full bg-white rounded-xl">
                         <Outlet user={user} />
                     </main>

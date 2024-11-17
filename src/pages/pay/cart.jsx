@@ -45,7 +45,7 @@ export default function Cart() {
                     reloadCarts();
                 }
             }
-        })
+        });
     };
 
     const handleEmptyCart = async () => {
@@ -95,7 +95,10 @@ export default function Cart() {
                                         className="bg-white p-8 w-full shadow-xl rounded-xl border"
                                     >
                                         <div className="flex gap-5">
-                                            <Link to={`/product/${cart.producto_id}`} className="size-[160px]">
+                                            <Link
+                                                to={`/product/${cart.producto_id}`}
+                                                className="size-[160px]"
+                                            >
                                                 <img
                                                     src={cart.product.producto_imagen_url}
                                                     alt={`Imagen del producto ${cart.product.producto_nombre}`}
@@ -180,27 +183,33 @@ export default function Cart() {
                                 ))}
                             </div>
                             <div className="w-full max-w-[300px] p-8 space-y-5 bg-white border shadow-xl rounded-xl h-fit">
-                                <div className="[&_div]:flex [&_div]:gap-5 [&_div]:justify-between [&_div]:w-full">
+                                <div className="[&_div]:flex [&_div]:gap-5 [&_div]:justify-between [&_div]:items-center [&_div]:w-full">
                                     <div>
                                         <h2 className="text-2xl font-bold">Resumen:</h2>
                                     </div>
                                     <div>
-                                        <label>Subtotal</label>
+                                        <label className="label-text font-semibold">
+                                            Subtotal:
+                                        </label>
                                         <p>{parseInt(subTotal).toLocaleString("es-CO")}</p>
                                     </div>
                                     <div>
-                                        <label>Iva</label>
-                                        <p>
-                                            19% ({parseInt(subTotal * 0.19).toLocaleString("es-CO")}
-                                            )
-                                        </p>
+                                        <label className="label-text font-semibold">IVA:</label>
+                                        <p>0% (0.00)</p>
                                     </div>
                                     <div>
-                                        <label>Total</label>
-                                        <p>{parseInt(subTotal * 1.19).toLocaleString("es-CO")}</p>
+                                        <label className="label-text font-semibold">Envío:</label>
+                                        <p>Pendiente</p>
+                                    </div>
+                                    <div>
+                                        <label className="label-text font-semibold">Total:</label>
+                                        <p>{parseInt(subTotal).toLocaleString("es-CO")}</p>
                                     </div>
                                     <div className="form-control pt-5">
-                                        <Link to="/payform" className="btn btn-primary btn-sm w-full">
+                                        <Link
+                                            to="/payform"
+                                            className="btn btn-primary btn-sm w-full"
+                                        >
                                             Pagar
                                         </Link>
                                         <button

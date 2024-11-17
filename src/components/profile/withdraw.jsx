@@ -10,7 +10,7 @@ import { useGetData, usePostData } from "@hooks/useFetchData.js";
 import { useValidateform } from "@hooks/useValidateForm.js";
 
 export default function Withdraw({ user, reloadUser }) {
-    const { data: withdrawals, loading: withdrawalsLoading } = useGetData(
+    const { data: withdrawals, loading: withdrawalsLoading, reload: reloadWithdrawals } = useGetData(
         `/users/${user.usuario_id}/withdrawals`
     );
 
@@ -28,6 +28,7 @@ export default function Withdraw({ user, reloadUser }) {
             if (response.success) {
                 event.target.reset();
                 document.getElementById("withdraw-modal").close();
+                reloadWithdrawals();
                 reloadUser();
             }
         }
