@@ -77,31 +77,43 @@ export default function SellerStats({ user, reloadUser }) {
                                 <div className="stats bg-transparent">
                                     <div className="stat">
                                         <div className="stat-title">
-                                            Número de ventas realizadas
+                                            Número de productos vendidos
                                         </div>
-                                        <div className="stat-value">
-                                            {currentMonth ? currentMonth.sales : "Pendiente"}
+                                        {currentMonth ? (
+                                            <>
+                                                <div className="stat-value">{currentMonth.sales}</div>
+                                                <div className="stat-desc">
+                                                En el mes {currentMonth.monthToText} del año {currentMonth.year}
                                         </div>
+                                            </>
+                                        ) : (
+                                            <>
+                                                <div className="stat-value">Pendiente</div>
                                         <div className="stat-desc">
-                                            {currentMonth
-                                                ? `En el mes ${currentMonth.monthToText} del año ${currentMonth.year}`
-                                                : "Pendiente"}
+                                                    Dale clic a un mes para ver su valor
                                         </div>
+                                            </>
+                                        )}
                                     </div>
                                 </div>
                                 <div className="stats bg-transparent">
                                     <div className="stat ">
                                         <div className="stat-title">Dinero en ventas</div>
-                                        <div className="stat-value">
-                                            {currentMonth
-                                                ? `${currentMonth.money.toLocaleString("es-CO")} COP`
-                                                : "Pendiente"}
+                                        {currentMonth ? (
+                                            <>
+                                                <div className="stat-value">{currentMonth.money.toLocaleString("es-CO")} COP</div>
+                                                <div className="stat-desc">
+                                                    En el mes {currentMonth.monthToText} del año {currentMonth.year}
                                         </div>
+                                            </>
+                                        ) : (
+                                            <>
+                                                <div className="stat-value">Pendiente</div>
                                         <div className="stat-desc">
-                                            {currentMonth
-                                                ? `En el mes ${currentMonth.monthToText} del año ${currentMonth.year}`
-                                                : "Pendiente"}
+                                                    Dale clic a un mes para ver suvalor
                                         </div>
+                                            </>
+                                        )}
                                     </div>
                                 </div>
                             </div>
