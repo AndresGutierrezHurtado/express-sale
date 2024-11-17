@@ -2,6 +2,7 @@ import React, { useState } from "react";
 
 import { SellerGraphic } from "./graphic";
 import Withdraw from "./withdraw";
+import { BillIcon, BoxesStackedIcon, StarIcon, UserIcon } from "../icons";
 
 export default function SellerStats({ user, reloadUser }) {
     const [graphicData, setGraphicData] = useState("all");
@@ -84,14 +85,14 @@ export default function SellerStats({ user, reloadUser }) {
                                                 <div className="stat-value">{currentMonth.sales}</div>
                                                 <div className="stat-desc">
                                                 En el mes {currentMonth.monthToText} del año {currentMonth.year}
-                                        </div>
+                                                </div>
                                             </>
                                         ) : (
                                             <>
                                                 <div className="stat-value">Pendiente</div>
-                                        <div className="stat-desc">
+                                                <div className="stat-desc">
                                                     Dale clic a un mes para ver su valor
-                                        </div>
+                                                </div>
                                             </>
                                         )}
                                     </div>
@@ -104,14 +105,14 @@ export default function SellerStats({ user, reloadUser }) {
                                                 <div className="stat-value">{currentMonth.money.toLocaleString("es-CO")} COP</div>
                                                 <div className="stat-desc">
                                                     En el mes {currentMonth.monthToText} del año {currentMonth.year}
-                                        </div>
+                                                </div>
                                             </>
                                         ) : (
                                             <>
                                                 <div className="stat-value">Pendiente</div>
-                                        <div className="stat-desc">
+                                                <div className="stat-desc">
                                                     Dale clic a un mes para ver suvalor
-                                        </div>
+                                                </div>
                                             </>
                                         )}
                                     </div>
@@ -121,6 +122,60 @@ export default function SellerStats({ user, reloadUser }) {
                     </div>
                 </div>
                 <Withdraw user={user} reloadUser={reloadUser} />
+            </div>
+            <div>
+                
+            <div className="flex flex-wrap gap-5">
+                        <article className="min-w-[170px] w-fit p-4 flex flex-row items-center gap-4 card bg-base-100 stat text-center shadow-lg">
+                            <div>
+                                <UserIcon size={40} />
+                            </div>
+                            <div className="flex-grow">
+                                <div className="stat-value text-xl">
+                                    {user.calificacion_cantidad}
+                                </div>
+                                <div className="text-gray-500 leading-none">Calificaciones</div>
+                            </div>
+                        </article>
+                        <article className="min-w-[170px] w-fit p-4 flex flex-row items-center gap-4 card bg-base-100 stat text-center shadow-lg">
+                            <div>
+                                <StarIcon size={40} />
+                            </div>
+                            <div className="flex-grow">
+                                <div className="stat-value text-xl">
+                                    {user.calificacion_promedio}
+                                </div>
+                                <div className="text-gray-500 leading-none">
+                                    Calificacion promedio
+                                </div>
+                            </div>
+                        </article>
+                        <article className="min-w-[170px] w-fit p-4 flex flex-row items-center gap-4 card bg-base-100 stat text-center shadow-lg">
+                            <div>
+                                <BoxesStackedIcon size={40} />
+                            </div>
+                            <div className="flex-grow">
+                                <div className="stat-value text-xl">
+                                    {console.log(user)}
+                                    {user.ventas_cantidad}
+                                </div>
+                                <div className="text-gray-500 leading-none">
+                                    Productos vendidos
+                                </div>
+                            </div>
+                        </article>
+                        <article className="min-w-[170px] w-fit p-4 flex flex-row items-center gap-4 card bg-base-100 stat text-center shadow-lg">
+                            <div>
+                                <BillIcon size={40} />
+                            </div>
+                            <div className="flex-grow">
+                                <div className="stat-value text-xl">
+                                    {parseInt(user.ventas_dinero).toLocaleString("es-CO")} COP
+                                </div>
+                                <div className="text-gray-500 leading-none">Dinero hecho</div>
+                            </div>
+                        </article>
+                    </div>
             </div>
         </main>
     );
