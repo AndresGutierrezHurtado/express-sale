@@ -9,6 +9,7 @@ import { useValidateform } from "@hooks/useValidateForm.js";
 import { CartAddIcon, StarIcon, UserIcon, ClipIcon, PaperPlaneIcon } from "@components/icons.jsx";
 import ContentLoading from "@components/contentLoading.jsx";
 import { Calification } from "@components/calification";
+import { StarsRating } from "@components/starsRating";
 
 // Contexts
 import { useAuthContext } from "@contexts/authContext.jsx";
@@ -170,13 +171,7 @@ export default function Product() {
                                             <h2 className="font-semibold text-4xl text-center">
                                                 {product.calificacion_promedio}
                                             </h2>
-                                            <span className="flex gap-1">
-                                                <StarIcon size={15} />
-                                                <StarIcon size={15} />
-                                                <StarIcon size={15} />
-                                                <StarIcon size={15} />
-                                                <StarIcon size={15} />
-                                            </span>
+                                            <StarsRating rating={parseFloat(product.calificacion_promedio)} />
                                             <p className="text-sm flex gap-1 items-center grow-0">
                                                 {ratings.length}
                                                 <UserIcon size={12} />

@@ -11,6 +11,7 @@ import Product from "@components/productCard.jsx";
 import ContentLoading from "@components/contentLoading.jsx";
 import RateModal from "@components/rateModal.jsx";
 import Pagination from "@components/pagination.jsx";
+import { StarsRating } from "../components/starsRating";
 
 export default function Worker() {
     const { id } = useParams();
@@ -82,13 +83,7 @@ export default function Worker() {
                                                 <h2 className="font-semibold text-4xl text-center">
                                                     {seller.calificacion_promedio}
                                                 </h2>
-                                                <span className="flex gap-1">
-                                                    <StarIcon size={15} />
-                                                    <StarIcon size={15} />
-                                                    <StarIcon size={15} />
-                                                    <StarIcon size={15} />
-                                                    <StarIcon size={15} />
-                                                </span>
+                                                <StarsRating rating={parseFloat(seller.calificacion_promedio)} />
                                                 <p className="text-sm flex gap-1 items-center">
                                                     {ratings.length}
                                                     <UserIcon size={12} />

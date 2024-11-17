@@ -1,4 +1,6 @@
 import Swal from "sweetalert2";
+
+// Components
 import {
     DotsIcon,
     FlagIcon,
@@ -6,6 +8,7 @@ import {
     StarIcon,
     TrashIcon,
 } from "./icons.jsx";
+import { StarsRating } from "./starsRating.jsx";
 
 // Contexts
 import { useAuthContext } from "../contexts/authContext.jsx";
@@ -93,13 +96,7 @@ export function Calification({ rating, reload }) {
                                 <h4 className="font-medium">
                                     {rating.calificator.usuario_alias}
                                 </h4>
-                                <span className="flex gap-1">
-                                    <StarIcon size={13} />
-                                    <StarIcon size={13} />
-                                    <StarIcon size={13} />
-                                    <StarIcon size={13} />
-                                    <StarIcon size={13} />
-                                </span>
+                                <StarsRating rating={parseInt(rating.calificacion)} />
                             </div>
                         </div>
                         <div className="dropdown dropdown-end">
