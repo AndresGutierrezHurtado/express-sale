@@ -95,95 +95,75 @@ export default function Worker() {
                                                 </p>
                                             </div>
                                             <div className="w-full">
-                                                <div className="w-full flex items-center gap-2">
-                                                    <p>5</p>
-                                                    <div className="w-full h-[7px] bg-gray-300/90 rounded-full overflow-hidden">
-                                                        <div
-                                                            style={{
-                                                                width: `${
-                                                                    (ratings.filter(
-                                                                        (rating) =>
-                                                                            rating.calificacion == 5
-                                                                    ).length /
-                                                                        ratings.length) *
-                                                                        100 || 0
-                                                                }%`,
-                                                            }}
-                                                            className="bg-purple-700 h-full rounded-full"
-                                                        ></div>
-                                                    </div>
+                                                <div className="flex items-center gap-2">
+                                                    5
+                                                    <progress
+                                                        className="progress progress-primary w-full"
+                                                        value={
+                                                            (ratings.filter(
+                                                                (rating) => rating.calificacion == 5
+                                                            ).length /
+                                                                ratings.length) *
+                                                            100
+                                                        }
+                                                        max="100"
+                                                    ></progress>
                                                 </div>
-                                                <div className="w-full flex items-center gap-2">
-                                                    <p>4</p>
-                                                    <div className="w-full h-[7px] bg-gray-300/90 rounded-full overflow-hidden">
-                                                        <div
-                                                            style={{
-                                                                width: `${
-                                                                    (ratings.filter(
-                                                                        (rating) =>
-                                                                            rating.calificacion == 4
-                                                                    ).length /
-                                                                        ratings.length) *
-                                                                    100
-                                                                }%`,
-                                                            }}
-                                                            className="bg-purple-700 h-full rounded-full"
-                                                        ></div>
-                                                    </div>
+                                                <div className="flex items-center gap-2">
+                                                    4
+                                                    <progress
+                                                        className="progress progress-primary w-full"
+                                                        value={
+                                                            (ratings.filter(
+                                                                (rating) => rating.calificacion == 4
+                                                            ).length /
+                                                                ratings.length) *
+                                                            100
+                                                        }
+                                                        max="100"
+                                                    ></progress>
                                                 </div>
-                                                <div className="w-full flex items-center gap-2">
-                                                    <p>3</p>
-                                                    <div className="w-full h-[7px] bg-gray-300/90 rounded-full overflow-hidden">
-                                                        <div
-                                                            style={{
-                                                                width: `${
-                                                                    (ratings.filter(
-                                                                        (rating) =>
-                                                                            rating.calificacion == 3
-                                                                    ).length /
-                                                                        ratings.length) *
-                                                                        100 || 0
-                                                                }%`,
-                                                            }}
-                                                            className="bg-purple-700 h-full rounded-full"
-                                                        ></div>
-                                                    </div>
+                                                <div className="flex items-center gap-2">
+                                                    3
+                                                    <progress
+                                                        className="progress progress-primary w-full"
+                                                        value={
+                                                            (ratings.filter(
+                                                                (rating) => rating.calificacion == 3
+                                                            ).length /
+                                                                ratings.length) *
+                                                            100
+                                                        }
+                                                        max="100"
+                                                    ></progress>
                                                 </div>
-                                                <div className="w-full flex items-center gap-2">
-                                                    <p>2</p>
-                                                    <div className="w-full h-[7px] bg-gray-300/90 rounded-full overflow-hidden">
-                                                        <div
-                                                            style={{
-                                                                width: `${
-                                                                    (ratings.filter(
-                                                                        (rating) =>
-                                                                            rating.calificacion == 2
-                                                                    ).length /
-                                                                        ratings.length) *
-                                                                        100 || 0
-                                                                }%`,
-                                                            }}
-                                                            className="bg-purple-700 h-full rounded-full"
-                                                        ></div>
-                                                    </div>
+                                                <div className="flex items-center gap-2">
+                                                    2
+                                                    <progress
+                                                        className="progress progress-primary w-full"
+                                                        value={
+                                                            (ratings.filter(
+                                                                (rating) => rating.calificacion == 2
+                                                            ).length /
+                                                                ratings.length) *
+                                                            100
+                                                        }
+                                                        max="100"
+                                                    ></progress>
                                                 </div>
-                                                <div className="w-full flex items-center gap-2">
-                                                    <p>1</p>
-                                                    <div className="w-full h-[7px] bg-gray-300/90 rounded-full overflow-hidden">
-                                                        <div
-                                                            style={{
-                                                                width: `${
-                                                                    (ratings.filter(
-                                                                        (rating) =>
-                                                                            rating.calificacion == 1
-                                                                    ).length /
-                                                                        ratings.length) *
-                                                                        100 || 0
-                                                                }%`,
-                                                            }}
-                                                            className="bg-purple-700 h-full rounded-full"
-                                                        ></div>
-                                                    </div>
+                                                <div className="flex items-center gap-2">
+                                                    1
+                                                    <progress
+                                                        className="progress progress-primary w-full"
+                                                        value={
+                                                            (ratings.filter(
+                                                                (rating) => rating.calificacion == 1
+                                                            ).length /
+                                                                ratings.length) *
+                                                            100
+                                                        }
+                                                        max="100"
+                                                    ></progress>
                                                 </div>
                                             </div>
                                         </div>

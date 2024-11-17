@@ -130,13 +130,13 @@ export default function Order() {
                                         className="card border rounded-lg"
                                     >
                                         <article className="card-body p-4 flex-row gap-2 [&_p]:grow-0">
-                                            <figure className="size-[130px]">
+                                            <Link to={`/product/${product.producto_id}`} className="size-[130px]">
                                                 <img
                                                     src={product.product.producto_imagen_url}
                                                     alt={`Imagen del producto ${product.product.producto_nombre}`}
                                                     className="w-full h-full object-contain"
                                                 />
-                                            </figure>
+                                            </Link>
                                             <div className="grow flex flex-col gap-1">
                                                 <div className="grow">
                                                     <div className="flex justify-between items-center w-full">
