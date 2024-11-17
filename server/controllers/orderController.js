@@ -90,15 +90,24 @@ export default class OrderController {
                 transaction: t,
             });
 
+            const workerBalances = {};
+
             const orderProductPromises = orderProducts.map(async (orderProduct) => {
-                const product = await models.Product.findByPk(orderProduct.producto_id);
+                const product = await models.Product.findByPk(orderProduct.producto_id, {
+                    include: [
+                        {
+                            model: models.User,
+                            as: "user",
+                            include: [{ model: models.Worker, as: "worker" }],
+                        },
+                    ],
+                });
 
                 // Update product quantity
                 await models.Product.update(
                     {
-                        producto_cantidad: {
-                            [Op.subtract]: orderProduct.producto_cantidad,
-                        },
+                        producto_cantidad:
+                            product.producto_cantidad - orderProduct.producto_cantidad,
                     },
                     {
                         where: { producto_id: orderProduct.producto_id },
@@ -106,22 +115,28 @@ export default class OrderController {
                     }
                 );
 
-                // Update worker balance
+                const userId = product.usuario_id;
+
+                if (!workerBalances[userId]) {
+                    workerBalances[userId] = parseInt(product.user.worker.trabajador_saldo);
+                }
+
+                workerBalances[userId] +=
+                    parseInt(orderProduct.producto_precio) *
+                    parseInt(orderProduct.producto_cantidad);
+
+                // Escribir el nuevo saldo en la base de datos
                 await models.Worker.update(
                     {
-                        trabajador_saldo: {
-                            [Op.increment]:
-                                orderProduct.producto_precio * orderProduct.producto_cantidad,
-                        },
+                        trabajador_saldo: workerBalances[userId],
                     },
                     {
-                        where: { usuario_id: product.usuario_id },
+                        where: { usuario_id: userId },
                         transaction: t,
                     }
                 );
             });
 
-            // Espera a que todas las operaciones se completen
             await Promise.all(orderProductPromises);
 
             const emptyCart = await models.Cart.destroy({
