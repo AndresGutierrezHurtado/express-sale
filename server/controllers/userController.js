@@ -1,5 +1,6 @@
 import bcrypt from "bcrypt";
 import crypto from "crypto";
+import nodemailer from "nodemailer";
 
 // Config
 import * as models from "../models/relations.js";
@@ -346,7 +347,7 @@ export default class UserController {
                     ORDER BY total_ventas DESC
                     LIMIT 5;
                 `
-            )
+            );
 
             const result = user.worker
                 ? {
@@ -700,4 +701,58 @@ export default class UserController {
             });
         }
     };
+
+    static createRecovery = async (req, res) => {
+        try {
+            // obtener el correo y verificar que exista
+            const user = await models.User.findOne({
+                where: { usuario_correo: req.body.usuario_correo },
+            });
+
+            if (!user) {
+                return res.status(404).json({
+                    success: false,
+                    message: "El correo ingresado no existe.",
+                });
+            }
+
+            const recovery = await models.Recovery.create({
+                recuperacion_id: crypto.randomUUID(),
+                usuario_id: user.usuario_id,
+            });
+
+            const transporter = nodemailer.createTransport({
+                host: process.env.EMAIL_HOST,
+                port: process.env.EMAIL_PORT,
+                service: "gmail",
+                auth: {
+                    user: process.env.EMAIL_USER,
+                    pass: process.env.EMAIL_PASS,
+                },
+            });
+
+            await transporter.sendMail({
+                from: process.env.EMAIL_USER,
+                to: user.usuario_correo,
+                subject: "Recupera tu contraseña | Express Sale",
+                text: `Para recuperar tu contraseña haz click en el siguiente enlace: ${process.env.VITE_URL}/${recovery.recuperacion_id}`,
+            });
+
+            res.status(200).json({
+                success: true,
+                message: "Recuperación creada correctamente.",
+                data: recovery,
+            });
+        } catch (error) {
+            res.status(500).json({
+                success: false,
+                message: error.message,
+                data: null,
+            });
+        }
+    };
+
+    static getRecovery = async (req, res) => {};
+
+    static updateRecovery = async (req, res) => {};
 }

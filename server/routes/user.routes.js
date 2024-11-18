@@ -28,4 +28,9 @@ userRoutes.get("/user/session", UserController.verifyUserSession);
 userRoutes.post("/user/auth", UserController.authUser);
 userRoutes.post("/user/logout", UserController.logoutUser);
 
+// Recovery
+userRoutes.post("/recoveries", UserController.createRecovery);
+userRoutes.get("/recoveries/:token", UserController.getRecovery);
+userRoutes.put("/recoveries/:token", UserController.updateRecovery);
+
 export default userRoutes;
