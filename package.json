@@ -25,6 +25,7 @@
     "jspdf": "^2.5.2",
     "jspdf-autotable": "^3.8.4",
     "mysql2": "^3.11.3",
+    "nodemailer": "^6.9.16",
     "nodemon": "^3.1.7",
     "passport": "^0.7.0",
     "passport-facebook": "^3.0.0",
