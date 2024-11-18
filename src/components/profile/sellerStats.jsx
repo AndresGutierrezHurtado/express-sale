@@ -203,19 +203,25 @@ export default function SellerStats({ user, reloadUser }) {
                                 </p>
                             )}
                             <table className="table border w-full">
-                                <thead className="bg-gray-200"> 
+                                <thead className="bg-gray-200">
                                     <tr>
-                                        <th className="text-left">Pedido</th>
-                                        <th className="text-left">Fecha</th>
-                                        <th className="text-left">Productos</th>
-                                        <th className="text-left">Estado</th>
+                                        <th>Pedido</th>
+                                        <th>Fecha</th>
+                                        <th>Productos</th>
+                                        <th>Destinatario</th>
+                                        <th>Domiciliario</th>
+                                        <th>Estado</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     {pendingOrders.map((order) => (
                                         <tr key={order.pedido_id}>
                                             <td>{order.pedido_id.split("-")[1]}</td>
-                                            <td>{new Date(order.pedido_fecha).toLocaleString("es-CO")}</td>
+                                            <td>
+                                                {new Date(order.pedido_fecha).toLocaleString(
+                                                    "es-CO"
+                                                )}
+                                            </td>
                                             <td>
                                                 {order.orderProducts.map((product) => (
                                                     <p key={product.producto_id}>
@@ -223,6 +229,8 @@ export default function SellerStats({ user, reloadUser }) {
                                                     </p>
                                                 ))}
                                             </td>
+                                            <td>{`${order.user.usuario_nombre} ${order.user.usuario_apellido}`}</td>
+                                            <td>{`${order.shippingDetails.worker?.user.usuario_nombre || "No asignado"} ${order.shippingDetails.worker?.user.usuario_apellido || ""}`}</td>
                                             <td>{order.pedido_estado}</td>
                                         </tr>
                                     ))}
