@@ -117,14 +117,6 @@ export const Recovery = sequelize.define(
             type: DataTypes.STRING(60),
             allowNull: false,
         },
-        token: {
-            type: DataTypes.STRING(255),
-            allowNull: false,
-        },
-        email: {
-            type: DataTypes.STRING(255),
-            allowNull: false,
-        },
         fecha_creacion: {
             type: DataTypes.DATE,
             defaultValue: DataTypes.NOW,

@@ -22,8 +22,6 @@ CREATE TABLE `sesiones` (
 CREATE TABLE `recuperacion_cuentas` (
     `recuperacion_id` VARCHAR(60) PRIMARY KEY,
     `usuario_id` VARCHAR(60) NOT NULL,
-    `token` VARCHAR(255) NOT NULL,
-    `email` VARCHAR(255) NOT NULL,
     `fecha_creacion` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     `fecha_expiracion` TIMESTAMP DEFAULT DATE_ADD(CURRENT_TIMESTAMP, INTERVAL 1 HOUR)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
