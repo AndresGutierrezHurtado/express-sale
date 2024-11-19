@@ -8,6 +8,7 @@ import sequelize from "../config/database.js";
 import { Op, where } from "sequelize";
 
 import { uploadFile } from "../config/uploadImage.js";
+import { feedbackTemplate, recoveryTemplate } from "../templates/emailTemplates.js";
 
 export default class UserController {
     static createUser = async (req, res) => {
@@ -734,7 +735,7 @@ export default class UserController {
                 from: process.env.EMAIL_USER,
                 to: user.usuario_correo,
                 subject: "Recupera tu contraseña | Express Sale",
-                text: `Para recuperar tu contraseña haz click en el siguiente enlace: ${process.env.VITE_URL}/reset-password/${recovery.recuperacion_id}`,
+                html: recoveryTemplate(`${process.env.VITE_URL}/reset-password/${recovery.recuperacion_id}`),
             });
 
             res.status(200).json({
@@ -837,15 +838,7 @@ export default class UserController {
                 from: process.env.EMAIL_USER,
                 to: process.env.EMAIL_USER,
                 subject: `Formulario de contacto de usuario ${req.body.usuario_nombre} | Express Sale`,
-                html: `
-                    <p>Asunto: ${req.body.correo_asunto}</p>
-                    <p>El usuario con correo ${req.body.usuario_correo} hizo el siguiente comentario: ${req.body.correo_mensaje}</p>
-                    <br>
-                    <p>Atentamente</p>
-                    <p>El equipo de Express Sale</p>
-                    <br>
-                    <p>${JSON.stringify({usuario_id: req.session.usuario_id, auth: "authenticated"} || { auth: "not authenticated"})}</p>
-                `
+                html: feedbackTemplate(req.body.correo_asunto, req.body.correo_mensaje, req.session.user),
             });
 
             res.status(200).json({
