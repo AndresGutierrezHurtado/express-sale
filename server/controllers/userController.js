@@ -704,7 +704,6 @@ export default class UserController {
 
     static createRecovery = async (req, res) => {
         try {
-            // obtener el correo y verificar que exista
             const user = await models.User.findOne({
                 where: { usuario_correo: req.body.usuario_correo },
             });
@@ -735,7 +734,7 @@ export default class UserController {
                 from: process.env.EMAIL_USER,
                 to: user.usuario_correo,
                 subject: "Recupera tu contraseña | Express Sale",
-                text: `Para recuperar tu contraseña haz click en el siguiente enlace: ${process.env.VITE_URL}/${recovery.recuperacion_id}`,
+                text: `Para recuperar tu contraseña haz click en el siguiente enlace: ${process.env.VITE_URL}/reset-password/${recovery.recuperacion_id}`,
             });
 
             res.status(200).json({
@@ -752,7 +751,73 @@ export default class UserController {
         }
     };
 
-    static getRecovery = async (req, res) => {};
+    static getRecovery = async (req, res) => {
+        try {
+            const recovery = await models.Recovery.findOne({
+                where: { recuperacion_id: req.params.token },
+            });
 
-    static updateRecovery = async (req, res) => {};
+            if (!recovery) {
+                return res.status(404).json({
+                    success: false,
+                    message: "La recuperación no existe.",
+                    data: null,
+                });
+            }
+
+            if (new Date().getTime() >= new Date(recovery.fecha_expiracion).getTime()) {
+                return res.status(404).json({
+                    success: false,
+                    message: "La recuperación ha expirado.",
+                    data: null,
+                });
+            }
+
+            res.status(200).json({
+                success: true,
+                message: "Recuperación obtenida correctamente.",
+                data: recovery,
+            });
+        } catch (error) {
+            res.status(500).json({
+                success: false,
+                message: error.message,
+                data: null,
+            });
+        }
+    };
+
+    static updateRecovery = async (req, res) => {
+        try {
+            const recovery = await models.Recovery.update(
+                {
+                    fecha_expiracion: new Date().toISOString(),
+                },
+                {
+                    where: { recuperacion_id: req.params.token },
+                }
+            );
+
+            const user = await models.User.update(
+                {
+                    usuario_contra: bcrypt.hashSync(req.body.usuario_contra, 10),
+                },
+                {
+                    where: { usuario_id: req.body.usuario_id },
+                }
+            );
+
+            res.status(200).json({
+                success: true,
+                message: "Recuperación actualizada correctamente.",
+                data: { recovery, user },
+            });
+        } catch (error) {
+            res.status(500).json({
+                success: false,
+                message: error.message,
+                data: null,
+            });
+        }
+    };
 }
