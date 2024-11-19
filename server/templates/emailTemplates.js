@@ -74,7 +74,7 @@ export const recoveryTemplate = (link) => {
     `;
 };
 
-export const feedbackTemplate = (asunto, mensaje, usuario) => {
+export const feedbackTemplate = (asunto, mensaje, nombre, correo, usuario) => {
     return `
         <!DOCTYPE html>
         <html lang="es">
@@ -137,12 +137,17 @@ export const feedbackTemplate = (asunto, mensaje, usuario) => {
                 </div>
 
                 <div class="content" style="background-color: white !important;">
-                    <p><strong>De:</strong> ${usuario}</p>
+                    <p><strong>De:</strong> ${nombre}</p>
                     <p><strong>Asunto:</strong> ${asunto}</p>
                     <p><strong>Mensaje:</strong></p>
                     <p>${mensaje}</p>
-                    <p><a href="${process.env.VITE_API_URL}/users/${usuario?.usuario_id}">Ver mas informacion</a></p>
-                    <p style="margin-bottom: 0px;"><em>Por favor ignora este correo si tú no solicitaste un cambio de contraseña.</em></p>
+                    ${
+                        usuario &&
+                        `<p>
+                            <a href="${process.env.VITE_API_URL}/users/${usuario?.usuario_id}" class="button" style="text-decoration: none; color: #fff;">Ver más información del usuario</a>
+                        </p>`
+                    }
+                    <p style="margin-bottom: 0px;"><em>Por favor ignora este correo, si quieres responser responde al siguiente correo: ${correo}</em></p>
                 </div>
 
                 <p style="text-align: center; margin: 30px 0px; font-weight: bold; color: #666">&copy; Express Sale, 2024.</p>

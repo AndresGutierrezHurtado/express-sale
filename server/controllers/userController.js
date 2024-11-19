@@ -735,7 +735,9 @@ export default class UserController {
                 from: process.env.EMAIL_USER,
                 to: user.usuario_correo,
                 subject: "Recupera tu contraseña | Express Sale",
-                html: recoveryTemplate(`${process.env.VITE_URL}/reset-password/${recovery.recuperacion_id}`),
+                html: recoveryTemplate(
+                    `${process.env.VITE_URL}/reset-password/${recovery.recuperacion_id}`
+                ),
             });
 
             res.status(200).json({
@@ -838,7 +840,13 @@ export default class UserController {
                 from: process.env.EMAIL_USER,
                 to: process.env.EMAIL_USER,
                 subject: `Formulario de contacto de usuario ${req.body.usuario_nombre} | Express Sale`,
-                html: feedbackTemplate(req.body.correo_asunto, req.body.correo_mensaje, req.session.user),
+                html: feedbackTemplate(
+                    req.body.correo_asunto,
+                    req.body.correo_mensaje,
+                    req.body.usuario_nombre,
+                    req.body.usuario_correo,
+                    req.session.user
+                ),
             });
 
             res.status(200).json({
