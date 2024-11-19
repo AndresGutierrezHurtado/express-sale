@@ -11,6 +11,7 @@ userRoutes.delete("/users/:id", UserController.deleteUser);
 userRoutes.get("/users/:id/products", UserController.getUserProducts);
 userRoutes.get("/users/:id/orders", UserController.getUserOrders);
 userRoutes.get("/users/:id/ratings", UserController.getUserRatings);
+userRoutes.post("/feedback", UserController.createUserFeedback);
 
 // Withdrawals
 userRoutes.get("/users/:id/withdrawals", UserController.getUserWithdrawals);

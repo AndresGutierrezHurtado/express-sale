@@ -820,4 +820,45 @@ export default class UserController {
             });
         }
     };
+
+    static createUserFeedback = async (req, res) => {
+        try {
+            const transporter = nodemailer.createTransport({
+                host: process.env.EMAIL_HOST,
+                port: process.env.EMAIL_PORT,
+                service: "gmail",
+                auth: {
+                    user: process.env.EMAIL_USER,
+                    pass: process.env.EMAIL_PASS,
+                },
+            });
+
+            await transporter.sendMail({
+                from: process.env.EMAIL_USER,
+                to: process.env.EMAIL_USER,
+                subject: `Formulario de contacto de usuario ${req.body.usuario_nombre} | Express Sale`,
+                html: `
+                    <p>Asunto: ${req.body.correo_asunto}</p>
+                    <p>El usuario con correo ${req.body.usuario_correo} hizo el siguiente comentario: ${req.body.correo_mensaje}</p>
+                    <br>
+                    <p>Atentamente</p>
+                    <p>El equipo de Express Sale</p>
+                    <br>
+                    <p>${JSON.stringify({usuario_id: req.session.usuario_id, auth: "authenticated"} || { auth: "not authenticated"})}</p>
+                `
+            });
+
+            res.status(200).json({
+                success: true,
+                message: "Recuperación creada correctamente.",
+                data: null,
+            });
+        } catch (error) {
+            res.status(500).json({
+                success: false,
+                message: error.message,
+                data: null,
+            });
+        }
+    };
 }

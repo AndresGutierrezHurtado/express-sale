@@ -11,23 +11,36 @@ import { useGetData, usePostData } from "@hooks/useFetchData.js";
 import { useValidateform } from "@hooks/useValidateForm.js";
 
 export default function Home() {
-    const { loading: loadingProducts , data: products, reload: reloadProducts } = useGetData("/products");
+    const {
+        loading: loadingProducts,
+        data: products,
+        reload: reloadProducts,
+    } = useGetData("/products");
 
     const ProductsList =
         products &&
         products.rows.map((product) => (
-            <VerticalProductCard product={product} reloadProducts={reloadProducts} key={product.producto_id} />
+            <VerticalProductCard
+                product={product}
+                reloadProducts={reloadProducts}
+                key={product.producto_id}
+            />
         ));
 
-    const handleContactFormSubmit = (event) => {
+    const handleContactFormSubmit = async (event) => {
         event.preventDefault();
 
         const data = Object.fromEntries(new FormData(event.target));
         const validation = useValidateform(data, "contact-form");
 
-        // if (validation.success) {
-        //     usePostData("/email", data);
-        // }
+        console.log(data);
+        if (validation.success) {
+            const response = await usePostData("/feedback", data);
+
+            if (response.success) {
+                event.target.reset();
+            }
+        }
     };
 
     if (loadingProducts) return <ContentLoading />;
@@ -72,8 +85,7 @@ export default function Home() {
                 <div className="w-full max-w-[1200px] mx-auto py-10">
                     <div className="space-y-4">
                         <h2 className="text-4xl font-bold capitalize">
-                            Buscar por{" "}
-                            <span className="text-purple-700">categoría</span>
+                            Buscar por <span className="text-purple-700">categoría</span>
                         </h2>
                         <div className="grid grid-cols-[repeat(auto-fill,minmax(250px,1fr))] gap-8">
                             <CategoryCard
@@ -105,10 +117,7 @@ export default function Home() {
                 <div className="w-full max-w-[1200px] mx-auto py-10">
                     <div className="space-y-4">
                         <h2 className="text-4xl font-bold capitalize">
-                            Los productos{" "}
-                            <span className="text-purple-700">
-                                más Destacados
-                            </span>
+                            Los productos <span className="text-purple-700">más Destacados</span>
                         </h2>
                         <div className="flex gap-10 w-full overflow-x-scroll py-5">
                             {ProductsList}
@@ -138,33 +147,27 @@ export default function Home() {
                         </figure>
                         <div className="space-y-2">
                             <h2 className="text-4xl font-bold capitalize">
-                                ¿Quiénes{" "}
-                                <span className="text-purple-700">Somos?</span>
+                                ¿Quiénes <span className="text-purple-700">Somos?</span>
                             </h2>
                             <div className="text-xl max-w-4xl space-y-2">
                                 <p className="text-balance">
-                                    Express Sale ha sido creado por cuatro
-                                    aprendices SENA:{" "}
+                                    Express Sale ha sido creado por cuatro aprendices SENA:{" "}
                                     <span className="font-bold text-purple-700 italic">
-                                        Andrés Gutiérrez, Juan Sebastián Bernal,
-                                        Jaider Harley Rondón y David Fernando
-                                        Díaz.
+                                        Andrés Gutiérrez, Juan Sebastián Bernal, Jaider Harley
+                                        Rondón y David Fernando Díaz.
                                     </span>{" "}
-                                    Juntos, han planeado y desarrollado esta
-                                    herramienta para facilitar la gestión de
-                                    inventarios, la venta de productos y la
-                                    conexión entre comerciantes y clientes,
-                                    ofreciendo una plataforma moderna y
-                                    accesible para todos.
+                                    Juntos, han planeado y desarrollado esta herramienta para
+                                    facilitar la gestión de inventarios, la venta de productos y la
+                                    conexión entre comerciantes y clientes, ofreciendo una
+                                    plataforma moderna y accesible para todos.
                                 </p>
                                 <p className="text-balance">
                                     En Express Sale, nuestra misión es{" "}
                                     <span className="font-bold text-purple-700">
-                                        llevar las tiendas de barrio al mundo
-                                        digital
+                                        llevar las tiendas de barrio al mundo digital
                                     </span>
-                                    , ayudándolas a expandir su alcance y
-                                    competir en el mercado actual.
+                                    , ayudándolas a expandir su alcance y competir en el mercado
+                                    actual.
                                 </p>
                             </div>
                         </div>
@@ -176,15 +179,13 @@ export default function Home() {
                 <div className="w-full max-w-[1200px] mx-auto py-10">
                     <div className="space-y-5">
                         <h2 className="text-4xl font-bold capitalize">
-                            ¡Queremos{" "}
-                            <span className="text-purple-700">Escucharte!</span>
+                            ¡Queremos <span className="text-purple-700">Escucharte!</span>
                         </h2>
                         <article className="card bg-gray-300/30 shadow-xl rounded-xl border backdrop-blur-sm">
                             <div className="card-body">
                                 <p className="text-xl">
-                                    Si quieres contarnos tu opinión o tienes
-                                    alguna queja sobre nuestro sistema de
-                                    información puedes enviarnoslo por aquí:
+                                    Si quieres contarnos tu opinión o tienes alguna queja sobre
+                                    nuestro sistema de información puedes enviarnoslo por aquí:
                                 </p>
                                 <form onSubmit={handleContactFormSubmit}>
                                     <div className="form-group flex flex-col md:flex-row gap-5 w-full">
@@ -228,7 +229,7 @@ export default function Home() {
                                     <div className="form-control w-full">
                                         <label className="label">
                                             <span className="label-text font-medium after:content-['*'] after:ml-0.5 after:text-red-500">
-                                                Asunto:
+                                                Mensaje:
                                             </span>
                                         </label>
                                         <textarea
