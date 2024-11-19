@@ -84,14 +84,14 @@ export const useValidateform = (data = {}, form = "", extra = null) => {
                         email("El correo debe ser válido")
                     ),
                     correo_asunto: pipe(
-                        nonEmpty("Nombre requerido"),
-                        string("Nombre requerido"),
-                        minLength(10, "El nombre es requerido")
+                        nonEmpty("Asunto requerido"),
+                        string("Asunto requerido"),
+                        minLength(10, "El asunto debe tener al menos 10 caracteres")
                     ),
                     correo_mensaje: pipe(
-                        nonEmpty("Nombre requerido"),
-                        string("Nombre requerido"),
-                        minLength(15, "El nombre es requerido")
+                        nonEmpty("Mensaje requerido"),
+                        string("Mensaje requerido"),
+                        minLength(15, "El mensaje debe tener al menos 15 caracteres")
                     ),
                 });
                 break;

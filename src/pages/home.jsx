@@ -221,7 +221,7 @@ export default function Home() {
                                             </span>
                                         </label>
                                         <input
-                                            placeholder="Ingresa tus nombres y apellidos acá"
+                                            placeholder="Ingresa el tema de tu mensaje"
                                             className="input focus:input-primary input-bordered focus:outline-0"
                                             name="correo_asunto"
                                         />

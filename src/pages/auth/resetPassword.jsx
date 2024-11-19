@@ -1,5 +1,5 @@
 import React from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 
 // Components
 import ContentLoading from "@components/contentLoading";
@@ -60,20 +60,20 @@ export default function ResetPassword() {
             <main className="w-full px-3 bg-purple-100 min-h-screen">
                 <section className="w-full max-w-[1200px] mx-auto py-10">
                     <article className="flex flex-col items-center justify-center w-full gap-6">
-                        <figure className="size-[200px] drop-shadow-[0_15px_30px_rgb(126_34_206)]">
+                        <Link to="/" className="size-[200px] drop-shadow-[0_15px_30px_rgb(126_34_206)]">
                             <img
                                 src="/logo.png"
                                 alt="Logo Express Sale"
                                 className="object-contain h-full w-full"
                             />
-                        </figure>
+                        </Link>
                         <div className="card bg-white shadow-xl border border-gray-100 w-full max-w-[700px]">
                             <div className="card-body">
                                 <div>
                                     <h2 className="text-4xl font-extrabold tracking-tight">
-                                        Recupera tu cuenta:
+                                        Cambia tu contraseño:
                                     </h2>
-                                    <p>Ingresa tu correo para reestablecer tu contraseña</p>
+                                    <p>Ingresa tu nueva contraseño dos veces</p>
                                 </div>
                                 <form onSubmit={handleResetPasswordSubmit} className="space-y-3">
                                     <div className="form-control w-full">
