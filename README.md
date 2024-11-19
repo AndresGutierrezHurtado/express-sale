@@ -1,13 +1,29 @@
 # Express Sale
 
-**Express Sale** es una aplicación de e-commerce para tiendas de barrio de las localidades de Ciudad Bolivar y Usme desarrollada en React. Esta plataforma permite a los usuarios navegar, seleccionar y comprar productos. La aplicación también incluye un sistema de locaciones que optimiza la distribución de los productos basándose en la ubicación del cliente.
+**Express Sale** es una aplicación de e-commerce diseñada para apoyar tiendas de barrio ubicadas en las localidades de Ciudad Bolívar y Usme. Desarrollada en **React**, esta plataforma permite a los usuarios explorar, seleccionar y adquirir productos de manera eficiente. Además, incorpora un sistema de ubicación geográfica que optimiza la distribución de productos según la localización del cliente.
 
 ## Características principales
 
-- **Catálogo de productos**: Los usuarios pueden explorar productos organizados en diferentes categorías.
-- **Sistema de búsqueda**: Búsqueda rápida y precisa de productos.
-- **Carrito de compras**: Los usuarios pueden agregar productos al carrito y revisar antes de realizar la compra.
-- **Distribución basada en locaciones**: El sistema calcula la disponibilidad de los productos y opciones de envío basadas en la ubicación geográfica del usuario.
-- **Sistema de autenticación**: Registro e inicio de sesión para usuarios.
-- **Métodos de pago seguros**: Integración de varias opciones de pago (tarjeta de crédito, PayPal, etc.).
-- **Historial de pedidos**: Los usuarios pueden ver el estado de sus pedidos previos y actuales.
+1. **Sistema de autenticación:**  
+   Permite a los usuarios iniciar sesión mediante diversas plataformas de acceso.
+
+2. **Sistema de retroalimentación:**  
+   Los usuarios pueden enviar comentarios y sugerencias a través de un formulario intuitivo.
+
+3. **Catálogo de productos:**  
+   Incluye funcionalidades para buscar productos, calificarlos y agregarlos al carrito de compras.
+
+4. **Sistema de vendedores:**  
+   Permite a los usuarios visualizar los perfiles de los vendedores y calificarlos.
+
+5. **Sistema de pagos seguros:**  
+   Integra múltiples opciones de pago, como tarjetas de crédito, PayPal y otros métodos confiables.
+
+6. **Historial de pedidos:**  
+   Ofrece a los usuarios la posibilidad de consultar el estado de sus pedidos, tanto previos como actuales, junto con las facturas correspondientes.
+
+7. **Distribución basada en locaciones:**  
+   El sistema calcula la disponibilidad de productos y determina las mejores opciones de envío en función de la ubicación del usuario.
+
+8. **Perfil de trabajador:**  
+   Cada usuario cuenta con una página personalizada donde puede consultar estadísticas relacionadas con su rol dentro de la aplicación.
