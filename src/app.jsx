@@ -25,6 +25,8 @@ import Cart from "@pages/pay/cart.jsx";
 import PayForm from "@pages/pay/payForm.jsx";
 import Order from "@pages/pay/order.jsx";
 import Delivery from "@pages/profile/worker/delivery.jsx";
+import ResetPassword from "@pages/auth/resetPassword.jsx";
+import Recovery from "@pages/auth/recovery.jsx";
 
 // Contexts
 import { AuthProvider } from "@contexts/authContext.jsx";
@@ -62,8 +64,10 @@ export default function App() {
                     {/* must not be auth */}
                     <Route path="/" element={<GuestLayout />}>
                         <Route element={<AuthMiddleware type="guest" />}>
-                            <Route path="login" element={<Login />} />
-                            <Route path="register" element={<Register />} />
+                            <Route path="/login" element={<Login />} />
+                            <Route path="/register" element={<Register />} />
+                            <Route path="/reset-password" element={<Recovery />} />
+                            <Route path="/reset-password/:token" element={<ResetPassword />} />
                         </Route>
                     </Route>
                     {/* Auth not needed routes */}
