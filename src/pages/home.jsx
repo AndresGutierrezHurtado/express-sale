@@ -1,4 +1,6 @@
 import { Link } from "react-router-dom";
+import { Swiper, SwiperSlide } from "swiper/react";
+import { Navigation, Pagination } from "swiper/modules";
 
 // Components
 import { CategoryCard } from "@components/categoryCard.jsx";
@@ -16,16 +18,6 @@ export default function Home() {
         data: products,
         reload: reloadProducts,
     } = useGetData("/products");
-
-    const ProductsList =
-        products &&
-        products.rows.map((product) => (
-            <VerticalProductCard
-                product={product}
-                reloadProducts={reloadProducts}
-                key={product.producto_id}
-            />
-        ));
 
     const handleContactFormSubmit = async (event) => {
         event.preventDefault();
@@ -119,9 +111,45 @@ export default function Home() {
                         <h2 className="text-4xl font-bold capitalize">
                             Los productos <span className="text-purple-700">más Destacados</span>
                         </h2>
-                        <div className="flex gap-10 w-full overflow-x-scroll py-5">
-                            {ProductsList}
-                        </div>
+                        <Swiper
+                            modules={[Navigation, Pagination]}
+                            spaceBetween={20}
+                            slidesPerView={1}
+                            navigation
+                            pagination={{
+                                clickable: true,
+                                renderBullet: function (index, className) {
+                                  return `<span class="${className}"></span>`;
+                                },
+                            }}
+                            breakpoints={{
+                                640: {
+                                    slidesPerView: 1,
+                                    spaceBetween: 20,
+                                },
+                                768: {
+                                    slidesPerView: 2,
+                                    spaceBetween: 20,
+                                },
+                                1024: {
+                                    slidesPerView: 3,
+                                    spaceBetween: 20,
+                                },
+                            }}
+                            className="py-10"
+                        >
+                            {products.rows.map((product) => (
+                                <SwiperSlide
+                                    key={product.producto_id}
+                                    className="flex items-center justify-center"
+                                >
+                                    <VerticalProductCard
+                                        product={product}
+                                        reloadProducts={reloadProducts}
+                                    />
+                                </SwiperSlide>
+                            ))}
+                        </Swiper>
                         <div className="flex w-full justify-center">
                             <Link
                                 to="/products"
