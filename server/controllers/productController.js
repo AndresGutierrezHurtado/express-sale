@@ -83,7 +83,11 @@ export default class ProductController {
             if (req.body.multimedias.length > 0) {
                 req.body.multimedias.forEach(async (multimedia) => {
                     const multimediaId = crypto.randomUUID();
-                    const response = await uploadFile(multimedia, multimediaId, "/products/multimedia");
+                    const response = await uploadFile(
+                        multimedia,
+                        multimediaId,
+                        "/products/multimedia"
+                    );
 
                     if (response.success)
                         await models.Media.create({
@@ -302,6 +306,27 @@ export default class ProductController {
                 success: false,
                 message: error.message,
                 data: null,
+            });
+        }
+    };
+
+    static deleteMultimedia = async (req, res) => {
+        try {
+            await models.Media.destroy({
+                where: {
+                    multimedia_id: req.params.id,
+                },
+            });
+
+            res.status(200).json({
+                success: true,
+                message: "Imagen eliminada correctamente",
+                data: null,
+            });
+        } catch (error) {
+            res.status(404).json({
+                success: false,
+                message: error.message,
             });
         }
     };
