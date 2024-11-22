@@ -1,6 +1,7 @@
 import React, { useEffect } from "react";
 import Swal from "sweetalert2";
 import { useNavigate } from "react-router-dom";
+import io from "socket.io-client";
 
 // Hooks
 import { useGetData } from "@hooks/useFetchData.js";
@@ -14,8 +15,13 @@ import { useAuthContext } from "@contexts/authContext.jsx";
 
 export default function WorkerDeliveries() {
     const navigate = useNavigate();
-    const { data: orders, loading: loadingOrders } = useGetData(`/orders?pedido_estado=pendiente`);
+    const {
+        data: orders,
+        loading: loadingOrders,
+        reload: reloadOrders,
+    } = useGetData(`/orders?pedido_estado=pendiente`);
     const { userSession } = useAuthContext();
+    const socket = io(import.meta.env.VITE_API_DOMAIN);
 
     useEffect(() => {
         if (userSession.domiciliario_domicilio) {
@@ -26,6 +32,14 @@ export default function WorkerDeliveries() {
             });
             navigate(`/delivery/${userSession.domiciliario_domicilio}`);
         }
+
+        socket.on("sale", (data) => {
+            reloadOrders();
+        });
+
+        return () => {
+            socket.off("sale");
+        };
     });
 
     if (loadingOrders) return <ContentLoading />;
