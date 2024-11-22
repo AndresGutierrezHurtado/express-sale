@@ -249,7 +249,7 @@ export default function ProductProfile() {
                                                     return;
                                                 }
                                             }}
-                                            accept=".jpg, .jpeg, .png"
+                                            accept="image/*"
                                             name="multimedias"
                                             className="file-input file-input-bordered file-input-sm w-full focus:input-primary focus:outline-0 rounded"
                                         />

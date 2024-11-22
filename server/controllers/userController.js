@@ -316,6 +316,15 @@ export default class UserController {
                 include: ["role", "worker"],
             });
 
+            if (!user.worker) {
+                res.status(200).json({
+                    success: true,
+                    message: "Usuario obtenido correctamente.",
+                    data: user,
+                });
+                return;
+            }
+
             const yearDeliveries = await sequelize.query(
                 `
                     SELECT MONTH(pedidos.pedido_fecha) AS mes, YEAR(pedidos.pedido_fecha) AS anio, COUNT(*) AS total_envios, SUM(detalles_envios.envio_valor) AS dinero_envios

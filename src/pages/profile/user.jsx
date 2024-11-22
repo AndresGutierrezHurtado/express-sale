@@ -40,7 +40,6 @@ export default function UserProfile() {
     } = useGetData(`/users/${id || userSession.usuario_id}/orders`);
 
     if (loadingUser || loadingOrders) return <ContentLoading />;
-
     return (
         <>
             <section className="w-full px-3">

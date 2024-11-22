@@ -183,6 +183,37 @@ CREATE TABLE `multimedias` (
     `producto_id` VARCHAR(60) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
+INSERT INTO `multimedias` (`multimedia_id`, `multimedia_url`, `producto_id`) VALUES
+('024d534c-809d-435d-9bbb-6a242c42ee89', 'https://res.cloudinary.com/dyuh7jesr/image/upload/v1732254748/express-sale/products/multimedia/024d534c-809d-435d-9bbb-6a242c42ee89.jpg', 'fba1a2fb-3e81-447e-adf5-e984682d700d'),
+('03714d14-fb11-4f85-8354-617fb3d883b8', 'https://res.cloudinary.com/dyuh7jesr/image/upload/v1732254522/express-sale/products/multimedia/03714d14-fb11-4f85-8354-617fb3d883b8.jpg', 'e359851d-9813-463f-aff9-3a552a887134'),
+('19d8eeb6-2bf2-49cc-9d42-7f2c54bf9096', 'https://res.cloudinary.com/dyuh7jesr/image/upload/v1732253817/express-sale/products/multimedia/19d8eeb6-2bf2-49cc-9d42-7f2c54bf9096.jpg', '10014419-f396-4639-925f-2b0814aa81f3'),
+('25128d40-9b67-47e5-853e-d603f38c6460', 'https://res.cloudinary.com/dyuh7jesr/image/upload/v1732254401/express-sale/products/multimedia/25128d40-9b67-47e5-853e-d603f38c6460.jpg', 'b0beb7fb-57b5-4881-a29f-c86581dbae19'),
+('2a4bd8e4-a227-44f1-b989-6a00c10f4ec5', 'https://res.cloudinary.com/dyuh7jesr/image/upload/v1732254577/express-sale/products/multimedia/2a4bd8e4-a227-44f1-b989-6a00c10f4ec5.jpg', 'e359851d-9813-463f-aff9-3a552a887134'),
+('3aeeccf9-9488-4250-90b6-35472ecfa17f', 'https://res.cloudinary.com/dyuh7jesr/image/upload/v1732253817/express-sale/products/multimedia/3aeeccf9-9488-4250-90b6-35472ecfa17f.jpg', '10014419-f396-4639-925f-2b0814aa81f3'),
+('3dbf4471-ebde-4365-9409-794b681a006a', 'https://res.cloudinary.com/dyuh7jesr/image/upload/v1732254192/express-sale/products/multimedia/3dbf4471-ebde-4365-9409-794b681a006a.jpg', '8c468cdc-7cf2-4ffa-99e2-b4e8310fc715'),
+('4ab47714-66ff-477b-9298-7a483823e926', 'https://res.cloudinary.com/dyuh7jesr/image/upload/v1732253956/express-sale/products/multimedia/4ab47714-66ff-477b-9298-7a483823e926.jpg', '662c229a-a176-4f98-b3e1-0b3bb60ff5e0'),
+('4b30c14d-eb5a-4342-9ed0-9ad7b51c0031', 'https://res.cloudinary.com/dyuh7jesr/image/upload/v1732253817/express-sale/products/multimedia/4b30c14d-eb5a-4342-9ed0-9ad7b51c0031.jpg', '10014419-f396-4639-925f-2b0814aa81f3'),
+('54db3afb-a0aa-4280-b2ab-510fb9ecefe4', 'https://res.cloudinary.com/dyuh7jesr/image/upload/v1732254286/express-sale/products/multimedia/54db3afb-a0aa-4280-b2ab-510fb9ecefe4.jpg', 'a9458fa5-cc05-4a77-a1dc-9ff1378b1465'),
+('598fbf2c-5954-46f7-a1d0-7b577dd07a5a', 'https://res.cloudinary.com/dyuh7jesr/image/upload/v1732253902/express-sale/products/multimedia/598fbf2c-5954-46f7-a1d0-7b577dd07a5a.jpg', '5d34b009-ce5b-4e20-950c-9b89dc4b09ae'),
+('6b00ea02-1141-4db0-a3fa-df774a39791e', 'https://res.cloudinary.com/dyuh7jesr/image/upload/v1732253645/express-sale/products/multimedia/6b00ea02-1141-4db0-a3fa-df774a39791e.jpg', '09fd4c7b-cd37-4e6d-a7f6-ae8f93734005'),
+('73e6ab4f-4857-4f5f-a84e-772c8b4846c6', 'https://res.cloudinary.com/dyuh7jesr/image/upload/v1732254401/express-sale/products/multimedia/73e6ab4f-4857-4f5f-a84e-772c8b4846c6.jpg', 'b0beb7fb-57b5-4881-a29f-c86581dbae19'),
+('77cec2e0-73c1-4e9b-97ea-6fd746fdd2ac', 'https://res.cloudinary.com/dyuh7jesr/image/upload/v1732254747/express-sale/products/multimedia/77cec2e0-73c1-4e9b-97ea-6fd746fdd2ac.jpg', 'fba1a2fb-3e81-447e-adf5-e984682d700d'),
+('7bfd837f-e3ce-4a9d-a84e-67b142090ebf', 'https://res.cloudinary.com/dyuh7jesr/image/upload/v1732253956/express-sale/products/multimedia/7bfd837f-e3ce-4a9d-a84e-67b142090ebf.png', '662c229a-a176-4f98-b3e1-0b3bb60ff5e0'),
+('89337bcc-cde6-4cb6-b735-15411a63c7d8', 'https://res.cloudinary.com/dyuh7jesr/image/upload/v1732254208/express-sale/products/multimedia/89337bcc-cde6-4cb6-b735-15411a63c7d8.jpg', '8c468cdc-7cf2-4ffa-99e2-b4e8310fc715'),
+('9229bd50-7a6e-46ab-a623-00e1f1fb14cf', 'https://res.cloudinary.com/dyuh7jesr/image/upload/v1732254577/express-sale/products/multimedia/9229bd50-7a6e-46ab-a623-00e1f1fb14cf.jpg', 'e359851d-9813-463f-aff9-3a552a887134'),
+('95c3bf4b-a348-48e1-b379-c06d6dabea0c', 'https://res.cloudinary.com/dyuh7jesr/image/upload/v1732254686/express-sale/products/multimedia/95c3bf4b-a348-48e1-b379-c06d6dabea0c.jpg', 'e3e3e594-5c65-433f-a4a3-94f75dd4aef9'),
+('b3e568ea-db28-42a9-b65c-35504f2294fa', 'https://res.cloudinary.com/dyuh7jesr/image/upload/v1732253644/express-sale/products/multimedia/b3e568ea-db28-42a9-b65c-35504f2294fa.jpg', '09fd4c7b-cd37-4e6d-a7f6-ae8f93734005'),
+('bb4a10b4-69a6-46ae-a3bc-1f24d6a959a6', 'https://res.cloudinary.com/dyuh7jesr/image/upload/v1732254747/express-sale/products/multimedia/bb4a10b4-69a6-46ae-a3bc-1f24d6a959a6.jpg', 'fba1a2fb-3e81-447e-adf5-e984682d700d'),
+('c220b426-90cd-42da-a80b-6d60e7cb2c71', 'https://res.cloudinary.com/dyuh7jesr/image/upload/v1732252097/express-sale/products/multimedia/c220b426-90cd-42da-a80b-6d60e7cb2c71.jpg', '56a133ce-d6b7-4d63-9564-9fa656232efa'),
+('c5fbc777-26f5-4a8b-a9b1-bd87fb67ecfc', 'https://res.cloudinary.com/dyuh7jesr/image/upload/v1732253902/express-sale/products/multimedia/c5fbc777-26f5-4a8b-a9b1-bd87fb67ecfc.jpg', '5d34b009-ce5b-4e20-950c-9b89dc4b09ae'),
+('c8662b84-8da1-47b8-ba73-d8eaec4ee4c4', 'https://res.cloudinary.com/dyuh7jesr/image/upload/v1732254287/express-sale/products/multimedia/c8662b84-8da1-47b8-ba73-d8eaec4ee4c4.jpg', 'a9458fa5-cc05-4a77-a1dc-9ff1378b1465'),
+('d6b115b6-68e3-4ab0-bbb2-23abc00c637e', 'https://res.cloudinary.com/dyuh7jesr/image/upload/v1732253902/express-sale/products/multimedia/d6b115b6-68e3-4ab0-bbb2-23abc00c637e.jpg', '5d34b009-ce5b-4e20-950c-9b89dc4b09ae'),
+('d72d62e6-8806-4400-b18a-1241195db238', 'https://res.cloudinary.com/dyuh7jesr/image/upload/v1732253956/express-sale/products/multimedia/d72d62e6-8806-4400-b18a-1241195db238.jpg', '662c229a-a176-4f98-b3e1-0b3bb60ff5e0'),
+('e361cd86-66e4-4c1e-af17-d18b0b5c2cca', 'https://res.cloudinary.com/dyuh7jesr/image/upload/v1732254401/express-sale/products/multimedia/e361cd86-66e4-4c1e-af17-d18b0b5c2cca.jpg', 'b0beb7fb-57b5-4881-a29f-c86581dbae19'),
+('e74683e3-9be0-4e25-93ff-1f7f940792e1', 'https://res.cloudinary.com/dyuh7jesr/image/upload/v1732253644/express-sale/products/multimedia/e74683e3-9be0-4e25-93ff-1f7f940792e1.jpg', '09fd4c7b-cd37-4e6d-a7f6-ae8f93734005'),
+('e7a0b822-8101-4e78-8a95-7337e4524db5', 'https://res.cloudinary.com/dyuh7jesr/image/upload/v1732254489/express-sale/products/multimedia/e7a0b822-8101-4e78-8a95-7337e4524db5.jpg', 'ddc2a91d-65b6-4316-9222-84cde0759911'),
+('f3143f18-2cb5-4a94-9246-65ff3e5c975d', 'https://res.cloudinary.com/dyuh7jesr/image/upload/v1732254577/express-sale/products/multimedia/f3143f18-2cb5-4a94-9246-65ff3e5c975d.jpg', 'e359851d-9813-463f-aff9-3a552a887134');
+
 -- ---------------------------------------------------------------
 --
 -- Tabla de carritos
