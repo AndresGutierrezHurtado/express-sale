@@ -1,9 +1,8 @@
 import * as models from "../models/relations.js";
 import sequelize from "../config/database.js";
-import { Op } from "sequelize";
 import crypto from "crypto";
-import UserController from "./userController.js";
-import { includes } from "valibot";
+
+import { getSocket } from "../config/socket.js";
 
 export default class OrderController {
     static payuCallback = async (req, res) => {
@@ -145,6 +144,10 @@ export default class OrderController {
             });
 
             await t.commit();
+
+            const io = getSocket();
+            io.emit("sale", `Pedido ${order.pedido_id} creado`);
+
             res.redirect(`${process.env.VITE_URL}/order/${order.pedido_id}`);
         } catch (error) {
             await t.rollback();
@@ -239,7 +242,7 @@ export default class OrderController {
 
     static getOrders = async (req, res) => {
         const whereClause = {};
-        
+
         const whereOrderProductClause = {};
         if (req.query.pedido_estado) whereClause.pedido_estado = req.query.pedido_estado;
         if (req.query.usuario_id) whereOrderProductClause.usuario_id = req.query.usuario_id;
@@ -256,7 +259,7 @@ export default class OrderController {
                             model: models.Product,
                             as: "product",
                             include: { model: models.User, as: "user" },
-                            where: whereOrderProductClause
+                            where: whereOrderProductClause,
                         },
                     },
                     { model: models.ShippingDetails, as: "shippingDetails" },
@@ -270,7 +273,6 @@ export default class OrderController {
                 data: order,
             });
         } catch (error) {
-            console.log(error);
             res.status(500).json({
                 success: false,
                 message: error.message,

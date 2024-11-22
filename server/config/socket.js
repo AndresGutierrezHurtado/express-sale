@@ -5,8 +5,9 @@ let io;
 export const initSocket = (httpServer) => {
     io = new Server(httpServer, {
         cors: {
-            origin: process.env.VITE_API_URL,
-            methods: ["GET", "POST"],
+            origin: process.env.VITE_URL,
+            methods: ["GET", "POST", "PUT", "DELETE"],
+            credentials: true,
         },
     });
 

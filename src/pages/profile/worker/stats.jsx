@@ -1,5 +1,6 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useParams } from "react-router-dom";
+import io from "socket.io-client";
 
 // Hooks
 import { useGetData } from "@hooks/useFetchData.js";
@@ -8,10 +9,28 @@ import { useGetData } from "@hooks/useFetchData.js";
 import ContentLoading from "@components/contentLoading.jsx";
 import DeliveryStats from "@components/profile/DeliveryStats.jsx";
 import SellerStats from "@components/profile/sellerStats.jsx";
+import { toast } from "react-toastify";
 
 export default function WorkerStats() {
     const { id } = useParams();
     const { data: user, loading: userLoading, reload: reloadUser } = useGetData(`/users/${id}`);
+    const socket = io(import.meta.env.VITE_API_DOMAIN);
+
+    useEffect(() => {
+        socket.on("sale", () => {
+            toast.success("Venta realizada", {
+                theme: "colored",
+                position: "bottom-right",
+                autoClose: 8000,
+                pauseOnHover: false,
+            });
+            reloadUser();
+        });
+
+        return () => {
+            socket.off("sale");
+        };
+    });
 
     if (userLoading) return <ContentLoading />;
     if (user.rol_id == 2) return <SellerStats user={user} reloadUser={reloadUser} />;
