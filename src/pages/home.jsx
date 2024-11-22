@@ -25,7 +25,6 @@ export default function Home() {
         const data = Object.fromEntries(new FormData(event.target));
         const validation = useValidateform(data, "contact-form");
 
-        console.log(data);
         if (validation.success) {
             const response = await usePostData("/feedback", data);
 

@@ -174,7 +174,6 @@ export default function SellerStats({ user, reloadUser }) {
                                 </div>
                                 <div className="flex-grow">
                                     <div className="stat-value text-xl">
-                                        {console.log(user)}
                                         {user.ventas_cantidad}
                                     </div>
                                     <div className="text-gray-500 leading-none">

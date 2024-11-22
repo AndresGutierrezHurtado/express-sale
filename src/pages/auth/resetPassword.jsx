@@ -17,8 +17,6 @@ export default function ResetPassword() {
         `/recoveries/${token}`
     );
     
-    console.log(validatedToken);
-
     const handleResetPasswordSubmit = async (event) => {
         event.preventDefault();
 

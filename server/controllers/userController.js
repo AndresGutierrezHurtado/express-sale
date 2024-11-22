@@ -380,7 +380,6 @@ export default class UserController {
                 data: result,
             });
         } catch (error) {
-            console.log(error);
             res.status(500).json({
                 success: false,
                 message: error.message,
