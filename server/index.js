@@ -1,4 +1,6 @@
 import express from "express";
+import { createServer } from "http";
+import { initSocket } from "./config/socket.js";
 import cors from "cors";
 import "dotenv/config";
 import session from "express-session";
@@ -23,6 +25,9 @@ const sessionStore = new SequelizeSessionStore({
 });
 
 const app = express();
+const httpServer = createServer(app);
+const io = initSocket(httpServer);
+
 app.use(express.json({ limit: "10mb" }));
 app.use(
     cors({
@@ -77,6 +82,4 @@ app.use("/api/v2", ratingRoutes);
 app.use("/api/v2", orderRoutes);
 app.use("/api/v2", authRoutes);
 
-app.listen(process.env.PORT, () =>
-    console.log(`Server listening on port http://localhost:${process.env.PORT}/`)
-);
+httpServer.listen(process.env.PORT, () => console.log(`Listening on port ${process.env.PORT}`));
