@@ -173,9 +173,9 @@ export default class OrderController {
                 });
             }
 
-            if (req.body.worker) {
-                await models.Worker.update(req.body.worker, {
-                    where: { usuario_id: req.session.user.usuario_id },
+            if (req.body.delivery) {
+                await models.Worker.update(req.body.delivery, {
+                    where: { trabajador_id: req.body.delivery_id },
                     transaction: t,
                 });
             }

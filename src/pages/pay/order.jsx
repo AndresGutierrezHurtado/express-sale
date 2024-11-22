@@ -34,11 +34,12 @@ export default function Order() {
                     order: {
                         pedido_estado: "recibido",
                     },
-                    worker: {
-                        trabajador_saldo: parseInt(
-                            order.shippingDetails.worker.trabajador_saldo + order.shippingDetails.envio_valor
-                        ),
+                    delivery: {
+                        trabajador_saldo:
+                            parseInt(order.shippingDetails.worker.trabajador_saldo) +
+                            parseInt(order.shippingDetails.envio_valor),
                     },
+                    delivery_id: order.shippingDetails.trabajador_id,
                 });
                 if (response.success) {
                     reloadOrder();
@@ -130,7 +131,10 @@ export default function Order() {
                                         className="card border rounded-lg"
                                     >
                                         <article className="card-body p-4 flex-row gap-2 [&_p]:grow-0">
-                                            <Link to={`/product/${product.producto_id}`} className="size-[130px]">
+                                            <Link
+                                                to={`/product/${product.producto_id}`}
+                                                className="size-[130px]"
+                                            >
                                                 <img
                                                     src={product.product.producto_imagen_url}
                                                     alt={`Imagen del producto ${product.product.producto_nombre}`}

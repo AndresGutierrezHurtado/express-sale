@@ -277,7 +277,9 @@ export default class UserController {
                                 SELECT COALESCE(COUNT(*) ,0)
                                 FROM detalles_envios
                                 INNER JOIN trabajadores ON User.usuario_id = trabajadores.usuario_id
+                                INNER JOIN pedidos ON detalles_envios.pedido_id = pedidos.pedido_id
                                 WHERE trabajadores.trabajador_id = detalles_envios.trabajador_id
+                                AND pedidos.pedido_estado = "recibido"
                             )`),
                             "envios_cantidad",
                         ],
@@ -286,7 +288,8 @@ export default class UserController {
                                 SELECT COALESCE(SUM(detalles_envios.envio_valor) ,0)
                                 FROM detalles_envios
                                 INNER JOIN trabajadores ON User.usuario_id = trabajadores.usuario_id
-                                WHERE trabajadores.trabajador_id = detalles_envios.trabajador_id
+                                INNER JOIN pedidos ON detalles_envios.pedido_id = pedidos.pedido_id
+                                WHERE trabajadores.trabajador_id = detalles_envios.trabajador_id AND pedidos.pedido_estado = "recibido"
                             )`),
                             "envios_dinero",
                         ],
@@ -319,7 +322,7 @@ export default class UserController {
                     FROM detalles_envios
                     INNER JOIN pedidos ON detalles_envios.pedido_id = pedidos.pedido_id
                     INNER JOIN trabajadores ON trabajadores.trabajador_id = detalles_envios.trabajador_id
-                    WHERE detalles_envios.trabajador_id = "${req.session.user.worker.trabajador_id}"
+                    WHERE detalles_envios.trabajador_id = "${req.session.user.worker.trabajador_id}" AND pedidos.pedido_estado = "recibido"
                     GROUP BY MONTH(pedidos.pedido_fecha)
                     ORDER BY mes;
                 `

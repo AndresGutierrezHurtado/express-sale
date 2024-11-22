@@ -35,11 +35,6 @@ export default function Delivery() {
                     order: {
                         pedido_estado: "entregado",
                     },
-                    worker: {
-                        trabajador_saldo:
-                            parseInt(userSession.worker.trabajador_saldo) +
-                            parseInt(order.shippingDetails.envio_valor),
-                    },
                 });
                 if (response.success) {
                     navigate(`/worker/stats/${userSession.usuario_id}`);
