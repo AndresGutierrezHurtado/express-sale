@@ -180,7 +180,6 @@ INSERT INTO `calificaciones_productos` (`calificacion_id`, `producto_id`) VALUES
 CREATE TABLE `multimedias` (
     `multimedia_id` VARCHAR(60) NOT NULL PRIMARY KEY,
     `multimedia_url` VARCHAR(255) NOT NULL,
-    `multimedia_tipo` ENUM('imagen', 'video') NOT NULL,
     `producto_id` VARCHAR(60) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 

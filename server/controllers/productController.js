@@ -79,6 +79,27 @@ export default class ProductController {
                         data: null,
                     });
             }
+
+            if (req.body.multimedias.length > 0) {
+                req.body.multimedias.forEach(async (multimedia) => {
+                    const multimediaId = crypto.randomUUID();
+                    const response = await uploadFile(multimedia, multimediaId, "/products/multimedia");
+
+                    if (response.success)
+                        await models.Media.create({
+                            multimedia_id: multimediaId,
+                            multimedia_url: response.data.secure_url || response.data.url,
+                            producto_id: req.params.id,
+                        });
+                    else
+                        return res.status(500).json({
+                            success: false,
+                            message: response.message || "Error al subir la imagen",
+                            data: null,
+                        });
+                });
+            }
+
             const product = await models.Product.update(productData, {
                 where: {
                     producto_id: req.params.id,

@@ -62,10 +62,6 @@ const Media = sequelize.define(
             type: DataTypes.STRING(255),
             allowNull: false,
         },
-        multimedia_tipo: {
-            type: DataTypes.ENUM("imagen", "video"),
-            allowNull: false,
-        },
         producto_id: {
             type: DataTypes.STRING(60),
             allowNull: false,
