@@ -189,6 +189,10 @@ export default class OrderController {
                 });
             }
 
+            const io = getSocket();
+
+            io.emit("updateSale", req.params.id);
+
             await t.commit();
             res.status(200).json({
                 success: true,

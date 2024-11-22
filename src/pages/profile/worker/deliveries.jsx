@@ -20,7 +20,7 @@ export default function WorkerDeliveries() {
         loading: loadingOrders,
         reload: reloadOrders,
     } = useGetData(`/orders?pedido_estado=pendiente`);
-    const { userSession } = useAuthContext();
+    const { userSession, reload } = useAuthContext();
     const socket = io(import.meta.env.VITE_API_DOMAIN);
 
     useEffect(() => {
@@ -35,6 +35,19 @@ export default function WorkerDeliveries() {
 
         socket.on("sale", (data) => {
             reloadOrders();
+        });
+
+        socket.on("updateSale", (data) => {
+            reload();
+            reloadOrders();
+            if (userSession.domiciliario_domicilio) {
+                Swal.fire({
+                    icon: "info",
+                    title: "Domicilio asignado",
+                    text: "No puedes realizar pedidos si ya tienes un domicilio asignado",
+                });
+                navigate(`/delivery/${userSession.domiciliario_domicilio}`);
+            }
         });
 
         return () => {

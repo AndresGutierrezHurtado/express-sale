@@ -11,15 +11,6 @@ export const initSocket = (httpServer) => {
         },
     });
 
-    io.on("connection", (socket) => {
-        console.log("User connected");
-
-        socket.on("disconnect", () => {
-            console.log("User disconnected");
-        });
-    });
-
-    console.log("Socket initialized");
     return io;
 }
 
