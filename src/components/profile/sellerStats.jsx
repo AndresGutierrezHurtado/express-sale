@@ -19,7 +19,7 @@ export default function SellerStats({ user, reloadUser }) {
         data: pendingOrders,
         loading: pendingOrdersLoading,
         reload: reloadPendingOrders,
-    } = useGetData(`/orders?pedido_estado=pendiente&usuario_id=${user.usuario_id}`);
+    } = useGetData(`/orders?pedido_estado=pendiente,enviando&usuario_id=${user.usuario_id}`);
 
     const yearSales = [];
     for (let i = 1; i <= 12; i++) {
@@ -173,9 +173,7 @@ export default function SellerStats({ user, reloadUser }) {
                                     <BoxesStackedIcon size={40} />
                                 </div>
                                 <div className="flex-grow">
-                                    <div className="stat-value text-xl">
-                                        {user.ventas_cantidad}
-                                    </div>
+                                    <div className="stat-value text-xl">{user.ventas_cantidad}</div>
                                     <div className="text-gray-500 leading-none">
                                         Productos vendidos
                                     </div>
@@ -196,11 +194,6 @@ export default function SellerStats({ user, reloadUser }) {
 
                         <section className="space-y-5">
                             <h2 className="text-3xl font-extrabold">Pedidos pendientes:</h2>
-                            {pendingOrders.length === 0 && (
-                                <p className="text-center font-bold text-2xl text-gray-500">
-                                    No tienes ningun pedido pendiente...
-                                </p>
-                            )}
                             <table className="table border w-full">
                                 <thead className="bg-gray-200">
                                     <tr>
@@ -213,6 +206,13 @@ export default function SellerStats({ user, reloadUser }) {
                                     </tr>
                                 </thead>
                                 <tbody>
+                                    {pendingOrders.length === 0 && (
+                                        <tr>
+                                            <td colSpan={6}>
+                                                No tienes ningun pedido pendiente...
+                                            </td>
+                                        </tr>
+                                    )}
                                     {pendingOrders.map((order) => (
                                         <tr key={order.pedido_id}>
                                             <td>{order.pedido_id.split("-")[1]}</td>
@@ -229,7 +229,13 @@ export default function SellerStats({ user, reloadUser }) {
                                                 ))}
                                             </td>
                                             <td>{`${order.user.usuario_nombre} ${order.user.usuario_apellido}`}</td>
-                                            <td>{`${order.shippingDetails.worker?.user.usuario_nombre || "No asignado"} ${order.shippingDetails.worker?.user.usuario_apellido || ""}`}</td>
+                                            <td>{`${
+                                                order.shippingDetails.worker?.user.usuario_nombre ||
+                                                "No asignado"
+                                            } ${
+                                                order.shippingDetails.worker?.user
+                                                    .usuario_apellido || ""
+                                            }`}</td>
                                             <td>{order.pedido_estado}</td>
                                         </tr>
                                     ))}

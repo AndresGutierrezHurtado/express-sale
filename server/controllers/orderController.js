@@ -3,6 +3,7 @@ import sequelize from "../config/database.js";
 import crypto from "crypto";
 
 import { getSocket } from "../config/socket.js";
+import { Op } from "sequelize";
 
 export default class OrderController {
     static payuCallback = async (req, res) => {
@@ -146,7 +147,12 @@ export default class OrderController {
             await t.commit();
 
             const io = getSocket();
-            io.emit("sale", `Pedido ${order.pedido_id} creado`);
+
+            const soldProducts = await Promise.all(
+                cartItems.map((cartItem) => models.Product.findByPk(cartItem.producto_id))
+            );
+
+            io.emit("sale", soldProducts);
 
             res.redirect(`${process.env.VITE_URL}/order/${order.pedido_id}`);
         } catch (error) {
@@ -242,9 +248,11 @@ export default class OrderController {
 
     static getOrders = async (req, res) => {
         const whereClause = {};
-
         const whereOrderProductClause = {};
-        if (req.query.pedido_estado) whereClause.pedido_estado = req.query.pedido_estado;
+    
+        if (req.query.pedido_estado) whereClause.pedido_estado = {
+            [Op.in]: req.query.pedido_estado.split(","),
+        };
         if (req.query.usuario_id) whereOrderProductClause.usuario_id = req.query.usuario_id;
 
         try {
@@ -255,11 +263,13 @@ export default class OrderController {
                     {
                         model: models.OrderProduct,
                         as: "orderProducts",
+                        required: true,
                         include: {
                             model: models.Product,
                             as: "product",
                             include: { model: models.User, as: "user" },
                             where: whereOrderProductClause,
+                            required: true,
                         },
                     },
                     { model: models.ShippingDetails, as: "shippingDetails" },

@@ -17,7 +17,9 @@ export default function WorkerStats() {
     const socket = io(import.meta.env.VITE_API_DOMAIN);
 
     useEffect(() => {
-        socket.on("sale", () => {
+        socket.on("sale", (data) => {
+            if ( data.filter((item) => item.usuario_id == user.usuario_id).length == 0 ) return;
+
             toast.success("Venta realizada", {
                 theme: "colored",
                 position: "bottom-right",
