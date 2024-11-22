@@ -33,7 +33,11 @@ export default function WorkerLayout() {
                         {/* Sidebar content here */}
                         <div className="px-4 py-1 flex flex-col items-center justify-center">
                             <Link to="/" className="w-24 aspect-square">
-                                <img src="/logo.png" alt="Logo Express Sale" className="w-full h-full object-contain" />
+                                <img
+                                    src="/logo.png"
+                                    alt="Logo Express Sale"
+                                    className="w-full h-full object-contain"
+                                />
                             </Link>
                             <h2 className="text-2xl font-bold tracking-tight">
                                 Menu de {user.usuario_nombre}
@@ -63,17 +67,22 @@ export default function WorkerLayout() {
                             )}
                         </div>
                         <div className="px-4 py-1 flex flex-col space-y-3">
-                            <button
-                                onClick={() =>
-                                    document.getElementById("product-create-modal").show()
-                                }
-                                className="btn btn-sm btn-wide relative btn-primary"
-                            >
-                                <span className="absolute left-3 top-2">+</span>
-                                Crear producto
-                            </button>
+                            {user.rol_id == 2 && (
+                                <button
+                                    onClick={() =>
+                                        document.getElementById("product-create-modal").show()
+                                    }
+                                    className="btn btn-sm btn-wide relative btn-primary"
+                                >
+                                    <span className="absolute left-3 top-2">+</span>
+                                    Crear producto
+                                </button>
+                            )}
                             <Link to={`/profile/user/${id}`} className="w-full">
-                                <article className="w-full flex p-3 gap-3 bg-gray-100 rounded-lg tooltip tooltip-top text-start" data-tip="Ir al perfil">
+                                <article
+                                    className="w-full flex p-3 gap-3 bg-gray-100 rounded-lg tooltip tooltip-top text-start"
+                                    data-tip="Ir al perfil"
+                                >
                                     <figure className="w-12 aspect-square rounded-full overflow-hidden flex-none">
                                         <img
                                             src={user.usuario_imagen_url}
@@ -85,7 +94,9 @@ export default function WorkerLayout() {
                                         <h2 className="font-semibold tracking-tight">
                                             {user.usuario_nombre} {user.usuario_apellido}
                                         </h2>
-                                        <p className="text-sm text-gray-600 font-semibold">{user.role.rol_nombre}</p>
+                                        <p className="text-sm text-gray-600 font-semibold">
+                                            {user.role.rol_nombre}
+                                        </p>
                                     </div>
                                 </article>
                             </Link>

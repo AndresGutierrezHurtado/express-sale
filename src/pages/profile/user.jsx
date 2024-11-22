@@ -10,7 +10,7 @@ import {
     PhoneIcon,
     BoxesStackedIcon,
     StatsIcon,
-    EyeIcon,
+    TruckIcon,
 } from "@components/icons.jsx";
 import { UserEditModal } from "@components/profile/userEditModal.jsx";
 import { Order } from "@components/order.jsx";
@@ -153,7 +153,7 @@ export default function UserProfile() {
                                         className="btn btn-sm min-h-none h-auto py-2.5 px-10 btn-primary group relative text-purple-300 hover:bg-purple-800 hover:text-purple-100"
                                     >
                                         <span className="absolute left-3 top-1/2 transform -translate-y-1/2 text-purple-300 group-hover:text-purple-100">
-                                            +
+                                            <TruckIcon />
                                         </span>
                                         Rutas
                                     </Link>
