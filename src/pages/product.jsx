@@ -16,6 +16,7 @@ import { useAuthContext } from "@contexts/authContext.jsx";
 
 export default function Product() {
     const { id } = useParams();
+    const { userSession, authMiddlewareAlert } = useAuthContext();
     const {
         loading: loadingProduct,
         data: product,
@@ -28,7 +29,7 @@ export default function Product() {
         reload: reloadRatings,
     } = useGetData(`/products/${id}/ratings`);
 
-    const { userSession, authMiddlewareAlert } = useAuthContext();
+    const [currentImage, setCurrentImage] = useState(0);
 
     const handleRatingSubmit = async (event) => {
         event.preventDefault();
@@ -53,8 +54,8 @@ export default function Product() {
     const handleCartAdd = async () => {
         const response = await usePostData("/carts", {
             producto_id: product.producto_id,
-        })
-    }
+        });
+    };
 
     if (loadingProduct || loadingRatings) return <ContentLoading />;
     return (
@@ -79,39 +80,47 @@ export default function Product() {
                         </span>
                         <div className="flex flex-col md:flex-row gap-10 p-8 py-7 w-full">
                             <div className="flex flex-col md:flex-row flex-none">
-                                <figure className="w-full max-w-[320px] flex-none aspect-square border">
+                                <figure className="w-full md:max-w-[320px] flex-none aspect-square border">
                                     <img
-                                        src={product.producto_imagen_url}
+                                        src={
+                                            [
+                                                ...product.media,
+                                                {
+                                                    multimedia_url: product.producto_imagen_url,
+                                                    multimedia_id: product.producto_id,
+                                                },
+                                            ].reverse()[currentImage].multimedia_url
+                                        }
                                         alt={`Imagen del producto ${product.producto_nombre}`}
                                         className="object-contain h-full w-full"
                                     />
                                 </figure>
-                                <div className="h-[initial] max-h-[100px] md:max-h-none p-1 border w-full md:max-w-[100px] flex-none">
-                                    <img
-                                        src={product.producto_imagen_url}
-                                        alt={`Imagen del producto ${product.producto_nombre}`}
-                                        className="border border-purple-700"
-                                    />
-                                    {product.media.forEach((media) => {
-                                        if (media.multimedia_tipo === "imagen") {
-                                            return (
+                                <div className="w-full h-[100px] md:w-[100px] md:h-[initial] md:max-h-[320px] border p-2 flex flex-row md:flex-col gap-3 overflow-auto">
+                                    {[
+                                        ...product.media,
+                                        {
+                                            multimedia_url: product.producto_imagen_url,
+                                            multimedia_id: product.producto_id,
+                                        },
+                                    ]
+                                        .reverse()
+                                        .map((multimedia, index) => (
+                                            <figure
+                                                key={multimedia.multimedia_id}
+                                                className={`h-full max-h-[100px] aspect-square border cursor-pointer ${
+                                                    index === currentImage
+                                                        ? "border-2 border-purple-700"
+                                                        : ""
+                                                }`}
+                                                onClick={() => setCurrentImage(index)}
+                                            >
                                                 <img
-                                                    key={media.multimedia_id}
-                                                    src={media.multimedia_url}
+                                                    src={multimedia.multimedia_url}
                                                     alt={`Imagen del producto ${product.producto_nombre}`}
                                                     className="object-contain h-full w-full"
                                                 />
-                                            );
-                                        } else {
-                                            return (
-                                                <video
-                                                    src={media.multimedia_url}
-                                                    alt={`Video del producto ${product.producto_nombre}`}
-                                                    className="object-contain h-full w-full"
-                                                />
-                                            );
-                                        }
-                                    })}
+                                            </figure>
+                                        ))}
                                 </div>
                             </div>
                             <article className="w-full flex flex-col h-[initial]">
@@ -147,7 +156,10 @@ export default function Product() {
                                         </p>
                                     </span>
 
-                                    <button onClick={handleCartAdd} className="btn btn-sm min-h-none h-auto py-3 btn-primary group relative text-purple-300 hover:bg-purple-800 hover:text-purple-100 w-full">
+                                    <button
+                                        onClick={handleCartAdd}
+                                        className="btn btn-sm min-h-none h-auto py-3 btn-primary group relative text-purple-300 hover:bg-purple-800 hover:text-purple-100 w-full"
+                                    >
                                         <span className="absolute left-3 top-1/2 transform -translate-y-1/2 text-purple-300 group-hover:text-purple-100">
                                             <CartAddIcon size={17} />
                                         </span>
@@ -171,7 +183,9 @@ export default function Product() {
                                             <h2 className="font-semibold text-4xl text-center">
                                                 {product.calificacion_promedio}
                                             </h2>
-                                            <StarsRating rating={parseFloat(product.calificacion_promedio)} />
+                                            <StarsRating
+                                                rating={parseFloat(product.calificacion_promedio)}
+                                            />
                                             <p className="text-sm flex gap-1 items-center grow-0">
                                                 {ratings.length}
                                                 <UserIcon size={12} />
