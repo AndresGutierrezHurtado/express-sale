@@ -230,14 +230,25 @@ export default function ProductProfile() {
                                     </div>
                                     <div className="form-control">
                                         <label className="label">
-                                            <span className="label-text font-semibold after:content-['(máximo_5)'] after:ml-1.5 after:text-gray-500">
-                                                Multimedia:
+                                            <span className="label-text font-semibold">
+                                                Multimedia: <span className="text-gray-500">(máximo {5 - product.media.length})</span>
                                             </span>
                                         </label>
                                         <input
                                             type="file"
                                             multiple
-                                            max="5"
+                                            max={5 - product.media.length}
+                                            onChange={(event) => {
+                                                if (event.target.files.length > (5 - product.media.length)) {
+                                                    Swal.fire({
+                                                        icon: "error",
+                                                        title: "Oops...",
+                                                        text: `Solo se pueden subir ${5 - product.media.length} multimedias`,
+                                                    })
+                                                    event.target.value = null;
+                                                    return;
+                                                }
+                                            }}
                                             accept=".jpg, .jpeg, .png"
                                             name="multimedias"
                                             className="file-input file-input-bordered file-input-sm w-full focus:input-primary focus:outline-0 rounded"
