@@ -43,7 +43,8 @@ export default function ProductProfile() {
                         ? await useConvertImage(data.producto_imagen)
                         : null,
                 multimedias: base64Files,
-            });
+            }).then(() => reloadProduct());
+
             if (response.success) reloadProduct();
         }
     };
@@ -122,6 +123,11 @@ export default function ProductProfile() {
                                     Multimedias:
                                 </h2>
                                 <div className="flex flex-col gap-2">
+                                    {product.media.length === 0 && (
+                                        <p className="text-gray-600">
+                                            No se encontraron multimedias...
+                                        </p>
+                                    )}
                                     {product.media.map((multimedia) => (
                                         <figure
                                             key={multimedia.multimedia_id}
@@ -246,6 +252,7 @@ export default function ProductProfile() {
                                         <select
                                             name="producto_estado"
                                             className="select select-bordered select-sm w-full focus:select-primary focus:outline-0"
+                                            defaultValue={product.producto_estado}
                                         >
                                             <option value="publico">Publico</option>
                                             <option value="privado">Privado</option>

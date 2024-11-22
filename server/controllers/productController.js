@@ -2,7 +2,7 @@ import * as models from "../models/relations.js";
 import sequelize from "../config/database.js";
 import { Op } from "sequelize";
 import crypto from "crypto";
-import { uploadFile } from "../config/uploadImage.js";
+import { deleteFile, uploadFile } from "../config/uploadImage.js";
 
 export default class ProductController {
     static createProduct = async (req, res) => {
@@ -311,19 +311,29 @@ export default class ProductController {
     };
 
     static deleteMultimedia = async (req, res) => {
+        const t = await sequelize.transaction();
         try {
             await models.Media.destroy({
                 where: {
                     multimedia_id: req.params.id,
                 },
+                transaction: t,
             });
 
+            const response = await deleteFile(`express-sale/products/multimedia/${req.params.id}`);
+
+            if (!response || !response.success) {
+                throw new Error(response.message);
+            }
+
+            await t.commit();
             res.status(200).json({
                 success: true,
                 message: "Imagen eliminada correctamente",
                 data: null,
             });
         } catch (error) {
+            await t.rollback();
             res.status(404).json({
                 success: false,
                 message: error.message,

@@ -24,7 +24,7 @@ export const uploadFile = async (file, id, url) => {
             success: true,
             message: "Imagen subida correctamente",
             data: result,
-        }
+        };
     } catch (error) {
         return {
             success: false,
@@ -34,20 +34,19 @@ export const uploadFile = async (file, id, url) => {
     }
 };
 
-export const deleteFile = (public_id) => {
-    cloudinary.uploader.destroy(public_id, (error, result) => {
-        if (error) {
-            return {
-                success: false,
-                message: error.message,
-                data: null,
-            };
-        }
-
+export const deleteFile = async (public_id) => {
+    try {
+        const result = await cloudinary.uploader.destroy(public_id);
         return {
             success: true,
             message: "Imagen eliminada correctamente",
             data: result,
         };
-    });
+    } catch (error) {
+        return {
+            success: false,
+            message: error.message,
+            data: null,
+        };
+    }
 };
