@@ -44,13 +44,17 @@ export default function Worker() {
         setSearchParams(newSearchParams);
     };
 
+    const handleShowRatings = () => {
+        document.getElementById("ratings-list").classList.toggle("hidden");
+    };
+
     if (loadingSeller || loadingProducts || loadingRatings) return <ContentLoading />;
     return (
         <>
             <section className="w-full px-3">
                 <div className="w-full max-w-[1200px] mx-auto py-10">
-                    <div className="flex flex-col md:flex-row gap-10">
-                        <div className="w-full max-w-[500px] space-y-5">
+                    <div className={`flex flex-col md:flex-row gap-10 ${seller.rol_id == 3 && "items-center justify-center"}`}>
+                        <div className={"w-full max-w-[500px] flex flex-col gap-5"}>
                             <article className="card bg-base-100 shadow-xl border">
                                 <div className="card-body flex flex-col gap-4">
                                     <div className="flex flex-col md:flex-row gap-5">
@@ -71,6 +75,11 @@ export default function Worker() {
                                                     @{seller.usuario_alias} (
                                                     {seller.role.rol_nombre})
                                                 </p>
+                                                <p className="text-gray-600/90 text-sm leading-none">
+                                                    {seller.rol_id == 2
+                                                        ? `${seller.ventas_cantidad} productos vendidos.`
+                                                        : seller.rol_id == 3 && `${seller.envios_cantidad} envios hechos.`}
+                                                </p>
                                             </div>
                                             <p className="text-pretty text-lg grow">
                                                 {seller.worker.trabajador_descripcion}
@@ -83,7 +92,11 @@ export default function Worker() {
                                                 <h2 className="font-semibold text-4xl text-center">
                                                     {seller.calificacion_promedio}
                                                 </h2>
-                                                <StarsRating rating={parseFloat(seller.calificacion_promedio)} />
+                                                <StarsRating
+                                                    rating={parseFloat(
+                                                        seller.calificacion_promedio
+                                                    )}
+                                                />
                                                 <p className="text-sm flex gap-1 items-center">
                                                     {ratings.length}
                                                     <UserIcon size={12} />
@@ -99,7 +112,7 @@ export default function Worker() {
                                                                 (rating) => rating.calificacion == 5
                                                             ).length /
                                                                 ratings.length) *
-                                                            100
+                                                                100 || 0
                                                         }
                                                         max="100"
                                                     ></progress>
@@ -113,7 +126,7 @@ export default function Worker() {
                                                                 (rating) => rating.calificacion == 4
                                                             ).length /
                                                                 ratings.length) *
-                                                            100
+                                                                100 || 0
                                                         }
                                                         max="100"
                                                     ></progress>
@@ -127,7 +140,7 @@ export default function Worker() {
                                                                 (rating) => rating.calificacion == 3
                                                             ).length /
                                                                 ratings.length) *
-                                                            100
+                                                                100 || 0
                                                         }
                                                         max="100"
                                                     ></progress>
@@ -141,7 +154,7 @@ export default function Worker() {
                                                                 (rating) => rating.calificacion == 2
                                                             ).length /
                                                                 ratings.length) *
-                                                            100
+                                                                100 || 0
                                                         }
                                                         max="100"
                                                     ></progress>
@@ -155,7 +168,7 @@ export default function Worker() {
                                                                 (rating) => rating.calificacion == 1
                                                             ).length /
                                                                 ratings.length) *
-                                                            100
+                                                                100 || 0
                                                         }
                                                         max="100"
                                                     ></progress>
@@ -178,7 +191,10 @@ export default function Worker() {
                                                 </span>
                                                 Calificar
                                             </button>
-                                            <button className="btn btn-sm min-h-none h-auto py-3 px-9 btn-primary group relative text-purple-300 hover:bg-purple-800 hover:text-purple-100 grow">
+                                            <button
+                                                onClick={handleShowRatings}
+                                                className="btn btn-sm min-h-none h-auto py-3 px-9 btn-primary group relative text-purple-300 hover:bg-purple-800 hover:text-purple-100 grow"
+                                            >
                                                 <span className="absolute left-3 top-1/2 transform -translate-y-1/2 text-purple-300 group-hover:text-purple-100">
                                                     <EyeIcon size={20} />
                                                 </span>
@@ -188,7 +204,10 @@ export default function Worker() {
                                     </div>
                                 </div>
                             </article>
-                            <div className="card bg-base-100 shadow-xl border">
+                            <div
+                                id="ratings-list"
+                                className="card bg-base-100 shadow-xl border hidden"
+                            >
                                 <div className="card-body space-y-5">
                                     <h2 className="text-3xl font-extrabold text-gray-800">
                                         Comentarios:
@@ -212,25 +231,27 @@ export default function Worker() {
                                 </div>
                             </div>
                         </div>
-                        <div className="space-y-4">
-                            <h2 className="font-bold text-4xl">Productos: </h2>
-                            <div className="space-y-8">
-                                {products.rows.map((product) => (
-                                    <Product
-                                        key={product.producto_id}
-                                        product={product}
-                                        reloadProducts={reload}
+                        {seller.rol_id == 2 && (
+                            <div className="space-y-4">
+                                <h2 className="font-bold text-4xl">Productos: </h2>
+                                <div className="space-y-8">
+                                    {products.rows.map((product) => (
+                                        <Product
+                                            key={product.producto_id}
+                                            product={product}
+                                            reloadProducts={reload}
+                                        />
+                                    ))}
+                                </div>
+                                <span className="flex justify-between items-center w-full">
+                                    <Pagination
+                                        data={products}
+                                        updateParam={updateParam}
+                                        searchParams={searchParams}
                                     />
-                                ))}
+                                </span>
                             </div>
-                            <span className="flex justify-between items-center w-full">
-                                <Pagination
-                                    data={products}
-                                    updateParam={updateParam}
-                                    searchParams={searchParams}
-                                />
-                            </span>
-                        </div>
+                        )}
                     </div>
                 </div>
             </section>

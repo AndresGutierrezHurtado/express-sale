@@ -131,7 +131,10 @@ export default function Product() {
                                         </h2>
                                         <p
                                             className="text-gray-600/90 font-medium hover:underline cursor-pointer tooltip tooltip-left"
-                                            data-tip="Ver calificaciones"
+                                            data-tip="Mostrar/Ocultar calificaciones"
+                                            onClick={() => {
+                                                document.getElementById("ratings-list").classList.toggle("hidden");
+                                            }}
                                         >
                                             {product.calificacion_cantidad} comentarios
                                         </p>
@@ -173,7 +176,7 @@ export default function Product() {
             </section>
             <section className="w-full px-3">
                 <div className="w-full max-w-[1200px] mx-auto py-5">
-                    <article className="card bg-white shadow-xl border">
+                    <article id="ratings-list" className="card bg-white shadow-xl border hidden"> 
                         <div className="card-body">
                             <h2 className="text-3xl font-extrabold tracking-tight">Comentarios:</h2>
                             <div className="flex flex-col md:flex-row gap-10">
