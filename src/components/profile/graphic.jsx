@@ -34,11 +34,12 @@ export function DeliveryGraphic({ data, setCurrentMonth, graphicData }) {
         ],
     };
 
-    if (graphicData == "money") chartData.datasets.pop();
-    if (graphicData == "sales") chartData.datasets.shift();
+    if (graphicData === "money") chartData.datasets.pop();
+    if (graphicData === "sales") chartData.datasets.shift();
 
     const chartOptions = {
         responsive: true,
+        maintainAspectRatio: false,
         plugins: {
             legend: {
                 position: "top",
@@ -54,7 +55,7 @@ export function DeliveryGraphic({ data, setCurrentMonth, graphicData }) {
             },
         },
         onClick: (event, elements) => {
-            if (elements.length == 0) return;
+            if (elements.length === 0) return;
             setCurrentMonth(data[elements[0].index]);
         },
         interaction: {
@@ -64,7 +65,13 @@ export function DeliveryGraphic({ data, setCurrentMonth, graphicData }) {
         },
     };
 
-    return <Line data={chartData} options={chartOptions} />;
+    return (
+        <div className="w-full overflow-x-auto">
+            <div className="chart-container min-w-[300px] w-full h-[400px]">
+                <Line data={chartData} options={chartOptions} />
+            </div>
+        </div>
+    );
 }
 
 export function SellerGraphic({ data, setCurrentMonth, graphicData }) {
@@ -86,11 +93,12 @@ export function SellerGraphic({ data, setCurrentMonth, graphicData }) {
         ],
     };
 
-    if (graphicData == "money") chartData.datasets.pop();
-    if (graphicData == "sales") chartData.datasets.shift();
+    if (graphicData === "money") chartData.datasets.pop();
+    if (graphicData === "sales") chartData.datasets.shift();
 
     const chartOptions = {
         responsive: true,
+        maintainAspectRatio: false,
         plugins: {
             legend: {
                 position: "top",
@@ -106,7 +114,7 @@ export function SellerGraphic({ data, setCurrentMonth, graphicData }) {
             },
         },
         onClick: (event, elements) => {
-            if (elements.length == 0) return;
+            if (elements.length === 0) return;
             setCurrentMonth(data[elements[0].index]);
         },
         interaction: {
@@ -116,5 +124,11 @@ export function SellerGraphic({ data, setCurrentMonth, graphicData }) {
         },
     };
 
-    return <Line data={chartData} options={chartOptions} className="min-h-[400px]" />;
+    return (
+        <div className="w-full overflow-x-auto">
+            <div className="chart-container min-w-[300px] w-full h-[400px]">
+                <Line data={chartData} options={chartOptions} />
+            </div>
+        </div>
+    );
 }

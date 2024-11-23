@@ -39,47 +39,49 @@ export default function SellerStats({ user, reloadUser }) {
     if (pendingOrdersLoading) return <ContentLoading />;
     return (
         <main className="h-full w-full p-10 space-y-10 overflow-y-scroll">
-            <div className="flex flex-col md:flex-row gap-10">
+            <div className="flex flex-col xl:flex-row gap-10">
                 <div className="flex flex-col gap-10 w-full max-w-[800px]">
                     <div className="card bg-white border shadow-lg border-gray-100 w-full">
                         <div className="card-body gap-5">
                             <article className="space-y-2">
-                                <h2 className="text-4xl font-extrabold tracking-tight ">
+                                <h2 className="text-2xl md:text-4xl font-extrabold tracking-tight ">
                                     Estadísticas de {user.usuario_nombre.split(" ")[0]}{" "}
                                     {user.usuario_apellido.split(" ")[0]}:{" "}
                                 </h2>
-                                <div className="flex items-center gap-5">
+                                <div className="flex flex-col md:flex-row items-center gap-5">
                                     <p className="leading-tight text-sm">
                                         Selecciona el año para ver las estadísticas de ventas de
                                         cada mes.
                                     </p>
-                                    <select
-                                        value={graphicData}
-                                        onChange={(event) => setGraphicData(event.target.value)}
-                                        className="select select-bordered select-sm w=full focus:outline-0 focus:select-primary"
-                                    >
-                                        <option value="all">Todo</option>
-                                        <option value="money">Dinero recaudado</option>
-                                        <option value="sales">Número de ventas</option>
-                                    </select>
-                                    <select
-                                        value={year}
-                                        onChange={(event) => setYear(event.target.value)}
-                                        className="select select-bordered select-sm w=full focus:outline-0 focus:select-primary"
-                                    >
-                                        <option value={new Date().getFullYear()}>
-                                            {new Date().getFullYear()}
-                                        </option>
-                                        <option value={new Date().getFullYear() - 1}>
-                                            {new Date().getFullYear() - 1}
-                                        </option>
-                                        <option value={new Date().getFullYear() - 2}>
-                                            {new Date().getFullYear() - 2}
-                                        </option>
-                                        <option value={new Date().getFullYear() - 3}>
-                                            {new Date().getFullYear() - 3}
-                                        </option>
-                                    </select>
+                                    <div className="flex flex-col md:flex-row gap-5">
+                                        <select
+                                            value={graphicData}
+                                            onChange={(event) => setGraphicData(event.target.value)}
+                                            className="select select-bordered select-sm w=full focus:outline-0 focus:select-primary"
+                                        >
+                                            <option value="all">Todo</option>
+                                            <option value="money">Dinero recaudado</option>
+                                            <option value="sales">Número de ventas</option>
+                                        </select>
+                                        <select
+                                            value={year}
+                                            onChange={(event) => setYear(event.target.value)}
+                                            className="select select-bordered select-sm w=full focus:outline-0 focus:select-primary"
+                                        >
+                                            <option value={new Date().getFullYear()}>
+                                                {new Date().getFullYear()}
+                                            </option>
+                                            <option value={new Date().getFullYear() - 1}>
+                                                {new Date().getFullYear() - 1}
+                                            </option>
+                                            <option value={new Date().getFullYear() - 2}>
+                                                {new Date().getFullYear() - 2}
+                                            </option>
+                                            <option value={new Date().getFullYear() - 3}>
+                                                {new Date().getFullYear() - 3}
+                                            </option>
+                                        </select>
+                                    </div>
                                 </div>
                             </article>
                             <article>
@@ -88,10 +90,10 @@ export default function SellerStats({ user, reloadUser }) {
                                     graphicData={graphicData}
                                     setCurrentMonth={setCurrentMonth}
                                 />
-                                <div className="flex [&>*]:grow text-center">
-                                    <div className="stats bg-transparent">
-                                        <div className="stat">
-                                            <div className="stat-title">
+                                <div className="flex flex-col lg:flex-row gap-5  [&>*]:grow text-center">
+                                    <div className="stats overflow-visible bg-transparent">
+                                        <div className="stat p-0 md:py-4 md:px-6">
+                                            <div className="stat-title text-wrap">
                                                 Número de productos vendidos
                                             </div>
                                             {currentMonth ? (
@@ -106,7 +108,9 @@ export default function SellerStats({ user, reloadUser }) {
                                                 </>
                                             ) : (
                                                 <>
-                                                    <div className="stat-value">Pendiente</div>
+                                                    <div className="stat-value text-xl md:text-4xl">
+                                                        Pendiente
+                                                    </div>
                                                     <div className="stat-desc">
                                                         Dale clic a un mes para ver su valor
                                                     </div>
@@ -114,9 +118,11 @@ export default function SellerStats({ user, reloadUser }) {
                                             )}
                                         </div>
                                     </div>
-                                    <div className="stats bg-transparent">
-                                        <div className="stat ">
-                                            <div className="stat-title">Dinero en ventas</div>
+                                    <div className="stats overflow-visible bg-transparent">
+                                        <div className="stat p-0 md:py-4 md:px-6">
+                                            <div className="stat-title text-wrap">
+                                                Dinero en ventas
+                                            </div>
                                             {currentMonth ? (
                                                 <>
                                                     <div className="stat-value">
@@ -130,7 +136,9 @@ export default function SellerStats({ user, reloadUser }) {
                                                 </>
                                             ) : (
                                                 <>
-                                                    <div className="stat-value">Pendiente</div>
+                                                    <div className="stat-value text-xl md:text-4xl">
+                                                        Pendiente
+                                                    </div>
                                                     <div className="stat-desc">
                                                         Dale clic a un mes para ver suvalor
                                                     </div>
@@ -194,53 +202,55 @@ export default function SellerStats({ user, reloadUser }) {
 
                         <section className="space-y-5">
                             <h2 className="text-3xl font-extrabold">Pedidos pendientes:</h2>
-                            <table className="table border w-full">
-                                <thead className="bg-gray-200">
-                                    <tr>
-                                        <th>Pedido</th>
-                                        <th>Fecha</th>
-                                        <th>Productos</th>
-                                        <th>Destinatario</th>
-                                        <th>Domiciliario</th>
-                                        <th>Estado</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    {pendingOrders.length === 0 && (
+                            <div className="w-full overflow-x-auto border">
+                                <table className="table border w-full">
+                                    <thead className="bg-gray-200">
                                         <tr>
-                                            <td colSpan={6}>
-                                                No tienes ningun pedido pendiente...
-                                            </td>
+                                            <th>Pedido</th>
+                                            <th>Fecha</th>
+                                            <th>Productos</th>
+                                            <th>Destinatario</th>
+                                            <th>Domiciliario</th>
+                                            <th>Estado</th>
                                         </tr>
-                                    )}
-                                    {pendingOrders.map((order) => (
-                                        <tr key={order.pedido_id}>
-                                            <td>{order.pedido_id.split("-")[1]}</td>
-                                            <td>
-                                                {new Date(order.pedido_fecha).toLocaleString(
-                                                    "es-CO"
-                                                )}
-                                            </td>
-                                            <td>
-                                                {order.orderProducts.map((product) => (
-                                                    <p key={product.producto_id}>
-                                                        - {product.product.producto_nombre}
-                                                    </p>
-                                                ))}
-                                            </td>
-                                            <td>{`${order.user.usuario_nombre} ${order.user.usuario_apellido}`}</td>
-                                            <td>{`${
-                                                order.shippingDetails.worker?.user.usuario_nombre ||
-                                                "No asignado"
-                                            } ${
-                                                order.shippingDetails.worker?.user
-                                                    .usuario_apellido || ""
-                                            }`}</td>
-                                            <td>{order.pedido_estado}</td>
-                                        </tr>
-                                    ))}
-                                </tbody>
-                            </table>
+                                    </thead>
+                                    <tbody>
+                                        {pendingOrders.length === 0 && (
+                                            <tr>
+                                                <td colSpan={6}>
+                                                    No tienes ningun pedido pendiente...
+                                                </td>
+                                            </tr>
+                                        )}
+                                        {pendingOrders.map((order) => (
+                                            <tr key={order.pedido_id}>
+                                                <td>{order.pedido_id.split("-")[1]}</td>
+                                                <td>
+                                                    {new Date(order.pedido_fecha).toLocaleString(
+                                                        "es-CO"
+                                                    )}
+                                                </td>
+                                                <td>
+                                                    {order.orderProducts.map((product) => (
+                                                        <p key={product.producto_id}>
+                                                            - {product.product.producto_nombre}
+                                                        </p>
+                                                    ))}
+                                                </td>
+                                                <td>{`${order.user.usuario_nombre} ${order.user.usuario_apellido}`}</td>
+                                                <td>{`${
+                                                    order.shippingDetails.worker?.user
+                                                        .usuario_nombre || "No asignado"
+                                                } ${
+                                                    order.shippingDetails.worker?.user
+                                                        .usuario_apellido || ""
+                                                }`}</td>
+                                                <td>{order.pedido_estado}</td>
+                                            </tr>
+                                        ))}
+                                    </tbody>
+                                </table>
+                            </div>
                         </section>
                     </div>
                 </div>
@@ -255,10 +265,10 @@ export default function SellerStats({ user, reloadUser }) {
                                 </p>
                             )}
                             {user.worker.most_selled_products.map((product, index) => (
-                                <div key={product.producto_id} className="flex items-center gap-5">
-                                    <h2 className="text-4xl font-bold">{index + 1}</h2>
-                                    <div className="card bg-white border border-gray-100 w-[400px] shadow-lg">
-                                        <div className="card-body flex-row items-center">
+                                <div key={product.producto_id} className="flex flex-wrap items-center gap-5">
+                                    <h2 className="text-4xl font-bold mx-auto">{index + 1}</h2>
+                                    <div className="card bg-white border border-gray-100 w-full max-w-[400px] shadow-lg">
+                                        <div className="card-body flex-row flex-wrap items-center">
                                             <figure className="size-[100px] flex-none">
                                                 <img
                                                     src={product.producto_imagen_url}
@@ -268,7 +278,7 @@ export default function SellerStats({ user, reloadUser }) {
                                             </figure>
                                             <div className="grow flex flex-col gap-4">
                                                 <div className="grow">
-                                                    <h2 className="text-2xl font-bold tracking-tight">
+                                                    <h2 className="text-xl md:text-2xl font-bold tracking-tight">
                                                         {product.producto_nombre}
                                                     </h2>
                                                     <p>{product.total_ventas} ventas</p>

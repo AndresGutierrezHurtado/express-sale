@@ -19,7 +19,7 @@ export default function WorkerLayout() {
             <div className="drawer drawer-open">
                 <input id="my-drawer-2" type="checkbox" className="drawer-toggle" defaultChecked />
                 <div className="drawer-content bg-gray-200 p-4 pl-0 h-screen overflow-y-hidden">
-                    <main className="w-full h-full bg-white rounded-xl">
+                    <main className="w-full h-full bg-white rounded-xl h-full overflow-y-auto">
                         <Outlet user={user} />
                     </main>
                 </div>
@@ -29,39 +29,39 @@ export default function WorkerLayout() {
                         aria-label="close sidebar"
                         className="drawer-overlay"
                     ></label>
-                    <ul className="menu bg-gray-200 text-base-content min-h-full w-80 p-4 flex flex-col gap-5">
+                    <ul className="menu bg-gray-200 text-base-content min-h-full w-[100px] md:w-80 p-4 flex flex-col gap-5">
                         {/* Sidebar content here */}
-                        <div className="px-4 py-1 flex flex-col items-center justify-center">
-                            <Link to="/" className="w-24 aspect-square">
+                        <div className="md:px-4 py-1 flex flex-col items-center justify-center">
+                            <Link to="/" className="w-12 md:w-24 aspect-square">
                                 <img
                                     src="/logo.png"
                                     alt="Logo Express Sale"
                                     className="w-full h-full object-contain"
                                 />
                             </Link>
-                            <h2 className="text-2xl font-bold tracking-tight">
+                            <h2 className="text-2xl font-bold tracking-tight hidden md:block">
                                 Menu de {user.usuario_nombre}
                             </h2>
                         </div>
-                        <div className="grow space-y-2">
-                            <li>
+                        <div className="grow space-y-2 w-fit md:w-full mx-auto">
+                            <li className="w-fit md:w-full">
                                 <Link to={`/worker/stats/${id}`}>
                                     <StatsIcon />
-                                    Estadísticas
+                                    <span className="hidden md:block">Estadísticas</span>
                                 </Link>
                             </li>
                             {user.rol_id == 2 ? (
-                                <li>
+                                <li className="w-fit md:w-full">
                                     <Link to={`/worker/products/${id}`}>
                                         <BoxesStackedIcon />
-                                        Productos
+                                        <span className="hidden md:block">Productos</span>
                                     </Link>
                                 </li>
                             ) : (
-                                <li>
+                                <li className="w-fit w-full">
                                     <Link to={`/worker/deliveries/${id}`}>
                                         <StatsIcon />
-                                        Envios
+                                        <span className="hidden md:block">Envios</span>
                                     </Link>
                                 </li>
                             )}
@@ -72,25 +72,25 @@ export default function WorkerLayout() {
                                     onClick={() =>
                                         document.getElementById("product-create-modal").show()
                                     }
-                                    className="btn btn-sm btn-wide relative btn-primary"
+                                    className="btn btn-sm w-fit pl-5 md:w-full relative btn-primary mx-auto"
                                 >
                                     <span className="absolute left-3 top-2">+</span>
-                                    Crear producto
+                                    <span className="hidden md:block">Crear producto</span>
                                 </button>
                             )}
                             <Link to={`/profile/user/${id}`} className="w-full">
                                 <article
-                                    className="w-full flex p-3 gap-3 bg-gray-100 rounded-lg tooltip tooltip-top text-start"
+                                    className="w-fit md:w-full flex p-3 gap-3 bg-gray-100 rounded-lg tooltip tooltip-top text-start"
                                     data-tip="Ir al perfil"
                                 >
-                                    <figure className="w-12 aspect-square rounded-full overflow-hidden flex-none">
+                                    <figure className="w-8 md:w-12 aspect-square rounded-full overflow-hidden flex-none">
                                         <img
                                             src={user.usuario_imagen_url}
                                             alt="imagen de perfil del usuario"
                                             className="w-full h-full object-cover"
                                         />
                                     </figure>
-                                    <div className="leading-none">
+                                    <div className="leading-none hidden md:block">
                                         <h2 className="font-semibold tracking-tight">
                                             {user.usuario_nombre} {user.usuario_apellido}
                                         </h2>

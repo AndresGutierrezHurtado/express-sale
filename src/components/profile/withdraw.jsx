@@ -53,7 +53,7 @@ export default function Withdraw({ user, reloadUser }) {
                 <div className="card-body gap-5">
                     <div className="text-center">
                         <p className="text-gray-600">Saldo actual</p>
-                        <div className="text-5xl font-extrabold">
+                        <div className="text-2xl md:text-5xl font-extrabold">
                             {parseInt(user.worker.trabajador_saldo).toLocaleString("es-CO")} COP
                         </div>
                         <div className="text-sm text-gray-600">
@@ -84,7 +84,7 @@ export default function Withdraw({ user, reloadUser }) {
                                                   text: "El monto mínimo para retirar es de 10.000 COP",
                                               })
                                     }
-                                    className="btn btn-success text-white rounded-full px-10"
+                                    className="btn btn-success text-white rounded-full px-10 flex flex-row flex-nowrap mx-auto"
                                 >
                                     <BillIcon size={20} />
                                     Retirar ahora

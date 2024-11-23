@@ -50,7 +50,7 @@ export default function Order() {
 
     if (orderLoading) return <ContentLoading />;
     return (
-        <>
+        <section className="w-full px-3">
             <div className="w-full min-h-screen flex items-center justify-center py-10">
                 <div className="card bg-white border border-gray-100 shadow-lg rounded-lg w-full max-w-2xl">
                     <div className="card-body space-y-4">
@@ -58,7 +58,7 @@ export default function Order() {
                             Detalles del pedido:
                         </h2>
                         <div className="space-y-4">
-                            <div className="flex [&>div]:grow gap-5">
+                            <div className="flex flex-col md:flex-row [&>div]:grow gap-5">
                                 <article className="[&>div]:text-sm">
                                     <h2 className="text-xl font-bold">Comprador:</h2>
                                     <div className="flex gap-2">
@@ -66,7 +66,7 @@ export default function Order() {
                                         <p>{order.paymentDetails.comprador_nombre}</p>
                                     </div>
                                     <div className="flex gap-2">
-                                        <span className="font-medium">Correo Electrónico:</span>
+                                        <span className="font-medium">Correo<span className="hidden md:inline-flex ml-1">Electrónico</span>:</span>
                                         <p>{order.paymentDetails.comprador_correo}</p>
                                     </div>
                                     <div className="flex gap-2">
@@ -130,10 +130,10 @@ export default function Order() {
                                         key={product.producto_id}
                                         className="card border rounded-lg"
                                     >
-                                        <article className="card-body p-4 flex-row gap-2 [&_p]:grow-0">
+                                        <article className="card-body p-4 flex-col sm:flex-row gap-2 [&_p]:grow-0">
                                             <Link
                                                 to={`/product/${product.producto_id}`}
-                                                className="size-[130px]"
+                                                className="size-[130px] mx-auto sm:mx-0"
                                             >
                                                 <img
                                                     src={product.product.producto_imagen_url}
@@ -159,7 +159,7 @@ export default function Order() {
                                                     </div>
                                                     <p>cantidad: {product.producto_cantidad}</p>
                                                 </div>
-                                                <span className="flex justify-between items-center w-full">
+                                                <span className="flex flex-col sm:flex-row justify-between items-center w-full">
                                                     <p>
                                                         Precio:{" "}
                                                         {parseInt(
@@ -207,6 +207,6 @@ export default function Order() {
                     </div>
                 </div>
             </div>
-        </>
+        </section>
     );
 }

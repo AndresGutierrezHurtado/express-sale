@@ -82,7 +82,7 @@ export default function Cart() {
                 <div className="w-full max-w-[1200px] mx-auto py-10">
                     <div className="space-y-5">
                         <h2 className="text-3xl font-extrabold text-center">Carrito de compras</h2>
-                        <div className="flex gap-10">
+                        <div className="flex flex-col md:flex-row gap-10">
                             <div className="grow space-y-5">
                                 {carts.length === 0 && (
                                     <h2 className="text-xl font-bold py-8">
@@ -94,7 +94,7 @@ export default function Cart() {
                                         key={cart.carrito_id}
                                         className="bg-white p-8 w-full shadow-xl rounded-xl border"
                                     >
-                                        <div className="flex gap-5">
+                                        <div className="flex flex-col md:flex-row gap-5">
                                             <Link
                                                 to={`/product/${cart.producto_id}`}
                                                 className="size-[160px]"
@@ -106,7 +106,7 @@ export default function Cart() {
                                                 />
                                             </Link>
                                             <div className="grow h-[initial]">
-                                                <div className="flex w-full h-full">
+                                                <div className="flex flex-col sm:flex-row w-full h-full">
                                                     <div className="grow h-full flex flex-col justify-between">
                                                         <div className="grow">
                                                             <h2 className="text-3xl font-bold">
@@ -159,7 +159,7 @@ export default function Cart() {
                                                             </button>
                                                         </span>
                                                     </div>
-                                                    <div className="text-end flex flex-col justify-between items-end h-full">
+                                                    <div className="text-end flex flex-col justify-between items-start sm:items-end h-full">
                                                         <p className="text-2xl font-bold">
                                                             {parseInt(
                                                                 cart.product.producto_precio *
