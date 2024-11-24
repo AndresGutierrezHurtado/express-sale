@@ -88,7 +88,7 @@ export default function Delivery() {
 
                             <article className="space-y-4">
                                 <h1 className="text-4xl font-extrabold tracking-tight">
-                                    Tiendas/Vendedores:
+                                    Tiendas / Vendedores:
                                 </h1>
                                 <div className="text-lg">
                                     {orderProducts.map((item, index) => (

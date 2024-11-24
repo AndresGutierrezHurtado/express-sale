@@ -31,42 +31,44 @@ export default function DeliveryStats({ user, reloadUser }) {
                 <div className="card bg-white border shadow-lg border-gray-100 w-full max-w-[750px]">
                     <div className="card-body gap-5">
                         <article className="space-y-2">
-                            <h2 className="text-4xl font-extrabold tracking-tight ">
+                            <h2 className="text-2xl md:text-4xl font-extrabold tracking-tight ">
                                 Estadísticas de {user.usuario_nombre.split(" ")[0]}{" "}
                                 {user.usuario_apellido.split(" ")[0]}:{" "}
                             </h2>
-                            <div className="flex items-center gap-5">
+                            <div className="flex flex-col md:flex-row items-center gap-5">
                                 <p className="leading-tight text-sm">
                                     Selecciona el año para ver las estadísticas de envios de cada
                                     mes.
                                 </p>
-                                <select
-                                    value={graphicData}
-                                    onChange={(event) => setGraphicData(event.target.value)}
-                                    className="select select-bordered select-sm w=full focus:outline-0 focus:select-primary"
-                                >
-                                    <option value="all">Todo</option>
-                                    <option value="money">Dinero recaudado</option>
-                                    <option value="sales">Número de envíos</option>
-                                </select>
-                                <select
-                                    value={year}
-                                    onChange={(event) => setYear(event.target.value)}
-                                    className="select select-bordered select-sm w=full focus:outline-0 focus:select-primary"
-                                >
-                                    <option value={new Date().getFullYear()}>
-                                        {new Date().getFullYear()}
-                                    </option>
-                                    <option value={new Date().getFullYear() - 1}>
-                                        {new Date().getFullYear() - 1}
-                                    </option>
-                                    <option value={new Date().getFullYear() - 2}>
-                                        {new Date().getFullYear() - 2}
-                                    </option>
-                                    <option value={new Date().getFullYear() - 3}>
-                                        {new Date().getFullYear() - 3}
-                                    </option>
-                                </select>
+                                <div className="flex flex-col lg:flex-row gap-5">
+                                    <select
+                                        value={graphicData}
+                                        onChange={(event) => setGraphicData(event.target.value)}
+                                        className="select select-bordered select-sm w=full focus:outline-0 focus:select-primary"
+                                    >
+                                        <option value="all">Todo</option>
+                                        <option value="money">Dinero recaudado</option>
+                                        <option value="sales">Número de envíos</option>
+                                    </select>
+                                    <select
+                                        value={year}
+                                        onChange={(event) => setYear(event.target.value)}
+                                        className="select select-bordered select-sm w=full focus:outline-0 focus:select-primary"
+                                    >
+                                        <option value={new Date().getFullYear()}>
+                                            {new Date().getFullYear()}
+                                        </option>
+                                        <option value={new Date().getFullYear() - 1}>
+                                            {new Date().getFullYear() - 1}
+                                        </option>
+                                        <option value={new Date().getFullYear() - 2}>
+                                            {new Date().getFullYear() - 2}
+                                        </option>
+                                        <option value={new Date().getFullYear() - 3}>
+                                            {new Date().getFullYear() - 3}
+                                        </option>
+                                    </select>
+                                </div>
                             </div>
                         </article>
                         <article>
@@ -75,22 +77,27 @@ export default function DeliveryStats({ user, reloadUser }) {
                                 graphicData={graphicData}
                                 setCurrentMonth={setCurrentMonth}
                             />
-                            <div className="flex [&>*]:grow text-center">
-                                <div className="stats bg-transparent">
-                                    <div className="stat">
-                                        <div className="stat-title">
+                            <div className="flex flex-col md:flex-row gap-5 md:gap-2 [&>*]:grow text-center">
+                                <div className="stats overflow-visible bg-transparent">
+                                    <div className="stat p-0 md:py-4 md:px-6">
+                                        <div className="stat-title text-wrap">
                                             Número de envíos realizados
                                         </div>
                                         {currentMonth ? (
                                             <>
-                                                <div className="stat-value">{currentMonth.sales}</div>
+                                                <div className="stat-value text-xl md:text-4xl">
+                                                    {currentMonth.sales}
+                                                </div>
                                                 <div className="stat-desc">
-                                                En el mes {currentMonth.monthToText} del año {currentMonth.year}
+                                                    En el mes {currentMonth.monthToText} del año{" "}
+                                                    {currentMonth.year}
                                                 </div>
                                             </>
                                         ) : (
                                             <>
-                                                <div className="stat-value">Pendiente</div>
+                                                <div className="stat-value text-xl md:text-4xl">
+                                                    Pendiente
+                                                </div>
                                                 <div className="stat-desc">
                                                     Dale clic a un mes para ver su valor
                                                 </div>
@@ -98,19 +105,22 @@ export default function DeliveryStats({ user, reloadUser }) {
                                         )}
                                     </div>
                                 </div>
-                                <div className="stats bg-transparent">
-                                    <div className="stat ">
-                                        <div className="stat-title">Dinero en envíos</div>
+                                <div className="stats overflow-visible bg-transparent">
+                                    <div className="stat p-0 md:py-4 md:px-6">
+                                        <div className="stat-title text-wrap">Dinero en envíos</div>
                                         {currentMonth ? (
                                             <>
-                                                <div className="stat-value">{currentMonth.money.toLocaleString("es-CO")} COP</div>
+                                                <div className="stat-value text-xl md:text-4xl">
+                                                    {currentMonth.money.toLocaleString("es-CO")} COP
+                                                </div>
                                                 <div className="stat-desc">
-                                                    En el mes {currentMonth.monthToText} del año {currentMonth.year}
+                                                    En el mes {currentMonth.monthToText} del año{" "}
+                                                    {currentMonth.year}
                                                 </div>
                                             </>
                                         ) : (
                                             <>
-                                                <div className="stat-value">Pendiente</div>
+                                                <div className="stat-value text-xl md:text-4xl">Pendiente</div>
                                                 <div className="stat-desc">
                                                     Dale clic a un mes para ver suvalor
                                                 </div>
@@ -154,9 +164,7 @@ export default function DeliveryStats({ user, reloadUser }) {
                                 <TruckIcon size={40} />
                             </div>
                             <div className="flex-grow">
-                                <div className="stat-value text-xl">
-                                    {user.envios_cantidad}
-                                </div>
+                                <div className="stat-value text-xl">{user.envios_cantidad}</div>
                                 <div className="text-gray-500 leading-none">
                                     Domicilios realizados
                                 </div>

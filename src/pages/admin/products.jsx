@@ -48,58 +48,64 @@ export default function ProductsAdmin() {
 
     return (
         <article className="card bg-white max-w-[1000px] shadow-xl mx-auto my-10">
-            <div className="card-body overflow-auto">
-                <table className="table border">
-                    <thead>
-                        <tr>
-                            <th>Id</th>
-                            <th>Nombre</th>
-                            <th>Categoria</th>
-                            <th>Precio</th>
-                            <th>Stock</th>
-                            <th>Acciones</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {products.rows.map((product) => (
-                            <tr key={product.producto_id}>
-                                <td>{product.producto_id}</td>
-                                <td>{product.producto_nombre}</td>
-                                <td className="capitalize">{product.category.categoria_nombre}</td>
-                                <td>
-                                    {parseFloat(product.producto_precio).toLocaleString("es-CO")}{" "}
-                                    COP
-                                </td>
-                                <td>{product.producto_cantidad}</td>
-                                <td className="flex gap-2">
-                                    <Link
-                                        to={`/profile/product/${product.producto_id}`}
-                                        className="btn btn-sm min-h-none h-auto py-2.5 pl-8 relative bg-gray-200 hover:bg-gray-200 text-gray-500 hover:text-gray-600"
-                                    >
-                                        <span className="absolute left-3 top-1/2 transform -translate-y-1/2">
-                                            <PencilIcon />
-                                        </span>
-                                        Editar
-                                    </Link>
-                                    <button
-                                        onClick={() =>
-                                            handleDeleteProduct(
-                                                product.producto_id,
-                                                product.producto_nombre
-                                            )
-                                        }
-                                        className="btn btn-sm min-h-none h-auto py-2.5 pl-8 relative bg-red-600 hover:bg-red-700 text-red-300 hover:text-red-200"
-                                    >
-                                        <span className="absolute left-3 top-1/2 transform -translate-y-1/2">
-                                            <TrashIcon />
-                                        </span>
-                                        Eliminar
-                                    </button>
-                                </td>
+            <div className="card-body">
+                <div className="overflow-auto">
+                    <table className="table border">
+                        <thead>
+                            <tr>
+                                <th>Id</th>
+                                <th>Nombre</th>
+                                <th>Categoria</th>
+                                <th>Precio</th>
+                                <th>Stock</th>
+                                <th>Acciones</th>
                             </tr>
-                        ))}
-                    </tbody>
-                </table>
+                        </thead>
+                        <tbody>
+                            {products.rows.map((product) => (
+                                <tr key={product.producto_id}>
+                                    <td>{product.producto_id}</td>
+                                    <td>{product.producto_nombre}</td>
+                                    <td className="capitalize">
+                                        {product.category.categoria_nombre}
+                                    </td>
+                                    <td>
+                                        {parseFloat(product.producto_precio).toLocaleString(
+                                            "es-CO"
+                                        )}{" "}
+                                        COP
+                                    </td>
+                                    <td>{product.producto_cantidad}</td>
+                                    <td className="flex gap-2">
+                                        <Link
+                                            to={`/profile/product/${product.producto_id}`}
+                                            className="btn btn-sm min-h-none h-auto py-2.5 pl-8 relative bg-gray-200 hover:bg-gray-200 text-gray-500 hover:text-gray-600"
+                                        >
+                                            <span className="absolute left-3 top-1/2 transform -translate-y-1/2">
+                                                <PencilIcon />
+                                            </span>
+                                            Editar
+                                        </Link>
+                                        <button
+                                            onClick={() =>
+                                                handleDeleteProduct(
+                                                    product.producto_id,
+                                                    product.producto_nombre
+                                                )
+                                            }
+                                            className="btn btn-sm min-h-none h-auto py-2.5 pl-8 relative bg-red-600 hover:bg-red-700 text-red-300 hover:text-red-200"
+                                        >
+                                            <span className="absolute left-3 top-1/2 transform -translate-y-1/2">
+                                                <TrashIcon />
+                                            </span>
+                                            Eliminar
+                                        </button>
+                                    </td>
+                                </tr>
+                            ))}
+                        </tbody>
+                    </table>
+                </div>
                 <nav className="flex flex-col md:flex-row justify-between">
                     <Pagination
                         data={products}

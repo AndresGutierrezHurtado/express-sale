@@ -39,7 +39,7 @@ export default function AdminLayout() {
                                 </button>
                                 <ul
                                     tabIndex="0"
-                                    className="dropdown-content menu bg-base-100 rounded-box z-[1] w-52 p-2 shadow"
+                                    className="dropdown-content menu bg-base-100 rounded-box z-[1] w-52 p-2 shadow text-black"
                                 >
                                     {location.pathname.endsWith("users") ? (
                                         <>
@@ -235,7 +235,7 @@ export default function AdminLayout() {
                         </div>
                     </div>
                 </header>
-                <div className="grow">
+                <div className="grow px-3">
                     <Outlet />
                 </div>
                 <footer

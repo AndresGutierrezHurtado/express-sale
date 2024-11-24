@@ -72,7 +72,7 @@ export default function ProductProfile() {
 
     if (loadingProduct) return <ContentLoading />;
     return (
-        <section className="w-full">
+        <section className="w-full px-3">
             <div className="w-full max-w-[1200px] mx-auto py-10">
                 <article className="flex flex-col md:flex-row gap-5">
                     {/* Parte de vista previa */}

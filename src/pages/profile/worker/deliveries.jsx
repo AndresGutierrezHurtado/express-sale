@@ -59,7 +59,7 @@ export default function WorkerDeliveries() {
     return (
         <section className="w-full px-3">
             <div className="w-full max-w-[1200px] mx-auto py-10">
-                <div className="space-y-5">
+                <div className="w-full space-y-5">
                     <h2 className="text-center text-2xl sm:text-4xl font-extrabold tracking-tight">
                         Pedidos
                     </h2>
@@ -68,7 +68,7 @@ export default function WorkerDeliveries() {
                             No tienes ningun pedido pendiente...
                         </p>
                     )}
-                    <div className="grid grid-cols-[repeat(auto-fill,minmax(300px,1fr))] gap-5">
+                    <div className="grid grid-cols-[repeat(auto-fill,minmax(270px,1fr))] gap-5">
                         {orders.map((order) => (
                             <OrderCard key={order.pedido_id} order={order} />
                         ))}

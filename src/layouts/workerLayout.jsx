@@ -6,7 +6,7 @@ import { useGetData } from "@hooks/useFetchData.js";
 
 // Components
 import ContentLoading from "@components/contentLoading.jsx";
-import { BoxesStackedIcon, StatsIcon, ArrowLeftIcon } from "@components/icons.jsx";
+import { BoxesStackedIcon, StatsIcon, TruckIcon } from "@components/icons.jsx";
 import ProductCreateModal from "../components/profile/productCreateModal";
 
 export default function WorkerLayout() {
@@ -60,7 +60,7 @@ export default function WorkerLayout() {
                             ) : (
                                 <li className="w-fit w-full">
                                     <Link to={`/worker/deliveries/${id}`}>
-                                        <StatsIcon />
+                                        <TruckIcon />
                                         <span className="hidden md:block">Envios</span>
                                     </Link>
                                 </li>

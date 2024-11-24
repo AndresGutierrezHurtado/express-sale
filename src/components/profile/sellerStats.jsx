@@ -90,7 +90,7 @@ export default function SellerStats({ user, reloadUser }) {
                                     graphicData={graphicData}
                                     setCurrentMonth={setCurrentMonth}
                                 />
-                                <div className="flex flex-col lg:flex-row gap-5  [&>*]:grow text-center">
+                                <div className="flex flex-col lg:flex-row gap-5 md:gap-2 [&>*]:grow text-center">
                                     <div className="stats overflow-visible bg-transparent">
                                         <div className="stat p-0 md:py-4 md:px-6">
                                             <div className="stat-title text-wrap">
@@ -98,7 +98,7 @@ export default function SellerStats({ user, reloadUser }) {
                                             </div>
                                             {currentMonth ? (
                                                 <>
-                                                    <div className="stat-value">
+                                                    <div className="stat-value text-xl md:text-4xl">
                                                         {currentMonth.sales}
                                                     </div>
                                                     <div className="stat-desc">
@@ -125,7 +125,7 @@ export default function SellerStats({ user, reloadUser }) {
                                             </div>
                                             {currentMonth ? (
                                                 <>
-                                                    <div className="stat-value">
+                                                    <div className="stat-value text-xl md:text-4xl">
                                                         {currentMonth.money.toLocaleString("es-CO")}{" "}
                                                         COP
                                                     </div>
