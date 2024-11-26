@@ -23,7 +23,7 @@
    Ofrece a los usuarios la posibilidad de consultar el estado de sus pedidos, tanto previos como actuales, junto con las facturas correspondientes.
 
 7. **Distribución basada en locaciones:**  
-   El sistema calcula la disponibilidad de productos y determina las mejores opciones de envío en función de la ubicación del usuario.
+   El sistema funciona para realizar la distribución de productos utilizando ubicaciones precisas.
 
 8. **Perfil de trabajador:**  
    Cada usuario cuenta con una página personalizada donde puede consultar estadísticas relacionadas con su rol dentro de la aplicación.
