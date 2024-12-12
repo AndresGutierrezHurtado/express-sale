@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import { Swiper, SwiperSlide } from "swiper/react";
-import { Navigation, Pagination } from "swiper/modules";
+import { Navigation, Pagination, EffectCoverflow } from "swiper/modules";
+import VanillaTilt from "vanilla-tilt";
 
 // Components
 import { CategoryCard } from "@components/categoryCard.jsx";
@@ -11,6 +12,11 @@ import ContentLoading from "@components/contentLoading.jsx";
 // Hooks
 import { useGetData, usePostData } from "@hooks/useFetchData.js";
 import { useValidateform } from "@hooks/useValidateForm.js";
+import { useEffect } from "react";
+
+import "swiper/css";
+import "swiper/css/effect-coverflow";
+import "swiper/css/pagination";
 
 export default function Home() {
     const {
@@ -33,6 +39,18 @@ export default function Home() {
             }
         }
     };
+
+    useEffect(() => {
+        VanillaTilt.init(document.querySelectorAll(".tilt"), {
+            max: 10,
+            scale: 1.04,
+            speed: 400,
+            transition: true,
+            glare: true,
+            "max-glare": 0.3,
+            reverse: true,
+        });
+    }, [products]);
 
     if (loadingProducts) return <ContentLoading />;
 
@@ -111,14 +129,22 @@ export default function Home() {
                             Los productos <span className="text-purple-700">más Destacados</span>
                         </h2>
                         <Swiper
-                            modules={[Navigation, Pagination]}
+                            effect={"coverflow"}
+                            modules={[Navigation, EffectCoverflow, Pagination]}
                             spaceBetween={20}
                             slidesPerView={1}
                             navigation
+                            coverflowEffect={{
+                                rotate: 50,
+                                stretch: 0,
+                                depth: 100,
+                                modifier: 1,
+                                slideShadows: false,
+                            }}
                             pagination={{
                                 clickable: true,
                                 renderBullet: function (index, className) {
-                                  return `<span class="${className}"></span>`;
+                                    return `<span class="${className}"></span>`;
                                 },
                             }}
                             breakpoints={{

@@ -23,7 +23,7 @@ export function VerticalProductCard({ product, reloadProducts }) {
 
     return (
         <>
-            <div className="card bg-white shadow-xl border w-full sm:min-w-[350px] max-w-[350px]">
+            <div className="card bg-white shadow-xl border w-full sm:min-w-[350px] max-w-[350px] tilt">
                 <div className="card-body">
                     <Link to={`/product/${product.producto_id}`}>
                         <figure className="w-full h-[200px] rounded-lg overflow-hidden">
