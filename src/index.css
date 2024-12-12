@@ -13,3 +13,17 @@
 .swiper-button-prev, .swiper-button-next {
   color: rgb(126 34 206);
 }
+
+.mySwiper .swiper-slide {
+    width: 25%;
+    height: 100%;
+    opacity: 0.4;
+    scale: 0.9;
+    transition: scale 300ms;
+}
+
+.mySwiper .swiper-slide-thumb-active {
+    opacity: 1;
+    border: 2px solid rgb(126 34 206);
+    scale: 1;
+}

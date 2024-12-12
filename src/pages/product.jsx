@@ -10,6 +10,7 @@ import { CartAddIcon, StarIcon, UserIcon, ClipIcon, PaperPlaneIcon } from "@comp
 import ContentLoading from "@components/contentLoading.jsx";
 import { Calification } from "@components/calification";
 import { StarsRating } from "@components/starsRating";
+import SwiperThumbnails from "../components/swiperThumbnails";
 
 // Contexts
 import { useAuthContext } from "@contexts/authContext.jsx";
@@ -58,6 +59,20 @@ export default function Product() {
     };
 
     if (loadingProduct || loadingRatings) return <ContentLoading />;
+
+    const images = [
+        {
+            id: product.producto_id,
+            url: product.producto_imagen_url,
+            alt: `Imagen del producto ${product.producto_nombre}`,
+        },
+        ...product.media.map((media) => ({
+            id: media.multimedia_id,
+            url: media.multimedia_url,
+            alt: `Imagen del producto ${product.producto_nombre}`,
+        })),
+    ]
+
     return (
         <>
             <section className="w-full px-3">
@@ -80,48 +95,8 @@ export default function Product() {
                         </span>
                         <div className="flex flex-col md:flex-row gap-10 p-8 py-7 w-full">
                             <div className="flex flex-col md:flex-row flex-none">
-                                <figure className="w-full md:max-w-[320px] flex-none aspect-square border">
-                                    <img
-                                        src={
-                                            [
-                                                ...product.media,
-                                                {
-                                                    multimedia_url: product.producto_imagen_url,
-                                                    multimedia_id: product.producto_id,
-                                                },
-                                            ].reverse()[currentImage].multimedia_url
-                                        }
-                                        alt={`Imagen del producto ${product.producto_nombre}`}
-                                        className="object-contain h-full w-full"
-                                    />
-                                </figure>
-                                <div className="w-full h-[100px] md:w-[100px] md:h-[initial] md:max-h-[320px] border p-2 flex flex-row md:flex-col gap-3 overflow-auto">
-                                    {[
-                                        ...product.media,
-                                        {
-                                            multimedia_url: product.producto_imagen_url,
-                                            multimedia_id: product.producto_id,
-                                        },
-                                    ]
-                                        .reverse()
-                                        .map((multimedia, index) => (
-                                            <figure
-                                                key={multimedia.multimedia_id}
-                                                className={`h-full max-h-[100px] aspect-square border cursor-pointer ${
-                                                    index === currentImage
-                                                        ? "border-2 border-purple-700"
-                                                        : ""
-                                                }`}
-                                                onClick={() => setCurrentImage(index)}
-                                            >
-                                                <img
-                                                    src={multimedia.multimedia_url}
-                                                    alt={`Imagen del producto ${product.producto_nombre}`}
-                                                    className="object-contain h-full w-full"
-                                                />
-                                            </figure>
-                                        ))}
-                                </div>
+                                <SwiperThumbnails images={images} size={500} />
+                                
                             </div>
                             <article className="w-full flex flex-col h-[initial]">
                                 <div className="w-full">
