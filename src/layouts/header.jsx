@@ -1,4 +1,4 @@
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 
 // Contexts
 import { useAuthContext } from "@contexts/authContext";
@@ -15,6 +15,7 @@ import {
 
 export default function Header() {
     const { pathname, hash } = useLocation();
+    const navigate = useNavigate();
     const { userSession, handleLogout } = useAuthContext();
 
     document.addEventListener("scroll", () => {
@@ -224,13 +225,16 @@ export default function Header() {
                             </h2>
                             <div className="flex flex-wrap gap-2">
                                 {["xbox", "iphone", "zapatillas"].map((category) => (
-                                    <Link
+                                    <a
+                                        onClick={() => {
+                                            document.getElementById("search-modal").close()
+                                            navigate(`/products?search=${category}`)
+                                        }}
                                         key={category}
-                                        to={`/products?search=${category}`}
-                                        className="badge badge-ghost badge-lg px-5 py-1 bg-white/70"
+                                        className="badge badge-ghost badge-lg px-5 py-1 bg-white/70 cursor-pointer hover:bg-gray-300/40"
                                     >
                                         {category}
-                                    </Link>
+                                    </a>
                                 ))}
                             </div>
                         </div>
