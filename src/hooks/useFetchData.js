@@ -63,6 +63,41 @@ export const useGetData = (endpoint) => {
     return { data, loading, reload };
 };
 
+export const usePaginateData = (endpoint) => {
+    const [data, setData] = useState(null);
+    const [loading, setLoading] = useState(true);
+    const [trigger, setTrigger] = useState(0);
+
+    useEffect(() => {
+        const getData = async () => {
+            const result = await queryApi(endpoint, {
+                method: "GET",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                credentials: "include",
+            });
+
+            setData(result.data);
+
+            setLoading(false);
+        };
+
+        getData();
+    }, [endpoint, trigger]);
+
+    const reload = () => setTrigger((prev) => prev + 1);
+
+    return {
+        data: data?.rows,
+        page: data?.page,
+        limit: data?.limit,
+        count: data?.count,
+        loading,
+        reload,
+    };
+};
+
 export const usePutData = async (endpoint, data) => {
     return await queryApi(
         endpoint,
