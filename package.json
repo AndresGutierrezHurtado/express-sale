@@ -6,13 +6,16 @@
     "scripts": {
         "test": "echo \"Error: no test specified\" && exit 1",
         "dev": "npm run dev --prefix client",
-        "server": "npm run server --prefix server"
+        "server": "npm run server --prefix server",
+        "download": "npm install --prefix client && npm install --prefix server"
     },
     "repository": {
         "type": "git",
         "url": "git+https://github.com/AndresGutierrezHurtado/express-sale-react.git"
     },
-    "keywords": ["e-commerce"],
+    "keywords": [
+        "e-commerce"
+    ],
     "author": "Andrés Gutiérrez Hurtado",
     "license": "ISC",
     "bugs": {
