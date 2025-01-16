@@ -2,10 +2,12 @@ import Swal from "sweetalert2";
 import { useState, useEffect } from "react";
 import { useLocation } from "react-router-dom";
 
+const API_URL = import.meta.env.VITE_API_URL;
+
 // Convertir useQuery en una función regular
 const queryApi = async (endpoint, options, showSuccessMessage = false) => {
     try {
-        const response = await fetch(`${import.meta.env.VITE_API_URL}${endpoint}`, options);
+        const response = await fetch(`${API_URL}${endpoint}`, options);
         const result = await response.json();
 
         if (result.success && showSuccessMessage) {
@@ -61,6 +63,41 @@ export const useGetData = (endpoint) => {
     const reload = () => setTrigger((prev) => prev + 1);
 
     return { data, loading, reload };
+};
+
+export const usePaginateData = (endpoint) => {
+    const [data, setData] = useState(null);
+    const [loading, setLoading] = useState(true);
+    const [trigger, setTrigger] = useState(0);
+    const location = useLocation();
+
+    useEffect(() => {
+        const fetchData = async () => {
+            const result = await queryApi(endpoint, {
+                method: "GET",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                credentials: "include",
+            });
+            if (result) {
+                setData(result.data);
+            }
+            setLoading(false);
+        };
+        fetchData();
+    }, [endpoint, trigger, location]);
+
+    const reload = () => setTrigger((prev) => prev + 1);
+
+    return {
+        data: data?.rows,
+        page: data?.page,
+        limit: data?.limit,
+        count: data?.count,
+        loading,
+        reload,
+    };
 };
 
 export const usePutData = async (endpoint, data) => {
