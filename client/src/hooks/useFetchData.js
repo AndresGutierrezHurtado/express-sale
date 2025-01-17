@@ -26,11 +26,11 @@ const queryApi = async (endpoint, options, showSuccessMessage = false) => {
 
         return result;
     } catch (error) {
-        console.error("Error al realizar la petición:", error);
+        console.error("Error al realizar la petición: ", error);
         Swal.fire({
             icon: "error",
             title: "Error",
-            text: "Hubo un error en la petición",
+            text: "Hubo un error en la petición: " + error.message,
         });
         return undefined;
     }

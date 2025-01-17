@@ -30,7 +30,7 @@ app.use(express.json({ limit: "20mb" }));
 app.use(morgan("dev"));
 app.use(
     cors({
-        origin: process.env.EXPO_PUBLIC_APP_DOMAIN,
+        origin: process.env.VITE_APP_DOMAIN,
         credentials: true,
     })
 );

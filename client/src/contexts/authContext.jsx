@@ -12,7 +12,7 @@ const AuthContext = createContext();
 export const useAuthContext = () => useContext(AuthContext);
 
 export function AuthProvider({ children }) {
-    const { loading, data: userSession, reload } = useGetData("/user/session");
+    const { loading, data: userSession, reload } = useGetData("/auth/session");
     const navigate = useNavigate();
 
     const handleLogout = () => {

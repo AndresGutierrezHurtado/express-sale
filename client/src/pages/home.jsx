@@ -10,7 +10,7 @@ import { VerticalProductCard } from "@components/verticalProductcard";
 import ContentLoading from "@components/contentLoading.jsx";
 
 // Hooks
-import { useGetData, usePostData } from "@hooks/useFetchData.js";
+import { usePaginateData, usePostData } from "@hooks/useFetchData.js";
 import { useValidateform } from "@hooks/useValidateForm.js";
 import { useEffect } from "react";
 
@@ -23,7 +23,7 @@ export default function Home() {
         loading: loadingProducts,
         data: products,
         reload: reloadProducts,
-    } = useGetData("/products");
+    } = usePaginateData("/products");
 
     const handleContactFormSubmit = async (event) => {
         event.preventDefault();
@@ -163,9 +163,9 @@ export default function Home() {
                             }}
                             className="py-10"
                         >
-                            {products.rows.map((product) => (
+                            {products.map((product) => (
                                 <SwiperSlide
-                                    key={product.producto_id}
+                                    key={product.product_id}
                                     className="flex items-center justify-center"
                                 >
                                     <VerticalProductCard
