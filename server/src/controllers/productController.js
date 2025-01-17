@@ -1,25 +1,18 @@
-import * as models from "../models/relations.js";
-import sequelize from "../config/database.js";
+import * as models from "../models/index.js";
+import sequelize from "../configs/database.js";
 import { Op } from "sequelize";
 import crypto from "crypto";
-import { deleteFile, uploadFile } from "../config/uploadImage.js";
+import { deleteFile, uploadFile } from "../configs/uploadImage.js";
 
 export default class ProductController {
     static createProduct = async (req, res) => {
         try {
-            let productData = {
-                producto_id: crypto.randomUUID(),
-                usuario_id: req.session.usuario_id,
-                ...req.body.product,
-            };
-            const product = await models.Product.create(productData);
+            const productId = crypto.randomUUID();
 
-            if (req.body.producto_imagen) {
-                const response = await uploadFile(
-                    req.body.producto_imagen,
-                    product.producto_id,
-                    "/products"
-                );
+            if (req.body.product_image) {
+                const response = await uploadFile(req.body.product_image, productId, "/products");
+
+                req.body.product.product_image_url = response.data;
 
                 if (!response.success)
                     return res.status(500).json({
@@ -27,26 +20,13 @@ export default class ProductController {
                         message: response.message || "Error al subir a la nube la imagen",
                         data: null,
                     });
-
-                const responseUpdate = await models.Product.update(
-                    {
-                        producto_imagen_url: response.data.secure_url || response.data.url,
-                    },
-                    {
-                        where: {
-                            producto_id: product.producto_id,
-                        },
-                    }
-                );
-
-                if (responseUpdate[0] < 1) {
-                    return res.status(500).json({
-                        success: false,
-                        message: responseUpdate.message || "Error al guardar en la nube la imagen",
-                        data: null,
-                    });
-                }
             }
+
+            const product = await models.Product.create({
+                ...req.body.product,
+                product_id: productId,
+                user_id: req.session.user_id,
+            });
 
             res.status(200).json({
                 success: true,
@@ -63,26 +43,30 @@ export default class ProductController {
 
     static updateProduct = async (req, res) => {
         try {
-            let productData = req.body.product;
-            if (req.body.producto_imagen) {
+            const transaction = await sequelize.transaction();
+
+            if (req.body.product_image) {
                 const response = await uploadFile(
-                    req.body.producto_imagen,
+                    req.body.product_image,
                     req.params.id,
                     "/products"
                 );
-                if (response.success)
-                    productData.producto_imagen_url = response.data.secure_url || response.data.url;
-                else
+
+                if (response.success) req.body.product.product_image_url = response.data;
+                else {
+                    await transaction.rollback();
                     return res.status(500).json({
                         success: false,
                         message: response.message || "Error al subir la imagen",
                         data: null,
                     });
+                }
             }
 
-            if (req.body.multimedias.length > 0) {
-                req.body.multimedias.forEach(async (multimedia) => {
+            if (req.body.product_medias.length > 0) {
+                for (const multimedia of req.body.product_medias) {
                     const multimediaId = crypto.randomUUID();
+
                     const response = await uploadFile(
                         multimedia,
                         multimediaId,
@@ -90,31 +74,42 @@ export default class ProductController {
                     );
 
                     if (response.success)
-                        await models.Media.create({
-                            multimedia_id: multimediaId,
-                            multimedia_url: response.data.secure_url || response.data.url,
-                            producto_id: req.params.id,
-                        });
-                    else
+                        await models.Media.create(
+                            {
+                                media_id: multimediaId,
+                                media_url: response.data,
+                                product_id: req.params.id,
+                            },
+                            { transaction }
+                        );
+                    else {
+                        await transaction.rollback();
                         return res.status(500).json({
                             success: false,
                             message: response.message || "Error al subir la imagen",
                             data: null,
                         });
-                });
+                    }
+                }
             }
 
-            const product = await models.Product.update(productData, {
+            const product = await models.Product.update(req.body.product, {
                 where: {
-                    producto_id: req.params.id,
+                    product_id: req.params.id,
                 },
+                transaction,
             });
+
+            await transaction.commit();
             res.status(200).json({
                 success: true,
                 message: "Producto actualizado correctamente",
                 data: product,
             });
         } catch (error) {
+            await transaction.rollback();
+            console.log(error);
+
             res.status(404).json({
                 success: false,
                 message: error.message,
@@ -126,9 +121,10 @@ export default class ProductController {
         try {
             const product = await models.Product.destroy({
                 where: {
-                    producto_id: req.params.id,
+                    product_id: req.params.id,
                 },
             });
+
             res.status(200).json({
                 success: true,
                 message: "Producto eliminado correctamente",
@@ -144,46 +140,66 @@ export default class ProductController {
 
     static getProducts = async (req, res) => {
         try {
+            const limit = parseInt(req.query.limit || 5);
+            const page = parseInt(req.query.page || 1);
+            const offset = (page - 1) * limit;
+
+            const where = {
+                [Op.and]: [
+                    {
+                        product_status: "publico",
+                    },
+                    {
+                        [Op.or]: [
+                            {
+                                product_name: {
+                                    [Op.like]: `%${req.query.search || ""}%`,
+                                },
+                            },
+                            {
+                                product_description: {
+                                    [Op.like]: `%${req.query.search || ""}%`,
+                                },
+                            },
+                            {
+                                "$user.user_name$": {
+                                    [Op.like]: `%${req.query.search || ""}%`,
+                                },
+                            },
+                            {
+                                "$user.user_lastname$": {
+                                    [Op.like]: `%${req.query.search || ""}%`,
+                                },
+                            },
+                            {
+                                "$user.user_alias$": {
+                                    [Op.like]: `%${req.query.search || ""}%`,
+                                },
+                            },
+                        ],
+                    },
+                    {
+                        product_price: {
+                            [Op.gte]: req.query.min || 0,
+                        },
+                    },
+                    {
+                        product_price: {
+                            [Op.lte]: req.query.max || 9999999999,
+                        },
+                    },
+                    {
+                        category_id: {
+                            [Op.in]: req.query.category_id ? [req.query.category_id] : [1, 2, 3, 4],
+                        },
+                    },
+                ],
+            };
+
+            const querySort = req.query?.sort?.split(":") || ["`average_rating`", "DESC"];
+            const order = [sequelize.literal(querySort[0]), querySort[1]];
+
             const products = await models.Product.findAndCountAll({
-                where: {
-                    [Op.and]: [
-                        {
-                            producto_estado: "publico",
-                        },
-                        {
-                            [Op.or]: [
-                                {
-                                    producto_nombre: {
-                                        [Op.like]: `%${req.query.search || ""}%`,
-                                    },
-                                },
-                                {
-                                    producto_descripcion: {
-                                        [Op.like]: `%${req.query.search || ""}%`,
-                                    },
-                                },
-                            ],
-                        },
-                        {
-                            producto_precio: {
-                                [Op.gte]: req.query.min || 0,
-                            },
-                        },
-                        {
-                            producto_precio: {
-                                [Op.lte]: req.query.max || 9999999999,
-                            },
-                        },
-                        {
-                            categoria_id: {
-                                [Op.in]: req.query.category ? [req.query.category] : [1, 2, 3, 4],
-                            },
-                        },
-                    ],
-                },
-                limit: parseInt(req.query.limit || 5),
-                offset: req.query.page ? (req.query.page - 1) * 5 : 0,
-                distinct: true,
                 include: [
                     "category",
                     {
@@ -195,38 +211,35 @@ export default class ProductController {
                     include: [
                         [
                             sequelize.literal(`(
-                                SELECT COALESCE(ROUND(AVG(calificaciones.calificacion), 2), 0)
-                                FROM calificaciones
-                                INNER JOIN calificaciones_productos ON calificaciones.calificacion_id = calificaciones_productos.calificacion_id
-                                WHERE calificaciones_productos.producto_id = Product.producto_id
+                                SELECT COALESCE(ROUND(AVG(ratings.rating_value), 2), 0)
+                                FROM ratings
+                                INNER JOIN product_ratings ON ratings.rating_id = product_ratings.rating_id
+                                WHERE product_ratings.product_id = Product.product_id
                             )`),
-                            "calificacion_promedio",
+                            "average_rating",
                         ],
                         [
                             sequelize.literal(`(
                                 SELECT COALESCE(COUNT(*), 0)
-                                FROM calificaciones
-                                INNER JOIN calificaciones_productos ON calificaciones.calificacion_id = calificaciones_productos.calificacion_id
-                                WHERE calificaciones_productos.producto_id = Product.producto_id
+                                FROM ratings
+                                INNER JOIN product_ratings ON ratings.rating_id = product_ratings.rating_id
+                                WHERE product_ratings.product_id = Product.product_id
                             )`),
-                            "calificacion_cantidad",
+                            "ratings_count",
                         ],
                     ],
                 },
-                order: [
-                    [
-                        req.query.sort
-                            ? req.query.sort.split(":")[0]
-                            : sequelize.literal("`calificacion_promedio`"),
-                        req.query.sort ? req.query.sort.split(":")[1] : "DESC",
-                    ],
-                ],
+                where,
+                limit,
+                offset,
+                distinct: true,
+                order: [order],
             });
 
             res.status(200).json({
                 success: true,
                 message: "Listado de productos.",
-                data: products,
+                data: { ...products, limit, page, offset },
             });
         } catch (error) {
             res.status(500).json({
@@ -244,27 +257,27 @@ export default class ProductController {
                     include: [
                         [
                             sequelize.literal(`(
-                                SELECT COALESCE(ROUND(AVG(calificaciones.calificacion), 2), 0)
-                                FROM calificaciones
-                                INNER JOIN calificaciones_productos ON calificaciones.calificacion_id = calificaciones_productos.calificacion_id
-                                WHERE calificaciones_productos.producto_id = Product.producto_id
+                                SELECT COALESCE(ROUND(AVG(ratings.rating_value), 2), 0)
+                                FROM ratings
+                                INNER JOIN product_ratings ON ratings.rating_id = product_ratings.rating_id
+                                WHERE product_ratings.product_id = Product.product_id
                             )`),
-                            "calificacion_promedio",
+                            "average_rating",
                         ],
                         [
                             sequelize.literal(`(
                                 SELECT COALESCE(COUNT(*), 0)
-                                FROM calificaciones
-                                INNER JOIN calificaciones_productos ON calificaciones.calificacion_id = calificaciones_productos.calificacion_id
-                                WHERE calificaciones_productos.producto_id = Product.producto_id
+                                FROM ratings
+                                INNER JOIN product_ratings ON ratings.rating_id = product_ratings.rating_id
+                                WHERE product_ratings.product_id = Product.product_id
                             )`),
-                            "calificacion_cantidad",
+                            "ratings_count",
                         ],
                     ],
                 },
                 include: [
                     "category",
-                    "media",
+                    "medias",
                     { model: models.User, as: "user", include: ["worker"] },
                 ],
             });
@@ -311,13 +324,14 @@ export default class ProductController {
     };
 
     static deleteMultimedia = async (req, res) => {
-        const t = await sequelize.transaction();
+        const transaction = await sequelize.transaction();
+
         try {
             await models.Media.destroy({
                 where: {
-                    multimedia_id: req.params.id,
+                    media_id: req.params.id,
                 },
-                transaction: t,
+                transaction,
             });
 
             const response = await deleteFile(`express-sale/products/multimedia/${req.params.id}`);
@@ -326,14 +340,16 @@ export default class ProductController {
                 throw new Error(response.message);
             }
 
-            await t.commit();
+            await transaction.commit();
+
             res.status(200).json({
                 success: true,
                 message: "Imagen eliminada correctamente",
                 data: null,
             });
         } catch (error) {
-            await t.rollback();
+            await transaction.rollback();
+
             res.status(404).json({
                 success: false,
                 message: error.message,

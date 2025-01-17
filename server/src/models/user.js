@@ -1,62 +1,62 @@
 import { DataTypes } from "sequelize";
-import sequelize from "../config/database.js";
+import sequelize from "../configs/database.js";
 
 export const User = sequelize.define(
     "User",
     {
-        usuario_id: {
-            type: DataTypes.STRING(60),
+        user_id: {
+            type: DataTypes.UUID,
+            defaultValue: DataTypes.UUIDV4,
             primaryKey: true,
         },
-        usuario_nombre: {
+        user_name: {
             type: DataTypes.STRING(100),
             allowNull: false,
         },
-        usuario_apellido: {
+        user_lastname: {
             type: DataTypes.STRING(100),
             allowNull: false,
         },
-        usuario_correo: {
+        user_email: {
             type: DataTypes.STRING(255),
             allowNull: false,
             unique: true,
         },
-        usuario_alias: {
+        user_alias: {
             type: DataTypes.STRING(50),
             allowNull: false,
-            unique: true,
         },
-        usuario_telefono: {
+        user_phone: {
             type: DataTypes.DECIMAL(10, 0),
             unique: true,
         },
-        usuario_direccion: {
+        user_address: {
             type: DataTypes.TEXT,
         },
-        usuario_contra: {
+        user_password: {
             type: DataTypes.TEXT,
             allowNull: false,
         },
-        usuario_creacion: {
+        user_date: {
             type: DataTypes.DATE,
             defaultValue: DataTypes.NOW,
         },
-        usuario_actualizacion: {
+        user_update: {
             type: DataTypes.DATE,
             defaultValue: DataTypes.NOW,
             onUpdate: DataTypes.NOW,
         },
-        usuario_imagen_url: {
+        user_image_url: {
             type: DataTypes.STRING(255),
             defaultValue: "/images/default.jpg",
         },
-        rol_id: {
+        role_id: {
             type: DataTypes.INTEGER,
             defaultValue: 1,
         },
     },
     {
-        tableName: "usuarios",
+        tableName: "users",
         timestamps: false,
     }
 );
@@ -64,12 +64,12 @@ export const User = sequelize.define(
 export const Role = sequelize.define(
     "Role",
     {
-        rol_id: {
+        role_id: {
             type: DataTypes.INTEGER,
             primaryKey: true,
             autoIncrement: true,
         },
-        rol_nombre: {
+        role_name: {
             type: DataTypes.STRING(50),
             allowNull: false,
         },
@@ -83,25 +83,28 @@ export const Role = sequelize.define(
 export const Worker = sequelize.define(
     "Worker",
     {
-        trabajador_id: {
-            type: DataTypes.STRING(60),
+        worker_id: {
+            type: DataTypes.UUID,
+            defaultValue: DataTypes.UUIDV4,
             primaryKey: true,
         },
-        trabajador_descripcion: {
+        worker_description: {
             type: DataTypes.TEXT,
             defaultValue: "usuario nuevo.",
+            allowNull: false,
         },
-        trabajador_saldo: {
+        worker_balance: {
             type: DataTypes.DECIMAL(10, 0),
             defaultValue: 0,
+            allowNull: false,
         },
-        usuario_id: {
-            type: DataTypes.STRING(60),
+        user_id: {
+            type: DataTypes.UUID,
             allowNull: false,
         },
     },
     {
-        tableName: "trabajadores",
+        tableName: "workers",
         timestamps: false,
     }
 );
@@ -109,25 +112,27 @@ export const Worker = sequelize.define(
 export const Recovery = sequelize.define(
     "Recovery",
     {
-        recuperacion_id: {
-            type: DataTypes.STRING(60),
+        recovery_id: {
+            type: DataTypes.UUID,
             primaryKey: true,
         },
-        usuario_id: {
-            type: DataTypes.STRING(60),
+        user_id: {
+            type: DataTypes.UUID,
+            allowNull: false,
+        },
+        recovery_status: {
+            type: DataTypes.ENUM("pending", "completed"),
+            defaultValue: "pending",
             allowNull: false,
         },
         fecha_creacion: {
             type: DataTypes.DATE,
             defaultValue: DataTypes.NOW,
-        },
-        fecha_expiracion: {
-            type: DataTypes.DATE,
-            defaultValue: () => new Date(new Date().getTime() + 60 * 60 * 1000),
+            allowNull: false,
         },
     },
     {
-        tableName: "recuperacion_cuentas",
+        tableName: "recoveries",
         timestamps: false,
     }
 );
@@ -136,7 +141,7 @@ export const Session = sequelize.define(
     "Session",
     {
         sid: {
-            type: DataTypes.STRING(60),
+            type: DataTypes.UUID,
             primaryKey: true,
         },
         expires: {
@@ -149,7 +154,7 @@ export const Session = sequelize.define(
         },
     },
     {
-        tableName: "sesiones",
+        tableName: "sessions",
         timestamps: true,
     }
 );
@@ -157,26 +162,27 @@ export const Session = sequelize.define(
 export const Cart = sequelize.define(
     "Cart",
     {
-        carrito_id: {
-            type: DataTypes.STRING(60),
+        cart_id: {
+            type: DataTypes.UUID,
+            defaultValue: DataTypes.UUIDV4,
             primaryKey: true,
         },
-        usuario_id: {
-            type: DataTypes.STRING(60),
+        user_id: {
+            type: DataTypes.UUID,
             allowNull: false,
         },
-        producto_id: {
-            type: DataTypes.STRING(60),
+        product_id: {
+            type: DataTypes.UUID,
             allowNull: false,
         },
-        producto_cantidad: {
+        product_quantity: {
             type: DataTypes.INTEGER,
             allowNull: false,
             defaultValue: 1,
         },
     },
     {
-        tableName: "carritos",
+        tableName: "carts",
         timestamps: false,
     }
 );
@@ -184,25 +190,26 @@ export const Cart = sequelize.define(
 export const Withdrawal = sequelize.define(
     "Withdrawal",
     {
-        retiro_id: {
-            type: DataTypes.STRING(60),
+        withdrawal_id: {
+            type: DataTypes.UUID,
+            defaultValue: DataTypes.UUIDV4,
             primaryKey: true,
         },
-        trabajador_id: {
-            type: DataTypes.STRING(60),
+        worker_id: {
+            type: DataTypes.UUID,
             allowNull: false,
         },
-        retiro_valor: {
+        withdrawal_amount: {
             type: DataTypes.DECIMAL(10, 0),
             allowNull: false,
         },
-        retiro_fecha: {
+        withdrawal_date: {
             type: DataTypes.DATE,
             defaultValue: DataTypes.NOW,
         },
     },
     {
-        tableName: "retiros",
+        tableName: "withdrawals",
         timestamps: false,
     }
 );

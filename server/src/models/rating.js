@@ -1,36 +1,39 @@
 import { DataTypes } from "sequelize";
-import sequelize from "../config/database.js";
+import sequelize from "../configs/database.js";
 
 const Rating = sequelize.define(
     "Rating",
     {
-        calificacion_id: {
-            type: DataTypes.STRING(60),
+        rating_id: {
+            type: DataTypes.UUID,
+            defaultValue: DataTypes.UUIDV4,
             primaryKey: true,
         },
-        calificacion_comentario: {
+        rating_comment: {
             type: DataTypes.TEXT,
             allowNull: false,
         },
-        calificacion_imagen_url: {
+        rating_image_url: {
             type: DataTypes.STRING(255),
             allowNull: true,
         },
-        calificacion_fecha: {
-            type: DataTypes.DATE,
-            defaultValue: DataTypes.NOW,
-        },
-        calificacion: {
+        rating_value: {
             type: DataTypes.INTEGER,
+            defaultValue: 1,
             allowNull: false,
         },
-        usuario_id: {
-            type: DataTypes.STRING(60),
+        rating_date: {
+            type: DataTypes.DATE,
+            defaultValue: DataTypes.NOW,
+            allowNull: false,
+        },
+        user_id: {
+            type: DataTypes.UUID,
             allowNull: false,
         },
     },
     {
-        tableName: "calificaciones",
+        tableName: "ratings",
         timestamps: false,
     }
 );
@@ -38,15 +41,15 @@ const Rating = sequelize.define(
 const ProductsCalifications = sequelize.define(
     "productsCalifications",
     {
-        calificacion_id: {
-            type: DataTypes.STRING(60),
+        rating_id: {
+            type: DataTypes.UUID,
         },
-        producto_id: {
-            type: DataTypes.STRING(60),
+        product_id: {
+            type: DataTypes.UUID,
         },
     },
     {
-        tableName: "calificaciones_productos",
+        tableName: "product_ratings",
         timestamps: false,
     }
 );
@@ -54,15 +57,15 @@ const ProductsCalifications = sequelize.define(
 const UsersCalifications = sequelize.define(
     "usersCalifications",
     {
-        calificacion_id: {
-            type: DataTypes.STRING(60),
+        rating_id: {
+            type: DataTypes.UUID,
         },
-        usuario_id: {
-            type: DataTypes.STRING(60),
+        user_id: {
+            type: DataTypes.UUID,
         },
     },
     {
-        tableName: "calificaciones_usuarios",
+        tableName: "user_ratings",
         timestamps: false,
     }
 );

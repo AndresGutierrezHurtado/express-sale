@@ -1,24 +1,24 @@
 import { DataTypes } from "sequelize";
-import sequelize from "../config/database.js";
+import sequelize from "../configs/database.js";
 
-// Modelo para la tabla Pedidos (Order)
 const Order = sequelize.define(
     "Order",
     {
-        pedido_id: {
-            type: DataTypes.STRING(60),
+        order_id: {
+            type: DataTypes.UUID,
+            defaultValue: DataTypes.UUIDV4,
             primaryKey: true,
         },
-        usuario_id: {
-            type: DataTypes.STRING(60),
+        user_id: {
+            type: DataTypes.UUID,
             allowNull: false,
         },
-        pedido_fecha: {
+        order_date: {
             type: DataTypes.DATE,
             allowNull: false,
             defaultValue: DataTypes.NOW,
         },
-        pedido_estado: {
+        order_status: {
             type: DataTypes.ENUM(
                 "pendiente",
                 "enviando",
@@ -30,135 +30,138 @@ const Order = sequelize.define(
         },
     },
     {
-        tableName: "pedidos", // Nombre exacto de la tabla
+        tableName: "orders",
         timestamps: false,
     }
 );
 
-// Modelo para la tabla Detalles de Pagos (PaymentDetails)
 const PaymentDetails = sequelize.define(
     "PaymentDetails",
     {
-        pago_id: {
-            type: DataTypes.STRING(60),
+        payment_id: {
+            type: DataTypes.UUID,
+            defaultValue: DataTypes.UUIDV4,
             primaryKey: true,
         },
-        pedido_id: {
-            type: DataTypes.STRING(60),
+        order_id: {
+            type: DataTypes.UUID,
             allowNull: false,
         },
-        pago_metodo: {
-            type: DataTypes.STRING(100),
-            allowNull: false,
-        },
-        pago_valor: {
-            type: DataTypes.DECIMAL(10, 0),
-            allowNull: false,
-        },
-        comprador_nombre: {
-            type: DataTypes.STRING(100),
-            allowNull: false,
-        },
-        comprador_correo: {
+        payu_reference: {
             type: DataTypes.STRING(255),
             allowNull: false,
         },
-        comprador_tipo_documento: {
+        payment_method: {
+            type: DataTypes.STRING(100),
+            allowNull: false,
+        },
+        payment_amount: {
+            type: DataTypes.DECIMAL(10, 0),
+            allowNull: false,
+        },
+        buyer_name: {
+            type: DataTypes.STRING(100),
+            allowNull: false,
+        },
+        buyer_email: {
+            type: DataTypes.STRING(255),
+            allowNull: false,
+        },
+        buyer_document_type: {
             type: DataTypes.ENUM("CC", "CE", "TI", "PPN", "NIT", "SSN", "EIN"),
             allowNull: false,
             defaultValue: "CC",
         },
-        comprador_numero_documento: {
+        buyer_document_number: {
             type: DataTypes.DECIMAL(10, 0),
             allowNull: false,
         },
-        comprador_telefono: {
+        buyer_phone: {
             type: DataTypes.DECIMAL(10, 0),
-            allowNull: false,
-        },
-        payu_referencia: {
-            type: DataTypes.STRING(255),
             allowNull: false,
         }
     },
     {
-        tableName: "detalles_pagos",
+        tableName: "payment_details",
         timestamps: false,
     }
 );
 
-// Modelo para la tabla Detalles de Envíos (ShippingDetails)
 const ShippingDetails = sequelize.define(
     "ShippingDetails",
     {
-        envio_id: {
-            type: DataTypes.STRING(60),
+        shipping_id: {
+            type: DataTypes.UUID,
+            defaultValue: DataTypes.UUIDV4,
             primaryKey: true,
         },
-        pedido_id: {
-            type: DataTypes.STRING(60),
+        order_id: {
+            type: DataTypes.UUID,
             allowNull: false,
         },
-        trabajador_id: {
-            type: DataTypes.STRING(60),
+        worker_id: {
+            type: DataTypes.UUID,
         },
-        envio_direccion: {
+        shipping_address: {
             type: DataTypes.TEXT,
             allowNull: false,
         },
-        envio_coordenadas: {
+        shipping_coordinates: {
             type: DataTypes.STRING(100),
+            allowNull: false,
         },
-        fecha_inicio: {
+        shipping_start: {
             type: DataTypes.DATE,
             allowNull: false,
             defaultValue: DataTypes.NOW,
         },
-        fecha_entrega: {
+        shipping_end: {
             type: DataTypes.DATE,
             allowNull: false,
             defaultValue: DataTypes.NOW,
         },
-        envio_valor: {
+        shipping_cost: {
             type: DataTypes.DECIMAL(10, 0),
+            allowNull: false,
         },
-        envio_mensaje: {
+        shipping_message: {
             type: DataTypes.TEXT,
+            allowNull: false,
         },
     },
     {
-        tableName: "detalles_envios",
+        tableName: "shipping_details",
         timestamps: false,
     }
 );
 
-// Modelo para la tabla Productos y Pedidos (OrderProduct)
 const OrderProduct = sequelize.define(
     "OrderProduct",
     {
-        pedido_id: {
-            type: DataTypes.STRING(60),
+        order_id: {
+            type: DataTypes.UUID,
             allowNull: false,
             primaryKey: true,
         },
-        producto_id: {
-            type: DataTypes.STRING(60),
+        product_id: {
+            type: DataTypes.UUID,
             allowNull: false,
             primaryKey: true,
         },
-        producto_precio: {
+        product_price: {
             type: DataTypes.DECIMAL(10, 0),
             allowNull: false,
         },
-        producto_cantidad: {
+        product_quantity: {
             type: DataTypes.INTEGER,
             allowNull: false,
         },
     },
     {
-        tableName: "productos_pedidos",
+        tableName: "order_products",
         timestamps: false,
     }
 );
 
 export { Order, PaymentDetails, ShippingDetails, OrderProduct };
+

@@ -1,24 +1,36 @@
 {
-    "name": "server",
+    "name": "express-sale-api",
     "version": "1.0.0",
-    "main": "src/index.js",
+    "description": "express sale API",
+    "main": "./src/index.js",
+    "type": "module",
     "scripts": {
         "test": "echo \"Error: no test specified\" && exit 1",
-        "server": "node --env-file=.env --watch src/index.js"
+        "server": "node --env-file=.env --watch ./src/index.js"
     },
-    "keywords": [],
-    "author": "",
+    "keywords": [
+        "api",
+        "express",
+        "node"
+    ],
+    "author": "Andrés Gutiérrez Hurtado",
     "license": "ISC",
-    "type": "module",
-    "description": "",
     "dependencies": {
+        "bcrypt": "^5.1.1",
+        "cloudinary": "^2.5.1",
         "connect-session-sequelize": "^7.1.7",
         "cors": "^2.8.5",
         "express": "^4.21.2",
-        "express-sale": "file:..",
+        "express-sale-mobile": "file:..",
         "express-session": "^1.18.1",
+        "morgan": "^1.10.0",
+        "mysql2": "^3.11.5",
+        "nodemailer": "^6.9.16",
+        "passport": "^0.7.0",
+        "passport-facebook": "^3.0.0",
+        "passport-github2": "^0.1.12",
+        "passport-google-oauth20": "^2.0.0",
         "sequelize": "^6.37.5",
-        "socket.io": "^4.8.1",
-        "socket.io-client": "^4.8.1"
+        "socket.io": "^4.8.1"
     }
 }

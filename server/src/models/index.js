@@ -1,30 +1,30 @@
 // Models
-import { User, Role, Worker, Recovery, Session, Cart, Withdrawal } from "./user.model.js";
-import { Product, Media, Category } from "./product.model.js";
-import { Order, PaymentDetails, ShippingDetails, OrderProduct } from "./order.model.js";
-import { Rating, ProductsCalifications, UsersCalifications } from "./rating.model.js";
+import { User, Role, Worker, Recovery, Session, Cart, Withdrawal } from "./user.js";
+import { Order, PaymentDetails, ShippingDetails, OrderProduct } from "./order.js";
+import { Rating, ProductsCalifications, UsersCalifications } from "./rating.js";
+import { Product, Media, Category } from "./product.js";
 
 // ------ USER ASSOCIATIONS ----- //
 
 // User to Product: One-to-Many
 User.hasMany(Product, {
-    foreignKey: "usuario_id",
+    foreignKey: "user_id",
     as: "products",
     onDelete: "CASCADE",
     onUpdate: "CASCADE",
 });
 Product.belongsTo(User, {
-    foreignKey: "usuario_id",
+    foreignKey: "user_id",
     as: "user",
 });
 
 // User to Role: One-to-Many
 User.belongsTo(Role, {
-    foreignKey: "rol_id",
+    foreignKey: "role_id",
     as: "role",
 });
 Role.hasMany(User, {
-    foreignKey: "rol_id",
+    foreignKey: "role_id",
     as: "users",
     onDelete: "CASCADE",
     onUpdate: "CASCADE",
@@ -32,99 +32,99 @@ Role.hasMany(User, {
 
 // User to Recovery: One-to-Many
 User.hasMany(Recovery, {
-    foreignKey: "usuario_id",
+    foreignKey: "user_id",
     as: "recovery",
     onDelete: "CASCADE",
     onUpdate: "CASCADE",
 });
 Recovery.belongsTo(User, {
-    foreignKey: "usuario_id",
+    foreignKey: "user_id",
     as: "user",
 });
 
 // User to Worker: One-to-One
 User.hasOne(Worker, {
-    foreignKey: "usuario_id",
+    foreignKey: "user_id",
     as: "worker",
     onDelete: "CASCADE",
     onUpdate: "CASCADE",
 });
 Worker.belongsTo(User, {
-    foreignKey: "usuario_id",
+    foreignKey: "user_id",
     as: "user",
 });
 
 // User to Order: One-to-Many
 User.hasMany(Order, {
-    foreignKey: "usuario_id",
+    foreignKey: "user_id",
     as: "orders",
     onDelete: "CASCADE",
     onUpdate: "CASCADE",
 });
 Order.belongsTo(User, {
-    foreignKey: "usuario_id",
+    foreignKey: "user_id",
     as: "user",
 });
 
 // User to Rating: Many-to-Many
 User.belongsToMany(Rating, {
     through: UsersCalifications,
-    foreignKey: "usuario_id",
-    otherKey: "calificacion_id",
+    foreignKey: "user_id",
+    otherKey: "rating_id",
     as: "ratings",
 });
 Rating.belongsToMany(User, {
     through: UsersCalifications,
-    foreignKey: "calificacion_id",
-    otherKey: "usuario_id",
+    foreignKey: "rating_id",
+    otherKey: "user_id",
     as: "users",
 });
 
 // User to Rating: One-to-Many
 User.hasMany(Rating, {
-    foreignKey: "usuario_id",
+    foreignKey: "user_id",
     as: "califications",
     onDelete: "CASCADE",
     onUpdate: "CASCADE",
 });
 Rating.belongsTo(User, {
-    foreignKey: "usuario_id",
+    foreignKey: "user_id",
     as: "calificator",
 });
 
 // Worker to Withdraw: One-to-Many
 Worker.hasMany(Withdrawal, {
-    foreignKey: "trabajador_id",
+    foreignKey: "worker_id",
     as: "withdrawals",
     onDelete: "CASCADE",
     onUpdate: "CASCADE",
 });
 Withdrawal.belongsTo(Worker, {
-    foreignKey: "trabajador_id",
+    foreignKey: "worker_id",
     as: "worker",
 });
 
 // User to Cart: One-to-Many
 User.hasMany(Cart, {
-    foreignKey: "usuario_id",
+    foreignKey: "user_id",
     as: "carts",
     onDelete: "CASCADE",
     onUpdate: "CASCADE",
 });
 Cart.belongsTo(User, {
-    foreignKey: "usuario_id",
+    foreignKey: "user_id",
     as: "user",
 });
 
 // Product to Cart: One-to-Many
 Product.hasMany(Cart, {
-    foreignKey: "producto_id",
+    foreignKey: "product_id",
     as: "carts",
     onDelete: "CASCADE",
     onUpdate: "CASCADE",
 });
 Cart.belongsTo(Product, {
-    foreignKey: "producto_id",
+    foreignKey: "product_id",
     as: "product",
 });
 
@@ -132,11 +132,11 @@ Cart.belongsTo(Product, {
 
 // Product to Category: One-to-Many
 Product.belongsTo(Category, {
-    foreignKey: "categoria_id",
+    foreignKey: "category_id",
     as: "category",
 });
 Category.hasMany(Product, {
-    foreignKey: "categoria_id",
+    foreignKey: "category_id",
     as: "products",
     onDelete: "CASCADE",
     onUpdate: "CASCADE",
@@ -144,27 +144,27 @@ Category.hasMany(Product, {
 
 // Product to Media: One-to-Many
 Product.hasMany(Media, {
-    foreignKey: "producto_id",
-    as: "media",
+    foreignKey: "product_id",
+    as: "medias",
     onDelete: "CASCADE",
     onUpdate: "CASCADE",
 });
 Media.belongsTo(Product, {
-    foreignKey: "producto_id",
+    foreignKey: "product_id",
     as: "product",
 });
 
 // Product to Rating: Many-to-Many
 Product.belongsToMany(Rating, {
     through: ProductsCalifications,
-    foreignKey: "producto_id",
-    otherKey: "calificacion_id",
+    foreignKey: "product_id",
+    otherKey: "rating_id",
     as: "ratings",
 });
 Rating.belongsToMany(Product, {
     through: ProductsCalifications,
-    foreignKey: "calificacion_id",
-    otherKey: "producto_id",
+    foreignKey: "rating_id",
+    otherKey: "product_id",
     as: "products",
 });
 
@@ -172,47 +172,51 @@ Rating.belongsToMany(Product, {
 
 // Order to PaymentDetails: One-to-One
 Order.hasOne(PaymentDetails, {
-    foreignKey: "pedido_id",
+    foreignKey: "order_id",
     as: "paymentDetails",
     onDelete: "CASCADE",
     onUpdate: "CASCADE",
 });
 PaymentDetails.belongsTo(Order, {
-    foreignKey: "pedido_id",
+    foreignKey: "order_id",
     as: "order",
 });
 
 // Order to ShippingDetails: One-to-One
 Order.hasOne(ShippingDetails, {
-    foreignKey: "pedido_id",
+    foreignKey: "order_id",
     as: "shippingDetails",
     onDelete: "CASCADE",
     onUpdate: "CASCADE",
 });
 ShippingDetails.belongsTo(Order, {
-    foreignKey: "pedido_id",
+    foreignKey: "order_id",
     as: "order",
 });
 
 // Order to OrderProduct: One-to-Many
 Order.hasMany(OrderProduct, {
-    foreignKey: "pedido_id",
+    foreignKey: "order_id",
     as: "orderProducts",
     onDelete: "CASCADE",
     onUpdate: "CASCADE",
 });
 OrderProduct.belongsTo(Order, {
-    foreignKey: "pedido_id",
+    foreignKey: "order_id",
     as: "order",
 });
 
 // OrderProduct to Product: Many-to-One
 OrderProduct.belongsTo(Product, {
-    foreignKey: "producto_id",
+    foreignKey: "product_id",
     as: "product",
 });
 Product.hasMany(OrderProduct, {
-    foreignKey: "producto_id",
+    foreignKey: "product_id",
+    as: "product",
+});
+Product.hasMany(OrderProduct, {
+    foreignKey: "product_id",
     as: "orderProducts",
     onDelete: "CASCADE",
     onUpdate: "CASCADE",
@@ -220,13 +224,13 @@ Product.hasMany(OrderProduct, {
 
 // Worker to ShippingDetails: One-to-Many
 Worker.hasMany(ShippingDetails, {
-    foreignKey: "trabajador_id",
+    foreignKey: "worker_id",
     as: "shippings",
     onDelete: "CASCADE",
     onUpdate: "CASCADE",
 });
 ShippingDetails.belongsTo(Worker, {
-    foreignKey: "trabajador_id",
+    foreignKey: "worker_id",
     as: "worker",
 });
 

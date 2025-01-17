@@ -1,19 +1,20 @@
 import { Router } from "express";
+import bcrypt from "bcrypt";
 
 import passport from "passport";
 import { Strategy as GoogleStrategy } from "passport-google-oauth20";
 import { Strategy as FacebookStrategy } from "passport-facebook";
 import { Strategy as GitHubStrategy } from "passport-github2";
 
-import * as models from "../models/relations.js";
+import * as models from "../models/index.js";
 
 passport.serializeUser((user, done) => {
-    done(null, user.usuario_id);
+    done(null, user.user_id);
 });
 
 passport.deserializeUser(async (id, done) => {
     try {
-        const user = await models.User.findOne({ where: { usuario_id: id } });
+        const user = await models.User.findByPk(id);
         done(null, user);
     } catch (error) {
         done(error, null);
@@ -25,32 +26,26 @@ passport.use(
         {
             clientID: process.env.GOOGLE_CLIENT_ID,
             clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-            callbackURL: process.env.VITE_API_URL + process.env.GOOGLE_REDIRECT_URI,
-            scope: ["profile", "email"],
+            callbackURL: process.env.GOOGLE_REDIRECT_URL,
         },
         async function (accessToken, refreshToken, profile, cb) {
-            let user = await models.User.findOne({
-                where: { usuario_correo: profile._json.email },
+            const info = profile._json;
+
+            const user = await models.User.findOrCreate({
+                where: {
+                    user_email: info.email,
+                },
+                defaults: {
+                    user_name: info.given_name,
+                    user_lastname: info.family_name,
+                    user_alias: info.name + "_" + info.family_name,
+                    user_email: info.email,
+                    user_image_url: info.picture,
+                    user_password: bcrypt.hashSync(info.sub, 10),
+                },
             });
 
-            if (user) return cb(null, user);
-
-            // Create new user
-            let newUser = models.User.create({
-                usuario_id: crypto.randomUUID(),
-                usuario_nombre: profile._json.given_name,
-                usuario_apellido: profile._json.family_name,
-                usuario_correo: profile._json.email,
-                usuario_alias:
-                    profile._json.given_name.split(" ")[0] +
-                    "_" +
-                    profile._json.family_name.split(" ")[0],
-                usuario_contra: profile._json.sub,
-                usuario_imagen_url: profile._json.picture,
-                rol_id: 1,
-            });
-
-            return cb(null, newUser);
+            return cb(null, user[0]);
         }
     )
 );
@@ -60,36 +55,31 @@ passport.use(
         {
             clientID: process.env.FACEBOOK_APP_ID,
             clientSecret: process.env.FACEBOOK_APP_SECRET,
-            callbackURL: process.env.VITE_API_URL + process.env.FACEBOOK_REDIRECT_URI,
+            callbackURL: process.env.FACEBOOK_REDIRECT_URL,
             profileFields: ["id", "email", "first_name", "last_name", "picture"],
         },
         async function (accessToken, refreshToken, profile, cb) {
-            if (!profile._json.email) {
+            const info = profile._json;
+
+            if (!info.email) {
                 return cb(new Error("Cuenta de Facebook sin correo electronico disponible"), null);
             }
 
-            let user = await models.User.findOne({
-                where: { usuario_correo: profile._json.email },
+            const user = await models.User.findOrCreate({
+                where: {
+                    user_email: info.email,
+                },
+                defaults: {
+                    user_name: info.first_name,
+                    user_lastname: info.last_name,
+                    user_alias: info.first_name + "_" + info.last_name,
+                    user_email: info.email,
+                    user_image_url: info.picture.data.url,
+                    user_password: bcrypt.hashSync(info.id, 10),
+                },
             });
 
-            if (user) return cb(null, user);
-
-            // Create new user
-            let newUser = models.User.create({
-                usuario_id: crypto.randomUUID(),
-                usuario_nombre: profile._json.first_name,
-                usuario_apellido: profile._json.last_name,
-                usuario_correo: profile._json.email,
-                usuario_alias:
-                    profile._json.first_name.split(" ")[0] +
-                    "_" +
-                    profile._json.last_name.split(" ")[0],
-                usuario_contra: profile._json.id,
-                usuario_imagen_url: profile._json.picture.data.url,
-                rol_id: 1,
-            });
-
-            return cb(null, newUser);
+            return cb(null, user[0]);
         }
     )
 );
@@ -99,28 +89,30 @@ passport.use(
         {
             clientID: process.env.GITHUB_CLIENT_ID,
             clientSecret: process.env.GITHUB_CLIENT_SECRET,
-            callbackURL: process.env.VITE_API_URL + process.env.GITHUB_REDIRECT_URI,
+            callbackURL: process.env.GITHUB_REDIRECT_URL,
         },
         async function (accessToken, refreshToken, profile, cb) {
-            let user = await models.User.findOne({
-                where: { usuario_correo: profile._json.email },
+            const info = profile._json;
+
+            if (!info.email) {
+                return cb(new Error("Cuenta de GitHub sin correo electronico disponible"), null);
+            }
+
+            const user = await models.User.findOrCreate({
+                where: {
+                    user_email: info.email,
+                },
+                defaults: {
+                    user_name: info.name.split(" ")[0],
+                    user_lastname: info.name.split(" ")[1],
+                    user_alias: info.login,
+                    user_email: info.email,
+                    user_password: bcrypt.hashSync(info.id.toString(), 10),
+                    user_image_url: info.avatar_url,
+                },
             });
 
-            if (user) return cb(null, user);
-
-            // Create new user
-            let newUser = models.User.create({
-                usuario_id: crypto.randomUUID(),
-                usuario_nombre: profile._json.name.split(" ")[0],
-                usuario_apellido: profile._json.name.split(" ")[1],
-                usuario_correo: profile._json.email,
-                usuario_alias: profile._json.login,
-                usuario_contra: profile._json.id,
-                usuario_imagen_url: profile._json.avatar_url,
-                rol_id: 1,
-            });
-
-            return cb(null, newUser);
+            return cb(null, user[0]);
         }
     )
 );
@@ -128,54 +120,89 @@ passport.use(
 const authRoutes = Router();
 
 // Google Auth
-authRoutes.get(
-    "/user/auth/google",
-    passport.authenticate("google", { scope: ["profile", "email"] })
-);
-
-authRoutes.get(
-    "/user/auth/google/callback",
-    passport.authenticate("google", {
-        failureRedirect: `${process.env.VITE_URL}/login?error=true`,
-    }),
-    (req, res) => {
-        req.session.usuario_id = req.user.usuario_id;
-        req.session.user = req.user;
-        res.redirect(process.env.VITE_URL);
-    }
-);
+authRoutes.get("/auth/google", passport.authenticate("google", { scope: ["profile", "email"] }));
+authRoutes.get("/auth/google/callback", passport.authenticate("google"), (req, res) => {
+    req.session.user_id = req.user.user_id;
+    console.log("Usuario autenticado:", req.user.user_id);
+    res.redirect(process.env.EXPO_PUBLIC_DEEP_LINK);
+});
 
 // Facebook Auth
 authRoutes.get(
-    "/user/auth/facebook",
+    "/auth/facebook",
     passport.authenticate("facebook", {
         scope: ["email"],
     })
 );
-
-authRoutes.get(
-    "/user/auth/facebook/callback",
-    passport.authenticate("facebook", {
-        failureRedirect: `${process.env.VITE_URL}/login?error=true`,
-    }),
-    (req, res) => {
-        req.session.usuario_id = req.user.usuario_id;
-        req.session.user = req.user;
-        res.redirect(process.env.VITE_URL);
-    }
-);
+authRoutes.get("/auth/facebook/callback", passport.authenticate("facebook"), (req, res) => {
+    req.session.user_id = req.user.user_id;
+    console.log("Usuario autenticado:", req.user.user_id);
+    res.redirect(process.env.EXPO_PUBLIC_DEEP_LINK);
+});
 
 // Github Auth
-authRoutes.get("/user/auth/github", passport.authenticate("github", { scope: ["user:email"] }));
+authRoutes.get("/auth/github", passport.authenticate("github", { scope: ["user:email"] }));
+authRoutes.get("/auth/github/callback", passport.authenticate("github"), function (req, res) {
+    req.session.user_id = req.user.user_id;
+    console.log("Usuario autenticado:", req.user.user_id);
+    res.redirect(process.env.EXPO_PUBLIC_DEEP_LINK);
+});
 
-authRoutes.get(
-    "/user/auth/github/callback",
-    passport.authenticate("github", { failureRedirect: `${process.env.VITE_URL}/login?error=true` }),
-    function (req, res) {
-        req.session.usuario_id = req.user.usuario_id;
-        req.session.user = req.user;
-        res.redirect(process.env.VITE_URL);
+// Normal Auth
+authRoutes.get("/auth/session", async (req, res) => {
+    if (!req.session.user_id) {
+        res.status(200).json({ success: false, message: "Usuario no autenticado", data: null });
+        return;
     }
-);
+
+    res.status(200).json({
+        success: true,
+        message: "Usuario autenticado",
+        data: req.session.user,
+    });
+});
+
+authRoutes.post("/auth/login", async (req, res) => {
+    try {
+        const { user_email, user_password } = req.body;
+
+        const user = await models.User.findOne({
+            where: { user_email },
+        });
+
+        if (!user) {
+            return res.status(401).json({ success: false, message: "Usuario no encontrado" });
+        }
+
+        if (!bcrypt.compareSync(user_password, user.user_password)) {
+            return res.status(200).json({ success: false, message: "Contraseña incorrecta" });
+        }
+
+        // Create session
+        req.session.user_id = user.user_id;
+
+        res.status(200).json({
+            success: true,
+            message: "El usuario esta autenticado",
+            data: user,
+        });
+    } catch (error) {
+        res.status(500).json({
+            success: false,
+            message: error.message,
+            data: null,
+        });
+    }
+});
+
+authRoutes.post("/auth/logout", (req, res) => {
+    req.session.destroy();
+
+    res.status(200).json({
+        success: true,
+        message: "Sesión cerrada correctamente",
+        data: null,
+    });
+});
 
 export default authRoutes;

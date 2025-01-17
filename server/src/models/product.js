@@ -1,52 +1,52 @@
 import { DataTypes } from "sequelize";
-import sequelize from "../config/database.js";
+import sequelize from "../configs/database.js";
 
 const Product = sequelize.define(
     "Product",
     {
-        producto_id: {
-            type: DataTypes.STRING(60),
+        product_id: {
+            type: DataTypes.UUID,
             primaryKey: true,
         },
-        producto_nombre: {
+        product_name: {
             type: DataTypes.STRING(255),
             allowNull: false,
         },
-        producto_descripcion: {
+        product_description: {
             type: DataTypes.TEXT,
             allowNull: false,
         },
-        producto_cantidad: {
+        product_quantity: {
             type: DataTypes.INTEGER,
             allowNull: false,
         },
-        producto_precio: {
+        product_price: {
             type: DataTypes.DECIMAL(10, 0),
             allowNull: false,
         },
-        producto_imagen_url: {
+        product_image_url: {
             type: DataTypes.STRING(255),
             defaultValue: "/images/default.jpg",
         },
-        producto_estado: {
+        product_status: {
             type: DataTypes.ENUM("privado", "publico"),
             defaultValue: "publico",
         },
-        producto_fecha: {
+        product_date: {
             type: DataTypes.DATE,
             defaultValue: DataTypes.NOW,
         },
-        usuario_id: {
-            type: DataTypes.STRING(60),
+        user_id: {
+            type: DataTypes.UUID,
             allowNull: false,
         },
-        categoria_id: {
+        category_id: {
             type: DataTypes.INTEGER,
             allowNull: false,
         },
     },
     {
-        tableName: "productos",
+        tableName: "products",
         timestamps: false,
     }
 );
@@ -54,21 +54,21 @@ const Product = sequelize.define(
 const Media = sequelize.define(
     "Media",
     {
-        multimedia_id: {
-            type: DataTypes.STRING(60),
+        media_id: {
+            type: DataTypes.UUID,
             primaryKey: true,
         },
-        multimedia_url: {
+        media_url: {
             type: DataTypes.STRING(255),
             allowNull: false,
         },
-        producto_id: {
-            type: DataTypes.STRING(60),
+        product_id: {
+            type: DataTypes.UUID,
             allowNull: false,
         },
     },
     {
-        tableName: "multimedias",
+        tableName: "medias",
         timestamps: false,
     }
 );
@@ -76,18 +76,18 @@ const Media = sequelize.define(
 const Category = sequelize.define(
     "Category",
     {
-        categoria_id: {
+        category_id: {
             type: DataTypes.INTEGER,
             primaryKey: true,
             autoIncrement: true,
         },
-        categoria_nombre: {
+        category_name: {
             type: DataTypes.STRING(255),
             allowNull: false,
         },
     },
     {
-        tableName: "categorias",
+        tableName: "categories",
         timestamps: false,
     }
 );
