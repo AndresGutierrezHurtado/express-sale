@@ -55,7 +55,7 @@ export function VerticalProductCard({ product, reloadProducts }) {
                             className="text-gray-500/80 font-semibold italic text-sm hover:underline tooltip tooltip-bottom"
                             data-tip="Ir al perfil del vendedor"
                         >
-                            @publicado por {product.user.usuario_alias}
+                            @publicado por {product.user.user_alias}
                         </Link>
                     </div>
                     <p className="line-clamp-3">{product.product_description}</p>

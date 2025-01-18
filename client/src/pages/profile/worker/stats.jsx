@@ -35,7 +35,7 @@ export default function WorkerStats() {
     });
 
     if (userLoading) return <ContentLoading />;
-    if (user.rol_id == 2) return <SellerStats user={user} reloadUser={reloadUser} />;
-    if (user.rol_id == 3) return <DeliveryStats user={user} reloadUser={reloadUser} />;
+    if (user.role_id == 2) return <SellerStats user={user} reloadUser={reloadUser} />;
+    if (user.role_id == 3) return <DeliveryStats user={user} reloadUser={reloadUser} />;
     return <h1>Hubo un errror</h1>;
 }

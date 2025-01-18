@@ -66,8 +66,8 @@ export default function Delivery() {
                                 {/* Información del Comprador */}
                                 <div className="text-lg">
                                     <p>
-                                        <strong>Nombre:</strong> {order.user.usuario_nombre}{" "}
-                                        {order.user.usuario_apellido}
+                                        <strong>Nombre:</strong> {order.user.user_name}{" "}
+                                        {order.user.user_lastname}
                                     </p>
                                     <p>
                                         <strong>Email:</strong> {paymentDetails.comprador_correo}
@@ -94,11 +94,11 @@ export default function Delivery() {
                                     {orderProducts.map((item, index) => (
                                         <div key={item.product_id}>
                                             <p>
-                                                {index + 1}. {item.product.user.usuario_nombre}{" "}
-                                                {item.product.user.usuario_apellido}{" "}
+                                                {index + 1}. {item.product.user.user_name}{" "}
+                                                {item.product.user.user_lastname}{" "}
                                                 <span className="text-sm text-gray-600">
                                                     (
-                                                    {item.product.user.usuario_direccion ||
+                                                    {item.product.user.user_address ||
                                                         "Dirección desconocida"}
                                                     )
                                                 </span>
@@ -121,7 +121,7 @@ export default function Delivery() {
                         {/* Mapa */}
                         <DeliveryRouteMap
                             addresses={orderProducts.map(
-                                (item) => item.product.user.usuario_direccion
+                                (item) => item.product.user.user_address
                             )}
                             destination={shippingDetails.envio_coordenadas}
                         />

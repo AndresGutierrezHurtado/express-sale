@@ -52,7 +52,7 @@ export default function WorkerProducts() {
                 <article className="card bg-white shadow-xl border w-full max-w-5xl mx-auto">
                     <div className="card-body space-y-4">
                         <h2 className="text-2xl md:text-4xl font-extrabold tracking-tight">
-                            Lista de productos de {user.usuario_nombre}
+                            Lista de productos de {user.user_name}
                         </h2>
                         <div className="w-full space-y-2">
                             <div className="w-full overflow-x-auto">

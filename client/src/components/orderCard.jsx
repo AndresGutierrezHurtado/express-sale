@@ -19,7 +19,7 @@ export default function OrderCard({ order }) {
     const isLoaded = useMapsApiLoader();
 
     const addresses = order.orderProducts.map(
-        (OrderProduct) => OrderProduct.product.user.usuario_direccion
+        (OrderProduct) => OrderProduct.product.user.user_address
     );
 
     const { loaded, route, distance } = useShortestPath(addresses, JSON.parse(order.shippingDetails.envio_coordenadas), isLoaded, userLocation);
@@ -42,7 +42,7 @@ export default function OrderCard({ order }) {
                         pedido_estado: "enviando",
                     },
                     shippingDetails: {
-                        trabajador_id: userSession.worker.trabajador_id,
+                        worker_id: userSession.worker.worker_id,
                         envio_valor: distance > 10 ? distance * 1300 : 7500,
                     },
                 });
@@ -65,7 +65,7 @@ export default function OrderCard({ order }) {
                     <div className="flex flex-col text-sm">
                         <div className="flex gap-2">
                             <span className="font-medium">Comprador:</span>
-                            <p>{`${order.user.usuario_nombre} ${order.user.usuario_apellido}`}</p>
+                            <p>{`${order.user.user_name} ${order.user.user_lastname}`}</p>
                         </div>
                         <div className="flex gap-2">
                             <span className="font-medium">Distancia:</span>

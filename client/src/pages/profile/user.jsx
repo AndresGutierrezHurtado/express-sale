@@ -61,14 +61,14 @@ export default function UserProfile() {
                             </div>
 
                             <div className="w-[230px] rounded-full">
-                                <img src={user.usuario_imagen_url} />
+                                <img src={user.user_image_url} />
                             </div>
                         </div>
                         <article className="flex flex-col justify-between gap-2 h-[initial] w-full">
                             <div className="w-full">
                                 <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center w-full">
                                     <h3 className="text-2xl md:text-3xl font-bold">
-                                        {user.usuario_nombre} {user.usuario_apellido}
+                                        {user.user_name} {user.user_lastname}
                                     </h3>
                                     <p className="text-sm text-gray-600">
                                         Cuenta creada en el{" "}
@@ -80,18 +80,18 @@ export default function UserProfile() {
                                     </p>
                                 </div>
                                 <p className="text-lg italic text-gray-600">
-                                    @{user.usuario_alias} ({user.role ? user.role.rol_nombre : ""})
+                                    @{user.user_alias} ({user.role ? user.role.role_name : ""})
                                 </p>
                             </div>
                             <p className="text-lg grow">
-                                {user.worker ? user.worker.trabajador_descripcion : ""}
+                                {user.worker ? user.worker.worker_description : ""}
                             </p>
                             <span className="flex flex-wrap items-center gap-4 [&_svg]:fill-gray-600 text-gray-600 w-full overflow-hidden">
                                 {user.worker && (
                                     <>
                                         <Link to={`/worker/${user.user_id}`}>
                                             <div
-                                                data-tip={`Perfil de ${user.role.rol_nombre}`}
+                                                data-tip={`Perfil de ${user.role.role_name}`}
                                                 className="tooltip tooltip-bottom flex badge badge-sm gap-1 h-auto py-1 px-5 duration-300 hover:scale-[1.06]"
                                             >
                                                 <UserIcon size={11} />
@@ -99,7 +99,7 @@ export default function UserProfile() {
                                             </div>
                                         </Link>
                                         <div
-                                            data-tip={`Calificaciones recibidas como ${user.role.rol_nombre}`}
+                                            data-tip={`Calificaciones recibidas como ${user.role.role_name}`}
                                             className="tooltip tooltip-bottom flex badge badge-sm gap-1 h-auto py-1 px-5 duration-300 hover:scale-[1.06]"
                                         >
                                             <StarIcon size={12} />
@@ -108,22 +108,22 @@ export default function UserProfile() {
                                     </>
                                 )}
 
-                                <Link to={`mailto:${user.usuario_correo}`} target="_blank">
+                                <Link to={`mailto:${user.user_email}`} target="_blank">
                                     <div
                                         data-tip="Correo electronico de contacto"
                                         className="tooltip tooltip-bottom flex badge badge-sm gap-1 h-auto py-1 px-5 duration-300 hover:scale-[1.06]"
                                     >
                                         <EmailIcon size={14} />
-                                        {user.usuario_correo}
+                                        {user.user_email}
                                     </div>
                                 </Link>
-                                {user.usuario_telefono && (
+                                {user.user_phone && (
                                     <div
                                         data-tip="Número de contacto"
                                         className="tooltip tooltip-bottom flex badge badge-sm gap-1 h-auto py-1 px-5 duration-300 hover:scale-[1.06]"
                                     >
                                         <PhoneIcon size={14} />
-                                        {user.usuario_telefono}
+                                        {user.user_phone}
                                     </div>
                                 )}
                                 <div
@@ -135,7 +135,7 @@ export default function UserProfile() {
                                 </div>
                             </span>
                             <div className="flex flex-col sm:flex-row gap-4 items-center py-1">
-                                {userSession.rol_id == 2 && (
+                                {userSession.role_id == 2 && (
                                     <Link
                                         to={`/worker/products/${user.user_id}`}
                                         className="btn btn-sm min-h-none h-auto py-2.5 px-10 btn-primary group relative text-purple-300 hover:bg-purple-800 hover:text-purple-100"
@@ -146,7 +146,7 @@ export default function UserProfile() {
                                         Productos
                                     </Link>
                                 )}
-                                {userSession.rol_id == 3 && (
+                                {userSession.role_id == 3 && (
                                     <Link
                                         to={`/worker/deliveries/${user.user_id}`}
                                         className="btn btn-sm min-h-none h-auto py-2.5 px-10 btn-primary group relative text-purple-300 hover:bg-purple-800 hover:text-purple-100"
@@ -157,7 +157,7 @@ export default function UserProfile() {
                                         Rutas
                                     </Link>
                                 )}
-                                {userSession.rol_id == 4 && (
+                                {userSession.role_id == 4 && (
                                     <Link
                                         to={`/admin/users`}
                                         className="btn btn-sm min-h-none h-auto py-2.5 px-10 btn-primary group relative text-purple-300 hover:bg-purple-800 hover:text-purple-100"
@@ -168,7 +168,7 @@ export default function UserProfile() {
                                         Administrador
                                     </Link>
                                 )}
-                                {userSession.rol_id !== 4 && userSession.rol_id !== 1 && (
+                                {userSession.role_id !== 4 && userSession.role_id !== 1 && (
                                     <Link
                                         to={`/worker/stats/${user.user_id}`}
                                         className="btn btn-sm min-h-none h-auto py-2.5 px-10 relative bg-gray-200 hover:bg-gray-200 text-gray-500 hover:text-gray-600"

@@ -35,11 +35,11 @@ export default function Order() {
                         pedido_estado: "recibido",
                     },
                     delivery: {
-                        trabajador_saldo:
-                            parseInt(order.shippingDetails.worker.trabajador_saldo) +
+                        worker_balance:
+                            parseInt(order.shippingDetails.worker.worker_balance) +
                             parseInt(order.shippingDetails.envio_valor),
                     },
-                    delivery_id: order.shippingDetails.trabajador_id,
+                    delivery_id: order.shippingDetails.worker_id,
                 });
                 if (response.success) {
                     reloadOrder();
@@ -93,12 +93,12 @@ export default function Order() {
 
                                     <div className="flex gap-2">
                                         <span className="font-medium">Repartidor:</span>
-                                        {order.shippingDetails.trabajador_id ? (
+                                        {order.shippingDetails.worker_id ? (
                                             <Link
                                                 to={`/worker/${order.shippingDetails.worker.user.user_id}`}
                                                 className="hover"
                                             >
-                                                {`${order.shippingDetails.worker.user.usuario_nombre} ${order.shippingDetails.worker.user.usuario_apellido}` ||
+                                                {`${order.shippingDetails.worker.user.user_name} ${order.shippingDetails.worker.user.user_lastname}` ||
                                                     "Pendiente"}
                                             </Link>
                                         ) : (

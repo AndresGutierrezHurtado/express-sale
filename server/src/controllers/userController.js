@@ -388,12 +388,12 @@ export default class UserController {
                     },
                     {
                         product_price: {
-                            [Op.gte]: req.query.min || 0,
+                            [Op.gte]: parseInt(req.query.min || 0),
                         },
                     },
                     {
                         product_price: {
-                            [Op.lte]: req.query.max || 9999999999,
+                            [Op.lte]: parseInt(req.query.max || 9999999999),
                         },
                     },
                     {

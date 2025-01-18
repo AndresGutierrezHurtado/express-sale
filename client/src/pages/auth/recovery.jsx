@@ -58,7 +58,7 @@ export default function Recovery() {
                                             </span>
                                         </label>
                                         <input
-                                            name="usuario_correo"
+                                            name="user_email"
                                             placeholder="ejemplo@gmail.com"
                                             className="input input-bordered input-sm focus:outline-0 focus:border-primary"
                                         />

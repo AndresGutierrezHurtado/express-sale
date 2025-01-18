@@ -100,22 +100,22 @@ export default function Home() {
                             <CategoryCard
                                 name="Moda"
                                 image="/images/categories/moda.jpg"
-                                link="/products?category=1"
+                                link="/products?category_id=1"
                             />
                             <CategoryCard
                                 name="Comida"
                                 image="/images/categories/comida.jpg"
-                                link="/products?category=2"
+                                link="/products?category_id=2"
                             />
                             <CategoryCard
                                 name="Tecnología"
                                 image="/images/categories/tecnologia.jpg"
-                                link="/products?category=3"
+                                link="/products?category_id=3"
                             />
                             <CategoryCard
                                 name="Otros"
                                 image="/images/categories/otros.jpg"
-                                link="/products?category=4"
+                                link="/products?category_id=4"
                             />
                         </div>
                     </div>
@@ -251,7 +251,7 @@ export default function Home() {
                                             <input
                                                 placeholder="ejemplo@gmail.com"
                                                 className="input focus:input-primary input-bordered focus:outline-0"
-                                                name="usuario_correo"
+                                                name="user_email"
                                             />
                                         </div>
                                         <div className="form-control w-full">
@@ -263,7 +263,7 @@ export default function Home() {
                                             <input
                                                 placeholder="Ingresa tus nombres y apellidos acá"
                                                 className="input focus:input-primary input-bordered focus:outline-0"
-                                                name="usuario_nombre"
+                                                name="user_name"
                                             />
                                         </div>
                                     </div>

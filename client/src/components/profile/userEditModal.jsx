@@ -11,7 +11,7 @@ import { useMapsApiLoader, useAddressAutocomplete } from "@hooks/useMaps";
 export function UserEditModal({ user, reload }) {
     const isLoaded = useMapsApiLoader();
 
-    if (isLoaded) useAddressAutocomplete("usuario_direccion");
+    if (isLoaded) useAddressAutocomplete("user_address");
 
     const handleUpdateUserSubmit = async (event) => {
         event.preventDefault();
@@ -22,14 +22,14 @@ export function UserEditModal({ user, reload }) {
         if (validation.success) {
             const response = await usePutData(`/users/${user.user_id}`, {
                 user: {
-                    usuario_nombre: data.usuario_nombre,
-                    usuario_apellido: data.usuario_apellido,
-                    usuario_alias: data.usuario_alias,
-                    usuario_telefono: data.usuario_telefono ? data.usuario_telefono : null,
-                    usuario_direccion: data.usuario_direccion ? data.usuario_direccion : null,
+                    user_name: data.user_name,
+                    user_lastname: data.user_lastname,
+                    user_alias: data.user_alias,
+                    user_phone: data.user_phone ? data.user_phone : null,
+                    user_address: data.user_address ? data.user_address : null,
                 },
                 worker: {
-                    trabajador_descripcion: data.trabajador_descripcion,
+                    worker_description: data.worker_description,
                 },
                 usuario_imagen: data.usuario_imagen.size > 0 ? await useConvertImage(data.usuario_imagen) : null,
             });
@@ -72,8 +72,8 @@ export function UserEditModal({ user, reload }) {
                         <input
                             placeholder="Ingresa tus nombre"
                             className="input input-bordered w-full"
-                            defaultValue={user.usuario_nombre}
-                            name="usuario_nombre"
+                            defaultValue={user.user_name}
+                            name="user_name"
                         />
                     </label>
                     <label className="form-control w-full">
@@ -85,8 +85,8 @@ export function UserEditModal({ user, reload }) {
                         <input
                             placeholder="Ingresa tus apellidos"
                             className="input input-bordered w-full"
-                            defaultValue={user.usuario_apellido}
-                            name="usuario_apellido"
+                            defaultValue={user.user_lastname}
+                            name="user_lastname"
                         />
                     </label>
                     <label className="form-control w-full">
@@ -98,7 +98,7 @@ export function UserEditModal({ user, reload }) {
                         <input
                             placeholder="Ingresa tu correo principal de contacto"
                             className="input input-bordered w-full"
-                            defaultValue={user.usuario_correo}
+                            defaultValue={user.user_email}
                             disabled
                         />
                     </label>
@@ -111,8 +111,8 @@ export function UserEditModal({ user, reload }) {
                         <input
                             placeholder="Ingresa tu usuario, debe ser unico"
                             className="input input-bordered w-full"
-                            defaultValue={user.usuario_alias}
-                            name="usuario_alias"
+                            defaultValue={user.user_alias}
+                            name="user_alias"
                         />
                     </label>
                     <label className="form-control w-full">
@@ -122,8 +122,8 @@ export function UserEditModal({ user, reload }) {
                         <input
                             placeholder="Ingresa tu telefono principal de contacto"
                             className="input input-bordered w-full"
-                            defaultValue={user.usuario_telefono}
-                            name="usuario_telefono"
+                            defaultValue={user.user_phone}
+                            name="user_phone"
                         />
                     </label>
                     <label className="form-control w-full">
@@ -133,8 +133,8 @@ export function UserEditModal({ user, reload }) {
                         <input
                             placeholder="Ingresa la dirección precisa de tu vivienda/oficina"
                             className="input input-bordered w-full"
-                            defaultValue={user.usuario_direccion}
-                            name="usuario_direccion"
+                            defaultValue={user.user_address}
+                            name="user_address"
                         />
                     </label>
                     {user.worker && (
@@ -147,8 +147,8 @@ export function UserEditModal({ user, reload }) {
                             <textarea
                                 className="textarea textarea-bordered resize-none h-24 w-full"
                                 placeholder="Bio"
-                                defaultValue={user.worker.trabajador_descripcion}
-                                name="trabajador_descripcion"
+                                defaultValue={user.worker.worker_description}
+                                name="worker_description"
                             ></textarea>
                         </label>
                     )}

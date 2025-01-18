@@ -137,7 +137,7 @@ export default function PayForm() {
                                         name="buyerFullName"
                                         placeholder="Ingresa todos tus nombres y apellidos"
                                         className="input input-bordered input-sm focus:outline-0 focus:input-primary"
-                                        defaultValue={`${userSession.usuario_nombre} ${userSession.usuario_apellido}`}
+                                        defaultValue={`${userSession.user_name} ${userSession.user_lastname}`}
                                     />
                                 </div>
 
@@ -151,7 +151,7 @@ export default function PayForm() {
                                         name="buyerEmail"
                                         placeholder="ejemplo@gmail.com"
                                         className="input input-bordered input-sm focus:outline-0 focus:input-primary"
-                                        defaultValue={userSession.usuario_correo}
+                                        defaultValue={userSession.user_email}
                                     />
                                 </div>
 
@@ -165,7 +165,7 @@ export default function PayForm() {
                                         name="payerPhone"
                                         placeholder="Ingresa tu telefono de contacto"
                                         className="input input-bordered input-sm focus:outline-0 focus:input-primary"
-                                        defaultValue={userSession.usuario_telefono}
+                                        defaultValue={userSession.user_phone}
                                     />
                                 </div>
 

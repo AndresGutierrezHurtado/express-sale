@@ -53,36 +53,36 @@ export default function Worker() {
         <>
             <section className="w-full px-3">
                 <div className="w-full max-w-[1200px] mx-auto py-10">
-                    <div className={`flex flex-col md:flex-row gap-10 ${seller.rol_id == 3 && "items-center justify-center"}`}>
+                    <div className={`flex flex-col md:flex-row gap-10 ${seller.role_id == 3 && "items-center justify-center"}`}>
                         <div className={"w-full max-w-[500px] flex flex-col gap-5"}>
                             <article className="card bg-base-100 shadow-xl border">
                                 <div className="card-body flex flex-col gap-4">
                                     <div className="flex flex-col md:flex-row gap-5">
                                         <figure className="w-full max-w-[140px] aspect-square rounded-lg">
                                             <img
-                                                src={seller.usuario_imagen_url}
-                                                alt={`Imagen del ${seller.role.rol_nombre} ${seller.usuario_alias}`}
+                                                src={seller.user_image_url}
+                                                alt={`Imagen del ${seller.role.role_name} ${seller.user_alias}`}
                                                 className="object-cover w-full h-full"
                                             />
                                         </figure>
                                         <div className="grow space-y-2 h-[initial] flex flex-col">
                                             <div>
                                                 <h2 className="text-xl font-bold">
-                                                    {seller.usuario_nombre}{" "}
-                                                    {seller.usuario_apellido}
+                                                    {seller.user_name}{" "}
+                                                    {seller.user_lastname}
                                                 </h2>
                                                 <p className="text-gray-600/90 text-sm italic">
-                                                    @{seller.usuario_alias} (
-                                                    {seller.role.rol_nombre})
+                                                    @{seller.user_alias} (
+                                                    {seller.role.role_name})
                                                 </p>
                                                 <p className="text-gray-600/90 text-sm leading-none">
-                                                    {seller.rol_id == 2
+                                                    {seller.role_id == 2
                                                         ? `${seller.ventas_cantidad} productos vendidos.`
-                                                        : seller.rol_id == 3 && `${seller.envios_cantidad} envios hechos.`}
+                                                        : seller.role_id == 3 && `${seller.envios_cantidad} envios hechos.`}
                                                 </p>
                                             </div>
                                             <p className="text-pretty text-lg grow">
-                                                {seller.worker.trabajador_descripcion}
+                                                {seller.worker.worker_description}
                                             </p>
                                         </div>
                                     </div>
@@ -231,7 +231,7 @@ export default function Worker() {
                                 </div>
                             </div>
                         </div>
-                        {seller.rol_id == 2 && (
+                        {seller.role_id == 2 && (
                             <div className="space-y-4">
                                 <h2 className="font-bold text-4xl">Productos: </h2>
                                 <div className="space-y-8">

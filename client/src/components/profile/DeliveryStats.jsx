@@ -32,8 +32,8 @@ export default function DeliveryStats({ user, reloadUser }) {
                     <div className="card-body gap-5">
                         <article className="space-y-2">
                             <h2 className="text-2xl md:text-4xl font-extrabold tracking-tight ">
-                                Estadísticas de {user.usuario_nombre.split(" ")[0]}{" "}
-                                {user.usuario_apellido.split(" ")[0]}:{" "}
+                                Estadísticas de {user.user_name.split(" ")[0]}{" "}
+                                {user.user_lastname.split(" ")[0]}:{" "}
                             </h2>
                             <div className="flex flex-col md:flex-row items-center gap-5">
                                 <p className="leading-tight text-sm">

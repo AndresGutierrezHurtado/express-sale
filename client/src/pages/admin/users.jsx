@@ -81,11 +81,11 @@ export default function UsersAdmin() {
                                 <tr key={user.user_id}>
                                     <td>{user.user_id}</td>
                                     <td>
-                                        {user.usuario_nombre} {user.usuario_apellido}
+                                        {user.user_name} {user.user_lastname}
                                     </td>
-                                    <td>{user.usuario_alias}</td>
-                                    <td>{user.usuario_correo}</td>
-                                    <td className="capitalize">{user.role.rol_nombre}</td>
+                                    <td>{user.user_alias}</td>
+                                    <td>{user.user_email}</td>
+                                    <td className="capitalize">{user.role.role_name}</td>
                                     <td>
                                         <div className="flex justify-center items-center gap-2">
                                             <Link
@@ -101,7 +101,7 @@ export default function UsersAdmin() {
                                                 onClick={() =>
                                                     handleDeleteUser(
                                                         user.user_id,
-                                                        user.usuario_nombre
+                                                        user.user_name
                                                     )
                                                 }
                                                 className="btn btn-sm min-h-none h-auto py-2.5 pl-8 relative bg-red-600 hover:bg-red-700 text-red-300 hover:text-red-200"

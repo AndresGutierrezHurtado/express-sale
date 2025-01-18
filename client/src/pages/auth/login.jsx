@@ -84,7 +84,7 @@ export default function Login() {
                             <input
                                 placeholder="ejemplo@gmail.com"
                                 className="input focus:input-primary input-bordered focus:outline-0"
-                                name="usuario_correo"
+                                name="user_email"
                             />
                         </div>
                         <div className="form-control">
@@ -97,7 +97,7 @@ export default function Login() {
                                 type="password"
                                 placeholder="******"
                                 className="input focus:input-primary input-bordered focus:outline-0"
-                                name="usuario_contra"
+                                name="user_password"
                             />
                         </div>
                         <label className="label">

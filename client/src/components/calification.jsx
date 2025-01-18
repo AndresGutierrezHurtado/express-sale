@@ -87,14 +87,14 @@ export function Calification({ rating, reload }) {
                         <div className="flex gap-2 items-center">
                             <figure className="w-10 aspect-square rounded-full overflow-hidden">
                                 <img
-                                    src={rating.calificator.usuario_imagen_url}
-                                    alt={`Imagen del calificador ${rating.calificator.usuario_alias}`}
+                                    src={rating.calificator.user_image_url}
+                                    alt={`Imagen del calificador ${rating.calificator.user_alias}`}
                                     className="object-cover h-full w-full"
                                 />
                             </figure>
                             <div className="flex flex-col gap-1">
                                 <h4 className="font-medium">
-                                    {rating.calificator.usuario_alias}
+                                    {rating.calificator.user_alias}
                                 </h4>
                                 <StarsRating rating={parseInt(rating.calificacion)} />
                             </div>
@@ -123,7 +123,7 @@ export function Calification({ rating, reload }) {
                                 {userSession &&
                                     (rating.user_id ==
                                         userSession.user_id ||
-                                        userSession.rol_id == 4) && (
+                                        userSession.role_id == 4) && (
                                         <>
                                             <li>
                                                 <a

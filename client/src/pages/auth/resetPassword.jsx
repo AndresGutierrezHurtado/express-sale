@@ -82,7 +82,7 @@ export default function ResetPassword() {
                                         </label>
                                         <input
                                             placeholder="Ingresa tu contraseño"
-                                            name="usuario_contra"
+                                            name="user_password"
                                             type="password"
                                             className="input input-bordered input-sm rounded w-full focus:outline-0 focus:input-primary"
                                         />
@@ -95,7 +95,7 @@ export default function ResetPassword() {
                                         </label>
                                         <input
                                             placeholder="Ingresa tu contraseño"
-                                            name="usuario_contra_confirm"
+                                            name="user_password_confirm"
                                             type="password"
                                             className="input input-bordered input-sm rounded w-full focus:outline-0 focus:input-primary"
                                         />

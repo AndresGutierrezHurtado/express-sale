@@ -73,7 +73,7 @@ export default function Register() {
                             <input
                                 placeholder="Ingresa tus nombres"
                                 className="input focus:input-primary input-bordered focus:outline-0"
-                                name="usuario_nombre"
+                                name="user_name"
                             />
                         </div>
                         <div className="form-control">
@@ -85,7 +85,7 @@ export default function Register() {
                             <input
                                 placeholder="Ingresa tus apellidos"
                                 className="input focus:input-primary input-bordered focus:outline-0"
-                                name="usuario_apellido"
+                                name="user_lastname"
                             />
                         </div>
                         <div className="form-control">
@@ -97,7 +97,7 @@ export default function Register() {
                             <input
                                 placeholder="Ingresa un alias único"
                                 className="input focus:input-primary input-bordered focus:outline-0"
-                                name="usuario_alias"
+                                name="user_alias"
                             />
                         </div>
                         <div className="form-control">
@@ -109,7 +109,7 @@ export default function Register() {
                             <input
                                 placeholder="ejemplo@gmail.com"
                                 className="input focus:input-primary input-bordered focus:outline-0"
-                                name="usuario_correo"
+                                name="user_email"
                             />
                         </div>
                         <div className="form-control">
@@ -120,7 +120,7 @@ export default function Register() {
                             </label>
                             <select
                                 className="select select-bordered focus:outline-0 focus:input-primary text-gray-600"
-                                name="rol_id"
+                                name="role_id"
                             >
                                 <option value="">-- Seleccionar --</option>
                                 <option value="1">Usuario</option>
@@ -138,7 +138,7 @@ export default function Register() {
                                 type="password"
                                 placeholder="******"
                                 className="input focus:input-primary input-bordered focus:outline-0"
-                                name="usuario_contra"
+                                name="user_password"
                             />
                         </div>
                         <div className="form-control mt-6">

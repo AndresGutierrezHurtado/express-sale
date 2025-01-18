@@ -20,7 +20,7 @@ export default function AdminLayout() {
         setSearchParams(newSearchParams);
     };
 
-    if (userSession.rol_id !== 4) navigate("/");
+    if (userSession.role_id !== 4) navigate("/");
     return (
         <>
             <main className="drawer-content flex flex-col h-screen">
@@ -64,7 +64,7 @@ export default function AdminLayout() {
                                             <li>
                                                 <a
                                                     onClick={() => {
-                                                        updateParam("sort", "usuario_nombre:asc");
+                                                        updateParam("sort", "user_name:asc");
                                                     }}
                                                 >
                                                     Nombre
@@ -73,7 +73,7 @@ export default function AdminLayout() {
                                             <li>
                                                 <a
                                                     onClick={() => {
-                                                        updateParam("sort", "usuario_alias:asc");
+                                                        updateParam("sort", "user_alias:asc");
                                                     }}
                                                 >
                                                     Usuario
@@ -82,7 +82,7 @@ export default function AdminLayout() {
                                             <li>
                                                 <a
                                                     onClick={() => {
-                                                        updateParam("sort", "rol_id:asc");
+                                                        updateParam("sort", "role_id:asc");
                                                     }}
                                                 >
                                                     Rol
@@ -165,10 +165,10 @@ export default function AdminLayout() {
                                 >
                                     <div className="w-full aspect-square rounded-full">
                                         <img
-                                            alt={`Imagen de ${userSession.usuario_alias}`}
+                                            alt={`Imagen de ${userSession.user_alias}`}
                                             src={
                                                 userSession
-                                                    ? userSession.usuario_imagen_url
+                                                    ? userSession.user_image_url
                                                     : "/images/default.jpg"
                                             }
                                         />

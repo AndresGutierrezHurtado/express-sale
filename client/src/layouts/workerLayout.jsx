@@ -40,7 +40,7 @@ export default function WorkerLayout() {
                                 />
                             </Link>
                             <h2 className="text-2xl font-bold tracking-tight hidden md:block">
-                                Menu de {user.usuario_nombre}
+                                Menu de {user.user_name}
                             </h2>
                         </div>
                         <div className="grow space-y-2 w-fit md:w-full mx-auto">
@@ -50,7 +50,7 @@ export default function WorkerLayout() {
                                     <span className="hidden md:block">Estadísticas</span>
                                 </Link>
                             </li>
-                            {user.rol_id == 2 ? (
+                            {user.role_id == 2 ? (
                                 <li className="w-fit md:w-full">
                                     <Link to={`/worker/products/${id}`}>
                                         <BoxesStackedIcon />
@@ -67,7 +67,7 @@ export default function WorkerLayout() {
                             )}
                         </div>
                         <div className="px-4 py-1 flex flex-col space-y-3">
-                            {user.rol_id == 2 && (
+                            {user.role_id == 2 && (
                                 <button
                                     onClick={() =>
                                         document.getElementById("product-create-modal").show()
@@ -85,17 +85,17 @@ export default function WorkerLayout() {
                                 >
                                     <figure className="w-8 md:w-12 aspect-square rounded-full overflow-hidden flex-none">
                                         <img
-                                            src={user.usuario_imagen_url}
+                                            src={user.user_image_url}
                                             alt="imagen de perfil del usuario"
                                             className="w-full h-full object-cover"
                                         />
                                     </figure>
                                     <div className="leading-none hidden md:block">
                                         <h2 className="font-semibold tracking-tight">
-                                            {user.usuario_nombre} {user.usuario_apellido}
+                                            {user.user_name} {user.user_lastname}
                                         </h2>
                                         <p className="text-sm text-gray-600 font-semibold">
-                                            {user.role.rol_nombre}
+                                            {user.role.role_name}
                                         </p>
                                     </div>
                                 </article>

@@ -51,7 +51,7 @@ export default function Products() {
                                         updateParam("sort", event.target.value)
                                     }
                                 >
-                                    <option value="">Destacados</option>
+                                    <option value="average_rating:desc">Destacados</option>
                                     <option value="product_price:asc">
                                         Menor precio
                                     </option>

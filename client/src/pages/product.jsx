@@ -84,7 +84,7 @@ export default function Product() {
                                     <Link to="/products">Productos</Link>
                                 </li>
                                 <li>
-                                    <Link to={`/products?category=${product.category_id}`}>
+                                    <Link to={`/products?category_id=${product.category_id}`}>
                                         {product.category.category_name}
                                     </Link>
                                 </li>
@@ -120,7 +120,7 @@ export default function Product() {
                                             className="text-gray-500/80 font-semibold italic text-sm hover:underline tooltip tooltip-bottom"
                                             data-tip="Ir al perfil del vendedor"
                                         >
-                                            @publicado por {product.user.usuario_alias}
+                                            @publicado por {product.user.user_alias}
                                         </Link>
                                     )}
                                 </div>

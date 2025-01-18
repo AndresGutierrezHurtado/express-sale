@@ -19,7 +19,7 @@ export default function Withdraw({ user, reloadUser }) {
 
         const data = Object.fromEntries(new FormData(event.target));
         const validation = useValidateform(data, "withdraw-modal-form", {
-            trabajador_saldo: user.worker.trabajador_saldo,
+            worker_balance: user.worker.worker_balance,
         });
 
         if (validation.success) {
@@ -54,7 +54,7 @@ export default function Withdraw({ user, reloadUser }) {
                     <div className="text-center">
                         <p className="text-gray-600">Saldo actual</p>
                         <div className="text-2xl md:text-5xl font-extrabold">
-                            {parseInt(user.worker.trabajador_saldo).toLocaleString("es-CO")} COP
+                            {parseInt(user.worker.worker_balance).toLocaleString("es-CO")} COP
                         </div>
                         <div className="text-sm text-gray-600">
                             {user.worker.retiros_restantes} retiros disponibles
@@ -76,7 +76,7 @@ export default function Withdraw({ user, reloadUser }) {
                                 <button
                                     disabled={user.worker.retiros_restantes === 0}
                                     onClick={() =>
-                                        user.worker.trabajador_saldo > 10000
+                                        user.worker.worker_balance > 10000
                                             ? document.getElementById("withdraw-modal").showModal()
                                             : Swal.fire({
                                                   icon: "error",
@@ -160,7 +160,7 @@ export default function Withdraw({ user, reloadUser }) {
                             </label>
                             <input
                                 placeholder={`Monto a retirar (min: 10.000, max: ${parseInt(
-                                    user.worker.trabajador_saldo
+                                    user.worker.worker_balance
                                 ).toLocaleString("es-CO")})`}
                                 className="input input-bordered focus:outline-0 focus:input-primary"
                                 name="retiro_valor"

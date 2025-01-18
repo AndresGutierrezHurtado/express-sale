@@ -102,10 +102,10 @@ export default function Header() {
                                         >
                                             <div className="w-8 rounded-full">
                                                 <img
-                                                    alt={`Imagen del usuario ${userSession?.usuario_alias}`}
+                                                    alt={`Imagen del usuario ${userSession?.user_alias}`}
                                                     src={
                                                         userSession
-                                                            ? userSession.usuario_imagen_url
+                                                            ? userSession.user_image_url
                                                             : "/images/default.jpg"
                                                     }
                                                 />

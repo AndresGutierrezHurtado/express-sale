@@ -23,12 +23,12 @@ export default function ProductsFilters({
                         </div>
                         <select
                             onChange={(event) =>
-                                updateParam("category", event.target.value)
+                                updateParam("category_id", event.target.value)
                             }
                             className="select select-bordered rounded w-full focus:outline-0 focus:select-primary"
                             defaultValue={
                                 (searchParams &&
-                                    searchParams.get("category")) ||
+                                    searchParams.get("category_id")) ||
                                 ""
                             }
                         >

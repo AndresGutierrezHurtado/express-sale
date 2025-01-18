@@ -180,12 +180,12 @@ export default class ProductController {
                     },
                     {
                         product_price: {
-                            [Op.gte]: req.query.min || 0,
+                            [Op.gte]: parseInt(req.query.min || 0),
                         },
                     },
                     {
                         product_price: {
-                            [Op.lte]: req.query.max || 9999999999,
+                            [Op.lte]: parseInt(req.query.max || 9999999999),
                         },
                     },
                     {
@@ -197,7 +197,10 @@ export default class ProductController {
             };
 
             const querySort = req.query?.sort?.split(":") || ["`average_rating`", "DESC"];
-            const order = [sequelize.literal(querySort[0]), querySort[1]];
+            const order = [
+                sequelize.literal(querySort[0] || "`average_rating`"),
+                querySort[1] || "DESC",
+            ];
 
             const products = await models.Product.findAndCountAll({
                 include: [

@@ -17,17 +17,17 @@ export const useGenerateReceipt = (order, userSession) => {
     doc.text("Información del usuario:", 10, 50);
     doc.setFont("helvetica", "normal");
     doc.text(
-        `Nombre: ${userSession.usuario_nombre.split(" ")[0]} ${
-            userSession.usuario_apellido.split(" ")[0]
+        `Nombre: ${userSession.user_name.split(" ")[0]} ${
+            userSession.user_lastname.split(" ")[0]
         }`,
         10,
         55,
         { maxWidth: 60 }
     );
-    doc.text(`Teléfono: ${userSession.usuario_telefono || "Sin teléfono"}`, 10, 60, {
+    doc.text(`Teléfono: ${userSession.user_phone || "Sin teléfono"}`, 10, 60, {
         maxWidth: 60,
     });
-    doc.text(`Correo: ${userSession.usuario_correo}`, 10, 65, { maxWidth: 60 });
+    doc.text(`Correo: ${userSession.user_email}`, 10, 65, { maxWidth: 60 });
 
     // Información del pagador
     doc.setFont("helvetica", "bold");
