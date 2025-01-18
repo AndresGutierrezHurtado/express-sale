@@ -767,7 +767,7 @@ export default class UserController {
                 to: user.user_email,
                 subject: "Recupera tu contraseña | Express Sale",
                 html: recoveryTemplate(
-                    `${process.env.EXPO_PUBLIC_APP_DOMAIN}/reset-password/${recovery.recovery_id}`
+                    `${process.env.VITE_APP_DOMAIN}/reset-password/${recovery.recovery_id}`
                 ),
             });
 

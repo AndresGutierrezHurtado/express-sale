@@ -11,19 +11,19 @@ export default class OrderController {
         const extraInfo = { ...JSON.parse(req.query.extra1), ...JSON.parse(req.query.extra2) };
 
         try {
-            const payuResponse = await fetch(process.env.EXPO_PUBLIC_PAYU_TRANSACTION_REQUEST_URI, {
+            const payuResponse = await fetch(process.env.VITE_PAYU_TRANSACTION_REQUEST_URI, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
                     Accept: "application/json",
                 },
                 body: JSON.stringify({
-                    test: process.env.EXPO_PUBLIC_PAYU_TEST_MODE == 1 ? true : false,
+                    test: process.env.VITE_PAYU_TEST_MODE == 1 ? true : false,
                     language: "en",
                     command: "ORDER_DETAIL_BY_REFERENCE_CODE",
                     merchant: {
-                        apiLogin: process.env.EXPO_PUBLIC_PAYU_API_LOGIN,
-                        apiKey: process.env.EXPO_PUBLIC_PAYU_API_KEY,
+                        apiLogin: process.env.VITE_PAYU_API_LOGIN,
+                        apiKey: process.env.VITE_PAYU_API_KEY,
                     },
                     details: {
                         referenceCode: req.query.referenceCode,
@@ -151,7 +151,7 @@ export default class OrderController {
 
             io.emit("sale", soldProducts);
 
-            res.redirect(`${process.env.EXPO_PUBLIC_APP_DOMAIN}/order/${order.order_id}`);
+            res.redirect(`${process.env.VITE_APP_DOMAIN}/order/${order.order_id}`);
         } catch (error) {
             await t.rollback();
             res.status(500).json({

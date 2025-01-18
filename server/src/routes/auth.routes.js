@@ -124,7 +124,7 @@ authRoutes.get("/auth/google", passport.authenticate("google", { scope: ["profil
 authRoutes.get("/auth/google/callback", passport.authenticate("google"), (req, res) => {
     req.session.user_id = req.user.user_id;
     console.log("Usuario autenticado:", req.user.user_id);
-    res.redirect(process.env.EXPO_PUBLIC_DEEP_LINK);
+    res.redirect(process.env.VITE_APP_DOMAIN);
 });
 
 // Facebook Auth
@@ -137,7 +137,7 @@ authRoutes.get(
 authRoutes.get("/auth/facebook/callback", passport.authenticate("facebook"), (req, res) => {
     req.session.user_id = req.user.user_id;
     console.log("Usuario autenticado:", req.user.user_id);
-    res.redirect(process.env.EXPO_PUBLIC_DEEP_LINK);
+    res.redirect(process.env.VITE_APP_DOMAIN);
 });
 
 // Github Auth
@@ -145,7 +145,7 @@ authRoutes.get("/auth/github", passport.authenticate("github", { scope: ["user:e
 authRoutes.get("/auth/github/callback", passport.authenticate("github"), function (req, res) {
     req.session.user_id = req.user.user_id;
     console.log("Usuario autenticado:", req.user.user_id);
-    res.redirect(process.env.EXPO_PUBLIC_DEEP_LINK);
+    res.redirect(process.env.VITE_APP_DOMAIN);
 });
 
 // Normal Auth
