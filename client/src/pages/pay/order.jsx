@@ -95,7 +95,7 @@ export default function Order() {
                                         <span className="font-medium">Repartidor:</span>
                                         {order.shippingDetails.trabajador_id ? (
                                             <Link
-                                                to={`/worker/${order.shippingDetails.worker.user.usuario_id}`}
+                                                to={`/worker/${order.shippingDetails.worker.user.user_id}`}
                                                 className="hover"
                                             >
                                                 {`${order.shippingDetails.worker.user.usuario_nombre} ${order.shippingDetails.worker.user.usuario_apellido}` ||
@@ -127,17 +127,17 @@ export default function Order() {
                             <div className="space-y-2">
                                 {order.orderProducts.map((product) => (
                                     <div
-                                        key={product.producto_id}
+                                        key={product.product_id}
                                         className="card border rounded-lg"
                                     >
                                         <article className="card-body p-4 flex-col sm:flex-row gap-2 [&_p]:grow-0">
                                             <Link
-                                                to={`/product/${product.producto_id}`}
+                                                to={`/product/${product.product_id}`}
                                                 className="size-[130px] mx-auto sm:mx-0"
                                             >
                                                 <img
-                                                    src={product.product.producto_imagen_url}
-                                                    alt={`Imagen del producto ${product.product.producto_nombre}`}
+                                                    src={product.product.product_image_url}
+                                                    alt={`Imagen del producto ${product.product.product_name}`}
                                                     className="w-full h-full object-contain"
                                                 />
                                             </Link>
@@ -145,10 +145,10 @@ export default function Order() {
                                                 <div className="grow">
                                                     <div className="flex justify-between items-center w-full">
                                                         <h2 className="text-xl font-bold tracking-tight">
-                                                            {product.product.producto_nombre}
+                                                            {product.product.product_name}
                                                         </h2>
                                                         <Link
-                                                            to={`/product/${product.producto_id}`}
+                                                            to={`/product/${product.product_id}`}
                                                             data-tip="Ver perfil del producto"
                                                             className="tooltip tooltip-left"
                                                         >
@@ -157,21 +157,21 @@ export default function Order() {
                                                             </button>
                                                         </Link>
                                                     </div>
-                                                    <p>cantidad: {product.producto_cantidad}</p>
+                                                    <p>cantidad: {product.product_quantity}</p>
                                                 </div>
                                                 <span className="flex flex-col sm:flex-row justify-between items-center w-full">
                                                     <p>
                                                         Precio:{" "}
                                                         {parseInt(
-                                                            product.producto_precio
+                                                            product.product_price
                                                         ).toLocaleString("es-CO")}{" "}
                                                         COP
                                                     </p>
                                                     <p>
                                                         Total:{" "}
                                                         {parseInt(
-                                                            product.producto_precio *
-                                                                product.producto_cantidad
+                                                            product.product_price *
+                                                                product.product_quantity
                                                         ).toLocaleString("es-CO")}{" "}
                                                         COP
                                                     </p>
@@ -195,7 +195,7 @@ export default function Order() {
                                     Marcar como recibido
                                 </button>
                             )}
-                            <Link to={`/profile/user/${order.usuario_id}`}>
+                            <Link to={`/profile/user/${order.user_id}`}>
                                 <button className="btn w-full btn-sm relative">
                                     <span className="absolute left-3 top-1/2 -translate-y-1/2">
                                         <ArrowLeftIcon size={17} />

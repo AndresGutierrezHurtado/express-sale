@@ -17,7 +17,7 @@ export default function Products() {
     const ProductsList =
         products &&
         products.rows.map((product) => {
-            return <Product product={product} reloadProducts={reloadProducts} key={product.producto_id} />;
+            return <Product product={product} reloadProducts={reloadProducts} key={product.product_id} />;
         });
 
     const updateParam = (key, value) => {
@@ -52,13 +52,13 @@ export default function Products() {
                                     }
                                 >
                                     <option value="">Destacados</option>
-                                    <option value="producto_precio:asc">
+                                    <option value="product_price:asc">
                                         Menor precio
                                     </option>
-                                    <option value="producto_precio:desc">
+                                    <option value="product_price:desc">
                                         Mayor precio
                                     </option>
-                                    <option value="producto_fecha:desc">
+                                    <option value="product_date:desc">
                                         Nuevos
                                     </option>
                                 </select>

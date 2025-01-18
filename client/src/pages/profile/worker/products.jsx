@@ -69,22 +69,22 @@ export default function WorkerProducts() {
                                     </thead>
                                     <tbody>
                                         {products.rows.map((product) => (
-                                            <tr key={product.producto_id}>
-                                                <td>{product.producto_id}</td>
-                                                <td>{product.producto_nombre}</td>
+                                            <tr key={product.product_id}>
+                                                <td>{product.product_id}</td>
+                                                <td>{product.product_name}</td>
                                                 <td className="capitalize">
-                                                    {product.category.categoria_nombre}
+                                                    {product.category.category_name}
                                                 </td>
                                                 <td>
                                                     {parseInt(
-                                                        product.producto_precio
+                                                        product.product_price
                                                     ).toLocaleString()}{" "}
                                                     COP
                                                 </td>
-                                                <td>{product.producto_cantidad}</td>
+                                                <td>{product.product_quantity}</td>
                                                 <td className="flex gap-2">
                                                     <Link
-                                                        to={`/profile/product/${product.producto_id}`}
+                                                        to={`/profile/product/${product.product_id}`}
                                                         className="btn btn-sm min-h-none h-auto py-2.5 pl-8 relative bg-gray-200 hover:bg-gray-200 text-gray-500 hover:text-gray-600"
                                                     >
                                                         <span className="absolute left-3 top-1/2 transform -translate-y-1/2">
@@ -95,8 +95,8 @@ export default function WorkerProducts() {
                                                     <button
                                                         onClick={() =>
                                                             handleDeleteProduct(
-                                                                product.producto_id,
-                                                                product.producto_nombre
+                                                                product.product_id,
+                                                                product.product_name
                                                             )
                                                         }
                                                         className="btn btn-sm min-h-none h-auto py-2.5 pl-8 relative bg-red-600 hover:bg-red-700 text-red-300 hover:text-red-200"

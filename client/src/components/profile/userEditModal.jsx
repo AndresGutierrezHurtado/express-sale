@@ -20,7 +20,7 @@ export function UserEditModal({ user, reload }) {
         const validation = useValidateform(data, "user-edit-modal-form");
 
         if (validation.success) {
-            const response = await usePutData(`/users/${user.usuario_id}`, {
+            const response = await usePutData(`/users/${user.user_id}`, {
                 user: {
                     usuario_nombre: data.usuario_nombre,
                     usuario_apellido: data.usuario_apellido,

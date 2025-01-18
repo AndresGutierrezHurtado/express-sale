@@ -29,14 +29,14 @@ export default function ProductProfile() {
             const files = Array.from(event.target.elements.multimedias.files);
             const base64Files = await Promise.all(files.map((file) => useConvertImage(file)));
 
-            const response = await usePutData(`/products/${product.producto_id}`, {
+            const response = await usePutData(`/products/${product.product_id}`, {
                 product: {
-                    producto_nombre: data.producto_nombre,
-                    producto_precio: data.producto_precio,
-                    producto_descripcion: data.producto_descripcion,
-                    producto_cantidad: data.producto_cantidad,
-                    producto_estado: data.producto_estado,
-                    categoria_id: data.categoria_id,
+                    product_name: data.product_name,
+                    product_price: data.product_price,
+                    product_description: data.product_description,
+                    product_quantity: data.product_quantity,
+                    product_status: data.product_status,
+                    category_id: data.category_id,
                 },
                 producto_imagen:
                     data.producto_imagen.size > 0
@@ -52,7 +52,7 @@ export default function ProductProfile() {
     const handleDeleteMultimedia = async (event) => {
         event.preventDefault();
 
-        const { multimedia_id } = Object.fromEntries(new FormData(event.target));
+        const { media_id } = Object.fromEntries(new FormData(event.target));
         Swal.fire({
             icon: "warning",
             title: "¿Estas seguro?",
@@ -64,7 +64,7 @@ export default function ProductProfile() {
             confirmButtonText: "Continuar",
         }).then(async (result) => {
             if (result.isConfirmed) {
-                const response = await useDeleteData(`/multimedias/${multimedia_id}`);
+                const response = await useDeleteData(`/multimedias/${media_id}`);
                 if (response.success) reloadProduct();
             }
         });
@@ -85,7 +85,7 @@ export default function ProductProfile() {
                                 <div className="mx-auto">
                                     <figure className="w-full max-w-[300px] aspect-square">
                                         <img
-                                            src={product.producto_imagen_url}
+                                            src={product.product_image_url}
                                             alt={`Imagen del producto ${product.producto_titulo}`}
                                             className="object-contain h-full w-full"
                                         />
@@ -93,20 +93,20 @@ export default function ProductProfile() {
                                 </div>
                                 <div className="flex w-full items-center justify-between">
                                     <h2 className="text-2xl font-bold">
-                                        {product.producto_nombre}
+                                        {product.product_name}
                                     </h2>
                                     <p className="grow-0 flex gap-1 items-center">
                                         <StarIcon />
-                                        {product.calificacion_promedio}
+                                        {product.average_rating}
                                     </p>
                                 </div>
-                                <p>{product.producto_descripcion}</p>
+                                <p>{product.product_description}</p>
                                 <p className="text-lg font-bold">
-                                    {parseFloat(product.producto_precio).toLocaleString("es-CO")}{" "}
+                                    {parseFloat(product.product_price).toLocaleString("es-CO")}{" "}
                                     COP
                                 </p>
                                 <Link
-                                    to={`/product/${product.producto_id}`}
+                                    to={`/product/${product.product_id}`}
                                     className="btn btn-sm min-h-none h-auto py-3 btn-primary group relative text-purple-300 hover:bg-purple-800 hover:text-purple-100 w-full"
                                 >
                                     <span className="absolute left-3 top-1/2 transform -translate-y-1/2 text-purple-300 group-hover:text-purple-100">
@@ -123,18 +123,18 @@ export default function ProductProfile() {
                                     Multimedias:
                                 </h2>
                                 <div className="flex flex-col gap-2">
-                                    {product.media.length === 0 && (
+                                    {product.medias.length === 0 && (
                                         <p className="text-gray-600">
                                             No se encontraron multimedias...
                                         </p>
                                     )}
-                                    {product.media.map((multimedia) => (
+                                    {product.medias.map((multimedia) => (
                                         <figure
-                                            key={multimedia.multimedia_id}
+                                            key={multimedia.media_id}
                                             className="w-full aspect-[16/9] rounded-lg aspect-square mx-auto relative group hover:cursor-pointer bg-gray-500 overflow-hidden"
                                         >
                                             <img
-                                                src={multimedia.multimedia_url}
+                                                src={multimedia.media_url}
                                                 alt={`Imagen del producto ${product.producto_titulo}`}
                                                 className="object-contain h-full w-full group-hover:blur-[1px] group-hover:bg-black group-hover:scale-105 duration-300"
                                             />
@@ -142,8 +142,8 @@ export default function ProductProfile() {
                                                 <form onSubmit={handleDeleteMultimedia}>
                                                     <input
                                                         type="hidden"
-                                                        name="multimedia_id"
-                                                        value={multimedia.multimedia_id}
+                                                        name="media_id"
+                                                        value={multimedia.media_id}
                                                     />
                                                     <button
                                                         type="submit"
@@ -175,8 +175,8 @@ export default function ProductProfile() {
                                         </label>
                                         <input
                                             className="input input-sm input-bordered w-full focus:input-primary focus:outline-0 rounded"
-                                            defaultValue={product.producto_nombre}
-                                            name="producto_nombre"
+                                            defaultValue={product.product_name}
+                                            name="product_name"
                                         />
                                     </div>
                                     <div className="form-control">
@@ -187,8 +187,8 @@ export default function ProductProfile() {
                                         </label>
                                         <input
                                             className="input input-sm input-bordered w-full focus:input-primary focus:outline-0 rounded"
-                                            defaultValue={product.producto_precio}
-                                            name="producto_precio"
+                                            defaultValue={product.product_price}
+                                            name="product_price"
                                         />
                                     </div>
                                     <div className="form-control">
@@ -199,8 +199,8 @@ export default function ProductProfile() {
                                         </label>
                                         <input
                                             className="input input-sm input-bordered w-full focus:input-primary focus:outline-0 rounded"
-                                            defaultValue={product.producto_cantidad}
-                                            name="producto_cantidad"
+                                            defaultValue={product.product_quantity}
+                                            name="product_quantity"
                                         />
                                     </div>
                                     <div className="form-control">
@@ -211,8 +211,8 @@ export default function ProductProfile() {
                                         </label>
                                         <textarea
                                             className="textarea textarea-bordered resize-none h-32 textarea-sm w-full focus:input-primary focus:outline-0 rounded leading-[1.5]"
-                                            defaultValue={product.producto_descripcion}
-                                            name="producto_descripcion"
+                                            defaultValue={product.product_description}
+                                            name="product_description"
                                         />
                                     </div>
                                     <div className="form-control">
@@ -231,19 +231,19 @@ export default function ProductProfile() {
                                     <div className="form-control">
                                         <label className="label">
                                             <span className="label-text font-semibold">
-                                                Multimedia: <span className="text-gray-500">(máximo {5 - product.media.length})</span>
+                                                Multimedia: <span className="text-gray-500">(máximo {5 - product.medias.length})</span>
                                             </span>
                                         </label>
                                         <input
                                             type="file"
                                             multiple
-                                            max={5 - product.media.length}
+                                            max={5 - product.medias.length}
                                             onChange={(event) => {
-                                                if (event.target.files.length > (5 - product.media.length)) {
+                                                if (event.target.files.length > (5 - product.medias.length)) {
                                                     Swal.fire({
                                                         icon: "error",
                                                         title: "Oops...",
-                                                        text: `Solo se pueden subir ${5 - product.media.length} multimedias`,
+                                                        text: `Solo se pueden subir ${5 - product.medias.length} multimedias`,
                                                     })
                                                     event.target.value = null;
                                                     return;
@@ -261,9 +261,9 @@ export default function ProductProfile() {
                                             </span>
                                         </label>
                                         <select
-                                            name="producto_estado"
+                                            name="product_status"
                                             className="select select-bordered select-sm w-full focus:select-primary focus:outline-0"
-                                            defaultValue={product.producto_estado}
+                                            defaultValue={product.product_status}
                                         >
                                             <option value="publico">Publico</option>
                                             <option value="privado">Privado</option>
@@ -276,7 +276,7 @@ export default function ProductProfile() {
                                             </span>
                                         </label>
                                         <select
-                                            name="categoria_id"
+                                            name="category_id"
                                             className="select select-bordered select-sm w-full focus:select-primary focus:outline-0"
                                         >
                                             <option value="1">Moda</option>

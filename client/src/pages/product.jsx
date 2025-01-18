@@ -54,7 +54,7 @@ export default function Product() {
 
     const handleCartAdd = async () => {
         const response = await usePostData("/carts", {
-            producto_id: product.producto_id,
+            product_id: product.product_id,
         });
     };
 
@@ -62,14 +62,14 @@ export default function Product() {
 
     const images = [
         {
-            id: product.producto_id,
-            url: product.producto_imagen_url,
-            alt: `Imagen del producto ${product.producto_nombre}`,
+            id: product.product_id,
+            url: product.product_image_url,
+            alt: `Imagen del producto ${product.product_name}`,
         },
-        ...product.media.map((media) => ({
-            id: media.multimedia_id,
-            url: media.multimedia_url,
-            alt: `Imagen del producto ${product.producto_nombre}`,
+        ...product.medias.map((media) => ({
+            id: media.media_id,
+            url: media.media_url,
+            alt: `Imagen del producto ${product.product_name}`,
         })),
     ]
 
@@ -84,12 +84,12 @@ export default function Product() {
                                     <Link to="/products">Productos</Link>
                                 </li>
                                 <li>
-                                    <Link to={`/products?category=${product.categoria_id}`}>
-                                        {product.category.categoria_nombre}
+                                    <Link to={`/products?category=${product.category_id}`}>
+                                        {product.category.category_name}
                                     </Link>
                                 </li>
                                 <li>
-                                    <a className="text-purple-700 ">{product.producto_nombre}</a>
+                                    <a className="text-purple-700 ">{product.product_name}</a>
                                 </li>
                             </ul>
                         </span>
@@ -102,7 +102,7 @@ export default function Product() {
                                 <div className="w-full">
                                     <div className="flex justify-between items-center w-full">
                                         <h2 className="text-2xl md:text-4xl font-bold leading-none">
-                                            {product.producto_nombre}
+                                            {product.product_name}
                                         </h2>
                                         <p
                                             className="text-gray-600/90 font-medium hover:underline cursor-pointer tooltip tooltip-left"
@@ -111,12 +111,12 @@ export default function Product() {
                                                 document.getElementById("ratings-list").classList.toggle("hidden");
                                             }}
                                         >
-                                            {product.calificacion_cantidad} comentarios
+                                            {product.ratings_count} comentarios
                                         </p>
                                     </div>
                                     {product.user && (
                                         <Link
-                                            to={`/worker/${product.user.usuario_id}`}
+                                            to={`/worker/${product.user.user_id}`}
                                             className="text-gray-500/80 font-semibold italic text-sm hover:underline tooltip tooltip-bottom"
                                             data-tip="Ir al perfil del vendedor"
                                         >
@@ -124,12 +124,12 @@ export default function Product() {
                                         </Link>
                                     )}
                                 </div>
-                                <p className="grow">{product.producto_descripcion}</p>
+                                <p className="grow">{product.product_description}</p>
                                 <div className="space-y-3">
                                     <span className="flex justify-between items-center">
-                                        <p>{product.producto_cantidad} Disponibles</p>
+                                        <p>{product.product_quantity} Disponibles</p>
                                         <p className="flex items-center">
-                                            {product.calificacion_promedio}
+                                            {product.average_rating}
                                             <StarIcon />
                                         </p>
                                     </span>
@@ -159,10 +159,10 @@ export default function Product() {
                                     <article className="w-full flex gap-10">
                                         <div className="flex flex-col items-center justify-center w-fit text-gray-600 gap-1">
                                             <h2 className="font-semibold text-4xl text-center">
-                                                {product.calificacion_promedio}
+                                                {product.average_rating}
                                             </h2>
                                             <StarsRating
-                                                rating={parseFloat(product.calificacion_promedio)}
+                                                rating={parseFloat(product.average_rating)}
                                             />
                                             <p className="text-sm flex gap-1 items-center grow-0">
                                                 {ratings.length}
@@ -326,7 +326,7 @@ export default function Product() {
                                     {ratings.map((rating) => {
                                         return (
                                             <Calification
-                                                key={rating.calificacion_id}
+                                                key={rating.rating_id}
                                                 rating={rating}
                                                 reload={() => {
                                                     reloadProduct();

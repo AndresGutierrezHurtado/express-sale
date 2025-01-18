@@ -55,7 +55,7 @@ export default function AdminLayout() {
                                             <li>
                                                 <a
                                                     onClick={() => {
-                                                        updateParam("sort", "usuario_id:asc");
+                                                        updateParam("sort", "user_id:asc");
                                                     }}
                                                 >
                                                     Id
@@ -94,7 +94,7 @@ export default function AdminLayout() {
                                             <li>
                                                 <a
                                                     onClick={() => {
-                                                        updateParam("sort", "producto_id:asc");
+                                                        updateParam("sort", "product_id:asc");
                                                     }}
                                                 >
                                                     Id
@@ -103,7 +103,7 @@ export default function AdminLayout() {
                                             <li>
                                                 <a
                                                     onClick={() => {
-                                                        updateParam("sort", "producto_nombre:asc");
+                                                        updateParam("sort", "product_name:asc");
                                                     }}
                                                 >
                                                     Nombre
@@ -112,7 +112,7 @@ export default function AdminLayout() {
                                             <li>
                                                 <a
                                                     onClick={() => {
-                                                        updateParam("sort", "producto_nombre:asc");
+                                                        updateParam("sort", "product_name:asc");
                                                     }}
                                                 >
                                                     Categoria
@@ -121,7 +121,7 @@ export default function AdminLayout() {
                                             <li>
                                                 <a
                                                     onClick={() => {
-                                                        updateParam("sort", "producto_precio:asc");
+                                                        updateParam("sort", "product_price:asc");
                                                     }}
                                                 >
                                                     Precio: menor a mayor
@@ -130,7 +130,7 @@ export default function AdminLayout() {
                                             <li>
                                                 <a
                                                     onClick={() => {
-                                                        updateParam("sort", "producto_precio:desc");
+                                                        updateParam("sort", "product_price:desc");
                                                     }}
                                                 >
                                                     Precio: mayor a menor

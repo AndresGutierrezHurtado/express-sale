@@ -11,7 +11,7 @@ import { useValidateform } from "@hooks/useValidateForm.js";
 
 export default function Withdraw({ user, reloadUser }) {
     const { data: withdrawals, loading: withdrawalsLoading, reload: reloadWithdrawals } = useGetData(
-        `/users/${user.usuario_id}/withdrawals`
+        `/users/${user.user_id}/withdrawals`
     );
 
     const handleWithdraw = async (event) => {

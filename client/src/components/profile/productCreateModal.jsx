@@ -15,12 +15,12 @@ export default function ProductCreateModal({ reload }) {
         if (validation.success) {
             const response = await usePostData("/products", {
                 product: {
-                    producto_nombre: data.producto_nombre,
-                    producto_precio: data.producto_precio,
-                    producto_descripcion: data.producto_descripcion,
-                    producto_cantidad: data.producto_cantidad,
-                    producto_estado: data.producto_estado,
-                    categoria_id: data.categoria_id,
+                    product_name: data.product_name,
+                    product_price: data.product_price,
+                    product_description: data.product_description,
+                    product_quantity: data.product_quantity,
+                    product_status: data.product_status,
+                    category_id: data.category_id,
                 },
                 producto_imagen:
                     data.producto_imagen.size > 0
@@ -53,7 +53,7 @@ export default function ProductCreateModal({ reload }) {
                                 </span>
                             </label>
                             <input
-                                name="producto_nombre"
+                                name="product_name"
                                 placeholder="Ingresa el nombre del producto"
                                 className="input input-bordered input-sm focus:input-primary focus:outline-0"
                             />
@@ -65,7 +65,7 @@ export default function ProductCreateModal({ reload }) {
                                 </span>
                             </label>
                             <input
-                                name="producto_precio"
+                                name="product_price"
                                 placeholder="Ingresa el precio del producto"
                                 className="input input-bordered input-sm focus:input-primary focus:outline-0"
                             />
@@ -77,7 +77,7 @@ export default function ProductCreateModal({ reload }) {
                                 </span>
                             </label>
                             <textarea
-                                name="producto_descripcion"
+                                name="product_description"
                                 placeholder="Ingresa la descripcion del producto"
                                 className="textarea textarea-bordered textarea-sm focus:textarea-primary focus:outline-0 h-32 resize-none"
                             ></textarea>
@@ -89,7 +89,7 @@ export default function ProductCreateModal({ reload }) {
                                 </span>
                             </label>
                             <select
-                                name="categoria_id"
+                                name="category_id"
                                 className="select select-sm select-bordered focus:outline-0 focus:select-primary"
                                 defaultValue="4"
                             >
@@ -106,7 +106,7 @@ export default function ProductCreateModal({ reload }) {
                                 </span>
                             </label>
                             <input
-                                name="producto_cantidad"
+                                name="product_quantity"
                                 placeholder="Ingresa la cantidad del producto"
                                 className="input input-bordered input-sm focus:input-primary focus:outline-0"
                             />
@@ -128,7 +128,7 @@ export default function ProductCreateModal({ reload }) {
                                 </span>
                             </label>
                             <select
-                                name="producto_estado"
+                                name="product_status"
                                 className="select select-sm select-bordered focus:outline-0 focus:select-primary"
                                 defaultValue="privado"
                             >

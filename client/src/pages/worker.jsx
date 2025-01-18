@@ -90,11 +90,11 @@ export default function Worker() {
                                         <div className="grow flex flex-col sm:flex-row items-center justify-center gap-5">
                                             <div className="flex flex-col items-center justify-center w-fit text-gray-600 space-y-1">
                                                 <h2 className="font-semibold text-4xl text-center">
-                                                    {seller.calificacion_promedio}
+                                                    {seller.average_rating}
                                                 </h2>
                                                 <StarsRating
                                                     rating={parseFloat(
-                                                        seller.calificacion_promedio
+                                                        seller.average_rating
                                                     )}
                                                 />
                                                 <p className="text-sm flex gap-1 items-center">
@@ -180,7 +180,7 @@ export default function Worker() {
                                                 onClick={() => {
                                                     document
                                                         .getElementById(
-                                                            "user-modal-" + seller.usuario_id
+                                                            "user-modal-" + seller.user_id
                                                         )
                                                         .showModal();
                                                 }}
@@ -222,7 +222,7 @@ export default function Worker() {
                                             return (
                                                 <Calification
                                                     rating={rating}
-                                                    key={rating.calificacion_id}
+                                                    key={rating.rating_id}
                                                     reload={reload}
                                                 />
                                             );
@@ -237,7 +237,7 @@ export default function Worker() {
                                 <div className="space-y-8">
                                     {products.rows.map((product) => (
                                         <Product
-                                            key={product.producto_id}
+                                            key={product.product_id}
                                             product={product}
                                             reloadProducts={reload}
                                         />
@@ -255,7 +255,7 @@ export default function Worker() {
                     </div>
                 </div>
             </section>
-            <RateModal id={seller.usuario_id} reload={reload} type="user" />
+            <RateModal id={seller.user_id} reload={reload} type="user" />
         </>
     );
 }

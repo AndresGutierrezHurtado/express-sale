@@ -17,7 +17,7 @@ export function VerticalProductCard({ product, reloadProducts }) {
 
     const handleCartAdd = async () => {
         const response = await usePostData("/carts", {
-            producto_id: product.producto_id,
+            product_id: product.product_id,
         });
     };
 
@@ -25,11 +25,11 @@ export function VerticalProductCard({ product, reloadProducts }) {
         <>
             <div className="card bg-white shadow-xl border w-full sm:min-w-[350px] max-w-[350px] tilt">
                 <div className="card-body">
-                    <Link to={`/product/${product.producto_id}`}>
+                    <Link to={`/product/${product.product_id}`}>
                         <figure className="w-full h-[200px] rounded-lg overflow-hidden">
                             <img
-                                src={product.producto_imagen_url}
-                                alt={`Imagen del producto ${product.producto_imagen_url}`}
+                                src={product.product_image_url}
+                                alt={`Imagen del producto ${product.product_image_url}`}
                                 className="object-contain h-full w-full"
                             />
                         </figure>
@@ -37,37 +37,37 @@ export function VerticalProductCard({ product, reloadProducts }) {
                     <div className="text-left leading-none">
                         <div className="flex items-center justify-between w-full">
                             <h3 className="text-2xl font-bold tracking-tight truncate grow w-full">
-                                {product.producto_nombre}
+                                {product.product_name}
                             </h3>
                             <div className="flex flex-col items-end">
                                 <p className="flex text-lg items-center leading-none">
                                     <StarIcon />
-                                    {Number.parseFloat(product.calificacion_promedio).toFixed(1)}
+                                    {Number.parseFloat(product.average_rating).toFixed(1)}
                                 </p>
                                 <span className="flex items-center text-gray-600 text-sm">
-                                    ({parseInt(product.calificacion_cantidad)}
+                                    ({parseInt(product.ratings_count)}
                                     <UserIcon size={11} />)
                                 </span>
                             </div>
                         </div>
                         <Link
-                            to={`/worker/${product.user.usuario_id}`}
+                            to={`/worker/${product.user.user_id}`}
                             className="text-gray-500/80 font-semibold italic text-sm hover:underline tooltip tooltip-bottom"
                             data-tip="Ir al perfil del vendedor"
                         >
                             @publicado por {product.user.usuario_alias}
                         </Link>
                     </div>
-                    <p className="line-clamp-3">{product.producto_descripcion}</p>
+                    <p className="line-clamp-3">{product.product_description}</p>
                     <div className="w-full flex items-center justify-between">
                         <p className="text-sm font-medium text-gray-700">
-                            {product.producto_cantidad} disponibles
+                            {product.product_quantity} disponibles
                         </p>
                         <button
                             onClick={() => {
                                 if (userSession) {
                                     document
-                                        .getElementById(`product-modal-${product.producto_id}`)
+                                        .getElementById(`product-modal-${product.product_id}`)
                                         .show();
                                 } else {
                                     authMiddlewareAlert();
@@ -98,7 +98,7 @@ export function VerticalProductCard({ product, reloadProducts }) {
             </div>
 
             {/* Modal producto */}
-            <RateModal id={product.producto_id} reload={reloadProducts} type="product" />
+            <RateModal id={product.product_id} reload={reloadProducts} type="product" />
         </>
     );
 }

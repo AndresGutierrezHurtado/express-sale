@@ -18,10 +18,10 @@ export default function Cart() {
         data: carts,
         loading: loadingCarts,
         reload: reloadCarts,
-    } = useGetData(`/users/${userSession.usuario_id}/carts`);
+    } = useGetData(`/users/${userSession.user_id}/carts`);
 
     const handleCartUpdate = async (id, quantity) => {
-        const response = await usePutData(`/carts/${id}`, { producto_cantidad: quantity });
+        const response = await usePutData(`/carts/${id}`, { product_quantity: quantity });
         if (response.success) {
             reloadCarts();
         }
@@ -61,7 +61,7 @@ export default function Cart() {
         }).then(async (result) => {
             if (result.isConfirmed) {
                 const response = await useDeleteData(
-                    `/users/${userSession.usuario_id}/carts/empty`
+                    `/users/${userSession.user_id}/carts/empty`
                 );
                 if (response.success) {
                     reloadCarts();
@@ -71,7 +71,7 @@ export default function Cart() {
     };
 
     const subTotal = carts?.reduce(
-        (acc, cart) => acc + cart.product.producto_precio * cart.producto_cantidad,
+        (acc, cart) => acc + cart.product.product_price * cart.product_quantity,
         0
     );
 
@@ -96,12 +96,12 @@ export default function Cart() {
                                     >
                                         <div className="flex flex-col md:flex-row gap-5">
                                             <Link
-                                                to={`/product/${cart.producto_id}`}
+                                                to={`/product/${cart.product_id}`}
                                                 className="size-[160px]"
                                             >
                                                 <img
-                                                    src={cart.product.producto_imagen_url}
-                                                    alt={`Imagen del producto ${cart.product.producto_nombre}`}
+                                                    src={cart.product.product_image_url}
+                                                    alt={`Imagen del producto ${cart.product.product_name}`}
                                                     className="object-contain h-full w-full"
                                                 />
                                             </Link>
@@ -110,16 +110,16 @@ export default function Cart() {
                                                     <div className="grow h-full flex flex-col justify-between">
                                                         <div className="grow">
                                                             <h2 className="text-3xl font-bold">
-                                                                {cart.product.producto_nombre}
+                                                                {cart.product.product_name}
                                                             </h2>
                                                             <p className="text-lg font-bold">
                                                                 {parseInt(
-                                                                    cart.product.producto_precio
+                                                                    cart.product.product_price
                                                                 ).toLocaleString("es-CO")}{" "}
                                                                 COP
                                                             </p>
                                                             <p className="text-sm font-semibold text-gray-600">
-                                                                Cant: {cart.producto_cantidad}
+                                                                Cant: {cart.product_quantity}
                                                             </p>
                                                         </div>
                                                         <span className="flex gap-4 items-center justify-start">
@@ -129,30 +129,30 @@ export default function Cart() {
                                                                 onClick={() =>
                                                                     handleCartUpdate(
                                                                         cart.carrito_id,
-                                                                        cart.producto_cantidad - 1
+                                                                        cart.product_quantity - 1
                                                                     )
                                                                 }
                                                                 disabled={
-                                                                    cart.producto_cantidad === 1
+                                                                    cart.product_quantity === 1
                                                                 }
                                                             >
                                                                 <MinusIcon size={12} />
                                                             </button>
                                                             <p className="text-xl font-medium">
-                                                                {cart.producto_cantidad}
+                                                                {cart.product_quantity}
                                                             </p>
                                                             <button
                                                                 className="btn btn-sm tooltip tooltip-top"
-                                                                data-tip={`Aumentar la cantidad del producto (max ${cart.product.producto_cantidad})`}
+                                                                data-tip={`Aumentar la cantidad del producto (max ${cart.product.product_quantity})`}
                                                                 onClick={() =>
                                                                     handleCartUpdate(
                                                                         cart.carrito_id,
-                                                                        cart.producto_cantidad + 1
+                                                                        cart.product_quantity + 1
                                                                     )
                                                                 }
                                                                 disabled={
-                                                                    cart.producto_cantidad ===
-                                                                    cart.product.producto_cantidad
+                                                                    cart.product_quantity ===
+                                                                    cart.product.product_quantity
                                                                 }
                                                             >
                                                                 <PlusIcon />
@@ -162,8 +162,8 @@ export default function Cart() {
                                                     <div className="text-end flex flex-col justify-between items-start sm:items-end h-full">
                                                         <p className="text-2xl font-bold">
                                                             {parseInt(
-                                                                cart.product.producto_precio *
-                                                                    cart.producto_cantidad
+                                                                cart.product.product_price *
+                                                                    cart.product_quantity
                                                             ).toLocaleString("es-CO")}{" "}
                                                             COP
                                                         </p>

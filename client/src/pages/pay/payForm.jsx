@@ -17,7 +17,7 @@ export default function PayForm() {
     const { userSession } = useAuthContext();
 
     const { data: carts, loading: loadingCarts } = useGetData(
-        `/users/${userSession.usuario_id}/carts`
+        `/users/${userSession.user_id}/carts`
     );
 
     const handleSubmit = (event) => {
@@ -48,10 +48,10 @@ export default function PayForm() {
     const amount =
         carts &&
         carts.reduce(
-            (total, cart) => total + cart.producto_cantidad * cart.product.producto_precio,
+            (total, cart) => total + cart.product_quantity * cart.product.product_price,
             0
         );
-    const referenceCode = `compra-${userSession.usuario_id}-${Date.now()}`;
+    const referenceCode = `compra-${userSession.user_id}-${Date.now()}`;
     const signature = MD5(
         `${import.meta.env.VITE_PAYU_API_KEY}~${
             import.meta.env.VITE_PAYU_MERCHANT_ID

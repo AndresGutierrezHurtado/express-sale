@@ -26,7 +26,7 @@ export default function ResetPassword() {
         if (validation.success) {
             const response = await usePutData(`/recoveries/${token}`, {
                 ...data,
-                usuario_id: validatedToken.usuario_id,
+                user_id: validatedToken.user_id,
             });
 
             if (response.success) {

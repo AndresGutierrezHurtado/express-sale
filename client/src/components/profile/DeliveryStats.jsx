@@ -141,7 +141,7 @@ export default function DeliveryStats({ user, reloadUser }) {
                             </div>
                             <div className="flex-grow">
                                 <div className="stat-value text-xl">
-                                    {user.calificacion_cantidad}
+                                    {user.ratings_count}
                                 </div>
                                 <div className="text-gray-500 leading-none">Calificaciones</div>
                             </div>
@@ -152,7 +152,7 @@ export default function DeliveryStats({ user, reloadUser }) {
                             </div>
                             <div className="flex-grow">
                                 <div className="stat-value text-xl">
-                                    {user.calificacion_promedio}
+                                    {user.average_rating}
                                 </div>
                                 <div className="text-gray-500 leading-none">
                                     Calificacion promedio

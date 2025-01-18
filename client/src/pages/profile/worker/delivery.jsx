@@ -37,7 +37,7 @@ export default function Delivery() {
                     },
                 });
                 if (response.success) {
-                    navigate(`/worker/stats/${userSession.usuario_id}`);
+                    navigate(`/worker/stats/${userSession.user_id}`);
                 }
             }
         });
@@ -48,7 +48,7 @@ export default function Delivery() {
     const { orderProducts, shippingDetails, paymentDetails } = order;
 
     const totalAmount = orderProducts.reduce(
-        (total, item) => total + item.producto_precio * item.producto_cantidad,
+        (total, item) => total + item.product_price * item.product_quantity,
         0
     );
 
@@ -92,7 +92,7 @@ export default function Delivery() {
                                 </h1>
                                 <div className="text-lg">
                                     {orderProducts.map((item, index) => (
-                                        <div key={item.producto_id}>
+                                        <div key={item.product_id}>
                                             <p>
                                                 {index + 1}. {item.product.user.usuario_nombre}{" "}
                                                 {item.product.user.usuario_apellido}{" "}

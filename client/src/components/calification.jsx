@@ -70,7 +70,7 @@ export function Calification({ rating, reload }) {
 
         if (validation.success) {
             const response = await usePutData(
-                `/ratings/${rating.calificacion_id}`,
+                `/ratings/${rating.rating_id}`,
                 data
             );
             if (response.success) {
@@ -121,8 +121,8 @@ export function Calification({ rating, reload }) {
                                     </a>
                                 </li>
                                 {userSession &&
-                                    (rating.usuario_id ==
-                                        userSession.usuario_id ||
+                                    (rating.user_id ==
+                                        userSession.user_id ||
                                         userSession.rol_id == 4) && (
                                         <>
                                             <li>
@@ -130,7 +130,7 @@ export function Calification({ rating, reload }) {
                                                     onClick={() =>
                                                         document
                                                             .getElementById(
-                                                                `rating-edit-${rating.calificacion_id}`
+                                                                `rating-edit-${rating.rating_id}`
                                                             )
                                                             .show()
                                                     }
@@ -143,7 +143,7 @@ export function Calification({ rating, reload }) {
                                                 <a
                                                     onClick={() =>
                                                         handleDelete(
-                                                            rating.calificacion_id
+                                                            rating.rating_id
                                                         )
                                                     }
                                                     className="text-red-500"
@@ -163,7 +163,7 @@ export function Calification({ rating, reload }) {
                 </div>
             </article>
             <dialog
-                id={`rating-edit-${rating.calificacion_id}`}
+                id={`rating-edit-${rating.rating_id}`}
                 className="modal mt-[0_!important]"
             >
                 <div className="modal-box">

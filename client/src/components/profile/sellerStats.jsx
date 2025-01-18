@@ -19,7 +19,7 @@ export default function SellerStats({ user, reloadUser }) {
         data: pendingOrders,
         loading: pendingOrdersLoading,
         reload: reloadPendingOrders,
-    } = useGetData(`/orders?pedido_estado=pendiente,enviando&usuario_id=${user.usuario_id}`);
+    } = useGetData(`/orders?pedido_estado=pendiente,enviando&user_id=${user.user_id}`);
 
     const yearSales = [];
     for (let i = 1; i <= 12; i++) {
@@ -158,7 +158,7 @@ export default function SellerStats({ user, reloadUser }) {
                                 </div>
                                 <div className="flex-grow">
                                     <div className="stat-value text-xl">
-                                        {user.calificacion_cantidad}
+                                        {user.ratings_count}
                                     </div>
                                     <div className="text-gray-500 leading-none">Calificaciones</div>
                                 </div>
@@ -169,7 +169,7 @@ export default function SellerStats({ user, reloadUser }) {
                                 </div>
                                 <div className="flex-grow">
                                     <div className="stat-value text-xl">
-                                        {user.calificacion_promedio}
+                                        {user.average_rating}
                                     </div>
                                     <div className="text-gray-500 leading-none">
                                         Calificacion promedio
@@ -232,8 +232,8 @@ export default function SellerStats({ user, reloadUser }) {
                                                 </td>
                                                 <td>
                                                     {order.orderProducts.map((product) => (
-                                                        <p key={product.producto_id}>
-                                                            - {product.product.producto_nombre}
+                                                        <p key={product.product_id}>
+                                                            - {product.product.product_name}
                                                         </p>
                                                     ))}
                                                 </td>
@@ -265,33 +265,33 @@ export default function SellerStats({ user, reloadUser }) {
                                 </p>
                             )}
                             {user.worker.most_selled_products.map((product, index) => (
-                                <div key={product.producto_id} className="flex flex-wrap items-center gap-5">
+                                <div key={product.product_id} className="flex flex-wrap items-center gap-5">
                                     <h2 className="text-4xl font-bold mx-auto">{index + 1}</h2>
                                     <div className="card bg-white border border-gray-100 w-full max-w-[400px] shadow-lg">
                                         <div className="card-body flex-row flex-wrap items-center">
                                             <figure className="size-[100px] flex-none">
                                                 <img
-                                                    src={product.producto_imagen_url}
-                                                    alt={`Imagen del producto ${product.producto_nombre}`}
+                                                    src={product.product_image_url}
+                                                    alt={`Imagen del producto ${product.product_name}`}
                                                     className="object-contain h-full w-full"
                                                 />
                                             </figure>
                                             <div className="grow flex flex-col gap-4">
                                                 <div className="grow">
                                                     <h2 className="text-xl md:text-2xl font-bold tracking-tight">
-                                                        {product.producto_nombre}
+                                                        {product.product_name}
                                                     </h2>
                                                     <p>{product.total_ventas} ventas</p>
                                                 </div>
                                                 <div className="h-initial flex items-start gap-2">
                                                     <Link
-                                                        to={`/product/${product.producto_id}`}
+                                                        to={`/product/${product.product_id}`}
                                                         className="btn btn-sm btn-primary"
                                                     >
                                                         Ver perfil
                                                     </Link>
                                                     <Link
-                                                        to={`/profile/product/${product.producto_id}`}
+                                                        to={`/profile/product/${product.product_id}`}
                                                         className="btn btn-sm btn-primary"
                                                     >
                                                         Editar

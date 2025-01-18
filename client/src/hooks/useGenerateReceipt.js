@@ -63,10 +63,10 @@ export const useGenerateReceipt = (order, userSession) => {
 
     // Tabla de productos
     const items = order.orderProducts.map((item) => ({
-        Producto: item.product.producto_nombre,
-        Cantidad: item.producto_cantidad.toString(),
-        Precio: `${parseInt(item.producto_precio).toLocaleString("es-CO")} COP`,
-        Total: `${(parseInt(item.producto_precio) * item.producto_cantidad).toLocaleString(
+        Producto: item.product.product_name,
+        Cantidad: item.product_quantity.toString(),
+        Precio: `${parseInt(item.product_price).toLocaleString("es-CO")} COP`,
+        Total: `${(parseInt(item.product_price) * item.product_quantity).toLocaleString(
             "es-CO"
         )} COP`,
     }));

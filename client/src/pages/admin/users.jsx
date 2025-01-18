@@ -33,7 +33,7 @@ export default function UsersAdmin() {
     } = useGetData(`/users?${searchParams.toString()}`);
 
     const handleDeleteUser = (id, nombre) => {
-        if (id == userSession.usuario_id) {
+        if (id == userSession.user_id) {
             Swal.fire({
                 icon: "error",
                 title: "Accion fallida",
@@ -78,8 +78,8 @@ export default function UsersAdmin() {
                         </thead>
                         <tbody className="text-xs">
                             {users.rows.map((user) => (
-                                <tr key={user.usuario_id}>
-                                    <td>{user.usuario_id}</td>
+                                <tr key={user.user_id}>
+                                    <td>{user.user_id}</td>
                                     <td>
                                         {user.usuario_nombre} {user.usuario_apellido}
                                     </td>
@@ -89,7 +89,7 @@ export default function UsersAdmin() {
                                     <td>
                                         <div className="flex justify-center items-center gap-2">
                                             <Link
-                                                to={`/profile/user/${user.usuario_id}`}
+                                                to={`/profile/user/${user.user_id}`}
                                                 className="btn btn-sm min-h-none h-auto py-2.5 pl-8 relative bg-gray-200 hover:bg-gray-200 text-gray-500 hover:text-gray-600"
                                             >
                                                 <span className="absolute left-3 top-1/2 transform -translate-y-1/2">
@@ -100,7 +100,7 @@ export default function UsersAdmin() {
                                             <button
                                                 onClick={() =>
                                                     handleDeleteUser(
-                                                        user.usuario_id,
+                                                        user.user_id,
                                                         user.usuario_nombre
                                                     )
                                                 }

@@ -31,13 +31,13 @@ export default function UserProfile() {
         loading: loadingUser,
         data: user,
         reload: reloadUser,
-    } = !loading && useGetData(`/users/${id || userSession.usuario_id}`);
+    } = !loading && useGetData(`/users/${id || userSession.user_id}`);
 
     const {
         loading: loadingOrders,
         data: orders,
         reload: reloadOrders,
-    } = useGetData(`/users/${id || userSession.usuario_id}/orders`);
+    } = useGetData(`/users/${id || userSession.user_id}/orders`);
 
     if (loadingUser || loadingOrders) return <ContentLoading />;
     return (
@@ -45,7 +45,7 @@ export default function UserProfile() {
             <section className="w-full px-3">
                 <div className="w-full max-w-[1200px] mx-auto py-5 space-y-5">
                     <h3 className="text-4xl font-extrabold">
-                        {user.usuario_id == userSession.usuario_id
+                        {user.user_id == userSession.user_id
                             ? "Mi perfil"
                             : "Perfil de usuario"}
                     </h3>
@@ -89,7 +89,7 @@ export default function UserProfile() {
                             <span className="flex flex-wrap items-center gap-4 [&_svg]:fill-gray-600 text-gray-600 w-full overflow-hidden">
                                 {user.worker && (
                                     <>
-                                        <Link to={`/worker/${user.usuario_id}`}>
+                                        <Link to={`/worker/${user.user_id}`}>
                                             <div
                                                 data-tip={`Perfil de ${user.role.rol_nombre}`}
                                                 className="tooltip tooltip-bottom flex badge badge-sm gap-1 h-auto py-1 px-5 duration-300 hover:scale-[1.06]"
@@ -103,7 +103,7 @@ export default function UserProfile() {
                                             className="tooltip tooltip-bottom flex badge badge-sm gap-1 h-auto py-1 px-5 duration-300 hover:scale-[1.06]"
                                         >
                                             <StarIcon size={12} />
-                                            {user.calificacion_cantidad} Calificaciones
+                                            {user.ratings_count} Calificaciones
                                         </div>
                                     </>
                                 )}
@@ -137,7 +137,7 @@ export default function UserProfile() {
                             <div className="flex flex-col sm:flex-row gap-4 items-center py-1">
                                 {userSession.rol_id == 2 && (
                                     <Link
-                                        to={`/worker/products/${user.usuario_id}`}
+                                        to={`/worker/products/${user.user_id}`}
                                         className="btn btn-sm min-h-none h-auto py-2.5 px-10 btn-primary group relative text-purple-300 hover:bg-purple-800 hover:text-purple-100"
                                     >
                                         <span className="absolute left-3 top-1/2 transform -translate-y-1/2 text-purple-300 group-hover:text-purple-100">
@@ -148,7 +148,7 @@ export default function UserProfile() {
                                 )}
                                 {userSession.rol_id == 3 && (
                                     <Link
-                                        to={`/worker/deliveries/${user.usuario_id}`}
+                                        to={`/worker/deliveries/${user.user_id}`}
                                         className="btn btn-sm min-h-none h-auto py-2.5 px-10 btn-primary group relative text-purple-300 hover:bg-purple-800 hover:text-purple-100"
                                     >
                                         <span className="absolute left-3 top-1/2 transform -translate-y-1/2 text-purple-300 group-hover:text-purple-100">
@@ -170,7 +170,7 @@ export default function UserProfile() {
                                 )}
                                 {userSession.rol_id !== 4 && userSession.rol_id !== 1 && (
                                     <Link
-                                        to={`/worker/stats/${user.usuario_id}`}
+                                        to={`/worker/stats/${user.user_id}`}
                                         className="btn btn-sm min-h-none h-auto py-2.5 px-10 relative bg-gray-200 hover:bg-gray-200 text-gray-500 hover:text-gray-600"
                                     >
                                         <span className="absolute left-3 top-1/2 transform -translate-y-1/2">
@@ -188,7 +188,7 @@ export default function UserProfile() {
                 <div className="w-full max-w-[1200px] mx-auto py-10">
                     <div className="space-y-5">
                         <h3 className="text-4xl font-extrabold tracking-tight">
-                            {user.usuario_id == userSession.usuario_id
+                            {user.user_id == userSession.user_id
                                 ? "Mis compras"
                                 : "Compras del usuario"}
                         </h3>
