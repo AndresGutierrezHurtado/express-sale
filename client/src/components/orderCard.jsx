@@ -22,7 +22,7 @@ export default function OrderCard({ order }) {
         (OrderProduct) => OrderProduct.product.user.user_address
     );
 
-    const { loaded, route, distance } = useShortestPath(addresses, JSON.parse(order.shippingDetails.envio_coordenadas), isLoaded, userLocation);
+    const { loaded, route, distance } = useShortestPath(addresses, JSON.parse(order.shippingDetails.shipping_coordinates), isLoaded, userLocation);
 
     const handleSelectOrder = (event) => {
         Swal.fire({
@@ -37,17 +37,17 @@ export default function OrderCard({ order }) {
         }).then(async (result) => {
             if (result.isConfirmed) {
                 const { href, price } = event.target.dataset;
-                const response = await usePutData(`/orders/${order.pedido_id}`, {
+                const response = await usePutData(`/orders/${order.order_id}`, {
                     order: {
-                        pedido_estado: "enviando",
+                        order_status: "enviando",
                     },
                     shippingDetails: {
                         worker_id: userSession.worker.worker_id,
-                        envio_valor: distance > 10 ? distance * 1300 : 7500,
+                        shipping_cost: distance > 10 ? distance * 1300 : 7500,
                     },
                 });
                 if (response.success) {
-                    navigate(`/delivery/${order.pedido_id}`);
+                    navigate(`/delivery/${order.order_id}`);
                 }
             }
         });
@@ -56,7 +56,7 @@ export default function OrderCard({ order }) {
     if (!loaded) return <div className="skeleton w-full h-[250px] max-w-xl rounded-2xl"></div>;
     return (
         <div
-            key={order.pedido_id}
+            key={order.order_id}
             className="card bg-white border w-full max-w-xl mx-auto shadow-xl"
         >
             <div className="card-body space-y-4 p-5">
@@ -81,7 +81,7 @@ export default function OrderCard({ order }) {
                         </div>
                         <div className="flex gap-2">
                             <span className="font-medium">Mensaje:</span>
-                            <p>{`${order.shippingDetails.envio_mensaje}`}</p>
+                            <p>{`${order.shippingDetails.shipping_message}`}</p>
                         </div>
                     </div>
 

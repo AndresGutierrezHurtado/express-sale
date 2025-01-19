@@ -38,9 +38,9 @@ export default function ProductProfile() {
                     product_status: data.product_status,
                     category_id: data.category_id,
                 },
-                producto_imagen:
-                    data.producto_imagen.size > 0
-                        ? await useConvertImage(data.producto_imagen)
+                product_image:
+                    data.product_image.size > 0
+                        ? await useConvertImage(data.product_image)
                         : null,
                 multimedias: base64Files,
             }).then(() => reloadProduct());
@@ -86,7 +86,7 @@ export default function ProductProfile() {
                                     <figure className="w-full max-w-[300px] aspect-square">
                                         <img
                                             src={product.product_image_url}
-                                            alt={`Imagen del producto ${product.producto_titulo}`}
+                                            alt={`Imagen del producto ${product.product_name}`}
                                             className="object-contain h-full w-full"
                                         />
                                     </figure>
@@ -135,7 +135,7 @@ export default function ProductProfile() {
                                         >
                                             <img
                                                 src={multimedia.media_url}
-                                                alt={`Imagen del producto ${product.producto_titulo}`}
+                                                alt={`Imagen del producto ${product.product_name}`}
                                                 className="object-contain h-full w-full group-hover:blur-[1px] group-hover:bg-black group-hover:scale-105 duration-300"
                                             />
                                             <div className="absolute bottom-2 right-2">
@@ -225,7 +225,7 @@ export default function ProductProfile() {
                                             type="file"
                                             className="file-input file-input-bordered file-input-sm w-full focus:input-primary focus:outline-0 rounded"
                                             accept=".jpg, .jpeg, .png"
-                                            name="producto_imagen"
+                                            name="product_image"
                                         />
                                     </div>
                                     <div className="form-control">

@@ -32,12 +32,12 @@ export default function Order() {
             if (result.isConfirmed) {
                 const response = await usePutData(`/orders/${id}`, {
                     order: {
-                        pedido_estado: "recibido",
+                        order_status: "recibido",
                     },
                     delivery: {
                         worker_balance:
                             parseInt(order.shippingDetails.worker.worker_balance) +
-                            parseInt(order.shippingDetails.envio_valor),
+                            parseInt(order.shippingDetails.shipping_cost),
                     },
                     delivery_id: order.shippingDetails.worker_id,
                 });
@@ -78,14 +78,14 @@ export default function Order() {
                                     <h2 className="text-xl font-bold">Compra:</h2>
                                     <div className="flex gap-2">
                                         <span className="font-medium">Método de pago:</span>
-                                        <p>{order.paymentDetails.pago_metodo}</p>
+                                        <p>{order.paymentDetails.payment_method}</p>
                                     </div>
 
                                     <div className="flex gap-2">
                                         <span className="font-medium">Total:</span>
                                         <p>
                                             {parseInt(
-                                                order.paymentDetails.pago_valor
+                                                order.paymentDetails.payment_amount
                                             ).toLocaleString("es-CO")}{" "}
                                             COP
                                         </p>
@@ -184,7 +184,7 @@ export default function Order() {
                         </div>
                         <hr />
                         <div className="flex flex-col gap-2">
-                            {order.pedido_estado == "entregado" && (
+                            {order.order_status == "entregado" && (
                                 <button
                                     onClick={handleMarkAsReceived}
                                     className="btn w-full btn-sm btn-success text-white relative"

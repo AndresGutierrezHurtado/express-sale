@@ -240,12 +240,12 @@ export default function UserProfile() {
                             )}
                             {ordersType
                                 ? orders
-                                      .filter((order) => order.pedido_estado == ordersType)
+                                      .filter((order) => order.order_status == ordersType)
                                       .map((order) => {
-                                          return <Order order={order} key={order.pedido_id} />;
+                                          return <Order order={order} key={order.order_id} />;
                                       })
                                 : orders.map((order) => {
-                                      return <Order order={order} key={order.pedido_id} />;
+                                      return <Order order={order} key={order.order_id} />;
                                   })}
                         </div>
                     </div>

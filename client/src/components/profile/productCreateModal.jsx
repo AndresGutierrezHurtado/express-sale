@@ -22,9 +22,9 @@ export default function ProductCreateModal({ reload }) {
                     product_status: data.product_status,
                     category_id: data.category_id,
                 },
-                producto_imagen:
-                    data.producto_imagen.size > 0
-                        ? await useConvertImage(data.producto_imagen)
+                product_image:
+                    data.product_image.size > 0
+                        ? await useConvertImage(data.product_image)
                         : null,
             });
             if (response.success) {
@@ -116,7 +116,7 @@ export default function ProductCreateModal({ reload }) {
                                 <span className="label-text font-semibold">Imagen:</span>
                             </label>
                             <input
-                                name="producto_imagen"
+                                name="product_image"
                                 type="file"
                                 className="file-input file-input-bordered file-input-sm focus:input-primary focus:outline-0 w-full"
                             />

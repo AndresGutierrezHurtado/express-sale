@@ -48,18 +48,18 @@ export const useGenerateReceipt = (order, userSession) => {
     doc.setFont("helvetica", "bold");
     doc.text("Información del pedido:", 140, 50, { maxWidth: 60 });
     doc.setFont("helvetica", "normal");
-    doc.text(`Fecha: ${new Date(order.pedido_fecha).toLocaleDateString("es-CO")}`, 140, 55, {
+    doc.text(`Fecha: ${new Date(order.order_date).toLocaleDateString("es-CO")}`, 140, 55, {
         maxWidth: 60,
     });
     doc.text(
-        `Total: ${parseInt(order.paymentDetails.pago_valor).toLocaleString("es-CO")} COP`,
+        `Total: ${parseInt(order.paymentDetails.payment_amount).toLocaleString("es-CO")} COP`,
         140,
         60,
         { maxWidth: 60 }
     );
-    doc.text(`N° de pedido: ${order.pedido_id.split("-")[1]}`, 140, 65, { maxWidth: 60 });
-    doc.text(`Método de pago: ${order.paymentDetails.pago_metodo}`, 140, 70, { maxWidth: 60 });
-    doc.text(`Direccion: ${order.shippingDetails.envio_direccion}`, 140, 75, { maxWidth: 60 });
+    doc.text(`N° de pedido: ${order.order_id.split("-")[1]}`, 140, 65, { maxWidth: 60 });
+    doc.text(`Método de pago: ${order.paymentDetails.payment_method}`, 140, 70, { maxWidth: 60 });
+    doc.text(`Direccion: ${order.shippingDetails.shipping_address}`, 140, 75, { maxWidth: 60 });
 
     // Tabla de productos
     const items = order.orderProducts.map((item) => ({
@@ -83,7 +83,7 @@ export const useGenerateReceipt = (order, userSession) => {
     });
 
     // Precio total
-    const totalPrice = parseInt(order.paymentDetails.pago_valor).toLocaleString("es-CO");
+    const totalPrice = parseInt(order.paymentDetails.payment_amount).toLocaleString("es-CO");
     doc.setFont("helvetica", "bold");
     doc.text(`Precio Total: ${totalPrice} COP`, 140, doc.lastAutoTable.finalY + 20, {
         maxWidth: 60,
@@ -102,5 +102,5 @@ export const useGenerateReceipt = (order, userSession) => {
     }
     footer();
     // Guardar el PDF
-    doc.save(`factura_${order.pedido_id.split("-")[1]}.pdf`);
+    doc.save(`factura_${order.order_id.split("-")[1]}.pdf`);
 };

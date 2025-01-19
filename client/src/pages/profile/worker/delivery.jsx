@@ -33,7 +33,7 @@ export default function Delivery() {
             if (result.isConfirmed) {
                 const response = await usePutData(`/orders/${id}`, {
                     order: {
-                        pedido_estado: "entregado",
+                        order_status: "entregado",
                     },
                 });
                 if (response.success) {
@@ -78,10 +78,10 @@ export default function Delivery() {
                                     </p>
                                     <p>
                                         <strong>Dirección:</strong>{" "}
-                                        {shippingDetails.envio_direccion}
+                                        {shippingDetails.shipping_address}
                                     </p>
                                     <p>
-                                        <strong>Mensaje:</strong> {shippingDetails.envio_mensaje}
+                                        <strong>Mensaje:</strong> {shippingDetails.shipping_message}
                                     </p>
                                 </div>
                             </article>
@@ -109,7 +109,7 @@ export default function Delivery() {
                                         <p>
                                             {orderProducts.length + 1}. Destino{" "}
                                             <span className="text-sm text-gray-600">
-                                                ({shippingDetails.envio_direccion})
+                                                ({shippingDetails.shipping_address})
                                             </span>
                                         </p>
                                     </div>
@@ -123,7 +123,7 @@ export default function Delivery() {
                             addresses={orderProducts.map(
                                 (item) => item.product.user.user_address
                             )}
-                            destination={shippingDetails.envio_coordenadas}
+                            destination={shippingDetails.shipping_coordinates}
                         />
                         <hr />
                         <div className="flex items-center justify-center">

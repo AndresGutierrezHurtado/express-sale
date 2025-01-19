@@ -19,7 +19,7 @@ export default function WorkerDeliveries() {
         data: orders,
         loading: loadingOrders,
         reload: reloadOrders,
-    } = useGetData(`/orders?pedido_estado=pendiente`);
+    } = useGetData(`/orders?order_status=pendiente`);
     const { userSession, reload } = useAuthContext();
     const socket = io(import.meta.env.VITE_API_DOMAIN);
 
@@ -70,7 +70,7 @@ export default function WorkerDeliveries() {
                     )}
                     <div className="grid grid-cols-[repeat(auto-fill,minmax(270px,1fr))] gap-5">
                         {orders.map((order) => (
-                            <OrderCard key={order.pedido_id} order={order} />
+                            <OrderCard key={order.order_id} order={order} />
                         ))}
                     </div>
                 </div>

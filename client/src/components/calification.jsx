@@ -159,7 +159,7 @@ export function Calification({ rating, reload }) {
                     </div>
                 </div>
                 <div className="grow">
-                    <p>{rating.calificacion_comentario}</p>
+                    <p>{rating.rating_comment}</p>
                 </div>
             </article>
             <dialog
@@ -188,10 +188,10 @@ export function Calification({ rating, reload }) {
                             </div>
                             <textarea
                                 placeholder="Ingresa un comentario sobre el producto."
-                                id="calificacion_comentario"
-                                name="calificacion_comentario"
+                                id="rating_comment"
+                                name="rating_comment"
                                 className="textarea textarea-bordered h-24 resize-none focus:outline-0 focus:border-violet-600 rounded"
-                                defaultValue={rating.calificacion_comentario}
+                                defaultValue={rating.rating_comment}
                             ></textarea>
                         </label>
 
@@ -203,8 +203,8 @@ export function Calification({ rating, reload }) {
                             </div>
                             <input
                                 type="file"
-                                name="calificacion_imagen"
-                                id="calificacion_imagen"
+                                name="rating_image"
+                                id="rating_image"
                                 className="w-full text-sm text-slate-500 hover:file:bg-violet-100 file:duration-300 file:cursor-pointer file:bg-violet-50 file:text-violet-700 file:font-semibold file:rounded-xl file:border-0 file:p-1 file:px-3"
                             />
                         </label>

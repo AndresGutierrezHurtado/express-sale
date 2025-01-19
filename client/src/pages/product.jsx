@@ -296,7 +296,7 @@ export default function Product() {
                                                         <input
                                                             type="file"
                                                             className="hidden"
-                                                            name="calificacion_imagen"
+                                                            name="rating_image"
                                                         />
                                                         <ClipIcon
                                                             size={20}
@@ -304,7 +304,7 @@ export default function Product() {
                                                         />
                                                     </label>
                                                     <input
-                                                        name="calificacion_comentario"
+                                                        name="rating_comment"
                                                         id="rating"
                                                         placeholder="Agrega el comentario sobre el producto"
                                                         className="grow bg-transparent border-0 focus:outline-0"

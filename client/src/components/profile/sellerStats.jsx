@@ -19,7 +19,7 @@ export default function SellerStats({ user, reloadUser }) {
         data: pendingOrders,
         loading: pendingOrdersLoading,
         reload: reloadPendingOrders,
-    } = useGetData(`/orders?pedido_estado=pendiente,enviando&user_id=${user.user_id}`);
+    } = useGetData(`/orders?order_status=pendiente,enviando&user_id=${user.user_id}`);
 
     const yearSales = [];
     for (let i = 1; i <= 12; i++) {
@@ -223,10 +223,10 @@ export default function SellerStats({ user, reloadUser }) {
                                             </tr>
                                         )}
                                         {pendingOrders.map((order) => (
-                                            <tr key={order.pedido_id}>
-                                                <td>{order.pedido_id.split("-")[1]}</td>
+                                            <tr key={order.order_id}>
+                                                <td>{order.order_id.split("-")[1]}</td>
                                                 <td>
-                                                    {new Date(order.pedido_fecha).toLocaleString(
+                                                    {new Date(order.order_date).toLocaleString(
                                                         "es-CO"
                                                     )}
                                                 </td>
@@ -245,7 +245,7 @@ export default function SellerStats({ user, reloadUser }) {
                                                     order.shippingDetails.worker?.user
                                                         .user_lastname || ""
                                                 }`}</td>
-                                                <td>{order.pedido_estado}</td>
+                                                <td>{order.order_status}</td>
                                             </tr>
                                         ))}
                                     </tbody>

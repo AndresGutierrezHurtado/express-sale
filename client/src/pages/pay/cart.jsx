@@ -91,7 +91,7 @@ export default function Cart() {
                                 )}
                                 {carts.map((cart) => (
                                     <article
-                                        key={cart.carrito_id}
+                                        key={cart.cart_id}
                                         className="bg-white p-8 w-full shadow-xl rounded-xl border"
                                     >
                                         <div className="flex flex-col md:flex-row gap-5">
@@ -128,7 +128,7 @@ export default function Cart() {
                                                                 data-tip="Disminuir la cantidad del producto (min 1)"
                                                                 onClick={() =>
                                                                     handleCartUpdate(
-                                                                        cart.carrito_id,
+                                                                        cart.cart_id,
                                                                         cart.product_quantity - 1
                                                                     )
                                                                 }
@@ -146,7 +146,7 @@ export default function Cart() {
                                                                 data-tip={`Aumentar la cantidad del producto (max ${cart.product.product_quantity})`}
                                                                 onClick={() =>
                                                                     handleCartUpdate(
-                                                                        cart.carrito_id,
+                                                                        cart.cart_id,
                                                                         cart.product_quantity + 1
                                                                     )
                                                                 }
@@ -170,7 +170,7 @@ export default function Cart() {
                                                         <button
                                                             className="tooltip tooltip-left btn btn-sm bg-red-600 hover:bg-red-700 text-red-400 hover:text-red-300"
                                                             data-tip="Eliminar el producto del carrito"
-                                                            data-id={cart.carrito_id}
+                                                            data-id={cart.cart_id}
                                                             onClick={handleCartDelete}
                                                         >
                                                             <TrashIcon size={17} />
