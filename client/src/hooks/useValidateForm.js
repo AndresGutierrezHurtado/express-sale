@@ -21,12 +21,12 @@ export const useValidateform = (data = {}, form = "", extra = null) => {
         switch (form) {
             case "login-form":
                 schema = object({
-                    usuario_correo: pipe(
+                    user_email: pipe(
                         nonEmpty("Correo requerido"),
                         string("Correo requerido"),
                         email("El correo debe ser válido")
                     ),
-                    usuario_contra: pipe(
+                    user_password: pipe(
                         nonEmpty("Contraseña requerida"),
                         string("Contraseña requerida"),
                         minLength(6, "La contraseña debe tener al menos 6 caracteres")
@@ -35,17 +35,17 @@ export const useValidateform = (data = {}, form = "", extra = null) => {
                 break;
             case "register-form":
                 schema = object({
-                    usuario_nombre: pipe(
+                    user_name: pipe(
                         nonEmpty("Nombre requerido"),
                         string("Nombre requerido"),
                         minLength(3, "El nombre debe tener al menos 3 caracteres")
                     ),
-                    usuario_apellido: pipe(
+                    user_lastname: pipe(
                         nonEmpty("Apellido requerido"),
                         string("Apellido requerido"),
                         minLength(3, "El apellido debe tener al menos 3 caracteres")
                     ),
-                    usuario_alias: pipe(
+                    user_alias: pipe(
                         nonEmpty("Alias requerido"),
                         string("Alias requerido"),
                         regex(
@@ -54,60 +54,56 @@ export const useValidateform = (data = {}, form = "", extra = null) => {
                         ),
                         minLength(10, "El usuario debe tener al menos 10 caracteres")
                     ),
-                    usuario_correo: pipe(
+                    user_email: pipe(
                         nonEmpty("Correo requerido"),
                         string("Correo requerido"),
                         email("El correo debe ser válido")
                     ),
-                    usuario_contra: pipe(
+                    user_password: pipe(
                         nonEmpty("Contraseña requerida"),
                         string("Contraseña requerida"),
                         minLength(6, "La contraseña debe tener al menos 6 caracteres")
                     ),
-                    rol_id: pipe(
-                        nonEmpty("Rol requerido"),
-                        string("Rol requerido"),
-                        minLength(1, "El rol es requerido")
-                    ),
+                    role_id: pipe(nonEmpty("Rol requerido"), minLength(1, "El rol es requerido")),
                 });
                 break;
             case "contact-form":
                 schema = object({
-                    usuario_nombre: pipe(
+                    user_name: pipe(
                         nonEmpty("Nombre requerido"),
                         string("Nombre requerido"),
                         minLength(3, "El nombre es requerido")
                     ),
-                    usuario_correo: pipe(
+                    user_email: pipe(
                         nonEmpty("Correo requerido"),
                         string("Correo requerido"),
                         email("El correo debe ser válido")
                     ),
-                    correo_asunto: pipe(
+                    email_subject: pipe(
                         nonEmpty("Asunto requerido"),
                         string("Asunto requerido"),
                         minLength(10, "El asunto debe tener al menos 10 caracteres")
                     ),
-                    correo_mensaje: pipe(
+                    email_message: pipe(
                         nonEmpty("Mensaje requerido"),
                         string("Mensaje requerido"),
                         minLength(15, "El mensaje debe tener al menos 15 caracteres")
                     ),
                 });
                 break;
-            case "user-edit-modal-form":
+            case "user-edit-form":
                 schema = object({
-                    usuario_nombre: pipe(
+                    user_name: pipe(
                         nonEmpty("Nombre requerido"),
                         string("Nombre requerido"),
                         minLength(3, "El nombre debe tener al menos 3 caracteres")
                     ),
-                    usuario_apellido: pipe(
+                    user_lastname: pipe(
                         nonEmpty("Apellido requerido"),
                         string("Apellido requerido"),
                         minLength(3, "El apellido debe tener al menos 3 caracteres")
                     ),
-                    usuario_alias: pipe(
+                    user_alias: pipe(
                         nonEmpty("Alias requerido"),
                         string("Alias requerido"),
                         regex(
@@ -116,28 +112,32 @@ export const useValidateform = (data = {}, form = "", extra = null) => {
                         ),
                         minLength(10, "El usuario debe tener al menos 10 caracteres")
                     ),
-                    usuario_direccion: pipe(string("La dirección no es valida")),
-                    usuario_telefono: pipe(
+                    user_address: pipe(string("La dirección no es valida")),
+                    user_phone: pipe(
                         string("El teléfono no es valido"),
                         regex(/^[0-9]*$/, "El teléfono solo puede contener números"),
                         regex(/^(?:\d{0}|\d{10})$/, "El telefono debe tener 10 digitos")
                     ),
-                    trabajador_descripcion: pipe(
-                        regex(/^$|^.{3,}$/, "La descripción debe tener al menos 3 caracteres")
+                    worker_description: pipe(
+                        regex(
+                            /^(?:$|.{10,})$/,
+                            "La descripción debe tener al menos 10 caracteres alfanuméricos"
+                        )
                     ),
+                    role_id: pipe(nonEmpty("Rol requerido"), minLength(1, "El rol es requerido")),
                 });
                 break;
             case "rate-form":
                 schema = object({
-                    calificacion_comentario: pipe(
+                    rating_comment: pipe(
                         nonEmpty("El comentario es requerido"),
                         string("El comentario no es válido"),
                         minLength(10, "El comentario debe tener al menos 10 caracteres")
                     ),
-                    calificacion: pipe(
+                    rating_value: pipe(
                         nonEmpty("La calificación es requerida"),
-                        string("La calificación no es valida"),
-                        length(1, "Debes ingresar una calificación válida")
+                        number("La calificación no es valida"),
+                        minValue(1, "Debes ingresar una calificación")
                     ),
                 });
                 break;
@@ -208,7 +208,7 @@ export const useValidateform = (data = {}, form = "", extra = null) => {
                     category_id: pipe(
                         nonEmpty("La categoría es requerida"),
                         string("La categoría no es valida"),
-                        minLength(1, "La categoría debe tener al menos 1 caracter"),
+                        minLength(1, "La categoría es requerida"),
                         regex(/^[0-9]*$/, "La categoría debe tener solo números")
                     ),
                 });
@@ -255,7 +255,7 @@ export const useValidateform = (data = {}, form = "", extra = null) => {
                 break;
             case "withdraw-modal-form":
                 schema = object({
-                    retiro_valor: pipe(
+                    withdrawal_amount: pipe(
                         nonEmpty("El valor es requerido"),
                         string("El valor no es valido"),
                         regex(/^[0-9]*$/, "El valor debe tener solo números"),
@@ -270,24 +270,22 @@ export const useValidateform = (data = {}, form = "", extra = null) => {
                 });
                 break;
             case "recovery-form":
-                usuario_correo: {
-                    schema = object({
-                        usuario_correo: pipe(
-                            nonEmpty("El correo es requerido"),
-                            string("El correo no es valido"),
-                            email("El correo no es valido")
-                        ),
-                    });
-                }
+                schema = object({
+                    user_email: pipe(
+                        nonEmpty("El correo es requerido"),
+                        string("El correo no es valido"),
+                        email("El correo no es valido")
+                    ),
+                });
                 break;
             case "reset-password-form":
                 schema = object({
-                    usuario_contra: pipe(
+                    user_password: pipe(
                         nonEmpty("Contraseña requerida"),
                         string("Contraseña requerida"),
                         minLength(6, "La contraseña debe tener al menos 6 caracteres")
                     ),
-                    usuario_contra_confirm: pipe(
+                    user_password_confirm: pipe(
                         nonEmpty("Contraseña requerida"),
                         string("Contraseña requerida"),
                         minLength(6, "La contraseña debe tener al menos 6 caracteres")
@@ -314,15 +312,15 @@ export const useValidateform = (data = {}, form = "", extra = null) => {
         });
 
         const finalData = parse(schema, data);
-        if (form === "reset-password-form" && data.usuario_contra !== data.usuario_contra_confirm) {
-            if (data.usuario_contra !== data.usuario_contra_confirm) {
+        if (form === "reset-password-form" && data.user_password !== data.user_password_confirm) {
+            if (data.user_password !== data.user_password_confirm) {
                 throw new ValiError([
                     {
-                        path: [{ key: "usuario_contra" }],
+                        path: [{ key: "user_password" }],
                         message: "Las contraseñas no coinciden",
                     },
                     {
-                        path: [{ key: "usuario_contra_confirm" }],
+                        path: [{ key: "user_password_confirm" }],
                         message: "Las contraseñas no coinciden",
                     },
                 ]);
