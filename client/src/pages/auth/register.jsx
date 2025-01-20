@@ -152,7 +152,7 @@ export default function Register() {
                         <div className="divider">OR</div>
                         <div className="form-control gap-4">
                             <Link
-                                to={import.meta.env.VITE_API_URL + "/user/auth/google"}
+                                to={import.meta.env.VITE_API_URL + "/auth/google"}
                                 type="button"
                                 className="btn bg-gray-300 hover:bg-gray-200 text-gray-600 hover:text-gray-700"
                             >
@@ -160,7 +160,7 @@ export default function Register() {
                                 Continua con Google
                             </Link>
                             <Link
-                                to={import.meta.env.VITE_API_URL + "/user/auth/facebook"}
+                                to={import.meta.env.VITE_API_URL + "/auth/facebook"}
                                 type="button"
                                 className="btn bg-blue-700 hover:bg-blue-800 text-blue-300 hover:text-blue-200"
                             >
@@ -168,7 +168,7 @@ export default function Register() {
                                 Continua con Facebook
                             </Link>
                             <Link
-                                to={import.meta.env.VITE_API_URL + "/user/auth/github"}
+                                to={import.meta.env.VITE_API_URL + "/auth/github"}
                                 type="button"
                                 className="btn bg-gray-700 hover:bg-gray-800 text-gray-300 hover:text-gray-200"
                             >

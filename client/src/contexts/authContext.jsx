@@ -27,7 +27,7 @@ export function AuthProvider({ children }) {
             cancelButtonColor: "#d33",
         }).then(async (result) => {
             if (result.isConfirmed) {
-                const response = await usePostData("/user/logout", {});
+                const response = await usePostData("/auth/logout", {});
                 if (response.success) {
                     reload();
                     navigate("/");
