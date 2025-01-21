@@ -337,7 +337,7 @@ export default class UserController {
                       ...user.toJSON(),
                       worker: {
                           ...user.worker.toJSON(),
-                          total_selled: yearSales[0],
+                          month_sales: yearSales[0],
                           month_deliveries: yearDeliveries[0],
                           most_selled_products: MostSelledProducts[0],
                       },

@@ -10,10 +10,11 @@ export default function DeliveryStats({ user, reloadUser }) {
     const [currentMonth, setCurrentMonth] = useState(null);
     const [year, setYear] = useState("2024");
 
+    console.log(user);
     const yearSales = [];
     for (let i = 1; i <= 12; i++) {
         let infoMes =
-            user.worker.envios_mensuales.find(
+            user.worker.month_deliveries.find(
                 (el) => el.mes == i && el.anio == (year ? year : new Date().getFullYear())
             ) || null;
         yearSales.push({

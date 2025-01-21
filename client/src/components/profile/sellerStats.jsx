@@ -24,7 +24,7 @@ export default function SellerStats({ user, reloadUser }) {
     const yearSales = [];
     for (let i = 1; i <= 12; i++) {
         let infoMes =
-            user.worker.ventas_mensuales.find(
+            user.worker.month_sales.find(
                 (el) => el.mes == i && el.anio == (year ? year : new Date().getFullYear())
             ) || null;
         yearSales.push({
