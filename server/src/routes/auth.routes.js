@@ -26,7 +26,8 @@ passport.use(
         {
             clientID: process.env.GOOGLE_CLIENT_ID,
             clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-            callbackURL: process.env.GOOGLE_REDIRECT_URL,
+            callbackURL: process.env.GOOGLE_REDIRECT_URI,
+            scope: ["profile", "email"],
         },
         async function (accessToken, refreshToken, profile, cb) {
             const info = profile._json;
@@ -55,7 +56,7 @@ passport.use(
         {
             clientID: process.env.FACEBOOK_APP_ID,
             clientSecret: process.env.FACEBOOK_APP_SECRET,
-            callbackURL: process.env.FACEBOOK_REDIRECT_URL,
+            callbackURL: process.env.FACEBOOK_REDIRECT_URI,
             profileFields: ["id", "email", "first_name", "last_name", "picture"],
         },
         async function (accessToken, refreshToken, profile, cb) {
@@ -89,7 +90,8 @@ passport.use(
         {
             clientID: process.env.GITHUB_CLIENT_ID,
             clientSecret: process.env.GITHUB_CLIENT_SECRET,
-            callbackURL: process.env.GITHUB_REDIRECT_URL,
+            callbackURL: process.env.GITHUB_REDIRECT_URI,
+            scope: ["user:email"],
         },
         async function (accessToken, refreshToken, profile, cb) {
             const info = profile._json;
