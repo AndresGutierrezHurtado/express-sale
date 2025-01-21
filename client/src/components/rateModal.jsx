@@ -83,32 +83,32 @@ export default function RateModal({ id, type, reload }) {
                     <div className="rating flex justify-center gap-2 py-3">
                         <input
                             type="radio"
-                            name="calificacion"
+                            name="rating_value"
                             value="1"
                             className="mask mask-star-2 bg-violet-600"
                             defaultChecked
                         />
                         <input
                             type="radio"
-                            name="calificacion"
+                            name="rating_value"
                             value="2"
                             className="mask mask-star-2 bg-violet-600"
                         />
                         <input
                             type="radio"
-                            name="calificacion"
+                            name="rating_value"
                             value="3"
                             className="mask mask-star-2 bg-violet-600"
                         />
                         <input
                             type="radio"
-                            name="calificacion"
+                            name="rating_value"
                             value="4"
                             className="mask mask-star-2 bg-violet-600"
                         />
                         <input
                             type="radio"
-                            name="calificacion"
+                            name="rating_value"
                             value="5"
                             className="mask mask-star-2 bg-violet-600"
                         />

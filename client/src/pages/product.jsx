@@ -176,7 +176,7 @@ export default function Product() {
                                                     className="progress progress-primary w-full"
                                                     value={
                                                         (ratings.filter(
-                                                            (rating) => rating.calificacion == 5
+                                                            (rating) => rating.rating_value == 5
                                                         ).length /
                                                             ratings.length) *
                                                         100
@@ -190,7 +190,7 @@ export default function Product() {
                                                     className="progress progress-primary w-full"
                                                     value={
                                                         (ratings.filter(
-                                                            (rating) => rating.calificacion == 4
+                                                            (rating) => rating.rating_value == 4
                                                         ).length /
                                                             ratings.length) *
                                                         100
@@ -204,7 +204,7 @@ export default function Product() {
                                                     className="progress progress-primary w-full"
                                                     value={
                                                         (ratings.filter(
-                                                            (rating) => rating.calificacion == 3
+                                                            (rating) => rating.rating_value == 3
                                                         ).length /
                                                             ratings.length) *
                                                         100
@@ -218,7 +218,7 @@ export default function Product() {
                                                     className="progress progress-primary w-full"
                                                     value={
                                                         (ratings.filter(
-                                                            (rating) => rating.calificacion == 2
+                                                            (rating) => rating.rating_value == 2
                                                         ).length /
                                                             ratings.length) *
                                                         100
@@ -232,7 +232,7 @@ export default function Product() {
                                                     className="progress progress-primary w-full"
                                                     value={
                                                         (ratings.filter(
-                                                            (rating) => rating.calificacion == 1
+                                                            (rating) => rating.rating_value == 1
                                                         ).length /
                                                             ratings.length) *
                                                         100
@@ -256,32 +256,32 @@ export default function Product() {
                                             <div className="rating flex justify-center gap-2 py-3">
                                                 <input
                                                     type="radio"
-                                                    name="calificacion"
+                                                    name="rating_value"
                                                     value="1"
                                                     className="mask mask-star-2 bg-violet-600"
                                                     defaultChecked
                                                 />
                                                 <input
                                                     type="radio"
-                                                    name="calificacion"
+                                                    name="rating_value"
                                                     value="2"
                                                     className="mask mask-star-2 bg-violet-600"
                                                 />
                                                 <input
                                                     type="radio"
-                                                    name="calificacion"
+                                                    name="rating_value"
                                                     value="3"
                                                     className="mask mask-star-2 bg-violet-600"
                                                 />
                                                 <input
                                                     type="radio"
-                                                    name="calificacion"
+                                                    name="rating_value"
                                                     value="4"
                                                     className="mask mask-star-2 bg-violet-600"
                                                 />
                                                 <input
                                                     type="radio"
-                                                    name="calificacion"
+                                                    name="rating_value"
                                                     value="5"
                                                     className="mask mask-star-2 bg-violet-600"
                                                 />

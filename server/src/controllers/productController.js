@@ -42,8 +42,8 @@ export default class ProductController {
     };
 
     static updateProduct = async (req, res) => {
+        const transaction = await sequelize.transaction();
         try {
-            const transaction = await sequelize.transaction();
 
             if (req.body.product_image) {
                 const response = await uploadFile(

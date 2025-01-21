@@ -96,7 +96,7 @@ export function Calification({ rating, reload }) {
                                 <h4 className="font-medium">
                                     {rating.calificator.user_alias}
                                 </h4>
-                                <StarsRating rating={parseInt(rating.calificacion)} />
+                                <StarsRating rating={parseInt(rating.rating_value)} />
                             </div>
                         </div>
                         <div className="dropdown dropdown-end">
@@ -212,38 +212,38 @@ export function Calification({ rating, reload }) {
                         <div className="rating flex justify-center gap-2 py-3">
                             <input
                                 type="radio"
-                                name="calificacion"
+                                name="rating_value"
                                 value="1"
                                 className="mask mask-star-2 bg-violet-600"
-                                defaultChecked={rating.calificacion == 1}
+                                defaultChecked={rating.rating_value == 1}
                             />
                             <input
                                 type="radio"
-                                name="calificacion"
+                                name="rating_value"
                                 value="2"
                                 className="mask mask-star-2 bg-violet-600"
-                                defaultChecked={rating.calificacion == 2}
+                                defaultChecked={rating.rating_value == 2}
                             />
                             <input
                                 type="radio"
-                                name="calificacion"
+                                name="rating_value"
                                 value="3"
                                 className="mask mask-star-2 bg-violet-600"
-                                defaultChecked={rating.calificacion == 3}
+                                defaultChecked={rating.rating_value == 3}
                             />
                             <input
                                 type="radio"
-                                name="calificacion"
+                                name="rating_value"
                                 value="4"
                                 className="mask mask-star-2 bg-violet-600"
-                                defaultChecked={rating.calificacion == 4}
+                                defaultChecked={rating.rating_value == 4}
                             />
                             <input
                                 type="radio"
-                                name="calificacion"
+                                name="rating_value"
                                 value="5"
                                 className="mask mask-star-2 bg-violet-600"
-                                defaultChecked={rating.calificacion == 5}
+                                defaultChecked={rating.rating_value == 5}
                             />
                         </div>
                         <button

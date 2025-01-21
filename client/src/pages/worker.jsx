@@ -109,7 +109,7 @@ export default function Worker() {
                                                         className="progress progress-primary w-full"
                                                         value={
                                                             (ratings.filter(
-                                                                (rating) => rating.calificacion == 5
+                                                                (rating) => rating.rating_value == 5
                                                             ).length /
                                                                 ratings.length) *
                                                                 100 || 0
@@ -123,7 +123,7 @@ export default function Worker() {
                                                         className="progress progress-primary w-full"
                                                         value={
                                                             (ratings.filter(
-                                                                (rating) => rating.calificacion == 4
+                                                                (rating) => rating.rating_value == 4
                                                             ).length /
                                                                 ratings.length) *
                                                                 100 || 0
@@ -137,7 +137,7 @@ export default function Worker() {
                                                         className="progress progress-primary w-full"
                                                         value={
                                                             (ratings.filter(
-                                                                (rating) => rating.calificacion == 3
+                                                                (rating) => rating.rating_value == 3
                                                             ).length /
                                                                 ratings.length) *
                                                                 100 || 0
@@ -151,7 +151,7 @@ export default function Worker() {
                                                         className="progress progress-primary w-full"
                                                         value={
                                                             (ratings.filter(
-                                                                (rating) => rating.calificacion == 2
+                                                                (rating) => rating.rating_value == 2
                                                             ).length /
                                                                 ratings.length) *
                                                                 100 || 0
@@ -165,7 +165,7 @@ export default function Worker() {
                                                         className="progress progress-primary w-full"
                                                         value={
                                                             (ratings.filter(
-                                                                (rating) => rating.calificacion == 1
+                                                                (rating) => rating.rating_value == 1
                                                             ).length /
                                                                 ratings.length) *
                                                                 100 || 0
