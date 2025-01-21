@@ -1,7 +1,6 @@
 import { toast } from "react-toastify";
 import {
     email,
-    length,
     maxValue,
     minLength,
     minValue,
@@ -133,11 +132,6 @@ export const useValidateform = (data = {}, form = "", extra = null) => {
                         nonEmpty("El comentario es requerido"),
                         string("El comentario no es válido"),
                         minLength(10, "El comentario debe tener al menos 10 caracteres")
-                    ),
-                    rating_value: pipe(
-                        nonEmpty("La calificación es requerida"),
-                        number("La calificación no es valida"),
-                        minValue(1, "Debes ingresar una calificación")
                     ),
                 });
                 break;
@@ -298,18 +292,20 @@ export const useValidateform = (data = {}, form = "", extra = null) => {
                 break;
         }
 
-        document.querySelectorAll(`.input-error`).forEach((input) => {
-            input
-                .closest(".form-control")
-                .querySelectorAll(".label-error")
-                .forEach((element) => element.remove());
-            input.classList.remove("input-error");
-            input.classList.remove("focus:input-error");
-            input.classList.remove("select-error");
-            input.classList.remove("focus:select-error");
-            input.classList.remove("textarea-error");
-            input.classList.remove("focus:textarea-error");
-        });
+        document
+            .querySelectorAll(`.input-error, .select-error, .textarea-error`)
+            .forEach((input) => {
+                input
+                    .closest(".form-control")
+                    .querySelectorAll(".label-error")
+                    .forEach((element) => element.remove());
+                input.classList.remove("input-error");
+                input.classList.remove("focus:input-error");
+                input.classList.remove("select-error");
+                input.classList.remove("focus:select-error");
+                input.classList.remove("textarea-error");
+                input.classList.remove("focus:textarea-error");
+            });
 
         const finalData = parse(schema, data);
         if (form === "reset-password-form" && data.user_password !== data.user_password_confirm) {
