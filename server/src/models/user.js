@@ -133,7 +133,7 @@ export const Recovery = sequelize.define(
         },
         recovery_expiration: {
             type: DataTypes.DATE,
-            defaultValue: DataTypes.NOW,
+            defaultValue: sequelize.literal("NOW() + INTERVAL 1 HOUR"),
             allowNull: false,
         },
     },
