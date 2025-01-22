@@ -17,7 +17,7 @@ export function UserEditModal({ user, reload }) {
         event.preventDefault();
 
         const data = Object.fromEntries(new FormData(event.target));
-        const validation = useValidateform(data, "user-edit-modal-form");
+        const validation = useValidateform(data, "user-edit-form");
 
         if (validation.success) {
             const response = await usePutData(`/users/${user.user_id}`, {
@@ -31,7 +31,10 @@ export function UserEditModal({ user, reload }) {
                 worker: {
                     worker_description: data.worker_description,
                 },
-                usuario_imagen: data.usuario_imagen.size > 0 ? await useConvertImage(data.usuario_imagen) : null,
+                user_image:
+                    data.user_image.size > 0
+                        ? await useConvertImage(data.user_image)
+                        : null,
             });
             if (response.success) reload();
         }
@@ -60,7 +63,7 @@ export function UserEditModal({ user, reload }) {
                         <input
                             type="file"
                             className="file-input file-input-primary file-input-bordered w-full"
-                            name="usuario_imagen"
+                            name="user_image"
                         />
                     </label>
                     <label className="form-control w-full">

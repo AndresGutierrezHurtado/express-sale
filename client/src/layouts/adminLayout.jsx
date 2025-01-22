@@ -46,7 +46,7 @@ export default function AdminLayout() {
                                             <li>
                                                 <a
                                                     onClick={() => {
-                                                        updateParam("sort", "usuario_creacion:asc");
+                                                        updateParam("sort", "user_date:asc");
                                                     }}
                                                 >
                                                     Fecha

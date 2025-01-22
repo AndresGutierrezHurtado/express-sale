@@ -45,9 +45,7 @@ export default function UserProfile() {
             <section className="w-full px-3">
                 <div className="w-full max-w-[1200px] mx-auto py-5 space-y-5">
                     <h3 className="text-4xl font-extrabold">
-                        {user.user_id == userSession.user_id
-                            ? "Mi perfil"
-                            : "Perfil de usuario"}
+                        {user.user_id == userSession.user_id ? "Mi perfil" : "Perfil de usuario"}
                     </h3>
                     <div className="flex flex-col md:flex-row gap-5">
                         <div className="avatar relative mx-auto md:m-0">
@@ -72,10 +70,9 @@ export default function UserProfile() {
                                     </h3>
                                     <p className="text-sm text-gray-600">
                                         Cuenta creada en el{" "}
-                                        {new Date(user.usuario_creacion).toLocaleDateString()}{" "}
+                                        {new Date(user.user_date).toLocaleDateString()}{" "}
                                         <span className="hidden lg:inline">
-                                            a las{" "}
-                                            {new Date(user.usuario_creacion).toLocaleTimeString()}
+                                            a las {new Date(user.user_date).toLocaleTimeString()}
                                         </span>
                                     </p>
                                 </div>
@@ -236,7 +233,9 @@ export default function UserProfile() {
 
                         <div className="grid grid-cols-[repeat(auto-fit,minmax(300px,1fr))] gap-5">
                             {orders.length == 0 && (
-                                <h2 className="text-xl font-semibold tracking-tight">No hay pedidos...</h2>
+                                <h2 className="text-xl font-semibold tracking-tight">
+                                    No hay pedidos...
+                                </h2>
                             )}
                             {ordersType
                                 ? orders

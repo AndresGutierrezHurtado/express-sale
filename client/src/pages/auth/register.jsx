@@ -20,11 +20,12 @@ export default function Register() {
     const handleSubmit = async (event) => {
         event.preventDefault();
 
-        let data = Object.fromEntries(new FormData(event.target));
+        const data = Object.fromEntries(new FormData(event.target));
         const validation = useValidateform(data, "register-form");
 
         if (validation.success) {
-            const response = await usePostData("/users", data);
+            const response = await usePostData("/users", { user: data });
+
             if (response.success) {
                 event.target.reset();
                 navigate("/login");
