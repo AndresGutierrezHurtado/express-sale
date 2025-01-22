@@ -8,21 +8,20 @@ import Withdraw from "./withdraw";
 export default function DeliveryStats({ user, reloadUser }) {
     const [graphicData, setGraphicData] = useState("all");
     const [currentMonth, setCurrentMonth] = useState(null);
-    const [year, setYear] = useState("2024");
+    const [year, setYear] = useState(new Date().getFullYear());
 
-    console.log(user);
     const yearSales = [];
     for (let i = 1; i <= 12; i++) {
         let infoMes =
             user.worker.month_deliveries.find(
-                (el) => el.mes == i && el.anio == (year ? year : new Date().getFullYear())
+                (el) => el.month== i && el.year == (year ? year : new Date().getFullYear())
             ) || null;
         yearSales.push({
             month: i,
             monthToText: new Date(0, i - 1).toLocaleString("es", { month: "long" }),
-            money: infoMes ? parseInt(infoMes.dinero_envios) : 0,
-            sales: infoMes ? infoMes.total_envios : 0,
-            year: infoMes ? infoMes.anio : parseInt(year),
+            money: infoMes ? parseInt(infoMes.shipping_money) : 0,
+            sales: infoMes ? infoMes.shippings_quantity : 0,
+            year: infoMes ? infoMes.year : parseInt(year),
         });
     }
 

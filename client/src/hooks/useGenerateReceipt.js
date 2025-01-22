@@ -17,9 +17,7 @@ export const useGenerateReceipt = (order, userSession) => {
     doc.text("Información del usuario:", 10, 50);
     doc.setFont("helvetica", "normal");
     doc.text(
-        `Nombre: ${userSession.user_name.split(" ")[0]} ${
-            userSession.user_lastname.split(" ")[0]
-        }`,
+        `Nombre: ${userSession.user_name.split(" ")[0]} ${userSession.user_lastname.split(" ")[0]}`,
         10,
         55,
         { maxWidth: 60 }
@@ -33,15 +31,15 @@ export const useGenerateReceipt = (order, userSession) => {
     doc.setFont("helvetica", "bold");
     doc.text("Información del Pagador:", 75, 50);
     doc.setFont("helvetica", "normal");
-    doc.text(`Nombre: ${order.paymentDetails.comprador_nombre}`, 75, 55, { maxWidth: 60 });
+    doc.text(`Nombre: ${order.paymentDetails.buyer_name}`, 75, 55, { maxWidth: 60 });
     doc.text(
-        `Documento: ${order.paymentDetails.comprador_tipo_documento} ${order.paymentDetails.comprador_numero_documento}`,
+        `Documento: ${order.paymentDetails.buyer_document_type} ${order.paymentDetails.buyer_document_number}`,
         75,
         60,
         { maxWidth: 60 }
     );
-    doc.text(`Teléfono: ${order.paymentDetails.comprador_telefono}`, 75, 65, { maxWidth: 60 });
-    doc.text(`Correo: ${order.paymentDetails.comprador_correo}`, 75, 70, { maxWidth: 60 });
+    doc.text(`Teléfono: ${order.paymentDetails.buyer_phone}`, 75, 65, { maxWidth: 60 });
+    doc.text(`Correo: ${order.paymentDetails.buyer_email}`, 75, 70, { maxWidth: 60 });
 
     // Información del pedido
     doc.setFontSize(12);

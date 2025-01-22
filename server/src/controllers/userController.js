@@ -287,7 +287,7 @@ export default class UserController {
                 `
                     SELECT
                         MONTH(orders.order_date) AS month,
-                        YEAR(orders.order_date) AS anio,
+                        YEAR(orders.order_date) AS year,
                         COUNT(*) AS shippings_quantity,
                         SUM(shipping_details.shipping_cost) AS shipping_money
                     FROM shipping_details
@@ -303,7 +303,7 @@ export default class UserController {
                 `
                     SELECT
                         MONTH(orders.order_date) AS month,
-                        YEAR(orders.order_date) AS anio,
+                        YEAR(orders.order_date) AS year,
                         SUM(order_products.product_quantity) AS total_products,
                         SUM(order_products.product_price * order_products.product_quantity) AS total_money
                     FROM order_products
@@ -444,7 +444,6 @@ export default class UserController {
                 data: { ...products, limit, page, offset },
             });
         } catch (error) {
-            console.log(error);
             return res.status(500).json({
                 success: false,
                 message: error.message,

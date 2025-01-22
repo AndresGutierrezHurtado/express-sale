@@ -70,11 +70,11 @@ export default function Delivery() {
                                         {order.user.user_lastname}
                                     </p>
                                     <p>
-                                        <strong>Email:</strong> {paymentDetails.comprador_correo}
+                                        <strong>Email:</strong> {paymentDetails.buyer_email}
                                     </p>
                                     <p>
                                         <strong>Teléfono:</strong>{" "}
-                                        {paymentDetails.comprador_telefono}
+                                        {paymentDetails.buyer_phone}
                                     </p>
                                     <p>
                                         <strong>Dirección:</strong>{" "}

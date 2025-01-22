@@ -63,15 +63,15 @@ export default function Order() {
                                     <h2 className="text-xl font-bold">Comprador:</h2>
                                     <div className="flex gap-2">
                                         <span className="font-medium">Nombre:</span>
-                                        <p>{order.paymentDetails.comprador_nombre}</p>
+                                        <p>{order.paymentDetails.buyer_name}</p>
                                     </div>
                                     <div className="flex gap-2">
                                         <span className="font-medium">Correo<span className="hidden md:inline-flex ml-1">Electrónico</span>:</span>
-                                        <p>{order.paymentDetails.comprador_correo}</p>
+                                        <p>{order.paymentDetails.buyer_email}</p>
                                     </div>
                                     <div className="flex gap-2">
                                         <span className="font-medium">Teléfono:</span>
-                                        <p>{order.paymentDetails.comprador_telefono}</p>
+                                        <p>{order.paymentDetails.buyer_phone}</p>
                                     </div>
                                 </article>
                                 <article className="[&>div]:text-sm">

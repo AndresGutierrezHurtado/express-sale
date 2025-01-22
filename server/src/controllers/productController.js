@@ -108,7 +108,6 @@ export default class ProductController {
             });
         } catch (error) {
             await transaction.rollback();
-            console.log(error);
 
             res.status(404).json({
                 success: false,

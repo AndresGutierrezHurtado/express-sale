@@ -13,7 +13,7 @@ import { Link } from "react-router-dom";
 export default function SellerStats({ user, reloadUser }) {
     const [graphicData, setGraphicData] = useState("all");
     const [currentMonth, setCurrentMonth] = useState(null);
-    const [year, setYear] = useState("2024");
+    const [year, setYear] = useState(new Date().getFullYear());
 
     const {
         data: pendingOrders,
@@ -25,14 +25,14 @@ export default function SellerStats({ user, reloadUser }) {
     for (let i = 1; i <= 12; i++) {
         let infoMes =
             user.worker.month_sales.find(
-                (el) => el.mes == i && el.anio == (year ? year : new Date().getFullYear())
+                (el) => el.month == i && el.year == (year ? year : new Date().getFullYear())
             ) || null;
         yearSales.push({
             month: i,
             monthToText: new Date(0, i - 1).toLocaleString("es", { month: "long" }),
-            money: infoMes ? parseInt(infoMes.dinero_ventas) : 0,
-            sales: infoMes ? infoMes.total_productos : 0,
-            year: infoMes ? infoMes.anio : parseInt(year),
+            money: infoMes ? parseInt(infoMes.total_money) : 0,
+            sales: infoMes ? infoMes.total_products : 0,
+            year: infoMes ? infoMes.year : parseInt(year),
         });
     }
 
@@ -157,9 +157,7 @@ export default function SellerStats({ user, reloadUser }) {
                                     <UserIcon size={40} />
                                 </div>
                                 <div className="flex-grow">
-                                    <div className="stat-value text-xl">
-                                        {user.ratings_count}
-                                    </div>
+                                    <div className="stat-value text-xl">{user.ratings_count}</div>
                                     <div className="text-gray-500 leading-none">Calificaciones</div>
                                 </div>
                             </article>
@@ -168,9 +166,7 @@ export default function SellerStats({ user, reloadUser }) {
                                     <StarIcon size={40} />
                                 </div>
                                 <div className="flex-grow">
-                                    <div className="stat-value text-xl">
-                                        {user.average_rating}
-                                    </div>
+                                    <div className="stat-value text-xl">{user.average_rating}</div>
                                     <div className="text-gray-500 leading-none">
                                         Calificacion promedio
                                     </div>
@@ -239,8 +235,8 @@ export default function SellerStats({ user, reloadUser }) {
                                                 </td>
                                                 <td>{`${order.user.user_name} ${order.user.user_lastname}`}</td>
                                                 <td>{`${
-                                                    order.shippingDetails.worker?.user
-                                                        .user_name || "No asignado"
+                                                    order.shippingDetails.worker?.user.user_name ||
+                                                    "No asignado"
                                                 } ${
                                                     order.shippingDetails.worker?.user
                                                         .user_lastname || ""
@@ -265,7 +261,10 @@ export default function SellerStats({ user, reloadUser }) {
                                 </p>
                             )}
                             {user.worker.most_selled_products.map((product, index) => (
-                                <div key={product.product_id} className="flex flex-wrap items-center gap-5">
+                                <div
+                                    key={product.product_id}
+                                    className="flex flex-wrap items-center gap-5"
+                                >
                                     <h2 className="text-4xl font-bold mx-auto">{index + 1}</h2>
                                     <div className="card bg-white border border-gray-100 w-full max-w-[400px] shadow-lg">
                                         <div className="card-body flex-row flex-wrap items-center">
