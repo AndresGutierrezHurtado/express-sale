@@ -1,7 +1,6 @@
 // Hooks
 import { usePostData } from "../hooks/useFetchData";
 import { useValidateform } from "../hooks/useValidateForm";
-import { useAuthContext } from "@contexts/authContext";
 
 export default function RateModal({ id, type, reload }) {
     const handleRatingSubmit = async (event) => {
@@ -12,10 +11,8 @@ export default function RateModal({ id, type, reload }) {
 
         if (validation.success) {
             const endpoint =
-                type === "product"
-                    ? `/ratings/products/${id}`
-                    : `/ratings/users/${id}`;
-            const response = await usePostData(endpoint, data);
+                type === "product" ? `/ratings/products/${id}` : `/ratings/users/${id}`;
+            const response = await usePostData(endpoint, { rating: data });
 
             if (response.success) {
                 event.target.closest("dialog").close();
@@ -23,6 +20,7 @@ export default function RateModal({ id, type, reload }) {
             }
         }
     };
+
     return (
         <dialog
             id={`${type === "product" ? "product" : "user"}-modal-${id}`}
@@ -38,8 +36,7 @@ export default function RateModal({ id, type, reload }) {
                     </form>
                 </div>
                 <h3 className="text-xl font-bold">
-                    Calificar{" "}
-                    {type === "product" ? "el producto" : "el usuario"}:
+                    Calificar {type === "product" ? "el producto" : "el usuario"}:
                 </h3>
                 <p>
                     {type === "product"
@@ -54,9 +51,7 @@ export default function RateModal({ id, type, reload }) {
                 >
                     <label className="form-control w-full">
                         <div className="label">
-                            <span className="label-text font-medium text-gray-700">
-                                Mensaje:
-                            </span>
+                            <span className="label-text font-medium text-gray-700">Mensaje:</span>
                         </div>
                         <textarea
                             placeholder="Ingresa un comentario sobre el producto."
@@ -68,9 +63,7 @@ export default function RateModal({ id, type, reload }) {
 
                     <label className="form-control w-full">
                         <div className="label">
-                            <span className="label-text font-medium text-gray-700">
-                                Imagen:
-                            </span>
+                            <span className="label-text font-medium text-gray-700">Imagen:</span>
                         </div>
                         <input
                             type="file"

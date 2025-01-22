@@ -43,7 +43,7 @@ export default function Product() {
         const validation = useValidateform(data, "rate-form");
 
         if (validation.success) {
-            const response = await usePostData(`/ratings/products/${id}`, data);
+            const response = await usePostData(`/ratings/products/${id}`, { rating: data });
             if (response.success) {
                 event.target.reset();
                 reloadProduct();
@@ -71,7 +71,7 @@ export default function Product() {
             url: media.media_url,
             alt: `Imagen del producto ${product.product_name}`,
         })),
-    ]
+    ];
 
     return (
         <>
@@ -96,7 +96,6 @@ export default function Product() {
                         <div className="flex flex-col md:flex-row gap-10 p-8 py-7 w-full">
                             <div className="flex flex-col md:flex-row flex-none">
                                 <SwiperThumbnails images={images} size={500} />
-                                
                             </div>
                             <article className="w-full flex flex-col h-[initial]">
                                 <div className="w-full">
@@ -108,7 +107,9 @@ export default function Product() {
                                             className="text-gray-600/90 font-medium hover:underline cursor-pointer tooltip tooltip-left"
                                             data-tip="Mostrar/Ocultar calificaciones"
                                             onClick={() => {
-                                                document.getElementById("ratings-list").classList.toggle("hidden");
+                                                document
+                                                    .getElementById("ratings-list")
+                                                    .classList.toggle("hidden");
                                             }}
                                         >
                                             {product.ratings_count} comentarios
@@ -151,7 +152,7 @@ export default function Product() {
             </section>
             <section className="w-full px-3">
                 <div className="w-full max-w-[1200px] mx-auto py-5">
-                    <article id="ratings-list" className="card bg-white shadow-xl border hidden"> 
+                    <article id="ratings-list" className="card bg-white shadow-xl border hidden">
                         <div className="card-body">
                             <h2 className="text-3xl font-extrabold tracking-tight">Comentarios:</h2>
                             <div className="flex flex-col md:flex-row gap-10">

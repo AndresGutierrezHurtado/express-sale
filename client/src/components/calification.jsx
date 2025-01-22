@@ -1,13 +1,7 @@
 import Swal from "sweetalert2";
 
 // Components
-import {
-    DotsIcon,
-    FlagIcon,
-    PencilIcon,
-    StarIcon,
-    TrashIcon,
-} from "./icons.jsx";
+import { DotsIcon, FlagIcon, PencilIcon, StarIcon, TrashIcon } from "./icons.jsx";
 import { StarsRating } from "./starsRating.jsx";
 
 // Contexts
@@ -69,16 +63,14 @@ export function Calification({ rating, reload }) {
         const validation = useValidateform(data, "rate-form");
 
         if (validation.success) {
-            const response = await usePutData(
-                `/ratings/${rating.rating_id}`,
-                data
-            );
+            const response = await usePutData(`/ratings/${rating.rating_id}`, { rating: data });
             if (response.success) {
                 event.target.closest("dialog").close();
                 reload();
             }
         }
     };
+
     return (
         <>
             <article className="flex flex-col">
@@ -93,9 +85,7 @@ export function Calification({ rating, reload }) {
                                 />
                             </figure>
                             <div className="flex flex-col gap-1">
-                                <h4 className="font-medium">
-                                    {rating.calificator.user_alias}
-                                </h4>
+                                <h4 className="font-medium">{rating.calificator.user_alias}</h4>
                                 <StarsRating rating={parseInt(rating.rating_value)} />
                             </div>
                         </div>
@@ -112,17 +102,13 @@ export function Calification({ rating, reload }) {
                                 className="dropdown-content menu bg-base-100 rounded-box z-[1] w-52 p-2 shadow [&>li>a]:flex [&>li>a]:justify-between [&>li>a]:items-center"
                             >
                                 <li>
-                                    <a
-                                        onClick={handleReport}
-                                        className="text-red-500"
-                                    >
+                                    <a onClick={handleReport} className="text-red-500">
                                         Reportar
                                         <FlagIcon />
                                     </a>
                                 </li>
                                 {userSession &&
-                                    (rating.user_id ==
-                                        userSession.user_id ||
+                                    (rating.user_id == userSession.user_id ||
                                         userSession.role_id == 4) && (
                                         <>
                                             <li>
@@ -141,11 +127,7 @@ export function Calification({ rating, reload }) {
                                             </li>
                                             <li>
                                                 <a
-                                                    onClick={() =>
-                                                        handleDelete(
-                                                            rating.rating_id
-                                                        )
-                                                    }
+                                                    onClick={() => handleDelete(rating.rating_id)}
                                                     className="text-red-500"
                                                 >
                                                     Elimintar
@@ -162,19 +144,14 @@ export function Calification({ rating, reload }) {
                     <p>{rating.rating_comment}</p>
                 </div>
             </article>
-            <dialog
-                id={`rating-edit-${rating.rating_id}`}
-                className="modal mt-[0_!important]"
-            >
+            <dialog id={`rating-edit-${rating.rating_id}`} className="modal mt-[0_!important]">
                 <div className="modal-box">
                     <form method="dialog">
                         <button className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">
                             ✕
                         </button>
                     </form>
-                    <h3 className="font-bold text-lg">
-                        Actualizar la calificacion:
-                    </h3>
+                    <h3 className="font-bold text-lg">Actualizar la calificacion:</h3>
                     <form
                         encType="multipart/form-data"
                         className="space-y-2"
