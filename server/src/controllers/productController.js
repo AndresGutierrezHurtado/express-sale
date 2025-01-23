@@ -63,7 +63,7 @@ export default class ProductController {
                 }
             }
 
-            if (req.body.product_medias.length > 0) {
+            if (req.body.product_medias?.length > 0) {
                 for (const multimedia of req.body.product_medias) {
                     const multimediaId = crypto.randomUUID();
 

@@ -143,7 +143,7 @@ export default function AdminLayout() {
                             <form className="flex gap-2">
                                 <input
                                     name="search"
-                                    className="input input-bordered input-sm rounded-full"
+                                    className="input input-bordered input-sm rounded-full text-black"
                                     
                                     placeholder={`Buscar ${
                                         location.pathname.endsWith("users")
