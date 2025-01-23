@@ -276,7 +276,7 @@ export default function Home() {
                                         <input
                                             placeholder="Ingresa el tema de tu mensaje"
                                             className="input focus:input-primary input-bordered focus:outline-0"
-                                            name="correo_asunto"
+                                            name="email_subject"
                                         />
                                     </div>
                                     <div className="form-control w-full">
@@ -288,7 +288,7 @@ export default function Home() {
                                         <textarea
                                             placeholder="Ingresa tu mensaje/opinión aquí"
                                             className="textarea textarea-bordered focus:textarea-primary focus:outline-0 resize-none h-32"
-                                            name="correo_mensaje"
+                                            name="email_message"
                                         ></textarea>
                                     </div>
                                     <div className="form-control w-full mt-5">
