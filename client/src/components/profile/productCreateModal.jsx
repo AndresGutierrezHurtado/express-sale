@@ -23,10 +23,9 @@ export default function ProductCreateModal({ reload }) {
                     category_id: data.category_id,
                 },
                 product_image:
-                    data.product_image.size > 0
-                        ? await useConvertImage(data.product_image)
-                        : null,
+                    data.product_image.size > 0 ? await useConvertImage(data.product_image) : null,
             });
+
             if (response.success) {
                 reload();
                 event.target.reset();
@@ -79,7 +78,7 @@ export default function ProductCreateModal({ reload }) {
                             <textarea
                                 name="product_description"
                                 placeholder="Ingresa la descripcion del producto"
-                                className="textarea textarea-bordered textarea-sm focus:textarea-primary focus:outline-0 h-32 resize-none"
+                                className="textarea textarea-bordered textarea-sm focus:textarea-primary focus:outline-0 h-32 resize-none leading-tight"
                             ></textarea>
                         </div>
                         <div className="form-control">

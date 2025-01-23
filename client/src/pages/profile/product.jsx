@@ -42,7 +42,7 @@ export default function ProductProfile() {
                     data.product_image.size > 0
                         ? await useConvertImage(data.product_image)
                         : null,
-                multimedias: base64Files,
+                product_medias: base64Files,
             }).then(() => reloadProduct());
 
             if (response.success) reloadProduct();
@@ -64,7 +64,7 @@ export default function ProductProfile() {
             confirmButtonText: "Continuar",
         }).then(async (result) => {
             if (result.isConfirmed) {
-                const response = await useDeleteData(`/multimedias/${media_id}`);
+                const response = await useDeleteData(`/medias/${media_id}`);
                 if (response.success) reloadProduct();
             }
         });
