@@ -2,13 +2,14 @@ import { Router } from "express";
 import UserController from "../controllers/userController.js";
 
 const userRoutes = Router();
+
 /**
  * @swagger
  * /users:
  *   post:
  *     summary: Agregar un nuevo usuario
  *     tags:
- *       - Users
+ *       - Usuarios
  *     requestBody:
  *       required: true
  *       content:
@@ -48,8 +49,59 @@ const userRoutes = Router();
  *                   - user_phone
  *                   - user_address
  *     responses:
- *       201:
- *         description: User created successfully
+ *       200:
+ *         description: Usuario creado exitosamente
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                   example: true
+ *                 message:
+ *                   type: string
+ *                   example: "Usuario creado exitosamente"
+ *                 data:
+ *                   type: object
+ *                   properties:
+ *                     user_id:
+ *                       type: string
+ *                     user_name:
+ *                       type: string
+ *                     user_lastname:
+ *                       type: string
+ *                     user_alias:
+ *                       type: string
+ *                     user_email:
+ *                       type: string
+ *                     user_phone:
+ *                       type: number
+ *                     user_address:
+ *                       type: string
+ *                     user_image_url:
+ *                       type: string
+ *                     created_at:
+ *                       type: string
+ *                     updated_at:
+ *                       type: string
+ *       500:
+ *         description: Error al crear el usuario
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                   example: false
+ *                 message:
+ *                   type: string
+ *                   example: "Error al crear el usuario"
+ *                 data:
+ *                   type: object
+ */
+userRoutes.post("/users", UserController.createUser);
  *         content:
  *           application/json:
  *             schema:
