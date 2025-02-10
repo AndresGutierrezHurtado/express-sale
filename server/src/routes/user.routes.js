@@ -285,6 +285,60 @@ userRoutes.get("/users", UserController.getUsers);
  */
 userRoutes.get("/users/:id", UserController.getUser);
 
+/**
+ * @swagger
+ * /users/{id}:
+ *   put:
+ *     summary: Actualizar información de un usuario
+ *     tags:
+ *       - Usuarios
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: Identificador único del usuario
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               user:
+ *                 type: object
+ *                 properties:
+ *                   user_name:
+ *                     type: string
+ *                   user_lastname:
+ *                     type: string
+ *                   user_alias:
+ *                     type: string
+ *                   user_email:
+ *                     type: string
+ *                   user_phone:
+ *                     type: string
+ *                   user_address:
+ *                     type: string
+ *                   user_password:
+ *                     type: string
+ *                   role_id:
+ *                     type: integer
+ *               worker:
+ *                 type: object
+ *                 properties:
+ *                   worker_description:
+ *                     type: string
+ *                   worker_balance:
+ *                     type: number
+ *               user_image:
+ *                 type: string
+ *                 format: byte
+ *                 example: "base64encodedimage"
+ *     responses:
+ *       200:
+ *         description: Usuario actualizado correctamente
  *         content:
  *           application/json:
  *             schema:
@@ -292,8 +346,10 @@ userRoutes.get("/users/:id", UserController.getUser);
  *               properties:
  *                 success:
  *                   type: boolean
+ *                   example: true
  *                 message:
  *                   type: string
+ *                   example: "Usuario actualizado correctamente"
  *                 data:
  *                   type: object
  *                   properties:
@@ -308,17 +364,22 @@ userRoutes.get("/users/:id", UserController.getUser);
  *                     user_email:
  *                       type: string
  *                     user_phone:
- *                       type: string
+ *                       type: number
  *                     user_address:
  *                       type: string
  *                     user_image_url:
  *                       type: string
- *                     created_at:
- *                       type: string
- *                     updated_at:
- *                       type: string
- *       500:
- *         description: Error creating user
+ *                     role_id:
+ *                       type: integer
+ *                     role:
+ *                       type: object
+ *                       properties:
+ *                         role_id:
+ *                           type: integer
+ *                         role_name:
+ *                           type: string
+ *       404:
+ *         description: Usuario no encontrado
  *         content:
  *           application/json:
  *             schema:
@@ -326,12 +387,31 @@ userRoutes.get("/users/:id", UserController.getUser);
  *               properties:
  *                 success:
  *                   type: boolean
+ *                   example: false
  *                 message:
  *                   type: string
+ *                   example: "Usuario no encontrado"
+ *                 data:
+ *                   type: object
+ *                   properties: {}
+ *       500:
+ *         description: Error al actualizar el usuario
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                   example: false
+ *                 message:
+ *                   type: string
+ *                   example: "Error al actualizar el usuario"
+ *                 data:
+ *                   type: object
+ *                   properties: {}
  */
-userRoutes.post("/users", UserController.createUser);
-userRoutes.get("/users", UserController.getUsers);
-userRoutes.get("/users/:id", UserController.getUser);
+
 userRoutes.put("/users/:id", UserController.updateUser);
 userRoutes.delete("/users/:id", UserController.deleteUser);
 

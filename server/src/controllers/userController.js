@@ -87,6 +87,14 @@ export default class UserController {
                     where: { user_id: req.params.id },
                     transaction,
                 });
+
+                if (user[0] == 0) {
+                    return res.status(404).json({
+                        success: false,
+                        message: "No se pudo actualizar el usuario.",
+                        data: null,
+                    });
+                }
             }
 
             if (workerData) {
@@ -274,6 +282,14 @@ export default class UserController {
                 },
                 include: ["role", "worker"],
             });
+
+            if (!user) {
+                return res.status(404).json({
+                    success: false,
+                    message: "Usuario no encontrado.",
+                    data: null,
+                });
+            }
 
             if (!user.worker) {
                 return res.status(200).json({
