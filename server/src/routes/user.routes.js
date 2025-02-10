@@ -102,6 +102,97 @@ const userRoutes = Router();
  *                   type: object
  */
 userRoutes.post("/users", UserController.createUser);
+
+/**
+ * @swagger
+ * /users:
+ *   get:
+ *     summary: Obtener lista de usuarios
+ *     tags:
+ *       - Usuarios
+ *     parameters:
+ *       - in: query
+ *         name: search
+ *         schema:
+ *           type: string
+ *         description: Criterio de búsqueda por nombre, alias o email
+ *       - in: query
+ *         name: sort
+ *         schema:
+ *           type: string
+ *         description: Ordenar por campo (e.g., user_name, user_email)
+ *       - in: query
+ *         name: limit
+ *         schema:
+ *           type: integer
+ *         description: Número de usuarios a devolver
+ *       - in: query
+ *         name: page
+ *         schema:
+ *           type: integer
+ *         description: Número de página para paginación
+ *     responses:
+ *       200:
+ *         description: lista de usuarios
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 type: object
+ *                 properties:
+ *                   user_id:
+ *                     type: string
+ *                   user_name:
+ *                     type: string
+ *                   user_lastname:
+ *                     type: string
+ *                   user_alias:
+ *                     type: string
+ *                   user_email:
+ *                     type: string
+ *                   user_phone:
+ *                     type: string
+ *                   user_address:
+ *                     type: string
+ *                   user_image_url:
+ *                     type: string
+ *                   created_at:
+ *                     type: string
+ *                   updated_at:
+ *                     type: string
+ *                   worker:
+ *                     type: object
+ *                     properties:
+ *                       worker_id:
+ *                         type: string
+ *                       worker_description:
+ *                         type: string
+ *                       worker_balance:
+ *                         type: number
+ *                   role:
+ *                     type: object
+ *                     properties:
+ *                       role_id:
+ *                         type: integer
+ *                       role_name:
+ *                         type: string
+ *       500:
+ *         description: Error al obtener la lista de usuarios
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                   example: false
+ *                 message:
+ *                   type: string
+ *                   example: "Error al obtener la lista de usuarios"
+ */
+userRoutes.get("/users", UserController.getUsers);
+
  *         content:
  *           application/json:
  *             schema:
