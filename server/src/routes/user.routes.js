@@ -193,6 +193,98 @@ userRoutes.post("/users", UserController.createUser);
  */
 userRoutes.get("/users", UserController.getUsers);
 
+/**
+ * @swagger
+ * /users/{id}:
+ *   get:
+ *     summary: Obtener un usuario por su ID
+ *     tags:
+ *       - Usuarios
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         schema:
+ *           type: string
+ *         required: true
+ *         description: ID del usuario
+ *     responses:
+ *       200:
+ *         description: Usuario obtenido correctamente
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 user_id:
+ *                   type: string
+ *                 user_name:
+ *                   type: string
+ *                 user_lastname:
+ *                   type: string
+ *                 user_alias:
+ *                   type: string
+ *                 user_email:
+ *                   type: string
+ *                 user_phone:
+ *                   type: string
+ *                 user_address:
+ *                   type: string
+ *                 user_image_url:
+ *                   type: string
+ *                 created_at:
+ *                   type: string
+ *                 updated_at:
+ *                   type: string
+ *                 worker:
+ *                   type: object
+ *                   properties:
+ *                     worker_id:
+ *                       type: string
+ *                     worker_description:
+ *                       type: string
+ *                     worker_balance:
+ *                       type: number
+ *                 role:
+ *                   type: object
+ *                   properties:
+ *                     role_id:
+ *                       type: integer
+ *                     role_name:
+ *                       type: string
+ *       404:
+ *         description: Usuario no encontrado
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                   example: false
+ *                 message:
+ *                   type: string
+ *                   example: "Usuario no encontrado"
+ *                 data:
+ *                   type: object
+ *                   properties: {}
+ *       500:
+ *         description: Error al obtener el usuario
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                   example: false
+ *                 message:
+ *                   type: string
+ *                   example: "Error al obtener el usuario"
+ *                 data:
+ *                   type: object
+ */
+userRoutes.get("/users/:id", UserController.getUser);
+
  *         content:
  *           application/json:
  *             schema:
