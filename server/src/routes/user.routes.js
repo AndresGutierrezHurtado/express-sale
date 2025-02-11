@@ -411,8 +411,69 @@ userRoutes.get("/users/:id", UserController.getUser);
  *                   type: object
  *                   properties: {}
  */
-
 userRoutes.put("/users/:id", UserController.updateUser);
+
+/**
+ * @swagger
+ * /users/{id}:
+ *   delete:
+ *     summary: Eliminar un usuario por su ID
+ *     tags:
+ *       - Usuarios
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: Identificador único del usuario
+ *     responses:
+ *       200:
+ *         description: Usuario eliminado correctamente
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                   example: true
+ *                 message:
+ *                   type: string
+ *                   example: "Usuario eliminado correctamente"
+ *       404:
+ *         description: Usuario no encontrado
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                   example: false
+ *                 message:
+ *                   type: string
+ *                   example: "Usuario no encontrado"
+ *                 data:
+ *                   type: object
+ *                   properties: {}
+ *       500:
+ *         description: Error al eliminar el usuario
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                   example: false
+ *                 message:
+ *                   type: string
+ *                   example: "Error al eliminar el usuario"
+ *                 data:
+ *                   type: object
+ *                   properties: {}
+ */
 userRoutes.delete("/users/:id", UserController.deleteUser);
 
 // Extra info

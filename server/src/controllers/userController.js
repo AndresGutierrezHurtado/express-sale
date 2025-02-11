@@ -131,7 +131,15 @@ export default class UserController {
         try {
             await deleteFile("express-sale/users/" + req.params.id);
 
-            await models.User.destroy({ where: { user_id: req.params.id } });
+            const user = await models.User.destroy({ where: { user_id: req.params.id } });
+
+            if (user == 0) {
+                return res.status(404).json({
+                    success: false,
+                    message: "No se pudo eliminar el usuario.",
+                    data: null,
+                });
+            }
 
             return res.status(200).json({
                 success: true,
