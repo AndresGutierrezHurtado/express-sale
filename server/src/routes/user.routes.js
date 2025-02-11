@@ -33,7 +33,7 @@ const userRoutes = Router();
  *                     type: string
  *                     example: johndoe@example.com
  *                   user_phone:
- *                     type: string
+ *                     type: number
  *                     example: 1234567890
  *                   user_address:
  *                     type: string
@@ -152,7 +152,7 @@ userRoutes.post("/users", UserController.createUser);
  *                   user_email:
  *                     type: string
  *                   user_phone:
- *                     type: string
+ *                     type: number
  *                   user_address:
  *                     type: string
  *                   user_image_url:
@@ -226,7 +226,7 @@ userRoutes.get("/users", UserController.getUsers);
  *                 user_email:
  *                   type: string
  *                 user_phone:
- *                   type: string
+ *                   type: number
  *                 user_address:
  *                   type: string
  *                 user_image_url:
@@ -318,7 +318,7 @@ userRoutes.get("/users/:id", UserController.getUser);
  *                   user_email:
  *                     type: string
  *                   user_phone:
- *                     type: string
+ *                     type: number
  *                   user_address:
  *                     type: string
  *                   user_password:
@@ -477,7 +477,105 @@ userRoutes.put("/users/:id", UserController.updateUser);
 userRoutes.delete("/users/:id", UserController.deleteUser);
 
 // Extra info
+
+/**
+ * @swagger
+ * /users/{id}/products:
+ *   get:
+ *     summary: Obtener productos de un usuario
+ *     tags:
+ *       - Usuarios
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: Identificador único del usuario
+ *       - in: query
+ *         name: search
+ *         schema:
+ *           type: string
+ *         description: Criterio de búsqueda por nombre, alias o email
+ *       - in: query
+ *         name: sort
+ *         schema:
+ *           type: string
+ *           example: user_name:asc
+ *         description: Ordenar por campo, el primer argumento es el campo y el segundo es el orden (asc o desc) separados por dos puntos
+ *       - in: query
+ *         name: limit
+ *         schema:
+ *           type: integer
+ *           example: 10
+ *         description: Número de usuarios a devolver
+ *       - in: query
+ *         name: page
+ *         schema:
+ *           type: integer
+ *           example: 1
+ *         description: Número de página para paginación
+ *     responses:
+ *       200:
+ *         description: Productos obtenidos correctamente
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                   example: true
+ *                 message:
+ *                   type: string
+ *                   example: "Productos obtenidos correctamente"
+ *                 data:
+ *                   type: array
+ *                   items:
+ *                     type: object
+ *                     properties:
+ *                       product_id:
+ *                         type: string
+ *                       product_name:
+ *                         type: string
+ *                       product_description:
+ *                         type: string
+ *                       product_price:
+ *                         type: number
+ *                       product_image_url:
+ *                         type: string
+ *                       product_date:
+ *                         type: string
+ *                       product_quantity:
+ *                         type: number
+ *                       category_id:
+ *                         type: number
+ *                       category:
+ *                         type: object
+ *                         properties:
+ *                           category_id:
+ *                             type: number
+ *                           category_name:
+ *                             type: string
+ *       500:
+ *         description: Error al obtener los productos
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                   example: false
+ *                 message:
+ *                   type: string
+ *                   example: "Error al obtener los productos"
+ *                 data:
+ *                   type: object
+ *                   properties: {}
+ */
 userRoutes.get("/users/:id/products", UserController.getUserProducts);
+
 userRoutes.get("/users/:id/orders", UserController.getUserOrders);
 userRoutes.get("/users/:id/ratings", UserController.getUserRatings);
 userRoutes.post("/feedback", UserController.createUserFeedback);
