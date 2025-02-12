@@ -137,46 +137,55 @@ userRoutes.post("/users", UserController.createUser);
  *         content:
  *           application/json:
  *             schema:
- *               type: array
- *               items:
- *                 type: object
- *                 properties:
- *                   user_id:
- *                     type: string
- *                   user_name:
- *                     type: string
- *                   user_lastname:
- *                     type: string
- *                   user_alias:
- *                     type: string
- *                   user_email:
- *                     type: string
- *                   user_phone:
- *                     type: number
- *                   user_address:
- *                     type: string
- *                   user_image_url:
- *                     type: string
- *                   created_at:
- *                     type: string
- *                   updated_at:
- *                     type: string
- *                   worker:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                   example: true
+ *                 message:
+ *                   type: string
+ *                   example: "Usuarios obtenidos correctamente"
+ *                 data:
+ *                   type: array
+ *                   items:
  *                     type: object
  *                     properties:
- *                       worker_id:
+ *                       user_id:
  *                         type: string
- *                       worker_description:
+ *                       user_name:
  *                         type: string
- *                       worker_balance:
+ *                       user_lastname:
+ *                         type: string
+ *                       user_alias:
+ *                         type: string
+ *                       user_email:
+ *                         type: string
+ *                       user_phone:
  *                         type: number
- *                   role:
- *                     type: object
- *                     properties:
- *                       role_id:
- *                         type: integer
- *                       role_name:
+ *                       user_address:
  *                         type: string
+ *                       user_image_url:
+ *                         type: string
+ *                       created_at:
+ *                         type: string
+ *                       updated_at:
+ *                         type: string
+ *                       worker:
+ *                         type: object
+ *                         properties:
+ *                           worker_id:
+ *                             type: string
+ *                           worker_description:
+ *                             type: string
+ *                           worker_balance:
+ *                             type: number
+ *                       role:
+ *                         type: object
+ *                         properties:
+ *                           role_id:
+ *                             type: integer
+ *                           role_name:
+ *                             type: string
  *       500:
  *         description: Error al obtener la lista de usuarios
  *         content:
@@ -190,6 +199,9 @@ userRoutes.post("/users", UserController.createUser);
  *                 message:
  *                   type: string
  *                   example: "Error al obtener la lista de usuarios"
+ *                 data:
+ *                   type: object
+ *                   properties: {}
  */
 userRoutes.get("/users", UserController.getUsers);
 
@@ -215,42 +227,51 @@ userRoutes.get("/users", UserController.getUsers);
  *             schema:
  *               type: object
  *               properties:
- *                 user_id:
+ *                 success:
+ *                   type: boolean
+ *                   example: true
+ *                 message:
  *                   type: string
- *                 user_name:
- *                   type: string
- *                 user_lastname:
- *                   type: string
- *                 user_alias:
- *                   type: string
- *                 user_email:
- *                   type: string
- *                 user_phone:
- *                   type: number
- *                 user_address:
- *                   type: string
- *                 user_image_url:
- *                   type: string
- *                 created_at:
- *                   type: string
- *                 updated_at:
- *                   type: string
- *                 worker:
+ *                   example: "Usuario obtenido correctamente"
+ *                 data:
  *                   type: object
  *                   properties:
- *                     worker_id:
+ *                     user_id:
  *                       type: string
- *                     worker_description:
+ *                     user_name:
  *                       type: string
- *                     worker_balance:
+ *                     user_lastname:
+ *                       type: string
+ *                     user_alias:
+ *                       type: string
+ *                     user_email:
+ *                       type: string
+ *                     user_phone:
  *                       type: number
- *                 role:
- *                   type: object
- *                   properties:
- *                     role_id:
- *                       type: integer
- *                     role_name:
+ *                     user_address:
  *                       type: string
+ *                     user_image_url:
+ *                       type: string
+ *                     created_at:
+ *                       type: string
+ *                     updated_at:
+ *                       type: string
+ *                     worker:
+ *                       type: object
+ *                       properties:
+ *                         worker_id:
+ *                           type: string
+ *                         worker_description:
+ *                           type: string
+ *                         worker_balance:
+ *                           type: number
+ *                     role:
+ *                       type: object
+ *                       properties:
+ *                         role_id:
+ *                           type: integer
+ *                         role_name:
+ *                           type: string
  *       404:
  *         description: Usuario no encontrado
  *         content:
