@@ -20,16 +20,21 @@ export default function Product({ product, reloadProducts }) {
 
     return (
         <>
-            <article className="flex flex-col md:flex-row gap-5 bg-white p-5 rounded-xl shadow-lg border border-black/10">
+            <article className={`flex flex-col md:flex-row gap-5 p-5 rounded-xl shadow-lg border border-black/10 ${product.product_quantity == 0 ? "bg-zinc-200" : "bg-white"}`}>
                 <Link
                     to={`/product/${product.product_id}`}
-                    className="w-full min-w-[140px] max-w-[240px] aspect-square rounded-lg overflow-hidden bg-white mx-auto"
+                    className="w-full min-w-[140px] max-w-[240px] aspect-square rounded-lg overflow-hidden bg-white mx-auto relative"
                 >
                     <img
                         src={product.product_image_url}
                         alt={`Imagen del producto ${product.product_name}`}
                         className="object-contain h-full w-full"
                     />
+                    {product.product_quantity == 0 && (
+                        <div className="absolute inset-0 bg-black/50 flex items-center justify-center">
+                            <p className="text-white font-bold text-3xl uppercase">Agotado</p>
+                        </div>
+                    )}
                 </Link>
                 <div className="grow flex flex-col justify-center gap-1 h-[initial]">
                     <div>
@@ -93,7 +98,7 @@ export default function Product({ product, reloadProducts }) {
                         </div>
                         <button
                             className="btn btn-sm min-h-none h-auto py-3 btn-primary group relative text-purple-300 hover:bg-purple-800 hover:text-purple-100 w-full"
-                            
+                            disabled={product.product_quantity == 0}
                             onClick={() => {
                                 if (userSession) {
                                     handleCartAdd();
@@ -103,7 +108,7 @@ export default function Product({ product, reloadProducts }) {
                             }}
                             data-id={product.product_id}
                         >
-                            <span className="absolute left-3 top-1/2 transform -translate-y-1/2 text-purple-300 group-hover:text-purple-100">
+                            <span className="absolute left-3 top-1/2 transform -translate-y-1/2 text-purple-300 group-hover:text-purple-100 group-disabled:text-zinc-400">
                                 <CartAddIcon size={17} />
                             </span>
                             Añadir al carrito

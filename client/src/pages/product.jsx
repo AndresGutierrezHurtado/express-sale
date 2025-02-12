@@ -6,7 +6,13 @@ import { useGetData, usePostData } from "@hooks/useFetchData.js";
 import { useValidateform } from "@hooks/useValidateForm.js";
 
 // Components
-import { CartAddIcon, StarIcon, UserIcon, ClipIcon, PaperPlaneIcon } from "@components/icons.jsx";
+import {
+    CartAddIcon,
+    StarIcon,
+    UserIcon,
+    ClipIcon,
+    PaperPlaneIcon,
+} from "@components/icons.jsx";
 import ContentLoading from "@components/contentLoading.jsx";
 import { Calification } from "@components/calification";
 import { StarsRating } from "@components/starsRating";
@@ -43,7 +49,9 @@ export default function Product() {
         const validation = useValidateform(data, "rate-form");
 
         if (validation.success) {
-            const response = await usePostData(`/ratings/products/${id}`, { rating: data });
+            const response = await usePostData(`/ratings/products/${id}`, {
+                rating: data,
+            });
             if (response.success) {
                 event.target.reset();
                 reloadProduct();
@@ -84,18 +92,32 @@ export default function Product() {
                                     <Link to="/products">Productos</Link>
                                 </li>
                                 <li>
-                                    <Link to={`/products?category_id=${product.category_id}`}>
+                                    <Link
+                                        to={`/products?category_id=${product.category_id}`}
+                                    >
                                         {product.category.category_name}
                                     </Link>
                                 </li>
                                 <li>
-                                    <a className="text-purple-700 ">{product.product_name}</a>
+                                    <a className="text-purple-700 ">
+                                        {product.product_name}
+                                    </a>
                                 </li>
                             </ul>
                         </span>
                         <div className="flex flex-col md:flex-row gap-10 p-8 py-7 w-full">
-                            <div className="flex flex-col md:flex-row flex-none">
+                            <div
+                                className={`flex flex-col md:flex-row flex-none relative rounded-lg p-2 ${
+                                    product.product_quantity == 0 &&
+                                    "grayscale bg-gray-200"
+                                }`}
+                            >
                                 <SwiperThumbnails images={images} size={500} />
+                                {product.product_quantity == 0 && (
+                                    <p className="text-white bg-zinc-600/80 px-5 py-2 rounded-lg font-bold text-3xl uppercase absolute top-1/2 left-1/2 z-10 -translate-x-1/2">
+                                        Agotado
+                                    </p>
+                                )}
                             </div>
                             <article className="w-full flex flex-col h-[initial]">
                                 <div className="w-full">
@@ -108,7 +130,9 @@ export default function Product() {
                                             data-tip="Mostrar/Ocultar calificaciones"
                                             onClick={() => {
                                                 document
-                                                    .getElementById("ratings-list")
+                                                    .getElementById(
+                                                        "ratings-list"
+                                                    )
                                                     .classList.toggle("hidden");
                                             }}
                                         >
@@ -121,25 +145,32 @@ export default function Product() {
                                             className="text-gray-500/80 font-semibold italic text-sm hover:underline tooltip tooltip-bottom"
                                             data-tip="Ir al perfil del vendedor"
                                         >
-                                            @publicado por {product.user.user_alias}
+                                            @publicado por{" "}
+                                            {product.user.user_alias}
                                         </Link>
                                     )}
                                 </div>
-                                <p className="grow">{product.product_description}</p>
+                                <p className="grow">
+                                    {product.product_description}
+                                </p>
                                 <div className="space-y-3">
                                     <span className="flex justify-between items-center">
-                                        <p>{product.product_quantity} Disponibles</p>
-                                        <p className="flex items-center">
+                                        <p className="font-medium">
+                                            {product.product_quantity}{" "}
+                                            Disponibles
+                                        </p>
+                                        <p className="flex items-center text-lg">
                                             {product.average_rating}
-                                            <StarIcon />
+                                            <StarIcon className="ml-1"/>
                                         </p>
                                     </span>
 
                                     <button
                                         onClick={handleCartAdd}
+                                        disabled={product.product_quantity == 0}
                                         className="btn btn-sm min-h-none h-auto py-3 btn-primary group relative text-purple-300 hover:bg-purple-800 hover:text-purple-100 w-full"
                                     >
-                                        <span className="absolute left-3 top-1/2 transform -translate-y-1/2 text-purple-300 group-hover:text-purple-100">
+                                        <span className="absolute left-3 top-1/2 transform -translate-y-1/2 text-purple-300 group-hover:text-purple-100 group-disabled:text-zinc-400">
                                             <CartAddIcon size={17} />
                                         </span>
                                         Añadir al carrito
@@ -152,9 +183,14 @@ export default function Product() {
             </section>
             <section className="w-full px-3">
                 <div className="w-full max-w-[1200px] mx-auto py-5">
-                    <article id="ratings-list" className="card bg-white shadow-xl border hidden">
+                    <article
+                        id="ratings-list"
+                        className="card bg-white shadow-xl border hidden"
+                    >
                         <div className="card-body">
-                            <h2 className="text-3xl font-extrabold tracking-tight">Comentarios:</h2>
+                            <h2 className="text-3xl font-extrabold tracking-tight">
+                                Comentarios:
+                            </h2>
                             <div className="flex flex-col md:flex-row gap-10">
                                 <section className="w-full md:w-1/2 space-y-5">
                                     <article className="w-full flex gap-10">
@@ -163,7 +199,9 @@ export default function Product() {
                                                 {product.average_rating}
                                             </h2>
                                             <StarsRating
-                                                rating={parseFloat(product.average_rating)}
+                                                rating={parseFloat(
+                                                    product.average_rating
+                                                )}
                                             />
                                             <p className="text-sm flex gap-1 items-center grow-0">
                                                 {ratings.length}
@@ -177,7 +215,9 @@ export default function Product() {
                                                     className="progress progress-primary w-full"
                                                     value={
                                                         (ratings.filter(
-                                                            (rating) => rating.rating_value == 5
+                                                            (rating) =>
+                                                                rating.rating_value ==
+                                                                5
                                                         ).length /
                                                             ratings.length) *
                                                         100
@@ -191,7 +231,9 @@ export default function Product() {
                                                     className="progress progress-primary w-full"
                                                     value={
                                                         (ratings.filter(
-                                                            (rating) => rating.rating_value == 4
+                                                            (rating) =>
+                                                                rating.rating_value ==
+                                                                4
                                                         ).length /
                                                             ratings.length) *
                                                         100
@@ -205,7 +247,9 @@ export default function Product() {
                                                     className="progress progress-primary w-full"
                                                     value={
                                                         (ratings.filter(
-                                                            (rating) => rating.rating_value == 3
+                                                            (rating) =>
+                                                                rating.rating_value ==
+                                                                3
                                                         ).length /
                                                             ratings.length) *
                                                         100
@@ -219,7 +263,9 @@ export default function Product() {
                                                     className="progress progress-primary w-full"
                                                     value={
                                                         (ratings.filter(
-                                                            (rating) => rating.rating_value == 2
+                                                            (rating) =>
+                                                                rating.rating_value ==
+                                                                2
                                                         ).length /
                                                             ratings.length) *
                                                         100
@@ -233,7 +279,9 @@ export default function Product() {
                                                     className="progress progress-primary w-full"
                                                     value={
                                                         (ratings.filter(
-                                                            (rating) => rating.rating_value == 1
+                                                            (rating) =>
+                                                                rating.rating_value ==
+                                                                1
                                                         ).length /
                                                             ratings.length) *
                                                         100
@@ -249,8 +297,9 @@ export default function Product() {
                                                 Agrega tu calificacion:
                                             </h2>
                                             <p>
-                                                Ten en cuenta la calidad del producto y su fidelidad
-                                                a la imagen de referencia
+                                                Ten en cuenta la calidad del
+                                                producto y su fidelidad a la
+                                                imagen de referencia
                                             </p>
                                         </div>
                                         <form onSubmit={handleRatingSubmit}>
