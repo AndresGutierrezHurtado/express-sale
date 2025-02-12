@@ -5,31 +5,40 @@ import crypto from "crypto";
 import { getSocket } from "../configs/socket.js";
 import { Op } from "sequelize";
 
+import { sendReceipt } from "../hooks/useGenerateReceipt.js";
+
 export default class OrderController {
     static payuCallback = async (req, res) => {
         const t = await sequelize.transaction();
-        const extraInfo = { ...JSON.parse(req.query.extra1), ...JSON.parse(req.query.extra2) };
+        const extraInfo = {
+            ...JSON.parse(req.query.extra1),
+            ...JSON.parse(req.query.extra2),
+        };
 
         try {
-            const payuResponse = await fetch(process.env.VITE_PAYU_TRANSACTION_REQUEST_URI, {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                    Accept: "application/json",
-                },
-                body: JSON.stringify({
-                    test: process.env.VITE_PAYU_TEST_MODE == 1 ? true : false,
-                    language: "en",
-                    command: "ORDER_DETAIL_BY_REFERENCE_CODE",
-                    merchant: {
-                        apiLogin: process.env.VITE_PAYU_API_LOGIN,
-                        apiKey: process.env.VITE_PAYU_API_KEY,
+            const payuResponse = await fetch(
+                process.env.VITE_PAYU_TRANSACTION_REQUEST_URI,
+                {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                        Accept: "application/json",
                     },
-                    details: {
-                        referenceCode: req.query.referenceCode,
-                    },
-                }),
-            })
+                    body: JSON.stringify({
+                        test:
+                            process.env.VITE_PAYU_TEST_MODE == 1 ? true : false,
+                        language: "en",
+                        command: "ORDER_DETAIL_BY_REFERENCE_CODE",
+                        merchant: {
+                            apiLogin: process.env.VITE_PAYU_API_LOGIN,
+                            apiKey: process.env.VITE_PAYU_API_KEY,
+                        },
+                        details: {
+                            referenceCode: req.query.referenceCode,
+                        },
+                    }),
+                }
+            )
                 .then((res) => res.json())
                 .then((data) => {
                     if (data.code !== "SUCCESS") {
@@ -41,7 +50,9 @@ export default class OrderController {
             const transactionDetailedInfo =
                 payuResponse.transactions[payuResponse.transactions.length - 1];
 
-            if (transactionDetailedInfo.transactionResponse.state !== "APPROVED") {
+            if (
+                transactionDetailedInfo.transactionResponse.state !== "APPROVED"
+            ) {
                 throw new Error("No se pudo realizar el pago");
             }
 
@@ -52,12 +63,15 @@ export default class OrderController {
             const paymentDetails = await models.PaymentDetails.create({
                 order_id: order.order_id,
                 payment_method: transactionDetailedInfo.paymentMethod,
-                payment_amount: transactionDetailedInfo.additionalValues.PM_PAYER_TOTAL_AMOUNT.value,
+                payment_amount:
+                    transactionDetailedInfo.additionalValues
+                        .PM_PAYER_TOTAL_AMOUNT.value,
                 buyer_name: transactionDetailedInfo.payer.fullName,
                 buyer_email: transactionDetailedInfo.payer.emailAddress,
                 buyer_document_type: transactionDetailedInfo.payer.dniType,
                 buyer_document_number: transactionDetailedInfo.payer.dniNumber,
-                buyer_phone: transactionDetailedInfo.extraParameters.PAYER_TELEPHONE,
+                buyer_phone:
+                    transactionDetailedInfo.extraParameters.PAYER_TELEPHONE,
                 payu_reference: payuResponse.referenceCode,
             });
 
@@ -83,56 +97,69 @@ export default class OrderController {
                 };
             });
 
-            const orderProducts = await models.OrderProduct.bulkCreate(cartItems, {
-                transaction: t,
-            });
+            const orderProducts = await models.OrderProduct.bulkCreate(
+                cartItems,
+                {
+                    transaction: t,
+                }
+            );
 
             const workerBalances = {};
 
-            const orderProductPromises = orderProducts.map(async (orderProduct) => {
-                const product = await models.Product.findByPk(orderProduct.product_id, {
-                    include: [
+            const orderProductPromises = orderProducts.map(
+                async (orderProduct) => {
+                    const product = await models.Product.findByPk(
+                        orderProduct.product_id,
                         {
-                            model: models.User,
-                            as: "user",
-                            include: [{ model: models.Worker, as: "worker" }],
+                            include: [
+                                {
+                                    model: models.User,
+                                    as: "user",
+                                    include: [
+                                        { model: models.Worker, as: "worker" },
+                                    ],
+                                },
+                            ],
+                        }
+                    );
+
+                    // Update product quantity
+                    await models.Product.update(
+                        {
+                            product_quantity:
+                                product.product_quantity -
+                                orderProduct.product_quantity,
                         },
-                    ],
-                });
+                        {
+                            where: { product_id: orderProduct.product_id },
+                            transaction: t,
+                        }
+                    );
 
-                // Update product quantity
-                await models.Product.update(
-                    {
-                        product_quantity:
-                            product.product_quantity - orderProduct.product_quantity,
-                    },
-                    {
-                        where: { product_id: orderProduct.product_id },
-                        transaction: t,
+                    const userId = product.user_id;
+
+                    if (!workerBalances[userId]) {
+                        workerBalances[userId] = parseInt(
+                            product.user.worker.worker_balance
+                        );
                     }
-                );
 
-                const userId = product.user_id;
+                    workerBalances[userId] +=
+                        parseInt(orderProduct.product_price) *
+                        parseInt(orderProduct.product_quantity);
 
-                if (!workerBalances[userId]) {
-                    workerBalances[userId] = parseInt(product.user.worker.worker_balance);
+                    // Escribir el nuevo saldo en la base de datos
+                    await models.Worker.update(
+                        {
+                            worker_balance: workerBalances[userId],
+                        },
+                        {
+                            where: { user_id: userId },
+                            transaction: t,
+                        }
+                    );
                 }
-
-                workerBalances[userId] +=
-                    parseInt(orderProduct.product_price) *
-                    parseInt(orderProduct.product_quantity);
-
-                // Escribir el nuevo saldo en la base de datos
-                await models.Worker.update(
-                    {
-                        worker_balance: workerBalances[userId],
-                    },
-                    {
-                        where: { user_id: userId },
-                        transaction: t,
-                    }
-                );
-            });
+            );
 
             await Promise.all(orderProductPromises);
 
@@ -146,12 +173,43 @@ export default class OrderController {
             const io = getSocket();
 
             const soldProducts = await Promise.all(
-                cartItems.map((cartItem) => models.Product.findByPk(cartItem.product_id))
+                cartItems.map((cartItem) =>
+                    models.Product.findByPk(cartItem.product_id)
+                )
             );
+
+            const finalOrder = await models.Order.findByPk(req.params.id, {
+                include: [
+                    {
+                        model: models.OrderProduct,
+                        as: "orderProducts",
+                        include: {
+                            model: models.Product,
+                            as: "product",
+                            include: { model: models.User, as: "user" },
+                        },
+                    },
+                    {
+                        model: models.ShippingDetails,
+                        as: "shippingDetails",
+                        include: {
+                            model: models.Worker,
+                            as: "worker",
+                            include: { model: models.User, as: "user" },
+                        },
+                    },
+                    { model: models.PaymentDetails, as: "paymentDetails" },
+                    { model: models.User, as: "user" },
+                ],
+            });
+
+            sendReceipt(finalOrder, req.session.user);
 
             io.emit("sale", soldProducts);
 
-            res.redirect(`${process.env.VITE_APP_DOMAIN}/order/${order.order_id}`);
+            res.redirect(
+                `${process.env.VITE_APP_DOMAIN}/order/${order.order_id}`
+            );
         } catch (error) {
             await t.rollback();
             res.status(500).json({
@@ -250,11 +308,13 @@ export default class OrderController {
     static getOrders = async (req, res) => {
         const whereClause = {};
         const whereOrderProductClause = {};
-    
-        if (req.query.order_status) whereClause.order_status = {
-            [Op.in]: req.query.order_status.split(","),
-        };
-        if (req.query.user_id) whereOrderProductClause.user_id = req.query.user_id;
+
+        if (req.query.order_status)
+            whereClause.order_status = {
+                [Op.in]: req.query.order_status.split(","),
+            };
+        if (req.query.user_id)
+            whereOrderProductClause.user_id = req.query.user_id;
 
         try {
             const order = await models.Order.findAll({
