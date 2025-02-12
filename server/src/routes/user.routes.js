@@ -800,6 +800,62 @@ userRoutes.get("/users/:id/orders", UserController.getUserOrders);
  */
 userRoutes.get("/users/:id/ratings", UserController.getUserRatings);
 
+/**
+ * @swagger
+ * /feedback:
+ *   post:
+ *     summary: Enviar mensaje de feedback a el administrador via email
+ *     tags:
+ *       - Usuarios
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               email_subject:
+ *                 type: string
+ *               email_message:
+ *                 type: string
+ *               user_name:
+ *                 type: string
+ *               user_email:
+ *                 type: string
+ *     responses:
+ *       200:
+ *         description: Notificación de feedback enviada correctamente
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                   example: true
+ *                 message:
+ *                   type: string
+ *                   example: "Mensaje de feedback enviado correctamente"
+ *                 data:
+ *                   type: object
+ *                   properties: {}
+ *       500:
+ *         description: Error al enviar el mensaje de feedback
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                   example: false
+ *                 message:
+ *                   type: string
+ *                   example: "Error al enviar el mensaje de feedback"
+ *                 data:
+ *                   type: object
+ *                   properties: {}
+ */
 userRoutes.post("/feedback", UserController.createUserFeedback);
 
 // Withdrawals

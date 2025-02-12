@@ -905,7 +905,7 @@ export default class UserController {
 
             return res.status(200).json({
                 success: true,
-                message: "Recuperación creada correctamente.",
+                message: "Mensaje de feedback creado correctamente.",
                 data: null,
             });
         } catch (error) {
