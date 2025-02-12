@@ -576,7 +576,147 @@ userRoutes.delete("/users/:id", UserController.deleteUser);
  */
 userRoutes.get("/users/:id/products", UserController.getUserProducts);
 
+/**
+ * @swagger
+ * /users/{id}/orders:
+ *   get:
+ *     summary: Obtener pedidos hechos por un usuario
+ *     tags:
+ *       - Usuarios
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: Identificador único del usuario
+ *     responses:
+ *       200:
+ *         description: Pedidos obtenidos correctamente
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                   example: true
+ *                 message:
+ *                   type: string
+ *                   example: "Pedidos obtenidos correctamente"
+ *                 data:
+ *                   type: array
+ *                   items:
+ *                     type: object
+ *                     properties:
+ *                       order_id:
+ *                         type: string
+ *                       user_id:
+ *                         type: string
+ *                       order_date:
+ *                         type: string
+ *                       order_status:
+ *                         type: string
+ *                       paymentDetails:
+ *                         type: object
+ *                         properties:
+ *                           payment_id:
+ *                             type: string
+ *                           order_id:
+ *                             type: string
+ *                           payu_reference:
+ *                             type: string
+ *                           payment_method:
+ *                             type: string
+ *                           payment_amount:
+ *                             type: number
+ *                           buyer_name:
+ *                             type: string
+ *                           buyer_email:
+ *                             type: string
+ *                           buyer_document_type:
+ *                             type: string
+ *                           buyer_document_number:
+ *                             type: number
+ *                           buyer_phone:
+ *                             type: number
+ *                       shippingDetails:
+ *                         type: object
+ *                         properties:
+ *                           shipping_id:
+ *                             type: string
+ *                           order_id:
+ *                             type: string
+ *                           worker_id:
+ *                             type: string
+ *                           shipping_address:
+ *                             type: string
+ *                           shipping_reference:
+ *                             type: string
+ *                           shipping_coordinates:
+ *                             type: string
+ *                             example: "{lat: x, lng: x}"
+ *                           shipping_start:
+ *                             type: string
+ *                           shipping_end:
+ *                             type: string
+ *                           shipping_cost:
+ *                             type: number
+ *                           shipping_message:
+ *                             type: string
+ *                       orderProducts:
+ *                         type: array
+ *                         items:
+ *                           type: object
+ *                           properties:
+ *                             order_id:
+ *                               type: string
+ *                             product_id:
+ *                               type: string
+ *                             product_price:
+ *                               type: number
+ *                             product_quantity:
+ *                               type: number
+ *                             product:
+ *                               type: object
+ *                               properties:
+ *                                 product_id:
+ *                                   type: string
+ *                                 product_name:
+ *                                   type: string
+ *                                 product_description:
+ *                                   type: string
+ *                                 product_price:
+ *                                   type: number
+ *                                 product_image_url:
+ *                                   type: string
+ *                                 product_date:
+ *                                   type: string
+ *                                 product_quantity:
+ *                                   type: number
+ *                                 category_id:
+ *                                   type: number
+ *                                 user_id:
+ *                                   type: string
+ *       500:
+ *         description: Error al obtener los pedidos
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                   example: false
+ *                 message:
+ *                   type: string
+ *                   example: "Error al obtener los pedidos"
+ *                 data:
+ *                   type: object
+ *                   properties: {}
+ */
 userRoutes.get("/users/:id/orders", UserController.getUserOrders);
+
 userRoutes.get("/users/:id/ratings", UserController.getUserRatings);
 userRoutes.post("/feedback", UserController.createUserFeedback);
 
