@@ -37,9 +37,9 @@ const swaggerDocument = swaggerJSDoc({
     definition: {
         openapi: "3.0.0",
         info: {
-            title: "API Documentation",
+            title: "Express Sale API Documentation",
             version: "1.0.0",
-            description: "API Documentation",
+            description: "Documentación de la API de Express Sale.",
         },
     },
     apis: ["./src/routes/*.js"],
