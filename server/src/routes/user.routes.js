@@ -717,7 +717,89 @@ userRoutes.get("/users/:id/products", UserController.getUserProducts);
  */
 userRoutes.get("/users/:id/orders", UserController.getUserOrders);
 
+/**
+ * @swagger
+ * /users/{id}/ratings:
+ *   get:
+ *     summary: Obtener calificaciones de un usuario
+ *     tags:
+ *       - Usuarios
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: Identificador único del usuario
+ *     responses:
+ *       200:
+ *         description: Calificaciones obtenidas correctamente
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                   example: true
+ *                 message:
+ *                   type: string
+ *                   example: "Calificaciones obtenidas correctamente"
+ *                 data:
+ *                   type: array
+ *                   items:
+ *                     type: object
+ *                     properties:
+ *                       rating_id:
+ *                         type: string
+ *                       rating_comment:
+ *                         type: string
+ *                       rating_image_url:
+ *                         type: string
+ *                       rating_value:
+ *                         type: number
+ *                       rating_date:
+ *                         type: string
+ *                       user_id:
+ *                         type: string
+ *                       calificator:
+ *                         type: object
+ *                         properties:
+ *                           user_id:
+ *                             type: string
+ *                           user_name:
+ *                             type: string
+ *                           user_lastname:
+ *                             type: string
+ *                           user_alias:
+ *                             type: string
+ *                           user_email:
+ *                             type: string
+ *                           user_phone:
+ *                             type: number
+ *                           user_address:
+ *                             type: string
+ *                           user_image_url:
+ *                             type: string
+ *       500:
+ *         description: Error al obtener las calificaciones
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                   example: false
+ *                 message:
+ *                   type: string
+ *                   example: "Error al obtener las calificaciones"
+ *                 data:
+ *                   type: object
+ *                   properties: {}
+ */
 userRoutes.get("/users/:id/ratings", UserController.getUserRatings);
+
 userRoutes.post("/feedback", UserController.createUserFeedback);
 
 // Withdrawals
