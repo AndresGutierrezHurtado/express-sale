@@ -505,7 +505,7 @@ userRoutes.delete("/users/:id", UserController.deleteUser);
  *   get:
  *     summary: Obtener productos de un usuario
  *     tags:
- *       - Usuarios
+ *       - Detalles de Usuario
  *     parameters:
  *       - in: path
  *         name: id
@@ -603,7 +603,7 @@ userRoutes.get("/users/:id/products", UserController.getUserProducts);
  *   get:
  *     summary: Obtener pedidos hechos por un usuario
  *     tags:
- *       - Usuarios
+ *       - Detalles de Usuario
  *     parameters:
  *       - in: path
  *         name: id
@@ -744,7 +744,7 @@ userRoutes.get("/users/:id/orders", UserController.getUserOrders);
  *   get:
  *     summary: Obtener calificaciones de un usuario
  *     tags:
- *       - Usuarios
+ *       - Detalles de Usuario
  *     parameters:
  *       - in: path
  *         name: id
@@ -886,7 +886,7 @@ userRoutes.post("/feedback", UserController.createUserFeedback);
  *   get:
  *     summary: Obtener retiros/ingresos de un usuario
  *     tags:
- *       - Usuarios
+ *       - Detalles de Usuario
  *     parameters:
  *       - in: path
  *         name: id
@@ -1026,7 +1026,7 @@ userRoutes.post("/withdrawals", UserController.createUserWithdrawal);
  *   get:
  *     summary: Obtener el carrito de un usuario
  *     tags:
- *       - Usuarios
+ *       - Carrito
  *     parameters:
  *       - in: path
  *         name: id
@@ -1109,7 +1109,7 @@ userRoutes.get("/users/:id/carts", UserController.getUserCart);
  *   post:
  *     summary: Agregar un producto al carrito de un usuario
  *     tags:
- *       - Usuarios
+ *       - Carrito
  *     requestBody:
  *       required: true
  *       content:
@@ -1167,7 +1167,7 @@ userRoutes.post("/carts", UserController.createUserCart);
  *   put:
  *     summary: Actualizar un producto en el carrito de un usuario
  *     tags:
- *       - Usuarios
+ *       - Carrito
  *     parameters:
  *       - in: path
  *         name: id
@@ -1225,7 +1225,7 @@ userRoutes.put("/carts/:id", UserController.updateUserCart);
  *   delete:
  *     summary: Eliminar un producto del carrito de un usuario
  *     tags:
- *       - Usuarios
+ *       - Carrito
  *     parameters:
  *       - in: path
  *         name: id
@@ -1275,7 +1275,7 @@ userRoutes.delete("/carts/:id", UserController.deleteUserCart);
  *   delete:
  *     summary: Vaciar el carrito de un usuario
  *     tags:
- *       - Usuarios
+ *       - Carrito
  *     responses:
  *       200:
  *         description: Carrito vaciado correctamente
@@ -1320,7 +1320,7 @@ userRoutes.delete("/carts/empty", UserController.emptyUserCart);
  *   post:
  *     summary: Enviar email de recuperación de contrase a
  *     tags:
- *       - Usuarios
+ *       - Recuperación
  *     requestBody:
  *       required: true
  *       content:
@@ -1389,7 +1389,7 @@ userRoutes.post("/recoveries", UserController.createRecovery);
  *   get:
  *     summary: Verificar si el token de recuperaci n de contrase a es v lido
  *     tags:
- *       - Usuarios
+ *       - Recuperación
  *     parameters:
  *       - in: path
  *         name: token
@@ -1471,7 +1471,7 @@ userRoutes.get("/recoveries/:token", UserController.getRecovery);
  *   put:
  *     summary: Actualizar la contrase a de un usuario con el token de recuperaci n
  *     tags:
- *       - Usuarios
+ *       - Recuperación
  *     parameters:
  *       - in: path
  *         name: token
