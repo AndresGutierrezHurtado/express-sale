@@ -1313,8 +1313,218 @@ userRoutes.delete("/carts/:id", UserController.deleteUserCart);
 userRoutes.delete("/carts/empty", UserController.emptyUserCart);
 
 // Recovery
+
+/**
+ * @swagger
+ * /users/recoveries:
+ *   post:
+ *     summary: Enviar email de recuperación de contrase a
+ *     tags:
+ *       - Usuarios
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               user_email:
+ *                 type: string
+ *                 example: "ejemplo@gmail.com"
+ *     responses:
+ *       200:
+ *         description: Email de recuperación de contrase a enviado correctamente
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                   example: true
+ *                 message:
+ *                   type: string
+ *                   example: "Email de recuperación de contraseña enviado correctamente"
+ *                 data:
+ *                   type: object
+ *                   properties: {}
+ *       404:
+ *         description: Usuario no encontrado
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                   example: false
+ *                 message:
+ *                   type: string
+ *                   example: "Usuario no encontrado"
+ *                 data:
+ *                   type: object
+ *                   properties: {}
+ *       500:
+ *         description: Error al enviar el email de recuperaci n de contrase a
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                   example: false
+ *                 message:
+ *                   type: string
+ *                   example: "Error al enviar el email de recuperaci n de contrase a"
+ *                 data:
+ *                   type: object
+ *                   properties: {}
+ */
 userRoutes.post("/recoveries", UserController.createRecovery);
+
+/**
+ * @swagger
+ * /users/recoveries/{token}:
+ *   get:
+ *     summary: Verificar si el token de recuperaci n de contrase a es v lido
+ *     tags:
+ *       - Usuarios
+ *     parameters:
+ *       - in: path
+ *         name: token
+ *         schema:
+ *           type: string
+ *         required: true
+ *         description: Token de recuperaci n de contrase a
+ *     responses:
+ *       200:
+ *         description: Token de recuperaci n de contrase a v lido
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                   example: true
+ *                 message:
+ *                   type: string
+ *                   example: "Token de recuperaci n de contrase a v lido"
+ *                 data:
+ *                   type: object
+ *                   properties: {}
+ *       404:
+ *         description: Token de recuperaci n de contrase a no encontrado
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                   example: false
+ *                 message:
+ *                   type: string
+ *                   example: "Token de recuperaci n de contrase a no encontrado"
+ *                 data:
+ *                   type: object
+ *                   properties: {}
+ *       401:
+ *         description: Token de recuperaci n de contrase a inv lido
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                   example: false
+ *                 message:
+ *                   type: string
+ *                   example: "Token de recuperaci n de contrase a inv lido/expirado"
+ *                 data:
+ *                   type: object
+ *                   properties: {}
+ *       500:
+ *         description: Error al verificar el token de recuperaci n de contrase a
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                   example: false
+ *                 message:
+ *                   type: string
+ *                   example: "Error al verificar el token de recuperaci n de contrase a"
+ *                 data:
+ *                   type: object
+ *                   properties: {}
+ */
 userRoutes.get("/recoveries/:token", UserController.getRecovery);
+
+/**
+ * @swagger
+ * /users/recoveries/{token}:
+ *   put:
+ *     summary: Actualizar la contrase a de un usuario con el token de recuperaci n
+ *     tags:
+ *       - Usuarios
+ *     parameters:
+ *       - in: path
+ *         name: token
+ *         schema:
+ *           type: string
+ *         required: true
+ *         description: Token de recuperaci n de contrase a
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               user_password:
+ *                 type: string
+ *                 example: password123
+ *               user_id:
+ *                 type: string
+ *     responses:
+ *       200:
+ *         description: Contrase a actualizada correctamente
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                   example: true
+ *                 message:
+ *                   type: string
+ *                   example: "Contrase a actualizada correctamente"
+ *                 data:
+ *                   type: object
+ *                   properties: {}
+ *       500:
+ *         description: Error al actualizar la contrase a con el token de recuperaci n
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                   example: false
+ *                 message:
+ *                   type: string
+ *                   example: "Error al actualizar la contrase a con el token de recuperaci n"
+ *                 data:
+ *                   type: object
+ *                   properties: {}
+ */
 userRoutes.put("/recoveries/:token", UserController.updateRecovery);
 
 export default userRoutes;

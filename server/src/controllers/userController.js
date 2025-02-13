@@ -831,7 +831,7 @@ export default class UserController {
             }
 
             if (new Date().getTime() >= new Date(recovery.recovery_expiration).getTime()) {
-                return res.status(404).json({
+                return res.status(401).json({
                     success: false,
                     message: "La recuperación ha expirado.",
                     data: null,
