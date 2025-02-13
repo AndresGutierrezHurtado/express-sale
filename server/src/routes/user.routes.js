@@ -1020,10 +1020,296 @@ userRoutes.get("/users/:id/withdrawals", UserController.getUserWithdrawals);
 userRoutes.post("/withdrawals", UserController.createUserWithdrawal);
 
 // Cart
+/**
+ * @swagger
+ * /users/{id}/cart:
+ *   get:
+ *     summary: Obtener el carrito de un usuario
+ *     tags:
+ *       - Usuarios
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: Identificador único del usuario
+ *     responses:
+ *       200:
+ *         description: Carrito obtenido correctamente
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                 message:
+ *                   type: string
+ *                 data:
+ *                   type: array
+ *                   items:
+ *                     type: object
+ *                     properties:
+ *                       cart_id:
+ *                         type: string
+ *                       user_id:
+ *                         type: string
+ *                       product_id:
+ *                         type: string
+ *                       product_quantity:
+ *                         type: number
+ *                       product:
+ *                         type: object
+ *                         properties:
+ *                           product_id:
+ *                             type: string
+ *                           product_name:
+ *                             type: string
+ *                           product_description:
+ *                             type: string
+ *                           product_quantity:
+ *                             type: number
+ *                           product_price:
+ *                             type: number
+ *                           product_image_url:
+ *                             type: string
+ *                           product_status:
+ *                             type: string
+ *                             example: "publico || privado"
+ *                           product_date:
+ *                             type: string
+ *                             example: "2024-10-13T14:31:52.000Z"
+ *                           user_id:
+ *                             type: string
+ *                           category_id:
+ *                             type: number
+ *       500:
+ *         description: Error al obtener el carrito
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                   example: false
+ *                 message:
+ *                   type: string
+ *                   example: "Error al obtener el carrito"
+ *                 data:
+ *                   type: object
+ *                   properties: {}
+ */
 userRoutes.get("/users/:id/carts", UserController.getUserCart);
+
+/**
+ * @swagger
+ * /users/{id}/carts:
+ *   post:
+ *     summary: Agregar un producto al carrito de un usuario
+ *     tags:
+ *       - Usuarios
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               product_id:
+ *                 type: string
+ *     responses:
+ *       200:
+ *         description: Producto agregado al carrito correctamente
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                 message:
+ *                   type: string
+ *                 data:
+ *                   type: object
+ *                   properties:
+ *                     cart_id:
+ *                       type: string
+ *                     user_id:
+ *                       type: string
+ *                     product_id:
+ *                       type: string
+ *                     product_quantity:
+ *                       type: number
+ *       500:
+ *         description: Error al agregar el producto al carrito
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                   example: false
+ *                 message:
+ *                   type: string
+ *                   example: "Error al agregar el producto al carrito"
+ *                 data:
+ *                   type: object
+ *                   properties: {}
+ */
 userRoutes.post("/carts", UserController.createUserCart);
+
+/**
+ * @swagger
+ * /carts/{id}:
+ *   put:
+ *     summary: Actualizar un producto en el carrito de un usuario
+ *     tags:
+ *       - Usuarios
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: string
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               product_quantity:
+ *                 type: number
+ *     responses:
+ *       200:
+ *         description: Carrito actualizado correctamente
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                 message:
+ *                   type: string
+ *                 data:
+ *                   type: array
+ *                   items:
+ *                     type: number
+ *                     example: [1]
+ *       500:
+ *         description: Error al actualizar el carrito
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                   example: false
+ *                 message:
+ *                   type: string
+ *                   example: "Error al actualizar el carrito"
+ *                 data:
+ *                   type: object
+ *                   properties: {}
+ */
 userRoutes.put("/carts/:id", UserController.updateUserCart);
+
+/**
+ * @swagger
+ * /carts/{id}:
+ *   delete:
+ *     summary: Eliminar un producto del carrito de un usuario
+ *     tags:
+ *       - Usuarios
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: Identificador único del carrito
+ *     responses:
+ *       200:
+ *         description: Producto eliminado del carrito correctamente
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                   example: true
+ *                 message:
+ *                   type: string
+ *                   example: "Producto eliminado del carrito correctamente"
+ *                 data:
+ *                   type: number
+ *                   example: 1
+ *       500:
+ *         description: Error al eliminar el producto del carrito
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                   example: false
+ *                 message:
+ *                   type: string
+ *                   example: "Error al eliminar el producto del carrito"
+ *                 data:
+ *                   type: object
+ *                   properties: {}
+ */
 userRoutes.delete("/carts/:id", UserController.deleteUserCart);
+
+/**
+ * @swagger
+ * /carts/empty:
+ *   delete:
+ *     summary: Vaciar el carrito de un usuario
+ *     tags:
+ *       - Usuarios
+ *     responses:
+ *       200:
+ *         description: Carrito vaciado correctamente
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                   example: true
+ *                 message:
+ *                   type: string
+ *                   example: "Carrito vaciado correctamente"
+ *                 data:
+ *                   type: number
+ *                   example: 4
+ *       500:
+ *         description: Error al vaciar el carrito
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                   example: false
+ *                 message:
+ *                   type: string
+ *                   example: "Error al vaciar el carrito"
+ *                 data:
+ *                   type: object
+ *                   properties: {}
+ */
 userRoutes.delete("/carts/empty", UserController.emptyUserCart);
 
 // Recovery
