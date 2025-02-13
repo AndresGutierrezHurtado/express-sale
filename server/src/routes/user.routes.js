@@ -884,7 +884,7 @@ userRoutes.post("/feedback", UserController.createUserFeedback);
  * @swagger
  * /users/{id}/withdrawals:
  *   get:
- *     summary: Obtener retiros de un usuario
+ *     summary: Obtener retiros/ingresos de un usuario
  *     tags:
  *       - Usuarios
  *     parameters:
@@ -957,6 +957,66 @@ userRoutes.post("/feedback", UserController.createUserFeedback);
  *                   properties: {}
  */
 userRoutes.get("/users/:id/withdrawals", UserController.getUserWithdrawals);
+
+/**
+ * @swagger
+ * /withdrawals:
+ *   post:
+ *     summary: Realizar un retiro a un usuario
+ *     tags:
+ *       - Usuarios
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               withdrawal_amount:
+ *                 type: number
+ *     responses:
+ *       200:
+ *         description: Retiro creado correctamente
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                   example: true
+ *                 message:
+ *                   type: string
+ *                   example: "Retiro creado correctamente"
+ *                 data:
+ *                   type: object
+ *                   properties:
+ *                     withdrawal_id:
+ *                       type: string
+ *                     worker_id:
+ *                       type: string
+ *                     withdrawal_amount:
+ *                       type: number
+ *                     withdrawal_date:
+ *                       type: string
+ *                       example: "2023-01-01T00:00:00.000Z"
+ *       500:
+ *         description: Error al crear el retiro
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                   example: false
+ *                 message:
+ *                   type: string
+ *                   example: "Error al crear el retiro"
+ *                 data:
+ *                   type: object
+ *                   properties: {}
+ */
 userRoutes.post("/withdrawals", UserController.createUserWithdrawal);
 
 // Cart
