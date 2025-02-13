@@ -880,6 +880,82 @@ userRoutes.get("/users/:id/ratings", UserController.getUserRatings);
 userRoutes.post("/feedback", UserController.createUserFeedback);
 
 // Withdrawals
+/**
+ * @swagger
+ * /users/{id}/withdrawals:
+ *   get:
+ *     summary: Obtener retiros de un usuario
+ *     tags:
+ *       - Usuarios
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: Identificador único del usuario
+ *     responses:
+ *       200:
+ *         description: Retiros obtenidos correctamente
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                   example: true
+ *                 message:
+ *                   type: string
+ *                   example: "Retiros obtenidos correctamente"
+ *                 data:
+ *                   type: array
+ *                   items:
+ *                     type: object
+ *                     properties:
+ *                       id:
+ *                         type: string
+ *                       amount:
+ *                         type: number
+ *                       date:
+ *                         type: string
+ *                         example: "2023-01-01T00:00:00.000Z"
+ *                       type:
+ *                         type: string
+ *                         example: "ingreso || retiro"
+ *       404:
+ *         description: Usuario no encontrado
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                   example: false
+ *                 message:
+ *                   type: string
+ *                   example: "Usuario no encontrado"
+ *                 data:
+ *                   type: object
+ *                   properties: {}
+ *       500:
+ *         description: Error al obtener los retiros
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                   example: false
+ *                 message:
+ *                   type: string
+ *                   example: "Error al obtener los retiros"
+ *                 data:
+ *                   type: object
+ *                   properties: {}
+ */
 userRoutes.get("/users/:id/withdrawals", UserController.getUserWithdrawals);
 userRoutes.post("/withdrawals", UserController.createUserWithdrawal);
 

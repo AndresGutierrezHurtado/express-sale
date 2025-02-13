@@ -676,6 +676,14 @@ export default class UserController {
                 include: ["worker"],
             });
 
+            if (!user) {
+                return res.status(404).json({
+                    success: false,
+                    message: "Usuario no encontrado.",
+                    data: null,
+                });
+            }
+
             const deliveryShippings = await models.ShippingDetails.findAll({
                 where: { worker_id: user.worker.worker_id },
             });
