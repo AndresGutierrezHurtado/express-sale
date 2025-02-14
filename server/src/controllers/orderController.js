@@ -291,8 +291,17 @@ export default class OrderController {
                 ],
             });
 
+            if (!order) {
+                res.status(404).json({
+                    success: false,
+                    message: "Orden no encontrada",
+                    data: null,
+                });
+                return;
+            }
+
             res.status(200).json({
-                success: false,
+                success: true,
                 message: "Orden encontrada correctamente",
                 data: order,
             });
@@ -339,7 +348,7 @@ export default class OrderController {
             });
 
             res.status(200).json({
-                success: false,
+                success: true,
                 message: "Orden encontrada correctamente",
                 data: order,
             });
