@@ -92,6 +92,7 @@ const productRoutes = Router();
  *                   properties: {}
  */
 productRoutes.post("/products", ProductController.createProduct);
+
 /**
  * @swagger
  * /products:

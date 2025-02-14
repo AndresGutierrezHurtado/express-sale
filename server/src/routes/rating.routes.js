@@ -63,7 +63,7 @@ const ratingRoutes = Router();
  *                       example: "2023-07-05T00:00:00.000Z"
  *                     user_id:
  *                       type: string
- *       404:
+ *       500:
  *         description: Error al crear la calificación.
  *         content:
  *           application/json:
@@ -142,7 +142,7 @@ ratingRoutes.post("/ratings/users/:id", RatingController.createUserRating);
  *                       example: "2023-07-05T00:00:00.000Z"
  *                     user_id:
  *                       type: string
- *       404:
+ *       500:
  *         description: Error al crear la calificación.
  *         content:
  *           application/json:

@@ -96,6 +96,7 @@ orderRoutes.get("/payu/callback", OrderController.payuCallback);
  *                   properties: {}
  */
 orderRoutes.get("/orders", OrderController.getOrders);
+
 /**
  * @swagger
  * /orders/{id}:
@@ -309,6 +310,7 @@ orderRoutes.get("/orders", OrderController.getOrders);
  *                   properties: {}
  */
 orderRoutes.get("/orders/:id", OrderController.getOrder);
+
 /**
  * @swagger
  * /orders/{id}:
