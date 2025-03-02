@@ -1,3 +1,6 @@
+import fs from "fs";
+import path from "path";
+import { Buffer } from "buffer";
 import { jsPDF } from "jspdf";
 import autoTable from "jspdf-autotable";
 import nodemailer from "nodemailer";
@@ -16,8 +19,20 @@ export const sendReceipt = (order, userSession) => {
     const doc = new jsPDF();
     doc.page = 1;
 
+    // Cargar imágenes en base64
+    const logoPath = path.resolve("./public/logo.png");
+    const firmaPath = path.resolve("./public/firma.png");
+
+    const logoBase64 = fs.existsSync(logoPath)
+        ? Buffer.from(fs.readFileSync(logoPath)).toString("base64")
+        : null;
+
+    const firmaBase64 = fs.existsSync(firmaPath)
+        ? Buffer.from(fs.readFileSync(firmaPath)).toString("base64")
+        : null;
+
     // Logo y título
-    doc.addImage("../../../client/public/logo.png", "PNG", 150, 10, 40, 30);
+    doc.addImage(logoBase64, "PNG", 150, 10, 40, 30);
     doc.setFontSize(28);
     doc.setFont("helvetica", "bold");
     doc.text("Factura Express Sale", 10, 30);
@@ -28,9 +43,7 @@ export const sendReceipt = (order, userSession) => {
     doc.text("Información del usuario:", 10, 50);
     doc.setFont("helvetica", "normal");
     doc.text(
-        `Nombre: ${userSession.user_name.split(" ")[0]} ${
-            userSession.user_lastname.split(" ")[0]
-        }`,
+        `Nombre: ${userSession.user_name.split(" ")[0]} ${userSession.user_lastname.split(" ")[0]}`,
         10,
         55,
         { maxWidth: 60 }
@@ -65,18 +78,11 @@ export const sendReceipt = (order, userSession) => {
     doc.setFont("helvetica", "bold");
     doc.text("Información del pedido:", 140, 50, { maxWidth: 60 });
     doc.setFont("helvetica", "normal");
+    doc.text(`Fecha: ${new Date(order.order_date).toLocaleDateString("es-CO")}`, 140, 55, {
+        maxWidth: 60,
+    });
     doc.text(
-        `Fecha: ${new Date(order.order_date).toLocaleDateString("es-CO")}`,
-        140,
-        55,
-        {
-            maxWidth: 60,
-        }
-    );
-    doc.text(
-        `Total: ${parseInt(order.paymentDetails.payment_amount).toLocaleString(
-            "es-CO"
-        )} COP`,
+        `Total: ${parseInt(order.paymentDetails.payment_amount).toLocaleString("es-CO")} COP`,
         140,
         60,
         { maxWidth: 60 }
@@ -84,12 +90,7 @@ export const sendReceipt = (order, userSession) => {
     doc.text(`N° de pedido: ${order.order_id.split("-")[1]}`, 140, 65, {
         maxWidth: 60,
     });
-    doc.text(
-        `Método de pago: ${order.paymentDetails.payment_method}`,
-        140,
-        70,
-        { maxWidth: 60 }
-    );
+    doc.text(`Método de pago: ${order.paymentDetails.payment_method}`, 140, 70, { maxWidth: 60 });
     doc.text(`Direccion: ${order.shippingDetails.shipping_address}`, 140, 75, {
         maxWidth: 60,
     });
@@ -99,9 +100,9 @@ export const sendReceipt = (order, userSession) => {
         Producto: item.product.product_name,
         Cantidad: item.product_quantity.toString(),
         Precio: `${parseInt(item.product_price).toLocaleString("es-CO")} COP`,
-        Total: `${(
-            parseInt(item.product_price) * item.product_quantity
-        ).toLocaleString("es-CO")} COP`,
+        Total: `${(parseInt(item.product_price) * item.product_quantity).toLocaleString(
+            "es-CO"
+        )} COP`,
     }));
 
     // Configuración de la tabla de productos
@@ -111,46 +112,22 @@ export const sendReceipt = (order, userSession) => {
     doc.autoTable({
         startY: 105,
         head: [["Producto", "Cantidad", "Precio Unitario", "Total"]],
-        body: items.map((item) => [
-            item.Producto,
-            item.Cantidad,
-            item.Precio,
-            item.Total,
-        ]),
+        body: items.map((item) => [item.Producto, item.Cantidad, item.Precio, item.Total]),
         theme: "plain",
     });
 
     // Precio total
-    const totalPrice = parseInt(
-        order.paymentDetails.payment_amount
-    ).toLocaleString("es-CO");
+    const totalPrice = parseInt(order.paymentDetails.payment_amount).toLocaleString("es-CO");
     doc.setFont("helvetica", "bold");
-    doc.text(
-        `Precio Total: ${totalPrice} COP`,
-        140,
-        doc.lastAutoTable.finalY + 20,
-        {
-            maxWidth: 60,
-        }
-    );
+    doc.text(`Precio Total: ${totalPrice} COP`, 140, doc.lastAutoTable.finalY + 20, {
+        maxWidth: 60,
+    });
 
     // Firma
     doc.setFont("helvetica", "normal");
     doc.text("Firma:", 140, doc.lastAutoTable.finalY + 40);
-    doc.addImage(
-        "../../../client/public/images/firma.png",
-        "PNG",
-        155,
-        doc.lastAutoTable.finalY + 25,
-        45,
-        25
-    );
-    doc.line(
-        140,
-        doc.lastAutoTable.finalY + 50,
-        200,
-        doc.lastAutoTable.finalY + 50
-    );
+    doc.addImage(firmaBase64, "PNG", 155, doc.lastAutoTable.finalY + 25, 45, 25);
+    doc.line(140, doc.lastAutoTable.finalY + 50, 200, doc.lastAutoTable.finalY + 50);
 
     // footer
     function footer() {

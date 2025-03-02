@@ -178,7 +178,7 @@ export default class OrderController {
                 )
             );
 
-            const finalOrder = await models.Order.findByPk(req.params.id, {
+            const finalOrder = await models.Order.findByPk(order.order_id, {
                 include: [
                     {
                         model: models.OrderProduct,
@@ -203,6 +203,8 @@ export default class OrderController {
                 ],
             });
 
+            console.log("final Order", finalOrder);
+
             sendReceipt(finalOrder, req.session.user);
 
             io.emit("sale", soldProducts);
@@ -211,6 +213,7 @@ export default class OrderController {
                 `${process.env.VITE_APP_DOMAIN}/order/${order.order_id}`
             );
         } catch (error) {
+            console.log(error);
             await t.rollback();
             res.status(500).json({
                 success: false,
