@@ -177,7 +177,7 @@ export default function SellerStats({ user, reloadUser }) {
                                     <BoxesStackedIcon size={40} />
                                 </div>
                                 <div className="flex-grow">
-                                    <div className="stat-value text-xl">{user.ventas_cantidad}</div>
+                                    <div className="stat-value text-xl">{user.sales_count}</div>
                                     <div className="text-gray-500 leading-none">
                                         Productos vendidos
                                     </div>
@@ -189,7 +189,7 @@ export default function SellerStats({ user, reloadUser }) {
                                 </div>
                                 <div className="flex-grow">
                                     <div className="stat-value text-xl">
-                                        {parseInt(user.ventas_dinero).toLocaleString("es-CO")} COP
+                                        {parseInt(user.sales_money).toLocaleString("es-CO")} COP
                                     </div>
                                     <div className="text-gray-500 leading-none">Dinero hecho</div>
                                 </div>

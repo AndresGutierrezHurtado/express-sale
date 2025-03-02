@@ -164,7 +164,7 @@ export default function DeliveryStats({ user, reloadUser }) {
                                 <TruckIcon size={40} />
                             </div>
                             <div className="flex-grow">
-                                <div className="stat-value text-xl">{user.envios_cantidad}</div>
+                                <div className="stat-value text-xl">{user.shippings_count}</div>
                                 <div className="text-gray-500 leading-none">
                                     Domicilios realizados
                                 </div>
@@ -176,7 +176,7 @@ export default function DeliveryStats({ user, reloadUser }) {
                             </div>
                             <div className="flex-grow">
                                 <div className="stat-value text-xl">
-                                    {parseInt(user.envios_dinero).toLocaleString("es-CO")} COP
+                                    {parseInt(user.shippings_money).toLocaleString("es-CO")} COP
                                 </div>
                                 <div className="text-gray-500 leading-none">Dinero hecho</div>
                             </div>

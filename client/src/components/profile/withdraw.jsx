@@ -10,9 +10,11 @@ import { useGetData, usePostData } from "@hooks/useFetchData.js";
 import { useValidateform } from "@hooks/useValidateForm.js";
 
 export default function Withdraw({ user, reloadUser }) {
-    const { data: withdrawals, loading: withdrawalsLoading, reload: reloadWithdrawals } = useGetData(
-        `/users/${user.user_id}/withdrawals`
-    );
+    const {
+        data: withdrawals,
+        loading: withdrawalsLoading,
+        reload: reloadWithdrawals,
+    } = useGetData(`/users/${user.user_id}/withdrawals`);
 
     const handleWithdraw = async (event) => {
         event.preventDefault();
@@ -36,12 +38,14 @@ export default function Withdraw({ user, reloadUser }) {
 
     if (withdrawalsLoading) return <ContentLoading />;
 
+    console.log(withdrawals, user.worker);
+
     user.worker.retiros_restantes =
         5 -
         withdrawals.reduce(
             (total, withdrawal) =>
                 new Date(withdrawal.fecha).getMonth() === new Date().getMonth() &&
-                withdrawal.tipo === "retiro"
+                withdrawal.type === "retiro"
                     ? total + 1
                     : total,
             0
@@ -116,20 +120,20 @@ export default function Withdraw({ user, reloadUser }) {
                                     </td>
                                 </tr>
                             )}
-                            {withdrawals.map((withdrawal) => (
+                            {withdrawals.sort((a, b) => new Date(b.date) - new Date(a.date)).map((withdrawal) => (
                                 <tr
                                     key={withdrawal.id}
                                     className={`font-semibold ${
-                                        withdrawal.tipo == "ingreso"
+                                        withdrawal.type == "ingreso"
                                             ? "text-green-600"
                                             : "text-red-600"
                                     }`}
                                 >
-                                    <td>{new Date(withdrawal.fecha).toLocaleString("es-CO")}</td>
-                                    <td className="capitalize">{withdrawal.tipo}</td>
+                                    <td>{new Date(withdrawal.date).toLocaleString("es-CO")}</td>
+                                    <td className="capitalize">{withdrawal.type}</td>
                                     <td>
-                                        {withdrawal.tipo == "ingreso" ? "+" : "-"}{" "}
-                                        {parseInt(withdrawal.valor).toLocaleString("es-CO")}
+                                        {withdrawal.type == "ingreso" ? "+" : "-"}{" "}
+                                        {parseInt(withdrawal.amount).toLocaleString("es-CO")}
                                     </td>
                                 </tr>
                             ))}
@@ -163,7 +167,7 @@ export default function Withdraw({ user, reloadUser }) {
                                     user.worker.worker_balance
                                 ).toLocaleString("es-CO")})`}
                                 className="input input-bordered focus:outline-0 focus:input-primary"
-                                name="retiro_valor"
+                                name="withdrawal_amount"
                             />
                         </div>
                         <div className="modal-action">

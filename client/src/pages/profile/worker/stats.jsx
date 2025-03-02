@@ -18,7 +18,7 @@ export default function WorkerStats() {
 
     useEffect(() => {
         socket.on("sale", (data) => {
-            if ( data.filter((item) => item.user_id == user.user_id).length == 0 ) return;
+            if (data.filter((item) => item.user_id == user.user_id).length == 0) return;
 
             toast.success("Venta realizada", {
                 theme: "colored",
