@@ -5,6 +5,9 @@ import { jsPDF } from "jspdf";
 import autoTable from "jspdf-autotable";
 import nodemailer from "nodemailer";
 
+// Templates
+import { orderTemplate } from "../templates/emailTemplates.js";
+
 export const sendReceipt = (order, userSession) => {
     const transporter = nodemailer.createTransport({
         host: process.env.EMAIL_HOST,
@@ -141,7 +144,7 @@ export const sendReceipt = (order, userSession) => {
         from: "expresssale.exsl@gmail.com",
         to: order.paymentDetails.buyer_email,
         subject: "Pago exitoso | Express Sale",
-        text: "Se adjunta factura de tu compra en express sale",
+        html: orderTemplate(order),
         attachments: [
             {
                 filename: "factura.pdf",
@@ -151,3 +154,4 @@ export const sendReceipt = (order, userSession) => {
         ],
     });
 };
+
