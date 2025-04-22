@@ -29,7 +29,7 @@ export default function Header() {
     return (
         <>
             <header className="w-full px-3 sticky top-0 z-50">
-                <div className="w-full max-w-[1300px] mx-auto py-5">
+                <div className="w-full max-w-[1200px] mx-auto py-5">
                     <div
                         ref={headerRef}
                         className="navbar backdrop-blur-lg rounded-full duration-300 border-base-300"

@@ -67,9 +67,9 @@ export default function Product({ product, reloadProducts }) {
                                 {parseInt(product.product_price).toLocaleString("es-CO")} COP
                             </p>
                             <div className="flex items-center gap-2">
-                                <div className="gap-0 [&>*]:leading-none flex flex-col justify-center items-end gap-[2px]">
+                                <div className="[&>*]:leading-none flex flex-col justify-center items-end gap-0.5">
                                     <p className="flex items-center text-lg">
-                                        <StarIcon size={16} className="mr-0.5" />{" "}
+                                        <StarIcon size={16} color="#7e22ce" className="mr-0.5" />{" "}
                                         {product.average_rating}
                                     </p>
                                     <p className="flex items-center text-[12px] text-gray-600">
@@ -97,7 +97,7 @@ export default function Product({ product, reloadProducts }) {
                             </div>
                         </div>
                         <button
-                            className="btn btn-sm min-h-none h-auto py-3 btn-primary group relative text-purple-300 hover:bg-purple-800 hover:text-purple-100 w-full"
+                            className="btn btn-sm min-h-none h-auto py-3 btn-primary group relative text-purple-300 hover:bg-purple-800 hover:text-purple-100 w-full text-sm leading-none"
                             disabled={product.product_quantity == 0}
                             onClick={() => {
                                 if (userSession) {

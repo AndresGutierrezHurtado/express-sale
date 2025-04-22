@@ -12,12 +12,22 @@ import { useGetData } from "@hooks/useFetchData.js";
 
 export default function Products() {
     const [searchParams, setSearchParams] = useSearchParams();
-    const { loading: loadingProducts, data: products, reload: reloadProducts } = useGetData(`/products?${searchParams.toString()}`);
+    const {
+        loading: loadingProducts,
+        data: products,
+        reload: reloadProducts,
+    } = useGetData(`/products?${searchParams.toString()}`);
 
     const ProductsList =
         products &&
         products.rows.map((product) => {
-            return <Product product={product} reloadProducts={reloadProducts} key={product.product_id} />;
+            return (
+                <Product
+                    product={product}
+                    reloadProducts={reloadProducts}
+                    key={product.product_id}
+                />
+            );
         });
 
     const updateParam = (key, value) => {
@@ -41,28 +51,18 @@ export default function Products() {
                                 {products.count} resultados
                             </p>
                         </div>
-                        <div>
+                        <div className="flex gap-1 items-center text-nowrap">
                             Ordenar por:
-                            <span>
-                                <select
-                                    name="sort"
-                                    className="select select-sm select-ghost focus:outline-0 focus:border-0"
-                                    onChange={(event) =>
-                                        updateParam("sort", event.target.value)
-                                    }
-                                >
-                                    <option value="average_rating:desc">Destacados</option>
-                                    <option value="product_price:asc">
-                                        Menor precio
-                                    </option>
-                                    <option value="product_price:desc">
-                                        Mayor precio
-                                    </option>
-                                    <option value="product_date:desc">
-                                        Nuevos
-                                    </option>
-                                </select>
-                            </span>
+                            <select
+                                name="sort"
+                                className="select select-ghost focus:outline-0 focus:border-0 px-1 py-0 pr-8"
+                                onChange={(event) => updateParam("sort", event.target.value)}
+                            >
+                                <option value="average_rating:desc">Destacados</option>
+                                <option value="product_price:asc">Menor precio</option>
+                                <option value="product_price:desc">Mayor precio</option>
+                                <option value="product_date:desc">Nuevos</option>
+                            </select>
                         </div>
                     </div>
                 </div>
