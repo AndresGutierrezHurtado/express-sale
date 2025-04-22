@@ -4,7 +4,6 @@ import { Navigation, Pagination, EffectCoverflow } from "swiper/modules";
 import VanillaTilt from "vanilla-tilt";
 
 // Components
-import { CategoryCard } from "@components/categoryCard.jsx";
 import { ArrowRightIcon, RegisterIcon } from "@components/icons.jsx";
 import { VerticalProductCard } from "@components/verticalProductcard";
 import ContentLoading from "@components/contentLoading.jsx";
@@ -30,14 +29,12 @@ export default function Home() {
 
         const data = Object.fromEntries(new FormData(event.target));
         const validation = useValidateform(data, "contact-form");
+        if (!validation.success) return;
 
-        if (validation.success) {
-            const response = await usePostData("/feedback", data);
+        const response = await usePostData("/feedback", data);
+        if (!response.success) return;
 
-            if (response.success) {
-                event.target.reset();
-            }
-        }
+        event.target.reset();
     };
 
     useEffect(() => {
@@ -58,21 +55,27 @@ export default function Home() {
         <>
             <section className="w-full px-3">
                 <div className="w-full max-w-[1200px] mx-auto py-10">
-                    <div className="flex flex-col md:flex-row items-center gap-5[&>*]:w-full  md:[&>*]:w-1/2">
-                        <figure>
+                    <div className="flex flex-col md:flex-row items-center gap-10">
+                        <figure className="w-full md:w-2/5">
                             <img
                                 src="/images/hero-image.png"
                                 alt="Imagen presentación Express Sale"
                             />
                         </figure>
-                        <div className="space-y-4">
+                        <div className="w-full md:w-3/5 space-y-5">
                             <div className="space-y-2">
+                                <div className="bg-base-300 border border-primary px-3 py-1.5 rounded w-fit opacity-80">
+                                    <span className="text-primary font-semibold">
+                                        La mejor calidad
+                                    </span>
+                                </div>
                                 <h1 className="text-3xl md:text-6xl font-extrabold">
-                                    ¡Bienvenidos a Express Sale!
+                                    ¡Bienvenidos a <br />
+                                    Express Sale!
                                 </h1>
                                 <p className="text-xl text-pretty">
                                     Acá podrás comprar los{" "}
-                                    <span className="text-purple-700 font-bold">
+                                    <span className="text-primary font-bold">
                                         Mejores productos
                                     </span>{" "}
                                     de las tiendas de barrio de bogotá.
@@ -80,9 +83,9 @@ export default function Home() {
                             </div>
                             <Link
                                 to="/products"
-                                className="btn btn-sm btn-primary rounded-full h-auto min-h-auto py-3 px-10"
+                                className="btn btn-sm btn-primary btn-shadow-none text-base rounded-full h-auto min-h-auto py-2 px-10"
                             >
-                                Ver productos
+                                <span>Ver productos</span>
                                 <ArrowRightIcon />
                             </Link>
                         </div>
@@ -94,29 +97,50 @@ export default function Home() {
                 <div className="w-full max-w-[1200px] mx-auto py-10">
                     <div className="space-y-4">
                         <h2 className="text-4xl font-bold capitalize">
-                            Buscar por <span className="text-purple-700">categoría</span>
+                            Buscar por <span className="text-primary">categoría</span>
                         </h2>
-                        <div className="grid grid-cols-[repeat(auto-fill,minmax(250px,1fr))] gap-8">
-                            <CategoryCard
-                                name="Moda"
-                                image="/images/categories/moda.jpg"
-                                link="/products?category_id=1"
-                            />
-                            <CategoryCard
-                                name="Comida"
-                                image="/images/categories/comida.jpg"
-                                link="/products?category_id=2"
-                            />
-                            <CategoryCard
-                                name="Tecnología"
-                                image="/images/categories/tecnologia.jpg"
-                                link="/products?category_id=3"
-                            />
-                            <CategoryCard
-                                name="Otros"
-                                image="/images/categories/otros.jpg"
-                                link="/products?category_id=4"
-                            />
+                        <div className="grid grid-cols-[repeat(auto-fill,minmax(250px,1fr))] gap-12">
+                            {[
+                                {
+                                    name: "Moda",
+                                    image: "/images/categories/moda.jpg",
+                                    link: "/products?category_id=1",
+                                },
+                                {
+                                    name: "Comida",
+                                    image: "/images/categories/comida.jpg",
+                                    link: "/products?category_id=2",
+                                },
+                                {
+                                    name: "Tecnología",
+                                    image: "/images/categories/tecnologia.jpg",
+                                    link: "/products?category_id=3",
+                                },
+                                {
+                                    name: "Otros",
+                                    image: "/images/categories/otros.jpg",
+                                    link: "/products?category_id=4",
+                                },
+                            ].map(({ name, image, link }, index) => (
+                                <Link
+                                    to={link}
+                                    key={index}
+                                    className="bg-white/80 rounded-lg border-base-300/50 border shadow-lg cursor-pointer hover:scale-[1.03] duration-300"
+                                >
+                                    <div className="card-body items-center text-center">
+                                        <figure className="size-[140px]">
+                                            <img
+                                                src={image}
+                                                alt={`Imagen de la categoría ${name}`}
+                                                className="object-contain h-full w-full"
+                                            />
+                                        </figure>
+                                        <h2 className="text-2xl font-semibold tracking-tight">
+                                            {name}
+                                        </h2>
+                                    </div>
+                                </Link>
+                            ))}
                         </div>
                     </div>
                 </div>
@@ -126,21 +150,13 @@ export default function Home() {
                 <div className="w-full max-w-[1200px] mx-auto py-10">
                     <div className="space-y-4">
                         <h2 className="text-4xl font-bold capitalize">
-                            Los productos <span className="text-purple-700">más Destacados</span>
+                            Los productos <span className="text-primary">más Destacados</span>
                         </h2>
                         <Swiper
-                            effect={"coverflow"}
-                            modules={[Navigation, EffectCoverflow, Pagination]}
-                            spaceBetween={20}
+                            modules={[Navigation, Pagination]}
+                            spaceBetween={50}
                             slidesPerView={1}
                             navigation
-                            coverflowEffect={{
-                                rotate: 50,
-                                stretch: 0,
-                                depth: 100,
-                                modifier: 1,
-                                slideShadows: false,
-                            }}
                             pagination={{
                                 clickable: true,
                                 renderBullet: function (index, className) {
@@ -166,7 +182,7 @@ export default function Home() {
                             {products.map((product) => (
                                 <SwiperSlide
                                     key={product.product_id}
-                                    className="flex items-center justify-center"
+                                    className="flex items-center justify-center mb-10"
                                 >
                                     <VerticalProductCard
                                         product={product}
@@ -178,7 +194,7 @@ export default function Home() {
                         <div className="flex w-full justify-center">
                             <Link
                                 to="/products"
-                                className="btn btn-sm btn-primary rounded-full h-auto min-h-auto py-3 px-10"
+                                className="btn btn-sm btn-primary btn-shadow-none text-base rounded-lg h-auto min-h-auto py-2 px-10"
                             >
                                 Ver todos los productos
                                 <ArrowRightIcon />
@@ -200,12 +216,12 @@ export default function Home() {
                         </figure>
                         <div className="space-y-2">
                             <h2 className="text-4xl font-bold capitalize">
-                                ¿Quiénes <span className="text-purple-700">Somos?</span>
+                                ¿Quiénes <span className="text-primary">Somos?</span>
                             </h2>
                             <div className="text-xl max-w-4xl space-y-2">
                                 <p className="text-balance">
                                     Express Sale ha sido creado por cuatro aprendices SENA:{" "}
-                                    <span className="font-bold text-purple-700 italic">
+                                    <span className="font-bold text-primary italic">
                                         Andrés Gutiérrez, Juan Sebastián Bernal, Jaider Harley
                                         Rondón y David Fernando Díaz.
                                     </span>{" "}
@@ -216,7 +232,7 @@ export default function Home() {
                                 </p>
                                 <p className="text-balance">
                                     En Express Sale, nuestra misión es{" "}
-                                    <span className="font-bold text-purple-700">
+                                    <span className="font-bold text-primary">
                                         llevar las tiendas de barrio al mundo digital
                                     </span>
                                     , ayudándolas a expandir su alcance y competir en el mercado
@@ -232,75 +248,65 @@ export default function Home() {
                 <div className="w-full max-w-[1200px] mx-auto py-10">
                     <div className="space-y-5">
                         <h2 className="text-4xl font-bold capitalize">
-                            ¡Queremos <span className="text-purple-700">Escucharte!</span>
+                            ¡Queremos <span className="text-primary">Escucharte!</span>
                         </h2>
-                        <article className="card bg-gray-300/30 shadow-xl rounded-xl border backdrop-blur-sm">
-                            <div className="card-body">
-                                <p className="text-xl">
-                                    Si quieres contarnos tu opinión o tienes alguna queja sobre
-                                    nuestro sistema de información puedes enviarnoslo por aquí:
-                                </p>
-                                <form onSubmit={handleContactFormSubmit}>
-                                    <div className="form-group flex flex-col md:flex-row gap-5 w-full">
-                                        <div className="form-control w-full">
-                                            <label className="label">
-                                                <span className="label-text font-medium after:content-['*'] after:ml-0.5 after:text-red-500">
-                                                    Correo Electrónico:
-                                                </span>
-                                            </label>
-                                            <input
-                                                placeholder="ejemplo@gmail.com"
-                                                className="input focus:input-primary input-bordered focus:outline-0"
-                                                name="user_email"
-                                            />
-                                        </div>
-                                        <div className="form-control w-full">
-                                            <label className="label">
-                                                <span className="label-text font-medium after:content-['*'] after:ml-0.5 after:text-red-500">
-                                                    Nombre Completo:
-                                                </span>
-                                            </label>
-                                            <input
-                                                placeholder="Ingresa tus nombres y apellidos acá"
-                                                className="input focus:input-primary input-bordered focus:outline-0"
-                                                name="user_name"
-                                            />
-                                        </div>
-                                    </div>
-                                    <div className="form-control w-full">
-                                        <label className="label">
-                                            <span className="label-text font-medium after:content-['*'] after:ml-0.5 after:text-red-500">
-                                                Asunto:
-                                            </span>
+                        <article className="bg-base-200/80 p-7 rounded-lg shadow-xl border border-base-300 space-y-5">
+                            <p className="text-xl text-base-content/80">
+                                Si quieres contarnos tu opinión o tienes alguna queja sobre nuestro
+                                sistema de información puedes enviarnoslo por aquí:
+                            </p>
+                            <form onSubmit={handleContactFormSubmit}>
+                                <div className="w-full flex flex-col md:flex-row gap-8">
+                                    <fieldset className="fieldset w-full">
+                                        <label className="fieldset-label text-sm after:content-['*'] after:text-red-500">
+                                            Correo Electrónico:
                                         </label>
                                         <input
-                                            placeholder="Ingresa el tema de tu mensaje"
-                                            className="input focus:input-primary input-bordered focus:outline-0"
-                                            name="email_subject"
+                                            placeholder="Ingresa tu correo"
+                                            className="w-full input input-bordered focus:outline-0 focus:border-primary"
+                                            name="user_email"
                                         />
-                                    </div>
-                                    <div className="form-control w-full">
-                                        <label className="label">
-                                            <span className="label-text font-medium after:content-['*'] after:ml-0.5 after:text-red-500">
-                                                Mensaje:
-                                            </span>
+                                    </fieldset>
+                                    <fieldset className="fieldset w-full">
+                                        <label className="fieldset-label text-sm after:content-['*'] after:text-red-500">
+                                            Nombre Completo:
                                         </label>
-                                        <textarea
-                                            placeholder="Ingresa tu mensaje/opinión aquí"
-                                            className="textarea textarea-bordered focus:textarea-primary focus:outline-0 resize-none h-32"
-                                            name="email_message"
-                                        ></textarea>
-                                    </div>
-                                    <div className="form-control w-full mt-5">
-                                        <button className="btn btn-sm min-h-none h-auto py-3 btn-primary group relative text-purple-300 hover:bg-purple-800 hover:text-purple-100 w-full">
-                                            <span className="absolute left-3 top-1/2 transform -translate-y-1/2 text-purple-300 group-hover:text-purple-100">
-                                                <RegisterIcon size={17} />
-                                            </span>
-                                            Enviar mensaje
-                                        </button>
-                                    </div>
-                                </form>
-                            </div>
+                                        <input
+                                            placeholder="Ingresa tu nombre"
+                                            className="w-full input input-bordered focus:outline-0 focus:border-primary"
+                                            name="user_name"
+                                        />
+                                    </fieldset>
+                                </div>
+                                <fieldset className="fieldset w-full">
+                                    <label className="fieldset-label text-sm after:content-['*'] after:text-red-500">
+                                        Asunto:
+                                    </label>
+                                    <input
+                                        placeholder="Ingresa el tema de tu mensaje"
+                                        className="w-full input input-bordered focus:outline-0 focus:border-primary"
+                                        name="email_subject"
+                                    />
+                                </fieldset>
+                                <fieldset className="fieldset w-full">
+                                    <label className="fieldste-label text-sm after:content-['*'] after:text-red-500">
+                                        Mensaje:
+                                    </label>
+                                    <textarea
+                                        placeholder="Ingresa tu mensaje/opinión aquí"
+                                        className="w-full textarea textarea-bordered focus:outline-0 focus:border-primary resize-none"
+                                        name="email_message"
+                                    ></textarea>
+                                </fieldset>
+                                <div className="form-control w-full mt-5">
+                                    <button className="btn btn-sm min-h-none h-auto py-3 btn-primary group relative text-purple-300 hover:bg-purple-800 hover:text-purple-100 w-full">
+                                        <span className="absolute left-3 top-1/2 transform -translate-y-1/2 text-purple-300 group-hover:text-purple-100">
+                                            <RegisterIcon size={17} />
+                                        </span>
+                                        Enviar mensaje
+                                    </button>
+                                </div>
+                            </form>
                         </article>
                     </div>
                 </div>
