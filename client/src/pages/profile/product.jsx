@@ -39,9 +39,7 @@ export default function ProductProfile() {
                     category_id: data.category_id,
                 },
                 product_image:
-                    data.product_image.size > 0
-                        ? await useConvertImage(data.product_image)
-                        : null,
+                    data.product_image.size > 0 ? await useConvertImage(data.product_image) : null,
                 product_medias: base64Files,
             }).then(() => reloadProduct());
 
@@ -77,7 +75,7 @@ export default function ProductProfile() {
                 <article className="flex flex-col md:flex-row gap-5">
                     {/* Parte de vista previa */}
                     <div className="w-full max-w-[450px]">
-                        <div className="card bg-white shadow-xl border h-fit w-full">
+                        <div className="card bg-white shadow-xl border border-base-300/80 h-fit w-full">
                             <div className="card-body h-fit">
                                 <h2 className="text-3xl font-extrabold tracking-tight">
                                     Vista previa
@@ -92,9 +90,7 @@ export default function ProductProfile() {
                                     </figure>
                                 </div>
                                 <div className="flex w-full items-center justify-between">
-                                    <h2 className="text-2xl font-bold">
-                                        {product.product_name}
-                                    </h2>
+                                    <h2 className="text-2xl font-bold">{product.product_name}</h2>
                                     <p className="grow-0 flex gap-1 items-center">
                                         <StarIcon />
                                         {product.average_rating}
@@ -102,12 +98,11 @@ export default function ProductProfile() {
                                 </div>
                                 <p>{product.product_description}</p>
                                 <p className="text-lg font-bold">
-                                    {parseFloat(product.product_price).toLocaleString("es-CO")}{" "}
-                                    COP
+                                    {parseFloat(product.product_price).toLocaleString("es-CO")} COP
                                 </p>
                                 <Link
                                     to={`/product/${product.product_id}`}
-                                    className="btn btn-sm min-h-none h-auto py-3 btn-primary group relative text-purple-300 hover:bg-purple-800 hover:text-purple-100 w-full"
+                                    className="btn btn-sm min-h-none h-auto py-3 btn-primary group relative text-purple-300 hover:bg-purple-800 hover:text-purple-100 w-full text-sm"
                                 >
                                     <span className="absolute left-3 top-1/2 transform -translate-y-1/2 text-purple-300 group-hover:text-purple-100">
                                         <UserIcon size={13} />
@@ -117,7 +112,7 @@ export default function ProductProfile() {
                             </div>
                         </div>
 
-                        <div className="card bg-white shadow-xl border mt-5">
+                        <div className="card bg-white shadow-xl border border-base-300/80 mt-5">
                             <div className="card-body w-full max-w-[450px] h-fit">
                                 <h2 className="text-3xl font-extrabold tracking-tight">
                                     Multimedias:
@@ -131,7 +126,7 @@ export default function ProductProfile() {
                                     {product.medias.map((multimedia) => (
                                         <figure
                                             key={multimedia.media_id}
-                                            className="w-full aspect-[16/9] rounded-lg aspect-square mx-auto relative group hover:cursor-pointer bg-gray-500 overflow-hidden"
+                                            className="w-full rounded-lg aspect-square mx-auto relative group hover:cursor-pointer bg-gray-500 overflow-hidden"
                                         >
                                             <img
                                                 src={multimedia.media_url}
@@ -163,75 +158,56 @@ export default function ProductProfile() {
 
                     {/* Parte de edición */}
                     <div className="grow flex-1">
-                        <div className="card bg-white shadow-xl border">
+                        <div className="card bg-white shadow-xl border border-base-300/80">
                             <div className="card-body">
                                 <h2 className="text-3xl font-extrabold tracking-tight">Editar</h2>
                                 <form className="space-y-4" onSubmit={handleUpdateProductSubmit}>
-                                    <div className="form-control">
-                                        <label className="label">
-                                            <span className="label-text font-semibold after:content-['*'] after:ml-0.5 after:text-red-500">
-                                                Nombre:
-                                            </span>
-                                        </label>
+                                    <fieldset className="w-full fieldset">
+                                        <label className="fieldset-label after:content-['*'] after:text-red-500">Nombre:</label>
                                         <input
-                                            className="input input-sm input-bordered w-full focus:input-primary focus:outline-0 rounded"
+                                            className="w-full input input-sm input-bordered focus:input-primary focus:outline-0 rounded"
                                             defaultValue={product.product_name}
                                             name="product_name"
                                         />
-                                    </div>
-                                    <div className="form-control">
-                                        <label className="label">
-                                            <span className="label-text font-semibold after:content-['*'] after:ml-0.5 after:text-red-500">
-                                                Precio:
-                                            </span>
-                                        </label>
+                                    </fieldset>
+                                    <fieldset className="w-full fieldset af">
+                                        <label className="fieldset-label">Precio:</label>
                                         <input
-                                            className="input input-sm input-bordered w-full focus:input-primary focus:outline-0 rounded"
+                                            className="w-full input input-sm input-bordered focus:input-primary focus:outline-0 rounded"
                                             defaultValue={product.product_price}
                                             name="product_price"
                                         />
-                                    </div>
-                                    <div className="form-control">
-                                        <label className="label">
-                                            <span className="label-text font-semibold after:content-['*'] after:ml-0.5 after:text-red-500">
-                                                Cantidad:
-                                            </span>
-                                        </label>
+                                    </fieldset>
+                                    <fieldset className="w-full fieldset">
+                                        <label className="fieldset-label">Cantidad:</label>
                                         <input
-                                            className="input input-sm input-bordered w-full focus:input-primary focus:outline-0 rounded"
+                                            className="w-full input input-sm input-bordered focus:input-primary focus:outline-0 rounded"
                                             defaultValue={product.product_quantity}
                                             name="product_quantity"
                                         />
-                                    </div>
-                                    <div className="form-control">
-                                        <label className="label">
-                                            <span className="label-text font-semibold after:content-['*'] after:ml-0.5 after:text-red-500">
-                                                Descripción:
-                                            </span>
-                                        </label>
+                                    </fieldset>
+                                    <fieldset className="w-full fieldset">
+                                        <label className="fieldset-label">Descripción:</label>
                                         <textarea
                                             className="textarea textarea-bordered resize-none h-32 textarea-sm w-full focus:input-primary focus:outline-0 rounded leading-[1.5]"
                                             defaultValue={product.product_description}
                                             name="product_description"
                                         />
-                                    </div>
-                                    <div className="form-control">
-                                        <label className="label">
-                                            <span className="label-text font-semibold">
-                                                Imagen:
-                                            </span>
-                                        </label>
+                                    </fieldset>
+                                    <fieldset className="w-full fieldset">
+                                        <label className="fieldset-label">Imagen:</label>
                                         <input
                                             type="file"
                                             className="file-input file-input-bordered file-input-sm w-full focus:input-primary focus:outline-0 rounded"
                                             accept=".jpg, .jpeg, .png"
                                             name="product_image"
                                         />
-                                    </div>
-                                    <div className="form-control">
-                                        <label className="label">
-                                            <span className="label-text font-semibold">
-                                                Multimedia: <span className="text-gray-500">(máximo {5 - product.medias.length})</span>
+                                    </fieldset>
+                                    <fieldset className="w-full fieldset">
+                                        <label className="fieldset-label">
+                                            Multimedia:{" "}
+                                            <span className="text-gray-500">
+                                                (máximo {5 - product.medias.length})
                                             </span>
                                         </label>
                                         <input
@@ -239,12 +215,17 @@ export default function ProductProfile() {
                                             multiple
                                             max={5 - product.medias.length}
                                             onChange={(event) => {
-                                                if (event.target.files.length > (5 - product.medias.length)) {
+                                                if (
+                                                    event.target.files.length >
+                                                    5 - product.medias.length
+                                                ) {
                                                     Swal.fire({
                                                         icon: "error",
                                                         title: "Oops...",
-                                                        text: `Solo se pueden subir ${5 - product.medias.length} multimedias`,
-                                                    })
+                                                        text: `Solo se pueden subir ${
+                                                            5 - product.medias.length
+                                                        } multimedias`,
+                                                    });
                                                     event.target.value = null;
                                                     return;
                                                 }
@@ -253,13 +234,9 @@ export default function ProductProfile() {
                                             name="multimedias"
                                             className="file-input file-input-bordered file-input-sm w-full focus:input-primary focus:outline-0 rounded"
                                         />
-                                    </div>
-                                    <div className="form-control">
-                                        <label className="label">
-                                            <span className="label-text font-semibold">
-                                                Estado:
-                                            </span>
-                                        </label>
+                                    </fieldset>
+                                    <fieldset className="w-full fieldset">
+                                        <label className="fieldset-label">Estado:</label>
                                         <select
                                             name="product_status"
                                             className="select select-bordered select-sm w-full focus:select-primary focus:outline-0"
@@ -268,13 +245,9 @@ export default function ProductProfile() {
                                             <option value="publico">Publico</option>
                                             <option value="privado">Privado</option>
                                         </select>
-                                    </div>
-                                    <div className="form-control">
-                                        <label className="label">
-                                            <span className="label-text font-semibold">
-                                                Categoria:
-                                            </span>
-                                        </label>
+                                    </fieldset>
+                                    <fieldset className="w-full fieldset">
+                                        <label className="fieldset-label">Categoria:</label>
                                         <select
                                             name="category_id"
                                             className="select select-bordered select-sm w-full focus:select-primary focus:outline-0"
@@ -284,11 +257,11 @@ export default function ProductProfile() {
                                             <option value="3">Tecnologia</option>
                                             <option value="4">Otros</option>
                                         </select>
-                                    </div>
+                                    </fieldset>
 
                                     <button
                                         type="submit"
-                                        className="btn btn-sm min-h-none h-auto py-3 btn-primary group relative text-purple-300 hover:bg-purple-800 hover:text-purple-100 w-full"
+                                        className="btn btn-sm min-h-none h-auto py-3 btn-primary group relative text-purple-300 hover:bg-purple-800 hover:text-purple-100 w-full text-sm"
                                     >
                                         <span className="absolute left-3 top-1/2 transform -translate-y-1/2 text-purple-300 group-hover:text-purple-100">
                                             <RegisterIcon size={13} />
