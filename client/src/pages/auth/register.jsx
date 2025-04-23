@@ -65,62 +65,52 @@ export default function Register() {
                             <h2 className="text-2xl font-bold">Regístrate</h2>
                             <p>Crea una nueva cuenta para ser parte de nuestra comunidad.</p>
                         </div>
-                        <div className="form-control">
-                            <label className="label">
-                                <span className="label-text font-medium after:content-['*'] after:ml-0.5 after:text-red-500">
-                                    Nombres:
-                                </span>
+                        <fieldset className="w-full fieldset">
+                            <label className="fieldset-label text-sm after:content-['*'] after:text-red-500">
+                                Nombres:
                             </label>
                             <input
                                 placeholder="Ingresa tus nombres"
-                                className="input focus:input-primary input-bordered focus:outline-0"
+                                className="w-full input focus:input-primary input-bordered focus:outline-0"
                                 name="user_name"
                             />
-                        </div>
-                        <div className="form-control">
-                            <label className="label">
-                                <span className="label-text font-medium after:content-['*'] after:ml-0.5 after:text-red-500">
-                                    Apellidos:
-                                </span>
+                        </fieldset>
+                        <fieldset className="w-full fieldset">
+                            <label className="fieldset-label text-sm after:content-['*'] after:text-red-500">
+                                Apellidos:
                             </label>
                             <input
                                 placeholder="Ingresa tus apellidos"
-                                className="input focus:input-primary input-bordered focus:outline-0"
+                                className="w-full input focus:input-primary input-bordered focus:outline-0"
                                 name="user_lastname"
                             />
-                        </div>
-                        <div className="form-control">
-                            <label className="label">
-                                <span className="label-text font-medium after:content-['*'] after:ml-0.5 after:text-red-500">
-                                    Usuario:
-                                </span>
+                        </fieldset>
+                        <fieldset className="w-full fieldset">
+                            <label className="fieldset-label text-sm after:content-['*'] after:text-red-500">
+                                Usuario:
                             </label>
                             <input
                                 placeholder="Ingresa un alias único"
-                                className="input focus:input-primary input-bordered focus:outline-0"
+                                className="w-full input focus:input-primary input-bordered focus:outline-0"
                                 name="user_alias"
                             />
-                        </div>
-                        <div className="form-control">
-                            <label className="label">
-                                <span className="label-text font-medium after:content-['*'] after:ml-0.5 after:text-red-500">
-                                    Correo Electronico:
-                                </span>
+                        </fieldset>
+                        <fieldset className="w-full fieldset">
+                            <label className="fieldset-label text-sm after:content-['*'] after:text-red-500">
+                                Correo Electronico:
                             </label>
                             <input
                                 placeholder="ejemplo@gmail.com"
-                                className="input focus:input-primary input-bordered focus:outline-0"
+                                className="w-full input focus:input-primary input-bordered focus:outline-0"
                                 name="user_email"
                             />
-                        </div>
-                        <div className="form-control">
-                            <label className="label">
-                                <span className="label-text font-medium after:content-['*'] after:ml-0.5 after:text-red-500">
-                                    Rol
-                                </span>
+                        </fieldset>
+                        <fieldset className="w-full fieldset">
+                            <label className="fieldset-label text-sm after:content-['*'] after:text-red-500">
+                                Rol
                             </label>
                             <select
-                                className="select select-bordered focus:outline-0 focus:input-primary text-gray-600"
+                                className="w-full select select-bordered focus:outline-0 focus:input-primary text-gray-600"
                                 name="role_id"
                             >
                                 <option value="">-- Seleccionar --</option>
@@ -128,30 +118,28 @@ export default function Register() {
                                 <option value="2">Vendedor</option>
                                 <option value="3">Domiciliario</option>
                             </select>
-                        </div>
-                        <div className="form-control">
-                            <label className="label">
-                                <span className="label-text font-medium after:content-['*'] after:ml-0.5 after:text-red-500">
-                                    Contraseña:
-                                </span>
+                        </fieldset>
+                        <fieldset className="w-full fieldset">
+                            <label className="fieldset-label text-sm after:content-['*'] after:text-red-500">
+                                Contraseña:
                             </label>
                             <input
                                 type="password"
                                 placeholder="******"
-                                className="input focus:input-primary input-bordered focus:outline-0"
+                                className="w-full input focus:input-primary input-bordered focus:outline-0"
                                 name="user_password"
                             />
-                        </div>
-                        <div className="form-control mt-6">
+                        </fieldset>
+                        <fieldset className="fieldset mt-6">
                             <button className="btn btn-primary group relative text-purple-300 hover:bg-purple-800 hover:text-purple-100">
                                 <span className="absolute left-3 top-1/2 transform -translate-y-1/2 text-purple-300 group-hover:text-purple-100">
                                     <RegisterIcon size={15} />
                                 </span>
                                 Regístrate
                             </button>
-                        </div>
+                        </fieldset>
                         <div className="divider">OR</div>
-                        <div className="form-control gap-4">
+                        <div className="w-full flex flex-col gap-4">
                             <Link
                                 to={import.meta.env.VITE_API_URL + "/auth/google"}
                                 type="button"
@@ -159,14 +147,6 @@ export default function Register() {
                             >
                                 <GoogleIcon size={15} />
                                 Continua con Google
-                            </Link>
-                            <Link
-                                to={import.meta.env.VITE_API_URL + "/auth/facebook"}
-                                type="button"
-                                className="btn bg-blue-700 hover:bg-blue-800 text-blue-300 hover:text-blue-200"
-                            >
-                                <FacebookIcon size={15} />
-                                Continua con Facebook
                             </Link>
                             <Link
                                 to={import.meta.env.VITE_API_URL + "/auth/github"}
