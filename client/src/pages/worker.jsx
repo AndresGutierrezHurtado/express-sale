@@ -96,6 +96,7 @@ export default function Worker() {
                                                     rating={parseFloat(
                                                         seller.average_rating
                                                     )}
+                                                    size={20}
                                                 />
                                                 <p className="text-sm flex gap-1 items-center">
                                                     {ratings.length}

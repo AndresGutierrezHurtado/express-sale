@@ -49,29 +49,25 @@ export default function RateModal({ id, type, reload }) {
                     className="fetch-form space-y-2"
                     onSubmit={handleRatingSubmit}
                 >
-                    <label className="form-control w-full">
-                        <div className="label">
-                            <span className="label-text font-medium text-gray-700">Mensaje:</span>
-                        </div>
+                    <fielset className="w-full fieldset">
+                        <div className="fieldset-label text-sm">Mensaje:</div>
                         <textarea
                             placeholder="Ingresa un comentario sobre el producto."
                             id="rating_comment"
                             name="rating_comment"
-                            className="textarea textarea-bordered h-24 resize-none focus:outline-0 focus:border-violet-600 rounded"
+                            className="w-full textarea textarea-bordered h-24 resize-none focus:outline-0 focus:border-violet-600 rounded"
                         ></textarea>
-                    </label>
+                    </fielset>
 
-                    <label className="form-control w-full">
-                        <div className="label">
-                            <span className="label-text font-medium text-gray-700">Imagen:</span>
-                        </div>
+                    <fielset className="w-full fieldset">
+                        <div className="fieldset-label text-sm">Imagen:</div>
                         <input
                             type="file"
                             name="rating_image"
                             id="rating_image"
-                            className="w-full text-sm text-slate-500 hover:file:bg-violet-100 file:duration-300 file:cursor-pointer file:bg-violet-50 file:text-violet-700 file:font-semibold file:rounded-xl file:border-0 file:p-1 file:px-3"
+                            className="w-full text-sm text-slate-500 hover:file:bg-violet-300 file:duration-300 file:cursor-pointer file:bg-violet-200 file:text-violet-700 file:font-semibold file:rounded-xl file:border-0 file:p-1 file:px-3"
                         />
-                    </label>
+                    </fielset>
 
                     <div className="rating flex justify-center gap-2 py-3">
                         <input

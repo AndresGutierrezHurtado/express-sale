@@ -198,7 +198,7 @@ export default function SellerStats({ user, reloadUser }) {
 
                         <section className="space-y-5">
                             <h2 className="text-3xl font-extrabold">Pedidos pendientes:</h2>
-                            <div className="w-full overflow-x-auto border">
+                            <div className="w-full overflow-x-auto border border-gray-300 rounded-lg">
                                 <table className="table border w-full">
                                     <thead className="bg-gray-200">
                                         <tr>

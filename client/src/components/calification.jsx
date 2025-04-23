@@ -73,71 +73,65 @@ export function Calification({ rating, reload }) {
 
     return (
         <>
-            <article className="flex flex-col">
-                <div>
-                    <div className="flex justify-between items-center w-full">
-                        <div className="flex gap-2 items-center">
-                            <figure className="w-10 aspect-square rounded-full overflow-hidden">
-                                <img
-                                    src={rating.calificator.user_image_url}
-                                    alt={`Imagen del calificador ${rating.calificator.user_alias}`}
-                                    className="object-cover h-full w-full"
-                                />
-                            </figure>
-                            <div className="flex flex-col gap-1">
-                                <h4 className="font-medium">{rating.calificator.user_alias}</h4>
-                                <StarsRating rating={parseInt(rating.rating_value)} />
-                            </div>
+            <article className="flex flex-col gap-2">
+                <div className="flex justify-between items-center w-full">
+                    <div className="flex gap-2 items-center">
+                        <figure className="w-10 aspect-square rounded-full overflow-hidden">
+                            <img
+                                src={rating.calificator.user_image_url}
+                                alt={`Imagen del calificador ${rating.calificator.user_alias}`}
+                                className="object-cover h-full w-full"
+                            />
+                        </figure>
+                        <div className="flex flex-col gap-1">
+                            <h4 className="font-medium">{rating.calificator.user_alias}</h4>
+                            <StarsRating rating={parseInt(rating.rating_value)} />
                         </div>
-                        <div className="dropdown dropdown-end">
-                            <div
-                                tabIndex="0"
-                                role="button"
-                                className="btn btn-circle btn-ghost btn-sm"
-                            >
-                                <DotsIcon />
-                            </div>
-                            <ul
-                                tabIndex="0"
-                                className="dropdown-content menu bg-base-100 rounded-box z-[1] w-52 p-2 shadow [&>li>a]:flex [&>li>a]:justify-between [&>li>a]:items-center"
-                            >
-                                <li>
-                                    <a onClick={handleReport} className="text-red-500">
-                                        Reportar
-                                        <FlagIcon />
-                                    </a>
-                                </li>
-                                {userSession &&
-                                    (rating.user_id == userSession.user_id ||
-                                        userSession.role_id == 4) && (
-                                        <>
-                                            <li>
-                                                <a
-                                                    onClick={() =>
-                                                        document
-                                                            .getElementById(
-                                                                `rating-edit-${rating.rating_id}`
-                                                            )
-                                                            .show()
-                                                    }
-                                                >
-                                                    Editar
-                                                    <PencilIcon size={16} />
-                                                </a>
-                                            </li>
-                                            <li>
-                                                <a
-                                                    onClick={() => handleDelete(rating.rating_id)}
-                                                    className="text-red-500"
-                                                >
-                                                    Elimintar
-                                                    <TrashIcon />
-                                                </a>
-                                            </li>
-                                        </>
-                                    )}
-                            </ul>
+                    </div>
+                    <div className="dropdown dropdown-end">
+                        <div tabIndex="0" role="button" className="btn btn-circle btn-ghost btn-sm">
+                            <DotsIcon />
                         </div>
+                        <ul
+                            tabIndex="0"
+                            className="dropdown-content menu bg-base-100 rounded-box z-[1] w-52 p-2 shadow [&>li>a]:flex [&>li>a]:justify-between [&>li>a]:items-center"
+                        >
+                            <li>
+                                <a onClick={handleReport} className="text-red-500">
+                                    Reportar
+                                    <FlagIcon />
+                                </a>
+                            </li>
+                            {userSession &&
+                                (rating.user_id == userSession.user_id ||
+                                    userSession.role_id == 4) && (
+                                    <>
+                                        <li>
+                                            <a
+                                                onClick={() =>
+                                                    document
+                                                        .getElementById(
+                                                            `rating-edit-${rating.rating_id}`
+                                                        )
+                                                        .show()
+                                                }
+                                            >
+                                                Editar
+                                                <PencilIcon size={16} />
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a
+                                                onClick={() => handleDelete(rating.rating_id)}
+                                                className="text-red-500"
+                                            >
+                                                Eliminar
+                                                <TrashIcon />
+                                            </a>
+                                        </li>
+                                    </>
+                                )}
+                        </ul>
                     </div>
                 </div>
                 <div className="grow">
