@@ -47,3 +47,11 @@ input:-webkit-autofill:active {
     border: 2px solid rgb(126 34 206);
     scale: 1;
 }
+
+.swal2-modal{
+    border-radius: 0.6rem;
+}
+
+.swal2-title {
+    line-height: 100%;
+}

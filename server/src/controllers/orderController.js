@@ -203,8 +203,6 @@ export default class OrderController {
                 ],
             });
 
-            console.log("final Order", finalOrder);
-
             sendReceipt(finalOrder, req.session.user);
 
             io.emit("sale", soldProducts);
@@ -213,7 +211,7 @@ export default class OrderController {
                 `${process.env.VITE_APP_DOMAIN}/order/${order.order_id}`
             );
         } catch (error) {
-            console.log(error);
+            console.error(error);
             await t.rollback();
             res.status(500).json({
                 success: false,

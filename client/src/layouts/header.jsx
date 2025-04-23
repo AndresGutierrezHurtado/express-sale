@@ -2,11 +2,7 @@ import React, { useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
 
 // Icons
-import {
-    MenuIcon,
-    SearchIcon,
-    ShoppingBagIcon,
-} from "@components/icons";
+import { MenuIcon, SearchIcon, ShoppingBagIcon } from "@components/icons";
 
 // Contexts
 import { useAuthContext } from "@contexts/authContext";
@@ -86,41 +82,37 @@ export default function Header() {
                             <button
                                 type="button"
                                 onClick={() => searchModalRef.current.showModal()}
-                                class="btn btn-ghost btn-circle"
+                                className="btn btn-ghost btn-circle"
                             >
                                 <SearchIcon size={23} />
                             </button>
                             {/* Profile Button */}
-                            <div class="dropdown dropdown-end">
+                            <div className="dropdown dropdown-end">
                                 <div
-                                    tabindex="0"
+                                    tabIndex="0"
                                     role="button"
-                                    class="btn btn-ghost btn-circle avatar"
+                                    className="btn btn-ghost btn-circle avatar"
                                 >
-                                    <div class="w-10 rounded-full">
+                                    <div className="w-10 rounded-full">
                                         <img
                                             alt="Tailwind CSS Navbar component"
-                                            src={userSession?.user_image || "/images/default.jpg"}
+                                            src={
+                                                userSession?.user_image_url || "/images/default.jpg"
+                                            }
                                         />
                                     </div>
                                 </div>
                                 <ul
-                                    tabindex="0"
-                                    class="menu menu-sm dropdown-content bg-base-100 rounded-box z-1 mt-3 w-52 p-2 shadow"
+                                    tabIndex="0"
+                                    className="menu menu-sm dropdown-content bg-base-100 rounded-box z-1 mt-3 w-52 p-2 shadow"
                                 >
                                     {userSession ? (
                                         <>
                                             <li>
-                                                <a class="justify-between">
-                                                    Profile
-                                                    <span class="badge">New</span>
-                                                </a>
+                                                <Link to="/profile/user">Perfil</Link>
                                             </li>
                                             <li>
-                                                <a>Settings</a>
-                                            </li>
-                                            <li>
-                                                <a>Logout</a>
+                                                <a onClick={handleLogout}>Cerrar sesión</a>
                                             </li>
                                         </>
                                     ) : (
@@ -137,7 +129,7 @@ export default function Header() {
                             </div>
                             {/* Cart Button */}
                             {userSession && (
-                                <Link to="/cart" class="btn btn-ghost btn-circle">
+                                <Link to="/cart" className="btn btn-ghost btn-circle">
                                     <ShoppingBagIcon size={25} />
                                 </Link>
                             )}
