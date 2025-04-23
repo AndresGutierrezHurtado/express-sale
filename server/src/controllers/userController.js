@@ -16,8 +16,6 @@ export default class UserController {
         const transaction = await sequelize.transaction();
 
         try {
-            req.body.user.user_password = bcrypt.hashSync(req.body.user.user_password, 10);
-
             const user = await models.User.create(req.body.user, {
                 transaction,
             });
@@ -61,13 +59,9 @@ export default class UserController {
         let userData = req.body.user;
         let workerData = req.body.worker;
 
-        if (userData && userData.user_password) {
-            userData.user_password = bcrypt.hashSync(userData.user_password, 10);
-        }
+        const transaction = await sequelize.transaction();
 
         try {
-            const transaction = await sequelize.transaction();
-
             if (userData) {
                 if (req.body.user_image) {
                     const response = await uploadFile(req.body.user_image, req.params.id, "/users");
@@ -91,7 +85,7 @@ export default class UserController {
                 if (user[0] == 0) {
                     return res.status(404).json({
                         success: false,
-                        message: "No se pudo actualizar el usuario.",
+                        message: "No se actualizó el usuario",
                         data: null,
                     });
                 }

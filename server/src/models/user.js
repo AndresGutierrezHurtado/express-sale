@@ -1,5 +1,6 @@
 import { DataTypes } from "sequelize";
 import sequelize from "../configs/database.js";
+import bcrypt from "bcrypt";
 
 export const User = sequelize.define(
     "User",
@@ -60,6 +61,15 @@ export const User = sequelize.define(
         timestamps: false,
     }
 );
+
+User.addHook("beforeCreate", (user) => {
+    user.user_password = bcrypt.hashSync(user.user_password, 10);
+});
+User.addHook("beforeUpdate", (user) => {
+    if (user.changed("user_password")) {
+        user.user_password = bcrypt.hashSync(user.user_password, 10);
+    }
+});
 
 export const Role = sequelize.define(
     "Role",
