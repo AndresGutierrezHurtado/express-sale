@@ -49,7 +49,7 @@ export default function ProductsAdmin() {
     return (
         <article className="card bg-white max-w-[1000px] shadow-xl mx-auto my-10">
             <div className="card-body">
-                <div className="overflow-auto">
+                <div className="overflow-auto border-base-300/60 rounded-lg">
                     <table className="table border">
                         <thead>
                             <tr>
