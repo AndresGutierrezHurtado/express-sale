@@ -40,6 +40,7 @@ export default function PayForm() {
                 shippingCoordinates: document.getElementsByName("shippingCoordinates")[0]?.value,
             });
 
+            console.log(event.target.values);
             event.target.submit();
         }
     };
@@ -70,15 +71,16 @@ export default function PayForm() {
                                 Formulario de pago:
                             </h2>
                             <p>
-                                Llena la siguiente información obligatoria según la persona que pagará, para proceder con el pago
-                                de tu pedido mediante{" "}
+                                Llena la siguiente información obligatoria según la persona que
+                                pagará, para proceder con el pago de tu pedido mediante{" "}
                                 <a
                                     href="https://colombia.payu.com/"
                                     target="_blank"
                                     className="text-primary font-semibold underline"
                                 >
                                     Payu
-                                </a>.
+                                </a>
+                                .
                             </p>
                             <form
                                 onSubmit={handleSubmit}
@@ -127,58 +129,48 @@ export default function PayForm() {
                                 <input name="extra2" type="hidden" value="" />
 
                                 {/* Visible fields */}
-                                <div className="form-control">
-                                    <label className="label">
-                                        <span className="label-text font-semibold after:content-['*'] after:ml-1 after:text-red-500">
-                                            Nombre Completo:
-                                        </span>
+                                <fieldset className="w-full fieldset">
+                                    <label className="fieldset-label text-sm after:content-['*'] after:text-red-500">
+                                        Nombre Completo:
                                     </label>
                                     <input
                                         name="buyerFullName"
                                         placeholder="Ingresa todos tus nombres y apellidos"
-                                        className="input input-bordered input-sm focus:outline-0 focus:input-primary"
+                                        className="w-full input input-bordered input-sm focus:outline-0 focus:input-primary"
                                         defaultValue={`${userSession.user_name} ${userSession.user_lastname}`}
                                     />
-                                </div>
+                                </fieldset>
 
-                                <div className="form-control">
-                                    <label className="label">
-                                        <span className="label-text font-semibold after:content-['*'] after:ml-1 after:text-red-500">
-                                            Correo Electrónico:
-                                        </span>
+                                <fieldset className="w-full fieldset">
+                                    <label className="fieldset-label text-sm after:content-['*'] after:text-red-500">
+                                        Correo Electrónico:
                                     </label>
                                     <input
                                         name="buyerEmail"
                                         placeholder="ejemplo@gmail.com"
-                                        className="input input-bordered input-sm focus:outline-0 focus:input-primary"
+                                        className="w-full input input-bordered input-sm focus:outline-0 focus:input-primary"
                                         defaultValue={userSession.user_email}
                                     />
-                                </div>
+                                </fieldset>
 
-                                <div className="form-control">
-                                    <label className="label">
-                                        <span className="label-text font-semibold after:content-['*'] after:ml-1 after:text-red-500">
-                                            Número Telefónico:
-                                        </span>
+                                <fieldset className="w-full fieldset">
+                                    <label className="fieldset-label text-sm after:content-['*'] after:text-red-500">
+                                        Número Telefónico:
                                     </label>
                                     <input
                                         name="payerPhone"
                                         placeholder="Ingresa tu telefono de contacto"
-                                        className="input input-bordered input-sm focus:outline-0 focus:input-primary"
+                                        className="w-full input input-bordered input-sm focus:outline-0 focus:input-primary"
                                         defaultValue={userSession.user_phone}
                                     />
-                                </div>
+                                </fieldset>
 
                                 <div className="form-group w-full flex flex-col md:flex-row gap-5">
                                     <div className="form-control w-full md:w-fit">
-                                        <label className="label">
-                                            <span className="label-text font-semibold after:content-['*'] after:ml-1 after:text-red-500">
-                                                Tipo de documento:
-                                            </span>
-                                        </label>
+                                        <label className="label">Tipo de documento:</label>
                                         <select
                                             name="payerDocumentType"
-                                            className="select select-bordered select-sm focus:outline-0 focus:select-primary"
+                                            className="w-full select select-bordered select-sm focus:outline-0 focus:select-primary"
                                         >
                                             <option value="CC">Cédula de Ciudadanía</option>
                                             <option value="CE">Cédula de Extranjería</option>
@@ -194,35 +186,29 @@ export default function PayForm() {
                                         </select>
                                     </div>
                                     <div className="form-control w-full">
-                                        <label className="label">
-                                            <span className="label-text font-semibold after:content-['*'] after:ml-1 after:text-red-500">
-                                                Número de documento:
-                                            </span>
-                                        </label>
+                                        <label className="label">Número de documento:</label>
                                         <input
                                             name="payerDocument"
                                             placeholder="Ingresa tu documento"
-                                            className="input input-bordered input-sm focus:outline-0 focus:input-primary"
+                                            className="w-full input input-bordered input-sm focus:outline-0 focus:input-primary"
                                         />
                                     </div>
                                 </div>
 
                                 <FormMap />
 
-                                <div className="form-control">
-                                    <label className="label">
-                                        <span className="label-text font-semibold after:content-['*'] after:ml-1 after:text-red-500">
-                                            Mensaje para el domiciliario:
-                                        </span>
+                                <fieldset className="w-full fieldset">
+                                    <label className="fieldset-label text-sm after:content-['*'] after:text-red-500">
+                                        Mensaje para el domiciliario:
                                     </label>
                                     <textarea
                                         name="payerMessage"
                                         placeholder="Ingresa tu mensaje para el domiciliario, ej: Conunto, Torre, Apartamento, Número de hogar, Descripcion..."
-                                        className="textarea textarea-bordered textarea-sm focus:outline-0 focus:textarea-primary resize-none h-32 leading-[1.4]"
+                                        className="w-full textarea textarea-bordered textarea-sm focus:outline-0 focus:textarea-primary resize-none h-32 leading-[1.4]"
                                     />
-                                </div>
-                                <div className="form-control">
-                                    <label className="label flex-col gap-1 [&>*]:text-gray-600 [&>*]:font-medium">
+                                </fieldset>
+                                <fieldset className="w-full fieldset">
+                                    <label className="fieldset-label flex flex-col  gap-2 text-sm after:contentcol-['*'] after:text-red-500 [&>*]:text-gray-600 [&>*]:font-medium">
                                         <span className="label-text text-sm leading-none">
                                             Debes tener en cuenta que a la hora de realizar el pago
                                             no se guardará hasta que la transacción se complete
@@ -245,7 +231,7 @@ export default function PayForm() {
                                         </span>
                                         Ir al pago
                                     </button>
-                                </div>
+                                </fieldset>
                             </form>
                         </div>
                     </div>

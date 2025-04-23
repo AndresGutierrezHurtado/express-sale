@@ -92,7 +92,7 @@ export default function Cart() {
                                 {carts.map((cart) => (
                                     <article
                                         key={cart.cart_id}
-                                        className="bg-white p-8 w-full shadow-xl rounded-xl border"
+                                        className="bg-white p-8 w-full shadow-xl rounded-xl border border-base-300/80"
                                     >
                                         <div className="flex flex-col md:flex-row gap-5">
                                             <Link
@@ -182,7 +182,7 @@ export default function Cart() {
                                     </article>
                                 ))}
                             </div>
-                            <div className="w-full max-w-[300px] p-8 space-y-5 bg-white border shadow-xl rounded-xl h-fit">
+                            <div className="w-full max-w-[300px] p-8 space-y-5 bg-white border border-base-300/80 shadow-xl rounded-xl h-fit">
                                 <div className="[&_div]:flex [&_div]:gap-5 [&_div]:justify-between [&_div]:items-center [&_div]:w-full">
                                     <div>
                                         <h2 className="text-2xl font-bold">Resumen:</h2>
@@ -205,7 +205,7 @@ export default function Cart() {
                                         <label className="label-text font-semibold">Total:</label>
                                         <p>{parseInt(subTotal).toLocaleString("es-CO")}</p>
                                     </div>
-                                    <div className="form-control pt-5">
+                                    <div className="flex flex-col pt-5">
                                         <Link
                                             to="/payform"
                                             className="btn btn-primary btn-sm w-full"

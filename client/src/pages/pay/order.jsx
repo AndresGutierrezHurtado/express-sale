@@ -128,7 +128,7 @@ export default function Order() {
                                 {order.orderProducts.map((product) => (
                                     <div
                                         key={product.product_id}
-                                        className="card border rounded-lg"
+                                        className="card border border-base-300 rounded-lg"
                                     >
                                         <article className="card-body p-4 flex-col sm:flex-row gap-2 [&_p]:grow-0">
                                             <Link
