@@ -49,20 +49,18 @@ export function FormMap() {
 
     return (
         <div className="form-group space-y-4">
-            <div className="form-control">
-                <label className="label">
-                    <span className="label-text font-semibold after:content-['*'] after:ml-1 after:text-red-500">
-                        Dirección:
-                    </span>
+            <fieldset className="w-full fieldset">
+                <label className="fieldset-label text-sm after:content-['*'] after:text-red-500">
+                    Dirección:
                 </label>
                 <input
                     id="autocomplete"
                     name="shippingAddress"
                     placeholder="Ingresa tu direccion"
-                    className="input input-bordered input-sm focus:outline-0 focus:input-primary"
+                    className="w-full input input-bordered input-sm focus:outline-0 focus:input-primary"
                 />
                 <input type="hidden" name="shippingCoordinates" value={JSON.stringify(location)} />
-            </div>
+            </fieldset>
             <div className="w-full h-[200px] rounded overflow-hidden">
                 <GoogleMap
                     mapContainerClassName="w-full h-full"
