@@ -16,7 +16,7 @@ export default function ResetPassword() {
     const { data: validatedToken, loading: validatedTokenLoading } = useGetData(
         `/recoveries/${token}`
     );
-    
+
     const handleResetPasswordSubmit = async (event) => {
         event.preventDefault();
 
@@ -51,14 +51,17 @@ export default function ResetPassword() {
             text: "El token no es valido o ya caducó.",
         }).then(() => {
             navigate("/login");
-        })
+        });
     }
     return (
         <>
             <main className="w-full px-3 bg-purple-100 min-h-screen">
                 <section className="w-full max-w-[1200px] mx-auto py-10">
                     <article className="flex flex-col items-center justify-center w-full gap-6">
-                        <Link to="/" className="size-[200px] drop-shadow-[0_15px_30px_rgb(126_34_206)]">
+                        <Link
+                            to="/"
+                            className="size-[200px] drop-shadow-[0_15px_30px_rgb(126_34_206)]"
+                        >
                             <img
                                 src="/logo.png"
                                 alt="Logo Express Sale"
@@ -74,32 +77,26 @@ export default function ResetPassword() {
                                     <p>Ingresa tu nueva contraseño dos veces</p>
                                 </div>
                                 <form onSubmit={handleResetPasswordSubmit} className="space-y-3">
-                                    <div className="form-control w-full">
-                                        <label className="label">
-                                            <span className="label-text font-semibold after:content-['*'] after:text-red-500 after:ml-0.5">
-                                                Contraseña:
-                                            </span>
-                                        </label>
+                                    <fieldset className="w-full fieldset">
+                                        <label className="fieldset-label">Contraseña:</label>
                                         <input
                                             placeholder="Ingresa tu contraseño"
                                             name="user_password"
                                             type="password"
-                                            className="input input-bordered input-sm rounded w-full focus:outline-0 focus:input-primary"
+                                            className="w-full input input-bordered input-sm rounded focus:outline-0 focus:input-primary"
                                         />
-                                    </div>
-                                    <div className="form-control w-full">
-                                        <label className="label">
-                                            <span className="label-text font-semibold after:content-['*'] after:text-red-500 after:ml-0.5">
-                                                Confirmar Contraseña:
-                                            </span>
+                                    </fieldset>
+                                    <fieldset className="w-full fieldset">
+                                        <label className="fieldset-label">
+                                            Confirmar Contraseña:
                                         </label>
                                         <input
                                             placeholder="Ingresa tu contraseño"
                                             name="user_password_confirm"
                                             type="password"
-                                            className="input input-bordered input-sm rounded w-full focus:outline-0 focus:input-primary"
+                                            className="w-full input input-bordered input-sm rounded focus:outline-0 focus:input-primary"
                                         />
-                                    </div>
+                                    </fieldset>
                                     <button type="submit" className="btn btn-primary w-full">
                                         Recuperar
                                     </button>
