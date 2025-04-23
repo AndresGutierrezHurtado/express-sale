@@ -32,9 +32,7 @@ export function UserEditModal({ user, reload }) {
                     worker_description: data.worker_description,
                 },
                 user_image:
-                    data.user_image.size > 0
-                        ? await useConvertImage(data.user_image)
-                        : null,
+                    data.user_image.size > 0 ? await useConvertImage(data.user_image) : null,
             });
             if (response.success) reload();
         }
@@ -54,115 +52,103 @@ export function UserEditModal({ user, reload }) {
                     onSubmit={handleUpdateUserSubmit}
                     className="space-y-3 [&_input:focus]:input-primary [&_input:focus]:outline-0"
                 >
-                    <label className="form-control w-full">
-                        <div className="label">
-                            <span className="label-text font-semibold after:content-['*'] after:ml-0.5 after:text-red-500">
-                                Imagen:
-                            </span>
+                    <fieldset className="w-full fieldset">
+                        <div className="fieldset-label text-sm after:content-['*'] after:text-red-500">
+                            Imagen:
                         </div>
                         <input
                             type="file"
-                            className="file-input file-input-primary file-input-bordered w-full"
+                            className="w-full file-input file-input-primary file-input-bordered"
                             name="user_image"
                         />
-                    </label>
-                    <label className="form-control w-full">
-                        <div className="label">
-                            <span className="label-text font-semibold after:content-['*'] after:ml-0.5 after:text-red-500">
-                                Nombres:
-                            </span>
+                    </fieldset>
+                    <fieldset className="w-full fieldset">
+                        <div className="fieldset-label text-sm after:content-['*'] after:text-red-500">
+                            Nombres:
                         </div>
                         <input
                             placeholder="Ingresa tus nombre"
-                            className="input input-bordered w-full"
+                            className="w-full input input-bordered"
                             defaultValue={user.user_name}
                             name="user_name"
                         />
-                    </label>
-                    <label className="form-control w-full">
-                        <div className="label">
-                            <span className="label-text font-semibold after:content-['*'] after:ml-0.5 after:text-red-500">
-                                Apellidos:
-                            </span>
+                    </fieldset>
+                    <fieldset className="w-full fieldset">
+                        <div className="fieldset-label text-sm after:content-['*'] after:text-red-500">
+                            Apellidos:
                         </div>
                         <input
                             placeholder="Ingresa tus apellidos"
-                            className="input input-bordered w-full"
+                            className="w-full input input-bordered"
                             defaultValue={user.user_lastname}
                             name="user_lastname"
                         />
-                    </label>
-                    <label className="form-control w-full">
-                        <div className="label">
-                            <span className="label-text font-semibold after:content-['*'] after:ml-0.5 after:text-red-500">
-                                Correo electrónico:
-                            </span>
+                    </fieldset>
+                    <fieldset className="w-full fieldset">
+                        <div className="fieldset-label text-sm after:content-['*'] after:text-red-500">
+                            Correo electrónico:
                         </div>
                         <input
                             placeholder="Ingresa tu correo principal de contacto"
-                            className="input input-bordered w-full"
+                            className="w-full input input-bordered"
                             defaultValue={user.user_email}
                             disabled
                         />
-                    </label>
-                    <label className="form-control w-full">
-                        <div className="label">
-                            <span className="label-text font-semibold after:content-['*'] after:ml-0.5 after:text-red-500">
-                                Usuario:
-                            </span>
+                    </fieldset>
+                    <fieldset className="w-full fieldset">
+                        <div className="fieldset-label text-sm after:content-['*'] after:text-red-500">
+                            Usuario:
                         </div>
                         <input
                             placeholder="Ingresa tu usuario, debe ser unico"
-                            className="input input-bordered w-full"
+                            className="w-full input input-bordered"
                             defaultValue={user.user_alias}
                             name="user_alias"
                         />
-                    </label>
-                    <label className="form-control w-full">
-                        <div className="label">
-                            <span className="label-text font-semibold">Telefono:</span>
+                    </fieldset>
+                    <fieldset className="w-full fieldset">
+                        <div className="fieldset-label text-sm after:content-['*'] after:text-red-500">
+                            Telefono:
                         </div>
                         <input
                             placeholder="Ingresa tu telefono principal de contacto"
-                            className="input input-bordered w-full"
+                            className="w-full input input-bordered"
                             defaultValue={user.user_phone}
                             name="user_phone"
                         />
-                    </label>
-                    <label className="form-control w-full">
-                        <div className="label">
-                            <span className="label-text font-semibold">Dirección:</span>
+                    </fieldset>
+                    <fieldset className="w-full fieldset">
+                        <div className="fieldset-label text-sm after:content-['*'] after:text-red-500">
+                            Direccion:
                         </div>
                         <input
                             placeholder="Ingresa la dirección precisa de tu vivienda/oficina"
-                            className="input input-bordered w-full"
+                            className="w-full input input-bordered"
                             defaultValue={user.user_address}
                             name="user_address"
                         />
-                    </label>
+                    </fieldset>
                     {user.worker && (
-                        <label className="form-control w-full">
-                            <div className="label">
-                                <span className="label-text font-semibold after:content-['*'] after:ml-0.5 after:text-red-500">
-                                    Descripción:
-                                </span>
+                        <fieldset className="w-full fieldset">
+                            <div className="fieldset-label text-sm after:content-['*'] after:text-red-500">
+                                Descripción:
                             </div>
                             <textarea
-                                className="textarea textarea-bordered resize-none h-24 w-full"
+                                className="w-full textarea textarea-bordered focus:outline-0 focus:border-primary resize-none h-24"
                                 placeholder="Bio"
                                 defaultValue={user.worker.worker_description}
                                 name="worker_description"
                             ></textarea>
-                        </label>
+                        </fieldset>
                     )}
-                    <div className="form-control pt-4">
-                        <button className="btn btn-primary group relative text-purple-300 hover:bg-purple-800 hover:text-purple-100">
+                    <fieldset className="w-full fieldset">
+                        <button className="btn btn-primary group relative text-purple-300 hover:bg-purple-800 hover:text-purple-100 text-sm">
                             <span className="absolute left-3 top-1/2 transform -translate-y-1/2 text-purple-300 group-hover:text-purple-100">
                                 <RegisterIcon />
                             </span>
                             Guardar cambios
                         </button>
-                    </div>
+                    </fieldset>
                 </form>
             </div>
             <form method="dialog" className="modal-backdrop bg-black/50">

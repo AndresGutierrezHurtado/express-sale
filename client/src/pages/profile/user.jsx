@@ -83,13 +83,13 @@ export default function UserProfile() {
                             <p className="text-lg grow">
                                 {user.worker ? user.worker.worker_description : ""}
                             </p>
-                            <span className="flex flex-wrap items-center gap-4 [&_svg]:fill-gray-600 text-gray-600 w-full overflow-hidden">
+                            <span className="flex flex-wrap items-center gap-2 [&_svg]:fill-gray-600 text-gray-600 w-full">
                                 {user.worker && (
                                     <>
                                         <Link to={`/worker/${user.user_id}`}>
                                             <div
                                                 data-tip={`Perfil de ${user.role.role_name}`}
-                                                className="tooltip tooltip-bottom flex badge badge-sm gap-1 h-auto py-1 px-5 duration-300 hover:scale-[1.06]"
+                                                className="tooltip tooltip-bottom flex badge badge-sm gap-1 h-auto py-1 px-5 duration-300 cursor-pointer"
                                             >
                                                 <UserIcon size={11} />
                                                 Ver perfil
@@ -97,7 +97,7 @@ export default function UserProfile() {
                                         </Link>
                                         <div
                                             data-tip={`Calificaciones recibidas como ${user.role.role_name}`}
-                                            className="tooltip tooltip-bottom flex badge badge-sm gap-1 h-auto py-1 px-5 duration-300 hover:scale-[1.06]"
+                                            className="tooltip tooltip-bottom flex badge badge-sm gap-1 h-auto py-1 px-5 duration-300 cursor-pointer"
                                         >
                                             <StarIcon size={12} />
                                             {user.ratings_count} Calificaciones
@@ -108,7 +108,7 @@ export default function UserProfile() {
                                 <Link to={`mailto:${user.user_email}`} target="_blank">
                                     <div
                                         data-tip="Correo electronico de contacto"
-                                        className="tooltip tooltip-bottom flex badge badge-sm gap-1 h-auto py-1 px-5 duration-300 hover:scale-[1.06]"
+                                        className="tooltip tooltip-bottom flex badge badge-sm gap-1 h-auto py-1 px-5 duration-300 cursor-pointer"
                                     >
                                         <EmailIcon size={14} />
                                         {user.user_email}
@@ -117,7 +117,7 @@ export default function UserProfile() {
                                 {user.user_phone && (
                                     <div
                                         data-tip="Número de contacto"
-                                        className="tooltip tooltip-bottom flex badge badge-sm gap-1 h-auto py-1 px-5 duration-300 hover:scale-[1.06]"
+                                        className="tooltip tooltip-bottom flex badge badge-sm gap-1 h-auto py-1 px-5 duration-300 cursor-pointer"
                                     >
                                         <PhoneIcon size={14} />
                                         {user.user_phone}
@@ -125,7 +125,7 @@ export default function UserProfile() {
                                 )}
                                 <div
                                     data-tip="Cantidad total de compras hechas"
-                                    className="tooltip tooltip-bottom flex badge badge-sm gap-1 h-auto py-1 px-5 duration-300 hover:scale-[1.06]"
+                                    className="tooltip tooltip-bottom flex badge badge-sm gap-1 h-auto py-1 px-5 duration-300 cursor-pointer"
                                 >
                                     <BoxesStackedIcon size={14} />
                                     {orders && orders.length} compras hechas
@@ -135,7 +135,7 @@ export default function UserProfile() {
                                 {userSession.role_id == 2 && (
                                     <Link
                                         to={`/worker/products/${user.user_id}`}
-                                        className="btn btn-sm min-h-none h-auto py-2.5 px-10 btn-primary group relative text-purple-300 hover:bg-purple-800 hover:text-purple-100"
+                                        className="btn btn-primary pl-10 pr-5 relative group text-purple-300 hover:bg-purple-800 hover:text-purple-100"
                                     >
                                         <span className="absolute left-3 top-1/2 transform -translate-y-1/2 text-purple-300 group-hover:text-purple-100">
                                             <BoxesStackedIcon size={14} />
@@ -146,7 +146,7 @@ export default function UserProfile() {
                                 {userSession.role_id == 3 && (
                                     <Link
                                         to={`/worker/deliveries/${user.user_id}`}
-                                        className="btn btn-sm min-h-none h-auto py-2.5 px-10 btn-primary group relative text-purple-300 hover:bg-purple-800 hover:text-purple-100"
+                                        className="btn btn-primary pl-10 pr-5 relative group text-purple-300 hover:bg-purple-800 hover:text-purple-100"
                                     >
                                         <span className="absolute left-3 top-1/2 transform -translate-y-1/2 text-purple-300 group-hover:text-purple-100">
                                             <TruckIcon />
@@ -157,7 +157,7 @@ export default function UserProfile() {
                                 {userSession.role_id == 4 && (
                                     <Link
                                         to={`/admin/users`}
-                                        className="btn btn-sm min-h-none h-auto py-2.5 px-10 btn-primary group relative text-purple-300 hover:bg-purple-800 hover:text-purple-100"
+                                        className="btn btn-primary pl-10 pr-5 relative group text-purple-300 hover:bg-purple-800 hover:text-purple-100"
                                     >
                                         <span className="absolute left-3 top-1/2 transform -translate-y-1/2 text-purple-300 group-hover:text-purple-100">
                                             +
@@ -168,7 +168,7 @@ export default function UserProfile() {
                                 {userSession.role_id !== 4 && userSession.role_id !== 1 && (
                                     <Link
                                         to={`/worker/stats/${user.user_id}`}
-                                        className="btn btn-sm min-h-none h-auto py-2.5 px-10 relative bg-gray-200 hover:bg-gray-200 text-gray-500 hover:text-gray-600"
+                                        className="btn pl-10 pr-5 relative group text-gray-500 hover:text-gray-600 bg-gray-200"
                                     >
                                         <span className="absolute left-3 top-1/2 transform -translate-y-1/2">
                                             <StatsIcon size={15} />

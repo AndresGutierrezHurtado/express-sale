@@ -1,18 +1,13 @@
-import { useState, useEffect } from "react";
-import { Link, useParams } from "react-router-dom";
+import { useState } from "react";
+import { Link, useNavigate, useParams } from "react-router-dom";
+import Swal from "sweetalert2";
 
 // Hooks
 import { useGetData, usePostData } from "@hooks/useFetchData.js";
 import { useValidateform } from "@hooks/useValidateForm.js";
 
 // Components
-import {
-    CartAddIcon,
-    StarIcon,
-    UserIcon,
-    ClipIcon,
-    PaperPlaneIcon,
-} from "@components/icons.jsx";
+import { CartAddIcon, StarIcon, UserIcon, ClipIcon, PaperPlaneIcon } from "@components/icons.jsx";
 import ContentLoading from "@components/contentLoading.jsx";
 import { Calification } from "@components/calification";
 import { StarsRating } from "@components/starsRating";
@@ -22,6 +17,7 @@ import SwiperThumbnails from "../components/swiperThumbnails";
 import { useAuthContext } from "@contexts/authContext.jsx";
 
 export default function Product() {
+    const navigate = useNavigate();
     const { id } = useParams();
     const { userSession, authMiddlewareAlert } = useAuthContext();
     const {
@@ -61,6 +57,21 @@ export default function Product() {
     };
 
     const handleCartAdd = async () => {
+        if (!userSession) {
+            return Swal.fire({
+                icon: "info",
+                title: "Para agregar al carrito, debes iniciar sesión",
+                text: "Inicia sesión o crea una cuenta para continuar",
+                showCancelButton: true,
+                confirmButtonColor: "#3085d6",
+                cancelButtonColor: "#d33",
+                background: "#faf5ff",
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    navigate("/login");
+                }
+            });
+        }
         const response = await usePostData("/carts", {
             product_id: product.product_id,
         });
@@ -85,31 +96,26 @@ export default function Product() {
         <>
             <section className="w-full px-3">
                 <div className="w-full max-w-[1200px] mx-auto py-5">
-                    <div className="flex flex-col border bg-white rounded-lg divide-y shadow-xl">
+                    <div className="flex flex-col border border-base-300/80 bg-white/80 rounded-lg divide-y divide-base-300 shadow-xl">
                         <span className="breadcrumbs text-sm capitalize px-5">
                             <ul>
                                 <li>
                                     <Link to="/products">Productos</Link>
                                 </li>
                                 <li>
-                                    <Link
-                                        to={`/products?category_id=${product.category_id}`}
-                                    >
+                                    <Link to={`/products?category_id=${product.category_id}`}>
                                         {product.category.category_name}
                                     </Link>
                                 </li>
                                 <li>
-                                    <a className="text-purple-700 ">
-                                        {product.product_name}
-                                    </a>
+                                    <a className="text-purple-700 ">{product.product_name}</a>
                                 </li>
                             </ul>
                         </span>
                         <div className="flex flex-col md:flex-row gap-10 p-8 py-7 w-full">
                             <div
                                 className={`flex flex-col md:flex-row flex-none relative rounded-lg p-2 ${
-                                    product.product_quantity == 0 &&
-                                    "grayscale bg-gray-200"
+                                    product.product_quantity == 0 && "grayscale bg-gray-200"
                                 }`}
                             >
                                 <SwiperThumbnails images={images} size={500} />
@@ -130,9 +136,7 @@ export default function Product() {
                                             data-tip="Mostrar/Ocultar calificaciones"
                                             onClick={() => {
                                                 document
-                                                    .getElementById(
-                                                        "ratings-list"
-                                                    )
+                                                    .getElementById("ratings-list")
                                                     .classList.toggle("hidden");
                                             }}
                                         >
@@ -145,30 +149,26 @@ export default function Product() {
                                             className="text-gray-500/80 font-semibold italic text-sm hover:underline tooltip tooltip-bottom"
                                             data-tip="Ir al perfil del vendedor"
                                         >
-                                            @publicado por{" "}
-                                            {product.user.user_alias}
+                                            @publicado por {product.user.user_alias}
                                         </Link>
                                     )}
                                 </div>
-                                <p className="grow">
-                                    {product.product_description}
-                                </p>
+                                <p className="grow">{product.product_description}</p>
                                 <div className="space-y-3">
                                     <span className="flex justify-between items-center">
                                         <p className="font-medium">
-                                            {product.product_quantity}{" "}
-                                            Disponibles
+                                            {product.product_quantity} Disponibles
                                         </p>
                                         <p className="flex items-center text-lg">
                                             {product.average_rating}
-                                            <StarIcon className="ml-1"/>
+                                            <StarIcon className="ml-1" />
                                         </p>
                                     </span>
 
                                     <button
                                         onClick={handleCartAdd}
                                         disabled={product.product_quantity == 0}
-                                        className="btn btn-sm min-h-none h-auto py-3 btn-primary group relative text-purple-300 hover:bg-purple-800 hover:text-purple-100 w-full"
+                                        className="btn btn-sm min-h-none h-auto py-3 btn-primary group relative text-purple-300 hover:bg-purple-800 hover:text-purple-100 w-full text-sm"
                                     >
                                         <span className="absolute left-3 top-1/2 transform -translate-y-1/2 text-purple-300 group-hover:text-purple-100 group-disabled:text-zinc-400">
                                             <CartAddIcon size={17} />
@@ -185,12 +185,10 @@ export default function Product() {
                 <div className="w-full max-w-[1200px] mx-auto py-5">
                     <article
                         id="ratings-list"
-                        className="card bg-white shadow-xl border hidden"
+                        className="card bg-white/80 shadow-xl border border-base-300/80 hidden"
                     >
                         <div className="card-body">
-                            <h2 className="text-3xl font-extrabold tracking-tight">
-                                Comentarios:
-                            </h2>
+                            <h2 className="text-3xl font-extrabold tracking-tight">Comentarios:</h2>
                             <div className="flex flex-col md:flex-row gap-10">
                                 <section className="w-full md:w-1/2 space-y-5">
                                     <article className="w-full flex gap-10">
@@ -199,96 +197,30 @@ export default function Product() {
                                                 {product.average_rating}
                                             </h2>
                                             <StarsRating
-                                                rating={parseFloat(
-                                                    product.average_rating
-                                                )}
+                                                rating={parseFloat(product.average_rating)}
                                             />
                                             <p className="text-sm flex gap-1 items-center grow-0">
                                                 {ratings.length}
                                                 <UserIcon size={12} />
                                             </p>
                                         </div>
-                                        <div className="w-full">
-                                            <div className="flex items-center gap-2">
-                                                5
-                                                <progress
-                                                    className="progress progress-primary w-full"
-                                                    value={
-                                                        (ratings.filter(
-                                                            (rating) =>
-                                                                rating.rating_value ==
-                                                                5
-                                                        ).length /
-                                                            ratings.length) *
-                                                        100
-                                                    }
-                                                    max="100"
-                                                ></progress>
-                                            </div>
-                                            <div className="flex items-center gap-2">
-                                                4
-                                                <progress
-                                                    className="progress progress-primary w-full"
-                                                    value={
-                                                        (ratings.filter(
-                                                            (rating) =>
-                                                                rating.rating_value ==
-                                                                4
-                                                        ).length /
-                                                            ratings.length) *
-                                                        100
-                                                    }
-                                                    max="100"
-                                                ></progress>
-                                            </div>
-                                            <div className="flex items-center gap-2">
-                                                3
-                                                <progress
-                                                    className="progress progress-primary w-full"
-                                                    value={
-                                                        (ratings.filter(
-                                                            (rating) =>
-                                                                rating.rating_value ==
-                                                                3
-                                                        ).length /
-                                                            ratings.length) *
-                                                        100
-                                                    }
-                                                    max="100"
-                                                ></progress>
-                                            </div>
-                                            <div className="flex items-center gap-2">
-                                                2
-                                                <progress
-                                                    className="progress progress-primary w-full"
-                                                    value={
-                                                        (ratings.filter(
-                                                            (rating) =>
-                                                                rating.rating_value ==
-                                                                2
-                                                        ).length /
-                                                            ratings.length) *
-                                                        100
-                                                    }
-                                                    max="100"
-                                                ></progress>
-                                            </div>
-                                            <div className="flex items-center gap-2">
-                                                1
-                                                <progress
-                                                    className="progress progress-primary w-full"
-                                                    value={
-                                                        (ratings.filter(
-                                                            (rating) =>
-                                                                rating.rating_value ==
-                                                                1
-                                                        ).length /
-                                                            ratings.length) *
-                                                        100
-                                                    }
-                                                    max="100"
-                                                ></progress>
-                                            </div>
+                                        <div className="w-full space-y-2">
+                                            {[5, 4, 3, 2, 1].map((value) => {
+                                                const count = ratings.filter(
+                                                    (rating) => rating.rating_value == value
+                                                ).length;
+                                                const percentage = (count / ratings.length) * 100;
+                                                return (
+                                                    <div key={value} className="flex items-center gap-2">
+                                                        <span>{value}</span>
+                                                        <progress
+                                                            className="progress progress-primary w-full"
+                                                            value={count == 0 ? 0 : percentage}
+                                                            max="100"
+                                                        ></progress>
+                                                    </div>
+                                                );
+                                            })}
                                         </div>
                                     </article>
                                     <div className="space-y-2">
@@ -297,9 +229,8 @@ export default function Product() {
                                                 Agrega tu calificacion:
                                             </h2>
                                             <p>
-                                                Ten en cuenta la calidad del
-                                                producto y su fidelidad a la
-                                                imagen de referencia
+                                                Ten en cuenta la calidad del producto y su fidelidad
+                                                a la imagen de referencia
                                             </p>
                                         </div>
                                         <form onSubmit={handleRatingSubmit}>

@@ -55,7 +55,7 @@ export default function Worker() {
                 <div className="w-full max-w-[1200px] mx-auto py-10">
                     <div className={`flex flex-col md:flex-row gap-10 ${seller.role_id == 3 && "items-center justify-center"}`}>
                         <div className={"w-full max-w-[500px] flex flex-col gap-5"}>
-                            <article className="card bg-base-100 shadow-xl border">
+                            <article className="card bg-white/80 shadow-xl border border-base-300/80">
                                 <div className="card-body flex flex-col gap-4">
                                     <div className="flex flex-col md:flex-row gap-5">
                                         <figure className="w-full max-w-[140px] aspect-square rounded-lg">
@@ -184,7 +184,7 @@ export default function Worker() {
                                                         )
                                                         .showModal();
                                                 }}
-                                                className="btn btn-sm min-h-none h-auto py-3 px-9 btn-primary group relative text-purple-300 hover:bg-purple-800 hover:text-purple-100"
+                                                className="btn btn-sm min-h-none h-auto py-3 px-9 btn-primary group relative text-purple-300 hover:bg-purple-800 hover:text-purple-100 text-sm"
                                             >
                                                 <span className="absolute left-3 top-1/2 transform -translate-y-1/2 text-purple-300 group-hover:text-purple-100">
                                                     <PlusIcon size={15} />
@@ -193,7 +193,7 @@ export default function Worker() {
                                             </button>
                                             <button
                                                 onClick={handleShowRatings}
-                                                className="btn btn-sm min-h-none h-auto py-3 px-9 btn-primary group relative text-purple-300 hover:bg-purple-800 hover:text-purple-100 grow"
+                                                className="btn btn-sm min-h-none h-auto py-3 px-9 btn-primary group relative text-purple-300 hover:bg-purple-800 hover:text-purple-100 text-sm grow"
                                             >
                                                 <span className="absolute left-3 top-1/2 transform -translate-y-1/2 text-purple-300 group-hover:text-purple-100">
                                                     <EyeIcon size={20} />
@@ -206,7 +206,7 @@ export default function Worker() {
                             </article>
                             <div
                                 id="ratings-list"
-                                className="card bg-base-100 shadow-xl border hidden"
+                                className="card bg-white/80 shadow-xl border border-base-300/80 hidden"
                             >
                                 <div className="card-body space-y-5">
                                     <h2 className="text-3xl font-extrabold text-gray-800">

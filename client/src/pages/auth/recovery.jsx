@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
 // Hooks
 import { useValidateform } from "@hooks/useValidateForm";
@@ -35,13 +36,15 @@ export default function Recovery() {
             <main className="w-full px-3 bg-purple-100 min-h-screen">
                 <section className="w-full max-w-[1200px] mx-auto py-10">
                     <article className="flex flex-col items-center justify-center w-full gap-6">
-                        <figure className="size-[200px] drop-shadow-[0_15px_30px_rgb(126_34_206)]">
-                            <img
-                                src="/logo.png"
-                                alt="Logo Express Sale"
-                                className="object-contain h-full w-full"
-                            />
-                        </figure>
+                        <Link to="/login">
+                            <figure className="size-[200px] drop-shadow-[0_15px_30px_rgb(126_34_206)]">
+                                <img
+                                    src="/logo.png"
+                                    alt="Logo Express Sale"
+                                    className="object-contain h-full w-full"
+                                />
+                            </figure>
+                        </Link>
                         <div className="card bg-white shadow-xl border border-gray-100 w-full max-w-[700px]">
                             <div className="card-body">
                                 <div>
@@ -51,18 +54,16 @@ export default function Recovery() {
                                     <p>Ingresa tu correo para reestablecer tu contraseña</p>
                                 </div>
                                 <form onSubmit={handleResetPasswordSubmit}>
-                                    <div className="form-control">
-                                        <label className="label">
-                                            <span className="label-text font-semibold after:content-['*'] after:text-red-500 after:ml-0.5">
-                                                Correo:
-                                            </span>
+                                    <fieldset className="w-full fieldset">
+                                        <label className="fieldset-label text-sm after:content-['*'] after:text-red-500">
+                                            Correo:
                                         </label>
                                         <input
                                             name="user_email"
                                             placeholder="ejemplo@gmail.com"
-                                            className="input input-bordered input-sm focus:outline-0 focus:border-primary"
+                                            className="w-full input input-bordered input-sm focus:outline-0 focus:border-primary"
                                         />
-                                    </div>
+                                    </fieldset>
                                     <div className="form-control mt-6">
                                         <button className="btn btn-primary">
                                             Reestablecer contraseña

@@ -38,8 +38,6 @@ export default function Withdraw({ user, reloadUser }) {
 
     if (withdrawalsLoading) return <ContentLoading />;
 
-    console.log(withdrawals, user.worker);
-
     user.worker.retiros_restantes =
         5 -
         withdrawals.reduce(
