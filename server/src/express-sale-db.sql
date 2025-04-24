@@ -12,24 +12,24 @@ CREATE TABLE `sessions` (
   `data` TEXT DEFAULT NULL,
   `createdAt` DATETIME NOT NULL,
   `updatedAt` DATETIME NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+);
 
 -- ---------------------------------------------------------------
 -- Password Recovery Table
 CREATE TABLE `recoveries` (
     `recovery_id` VARCHAR(60) PRIMARY KEY,
     `user_id` VARCHAR(60) NOT NULL,
-    `recovery_status` ENUM('pending', 'completed') NOT NULL DEFAULT 'pending',
+    `recovery_status` ENUM ('pending', 'completed') NOT NULL DEFAULT 'pending',
     `recovery_date` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    `recovery_expiration` TIMESTAMP NOT NULL DEFAULT DATE_ADD(CURRENT_TIMESTAMP, INTERVAL 1 HOUR)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+    `recovery_expiration` TIMESTAMP
+);
 
 -- ---------------------------------------------------------------
 -- Roles Table
 CREATE TABLE `roles` (
     `role_id` INT PRIMARY KEY AUTO_INCREMENT,
     `role_name` VARCHAR(50) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+);
 
 INSERT INTO `roles` (`role_id`, `role_name`) VALUES
 (1, 'usuario'),
@@ -42,7 +42,7 @@ INSERT INTO `roles` (`role_id`, `role_name`) VALUES
 CREATE TABLE `categories` (
     `category_id` INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
     `category_name` VARCHAR(255) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+);
 
 INSERT INTO `categories` (`category_id`, `category_name`) VALUES
 (1, 'moda'),
@@ -65,7 +65,7 @@ CREATE TABLE `users` (
     `user_update` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     `user_image_url` VARCHAR(255) DEFAULT '/images/default.jpg',
     `role_id` INT DEFAULT 1
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+);
 
 INSERT INTO `users` (`user_id`, `user_name`, `user_lastname`, `user_email`, `user_alias`, `user_phone`, `user_address`, `user_password`, `user_date`, `user_update`, `user_image_url`, `role_id`) VALUES
 ('a30cd113-2e9a-4e8b-87f2-7cb7e27ff27f', 'Express', 'Sale', 'expresssale.exsl@gmail.com', 'Express_Sale', NULL, NULL, '$2a$10$LLVuZDAM7c5rwvuDdbqIJumcy1tIAbWCNFO4DxB6KLCYaqqQ7wbKW', '2024-01-17 09:23:43', '2024-10-31 07:17:28', 'https://res.cloudinary.com/dyuh7jesr/image/upload/v1730359052/express-sale/users/a30cd113-2e9a-4e8b-87f2-7cb7e27ff27f.jpg', 4),
@@ -74,17 +74,17 @@ INSERT INTO `users` (`user_id`, `user_name`, `user_lastname`, `user_email`, `use
 ('b015e026-c217-4c39-962e-4d477c3640c9', 'Juan Sebastian', 'Bernal Gamboa', 'juansebastianbernalgamboa@gmail.com', 'Juan_Bernal', 3053964455, 'Cra. 5i Este #89-23, Bogotá, Colombia', '$2a$10$g0iPipqxpIAsbFdHXEW3femJivexGekXSXrc2EHICLfdipOZVsP7G', '2024-04-15 09:24:02', '2024-10-31 07:18:05', 'https://res.cloudinary.com/dyuh7jesr/image/upload/v1730359088/express-sale/users/b015e026-c217-4c39-962e-4d477c3640c9.jpg', 2),
 ('e7864790-7e10-4af8-af5f-67b1af7cc1f6', 'Jaider Harley', 'Rondon Herrera', 'rondonjaider@gmail.com', 'Jaider_Rondon', 3112369205, 'Cra. 5i Este #89-23, Bogotá, Colombia', '$2a$10$QjOD1CqPAYG/eyzzy2neneB50f78LmQqqirNg.Sv4gfTL1efYEpBO', '2024-05-05 09:23:57', '2024-10-31 07:18:17', 'https://res.cloudinary.com/dyuh7jesr/image/upload/v1730359101/express-sale/users/e7864790-7e10-4af8-af5f-67b1af7cc1f6.jpg', 2),
 ('2078ad6a-1373-4940-90a0-bf4bf1228e73', 'Samuel', 'Useche Chaparro', 'samuuseche01@gmail.com', 'Samuel_Useche', 3107838443, 'Cl. 68f Sur #71g-82, Bogotá, Colombia', '$2a$10$XWDYW/hzBQuStDg4WTyUn.N2lH3VloZVx2.U4raQ.FkCfWQsmt3N.', '2024-06-13 09:24:10', '2024-05-02 09:24:10', '/images/default.jpg', 3),
-('764ca4c3-b387-4be5-ab11-8d39db2e99af', 'Kevin Alejandro', 'Parra Cifuentes', 'luisparra5380@gmail.com', 'Kevin_Parra', 'Cra. 19b #62a Sur, Bogotá, Colombia', 3212376552, '$2a$10$wRvGOuETCvUYQvJx9K/2t.LwY4DG6/l5SE6UX7vTDQavIvahS1EO6', '2024-07-14 09:24:19', '2024-10-13 09:24:19', '/images/default.jpg', 1),
+('764ca4c3-b387-4be5-ab11-8d39db2e99af', 'Kevin Alejandro', 'Parra Cifuentes', 'luisparra5380@gmail.com', 'Kevin_Parra', 3212376552, 'Cra. 19b #62a Sur, Bogotá, Colombia', '$2a$10$wRvGOuETCvUYQvJx9K/2t.LwY4DG6/l5SE6UX7vTDQavIvahS1EO6', '2024-07-14 09:24:19', '2024-10-13 09:24:19', '/images/default.jpg', 1),
 ('7d7aa315-f996-4316-8af4-86fe4786ce4b', 'Wendy Alejandra', 'Navarro Arias', 'nwendy798@gmail.com', 'Wendy_Navarro', 3044462452, 'Dg. 69 Sur #68-20, Bogotá, Colombia', '$2a$10$z1yVOAC4MEPVxGl4WjQQmeX078Rq7eJEfE9UOyYSVLj79FlsYSBlq', '2024-09-22 09:26:37', '2024-10-13 09:26:37', '/images/default.jpg', 1);
 
 -- ---------------------------------------------------------------
 -- Workers Table
 CREATE TABLE `workers` (
     `worker_id` VARCHAR(60) PRIMARY KEY,
-    `worker_description` TEXT NOT NULL DEFAULT 'usuario nuevo.',
+    `worker_description` TEXT NOT NULL,
     `worker_balance` DECIMAL(10, 0) NOT NULL DEFAULT 0,
     `user_id` VARCHAR(60) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+);
 
 INSERT INTO `workers` (`worker_id`, `worker_description`, `worker_balance`, `user_id`) VALUES
 ('3439d1be-f5ee-4a34-98e7-accec2eb1729', 'usuario nuevo.', 0, '1997e4d2-fa0d-4cdd-b7a1-f970570a813e'), -- Andrés Gutiérrez
@@ -100,7 +100,7 @@ CREATE TABLE `withdrawals` (
     `worker_id` VARCHAR(60) NOT NULL,
     `withdrawal_amount` DECIMAL(10, 2) NOT NULL,
     `withdrawal_date` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+);
 
 -- ---------------------------------------------------------------
 -- Products Table
@@ -115,7 +115,7 @@ CREATE TABLE `products` (
     `product_date` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     `user_id` VARCHAR(60) NOT NULL,
     `category_id` INT NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+);
 
 INSERT INTO `products` (`product_id`, `product_name`, `product_description`, `product_quantity`, `product_price`, `product_image_url`, `product_status`, `product_date`, `user_id`, `category_id`) VALUES
 ('09fd4c7b-cd37-4e6d-a7f6-ae8f93734005', 'Rubik`s Cube', 'El clásico cubo de Rubik, con su diseño de colores vivos y su desafiante mecánica, es uno de los rompecabezas más populares y reconocidos del mundo.', 15, 15000, 'https://res.cloudinary.com/dyuh7jesr/image/upload/v1730360610/express-sale/products/09fd4c7b-cd37-4e6d-a7f6-ae8f93734005.jpg', 'publico', '2024-10-13 09:31:52', '1997e4d2-fa0d-4cdd-b7a1-f970570a813e', 4),
@@ -140,21 +140,21 @@ CREATE TABLE `ratings` (
     `rating_date` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     `rating_value` INT NOT NULL,
     `user_id` VARCHAR(60) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+);
 
 -- ---------------------------------------------------------------
 -- User Ratings Table
 CREATE TABLE `user_ratings` (
     `rating_id` VARCHAR(60) NOT NULL,
     `user_id` VARCHAR(60) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+);
 
 -- ---------------------------------------------------------------
 -- Product Ratings Table
 CREATE TABLE `product_ratings` (
     `rating_id` VARCHAR(60) NOT NULL,
     `product_id` VARCHAR(60) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+);
 
 -- ---------------------------------------------------------------
 -- Media Files Table
@@ -162,7 +162,7 @@ CREATE TABLE `medias` (
     `media_id` VARCHAR(60) NOT NULL PRIMARY KEY,
     `media_url` VARCHAR(255) NOT NULL,
     `product_id` VARCHAR(60) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+);
 
 INSERT INTO `medias` (`media_id`, `media_url`, `product_id`) VALUES
 ('024d534c-809d-435d-9bbb-6a242c42ee89', 'https://res.cloudinary.com/dyuh7jesr/image/upload/v1732254748/express-sale/products/multimedia/024d534c-809d-435d-9bbb-6a242c42ee89.jpg', 'fba1a2fb-3e81-447e-adf5-e984682d700d'),
@@ -202,7 +202,7 @@ CREATE TABLE `carts` (
     `user_id` VARCHAR(60) NOT NULL,
     `product_id` VARCHAR(60) NOT NULL,
     `product_quantity` INT NOT NULL DEFAULT 1
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+);
 
 -- ---------------------------------------------------------------
 -- Orders Table
@@ -211,7 +211,7 @@ CREATE TABLE `orders` (
     `user_id` VARCHAR(60) NOT NULL,
     `order_date` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     `order_status` ENUM('pendiente', 'enviando', 'entregado', 'recibido') NOT NULL DEFAULT 'pendiente'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+);
 
 -- ---------------------------------------------------------------
 -- Payment Details Table
@@ -226,7 +226,7 @@ CREATE TABLE `payment_details` (
     `buyer_document_type` ENUM('CC', 'CE', 'TI', 'PPN', 'NIT', 'SSN', 'EIN') NOT NULL DEFAULT 'CC',
     `buyer_document_number` DECIMAL(10, 0) NOT NULL,
     `buyer_phone` DECIMAL(10, 0) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+);
 
 -- ---------------------------------------------------------------
 -- Shipping Details Table
@@ -240,7 +240,7 @@ CREATE TABLE `shipping_details` (
     `shipping_end` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     `shipping_cost` DECIMAL(10, 0) NOT NULL,
     `shipping_message` TEXT NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+);
 
 -- ---------------------------------------------------------------
 -- Order Products Table
@@ -249,7 +249,7 @@ CREATE TABLE `order_products` (
     `product_id` VARCHAR(60) NOT NULL,
     `product_price` DECIMAL(10, 0) NOT NULL,
     `product_quantity` INT NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+);
 
 -- ---------------------------------------------------------------
 -- Foreign Keys
