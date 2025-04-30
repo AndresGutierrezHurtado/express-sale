@@ -21,7 +21,7 @@ CREATE TABLE `recoveries` (
     `user_id` VARCHAR(60) NOT NULL,
     `recovery_status` ENUM ('pending', 'completed') NOT NULL DEFAULT 'pending',
     `recovery_date` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    `recovery_expiration` TIMESTAMP
+    `recovery_expiration` TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
 -- ---------------------------------------------------------------

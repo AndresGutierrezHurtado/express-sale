@@ -49,7 +49,7 @@ export default function RateModal({ id, type, reload }) {
                     className="fetch-form space-y-2"
                     onSubmit={handleRatingSubmit}
                 >
-                    <fielset className="w-full fieldset">
+                    <fieldset className="w-full fieldset">
                         <div className="fieldset-label text-sm">Mensaje:</div>
                         <textarea
                             placeholder="Ingresa un comentario sobre el producto."
@@ -57,9 +57,9 @@ export default function RateModal({ id, type, reload }) {
                             name="rating_comment"
                             className="w-full textarea textarea-bordered h-24 resize-none focus:outline-0 focus:border-violet-600 rounded"
                         ></textarea>
-                    </fielset>
+                    </fieldset>
 
-                    <fielset className="w-full fieldset">
+                    <fieldset className="w-full fieldset">
                         <div className="fieldset-label text-sm">Imagen:</div>
                         <input
                             type="file"
@@ -67,7 +67,7 @@ export default function RateModal({ id, type, reload }) {
                             id="rating_image"
                             className="w-full text-sm text-slate-500 hover:file:bg-violet-300 file:duration-300 file:cursor-pointer file:bg-violet-200 file:text-violet-700 file:font-semibold file:rounded-xl file:border-0 file:p-1 file:px-3"
                         />
-                    </fielset>
+                    </fieldset>
 
                     <div className="rating flex justify-center gap-2 py-3">
                         <input
