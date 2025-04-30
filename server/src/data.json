@@ -1,0 +1,475 @@
+{
+    "roles": [
+        {
+            "role_id": 1,
+            "role_name": "usuario"
+        },
+        {
+            "role_id": 2,
+            "role_name": "vendedor"
+        },
+        {
+            "role_id": 3,
+            "role_name": "domiciliario"
+        },
+        {
+            "role_id": 4,
+            "role_name": "administrador"
+        }
+    ],
+    "categories": [
+        {
+            "category_id": 1,
+            "category_name": "moda"
+        },
+        {
+            "category_id": 2,
+            "category_name": "comida"
+        },
+        {
+            "category_id": 3,
+            "category_name": "tecnologia"
+        },
+        {
+            "category_id": 4,
+            "category_name": "otros"
+        }
+    ],
+    "users": [
+        {
+            "user_id": "a30cd113-2e9a-4e8b-87f2-7cb7e27ff27f",
+            "user_name": "Express",
+            "user_lastname": "Sale",
+            "user_email": "expresssale.exsl@gmail.com",
+            "user_alias": "Express_Sale",
+            "user_password": "$2a$10$LLVuZDAM7c5rwvuDdbqIJumcy1tIAbWCNFO4DxB6KLCYaqqQ7wbKW",
+            "user_date": "01/17/2024",
+            "user_update": "10/31/2024",
+            "user_image_url": "https://res.cloudinary.com/dyuh7jesr/image/upload/v1730359052/express-sale/users/a30cd113-2e9a-4e8b-87f2-7cb7e27ff27f.jpg",
+            "role_id": 4
+        },
+        {
+            "user_id": "1997e4d2-fa0d-4cdd-b7a1-f970570a813e",
+            "user_name": "Andrés",
+            "user_lastname": "Gutiérrez Hurtado",
+            "user_email": "andres52885241@gmail.com",
+            "user_alias": "Andres_Gutierrez",
+            "user_phone": 3209202177,
+            "user_address": "Dg. 68D Sur #70c-31, Bogotá, Colombia",
+            "user_password": "$2a$10$mwjk.9LQkXn0Q/OtdB5k6uZU6Diaw07lzT.75hx9O/1bbDwwEzYIW",
+            "user_date": "02/13/2024",
+            "user_update": "10/31/2024",
+            "user_image_url": "https://res.cloudinary.com/dyuh7jesr/image/upload/v1730359008/express-sale/users/1997e4d2-fa0d-4cdd-b7a1-f970570a813e.jpg",
+            "role_id": 2
+        },
+        {
+            "user_id": "1dc76732-83ea-4a78-afb8-e759959ee5c3",
+            "user_name": "David Fernando",
+            "user_lastname": "Diaz Niausa",
+            "user_email": "davidfernandodiazniausa@gmail.com",
+            "user_alias": "David_Diaz",
+            "user_phone": 3214109557,
+            "user_address": "Cra. 5i Este #89-23, Bogotá, Colombia",
+            "user_password": "$2a$10$aNvO8Br.5mKKqpzNAuoO4umUP0ZRB..dFtttiA3n7DObEN/x1cW/y",
+            "user_date": "03/13/2024",
+            "user_update": "10/31/2024",
+            "user_image_url": "https://res.cloudinary.com/dyuh7jesr/image/upload/v1730359067/express-sale/users/1dc76732-83ea-4a78-afb8-e759959ee5c3.jpg",
+            "role_id": 2
+        },
+        {
+            "user_id": "b015e026-c217-4c39-962e-4d477c3640c9",
+            "user_name": "Juan Sebastian",
+            "user_lastname": "Bernal Gamboa",
+            "user_email": "juansebastianbernalgamboa@gmail.com",
+            "user_alias": "Juan_Bernal",
+            "user_phone": 3053964455,
+            "user_address": "Cra. 5i Este #89-23, Bogotá, Colombia",
+            "user_password": "$2a$10$g0iPipqxpIAsbFdHXEW3femJivexGekXSXrc2EHICLfdipOZVsP7G",
+            "user_date": "04/15/2024",
+            "user_update": "10/31/2024",
+            "user_image_url": "https://res.cloudinary.com/dyuh7jesr/image/upload/v1730359088/express-sale/users/b015e026-c217-4c39-962e-4d477c3640c9.jpg",
+            "role_id": 2
+        },
+        {
+            "user_id": "e7864790-7e10-4af8-af5f-67b1af7cc1f6",
+            "user_name": "Jaider Harley",
+            "user_lastname": "Rondon Herrera",
+            "user_email": "rondonjaider@gmail.com",
+            "user_alias": "Jaider_Rondon",
+            "user_phone": 3112369205,
+            "user_address": "Cra. 5i Este #89-23, Bogotá, Colombia",
+            "user_password": "$2a$10$QjOD1CqPAYG/eyzzy2neneB50f78LmQqqirNg.Sv4gfTL1efYEpBO",
+            "user_date": "05/05/2024",
+            "user_update": "10/31/2024",
+            "user_image_url": "https://res.cloudinary.com/dyuh7jesr/image/upload/v1730359101/express-sale/users/e7864790-7e10-4af8-af5f-67b1af7cc1f6.jpg",
+            "role_id": 2
+        },
+        {
+            "user_id": "2078ad6a-1373-4940-90a0-bf4bf1228e73",
+            "user_name": "Samuel",
+            "user_lastname": "Useche Chaparro",
+            "user_email": "samuuseche01@gmail.com",
+            "user_alias": "Samuel_Useche",
+            "user_phone": 3107838443,
+            "user_address": "Cl. 68f Sur #71g-82, Bogotá, Colombia",
+            "user_password": "$2a$10$XWDYW/hzBQuStDg4WTyUn.N2lH3VloZVx2.U4raQ.FkCfWQsmt3N.",
+            "user_date": "06/13/2024",
+            "user_update": "05/02/2024",
+            "user_image_url": "/images/default.jpg",
+            "role_id": 3
+        },
+        {
+            "user_id": "764ca4c3-b387-4be5-ab11-8d39db2e99af",
+            "user_name": "Kevin Alejandro",
+            "user_lastname": "Parra Cifuentes",
+            "user_email": "luisparra5380@gmail.com",
+            "user_alias": "Kevin_Parra",
+            "user_phone": 3212376552,
+            "user_address": "Cra. 19b #62a Sur, Bogotá, Colombia",
+            "user_password": "$2a$10$wRvGOuETCvUYQvJx9K/2t.LwY4DG6/l5SE6UX7vTDQavIvahS1EO6",
+            "user_date": "07/14/2024",
+            "user_update": "10/13/2024",
+            "user_image_url": "/images/default.jpg",
+            "role_id": 1
+        },
+        {
+            "user_id": "7d7aa315-f996-4316-8af4-86fe4786ce4b",
+            "user_name": "Wendy Alejandra",
+            "user_lastname": "Navarro Arias",
+            "user_email": "nwendy798@gmail.com",
+            "user_alias": "Wendy_Navarro",
+            "user_phone": 3044462452,
+            "user_address": "Dg. 69 Sur #68-20, Bogotá, Colombia",
+            "user_password": "$2a$10$z1yVOAC4MEPVxGl4WjQQmeX078Rq7eJEfE9UOyYSVLj79FlsYSBlq",
+            "user_date": "09/22/2024",
+            "user_update": "10/13/2024",
+            "user_image_url": "/images/default.jpg",
+            "role_id": 1
+        }
+    ],
+    "workers": [
+        {
+            "worker_id": "3439d1be-f5ee-4a34-98e7-accec2eb1729",
+            "worker_description": "usuario nuevo.",
+            "worker_balance": 0,
+            "user_id": "1997e4d2-fa0d-4cdd-b7a1-f970570a813e"
+        },
+        {
+            "worker_id": "5a5c533d-55f8-469e-b3a3-724deba8c0ad",
+            "worker_description": "usuario nuevo.",
+            "worker_balance": 0,
+            "user_id": "1dc76732-83ea-4a78-afb8-e759959ee5c3"
+        },
+        {
+            "worker_id": "285dd857-d030-4f90-a193-5383500b0963",
+            "worker_description": "usuario nuevo.",
+            "worker_balance": 0,
+            "user_id": "e7864790-7e10-4af8-af5f-67b1af7cc1f6"
+        },
+        {
+            "worker_id": "0b89b820-4c52-4ebd-aa4f-18262eac02db",
+            "worker_description": "usuario nuevo.",
+            "worker_balance": 0,
+            "user_id": "b015e026-c217-4c39-962e-4d477c3640c9"
+        },
+        {
+            "worker_id": "4859698d-85f6-4e33-a668-c10a7d2a5a2d",
+            "worker_description": "usuario nuevo.",
+            "worker_balance": 0,
+            "user_id": "2078ad6a-1373-4940-90a0-bf4bf1228e73"
+        }
+    ],
+    "products": [
+        {
+            "product_id": "09fd4c7b-cd37-4e6d-a7f6-ae8f93734005",
+            "product_name": "Rubik`s Cube",
+            "product_description": "El clásico cubo de Rubik, con su diseño de colores vivos y su desafiante mecánica, es uno de los rompecabezas más populares y reconocidos del mundo.",
+            "product_quantity": 15,
+            "product_price": 15000,
+            "product_image_url": "https://res.cloudinary.com/dyuh7jesr/image/upload/v1730360610/express-sale/products/09fd4c7b-cd37-4e6d-a7f6-ae8f93734005.jpg",
+            "product_status": "publico",
+            "product_date": "10/13/2024",
+            "user_id": "1997e4d2-fa0d-4cdd-b7a1-f970570a813e",
+            "category_id": 4
+        },
+        {
+            "product_id": "10014419-f396-4639-925f-2b0814aa81f3",
+            "product_name": "Nike Air Jordan 1",
+            "product_description": "Las icónicas zapatillas Nike Air Jordan 1 son un clásico atemporal en el mundo de la moda urbana, conocidas por su estilo y comodidad.",
+            "product_quantity": 15,
+            "product_price": 289900,
+            "product_image_url": "https://res.cloudinary.com/dyuh7jesr/image/upload/v1730360004/express-sale/products/10014419-f396-4639-925f-2b0814aa81f3.jpg",
+            "product_status": "publico",
+            "product_date": "10/13/2024",
+            "user_id": "1dc76732-83ea-4a78-afb8-e759959ee5c3",
+            "category_id": 1
+        },
+        {
+            "product_id": "56a133ce-d6b7-4d63-9564-9fa656232efa",
+            "product_name": "Megaplex | Creatine Power",
+            "product_description": "Suplemento de proteína en polvo de alta calidad, ideal para la recuperación muscular y el crecimiento después del entrenamiento.",
+            "product_quantity": 10,
+            "product_price": 59900,
+            "product_image_url": "https://res.cloudinary.com/dyuh7jesr/image/upload/v1730360834/express-sale/products/56a133ce-d6b7-4d63-9564-9fa656232efa.png",
+            "product_status": "publico",
+            "product_date": "10/13/2024",
+            "user_id": "1997e4d2-fa0d-4cdd-b7a1-f970570a813e",
+            "category_id": 4
+        },
+        {
+            "product_id": "5d34b009-ce5b-4e20-950c-9b89dc4b09ae",
+            "product_name": "KitKat",
+            "product_description": "El delicioso chocolate KitKat, con sus característicos barquillos y su irresistible sabor, es el snack perfecto para disfrutar en cualquier momento del día.",
+            "product_quantity": 28,
+            "product_price": 4000,
+            "product_image_url": "https://res.cloudinary.com/dyuh7jesr/image/upload/v1730360750/express-sale/products/5d34b009-ce5b-4e20-950c-9b89dc4b09ae.jpg",
+            "product_status": "publico",
+            "product_date": "10/13/2024",
+            "user_id": "b015e026-c217-4c39-962e-4d477c3640c9",
+            "category_id": 2
+        },
+        {
+            "product_id": "662c229a-a176-4f98-b3e1-0b3bb60ff5e0",
+            "product_name": "PlayStation 5",
+            "product_description": "La PlayStation 5 es la consola de última generación de Sony, que ofrece gráficos impresionantes, carga ultrarrápida y una amplia variedad de juegos exclusivos.",
+            "product_quantity": 12,
+            "product_price": 4599900,
+            "product_image_url": "https://res.cloudinary.com/dyuh7jesr/image/upload/v1730360694/express-sale/products/662c229a-a176-4f98-b3e1-0b3bb60ff5e0.jpg",
+            "product_status": "publico",
+            "product_date": "10/13/2024",
+            "user_id": "e7864790-7e10-4af8-af5f-67b1af7cc1f6",
+            "category_id": 3
+        },
+        {
+            "product_id": "8c468cdc-7cf2-4ffa-99e2-b4e8310fc715",
+            "product_name": "Xbox Series X",
+            "product_description": "La Xbox Series X ofrece potencia de próxima generación, velocidades de carga ultrarrápidas y una amplia biblioteca de juegos para una experiencia de juego inigualable.",
+            "product_quantity": 13,
+            "product_price": 3599900,
+            "product_image_url": "https://res.cloudinary.com/dyuh7jesr/image/upload/v1730360678/express-sale/products/8c468cdc-7cf2-4ffa-99e2-b4e8310fc715.png",
+            "product_status": "publico",
+            "product_date": "10/13/2024",
+            "user_id": "e7864790-7e10-4af8-af5f-67b1af7cc1f6",
+            "category_id": 3
+        },
+        {
+            "product_id": "a9458fa5-cc05-4a77-a1dc-9ff1378b1465",
+            "product_name": "Casio G-Shock GA-2100",
+            "product_description": "El reloj Casio G-Shock GA-2100 es conocido por su resistencia y estilo, con características como resistencia a golpes, al agua y un diseño moderno y elegante.",
+            "product_quantity": 10,
+            "product_price": 224000,
+            "product_image_url": "https://res.cloudinary.com/dyuh7jesr/image/upload/v1730360642/express-sale/products/a9458fa5-cc05-4a77-a1dc-9ff1378b1465.jpg",
+            "product_status": "publico",
+            "product_date": "10/13/2024",
+            "user_id": "1dc76732-83ea-4a78-afb8-e759959ee5c3",
+            "category_id": 1
+        },
+        {
+            "product_id": "b0beb7fb-57b5-4881-a29f-c86581dbae19",
+            "product_name": "Mancuernas Ajustables",
+            "product_description": "Un par de mancuernas ajustables con diferentes pesos, perfectas para entrenamiento de fuerza en casa o en el gimnasio.",
+            "product_quantity": 8,
+            "product_price": 89900,
+            "product_image_url": "https://res.cloudinary.com/dyuh7jesr/image/upload/v1730360593/express-sale/products/b0beb7fb-57b5-4881-a29f-c86581dbae19.jpg",
+            "product_status": "publico",
+            "product_date": "10/13/2024",
+            "user_id": "1997e4d2-fa0d-4cdd-b7a1-f970570a813e",
+            "category_id": 4
+        },
+        {
+            "product_id": "ddc2a91d-65b6-4316-9222-84cde0759911",
+            "product_name": "Nutella",
+            "product_description": "La crema de avellanas Nutella, con su textura suave y su sabor dulce, es un imprescindible en el desayuno de millones de personas en todo el mundo.",
+            "product_quantity": 22,
+            "product_price": 7000,
+            "product_image_url": "https://res.cloudinary.com/dyuh7jesr/image/upload/v1730360734/express-sale/products/ddc2a91d-65b6-4316-9222-84cde0759911.jpg",
+            "product_status": "publico",
+            "product_date": "10/13/2024",
+            "user_id": "b015e026-c217-4c39-962e-4d477c3640c9",
+            "category_id": 2
+        },
+        {
+            "product_id": "e359851d-9813-463f-aff9-3a552a887134",
+            "product_name": "Cadena Cubana de Plata",
+            "product_description": "Una cadena cubana de plata es un accesorio clásico y llamativo que puede complementar cualquier atuendo, ya sea casual o más elegante.",
+            "product_quantity": 9,
+            "product_price": 31200,
+            "product_image_url": "https://res.cloudinary.com/dyuh7jesr/image/upload/v1730360627/express-sale/products/e359851d-9813-463f-aff9-3a552a887134.jpg",
+            "product_status": "publico",
+            "product_date": "10/13/2024",
+            "user_id": "1dc76732-83ea-4a78-afb8-e759959ee5c3",
+            "category_id": 1
+        },
+        {
+            "product_id": "e3e3e594-5c65-433f-a4a3-94f75dd4aef9",
+            "product_name": "Galletas Oreo",
+            "product_description": "Las deliciosas galletas Oreo, con su crujiente galleta y su cremoso relleno de vainilla, son un clásico de la merienda que gusta a niños y adultos por igual.",
+            "product_quantity": 40,
+            "product_price": 26900,
+            "product_image_url": "https://res.cloudinary.com/dyuh7jesr/image/upload/v1730360709/express-sale/products/e3e3e594-5c65-433f-a4a3-94f75dd4aef9.jpg",
+            "product_status": "publico",
+            "product_date": "10/13/2024",
+            "user_id": "b015e026-c217-4c39-962e-4d477c3640c9",
+            "category_id": 2
+        },
+        {
+            "product_id": "fba1a2fb-3e81-447e-adf5-e984682d700d",
+            "product_name": "iPhone 13 Pro",
+            "product_description": "El iPhone 13 Pro es el último modelo de Apple que combina un diseño elegante con un rendimiento potente y cámaras avanzadas para capturar imágenes impresionantes.",
+            "product_quantity": 8,
+            "product_price": 2100000,
+            "product_image_url": "https://res.cloudinary.com/dyuh7jesr/image/upload/v1730360661/express-sale/products/fba1a2fb-3e81-447e-adf5-e984682d700d.jpg",
+            "product_status": "publico",
+            "product_date": "10/13/2024",
+            "user_id": "e7864790-7e10-4af8-af5f-67b1af7cc1f6",
+            "category_id": 3
+        }
+    ],
+    "medias": [
+        {
+            "media_id": "024d534c-809d-435d-9bbb-6a242c42ee89",
+            "media_url": "https://res.cloudinary.com/dyuh7jesr/image/upload/v1732254748/express-sale/products/multimedia/024d534c-809d-435d-9bbb-6a242c42ee89.jpg",
+            "product_id": "fba1a2fb-3e81-447e-adf5-e984682d700d"
+        },
+        {
+            "media_id": "03714d14-fb11-4f85-8354-617fb3d883b8",
+            "media_url": "https://res.cloudinary.com/dyuh7jesr/image/upload/v1732254522/express-sale/products/multimedia/03714d14-fb11-4f85-8354-617fb3d883b8.jpg",
+            "product_id": "e359851d-9813-463f-aff9-3a552a887134"
+        },
+        {
+            "media_id": "19d8eeb6-2bf2-49cc-9d42-7f2c54bf9096",
+            "media_url": "https://res.cloudinary.com/dyuh7jesr/image/upload/v1732253817/express-sale/products/multimedia/19d8eeb6-2bf2-49cc-9d42-7f2c54bf9096.jpg",
+            "product_id": "10014419-f396-4639-925f-2b0814aa81f3"
+        },
+        {
+            "media_id": "25128d40-9b67-47e5-853e-d603f38c6460",
+            "media_url": "https://res.cloudinary.com/dyuh7jesr/image/upload/v1732254401/express-sale/products/multimedia/25128d40-9b67-47e5-853e-d603f38c6460.jpg",
+            "product_id": "b0beb7fb-57b5-4881-a29f-c86581dbae19"
+        },
+        {
+            "media_id": "2a4bd8e4-a227-44f1-b989-6a00c10f4ec5",
+            "media_url": "https://res.cloudinary.com/dyuh7jesr/image/upload/v1732254577/express-sale/products/multimedia/2a4bd8e4-a227-44f1-b989-6a00c10f4ec5.jpg",
+            "product_id": "e359851d-9813-463f-aff9-3a552a887134"
+        },
+        {
+            "media_id": "3aeeccf9-9488-4250-90b6-35472ecfa17f",
+            "media_url": "https://res.cloudinary.com/dyuh7jesr/image/upload/v1732253817/express-sale/products/multimedia/3aeeccf9-9488-4250-90b6-35472ecfa17f.jpg",
+            "product_id": "10014419-f396-4639-925f-2b0814aa81f3"
+        },
+        {
+            "media_id": "3dbf4471-ebde-4365-9409-794b681a006a",
+            "media_url": "https://res.cloudinary.com/dyuh7jesr/image/upload/v1732254192/express-sale/products/multimedia/3dbf4471-ebde-4365-9409-794b681a006a.jpg",
+            "product_id": "8c468cdc-7cf2-4ffa-99e2-b4e8310fc715"
+        },
+        {
+            "media_id": "4ab47714-66ff-477b-9298-7a483823e926",
+            "media_url": "https://res.cloudinary.com/dyuh7jesr/image/upload/v1732253956/express-sale/products/multimedia/4ab47714-66ff-477b-9298-7a483823e926.jpg",
+            "product_id": "662c229a-a176-4f98-b3e1-0b3bb60ff5e0"
+        },
+        {
+            "media_id": "4b30c14d-eb5a-4342-9ed0-9ad7b51c0031",
+            "media_url": "https://res.cloudinary.com/dyuh7jesr/image/upload/v1732253817/express-sale/products/multimedia/4b30c14d-eb5a-4342-9ed0-9ad7b51c0031.jpg",
+            "product_id": "10014419-f396-4639-925f-2b0814aa81f3"
+        },
+        {
+            "media_id": "54db3afb-a0aa-4280-b2ab-510fb9ecefe4",
+            "media_url": "https://res.cloudinary.com/dyuh7jesr/image/upload/v1732254286/express-sale/products/multimedia/54db3afb-a0aa-4280-b2ab-510fb9ecefe4.jpg",
+            "product_id": "a9458fa5-cc05-4a77-a1dc-9ff1378b1465"
+        },
+        {
+            "media_id": "598fbf2c-5954-46f7-a1d0-7b577dd07a5a",
+            "media_url": "https://res.cloudinary.com/dyuh7jesr/image/upload/v1732253902/express-sale/products/multimedia/598fbf2c-5954-46f7-a1d0-7b577dd07a5a.jpg",
+            "product_id": "5d34b009-ce5b-4e20-950c-9b89dc4b09ae"
+        },
+        {
+            "media_id": "6b00ea02-1141-4db0-a3fa-df774a39791e",
+            "media_url": "https://res.cloudinary.com/dyuh7jesr/image/upload/v1732253645/express-sale/products/multimedia/6b00ea02-1141-4db0-a3fa-df774a39791e.jpg",
+            "product_id": "09fd4c7b-cd37-4e6d-a7f6-ae8f93734005"
+        },
+        {
+            "media_id": "73e6ab4f-4857-4f5f-a84e-772c8b4846c6",
+            "media_url": "https://res.cloudinary.com/dyuh7jesr/image/upload/v1732254401/express-sale/products/multimedia/73e6ab4f-4857-4f5f-a84e-772c8b4846c6.jpg",
+            "product_id": "b0beb7fb-57b5-4881-a29f-c86581dbae19"
+        },
+        {
+            "media_id": "77cec2e0-73c1-4e9b-97ea-6fd746fdd2ac",
+            "media_url": "https://res.cloudinary.com/dyuh7jesr/image/upload/v1732254747/express-sale/products/multimedia/77cec2e0-73c1-4e9b-97ea-6fd746fdd2ac.jpg",
+            "product_id": "fba1a2fb-3e81-447e-adf5-e984682d700d"
+        },
+        {
+            "media_id": "7bfd837f-e3ce-4a9d-a84e-67b142090ebf",
+            "media_url": "https://res.cloudinary.com/dyuh7jesr/image/upload/v1732253956/express-sale/products/multimedia/7bfd837f-e3ce-4a9d-a84e-67b142090ebf.png",
+            "product_id": "662c229a-a176-4f98-b3e1-0b3bb60ff5e0"
+        },
+        {
+            "media_id": "89337bcc-cde6-4cb6-b735-15411a63c7d8",
+            "media_url": "https://res.cloudinary.com/dyuh7jesr/image/upload/v1732254208/express-sale/products/multimedia/89337bcc-cde6-4cb6-b735-15411a63c7d8.jpg",
+            "product_id": "8c468cdc-7cf2-4ffa-99e2-b4e8310fc715"
+        },
+        {
+            "media_id": "9229bd50-7a6e-46ab-a623-00e1f1fb14cf",
+            "media_url": "https://res.cloudinary.com/dyuh7jesr/image/upload/v1732254577/express-sale/products/multimedia/9229bd50-7a6e-46ab-a623-00e1f1fb14cf.jpg",
+            "product_id": "e359851d-9813-463f-aff9-3a552a887134"
+        },
+        {
+            "media_id": "95c3bf4b-a348-48e1-b379-c06d6dabea0c",
+            "media_url": "https://res.cloudinary.com/dyuh7jesr/image/upload/v1732254686/express-sale/products/multimedia/95c3bf4b-a348-48e1-b379-c06d6dabea0c.jpg",
+            "product_id": "e3e3e594-5c65-433f-a4a3-94f75dd4aef9"
+        },
+        {
+            "media_id": "b3e568ea-db28-42a9-b65c-35504f2294fa",
+            "media_url": "https://res.cloudinary.com/dyuh7jesr/image/upload/v1732253644/express-sale/products/multimedia/b3e568ea-db28-42a9-b65c-35504f2294fa.jpg",
+            "product_id": "09fd4c7b-cd37-4e6d-a7f6-ae8f93734005"
+        },
+        {
+            "media_id": "bb4a10b4-69a6-46ae-a3bc-1f24d6a959a6",
+            "media_url": "https://res.cloudinary.com/dyuh7jesr/image/upload/v1732254747/express-sale/products/multimedia/bb4a10b4-69a6-46ae-a3bc-1f24d6a959a6.jpg",
+            "product_id": "fba1a2fb-3e81-447e-adf5-e984682d700d"
+        },
+        {
+            "media_id": "c220b426-90cd-42da-a80b-6d60e7cb2c71",
+            "media_url": "https://res.cloudinary.com/dyuh7jesr/image/upload/v1732252097/express-sale/products/multimedia/c220b426-90cd-42da-a80b-6d60e7cb2c71.jpg",
+            "product_id": "56a133ce-d6b7-4d63-9564-9fa656232efa"
+        },
+        {
+            "media_id": "c5fbc777-26f5-4a8b-a9b1-bd87fb67ecfc",
+            "media_url": "https://res.cloudinary.com/dyuh7jesr/image/upload/v1732253902/express-sale/products/multimedia/c5fbc777-26f5-4a8b-a9b1-bd87fb67ecfc.jpg",
+            "product_id": "5d34b009-ce5b-4e20-950c-9b89dc4b09ae"
+        },
+        {
+            "media_id": "c8662b84-8da1-47b8-ba73-d8eaec4ee4c4",
+            "media_url": "https://res.cloudinary.com/dyuh7jesr/image/upload/v1732254287/express-sale/products/multimedia/c8662b84-8da1-47b8-ba73-d8eaec4ee4c4.jpg",
+            "product_id": "a9458fa5-cc05-4a77-a1dc-9ff1378b1465"
+        },
+        {
+            "media_id": "d6b115b6-68e3-4ab0-bbb2-23abc00c637e",
+            "media_url": "https://res.cloudinary.com/dyuh7jesr/image/upload/v1732253902/express-sale/products/multimedia/d6b115b6-68e3-4ab0-bbb2-23abc00c637e.jpg",
+            "product_id": "5d34b009-ce5b-4e20-950c-9b89dc4b09ae"
+        },
+        {
+            "media_id": "d72d62e6-8806-4400-b18a-1241195db238",
+            "media_url": "https://res.cloudinary.com/dyuh7jesr/image/upload/v1732253956/express-sale/products/multimedia/d72d62e6-8806-4400-b18a-1241195db238.jpg",
+            "product_id": "662c229a-a176-4f98-b3e1-0b3bb60ff5e0"
+        },
+        {
+            "media_id": "e361cd86-66e4-4c1e-af17-d18b0b5c2cca",
+            "media_url": "https://res.cloudinary.com/dyuh7jesr/image/upload/v1732254401/express-sale/products/multimedia/e361cd86-66e4-4c1e-af17-d18b0b5c2cca.jpg",
+            "product_id": "b0beb7fb-57b5-4881-a29f-c86581dbae19"
+        },
+        {
+            "media_id": "e74683e3-9be0-4e25-93ff-1f7f940792e1",
+            "media_url": "https://res.cloudinary.com/dyuh7jesr/image/upload/v1732253644/express-sale/products/multimedia/e74683e3-9be0-4e25-93ff-1f7f940792e1.jpg",
+            "product_id": "09fd4c7b-cd37-4e6d-a7f6-ae8f93734005"
+        },
+        {
+            "media_id": "e7a0b822-8101-4e78-8a95-7337e4524db5",
+            "media_url": "https://res.cloudinary.com/dyuh7jesr/image/upload/v1732254489/express-sale/products/multimedia/e7a0b822-8101-4e78-8a95-7337e4524db5.jpg",
+            "product_id": "ddc2a91d-65b6-4316-9222-84cde0759911"
+        },
+        {
+            "media_id": "f3143f18-2cb5-4a94-9246-65ff3e5c975d",
+            "media_url": "https://res.cloudinary.com/dyuh7jesr/image/upload/v1732254577/express-sale/products/multimedia/f3143f18-2cb5-4a94-9246-65ff3e5c975d.jpg",
+            "product_id": "e359851d-9813-463f-aff9-3a552a887134"
+        }
+    ]
+}
