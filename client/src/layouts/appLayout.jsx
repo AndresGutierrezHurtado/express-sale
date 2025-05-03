@@ -5,14 +5,13 @@ import Footer from "./footer";
 // Toastify
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { AccessibilityWidget } from "sena-accessibility";
-import "sena-accessibility/dist/index.css";
+import { AccessibilityWidget } from "sena-a11y";
 
 export default function AppLayout() {
     return (
         <>
             <AccessibilityWidget
-                styles={{ "widget-primary": "#3b0764", "widget-secondary": "#7e22ce" }}
+                styles={{ "widget-primary": "#6b1daf", "widget-primary-content": "#faf5ff" }}
             />
             <div className="flex flex-col min-h-screen">
                 <Header />
